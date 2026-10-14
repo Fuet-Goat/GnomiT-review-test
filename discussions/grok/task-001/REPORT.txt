@@ -83,3 +83,24 @@ Disagreement: none material on the game design. Codex focused on repo setup and 
 
 UPDATE LOG
 2026-10-14: Independent review written by Grok after reading main, media, baseline scripts and Codex report. No implementation.
+
+---
+
+## TASK-002 STATUS (APPENDED 2026-10-14)
+
+**Grant status:** `tasks/grok/task-002.json` **липсва на main**. AGENTS.md все още описва само task-001 REPORTS_ONLY. Художествената работа чака активиране на grant (APPROVED на main). Не създавам и не качвам материали, не променям разрешения.
+
+**Кратка идея за един собствен вариант (след активиране):**
+
+Гномът като част от приказния фон — по-обемни, заоблени форми със същите материали (червена шапка, бяла брада, синьо/зеленикаво палто, кафяви обувки, фенер). Мека, съгласувана светлина от фона и сдържана топлина от фенера (без ярък rim/glow около цялото тяло). Стабилен foot pivot и отделна мека контактна сянка, която следва настилката. Мащаб и позиция запазени спрямо текущия 01_START за честно сравнение. Силуетът остава четим на малък размер при 432×960.
+
+**Планирани файлове (след grant):**
+- `sandbox/grok/task-002/art/01_SCENE_CONCEPT.png` (432×960, CONCEPT)
+- `sandbox/grok/task-002/art/02_GNOME_DETAIL.png`
+- `sandbox/grok/task-002/art/hero_idle.png` (transparent)
+- При възможност: `walk_sheet.png` (до 6 кадъра) + кратък ART PREVIEW
+- `discussions/grok/task-002/REPORT.txt`
+
+Инструменти за изображения са налични. Щом grant стане APPROVED на main, ще създам един вариант в разрешените папки и ще предложа Draft PR (без merge).
+
+Този раздел е добавен само към съществуващия REPORT.txt под REPORTS_ONLY. Няма промени по grant, baseline, sandbox или игра.
