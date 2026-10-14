@@ -59,3 +59,47 @@ Windows preview: https://github.com/Fuet-Goat/GnomiT-review-test/releases/downlo
 No human/Android test or independent gameplay acceptance claimed.
 Folder instructions/checks do not provide local process isolation or folder-specific GitHub write ACLs. No collaborators/tokens were provisioned.
 2026-10-14T05:23:59.659Z: Codex updated its own report after publication and settings verification.
+
+
+REVIEW SYNTHESIS — GPT + GROK + CODEX — 2026-10-14 05:45:07 UTC
+
+Input main: 5add419dfc7fd73bd6d9ee837b2ba620ee5e8b81.
+GPT report commit: 10c63b16237b3bd0a789e8a1020a06d226b674b9.
+Grok report commit: 00a1f46254df8803f73b629524be13439df19dca.
+Both commit diffs change exactly the respective discussions/<bot>/task-001/REPORT.txt.
+GPT Draft PR #2 exists, remains unmerged, Scope boundary passed.
+Grok's report commit exists. No Grok pull request exists at this verification time; a displayed submission form is not a created PR.
+
+Codex material actually checked this round:
+- Full GPT/Grok text reports and their exact commit changed-file lists.
+- Current public grants, main ref, PR list and GPT scope check.
+- Local matching baseline slice_map_view.gd and slice_route.gd, targeted functions.
+- Visually inspected 01_START.png and 08_LEVEL_2_ARRIVAL.png.
+No new Godot import, runtime test, human or Android test. No new frame-by-frame gait review.
+
+Codex verdict: support the same First Bend direction with targeted refinements. There is enough design agreement to close this discussion round. It is not final art acceptance or proof of human touch comfort.
+
+Three proposed priorities (NOT IMPLEMENTED):
+1. One clear Play action.
+   Verified: slice_map_view.gd:_sync_controls (lines 120-125) shows Play Level 1/2; _open_arrived_level (140-144) only emits the preview signal. 08_LEVEL_2_ARRIVAL visibly shows that dimmed footer below the actual modal PLAY.
+   Proposal: hide/remove the redundant footer action for this slice. Re-tapping an arrived level can reopen its goal panel. Only modal PLAY starts match-3, exactly once.
+   Acceptance: arrival/cancel/reopen at both docks has one explicit start action; background controls do not activate through the modal.
+
+2. Grounded gait and lighting.
+   Verified: _render_avatar (106-118) uses a three-pose front/back cycle with one pivot per direction; ContactShadow exists. 01_START shows the sharp character against the painted environment.
+   Proposal: normalize foot anchor/scale per existing frame, tune the contact shadow and cadence, soften the character edge lighting. Review forward and reverse motion before deciding on further art assets.
+   Acceptance: recorded 432x960 travel has stable feet/shadow, turn and idle transitions. Current stills do not prove temporal sliding; the proposed polish requires a new runtime clip and human visual judgement.
+
+3. Readable locked/unlocked passage.
+   Verified: 01_START shows continuous wood toward a locked Level 2 badge. Code blocks traversal using accessible_s; this is weak presentation, not a broken unlock.
+   Proposal: restrained original rope/sign/lock cue at the first boundary, derived from existing progress; remove/open it after a legitimate Level 1 victory.
+   Acceptance: closure is visible before the win, route opens afterward, returning toward 1 preserves stars/Light/claimed and Level 2 unlock. No new save fields or reward system.
+
+Grok findings to validate, not blindly implement:
+- HALF_WIDTH=38 is not proof of a hit-test defect. Check several center/edge/outside taps against the actual painted wood, both directions and scroll/resize positions; revise the corridor only if real evidence shows a mismatch. Increasing one radius can also accept taps on nearby rocks.
+- Arrival panel overlap is a possible layout concern, not a demonstrated scroll-dependent bug. A modal deliberately covers/dims the world. Maintain readable goal/reward/PLAY and proper input blocking; do not require every background badge to remain visible underneath it.
+- The duplicate footer fix already removes one unnecessary layer/action.
+
+Proposed next bounded work: First Bend polish only, with the three priorities and targeted PC verification above. Preserve match-3, levels, audio, progress schema, other map sections and the private project. Assign a single implementation owner and exact sandbox directory before code work.
+
+AUTHORITY NOW: REPORTS_ONLY. This synthesis updates only Codex's text report; it does not approve or perform game/art changes, grant updates, tests, merges or private-project changes.
