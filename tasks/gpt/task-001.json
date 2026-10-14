@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "repository": "Fuet-Goat/GnomiT-review-test",
+  "task_id": "task-001",
+  "bot": "gpt",
+  "status": "REPORTS_ONLY",
+  "branch": "codex/gpt/task-001",
+  "allowed_write_roots": [
+    "discussions/gpt/task-001/"
+  ],
+  "proposed_implementation_roots": [
+    "sandbox/gpt/task-001/"
+  ],
+  "baseline_manifest_sha256": "78607be62847305875b60a0b9697d477c7decd3fc8671cf304f3ccda014ac1e7",
+  "authorization": {
+    "issued_by": "Fuet-Goat",
+    "approved_at": "2026-10-14T05:18:40.328Z",
+    "human_request": "i napravi papka v koqto ti(codex) ,gpt,grok da ostavq text document s cqlata infromaciq ,vseki kakvo iska da napravi ,kakvo e napravil v samiq git,kakva mu e ideqta ,kakvo e revueto,kakvo e i taka natataka ! razbra me"
+  },
+  "objective": "Keep your own text report with ideas, plans, reviews, changes and verification. Game/code changes need a separate human task approval.",
+  "allowed_tests": [],
+  "notes": "REPORTS_ONLY permits editing/committing/pushing your own report documents, not running or changing the game. No automatic merge."
+}

@@ -1,0 +1,44 @@
+GNOMIT — GROK — TASK-001
+
+STATUS: AWAITING_REVIEW
+AUTHORITY: REPORTS_ONLY after setup; no new game implementation approved.
+REPOSITORY: https://github.com/Fuet-Goat/GnomiT-review-test
+BRANCH: codex/grok/task-001
+ALLOWED REPORT FOLDER: discussions/grok/task-001/
+
+1. IDEA AND INTENDED RESULT
+NOT_YET_WRITTEN — reviewer fills in its own idea.
+
+2. MATERIALS ACTUALLY REVIEWED
+NOT_YET_REVIEWED — list real files, commits, screenshots and clip portions.
+
+3. REVIEW AND FINDINGS
+NOT_YET_WRITTEN — evidence, file/function, observation vs inference.
+
+4. PROPOSED PLAN
+NOT_YET_WRITTEN — bounded scope; wait for human approval before game edits.
+
+5. AUTHORIZATION RECEIVED
+Owner authorized test repository setup and separate text reports. This bot may edit only its own report folder now. Additional implementation requires a new exact human task grant.
+
+6. CHANGES ACTUALLY MADE
+NONE — do not describe a plan as an applied change.
+
+7. GIT EVIDENCE
+Input commit: TO_BE_FILLED_AFTER_PUBLICATION
+Own commits / PR: NONE_YET
+Changed paths: TO_BE_RECORDED
+Merged: NO
+Private project modified: NO
+
+8. TESTS AND OBSERVED RESULTS
+NOT_RUN — current grant permits reading and reports, not running Godot.
+
+9. LIMITATIONS / UNRESOLVED QUESTIONS
+No human or Android usability acceptance. No folder-level GitHub ACL. Write capability depends on the bot environment; unavailable write capability means returning report text for the owner to upload.
+
+10. NEXT PROPOSAL (NO AUTOMATIC EXECUTION)
+NOT_YET_WRITTEN
+
+UPDATE LOG
+2026-10-14T05:18:40.328Z: Initial report placeholder created by Codex during owner-authorized setup. Not written by GROK and not that bot's verdict.

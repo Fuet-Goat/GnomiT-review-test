@@ -1,0 +1,558 @@
+[
+  {
+    "collect_goal": 12,
+    "collected": 12,
+    "floor_left": 0,
+    "initial_moves": 26,
+    "level": "entry",
+    "lost": false,
+    "moves_left": 23,
+    "moves_used": 3,
+    "path": [
+      [
+        10,
+        11
+      ],
+      [
+        29,
+        36
+      ],
+      [
+        39,
+        40
+      ]
+    ],
+    "runes_left": 0,
+    "seed": 42,
+    "stars": 3,
+    "won": true
+  },
+  {
+    "collect_goal": 0,
+    "collected": 9,
+    "floor_left": 0,
+    "initial_moves": 32,
+    "level": "hollow",
+    "lost": false,
+    "moves_left": 22,
+    "moves_used": 10,
+    "path": [
+      [
+        27,
+        34
+      ],
+      [
+        34,
+        41
+      ],
+      [
+        21,
+        28
+      ],
+      [
+        29,
+        36
+      ],
+      [
+        2,
+        9
+      ],
+      [
+        5,
+        12
+      ],
+      [
+        9,
+        10
+      ],
+      [
+        20,
+        27
+      ],
+      [
+        41,
+        48
+      ],
+      [
+        33,
+        40
+      ]
+    ],
+    "runes_left": 0,
+    "seed": 42,
+    "stars": 3,
+    "won": true
+  },
+  {
+    "collect_goal": 0,
+    "collected": 18,
+    "floor_left": 0,
+    "initial_moves": 34,
+    "level": "seam",
+    "lost": false,
+    "moves_left": 21,
+    "moves_used": 13,
+    "path": [
+      [
+        12,
+        13
+      ],
+      [
+        18,
+        19
+      ],
+      [
+        23,
+        30
+      ],
+      [
+        25,
+        32
+      ],
+      [
+        9,
+        10
+      ],
+      [
+        22,
+        23
+      ],
+      [
+        14,
+        21
+      ],
+      [
+        22,
+        23
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        22,
+        29
+      ],
+      [
+        27,
+        34
+      ],
+      [
+        15,
+        16
+      ],
+      [
+        28,
+        35
+      ]
+    ],
+    "runes_left": 0,
+    "seed": 42,
+    "stars": 3,
+    "won": true
+  },
+  {
+    "collect_goal": 16,
+    "collected": 16,
+    "floor_left": 0,
+    "initial_moves": 32,
+    "level": "pearl",
+    "lost": false,
+    "moves_left": 19,
+    "moves_used": 13,
+    "path": [
+      [
+        33,
+        34
+      ],
+      [
+        42,
+        43
+      ],
+      [
+        39,
+        46
+      ],
+      [
+        26,
+        27
+      ],
+      [
+        45,
+        52
+      ],
+      [
+        51,
+        52
+      ],
+      [
+        18,
+        25
+      ],
+      [
+        45,
+        46
+      ],
+      [
+        23,
+        30
+      ],
+      [
+        29,
+        30
+      ],
+      [
+        25,
+        32
+      ],
+      [
+        36,
+        37
+      ],
+      [
+        30,
+        37
+      ]
+    ],
+    "runes_left": 0,
+    "seed": 42,
+    "stars": 3,
+    "won": true
+  },
+  {
+    "collect_goal": 20,
+    "collected": 21,
+    "floor_left": 0,
+    "initial_moves": 34,
+    "level": "goldore",
+    "lost": false,
+    "moves_left": 24,
+    "moves_used": 10,
+    "path": [
+      [
+        12,
+        20
+      ],
+      [
+        11,
+        12
+      ],
+      [
+        36,
+        37
+      ],
+      [
+        44,
+        45
+      ],
+      [
+        25,
+        33
+      ],
+      [
+        33,
+        41
+      ],
+      [
+        41,
+        42
+      ],
+      [
+        11,
+        12
+      ],
+      [
+        19,
+        20
+      ],
+      [
+        11,
+        12
+      ]
+    ],
+    "runes_left": 0,
+    "seed": 42,
+    "stars": 3,
+    "won": true
+  },
+  {
+    "collect_goal": 0,
+    "collected": 9,
+    "floor_left": 0,
+    "initial_moves": 36,
+    "level": "terraces",
+    "lost": false,
+    "moves_left": 20,
+    "moves_used": 16,
+    "path": [
+      [
+        52,
+        59
+      ],
+      [
+        12,
+        13
+      ],
+      [
+        20,
+        27
+      ],
+      [
+        35,
+        42
+      ],
+      [
+        9,
+        10
+      ],
+      [
+        47,
+        48
+      ],
+      [
+        29,
+        36
+      ],
+      [
+        28,
+        29
+      ],
+      [
+        9,
+        16
+      ],
+      [
+        29,
+        36
+      ],
+      [
+        44,
+        45
+      ],
+      [
+        45,
+        46
+      ],
+      [
+        44,
+        45
+      ],
+      [
+        34,
+        41
+      ],
+      [
+        41,
+        48
+      ],
+      [
+        40,
+        47
+      ]
+    ],
+    "runes_left": 0,
+    "seed": 42,
+    "stars": 3,
+    "won": true
+  },
+  {
+    "collect_goal": 0,
+    "collected": 15,
+    "floor_left": 0,
+    "initial_moves": 38,
+    "level": "bridge",
+    "lost": false,
+    "moves_left": 20,
+    "moves_used": 18,
+    "path": [
+      [
+        52,
+        53
+      ],
+      [
+        5,
+        13
+      ],
+      [
+        49,
+        50
+      ],
+      [
+        30,
+        31
+      ],
+      [
+        60,
+        68
+      ],
+      [
+        32,
+        33
+      ],
+      [
+        41,
+        42
+      ],
+      [
+        30,
+        31
+      ],
+      [
+        53,
+        54
+      ],
+      [
+        46,
+        54
+      ],
+      [
+        60,
+        61
+      ],
+      [
+        54,
+        62
+      ],
+      [
+        32,
+        33
+      ],
+      [
+        18,
+        26
+      ],
+      [
+        16,
+        24
+      ],
+      [
+        16,
+        17
+      ],
+      [
+        18,
+        26
+      ],
+      [
+        21,
+        22
+      ]
+    ],
+    "runes_left": 0,
+    "seed": 42,
+    "stars": 3,
+    "won": true
+  },
+  {
+    "collect_goal": 0,
+    "collected": 3,
+    "floor_left": 0,
+    "initial_moves": 30,
+    "level": "rune",
+    "lost": false,
+    "moves_left": 29,
+    "moves_used": 1,
+    "path": [
+      [
+        23,
+        24
+      ]
+    ],
+    "runes_left": 0,
+    "seed": 42,
+    "stars": 3,
+    "won": true
+  },
+  {
+    "collect_goal": 16,
+    "collected": 17,
+    "floor_left": 0,
+    "initial_moves": 32,
+    "level": "lantern",
+    "lost": false,
+    "moves_left": 24,
+    "moves_used": 8,
+    "path": [
+      [
+        12,
+        19
+      ],
+      [
+        10,
+        17
+      ],
+      [
+        45,
+        46
+      ],
+      [
+        44,
+        51
+      ],
+      [
+        35,
+        42
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        33,
+        34
+      ],
+      [
+        40,
+        41
+      ]
+    ],
+    "runes_left": 0,
+    "seed": 42,
+    "stars": 3,
+    "won": true
+  },
+  {
+    "collect_goal": 18,
+    "collected": 18,
+    "floor_left": 0,
+    "initial_moves": 38,
+    "level": "guardian",
+    "lost": false,
+    "moves_left": 31,
+    "moves_used": 7,
+    "path": [
+      [
+        21,
+        22
+      ],
+      [
+        36,
+        37
+      ],
+      [
+        31,
+        32
+      ],
+      [
+        23,
+        30
+      ],
+      [
+        43,
+        44
+      ],
+      [
+        9,
+        16
+      ],
+      [
+        3,
+        10
+      ]
+    ],
+    "runes_left": 0,
+    "seed": 42,
+    "stars": 3,
+    "won": true
+  }
+]

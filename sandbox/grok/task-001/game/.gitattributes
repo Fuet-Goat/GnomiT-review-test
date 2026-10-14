@@ -1,0 +1,5 @@
+# Preserve native verification receipts byte-for-byte across Git checkouts.
+docs/verification/** -text whitespace=cr-at-eol,-blank-at-eof
+docs/preview/RUNTIME_REPORT.json -text
+docs/preview/*.png binary
+docs/preview/*.mp4 binary

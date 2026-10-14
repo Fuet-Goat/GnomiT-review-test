@@ -1,0 +1,18 @@
+GnomiT PC storybook 10-level candidate. User approved the bounded scope with“davai da vidim...” on12 October2026.
+Execution: Native; root implements production changes, one fresh code review at end.
+Isolation: source copy from alpha2, because original GnomiT Git has no commits and Codex native worktree is bound to the separate Cradle checkout. Original and alpha2 builds retained.
+Tasks:
+1.C2 live map and common art.
+2.Generic goal-aware polished board/HUD and material action effects.
+3.Catalog10 and deterministic progression, preserve free preparation order.
+4.PC capture, focused checks, one full regression, fresh review, separate EXE/package.
+Deferred: Android, physical phone, lighting construction/monetization, extra worlds and50–100-level characters.
+Ruling: ordinary path has7 levels plus2 preparations and1 final Boss=10 actual encounters.
+Ruling: new prototype save namespace will preserve the previous alpha2 save rather than silently migrate/reset it.
+Progress: setup copy complete; no production changes yet.
+
+Catalog: added4 proposed layouts; geometric reachability checked independently; actual selected-seed play pending. Savev2 has generic7-level prerequisite chain. Existingv1 save untouched.
+
+Shared storybook rendering now covers all ten boards and goal types. Native map and guardian hall controls use live progress. A native 432x960 capture exposed panel atlas sampling/margin faults; corrected native texture region and margins, then recaptured. Monitor inventory: 0=(0,0) 1920x1080; 1=(1920,0) 1920x1080. User requests monitor 2; application initial screen and native launch now select index 1 when available. Android still deferred.
+
+Whole-change independent review: no Critical findings; one Important missing save-error notice, one Minor premature Boss HUD counter sync. Both corrected. Added explicit save protection on load failure until confirmed New Expedition. Targeted RED-to-GREEN save test5, normal progress116 pass. Native actual app test passed all10 with77 checks; seeded core campaign50/50 with8489 checks. Final visual recapture labels later unlock fixtures and actual entry win separately.

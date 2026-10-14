@@ -1,0 +1,11 @@
+**/.godot/
+**/build/
+**/verification/
+**/__pycache__/
+*.tmp
+*.exe
+*.pck
+.env
+.env.*
+*.pem
+*.key

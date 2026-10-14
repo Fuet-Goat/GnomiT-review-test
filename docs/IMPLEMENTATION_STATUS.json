@@ -1,0 +1,86 @@
+{
+  "status": "LOCAL_PROTOTYPE_READY_FOR_USER_REVIEW",
+  "branch": "codex/vertical-slice-1",
+  "base_commit": "e4e8b9ce3beadaad37bbb0036922b5657007bf0e",
+  "scope": "first road bend between levels 1 and 2",
+  "viewport": "432x960",
+  "monitor_index": 0,
+  "final_graphical_report": "slice_runtime_1791953043_653",
+  "graphical_report_status": "PASS",
+  "headless_resize_and_navigation": "PASS",
+  "standalone": "exported and observed through native window control; mouse selection opened the arrival goal/reward/PLAY panel without entering the board",
+  "human_usability_test": false,
+  "android_test": false,
+  "independent_code_review": false,
+  "helpers_used": 0,
+  "github_push": false,
+  "pr_updates": false,
+  "merged": false,
+  "protected_gameplay_and_audio": [
+    {
+      "path": "scripts/match_core.gd",
+      "identical": true,
+      "sha256": "12f1d987e5a5ab194cfc1ea555a5905922290a23e67f370b9f3a4813d42166bb"
+    },
+    {
+      "path": "scripts/board_view.gd",
+      "identical": true,
+      "sha256": "2b1d3d024ce1e438d0174353dc0f6f25c6813e0f443398f7ea39764c29307ff3"
+    },
+    {
+      "path": "scripts/levels.gd",
+      "identical": true,
+      "sha256": "7c582ddf6a1747fb0302413e61a343fcaf7809065788888d6a672b59ba60f850"
+    },
+    {
+      "path": "scripts/progress.gd",
+      "identical": true,
+      "sha256": "2d7dce425fb70fe47d07bd14777a957ac2d7e08929a43ef56216b13fba22e501"
+    },
+    {
+      "path": "scripts/rock_audio.gd",
+      "identical": true,
+      "sha256": "24fac13dc7093ac423121b6862b123ba32359c0b10d439d0e3f286c45093112d"
+    },
+    {
+      "path": "scripts/first_crystals_view.gd",
+      "identical": true,
+      "sha256": "2417585fbf0d3aef3c83c9d29d90ed1127bbc2f26ee34c48ba512501b8b761fc"
+    },
+    {
+      "path": "scripts/story_chamber_view.gd",
+      "identical": true,
+      "sha256": "64334eed0078a0aeb349659f98d3b4b89416b143e94bcf5f46251974b2c29210"
+    },
+    {
+      "path": "assets/sfx/stone_move_cartoon_selected_v1.ogg",
+      "identical": true,
+      "sha256": "45ac41d8bbf97f713ba5d979ffd497b63a79f530acf3d4c73eb591832880c8b9"
+    },
+    {
+      "path": "assets/sfx/stone_break_full_v1.wav",
+      "identical": true,
+      "sha256": "9e573bc03b5f427614005774116ef3c84cfa5b9ba486440871331d0d54ac307f"
+    }
+  ],
+  "original_alpha10_worktree_clean": true,
+  "tracked_semantic_diff_paths": [
+    "export_presets.cfg",
+    "project.godot",
+    "scripts/main.gd",
+    "scripts/pre_level_view.gd"
+  ],
+  "prototype_notes": [
+    "Six generated front/rear sprites are an initial gait study, not final character animation.",
+    "New tap-to-walk is limited to the authored first bend. Other level content remains existing alpha10.",
+    "Preview uses a separate save filename; navigation positions are RAM-only.",
+    "Reduced Motion removes sway and walking frames while retaining essential travel.",
+    "Touch was simulated with native input events on Windows; Pixel 8a remains untested."
+  ],
+  "original_save_unchanged": true,
+  "public_copy_notes": [
+    "Historical documentation has one local workspace path redacted.",
+    "Bot copies add isolated test user-data directories in project.godot; gameplay and audio bytes match baseline.",
+    "Windows EXE is the already-exported preview and still uses its separate Vertical Slice preview profile."
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "failures": [],
+  "frames": [
+    {
+      "avatar_s": 0,
+      "light": 0,
+      "modal": false,
+      "ms": 316,
+      "name": "01_START",
+      "screen": "map"
+    },
+    {
+      "avatar_s": 26.6666666666667,
+      "light": 0,
+      "modal": false,
+      "ms": 813,
+      "name": "02_WALK",
+      "screen": "map"
+    },
+    {
+      "avatar_s": 26.6666666666667,
+      "light": 0,
+      "modal": false,
+      "ms": 1172,
+      "name": "03_INTERRUPTED",
+      "screen": "map"
+    },
+    {
+      "avatar_s": 62.4497756958008,
+      "light": 0,
+      "modal": true,
+      "ms": 1576,
+      "name": "04_ARRIVAL_PLAY",
+      "screen": "map"
+    },
+    {
+      "avatar_s": -1,
+      "light": 0,
+      "modal": false,
+      "ms": 1821,
+      "name": "05_EXISTING_BOARD",
+      "screen": "play"
+    },
+    {
+      "avatar_s": -1,
+      "light": 10,
+      "modal": true,
+      "ms": 5029,
+      "name": "06_REAL_VICTORY",
+      "screen": "play"
+    },
+    {
+      "avatar_s": 139.116442362467,
+      "light": 10,
+      "modal": false,
+      "ms": 5359,
+      "name": "07_UNLOCKED_BEND",
+      "screen": "map"
+    },
+    {
+      "avatar_s": 341.092580795288,
+      "light": 10,
+      "modal": true,
+      "ms": 6256,
+      "name": "08_LEVEL_2_ARRIVAL",
+      "screen": "map"
+    },
+    {
+      "avatar_s": 264.425914128622,
+      "light": 10,
+      "modal": false,
+      "ms": 6761,
+      "name": "09_RETURN_UP",
+      "screen": "map"
+    },
+    {
+      "avatar_s": 62.4497756958008,
+      "light": 10,
+      "modal": true,
+      "ms": 7735,
+      "name": "10_REPLAY_ARRIVAL",
+      "screen": "map"
+    }
+  ],
+  "light": 10,
+  "proof": "Current Vertical Slice 1 rendered Godot with scripted native touch gestures and real seed42 match-3 swaps; not human or Android usability acceptance.",
+  "screen_index": 0,
+  "stars": 3,
+  "status": "PASS",
+  "viewport": "432x960"
+}

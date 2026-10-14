@@ -1,0 +1,40 @@
+name: Scope policy
+on:
+  push:
+    branches: [main]
+  pull_request_target:
+    branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pull-requests: read
+  checks: write
+jobs:
+  policy:
+    name: Scope policy runner
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Fetch only the trusted base policy
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TRUSTED_BASE_SHA: ${{ github.event.pull_request.base.sha || github.sha }}
+        run: |
+          python3 - <<'PY'
+          import base64, json, os, pathlib, urllib.request
+          repo = os.environ['GITHUB_REPOSITORY']
+          ref = os.environ['TRUSTED_BASE_SHA']
+          assert len(ref) == 40 and all(c in '0123456789abcdef' for c in ref)
+          url = 'https://api.github.com/repos/' + repo + '/contents/.github/scripts/check_scope.py?ref=' + ref
+          request = urllib.request.Request(url, headers={'Authorization': 'Bearer ' + os.environ['GH_TOKEN'], 'Accept': 'application/vnd.github+json', 'User-Agent': 'GnomiT-trusted-policy'})
+          with urllib.request.urlopen(request, timeout=30) as response:
+              data = json.load(response)
+          code = base64.b64decode(data['content'])
+          pathlib.Path(os.environ['RUNNER_TEMP'], 'trusted_scope.py').write_bytes(code)
+          PY
+      - name: Verify scope without checking out or running PR code
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TRUSTED_BASE_SHA: ${{ github.event.pull_request.base.sha || github.sha }}
+        run: python3 "$RUNNER_TEMP/trusted_scope.py" --github-event

@@ -1,0 +1,30 @@
+; GnomiT first playable skeleton, Godot 4.7.2.
+config_version=5
+
+[application]
+config/use_custom_user_dir=true
+config/custom_user_dir_name="GnomiT-review-test/grok/task-001"
+config/name="GnomiT"
+config/version="0.1.0-alpha11-vertical-slice1"
+run/main_scene="res://main.tscn"
+config/features=PackedStringArray("4.7", "GL Compatibility")
+
+[display]
+window/size/viewport_width=720
+window/size/viewport_height=1600
+window/size/window_width_override=432
+window/size/window_height_override=960
+window/size/resizable=true
+window/size/initial_screen=0
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+window/handheld/orientation=1
+
+[rendering]
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+textures/default_filters/use_nearest_mipmap_filter=false
+environment/defaults/default_clear_color=Color(0.025,0.045,0.09,1)
+
+[audio]
+driver/enable_input=false

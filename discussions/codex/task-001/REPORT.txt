@@ -1,0 +1,44 @@
+GNOMIT — CODEX — TASK-001
+
+STATUS: SANDBOX_SETUP_IN_PROGRESS
+AUTHORITY: REPORTS_ONLY after setup; no new game implementation approved.
+REPOSITORY: https://github.com/Fuet-Goat/GnomiT-review-test
+BRANCH: codex/codex/task-001
+ALLOWED REPORT FOLDER: discussions/codex/task-001/
+
+1. IDEA AND INTENDED RESULT
+Separate public review/test repo from the latest First Bend prototype; separate GPT/Grok game copies, per-bot reports and explicit grants.
+
+2. MATERIALS ACTUALLY REVIEWED
+Latest Vertical Slice 1 SOURCE, runtime screenshots/clip metadata, runtime verification report and existing private GitHub state.
+
+3. REVIEW AND FINDINGS
+Folder instructions are not GitHub folder ACLs. Implementing a trusted scope guard and main protection; bot review/code authorization is separate.
+
+4. PROPOSED PLAN
+Publish source/media, retain immutable baseline, expose report-only branches, verify scope checking, protect main and provide prompts.
+
+5. AUTHORIZATION RECEIVED
+Owner authorized test repository setup and separate text reports. This bot may edit only its own report folder now. Additional implementation requires a new exact human task grant.
+
+6. CHANGES ACTUALLY MADE
+Prepared baseline/game; sandbox/gpt/task-001/game; sandbox/grok/task-001/game; docs/prompts; per-bot grants; trusted scope checker. Publication verification is still in progress.
+
+7. GIT EVIDENCE
+Input commit: TO_BE_FILLED_AFTER_PUBLICATION
+Own commits / PR: NONE_YET
+Changed paths: TO_BE_RECORDED
+Merged: NO
+Private project modified: NO
+
+8. TESTS AND OBSERVED RESULTS
+Local scope self-tests PASS (31 cases, including report-only code rejection and cross-bot report rejection). Runtime evidence is the existing scripted PC test, not a new human/Android test.
+
+9. LIMITATIONS / UNRESOLVED QUESTIONS
+No human or Android usability acceptance. No folder-level GitHub ACL. Write capability depends on the bot environment; unavailable write capability means returning report text for the owner to upload.
+
+10. NEXT PROPOSAL (NO AUTOMATIC EXECUTION)
+Human gives GPT/Grok the relevant prompts; they record actual reviews. Any code task gets an exact folder and a later grant.
+
+UPDATE LOG
+2026-10-14T05:18:40.328Z: Initial report placeholder created by Codex during owner-authorized setup. Written by Codex.
