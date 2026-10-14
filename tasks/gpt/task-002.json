@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "repository": "Fuet-Goat/GnomiT-review-test",
+  "task_id": "task-002",
+  "bot": "gpt",
+  "status": "APPROVED",
+  "branch": "codex/gpt/task-002",
+  "allowed_write_roots": [
+    "sandbox/gpt/task-002/art/",
+    "sandbox/gpt/task-002/outputs/",
+    "discussions/gpt/task-002/"
+  ],
+  "baseline_manifest_sha256": "78607be62847305875b60a0b9697d477c7decd3fc8671cf304f3ccda014ac1e7",
+  "authorization": {
+    "issued_by": "Fuet-Goat",
+    "approved_at": "2026-10-14T06:03:02.273Z",
+    "human_request": "proveri vurnalilisa neshto ,da im dadem zadachi i primeri"
+  },
+  "objective": "One independent gnome art variant on the fixed First Bend background, plus a small optional gait study. Art/materials only; do not edit or execute the game.",
+  "allowed_tests": [
+    "Inspect scene concept at 432x960 and verify comparable character size/ground position.",
+    "Inspect RGBA transparency, frame dimensions and consistent foot pivots.",
+    "Optional non-Godot GIF/WebM asset preview; label as concept, never game runtime."
+  ],
+  "allowed_artifact_formats": [
+    ".png",
+    ".gif",
+    ".webm",
+    ".json",
+    ".txt",
+    ".md"
+  ],
+  "forbidden_actions": [
+    "Game/source/scene/config/audio/save edits or execution",
+    "Editing baseline, task-001 game copies or other bots folders",
+    "Self-updating grants, merging, force push, repository settings/credentials",
+    "Private GnomiT or Cradle of Gnome writes",
+    "Creating subagents"
+  ],
+  "input_main_commit": "5add419dfc7fd73bd6d9ee837b2ba620ee5e8b81",
+  "common_brief_url": "https://github.com/Fuet-Goat/GnomiT-review-test/blob/codex/codex/task-001/discussions/codex/task-001/ART_VARIANT_COMMON_BRIEF.txt",
+  "reference_package_url": "https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/first-bend-review-v1/GNOMIT_CHARACTER_VARIANT_TASKS_V1_2026-10-14.zip",
+  "notes": "A grant in an owner Draft PR is not active. Bot must verify this exact APPROVED grant is on main before creating/pushing visual files. Task-001 REPORTS_ONLY remains unchanged."
+}
