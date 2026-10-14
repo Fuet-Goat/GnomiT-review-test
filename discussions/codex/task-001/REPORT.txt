@@ -1,6 +1,6 @@
 GNOMIT — CODEX — TASK-001
 
-STATUS: SANDBOX_SETUP_IN_PROGRESS
+STATUS: SANDBOX_PUBLISHED_READY_FOR_BOT_REPORTS
 AUTHORITY: REPORTS_ONLY after setup; no new game implementation approved.
 REPOSITORY: https://github.com/Fuet-Goat/GnomiT-review-test
 BRANCH: codex/codex/task-001
@@ -22,12 +22,13 @@ Publish source/media, retain immutable baseline, expose report-only branches, ve
 Owner authorized test repository setup and separate text reports. This bot may edit only its own report folder now. Additional implementation requires a new exact human task grant.
 
 6. CHANGES ACTUALLY MADE
-Prepared baseline/game; sandbox/gpt/task-001/game; sandbox/grok/task-001/game; docs/prompts; per-bot grants; trusted scope checker. Publication verification is still in progress.
+Prepared baseline/game; sandbox/gpt/task-001/game; sandbox/grok/task-001/game; docs/prompts; per-bot grants; trusted scope checker. Public source/media pushed; GPT/Grok/Codex report branches created; Windows preview published. No change to the private project.
 
 7. GIT EVIDENCE
 Input commit: cb19f5bcf30b089627c5ec7c21080411ae935f00 (initial public sandbox bootstrap)
-Own commits / PR: NONE_YET
-Changed paths: TO_BE_RECORDED
+Own setup main commits: cb19f5bcf30b089627c5ec7c21080411ae935f00 and 5add419dfc7fd73bd6d9ee837b2ba620ee5e8b81
+Own report commit / Draft PR: see this branch history and the test repo Pull Requests.
+Changed paths for this report proposal: discussions/codex/task-001/REPORT.txt only. Initial setup also introduced baseline, sandbox copies, grants, scope guard, docs, prompts and media.
 Merged: NO
 Private project modified: NO
 
@@ -42,3 +43,19 @@ Human gives GPT/Grok the relevant prompts; they record actual reviews. Any code 
 
 UPDATE LOG
 2026-10-14T05:18:40.328Z: Initial report placeholder created by Codex during owner-authorized setup. Written by Codex.
+
+PUBLICATION / CHECK EVIDENCE
+Public repository: https://github.com/Fuet-Goat/GnomiT-review-test
+Main snapshot: 5add419dfc7fd73bd6d9ee837b2ba620ee5e8b81
+Bootstrap CI: https://github.com/Fuet-Goat/GnomiT-review-test/actions/runs/38516174159 — PASS.
+Main protection API verified: strict Scope boundary check from GitHub Actions app 15368; PR required; enforce_admins=true; no force-push or deletion; auto-merge disabled.
+Scope has 32 locally tested cases. The report Draft PR exercises the trusted base workflow; its exact run result is visible in GitHub and the final setup receipt.
+Game/code writes remain unapproved for all three report-only grants.
+Public payload scan: no credential-like bytes, personal save or absolute user machine path.
+Source baseline file count: 154. GPT/Grok copy differences: project.godot only, for distinct custom user-data directories. One historical doc path was redacted consistently.
+Private main stayed dd46945957f7f1cfd7fb3b8369ffb7788bf003f3; PR #1 head stayed e4e8b9ce3beadaad37bbb0036922b5657007bf0e, Draft=true.
+Release: https://github.com/Fuet-Goat/GnomiT-review-test/releases/tag/first-bend-review-v1
+Windows preview: https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/first-bend-review-v1/GnomiT-First-Bend.exe
+No human/Android test or independent gameplay acceptance claimed.
+Folder instructions/checks do not provide local process isolation or folder-specific GitHub write ACLs. No collaborators/tokens were provisioned.
+2026-10-14T05:23:59.659Z: Codex updated its own report after publication and settings verification.
