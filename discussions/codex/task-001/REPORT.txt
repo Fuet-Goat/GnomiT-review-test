@@ -103,3 +103,27 @@ Grok findings to validate, not blindly implement:
 Proposed next bounded work: First Bend polish only, with the three priorities and targeted PC verification above. Preserve match-3, levels, audio, progress schema, other map sections and the private project. Assign a single implementation owner and exact sandbox directory before code work.
 
 AUTHORITY NOW: REPORTS_ONLY. This synthesis updates only Codex's text report; it does not approve or perform game/art changes, grant updates, tests, merges or private-project changes.
+
+
+ART TASK HANDOFF PREPARED — 2026-10-14
+
+Latest bot returns verified: GPT head 10c63b16237b3bd0a789e8a1020a06d226b674b9 and Grok head 00a1f46254df8803f73b629524be13439df19dca remain report-only updates. No new visual material was found in their work/report/output folders. GPT Draft PR #2 exists; no Grok review PR exists.
+
+Prepared one common, bounded task-002 art brief plus separate GPT/Grok prompts in this Codex report directory. Requested visual returns: fixed-scene 432x960 concept, character detail, transparent idle sprite and optional six-pose gait/short asset preview. These are proposals/materials, not Godot runtime proof. No game integration or execution is authorized by this task.
+
+Five unchanged source/reference images are included in the handoff: user-preferred illustrated map/gnome style; current PC start; current arrival; existing six-pose study; fixed world background. User style is directly accessible as a Release asset:
+https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/first-bend-review-v1/GNOMIT_USER_STORYBOOK_STYLE_REFERENCE.png
+
+Task/reference ZIP:
+https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/first-bend-review-v1/GNOMIT_CHARACTER_VARIANT_TASKS_V1_2026-10-14.zip
+
+Art-scope administrative Draft PRs:
+GPT: https://github.com/Fuet-Goat/GnomiT-review-test/pull/3 — only tasks/gpt/task-002.json.
+Grok: https://github.com/Fuet-Goat/GnomiT-review-test/pull/4 — only tasks/grok/task-002.json.
+Both owner grant checks passed remotely. No merge was performed. These grants are NOT ACTIVE until human-authorized merging into main. Existing task-001 REPORTS_ONLY grants stay unchanged.
+
+Local validation against the exact trusted main scope policy allows own task-002 art/output/report paths and rejects baseline, task-001 game code, self-grant modification and other-bot art. No Godot/gameplay tests were executed.
+
+One independent variant per bot, one review round, then the human chooses. Missing image tools must be disclosed; a text-only proposal is not a visual return. The bot may return actual files to the user if its environment cannot write GitHub, without claiming a successful push. No passwords/tokens are shared.
+
+Codex actual changes this round: own text task documents/report, two owner grant-only Draft PRs, and the shared reference/handoff Release assets. No game/source/art integration, private project edit, model-setting change or bot-to-bot messaging.
