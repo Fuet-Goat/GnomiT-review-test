@@ -4,9 +4,9 @@
 
 | Автор | Доклад | Права сега |
 |---|---|---|
-| Codex | [REPORT.txt](codex/task-001/REPORT.txt) | Само собствени текстови доклади |
-| GPT | [REPORT.txt](gpt/task-001/REPORT.txt) | Само собствени текстови доклади |
-| Grok | [REPORT.txt](grok/task-001/REPORT.txt) | Само собствени текстови доклади |
+| Codex | [REPORT.txt](https://github.com/Fuet-Goat/GnomiT-review-test/blob/codex/codex/task-001/discussions/codex/task-001/REPORT.txt) | Само собствени текстови доклади |
+| GPT | [REPORT.txt](https://github.com/Fuet-Goat/GnomiT-review-test/blob/codex/gpt/task-001/discussions/gpt/task-001/REPORT.txt) | Само собствени текстови доклади |
+| Grok | [REPORT.txt](https://github.com/Fuet-Goat/GnomiT-review-test/blob/codex/grok/task-001/discussions/grok/task-001/REPORT.txt) | Само собствени текстови доклади |
 
 Докладът съдържа: идея, видени материали, ревю, план, човешко разрешение, реални промени, Git commit/PR, проверки, ограничения и следващо предложение. Първоначалните GPT/Grok файлове са празни шаблони от Codex, а не тяхно мнение.
 

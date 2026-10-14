@@ -25,14 +25,14 @@ Owner authorized test repository setup and separate text reports. This bot may e
 Prepared baseline/game; sandbox/gpt/task-001/game; sandbox/grok/task-001/game; docs/prompts; per-bot grants; trusted scope checker. Publication verification is still in progress.
 
 7. GIT EVIDENCE
-Input commit: TO_BE_FILLED_AFTER_PUBLICATION
+Input commit: cb19f5bcf30b089627c5ec7c21080411ae935f00 (initial public sandbox bootstrap)
 Own commits / PR: NONE_YET
 Changed paths: TO_BE_RECORDED
 Merged: NO
 Private project modified: NO
 
 8. TESTS AND OBSERVED RESULTS
-Local scope self-tests PASS (31 cases, including report-only code rejection and cross-bot report rejection). Runtime evidence is the existing scripted PC test, not a new human/Android test.
+Local scope self-tests PASS (32 cases, including report-only code/script rejection and cross-bot report rejection). Runtime evidence is the existing scripted PC test, not a new human/Android test.
 
 9. LIMITATIONS / UNRESOLVED QUESTIONS
 No human or Android usability acceptance. No folder-level GitHub ACL. Write capability depends on the bot environment; unavailable write capability means returning report text for the owner to upload.
