@@ -1,44 +1,97 @@
-GNOMIT — GPT — TASK-001
-
-STATUS: AWAITING_REVIEW
-AUTHORITY: REPORTS_ONLY after setup; no new game implementation approved.
+GNOMIT — GPT — TASK-001 — CURRENT FIRST BEND REVIEW
+BOT: gpt
+STATUS: REVIEW_COMPLETE — SUPPORT_WITH_FIXES
+AUTHORITY: REPORTS_ONLY
 REPOSITORY: https://github.com/Fuet-Goat/GnomiT-review-test
-BRANCH: codex/gpt/task-001
-ALLOWED REPORT FOLDER: discussions/gpt/task-001/
+INPUT MAIN COMMIT: 5add419dfc7fd73bd6d9ee837b2ba620ee5e8b81
+OWN BRANCH: codex/gpt/task-001
+ALLOWED WRITE: discussions/gpt/task-001/REPORT.txt ONLY
 
 1. IDEA AND INTENDED RESULT
-NOT_YET_WRITTEN — reviewer fills in its own idea.
+
+Support an interactive route-map, not an open-world RPG: dragging explores the illustrated world, tapping a reachable section of the wooden road moves the gnome, and reaching an unlocked numbered level opens the goal/reward/Play panel. Only Play inside that panel enters match-3. The first implementation stays limited to the bend between Levels 1 and 2. Godot, English UI, PC portrait 432x960, original match-3 and reward semantics remain.
+
+Verdict: SUPPORT WITH THREE FIXES. This is a reasonable technical vertical slice and a better basis than the former alpha10 decorative walk, but it is NOT independently accepted as human-friendly or final art.
 
 2. MATERIALS ACTUALLY REVIEWED
-NOT_YET_REVIEWED — list real files, commits, screenshots and clip portions.
+
+Main branch at 5add419dfc7fd73bd6d9ee837b2ba620ee5e8b81:
+- README.md; AGENTS.md; docs/APPROVAL_AND_WORKFLOW_BG.md; tasks/gpt/task-001.json; discussions/INDEX.md; docs/IMPLEMENTATION_STATUS.json.
+- baseline/game/scripts/slice_route.gd, slice_map_view.gd, main.gd, pre_level_view.gd, relevant functions in story_map_view.gd and progress.gd.
+- First Bend walk atlas asset gnome_slice_walk_v1.png, as supplied in the matching game preview archive.
+- All ten media/current/ PNG screenshots, 01_START through 10_REPLAY_ARRIVAL, visually inspected.
+- media/current/GnomiT-First-Bend.mp4: sampled frame contact sheet inspected; FFprobe metadata reviewed: H.264 432x960, 30 fps, 706 video frames, 23.533 seconds, with AAC audio. Not a complete frame-by-frame or realtime human playback review.
+- media/current/RUNTIME_REPORT.json and docs/IMPLEMENTATION_STATUS.json.
+- Original game media was already supplied in the conversation ZIP. The local PNGs and MP4 were checked against all eleven Git blob SHA-1 hashes listed on main: 11/11 MATCH. This confirms media-byte identity, not runtime validity.
+- The latest Codex report listed in discussions/INDEX.md was read from codex/codex/task-001 at commit 1bee896dd029964cb40f09e5a0dadbf5afb48c06. It was consulted during source gathering before finalizing this independent assessment, not in the strict sequence "after writing the entire assessment"; this ordering deviation is disclosed.
+
+No game, Godot editor, import, headless test, build or gameplay executable was run by GPT.
 
 3. REVIEW AND FINDINGS
-NOT_YET_WRITTEN — evidence, file/function, observation vs inference.
 
-4. PROPOSED PLAN
-NOT_YET_WRITTEN — bounded scope; wait for human approval before game edits.
+Behavior supported by STATIC CODE:
+- slice_route.gd authors a 13-point centerline in 774x2032 artwork coordinates, nearest-road projection, and a HALF_WIDTH=38 art-pixel tap corridor. slice_map_view.gd restricts accessible_s to Level 1's dock until progress.best_stars("entry")>0; tapping beyond it shows a locked-passage hint.
+- slice_map_view.gd:_end_pointer separates tap from drag and allows tapping the road; _go_to and _process move avatar_s at 100 art pixels/s along the route. _begin_pointer/cancel_transition pause the current journey without changing avatar_s. The camera is moved by drag rather than by the character at that point.
+- slice_map_view.gd:_arrive and main.gd:show_level_preview show the level panel, while pre_level_view.gd:request_play is the explicit guarded Play signal. main.gd checks progress.is_unlocked and the slice avatar's arrived level and dock distance before starting ordinary play.
+- progress.gd:record_win preserves max stars and grants +10 Light only once for a newly claimed ID. The preview main.gd explicitly uses a separate vertical-slice save filename. Neither the user's private save nor a production save migration was inspected.
+- Current scripted evidence: media/current/RUNTIME_REPORT.json reports no failures, Level 1 stars=3 and Light=10, 01_START through 10_REPLAY_ARRIVAL, including reverse travel. Still not proof of physical touch comfort or every edge case.
+
+PRIORITY 1 — CONFUSING SECOND "PLAY" (CONCRETE UX MISLABEL / DUPLICATE ACTION)
+Evidence: media/current/08_LEVEL_2_ARRIVAL.png shows a dimmed footer "Play Level 2" under the real panel Play. slice_map_view.gd:_sync_controls makes arrival_button visible and labels it "Play Level 2"; _open_arrived_level emits arrived_at_level, thus reopening the preview, rather than starting match-3. The panel's green Play calls pre_level_view.gd:request_play, which is the actual play action. _arrive() already opens the panel automatically.
+Minimal correction: Remove/hide the redundant footer Play action when this First Bend flow is active; allow the level badge to reopen the panel after it is closed. Preserve the sole green Play in the panel and its existing guards. Do not change unrelated levels.
+Visible acceptance at 432x960: each Level 1/2 arrival opens one goal/reward panel with exactly one Play call to action; dismissing and re-tapping the level reopens it; the board starts only when the panel's Play is used, once.
+
+PRIORITY 2 — FIRST-BEND GAIT AND GROUNDING (ART-QUALITY FINDING, NOT A PROVEN GAMEPLAY DEFECT)
+Evidence: slice_map_view.gd:_render_avatar selects [0,1,2,1] with a three-pose cycle in either direction; a single front/back pivot of approximately (0.46,0.975)/(0.46,0.965) is applied regardless of the shoe configuration of each frame. A separate procedural ContactShadow exists, which is an improvement over alpha10. The atlas has six generated frames. In 02_WALK.png and 09_RETURN_UP.png, feet, proportions and ground contact still look less convincing than the detailed road and lighting. A still image cannot prove temporal foot sliding.
+Minimal correction: Normalize visible foot positions and scale per frame, tune the shadow width/opacity and movement cadence, and review a complete short forward-and-reverse loop before commissioning more sprites. Keep the same gnome design and map.
+Visible acceptance at 432x960: a slow recorded loop across the bend in both directions keeps the planted shoe and shadow connected to the same road surface without visible hopping or sliding; size and lighting read as one storybook scene. Human judgement still required.
+
+PRIORITY 3 — LOCKED ROAD HAS WEAK VISUAL FEEDBACK (PRESENTATION PREFERENCE / USABILITY RISK)
+Evidence: 01_START.png shows a continuous wooden path toward a locked Level 2 badge. Runtime access IS blocked in code via accessible_s() and the hint path; this is not a bypass or broken unlock. 07_UNLOCKED_BEND.png communicates progression mostly through number color/stars, not a visibly opened passage.
+Minimal correction: Add one restrained original storybook obstacle or sign at the Level 1 boundary (e.g. wood rope/lock), visible only while entry is unbeaten; remove/fold it back after a legitimate Level 1 win. No new persistent progression state or excessive particles.
+Visible acceptance at 432x960: before winning, players can recognize the passage is closed and cannot walk past it; after winning, the obstacle visibly opens and the same route can be traversed without altering stars/claimed/Light logic.
+
+Important scoped limitation, NOT a fourth finding: New navigation is only authored for the first bend. Outside it, slice_map_view.gd falls back to the older alpha10 direct entry. The prototype save is separate from the main game's save. Both must be revisited before any production rollout, but neither is a defect against this deliberately narrow slice contract.
+
+4. PROPOSED PLAN (NOT EXECUTED)
+
+One future strictly bounded owner-approved task:
+A. First remove the duplicate footer Play/preview ambiguity.
+B. Make one short front/back gait/foot-anchor refinement for the same road bend.
+C. Add an unobtrusive locked/unlocked barrier cue for Level 2 only.
+Use the existing route and gameplay wiring; no edits to match_core, levels, progress, board, selected SFX or Boss flow. No wholesale world-map or sprite-sheet redesign. Capture actual Godot PC video/screenshots at 432x960, execute only tests expressly allowed by a new APPROVED grant and request human manual evaluation before extension.
+SURFACE (future proposal): codex/gpt/task-001 branch, sandbox/gpt/task-001/game under separately approved narrowed paths.
+TASK_OWNER (future proposal): GPT; MODEL/EFFORT determined by exact subsequently authorized tool environment, not assumed from this review.
 
 5. AUTHORIZATION RECEIVED
-Owner authorized test repository setup and separate text reports. This bot may edit only its own report folder now. Additional implementation requires a new exact human task grant.
 
-6. CHANGES ACTUALLY MADE
-NONE — do not describe a plan as an applied change.
+The owner's REPORTS_ONLY grant from main authorizes reading files/media and updating GPT's own text report ONLY under discussions/gpt/task-001/. Branch is codex/gpt/task-001. No game source/art change, Godot execution/import/test, baseline edit, other bot folder, owner grant change, merge or private-repo action is authorized now.
+
+6. CHANGES ACTUALLY MADE NOW
+
+This own GPT REPORT.txt replaces the initial Codex-generated placeholder. No production, sandbox game, baseline, media, policy, tasks, other bot report, private GnomiT or save file was changed. No game implementation. Local temporary media inspection/hash calculation does not modify GitHub source.
 
 7. GIT EVIDENCE
-Input commit: TO_BE_FILLED_AFTER_PUBLICATION
-Own commits / PR: NONE_YET
-Changed paths: TO_BE_RECORDED
-Merged: NO
-Private project modified: NO
 
-8. TESTS AND OBSERVED RESULTS
-NOT_RUN — current grant permits reading and reports, not running Godot.
+Input main commit: 5add419dfc7fd73bd6d9ee837b2ba620ee5e8b81.
+Own branch before report: codex/gpt/task-001, 5add419dfc7fd73bd6d9ee837b2ba620ee5e8b81.
+Report-only commit: created by the GitHub contents write; inspect the branch history for its resulting SHA.
+Changed path: discussions/gpt/task-001/REPORT.txt ONLY.
+Draft PR: to be submitted after report write if the connected write tool permits; no merge.
+Merged: NO. Private repository modified: NO.
 
-9. LIMITATIONS / UNRESOLVED QUESTIONS
-No human or Android usability acceptance. No folder-level GitHub ACL. Write capability depends on the bot environment; unavailable write capability means returning report text for the owner to upload.
+8. TESTS, INSPECTIONS AND EVIDENCE LIMITATIONS
 
-10. NEXT PROPOSAL (NO AUTOMATIC EXECUTION)
-NOT_YET_WRITTEN
+Actually performed: static connector reads, visual inspection of ten PNGs and sampled MP4 frames, container FFprobe metadata, and 11/11 local media vs Git blob SHA-1 comparisons. No new gameplay/CI/Android/headless or physical human test. "PASS" values in RUNTIME_REPORT.json and IMPLEMENTATION_STATUS.json are authored pre-existing evidence, not my independently executed PASS. The exact feel of gestures, foot cadence in motion, performance and progression persistence after a device crash remain unverified.
+
+9. AGREEMENTS / DISAGREEMENTS WITH LATEST CODEX REPORT
+
+Agreement: Codex reports this is a separate public sandbox, with main-protected/report-only governance; scripted PC recording is not human or Android acceptance; game edits need a later grant; private GnomiT remains outside this review.
+Nuance/disagreement: Codex's report is primarily publication/scope review, not a detailed art or interaction assessment of First Bend. Therefore its 32 scope-check self-tests do not settle my three UX/art findings. There is no identified conflicting Codex gameplay verdict to overrule.
+
+10. NEXT PROPOSAL / REQUIRED HUMAN AUTHORIZATION
+
+Owner to review these three priorities. Any implementation needs a direct, exact human instruction and an APPROVED tasks/gpt/task-001.json registered by the owner on main, naming bot, branch, folder, objective and allowed tests. REPORTS_ONLY is not such a grant. Until then: STOP, no game execution or changes.
 
 UPDATE LOG
-2026-10-14T05:18:40.328Z: Initial report placeholder created by Codex during owner-authorized setup. Not written by GPT and not that bot's verdict.
+2026-10-14: GPT completed source/media-only review under REPORTS_ONLY and proposed a report-only Draft PR.
