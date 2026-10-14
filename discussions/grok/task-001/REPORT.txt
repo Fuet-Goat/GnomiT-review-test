@@ -1,44 +1,85 @@
 GNOMIT — GROK — TASK-001
 
-STATUS: AWAITING_REVIEW
-AUTHORITY: REPORTS_ONLY after setup; no new game implementation approved.
+STATUS: REVIEW_COMPLETE
+AUTHORITY: REPORTS_ONLY; no game implementation performed or authorized.
 REPOSITORY: https://github.com/Fuet-Goat/GnomiT-review-test
 BRANCH: codex/grok/task-001
 ALLOWED REPORT FOLDER: discussions/grok/task-001/
+INPUT COMMIT: 5add419dfc7fd73bd6d9ee837b2ba620ee5e8b81 (main)
 
 1. IDEA AND INTENDED RESULT
-NOT_YET_WRITTEN — reviewer fills in its own idea.
+Independent review of the current playable Vertical Slice 1 (First Bend) prototype between levels 1 and 2. Confirm that drag/tap/walk/arrival/Play behavior matches the approved design, identify at most three priority refinements, and record the assessment without implementing changes.
 
 2. MATERIALS ACTUALLY REVIEWED
-NOT_YET_REVIEWED — list real files, commits, screenshots and clip portions.
+- README.md, AGENTS.md, docs/APPROVAL_AND_WORKFLOW_BG.md, tasks/grok/task-001.json, discussions/INDEX.md, docs/IMPLEMENTATION_STATUS.json
+- discussions/codex/task-001/REPORT.txt (Codex report on branch codex/codex/task-001)
+- media/current/ all 10 PNG screenshots (01_START through 10_REPLAY_ARRIVAL) and RUNTIME_REPORT.json
+- media/current/GnomiT-First-Bend.mp4 metadata and runtime proof (scripted native touch + real seed42 board swaps; not human/Android)
+- baseline/game/scripts/slice_route.gd, slice_map_view.gd (full), main.gd (map lifecycle, session, arrival wiring), pre_level_view.gd references, relevant parts of story_map_view.gd and progress.gd
+- IMPLEMENTATION_STATUS.json and protected file hashes confirming core gameplay/audio unchanged
 
 3. REVIEW AND FINDINGS
-NOT_YET_WRITTEN — evidence, file/function, observation vs inference.
+Verdict: Support the prototype. It implements the agreed First Bend design correctly within scope.
+
+Evidence:
+- slice_route.gd: authored ROAD polyline (13 points on descending_world_v2.png) + HALF_WIDTH=38 corridor; closest() projection; dock_s for entry/hollow.
+- slice_map_view.gd: avatar_s/target_s, journey_active/paused, _go_to, cancel_transition preserves s on drag, arrival only at dock + unlocked, arrived_at_level → show_level_preview, Play only after confirmation of position.
+- main.gd: session_state preserved across screens; separate save_path_override; arrived_at_level wired to preview; Play re-checks avatar_s == dock_s.
+- Screenshots and RUNTIME_REPORT.json: avatar_s progresses correctly (0 → walk → interrupt same s → arrival → board → victory light=10 → unlock → level 2 → return); modal states match expected.
+- ContactShadow class and foot pivot present; walk atlas used with facing_back/left.
+
+Priority refinements (max 3, not blockers):
+1. Walk cycle integration (artistic preference + minor visual defect)
+   Evidence: gnome_slice_walk_v1.png is 6-frame initial study (front/back); screenshots show gnome still relatively sharp/bright vs painted background; RUNTIME notes “initial gait study”.
+   Minimal change: refine existing 6 frames for clearer weight transfer and softer rim matching world lighting (no new atlas required).
+   Acceptance: feet stay planted on the wooden path through the bend; no floating/glowing cutout appearance in 432×960 frames.
+
+2. Corridor hit-test comfort (undemonstrated edge case)
+   Evidence: HALF_WIDTH=38 source pixels; closest() used in _end_pointer. Screenshots show successful taps, but no near-miss or finger-size testing.
+   Minimal change: optionally widen HALF_WIDTH slightly or add soft visual feedback on near-miss.
+   Acceptance: intentional taps on the visible wooden path always register; off-path taps never move the gnome.
+
+3. Arrival panel layering (minor visual)
+   Evidence: 04_ARRIVAL_PLAY.png and 08_LEVEL_2_ARRIVAL.png show panel; arrival_button positioned at bottom. Potential overlap with badge depending on scroll.
+   Minimal change: dynamic offset of Play button so it does not cover the docking zone or gnome.
+   Acceptance: goal/reward/Play remain fully readable and do not obscure the level number or hero at arrival.
+
+Distinctions:
+- Defect: none that break the expected contract (drag/stop, tap-to-walk, no teleport, Play-only start, unlock persistence).
+- Artistic preference: walk sprite integration and scale feel.
+- Undemonstrated: human tap/drag discrimination threshold and Android.
+
+Progress preservation: confirmed by runtime report (light 0→10, stars 3, return without relock) and separate preview save; original progress.gd unchanged.
 
 4. PROPOSED PLAN
-NOT_YET_WRITTEN — bounded scope; wait for human approval before game edits.
+No implementation in this round. Next limited task (after human grant): visual polish of the existing walk atlas + optional corridor feedback, still restricted to the first bend, with a new scripted or human PC recording as acceptance.
 
 5. AUTHORIZATION RECEIVED
-Owner authorized test repository setup and separate text reports. This bot may edit only its own report folder now. Additional implementation requires a new exact human task grant.
+REPORTS_ONLY (tasks/grok/task-001.json). Owner authorized text reports only. No game edits, imports, or tests performed.
 
 6. CHANGES ACTUALLY MADE
-NONE — do not describe a plan as an applied change.
+Updated only discussions/grok/task-001/REPORT.txt with this independent review. No game, baseline, sandbox, or other files modified.
 
 7. GIT EVIDENCE
-Input commit: TO_BE_FILLED_AFTER_PUBLICATION
-Own commits / PR: NONE_YET
-Changed paths: TO_BE_RECORDED
+Input commit: 5add419dfc7fd73bd6d9ee837b2ba620ee5e8b81
+Own report commit: this push to codex/grok/task-001
+Changed paths: discussions/grok/task-001/REPORT.txt only
 Merged: NO
 Private project modified: NO
+Draft PR: to be proposed if push succeeds.
 
 8. TESTS AND OBSERVED RESULTS
-NOT_RUN — current grant permits reading and reports, not running Godot.
+No Godot execution or tests run (grant forbids). Observed existing scripted PC runtime evidence (RUNTIME_REPORT.json status PASS, screenshots, clip metadata). Not claimed as human or Android acceptance.
 
 9. LIMITATIONS / UNRESOLVED QUESTIONS
-No human or Android usability acceptance. No folder-level GitHub ACL. Write capability depends on the bot environment; unavailable write capability means returning report text for the owner to upload.
+No human usability test of tap vs drag. No Android/Pixel 8a. Walk art remains initial. Scope limited to first bend; other map content remains alpha10. Write succeeded via connected GitHub tools under the authenticated owner account.
 
 10. NEXT PROPOSAL (NO AUTOMATIC EXECUTION)
-NOT_YET_WRITTEN
+Human reviews this report and the Codex report. If desired, issue a narrow grant for visual polish of the walk sprites and/or corridor feedback inside sandbox/grok/task-001/ only, with a new recording as the acceptance criterion. No engine change, no monetization, no full campaign.
+
+AGREEMENTS / DISAGREEMENTS WITH CODEX REPORT
+Agreement: Separate public sandbox is correct; REPORTS_ONLY is the current authority; scripted clip is not human acceptance; core files protected; no automatic merge.
+Disagreement: none material on the game design. Codex focused on repo setup and scope guard; this review focuses on the playable First Bend behavior, which Codex did not independently assess in detail.
 
 UPDATE LOG
-2026-10-14T05:18:40.328Z: Initial report placeholder created by Codex during owner-authorized setup. Not written by GROK and not that bot's verdict.
+2026-10-14: Independent review written by Grok after reading main, media, baseline scripts and Codex report. No implementation.
