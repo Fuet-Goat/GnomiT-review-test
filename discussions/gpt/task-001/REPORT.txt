@@ -95,3 +95,43 @@ Owner to review these three priorities. Any implementation needs a direct, exact
 
 UPDATE LOG
 2026-10-14: GPT completed source/media-only review under REPORTS_ONLY and proposed a report-only Draft PR.
+
+11. TASK-002 — ART VARIANT AUTHORIZATION CHECK AND PROPOSED CONCEPT (NOT EXECUTED)
+
+Recorded from GPT's immediately preceding Task-002 chat response; this is a REPORTS_ONLY note in the already-authorized task-001 report, not a Task-002 grant and not an art asset.
+
+Task identity: BOT=gpt.
+Proposed Task-002 branch: codex/gpt/task-002.
+Proposed art path: sandbox/gpt/task-002/art/.
+Proposed outputs path: sandbox/gpt/task-002/outputs/.
+Proposed Task-002 report: discussions/gpt/task-002/REPORT.txt.
+
+AUTHORISATION RESULT — WAITING FOR ACTIVATION:
+GPT read AGENTS.md on main and requested tasks/gpt/task-002.json on main. The grant file returned NOT_FOUND (GitHub 404). Therefore there was no active APPROVED grant for Task-002 at the time of this review. The GPT bot must NOT create, edit, publish or upload character art, source assets, files, commits or PRs under Task-002, and must not modify its own grant.
+
+SOURCE MATERIALS AND LIMITATIONS ACTUALLY REPORTED:
+- Reviewed the common art brief at discussions/codex/task-001/ART_VARIANT_COMMON_BRIEF.txt, referenced on branch codex/codex/task-001.
+- Reviewed the current First Bend starting scene from the existing scene material.
+- Located the release reference pack and fixed-background/current walk-sheet references; the separately published PNG for the user's preferred style was not successfully opened. Therefore no visual comparison against that preferred-style PNG is claimed.
+- No Task-002 visual asset was generated. No Godot import/run/test, code change, new art-file upload, commit, Draft PR or merge was performed for Task-002.
+
+OWN ARTISTIC IDEA: "Пазителят на фенера" (THE LANTERN GUARDIAN)
+
+A small fairytale traveler who naturally belongs in the illustrated scene, rather than a pasted-on sticker. Full red slightly bent/floppy hat; soft white beard; rounded face and readable miniature silhouette; matte blue-teal cloth coat; worn brown leather boots; small brass lantern. The lantern lights only the hand and immediately surrounding wood/road surface, without a neon outline around the body. Rounded shapes and materially coherent storybook shading should fit the background rather than overpowering it.
+
+For a fair comparison, keep exactly the same environment, winding road, scene framing and approximately the same gnome ground position/size as the current First Bend starting frame. Prioritize foot-ground contact, coherent scale and lighting. The contact shadow is a separate ground element, not baked into the character image. The idle asset must be full-body transparent RGBA with an explicit foot anchor between the boots.
+
+INTENDED DELIVERABLES ONLY AFTER THE OWNER'S ACTIVE APPROVAL:
+1. 01_SCENE_CONCEPT.png, full 432x960 composite preserving the original background/road/UI composition; explicitly label as CONCEPT, not game runtime.
+2. 02_GNOME_DETAIL.png, enlarged character/material study.
+3. hero_idle.png, genuine transparent-background full-body character with no baked contact shadow.
+4. Optional restrained six-frame walk sheet and brief ART PREVIEW, only if suitable tools and scope are available; report source frame dimensions, ordering and foot pivots.
+5. Task-002 REPORT.txt with actual tools, created artifacts, checks, limitations and next proposal.
+
+RECORDED CHAT VERDICT:
+"Резултат: файлът липсва (404). Следователно Task-002 още няма активно APPROVED разрешение."
+"Действително направено сега: преглед на правилата, проверка на grant-а и художествено предложение. Няма генерирани материали, Git commits, PR или промени по играта."
+"Следваща необходима стъпка: собственикът да активира tasks/gpt/task-002.json като APPROVED в main с точно разрешените папки. Дотогава художествената работа остава блокирана."
+
+CURRENT DOCUMENT UPDATE BOUNDARY:
+This appended section is the only change requested here and is permitted by tasks/gpt/task-001.json (REPORTS_ONLY). The earlier independent First Bend review (sections 1–10 and its update log) remains unchanged. This does not claim Task-002 was approved, performed or delivered. No game or private repository changes.
