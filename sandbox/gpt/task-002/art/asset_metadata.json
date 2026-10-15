@@ -1,0 +1,120 @@
+{
+  "task": "GnomiT task-002",
+  "bot": "gpt",
+  "variant": "The Lantern Guardian / Пазителят на фенера",
+  "status": "ART CONCEPT / BINARY ASSETS AVAILABLE IN CONVERSATION ZIP, NOT YET ON GITHUB",
+  "input_main_commit": "5add419dfc7fd73bd6d9ee837b2ba620ee5e8b81",
+  "scene": {
+    "size": [
+      432,
+      960
+    ],
+    "foot_at_screen": [
+      225,
+      517
+    ],
+    "screen_scale": 0.256,
+    "fixed_world": true,
+    "hero_region": [
+      145,
+      370,
+      310,
+      550
+    ],
+    "outside_changed_pixels": 0
+  },
+  "hero_idle": {
+    "dimensions": [
+      512,
+      512
+    ],
+    "color_mode": "RGBA",
+    "foot_anchor": [
+      256,
+      467
+    ],
+    "transparent_zero_pixel_count": 173581,
+    "shadow": "separate contact_shadow.png"
+  },
+  "shadow": {
+    "dimensions": [
+      512,
+      512
+    ],
+    "type": "RGBA soft ellipse"
+  },
+  "walk_sheet": {
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "grid": [
+      3,
+      2
+    ],
+    "tile": [
+      512,
+      512
+    ],
+    "count": 6,
+    "directions": [
+      "right",
+      "right",
+      "right",
+      "right",
+      "right",
+      "right"
+    ],
+    "frame_order": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "nominal_foot_anchor": [
+      256,
+      456
+    ],
+    "status": "art preview only; no rear poses"
+  },
+  "files": [
+    {
+      "path": "sandbox/gpt/task-002/outputs/01_SCENE_CONCEPT.png",
+      "sha256": "a6e622f7c14e5cb4782dddbc0588d2c037a78d6f3263e18e7fa324cdc26442be",
+      "size": 797924
+    },
+    {
+      "path": "sandbox/gpt/task-002/outputs/02_GNOME_DETAIL.png",
+      "sha256": "0873241094f0f867a0fd3a0f77544afc356305d599946a7063d171695252cda3",
+      "size": 540569
+    },
+    {
+      "path": "sandbox/gpt/task-002/art/hero_idle.png",
+      "sha256": "f0e905a0605ad5d34c5cb5e761a76650aabe2f88998c59c94785042cbfffdde6",
+      "size": 195442
+    },
+    {
+      "path": "sandbox/gpt/task-002/art/contact_shadow.png",
+      "sha256": "d87d66aab4d1183c48c54b023f90e7ff2b07eb1d8e0ee125f5c5b15b43082057",
+      "size": 7824
+    },
+    {
+      "path": "sandbox/gpt/task-002/art/walk_sheet.png",
+      "sha256": "70713dbf68c63d69f276a8f6753e67d33a6386945dbab5cebae67638978ff638",
+      "size": 925869
+    },
+    {
+      "path": "sandbox/gpt/task-002/outputs/walk_preview.gif",
+      "sha256": "d0245985788bfb7a1ec43c9912a33d289af125334320ba6926e4a23ced8cb9c2",
+      "size": 493920
+    }
+  ],
+  "limitations": [
+    "Binary image files not yet uploaded to GitHub; included in conversation ZIP",
+    "Only generated right-facing walk phases; no rear or game animation verified",
+    "Dedicated preferred-style PNG not available in runtime"
+  ],
+  "tests": "Only approved visual/alpha/layout checks; no Godot execution"
+}
