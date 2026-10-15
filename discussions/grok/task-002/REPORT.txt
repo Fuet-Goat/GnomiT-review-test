@@ -1,0 +1,39 @@
+GNOMIT — GROK — TASK-002
+
+STATUS: ART_VARIANT_CREATED
+AUTHORITY: APPROVED (tasks/grok/task-002.json on main)
+REPOSITORY: https://github.com/Fuet-Goat/GnomiT-review-test
+BRANCH: codex/grok/task-002
+ALLOWED WRITE ROOTS: sandbox/grok/task-002/art/, sandbox/grok/task-002/outputs/, discussions/grok/task-002/
+INPUT COMMIT: 5add419dfc7fd73bd6d9ee837b2ba620ee5e8b81 (main)
+
+1. IDEA
+One independent gnome variant that belongs to the painted storybook environment. Rounded volumetric forms, red hat, white beard, teal-blue coat, brown boots, lantern with restrained warm light. Soft coherent lighting, no hard sticker outline, no neon body glow. Readable small silhouette, stable foot placement with separate soft contact shadow. Scale and ground position intended to be comparable to CURRENT_START for fair comparison.
+
+2. MATERIALS ACTUALLY CREATED
+- sandbox/grok/task-002/art/01_SCENE_CONCEPT.png (432×960, RGB) — full scene concept showing the gnome on a storybook path. Labeled CONCEPT.
+- sandbox/grok/task-002/art/02_GNOME_DETAIL.png (800×800) — close detail of materials and form.
+- sandbox/grok/task-002/art/hero_idle.png (472×1034, RGBA transparent) — clean full-body idle pose, contact shadow not baked in.
+No walk sheet or GIF in this pass (static variant prioritized).
+
+3. TOOLS USED
+Grok Imagine image generation for base character and scene concept. Python/Pillow for resizing, background removal approximation, and export to required dimensions and formats.
+
+4. CHECKS
+- Scene is 432×960.
+- hero_idle has alpha transparency.
+- Character retains required elements (red hat, white beard, teal coat, brown boots, lantern).
+- Lighting is soft and restrained; no full-body neon rim.
+- Scene is CONCEPT only; not a Godot runtime capture.
+
+5. LIMITATIONS
+- Scene concept is a generated storybook path rather than a precise composite onto the exact fixed descending_world_v2.png (for fair comparison the size/position intent is preserved).
+- Background removal on idle is approximate (near-white threshold).
+- No animation frames produced in this round.
+- Images are art proposals, not integrated into the game.
+
+6. NEXT PROPOSAL
+Human review of this single variant. One correction round if selected. No game integration performed.
+
+UPDATE LOG
+2026-10-16: Art variant created and materials prepared after grant verification (APPROVED on main).
