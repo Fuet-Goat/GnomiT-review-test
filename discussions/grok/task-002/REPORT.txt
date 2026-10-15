@@ -1,39 +1,45 @@
 GNOMIT — GROK — TASK-002
 
-STATUS: ART_VARIANT_CREATED
+STATUS: ART_VARIANT_DELIVERED_IN_CHAT
 AUTHORITY: APPROVED (tasks/grok/task-002.json on main)
 REPOSITORY: https://github.com/Fuet-Goat/GnomiT-review-test
 BRANCH: codex/grok/task-002
 ALLOWED WRITE ROOTS: sandbox/grok/task-002/art/, sandbox/grok/task-002/outputs/, discussions/grok/task-002/
 INPUT COMMIT: 5add419dfc7fd73bd6d9ee837b2ba620ee5e8b81 (main)
+MODEL: Grok 4.7 (current session)
 
 1. IDEA
 One independent gnome variant that belongs to the painted storybook environment. Rounded volumetric forms, red hat, white beard, teal-blue coat, brown boots, lantern with restrained warm light. Soft coherent lighting, no hard sticker outline, no neon body glow. Readable small silhouette, stable foot placement with separate soft contact shadow. Scale and ground position intended to be comparable to CURRENT_START for fair comparison.
 
-2. MATERIALS ACTUALLY CREATED
-- sandbox/grok/task-002/art/01_SCENE_CONCEPT.png (432×960, RGB) — full scene concept showing the gnome on a storybook path. Labeled CONCEPT.
-- sandbox/grok/task-002/art/02_GNOME_DETAIL.png (800×800) — close detail of materials and form.
-- sandbox/grok/task-002/art/hero_idle.png (472×1034, RGBA transparent) — clean full-body idle pose, contact shadow not baked in.
-No walk sheet or GIF in this pass (static variant prioritized).
+2. MATERIALS ACTUALLY CREATED AND DELIVERED
+Three PNG files created and verified locally (openable):
+- 01_SCENE_CONCEPT.png (432×960, RGB, ~868 KB) — CONCEPT scene
+- 02_GNOME_DETAIL.png (800×800, RGBA, ~775 KB) — detail
+- hero_idle.png (472×1034, RGBA, ~580 KB) — full-body with approximate transparency
+
+Delivery: Binary upload via GitHub tool not reliable (tool expects text content). Files provided directly in chat as individual PNGs and as ZIP: gnomit_grok_task002_art.zip.
+Owner should place them in sandbox/grok/task-002/art/ on codex/grok/task-002 if desired.
+
+No walk sheet or GIF.
 
 3. TOOLS USED
-Grok Imagine image generation for base character and scene concept. Python/Pillow for resizing, background removal approximation, and export to required dimensions and formats.
+Grok Imagine for base generation. Python/Pillow for resize, approximate white-background removal, export.
 
 4. CHECKS
-- Scene is 432×960.
-- hero_idle has alpha transparency.
-- Character retains required elements (red hat, white beard, teal coat, brown boots, lantern).
-- Lighting is soft and restrained; no full-body neon rim.
-- Scene is CONCEPT only; not a Godot runtime capture.
+- Scene is exactly 432×960.
+- hero_idle has alpha channel (approximate; near-white threshold removal).
+- Required elements present: red hat, white beard, teal coat, brown boots, lantern.
+- Soft lighting, no full-body neon rim.
+- CONCEPT only; not Godot runtime.
 
-5. LIMITATIONS
-- Scene concept is a generated storybook path rather than a precise composite onto the exact fixed descending_world_v2.png (for fair comparison the size/position intent is preserved).
-- Background removal on idle is approximate (near-white threshold).
-- No animation frames produced in this round.
-- Images are art proposals, not integrated into the game.
+5. LIMITATIONS (explicit)
+- Background of the scene concept is a generated storybook path, NOT the exact fixed descending_world_v2.png. Size/position intent preserved for comparison, but background differs.
+- Transparency on hero_idle.png is approximate (threshold-based removal of near-white).
+- No animation frames.
+- Art proposal only; not integrated into game.
 
 6. NEXT PROPOSAL
-Human review of this single variant. One correction round if selected. No game integration performed.
+Human places the three PNGs into sandbox/grok/task-002/art/ and reviews. One correction round if selected. No automatic further generation.
 
 UPDATE LOG
-2026-10-16: Art variant created and materials prepared after grant verification (APPROVED on main).
+2026-10-16: Art variant created after APPROVED grant. Binary files delivered in chat because tool-based GitHub binary push is not reliable. REPORT updated with actual location.
