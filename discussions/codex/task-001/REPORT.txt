@@ -127,3 +127,31 @@ Local validation against the exact trusted main scope policy allows own task-002
 One independent variant per bot, one review round, then the human chooses. Missing image tools must be disclosed; a text-only proposal is not a visual return. The bot may return actual files to the user if its environment cannot write GitHub, without claiming a successful push. No passwords/tokens are shared.
 
 Codex actual changes this round: own text task documents/report, two owner grant-only Draft PRs, and the shared reference/handoff Release assets. No game/source/art integration, private project edit, model-setting change or bot-to-bot messaging.
+
+
+TASK-002 ACTIVATION — 2026-10-15T10:57:39.528Z
+
+Direct human authorization: "da razreshavam , kazvai sega na koi effort da te ostavq" in the current owner chat, following the concrete request to merge only PR #3 and #4.
+
+Merged only the two reviewed art grants:
+- PR #3: GPT, squash commit 4986fed5ba49c0e9a3e002a42c6b8d1aa3caeed1.
+- PR #4: Grok, squash commit bd2dfe7fddd300bd8425cd1c5b0846fe50c4f3d2.
+Main before: 5add419dfc7fd73bd6d9ee837b2ba620ee5e8b81.
+Main after: bd2dfe7fddd300bd8425cd1c5b0846fe50c4f3d2.
+Combined main changed paths: tasks/gpt/task-002.json and tasks/grok/task-002.json ONLY.
+
+Each grant's content blob matches its previously reviewed PR; status APPROVED. Main branch protection, required Scope boundary (GitHub Actions app 15368), enforce_admins and disabled auto-merge were retained. GPT was merged after its exact head/scope check. Grok's branch was brought up to date with the new main; a new trusted Scope boundary check passed before its leased-head squash merge. No bypass or disabled protections.
+
+Ready task branches, created from activated main:
+- codex/gpt/task-002
+- codex/grok/task-002
+
+Allowed output roots for each bot: sandbox/<bot>/task-002/art/, sandbox/<bot>/task-002/outputs/, discussions/<bot>/task-002/. No game source/import/runtime, sound, progression, save, baseline, private-repo, additional-agent or merge authority granted to the art bots. Existing task-001 REPORTS_ONLY grants remain unchanged.
+
+Private GnomiT main/PR #1 are unchanged: main dd46945957f7f1cfd7fb3b8369ffb7788bf003f3; PR head e4e8b9ce3beadaad37bbb0036922b5657007bf0e; Draft=true.
+
+Recommended model/effort for this administrative activation: GPT-6.1 Sol / Medium. This is a recommendation, not an attestation of the current execution setting. For the existing bounded art task, the prior recommendation remains GPT-6.1 Sol / High for preparation/review, using actual available image tools; Grok records its actual own model/mode. No claim of benchmark superiority or image-quality improvement from effort alone.
+
+Next human-delivered message: Task-002 вече е активирана. Прочети своя tasks/<BOT>/task-002.json от main и изпълни получения общ художествен brief. Създай един визуален вариант в точно разрешените task-002 папки и поддържай собствения REPORT.txt с идея, реални файлове, проверки и ограничения. Върни commit и Draft PR; без merge и без промени или стартиране на играта. Ако не можеш да създаваш изображения, посочи ограничението, без да представяш текстов brief като готов визуален вариант.
+
+No bot was messaged automatically. This record is Codex's own authorized report-only update. No other PR was merged.
