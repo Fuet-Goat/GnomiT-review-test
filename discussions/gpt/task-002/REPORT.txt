@@ -1,0 +1,50 @@
+GNOMIT — GPT — TASK-002 — ONE OWN GNOME ART VARIANT
+BOT=gpt
+VERDICT=ONE_ART_CONCEPT_CREATED__BINARY_GITHUB_UPLOAD_PENDING
+VARIANT=The Lantern Guardian (Пазителят на фенера)
+INPUT_MAIN=5add419dfc7fd73bd6d9ee837b2ba620ee5e8b81
+APPROVED_GRANT=tasks/gpt/task-002.json, main, status APPROVED, blob 5b78b5ed38b2844bff0a3e4c921575e6abbb3223
+BRANCH=codex/gpt/task-002
+SCOPE=sandbox/gpt/task-002/art/; sandbox/gpt/task-002/outputs/; discussions/gpt/task-002/
+NO_GAME_OR_GODOT_EXECUTION=TRUE
+
+1. IDEA AND ART DIRECTION
+One small storybook traveler integrated into the ORIGINAL First Bend world: soft rounded painterly shapes, floppy warm red hat, white beard, matte blue/teal travel coat, worn brown leather boots, rolled bag and a restrained warm brass lantern. Keep the source world background, route, composition, HUD and neighboring NPC unchanged. Ground contact uses its OWN shadow asset; no baked shadow on idle sprite and no neon outline.
+
+2. FILES REALLY CREATED LOCALLY (ART CONCEPT, NOT GAME RUNTIME)
+- sandbox/gpt/task-002/outputs/01_SCENE_CONCEPT.png — 432x960 actual source screenshot composited with new character, 797924 bytes, SHA256 a6e622f7c14e5cb4782dddbc0588d2c037a78d6f3263e18e7fa324cdc26442be
+- sandbox/gpt/task-002/outputs/02_GNOME_DETAIL.png — 768x768 material closeup, 540569 bytes, SHA256 0873241094f0f867a0fd3a0f77544afc356305d599946a7063d171695252cda3
+- sandbox/gpt/task-002/art/hero_idle.png — 512x512 true-alpha RGBA full-body idle with no baked shadow, 195442 bytes, SHA256 f0e905a0605ad5d34c5cb5e761a76650aabe2f88998c59c94785042cbfffdde6
+- sandbox/gpt/task-002/art/contact_shadow.png — 512x512 independent soft contact shadow, 7824 bytes, SHA256 d87d66aab4d1183c48c54b023f90e7ff2b07eb1d8e0ee125f5c5b15b43082057
+- sandbox/gpt/task-002/art/walk_sheet.png — 1536x1024, 3x2 x 512x512 six generated right-facing phases, 925869 bytes, SHA256 70713dbf68c63d69f276a8f6753e67d33a6386945dbab5cebae67638978ff638
+- sandbox/gpt/task-002/outputs/walk_preview.gif — ~4s ART PREVIEW only, 493920 bytes, SHA256 d0245985788bfb7a1ec43c9912a33d289af125334320ba6926e4a23ced8cb9c2
+- sandbox/gpt/task-002/outputs/03_BEFORE_AFTER.png — comparison with source frame, 755936 bytes, SHA256 02dacb7cc9c0 (short checksum; full checksum is in the ZIP manifest).
+- sandbox/gpt/task-002/art/asset_metadata.json — original detailed frame and pivot data, approx. 5.5KB.
+
+IMPORTANT PUBLICATION STATUS: The actual files above EXIST in the produced downloadable conversation ZIP. They are NOT yet GitHub blobs on this branch. The connected GitHub text-write APIs cannot directly transfer the created local PNG/GIF bytes without transporting full base64 through this environment. Do not treat a text report or metadata as image-upload evidence. The owner can upload the ZIP contents to the listed paths later. No surrogate images or fake binary references were committed.
+
+3. HOW CREATED
+- ImageGen: a single selected original illustration variant; two exploratory presentation generations, only the second used for separate assets. No copied Candy Crush art.
+- Pillow + OpenCV for character matting, RGBA export, 6-frame study, GIF, unchanged-background compositing and shadow.
+- Original fixed background and 01_START from the user-provided First Bend ZIP; feature registration of the fixed image onto runtime screenshot using SIFT/RANSAC. No Godot program or game imports executed.
+- Source reference: media/current/01_START.png and baseline/game/assets/storybook/descending_world_v2.png.
+- Dedicated downloadable user-preferred style reference PNG could not be read from the release in this isolated runtime; the shared common art brief and original scene were used. Do not claim exact reference comparison.
+
+4. FOOT / SCALE / LIGHT
+- Idle 512x512; foot pivot [256,467]. At 432x960 put foot near [225,517] with uniform scale 0.256 (~113px visible height).
+- Shadow center near [225,517] on original road, separate soft dark-amber ellipse.
+- Walk sheet 3 columns x 2 rows, six 512x512 right/three-quarter poses, 0-5 row-major. Approximate support pivot [256,456] in each cell.
+- Soft daylight plus local lantern amber. No illuminated outline around full body.
+
+5. APPROVED ART INSPECTIONS ACTUALLY DONE
+- 01_SCENE_CONCEPT exactly 432x960. Compared to original runtime screenshot: zero changed pixels outside x=145..310,y=370..550 hero vicinity.
+- RGBA corners alpha=0; hero idle has 173581 fully transparent pixels, no background rectangle. Separate transparent shadow.
+- Confirmed all six frame cells, full-body idle dimensions, alpha/nonzero values, metadata, and non-Godot GIF.
+- Package manifest includes SHA256 for each asset.
+- No new Godot, PC game runtime, Android, gameplay, audio, level, save, config or automated gameplay tests were executed (they are not authorized).
+
+6. LIMITATIONS / PROPOSED NEXT STEP
+This is a visual CONCEPT, not proof of running Godot movement. The cutout needs possible manual matte cleaning around beard/lantern; walk sheet was derived from small generated pose strips and lacks separate rear view and perfected grounded-foot animation. In a single later owner-approved art correction, fix the silhouette matte and consistent planted-foot pivots if chosen. Human chooses between GPT and Grok; no extra rounds, integration, merges or code changes authorized.
+
+7. GIT EVIDENCE
+Own report and small metadata can be committed under approved paths. Draft PR only, no merge. Binary assets remain available to the owner in GNOMIT_GPT_TASK002_LANTERN_GUARDIAN.zip supplied with the assistant reply. Private GnomiT, baseline, other bots and grants untouched.
