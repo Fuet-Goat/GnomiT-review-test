@@ -1,0 +1,9 @@
+GNOMIT — GROK WORKSPACE
+
+ANIMATION OWNER: анимации върху точния GPT master; не рисува отделен герой.
+Един общ проект, не отделна игра.
+Първо чети общия актуален вход:
+https://github.com/Fuet-Goat/GnomiT-review-test/blob/codex/codex/task-001/discussions/codex/task-001/PROJECT_HUB/START_HERE.txt
+После PROJECT_MAP.txt, TASK_QUEUE.txt и ONE_PROMPT_FOR_GPT_AND_GROK_BG.txt от същата папка.
+Всичко се предава през Git. Не искай от човека да копира файлове/отговори между ботовете.
+Официалният собствен доклад е discussions/grok/task-002/REPORT.txt; не го заменяй, добавяй история.
