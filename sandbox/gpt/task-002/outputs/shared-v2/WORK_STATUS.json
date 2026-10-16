@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "project": "GnomiT",
+  "bot": "gpt",
+  "task": "task-002",
+  "role": "ART_OWNER",
+  "workspace_layout": "shared-v2-project-hub-v1",
+  "status": "ART_HANDOFF_NOT_PUBLISHED",
+  "updated_by": "codex_repository_layout_setup",
+  "execution": "NOT_RUN_BY_THIS_LAYOUT_SETUP",
+  "authoritative_report": "discussions/gpt/task-002/REPORT.txt",
+  "handoff": "sandbox/gpt/task-002/outputs/shared-v2/handoffs/ART_HANDOFF.json",
+  "project_hub": "https://github.com/Fuet-Goat/GnomiT-review-test/blob/codex/codex/task-001/discussions/codex/task-001/PROJECT_HUB/START_HERE.txt",
+  "delivery_channel": "GIT_ONLY"
+}
