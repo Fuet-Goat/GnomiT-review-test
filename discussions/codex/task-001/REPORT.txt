@@ -210,3 +210,30 @@ NEXT: deliver existing GPT assets only, starting with 01_SCENE_CONCEPT.png, hero
 No new image generation, gameplay tests, art edits or external bot messages were performed. Codex appends only its own report.
 
 Recommended model/effort for existing-file transfer: GPT-6.1 Sol / Medium. For actual visual/gait review once files are accessible: GPT-6.1 Sol / High. Recommendations only, not actual mode attestations.
+
+
+GPT TASK-002 ART PUBLISHED AND VISUALLY REVIEWED — 2026-10-16
+
+GNOMIT — GPT TASK-002 — PUBLISHED ART REVIEW — 2026-10-16
+
+DELIVERY VERIFIED
+Human supplied C:/Users/fruch/Downloads/GNOMIT_TASK002_PR5_MISSING_IMAGES_ONLY.zip (3708793 bytes, SHA-256 47b03ebb0661276027d2c208198a1768f7832bc95b3765135ad0153991cbb52b). ZIP CRC, exact seven allowed names, traversal/symlink checks, all seven declared sizes/SHA-256 and full PNG/GIF decoding passed. Published original bytes without edits in commit e30bdf7f4542760b151074f599d8e275273b11c7 on codex/gpt/task-002. All seven were independently reread from raw GitHub at that commit and their size/hash matched. PR #5 stays Draft/unmerged. The upload commit adds exactly seven art/output files and does not overwrite GPT REPORT.txt or asset_metadata.json.
+
+ACTUALLY VIEWED
+01_SCENE_CONCEPT.png (432x960), 02_GNOME_DETAIL.png (768x768), 03_BEFORE_AFTER.png (864x960), hero_idle.png (512x512) and walk_sheet.png (1536x1024). GIF decoded through all 10 frames: 6 unique full frames, 360ms each, total 3600ms. This is frame/asset inspection, not running Godot movement or a human test. Separate contact shadow measured as real soft alpha, max74, with no opaque pixels.
+
+VERIFIED ORIGINAL-SCENE PRESERVATION
+Compared the full scene pixel-by-pixel with media/current/01_START.png. 13175 changed pixels, bounding box [165,391,271,539]. Zero changed pixels outside declared hero region [145,370,310,550]. Original source SHA-256: 01cad9faf87201bcae3a460cbe12678e6901cf51292c2e237508d5f08386a459. This corrects the previous unavailable-assets state; earlier audits remain valid for their pinned older commit.
+
+RECOMMENDATION
+Prefer GPT as the basis for the one agreed correction round. Its warmer rounded face, traveler silhouette, unchanged bright world and separate shadow are closer to the agreed user reference than Grok's delivered watercolor mountain/felt character concept. This is Codex visual judgement, not unanimous or human approval. Keep the world and character identity; do not restart the art direction.
+
+THREE REQUIRED CORRECTIONS BEFORE GAME INTEGRATION
+1. Clean the matte. Idle visibly retains a tan triangular background patch between beard and raised lantern arm; walk cells have pale/rough edge remnants, especially around the hat and lantern. True alpha exists (idle: 173581 zero-alpha and 6644 partial-alpha pixels), but its presence does not prove a clean cutout. Inspect corrected assets over both light and dark surfaces.
+2. Normalize idle/walk visible size and ground support. Idle alpha bounding box [113,26,431,466] has visible height440px. All six walk cells have y bounds91..456, height365px. At the same cell dimensions/render scale, switching pose families would shrink the character. Match the visible scale and consistent planted-foot anchors; six frame bounding boxes alone do not prove grounded stepping. The scene still needs a convincing feet/shadow contact at the road edge.
+3. Add the missing rear/three-quarter poses within a bounded front/return study, and recheck gait cadence. Existing six generated frames all face right; the GIF cannot demonstrate walking away along the road. Keep total scope small and verify both directions after a chosen asset revision. The current 360ms/frame asset preview is a starting point, not accepted runtime timing.
+
+NO GAME CHANGES
+No game/source/import/save/sound edits, Godot execution, Android/human tests, new image generation, changes to received bytes, automatic bot messaging or merge. Codex independently publishes its own review in its authorized report branch. GPT's existing report/metadata remain historical original submissions; their binary-upload-pending wording predates the new asset commit.
+
+Recommended model/effort: GPT-6.1 Sol / High for the one bounded art correction and review. Medium is sufficient for the completed file publication/hash check. These are recommendations, not actual model-setting attestations.
