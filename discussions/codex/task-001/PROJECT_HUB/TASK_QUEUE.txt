@@ -1,3 +1,8 @@
+CURRENT HUMAN FEEDBACK APPLIED — ONE-CELL STONE DRAG — 2026-10-17
+The local Frankenstein now constrains a held stone to one orthogonal cell. Long drags can only request its immediate neighbor. Invalid attempts return; Core rules unchanged. Focused29+board42+first-scene72checks pass; rendered native input PASS. Human can try the reopened PLAY_STONES level on monitor1. No human/Android acceptance claimed.
+Record:builds/ONE_CELL_DRAG_UPDATE_2026-10-17.txt; literal own text patch:builds/ONE_CELL_DRAG_REVIEW_PATCH_2026-10-17.txt. Native game-source integration remains local only. Art frozen, no new grants or merge.
+Recommended GPT-6.1 Sol / High for interaction, Medium for publication only.
+
 CURRENT LOCAL UPDATE — STONE DRAG/DROP — 2026-10-17
 Human clarified the target is the stones inside levels. The same local Frankenstein now opens level1 with held stones following the mouse/touch, adjacent release swap and invalid return. Focused18 + board42 + level72checks pass; rendered native-mouse scenario PASS. No human/phone acceptance yet. Source art remains frozen.
 Current record: builds/STONE_DRAG_UPDATE_2026-10-17.txt; own literal text review patch: builds/STONE_DRAG_REVIEW_PATCH_2026-10-17.txt. Human can run PLAY_STONES.cmd. Await actual user feel/feedback. No new art task or game Git grant/merge is issued by this queue.

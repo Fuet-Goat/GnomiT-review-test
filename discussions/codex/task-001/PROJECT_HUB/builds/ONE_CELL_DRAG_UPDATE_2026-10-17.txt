@@ -1,0 +1,28 @@
+GNOMIT — ONE-CELL STONE DRAG CORRECTION — 2026-10-17
+Human feedback: a held stone must not roam across the board; it can only move one position from its own cell.
+Scope: same explicitly authorized separate LOCAL Frankenstein playtest. Existing public repository grant still permits only own text reports/proposals. This record does not publish native game implementation files, extend grants or merge anything.
+
+BEHAVIOR
+Held stone follows the dominant horizontal or vertical direction, with its center clamped to one cell from its starting center. It never follows a diagonal visual path. Releasing a long gesture requests only that immediate neighbor, even when the cursor has traveled several cells. Horizontal/vertical ties choose horizontal. The dominant axis can change while held; no free 2D stone placement is provided.
+Release below half a cell returns without swapping. At or past half a cell, only an occupied orthogonal neighbor can be attempted. A hole, rune, row wrap or outward board edge returns the stone. An adjacent nonmatching attempt uses the existing Core revert without spending a move. Short clicks, owned touch, focus/setup/pause cancellation and authoritative snapshots remain intact.
+Core rules, level layouts, goals, map, character art, save, sounds and English UI unchanged. No new art generated.
+
+FRESH VERIFICATION
+Focused native mouse/touch test: RED 11 intended failures before change; GREEN 29 checks,0 failures after change. Covers long gestures in four directions, one-axis visual constraint, immediate-neighbor release, blocked edges/hole, sub-half-cell cancel and a long owning-touch gesture.
+Existing board tests:42 checks,0 failures. Existing first-scene tests:72 checks,0 failures.
+Rendered Godot native-input capture:PASS,failures[],screen0 (monitor1),432x960 window. The long held gesture stops at the adjacent center with26moves; pause and blocked drag preserve26; nonmatching neighbor returns; following long valid gesture spends exactly one move (25), ending on Core snapshot.
+Evidence remains under verification/one_cell_drag_RUNTIME-related paths: one_cell_drag_RED.txt,one_cell_drag_GREEN.txt,board_after_one_cell_drag.txt,first_scene_after_one_cell_drag.txt,one_cell_drag_runtime_console.txt and one_cell_drag_runtime/REPORT.json plus four screenshots. This is scripted verification, not human/Android acceptance.
+Agent additionally reopened the level on monitor1 and performed an actual long mouse drag across several cells. Only the adjacent pair attempted a swap; no cross-board stone placement. The app is left open for the human. The interactive attempt was nonmatching and retained26moves.
+All three source art hashes independently rechecked against INPUTS.json:unchanged.
+
+TRY
+C:/Users/fruch/Documents/Codex/GnomiT_Playtests/Frankenstein_2026-10-17/PLAY_STONES.cmd
+Hold any stone and drag toward one of its four neighbors. Even a much longer gesture can only attempt that neighbor.
+Previous sources preserved at verification/before_one_cell_drag/. Literal review patch proposal:ONE_CELL_DRAG_REVIEW_PATCH_2026-10-17.txt. Predecessor report commit:edcd33068b06c277065b20fb91102d1065141c56.
+
+Recommended model/effort: GPT-6.1 Sol / High for input implementation and review; Medium for report/hash publication. Recommendation only, actual runtime setting not attested.
+
+FINAL LOCAL SOURCE HASHES
+scripts/board_view.gd | 31420 bytes | SHA-256 1406f2b4f5f93f9b4ab51b66f2a12b7785ab006dcf2a448c1ebc5ef76388a14d
+tests/test_stone_drag.gd | 5901 bytes | SHA-256 e3ca98b9a5d4544c33af2552d84e1b61fca3a5ab73383a5df565ee6ab93e1027
+tests/capture_one_cell_drag.gd | 5707 bytes | SHA-256 2e538c46637995275452b1cfb2726e9fe85b30dca796668d20c65f24d9ee5cfa
