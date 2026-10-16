@@ -48,3 +48,42 @@ This is a visual CONCEPT, not proof of running Godot movement. The cutout needs 
 
 7. GIT EVIDENCE
 Own report and small metadata can be committed under approved paths. Draft PR only, no merge. Binary assets remain available to the owner in GNOMIT_GPT_TASK002_LANTERN_GUARDIAN.zip supplied with the assistant reply. Private GnomiT, baseline, other bots and grants untouched.
+
+
+8. PROJECT_HUB SHARED-V2 — GIT-ONLY HANDOFF STATUS (2026-10-16)
+
+BOT=gpt | ROLE=ART_OWNER | STAGE=A | STATUS=BLOCKED_BINARY_GIT_DELIVERY
+Repository: Fuet-Goat/GnomiT-review-test
+Own branch: codex/gpt/task-002
+Source game commit: 5add419dfc7fd73bd6d9ee837b2ba620ee5e8b81
+Existing GPT V1 art publication: e30bdf7f4542760b151074f599d8e275273b11c7
+Shared target reference: c8cd4ddd1c1abb2fc8309d66e99ddc982766ab45
+Current Draft PR: #5, no merge
+WORK_STATUS update: 2f2cad3bcb1f9f7329c51e394c73bfafd2c8201b
+
+READ AND UNDERSTOOD:
+The current PROJECT_HUB/ONE_PROMPT_FOR_GPT_AND_GROK_BG.txt, START_HERE.txt, PROJECT_MAP.txt, TEAM_RULES_BG.txt, FOLDER_MAP.txt, TASK_QUEUE.txt, ASSET_CATALOG.txt and SHARED_ART_ANIMATION_BRIEF_V2_BG.txt, plus our own outputs/shared-v2/START_HERE.txt and tasks/gpt/task-002.json from main (APPROVED). The up-to-date canonical output paths are under art/shared-v2/characters/hero/, outputs/shared-v2/previews/ and outputs/shared-v2/handoffs/, not historic root-level paths.
+
+ONE ART OWNER / ANIMATION OWNER BOUNDARY:
+GPT owns the 512x512 cleaned canonical traveler hero_master, separate contact_shadow, metadata, original CURRENT_START-based 432x960 composited scene, detail preview and ART_HANDOFF. Keep the same V1 traveler's face/hat/beard/coat/hand/lantern, not another character. Grok must NOT start new animation without exact source commit and verified master SHA256. No animation was started in this task. No Godot, gameplay, sound, save, baseline, grant, other bot folder, or private GnomiT changes.
+
+ACTUAL REMOTE FINDINGS:
+- Previous V1 PNG/GIF files have been published in Git at e30bdf7f4542760b151074f599d8e275273b11c7. Earlier report paragraph saying all PNG/GIF are still missing was historical and is superseded by this finding. V1 is reference, NOT the new V2 canonical master.
+- New art/shared-v2/characters/hero/hero_master.png: NOT_FOUND (404) on own branch.
+- New outputs/shared-v2/handoffs/ART_HANDOFF.json: NOT_FOUND (404) on own branch.
+- outputs/shared-v2/WORK_STATUS.json previously held ART_HANDOFF_NOT_PUBLISHED, and had only layout setup evidence. It has now been replaced with a specific blocked status, preserving file/role history in Git.
+- No new shared-v2 master, shadow, composite, detail, metadata or handoff binary has been committed, no remote SHA-256 readback has been performed, and READY_FOR_ANIMATION is NOT justified.
+
+EXACT BLOCKER:
+The container has actual prior local PNG/ZIP art files, but ordinary Git HTTPS cannot connect: git ls-remote https://github.com/Fuet-Goat/GnomiT-review-test.git HEAD => 'Could not resolve host: github.com'. The available connected GitHub write operations accept JSON text/base64 STRING arguments; this environment has no verified bridge for reading arbitrary newly edited container PNG bytes into those write calls. A GitHub text REPORT write is possible and is NOT a substitute for a binary art commit. No fake blobs, placeholder PNG, false hash, manual human relay or claim of completion.
+
+WHAT ACTUALLY CHANGED THIS SESSION:
+- Read project hub/brief, current grant, PR/diff, existing report and working status.
+- Tested ordinary Git connectivity (failed due DNS); tested canonical GitHub file presence (both missing).
+- Updated only own sandbox/gpt/task-002/outputs/shared-v2/WORK_STATUS.json and appended this historical REPORT section via connected GitHub text write. No branch merge.
+
+NEXT RESUMPTION CONDITION:
+Run the existing master cleanup on a working environment that can send the real binary bytes to Git, publish the six exact V2 canonical paths, fetch from ONE exact remote commit and compare SHA-256/bytes/alpha and 432x960 composition. Only then set WORK_STATUS READY_FOR_ANIMATION with a valid ART_HANDOFF.json containing the verified remote hashes. Grok consumes that fixed Git commit, not a chat ZIP.
+
+TESTS / LIMITATIONS:
+No permitted Godot execution or new game test; no proof of final cleaned matte, foot anchor, scene fidelity, remote art upload, or Grok animation. Current blocker is tool/environmental, not artistic acceptance. Handoff remains WAITING.
