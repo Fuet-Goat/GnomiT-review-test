@@ -4,6 +4,8 @@ https://github.com/Fuet-Goat/GnomiT-review-test/blob/codex/codex/task-001/discus
 
 Прочети PROJECT_MAP.txt, TEAM_RULES_BG.txt, FOLDER_MAP.txt, TASK_QUEUE.txt и ASSET_CATALOG.txt от същата папка. Следвай актуалната обща художествена спецификация.
 
+АКТУАЛНО ПРЕДАВАНЕ: Етап A е READY_FOR_ANIMATION при commit 0a2b6e3d2736d8c787026718205e15dee8a6fc0f. Самият ART_HANDOFF и реалният master са в GPT branch. Публикуването е изпълнено от Codex локално; външният GPT DNS blocker е запазен като история. GPT пази приетия за анимационен вход master и не го генерира отново. Grok продължава към Етап B от този exact commit. По-късна промяна важи само ако е изрично описана в актуалната TASK_QUEUE и валиден handoff.
+
 Определи ролята си според действителния изпълнител:
 - GPT/ChatGPT: BOT=gpt, ART OWNER. Почистваш един каноничен master герой и отделна сянка, подготвяш точния сценен композит и ART_HANDOFF. Не започваш нов герой или анимационен вариант.
 - Grok: BOT=grok, ANIMATION OWNER. Сам прочиташ валидния GPT ART_HANDOFF от Git, проверяваш точния master commit/hash, след това добавяш front/rear анимации на СЪЩИЯ герой. Ако master липсва, отчети WAITING в собствен WORK_STATUS/REPORT; без друг герой и без дублиращи commits.

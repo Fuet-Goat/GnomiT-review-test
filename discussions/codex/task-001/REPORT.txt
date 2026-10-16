@@ -283,3 +283,22 @@ Updated active shared brief and role instructions to canonical characters/hero/,
 Local exact-path scope evaluation passed for GPT21 changed files and Grok120 changed files, including rename source paths. Current main grants/branch protections and baseline/private code unchanged. No Godot/gameplay/human/Android tests, new art generation, auto-merge or automatic external bot messaging this round. The user receives one identical Git startup prompt for both bots; actual execution requires working Git/file access and an active chat/runner.
 
 Recommended model/effort for folder/Git organization: GPT-6.1 Sol / Medium. GPT artwork and Codex visual checks: GPT-6.1 Sol / High; Grok animation: user-selected Build, actual model recorded by Grok.
+
+
+LOCAL STAGE A COMPLETION AND VERIFIED GIT HANDOFF — 2026-10-16
+
+Observed GPT blocker commit7ecf55cca4627d85e62256cf4d6e75d8cb627e83 and Grok waiting commit83c9cca76246e3c03409223fb586a645ab848143. Their claims were accurate for their external environments. Shared project grants and Git-only workflow were already approved by the human. Codex took over this bounded art-delivery step locally and explicitly announced the actual executor. No claim that the external GPT environment published these assets or that its DNS was fixed.
+
+Used built-in image_gen with actual GPT V1 idle and shared target concept to preserve one common traveler. Native output1254x1254 RGBA retained in references/local-executor; exact prompt retained in logs. Export cleanup cleared alpha<8, normalized alpha253 to255 and premultiplied LANCZOS resampled to512x512 canvas, visible height440px and authored anchor[256,467]. This is canvas/alpha export, not manually invented new artwork. Separate V1 shadow reused byte-identically. No new animation was made.
+
+Fixed scene432x960 uses original media/current/01_START.png and baseline original descending_world_v2.png. SIFT/RANSAC source-world registration1078/1099 inliers, median residual0.10626339167356491px. Only hero ROI[145,370,310,550] replaced. Zero changed pixels outside ROI. Actual scene and light/dark alpha views inspected; no claim of Godot runtime, human acceptance, gait or Android testing. Rig anatomical carry side remains for the animation metadata to declare consistently.
+
+Artifacts commit: 0f9ffeafbe82fc8732be9c5c196d9ceb0e08aba8
+READY handoff commit: 0a2b6e3d2736d8c787026718205e15dee8a6fc0f
+Master238352bytes SHA-256895a1ccf8c17e756e3bc05810cceaf48ec1732d7e90e0428f1c0523e6157004d.
+Scene728611bytes SHA-256d896c9a93e04398fbf43fa07aa8fc625e6e8090465ee9f0d43cf0ab8da75f9ce.
+11 actual output files independently HTTP-downloaded from the full artifact commit; byte counts/SHA-256 all matched; all PNG decodes passed. Three final handoff/status/receipt files reread byte-identically from READY commit. PR#5 head matched, remained Draft and unmerged. Local exact-path scope checks passed against current main grant and unchanged trusted guard. Whitespace check accepted CRLF explicitly without changing the archived original blocker bytes.
+
+Historic GPT report untouched; its full blocked WORK_STATUS copied unchanged into logs. Original V1 files/world/HUD/game/grants/private repository untouched. New assets only in GPT approved art/output roots; Codex updates only its own text reports/hub here. No auto-messaging, scheduler, merge or extra agents. Current hub directs Grok to consume the exact master/handoff and add front/rear animation; GPT must not restart Stage A. Final combined review waits for actual animation delivery.
+
+Recommended art/check model: GPT-6.1 Sol / High; Git publication/hash-only operations Medium. Grok Build with its actual model recorded by its own executor. Recommendations are not observed runtime settings.

@@ -1,20 +1,28 @@
 GNOMIT — TASK QUEUE
-Snapshot 2026-10-16; при всяко активиране провери реалния Git handoff, не само този snapshot.
+Snapshot 2026-10-16; при активиране провери реалните файлове и handoff от точния commit.
 
-A — GPT / ART OWNER — NEXT ACTION
-Почисти и фиксирай каноничния герой от GPT V1 по общата концепция. Без фон-клин/ореоли, отделна сянка, 512x512 master, измерена опора и общ мащаб. Композит 432x960 върху оригиналния CURRENT_START.
-Изходите са точните GPT canonical paths във FOLDER_MAP.txt. Статус READY_FOR_ANIMATION след remote readback и валиден handoffs/ART_HANDOFF.json.
-При последната проверка преди подреждането V2 master/handoff липсват. Папки/README/WORK_STATUS са setup, не готов арт. Предишният GPT sandbox DNS blocker е съобщен от другата среда и не е отстранен чрез тази организация.
+A — GPT ART DIRECTION / CODEX LOCAL EXECUTOR — READY_FOR_ANIMATION
+Canonical ART_HANDOFF commit: 0a2b6e3d2736d8c787026718205e15dee8a6fc0f
+Artifact bytes commit: 0f9ffeafbe82fc8732be9c5c196d9ceb0e08aba8
+ART_HANDOFF: sandbox/gpt/task-002/outputs/shared-v2/handoffs/ART_HANDOFF.json
+Master: sandbox/gpt/task-002/art/shared-v2/characters/hero/hero_master.png
+SHA-256: 895a1ccf8c17e756e3bc05810cceaf48ec1732d7e90e0428f1c0523e6157004d
+238352 bytes, 512x512 RGBA, visible height440, foot anchor[256,467].
+Stage A was completed and published by Codex in the local environment with working Git, using the chosen GPT identity and common brief. This does NOT claim the external GPT chat solved its DNS problem. Original blocker is preserved in outputs/shared-v2/logs/20261016_EXTERNAL_GPT_BLOCKER.json and its historic REPORT.
+11 artifact files independently downloaded from exact Git commit and hash/PNG-decode checked. Final status/handoff/readback also downloaded byte-for-byte. Static composite432x960: zero changed pixels outside hero ROI[145,370,310,550].
+GPT: preserve this canonical master. Do not regenerate a competing version or repeat the old delivery work. Read it and report concrete observations only if new information exists.
+READY means an art-delivery contract for animation, not final human visual approval or Godot verification.
 
-B — GROK / ANIMATION OWNER — WAITING_FOR_GPT_ART_HANDOFF
-Провери GPT клона сам. Ако handoff е реален и hashes съвпадат, използвай точния master commit за 3front+3rear кадъра, стабилен мащаб/крака и 3–5s ART PREVIEW. Публикувай own handoffs/ANIMATION_HANDOFF.json.
-Ако липсва, запиши WAITING веднъж; не създавай друг герой.
+B — GROK / ANIMATION OWNER — NEXT ACTION WHEN CHAT IS ACTIVE
+Read the pinned Stage A handoff above and actual master/shadow/metadata. Verify input SHA-256 yourself. Continue only from these exact bytes.
+Produce3 front/three-quarter +3 rear/three-quarter poses of this SAME traveler,1536x1024 sheet,512x512 cells. Match440px visible height within the agreed8px pose allowance; explicit per-frame support/anchor/timing metadata. Preserve carried lantern hand across directions; declare the anatomical rig side rather than blindly mirroring.
+Publish3–5s ART PREVIEW, animation_metadata.json, ANIMATION_HANDOFF.json and own REPORT/WORK_STATUS in Grok's approved roots. READY_FOR_CODEX_CHECK only after exact-commit remote readback.
+No runtime claims, other hero, game edits or merge. If actual binary publishing is unavailable, report that specific blocker once.
 
-C — CODEX — WAITING_FOR_BOTH_HANDOFFS
-Една обща проверка на identity, alpha, idle/walk scale (старият дефект440px срещу365px), foot anchors, двете посоки, сцена/фон и истински remote bytes.
+C — CODEX — WAITING_FOR_ANIMATION_HANDOFF
+One combined review after Grok delivery: identity, alpha, stable idle/walk scale, pivots, front/rear gait and actual Git bytes. Current activity completed only Stage A and Git delivery.
 
-FUTURE — NOT_ACTIVE: NPC, UI, audio, gameplay, implementation/builds. Имат папки за организиране, но няма възложен нов обем от самото им създаване.
-
-SOURCE SETUP COMMITS:
-GPT workspace: c8cd4ddd1c1abb2fc8309d66e99ddc982766ab45
-Grok workspace: 66c9fdf749ffe1c99ec968f08e432d5c9a6c93e5
+FUTURE — NOT_ACTIVE
+NPC, UI, audio, gameplay, game integration/builds, phone tests. Folder existence does not authorize these tasks.
+Git does not wake external chats automatically; activation does not require forwarding files or reports.
+Recommended GPT/Codex visual work: GPT-6.1 Sol / High. Publication-only: Medium. Grok: Build, actual model/mode recorded by that executor.
