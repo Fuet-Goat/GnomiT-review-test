@@ -1,0 +1,20 @@
+GNOMIT — TASK QUEUE
+Snapshot 2026-10-16; при всяко активиране провери реалния Git handoff, не само този snapshot.
+
+A — GPT / ART OWNER — NEXT ACTION
+Почисти и фиксирай каноничния герой от GPT V1 по общата концепция. Без фон-клин/ореоли, отделна сянка, 512x512 master, измерена опора и общ мащаб. Композит 432x960 върху оригиналния CURRENT_START.
+Изходите са точните GPT canonical paths във FOLDER_MAP.txt. Статус READY_FOR_ANIMATION след remote readback и валиден handoffs/ART_HANDOFF.json.
+При последната проверка преди подреждането V2 master/handoff липсват. Папки/README/WORK_STATUS са setup, не готов арт. Предишният GPT sandbox DNS blocker е съобщен от другата среда и не е отстранен чрез тази организация.
+
+B — GROK / ANIMATION OWNER — WAITING_FOR_GPT_ART_HANDOFF
+Провери GPT клона сам. Ако handoff е реален и hashes съвпадат, използвай точния master commit за 3front+3rear кадъра, стабилен мащаб/крака и 3–5s ART PREVIEW. Публикувай own handoffs/ANIMATION_HANDOFF.json.
+Ако липсва, запиши WAITING веднъж; не създавай друг герой.
+
+C — CODEX — WAITING_FOR_BOTH_HANDOFFS
+Една обща проверка на identity, alpha, idle/walk scale (старият дефект440px срещу365px), foot anchors, двете посоки, сцена/фон и истински remote bytes.
+
+FUTURE — NOT_ACTIVE: NPC, UI, audio, gameplay, implementation/builds. Имат папки за организиране, но няма възложен нов обем от самото им създаване.
+
+SOURCE SETUP COMMITS:
+GPT workspace: c8cd4ddd1c1abb2fc8309d66e99ddc982766ab45
+Grok workspace: 66c9fdf749ffe1c99ec968f08e432d5c9a6c93e5

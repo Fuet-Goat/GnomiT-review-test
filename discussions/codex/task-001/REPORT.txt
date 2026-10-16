@@ -267,3 +267,19 @@ Known boundary is explicit: repository instructions do not create a scheduler, a
 Changed only Codex's authorized text documents/report. No merge/game/source/art changes this round. This user-specific Git-only instruction supersedes the older ZIP handoff preference for this shared workflow.
 
 Recommended model/effort: GPT-6.1 Sol / Medium for this workflow update; High for art/visual checks, Grok's actual Build mode for its animation stage.
+
+
+FULL SHARED PROJECT HUB AND FOLDER ORGANIZATION — 2026-10-16
+
+Direct human authorization: "da ama obqsni na drugite 2 bota,vsichko da e tam,papki kato test ,proba ,vsichki vidove koito shte ni trqbvat animaciq i vsichki rabotite po proekta ,razbra ideqta nali ,premeste ako trqbva iztrii, papki i napravi papki ako e nujno i dai 1 promp za gpt i grok !".
+
+Organized both approved art/output workspaces and added a common PROJECT_HUB in Codex's authorized text area. One shared goal, one startup prompt, exact folder map, task queue, rules and asset catalog. Categories cover design/art/animation/UI/audio/gameplay/experiments/tests/builds/reviews/reports/archive. Future categories are documented placeholders, not implicit game/runtime/audio authorization.
+
+GPT workspace setup commit c8cd4ddd1c1abb2fc8309d66e99ddc982766ab45: 20 README/status files, existing concept moved byte-identically into outputs/shared-v2/references/.
+Grok workspace setup commit 66c9fdf749ffe1c99ec968f08e432d5c9a6c93e5: same structure; original three PNGs published directly in outputs/shared-v2/references/grok-v1/ and independently reread/hash-checked. Original95 Base64 parts+manifest moved unchanged into outputs/shared-v2/archive/legacy-base64/. All96 old/new Git blob IDs/modes/sizes compared and identical. Absolute source/destination paths were checked inside this repository before the moves. No recursive deletion, no loss of materials; original reports/history preserved.
+
+Updated active shared brief and role instructions to canonical characters/hero/, animations/hero/, previews/ and handoffs/ paths. Old workboard redirects to the new common hub. Current shared-v2 production master/handoffs remain absent; setup is not art completion.
+
+Local exact-path scope evaluation passed for GPT21 changed files and Grok120 changed files, including rename source paths. Current main grants/branch protections and baseline/private code unchanged. No Godot/gameplay/human/Android tests, new art generation, auto-merge or automatic external bot messaging this round. The user receives one identical Git startup prompt for both bots; actual execution requires working Git/file access and an active chat/runner.
+
+Recommended model/effort for folder/Git organization: GPT-6.1 Sol / Medium. GPT artwork and Codex visual checks: GPT-6.1 Sol / High; Grok animation: user-selected Build, actual model recorded by Grok.

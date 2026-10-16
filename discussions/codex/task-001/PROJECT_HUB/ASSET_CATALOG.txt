@@ -1,0 +1,28 @@
+GNOMIT — ASSET CATALOG
+
+PUBLISHED / VERIFIED
+Обща целева концепция:
+https://raw.githubusercontent.com/Fuet-Goat/GnomiT-review-test/c8cd4ddd1c1abb2fc8309d66e99ddc982766ab45/sandbox/gpt/task-002/outputs/shared-v2/references/00_SHARED_TARGET_CONCEPT.png
+SHA-256 4c46fd0a20f13d5bfa23d8ce20ebaf12f1abe96b32e5c2808512513f4868e09f, 2264565bytes, 840x1871. CONCEPT с генерирани background разлики, не production сцена.
+
+GPT V1: original seven PNG/GIF assets, commit e30bdf7f4542760b151074f599d8e275273b11c7, PR#5; запазени.
+Grok V1 PNG: 66c9fdf749ffe1c99ec968f08e432d5c9a6c93e5, sandbox/grok/task-002/outputs/shared-v2/references/grok-v1/. И трите са реално изтеглени повторно и SHA-256 съвпадат:
+01_SCENE_CONCEPT.png — 868260bytes — 2cc888bf68577df6d39aeb886c50f61c9b2a0210d71415eb0111380bebaf60fb
+02_GNOME_DETAIL.png — 774507bytes — 8b8d360c904485e66eea4333f74db3e2777621083fd8dd62b45caa9de9591584
+hero_idle.png — 580289bytes — 421d2626c210f3d1831c71b67fa8471940b5dfd1c247547390978758cd3b6406
+Материални/исторически референции, не новият каноничен master.
+
+FIXED SOURCE
+Original background and CURRENT_START: commit5add419dfc7fd73bd6d9ee837b2ba620ee5e8b81.
+baseline/game/assets/storybook/descending_world_v2.png; media/current/01_START.png.
+Предпочитан потребителски стил:
+https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/first-bend-review-v1/GNOMIT_USER_STORYBOOK_STYLE_REFERENCE.png
+Съществуващи build/review downloads: https://github.com/Fuet-Goat/GnomiT-review-test/releases/tag/first-bend-review-v1
+
+EXPECTED, NOT YET VERIFIED OR PUBLISHED
+GPT shared-v2 canonical master/shadow/metadata/composite/handoff.
+Grok shared-v2 common-character animation sheet/metadata/preview/handoff.
+Точните пътища са във FOLDER_MAP.txt; не приемай README или WORK_STATUS за production asset.
+
+ARCHIVE
+Grok original 95 Base64 parts and manifest: outputs/shared-v2/archive/legacy-base64/ at 66c9fdf749ffe1c99ec968f08e432d5c9a6c93e5; all96 Git blob IDs match the original fca6459382878531deeaae31780be0ab0a0e4379 tree. History and reports preserved.

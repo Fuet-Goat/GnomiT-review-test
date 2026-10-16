@@ -14,3 +14,7 @@ GNOMIT SHARED-V2 — GIT Е ЕДИНСТВЕНИЯТ КАНАЛ
 9. Няма автоматичен merge, Godot execution, code/save/audio/private-project промени или нови агенти.
 
 Модели/режими: GPT арт — GPT-6.1 Sol / High; Grok анимации — Build с действително записания собствен модел; Codex визуална проверка — GPT-6.1 Sol / High; Git административни/хеш проверки — Medium.
+
+ОБЩ ПРОЕКТЕН ВХОД И ЕДИНЕН ПРОМПТ
+https://github.com/Fuet-Goat/GnomiT-review-test/blob/codex/codex/task-001/discussions/codex/task-001/PROJECT_HUB/START_HERE.txt
+Пътищата за shared-v2 вече са структурирани по characters/hero, animations/hero, previews и handoffs. Чети актуалния PROJECT_HUB/FOLDER_MAP.txt и TASK_QUEUE.txt; старите pinned handoff/asset commits остават история, не се изтриват.

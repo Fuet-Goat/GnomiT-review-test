@@ -13,8 +13,8 @@ GNOMIT — ОБЩ АРТ + АНИМАЦИИ V2 — ЕДИН ПРОЕКТ
 Основата е GPT traveler V1: червена прегъната шапка, бяла брада на ясни форми, синьо-зелено палто, кафяв колан/ботуши, малка навита раница и месингов фенер. От Grok използваме спокойната светлина и усещане за материя като помощна референция. Лицето, пропорциите, палтото, фенерът и анатомичната ръка, която го носи, остават едни и същи във всички кадри.
 
 ОБЩАТА НОВА КАРТИНКА
-https://raw.githubusercontent.com/Fuet-Goat/GnomiT-review-test/ecf9b6672fc2c005f4ad02768cfca20356d2f0f0/sandbox/gpt/task-002/outputs/shared-v2/00_SHARED_TARGET_CONCEPT.png
-Commit: ecf9b6672fc2c005f4ad02768cfca20356d2f0f0
+https://raw.githubusercontent.com/Fuet-Goat/GnomiT-review-test/c8cd4ddd1c1abb2fc8309d66e99ddc982766ab45/sandbox/gpt/task-002/outputs/shared-v2/references/00_SHARED_TARGET_CONCEPT.png
+Commit: c8cd4ddd1c1abb2fc8309d66e99ddc982766ab45
 SHA-256: 4c46fd0a20f13d5bfa23d8ce20ebaf12f1abe96b32e5c2808512513f4868e09f
 Размер: 840x1871. Създадена с built-in image_gen. Това е визуална цел за герой/осветление/усещане. Генерацията е променила и пиксели на света; тя НЕ заменя оригиналния фон, игровата сцена, HUD, hit-test или маршрута. Същинският сценен композит трябва да остане 432x960 върху оригиналния CURRENT_START.
 
@@ -41,12 +41,12 @@ C. Codex — обща проверка и подготовка за послед
 - sandbox/gpt/task-002/outputs/shared-v2/
 - discussions/gpt/task-002/REPORT.txt — само добавяне на история.
 Изходи:
-art/shared-v2/hero_master.png — 512x512, реална RGBA прозрачност, изцяло видим герой, чисти ръбове, без запечена сянка.
-art/shared-v2/contact_shadow.png — отделна мека RGBA сянка на същото платно.
-art/shared-v2/asset_metadata.json — canvas, alpha bounds, видима височина, точна опорна точка, lantern_hand, identity/palette и hashes.
-outputs/shared-v2/01_SCENE_CONCEPT.png — 432x960, оригинален фон/GUI, само герой/контактна сянка са променени.
-outputs/shared-v2/02_HERO_DETAIL.png — до 1024x1024, материал/лице.
-outputs/shared-v2/ART_HANDOFF.json — READY_FOR_ANIMATION само ако файловете са качени и повторно прочетени от Git.
+art/shared-v2/characters/hero/hero_master.png — 512x512, реална RGBA прозрачност, изцяло видим герой, чисти ръбове, без запечена сянка.
+art/shared-v2/characters/hero/contact_shadow.png — отделна мека RGBA сянка на същото платно.
+art/shared-v2/characters/hero/asset_metadata.json — canvas, alpha bounds, видима височина, точна опорна точка, lantern_hand, identity/palette и hashes.
+outputs/shared-v2/previews/01_SCENE_CONCEPT.png — 432x960, оригинален фон/GUI, само герой/контактна сянка са променени.
+outputs/shared-v2/previews/02_HERO_DETAIL.png — до 1024x1024, материал/лице.
+outputs/shared-v2/handoffs/ART_HANDOFF.json — READY_FOR_ANIMATION само ако файловете са качени и повторно прочетени от Git.
 
 Почистване: премахни светлокафявия клин между брада и фенер/ръка, белите остатъци и замърсени ръбове. Пази личността. Начален canvas contract: master 512x512, видима височина 440px, обща foot anchor [256,467]; запиши реалните стойности. Ако след почистване е нужна корекция на anchor, декларирай я преди handoff и Grok използва точно нея. Сянката се поставя по настилката. За точния сценен композит е допустимо кодово alpha-compositing на съществуващия фон; не прерисувай света.
 
@@ -55,10 +55,10 @@ outputs/shared-v2/ART_HANDOFF.json — READY_FOR_ANIMATION само ако фа�
 Чети GPT master и ART_HANDOFF от точния публикуван commit. Ако липсват реалните файлове, запиши WAITING_FOR_GPT_ART_HANDOFF веднъж, без нов герой или повторни commits при непроменен статус.
 Пиши само в sandbox/grok/task-002/art/shared-v2/, sandbox/grok/task-002/outputs/shared-v2/ и собствен REPORT.
 Изходи:
-art/shared-v2/walk_sheet.png — 1536x1024, 3x2 по 512x512: 3 front/three-quarter и 3 rear/three-quarter кадъра.
-art/shared-v2/animation_metadata.json — ред, посока, canvas, точна foot anchor на всеки кадър, опорен крак, frame timing, source GPT commit и SHA-256.
-outputs/shared-v2/walk_preview.gif или .webm — 3–5s ART PREVIEW с движение към/от зрителя и кратко idle. Няма твърдение за Godot runtime.
-outputs/shared-v2/ANIMATION_HANDOFF.json — входен master hash, изходни hashes, реални проверки/ограничения и READY_FOR_CODEX_CHECK.
+art/shared-v2/animations/hero/walk_sheet.png — 1536x1024, 3x2 по 512x512: 3 front/three-quarter и 3 rear/three-quarter кадъра.
+art/shared-v2/animations/hero/animation_metadata.json — ред, посока, canvas, точна foot anchor на всеки кадър, опорен крак, frame timing, source GPT commit и SHA-256.
+outputs/shared-v2/previews/walk_preview.gif или .webm — 3–5s ART PREVIEW с движение към/от зрителя и кратко idle. Няма твърдение за Godot runtime.
+outputs/shared-v2/handoffs/ANIMATION_HANDOFF.json — входен master hash, изходни hashes, реални проверки/ограничения и READY_FOR_CODEX_CHECK.
 
 Видимият мащаб и обем трябва да следват master. При еднаква скала няма смаляване от idle към walk: старият дефект е 440px срещу 365px видима височина. Работна допустима разлика по височина: до 8px за наклон/стъпка, без общо смаляващо преоразмеряване; това е цел за новата проба, не отчетен PASS. Пази стабилен planted-foot pivot, ясни contact/passing/opposite-contact пози и същата анатомична ръка/фенер. Не замествай задните пози с огледален десен кадър. Кодово сглобяване на GIF/контактни листове е допустимо; отчетът различава нарисувани кадри, сглобен preview и runtime.
 
@@ -80,3 +80,7 @@ HANDOFF ДОГОВОР
 GPT арт: GPT-6.1 Sol / High, с действителния наличен инструмент за изображения.
 Grok анимация: Build — записва действителния собствен модел/режим и наличните инструменти; не твърдим автоматична по-висока художествена оценка спрямо Extreme.
 Codex проверка на арт/анимация: GPT-6.1 Sol / High. Само hash/публикуване: Medium.
+
+ОБЩ ПРОЕКТЕН ВХОД И ЕДИНЕН ПРОМПТ
+https://github.com/Fuet-Goat/GnomiT-review-test/blob/codex/codex/task-001/discussions/codex/task-001/PROJECT_HUB/START_HERE.txt
+Пътищата за shared-v2 вече са структурирани по characters/hero, animations/hero, previews и handoffs. Чети актуалния PROJECT_HUB/FOLDER_MAP.txt и TASK_QUEUE.txt; старите pinned handoff/asset commits остават история, не се изтриват.

@@ -1,32 +1,9 @@
-GNOMIT SHARED-V2 — ОБЩО ТАБЛО
-Snapshot: 2026-10-16. Текущият факт се проверява от Git при всяко започване/подновяване.
+GNOMIT — АКТУАЛНО ОБЩО ТАБЛО
 
-КАНАЛ: само Git. Политика: GIT_ONLY_WORKFLOW_V2_BG.txt.
-ЦЕЛ: SHARED_ART_ANIMATION_BRIEF_V2_BG.txt.
+Каноничният вход и подредената обща работна среда вече са:
+https://github.com/Fuet-Goat/GnomiT-review-test/blob/codex/codex/task-001/discussions/codex/task-001/PROJECT_HUB/START_HERE.txt
+Текуща опашка: https://github.com/Fuet-Goat/GnomiT-review-test/blob/codex/codex/task-001/discussions/codex/task-001/PROJECT_HUB/TASK_QUEUE.txt
+Точни папки/изходи: https://github.com/Fuet-Goat/GnomiT-review-test/blob/codex/codex/task-001/discussions/codex/task-001/PROJECT_HUB/FOLDER_MAP.txt
+Един общ промпт: https://github.com/Fuet-Goat/GnomiT-review-test/blob/codex/codex/task-001/discussions/codex/task-001/PROJECT_HUB/ONE_PROMPT_FOR_GPT_AND_GROK_BG.txt
 
-ОБЩА КОНЦЕПЦИЯ: PUBLISHED
-Клон codex/gpt/task-002, commit ecf9b6672fc2c005f4ad02768cfca20356d2f0f0.
-Файл sandbox/gpt/task-002/outputs/shared-v2/00_SHARED_TARGET_CONCEPT.png.
-Това е concept, не production background/runtime.
-
-ЕТАП A — GPT ART
-Наблюдаван head: ecf9b6672fc2c005f4ad02768cfca20356d2f0f0, Draft PR #5.
-Статус: NO_REMOTE_ART_HANDOFF.
-При проверката няма sandbox/gpt/task-002/outputs/shared-v2/ART_HANDOFF.json. В shared-v2 е качена само общата концепция. Снимката от чат не потвърждава production master или локален пакет.
-Задача: PROMPT_GPT_SHARED_V2_ART_BG.txt.
-Изходни roots: sandbox/gpt/task-002/art/shared-v2/ и outputs/shared-v2/.
-Изискване към средата: достъп до истинските asset байтове и работещ git push за тях. Предишен GPT доклад съобщава DNS blocker; той не е независимо тестван от нас в чуждата среда и не се счита за отстранен.
-
-ЕТАП B — GROK ANIMATION
-Наблюдаван head: fca6459382878531deeaae31780be0ab0a0e4379, Draft PR #6.
-Статус: WAITING_FOR_GPT_ART_HANDOFF.
-Задача: PROMPT_GROK_SHARED_V2_ANIMATION_BG.txt.
-След появата на валиден GPT handoff Grok сам прочита exact commit/hash и продължава, когато чатът/изпълнителят му бъде активен. Човекът не препраща файлове или чужди отговори.
-
-ЕТАП C — CODEX CHECK
-Статус: WAITING_FOR_SHARED_ART_AND_ANIMATION.
-Една обща проверка след реалните A/B commits. Предишните V1/Git проверки остават отделна история.
-
-Прочети актуалния grant от main. Пиши само в собствените разрешени roots. Всеки резултат/блокер е в собствения REPORT. Не чакаме единодушна естетическа оценка, не правим нови конкуриращи концепции, няма automatic merge.
-
-Препоръки: GPT-6.1 Sol / High за арт и визуален преглед; Grok Build за анимационния етап; Medium за Git/хеш операции.
+Всички материали и отчети са в Git. Истинският статус се определя от валидните handoffs, не от картинки в чат. Предишните snapshots са запазени в Git history.

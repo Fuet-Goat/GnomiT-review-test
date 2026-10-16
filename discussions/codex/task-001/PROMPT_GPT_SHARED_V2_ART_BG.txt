@@ -5,19 +5,19 @@ GPT — GNOMIT SHARED-V2 — ЕТАП A: ART OWNER
 Прочети общата цел:
 https://github.com/Fuet-Goat/GnomiT-review-test/blob/codex/codex/task-001/discussions/codex/task-001/SHARED_ART_ANIMATION_BRIEF_V2_BG.txt
 Обща концепция:
-https://raw.githubusercontent.com/Fuet-Goat/GnomiT-review-test/ecf9b6672fc2c005f4ad02768cfca20356d2f0f0/sandbox/gpt/task-002/outputs/shared-v2/00_SHARED_TARGET_CONCEPT.png
+https://raw.githubusercontent.com/Fuet-Goat/GnomiT-review-test/c8cd4ddd1c1abb2fc8309d66e99ddc982766ab45/sandbox/gpt/task-002/outputs/shared-v2/references/00_SHARED_TARGET_CONCEPT.png
 
 Човешката посока е GPT арт + Grok анимации върху същия master. Провери tasks/gpt/task-002.json от main (APPROVED). Работи на codex/gpt/task-002, само в собствените одобрени shared-v2 подпапки и REPORT. Старите V1 файлове остават.
 
 Използвай GPT V1 от e30bdf7f4542760b151074f599d8e275273b11c7 и оригиналния CURRENT_START/descending_world_v2.png от 5add419dfc7fd73bd6d9ee837b2ba620ee5e8b81. Общата нова картинка е художествена референция: нейният генериран фон не е новият production background.
 
 Направи един ограничен корекционен арт пакет:
-- art/shared-v2/hero_master.png: чист true-alpha 512x512, същият приятелски герой, без клин/ореоли около брада, шапка, ръка и фенер; без запечена сянка.
-- art/shared-v2/contact_shadow.png: отделна сянка.
-- art/shared-v2/asset_metadata.json: измерени canvas/bounds/височина/foot anchor, lantern_hand и hashes. Начална нормализация: 440px видима височина, anchor [256,467].
-- outputs/shared-v2/01_SCENE_CONCEPT.png: 432x960, само герой/сянка променени спрямо CURRENT_START. За детерминирания композит използвай кодово alpha-compositing, без прерисуване на света.
-- outputs/shared-v2/02_HERO_DETAIL.png: до 1024x1024.
-- outputs/shared-v2/ART_HANDOFF.json: READY_FOR_ANIMATION след реален remote readback.
+- art/shared-v2/characters/hero/hero_master.png: чист true-alpha 512x512, същият приятелски герой, без клин/ореоли около брада, шапка, ръка и фенер; без запечена сянка.
+- art/shared-v2/characters/hero/contact_shadow.png: отделна сянка.
+- art/shared-v2/characters/hero/asset_metadata.json: измерени canvas/bounds/височина/foot anchor, lantern_hand и hashes. Начална нормализация: 440px видима височина, anchor [256,467].
+- outputs/shared-v2/previews/01_SCENE_CONCEPT.png: 432x960, само герой/сянка променени спрямо CURRENT_START. За детерминирания композит използвай кодово alpha-compositing, без прерисуване на света.
+- outputs/shared-v2/previews/02_HERO_DETAIL.png: до 1024x1024.
+- outputs/shared-v2/handoffs/ART_HANDOFF.json: READY_FOR_ANIMATION след реален remote readback.
 
 Пази един и същ дизайн на лице, шапка, раница, палто, обувки, фенер и анатомична ръка. Прегледай ръбовете върху светъл/тъмен фон и героя при реалния малък размер. Запиши реални стойности и ограничения. JSON handoff следва общия brief и сочи source commit; върни точния output commit отделно.
 
@@ -26,3 +26,7 @@ https://raw.githubusercontent.com/Fuet-Goat/GnomiT-review-test/ecf9b6672fc2c005f
 Без Godot, game/source/save/audio/grant промени, merge или нови агенти. СПРИ след арт handoff; Grok продължава от твоя master.
 
 Модел: GPT-6.1 Sol. Effort: High. Инструмент за изображения: запиши действително използвания.
+
+ОБЩ ПРОЕКТЕН ВХОД И ЕДИНЕН ПРОМПТ
+https://github.com/Fuet-Goat/GnomiT-review-test/blob/codex/codex/task-001/discussions/codex/task-001/PROJECT_HUB/START_HERE.txt
+Пътищата за shared-v2 вече са структурирани по characters/hero, animations/hero, previews и handoffs. Чети актуалния PROJECT_HUB/FOLDER_MAP.txt и TASK_QUEUE.txt; старите pinned handoff/asset commits остават история, не се изтриват.
