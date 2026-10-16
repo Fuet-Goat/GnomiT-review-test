@@ -1,0 +1,25 @@
+GROK — GNOMIT SHARED-V2 — ЕТАП B: ANIMATION OWNER
+
+Работим по ЕДИН общ проект с GPT. GPT прави каноничния арт; ти добавяш движение на СЪЩИЯ герой. Не създавай отделно лице/свят или нов конкуриращ вариант.
+
+Общ brief:
+https://github.com/Fuet-Goat/GnomiT-review-test/blob/codex/codex/task-001/discussions/codex/task-001/SHARED_ART_ANIMATION_BRIEF_V2_BG.txt
+Обща концепция:
+https://raw.githubusercontent.com/Fuet-Goat/GnomiT-review-test/ecf9b6672fc2c005f4ad02768cfca20356d2f0f0/sandbox/gpt/task-002/outputs/shared-v2/00_SHARED_TARGET_CONCEPT.png
+
+Провери tasks/grok/task-002.json от main (APPROVED). Собствен клон codex/grok/task-002, само собствени art/shared-v2/, outputs/shared-v2/ и REPORT.
+
+Първо намери GPT outputs/shared-v2/ART_HANDOFF.json на codex/gpt/task-002. Запиши точния GPT commit и провери хешовете/байтовете на hero_master, contact_shadow и metadata. Чети чуждите файлове, но не ги редактирай. Ако handoff липсва, отчети WAITING_FOR_GPT_ART_HANDOFF веднъж и изчакай без ново генериране или дублиращи commits.
+
+След истинския handoff:
+1. Запази лице, пропорции, шапка, палто, раница, обувки и същия фенер в същата анатомична ръка.
+2. Направи art/shared-v2/walk_sheet.png — 1536x1024, 3x2 клетки по 512x512: 3 front/three-quarter + 3 rear/three-quarter кадъра. Contact/passing/opposite-contact, ясна опора; задната посока е действителна, не огледален десен кадър.
+3. Изравни мащаба с GPT master. Старият дефект 440px idle срещу 365px walk не бива да се пренася. Запиши реалната foot anchor и опорния крак на всяка клетка. Пази чисти alpha ръбове и отделна сянка.
+4. Направи outputs/shared-v2/walk_preview.gif или .webm — 3–5s ART PREVIEW, напред/назад + кратко idle, без смаляващ скок или плъзгащи се стъпала. Кодово сглобяване от реалните кадри е допустимо. Това не е Godot runtime.
+5. Предай art/shared-v2/animation_metadata.json и outputs/shared-v2/ANIMATION_HANDOFF.json по общия brief с точния source GPT commit/hash и действителни output hashes/проверки.
+
+Публикувай в съществуващия PR #6 и повторно прочети файловете от remote commit. Добави собствения принос и конкретни ограничения към REPORT, запазвайки историята. Използвай git при реален мрежов достъп. Ако инструментите не могат да произведат посоките/да предадат байтовете, посочи действителната липса; не подменяй с неподходящ sprite или фиктивен PASS.
+
+Без game/source/Godot/save/audio/grant промени, merge или допълнителни агенти. СПРИ след анимационния handoff; Codex прави една обща проверка, човекът избира.
+
+Режим: Build. Запиши действителния Grok модел/режим и инструментите. Не използвай GPT име като твоя модел. За последващата Codex рецензия: GPT-6.1 Sol / High.

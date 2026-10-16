@@ -237,3 +237,20 @@ NO GAME CHANGES
 No game/source/import/save/sound edits, Godot execution, Android/human tests, new image generation, changes to received bytes, automatic bot messaging or merge. Codex independently publishes its own review in its authorized report branch. GPT's existing report/metadata remain historical original submissions; their binary-upload-pending wording predates the new asset commit.
 
 Recommended model/effort: GPT-6.1 Sol / High for the one bounded art correction and review. Medium is sufficient for the completed file publication/hash check. These are recommendations, not actual model-setting attestations.
+
+
+SHARED GPT ART + GROK ANIMATION DIRECTION V2 — 2026-10-16
+
+Direct human steering: "2 + ediniq da dopulva drugiq po tvoq nasoka i znanie toest ,da rabotqt po 1 proekt" and "da ako trqbva edeniq animaciq drugiq art". This authorizes one shared concept and division of art/animation work, replacing competing variants with a sequential common-asset workflow. Existing folder/grant boundaries remain.
+
+Created one built-in image_gen concept using the actual GPT scene and idle, Grok material reference, and the user-preferred illustrated map. Selected output: 840x1871, 2264565 bytes, SHA-256 4c46fd0a20f13d5bfa23d8ce20ebaf12f1abe96b32e5c2808512513f4868e09f. Original generated file preserved. Copied into workspace and published unmodified as sandbox/gpt/task-002/outputs/shared-v2/00_SHARED_TARGET_CONCEPT.png at ecf9b6672fc2c005f4ad02768cfca20356d2f0f0 on GPT's approved art-output branch. Remote bytes/hash verified. The generated scene is an art direction guide, NOT the exact immutable source background, a production sprite, animation or runtime. Production remains on original descending_world_v2.png/CURRENT_START at432x960.
+
+Added shared brief, separate Stage A GPT art and Stage B Grok animation prompts, and the exact imagegen prompt to Codex's own text-report directory. Packaged exact reference inputs with hashes.
+
+Roles: GPT cleans/locks one master character, true alpha, separate shadow and metadata; Grok consumes that exact published master commit to add three front and three rear poses plus an honest asset preview; Codex checks combined identity, scale, feet, alpha and actual remote file delivery once. GPT works first, Grok follows a real ART_HANDOFF. One shared project, separate author/version folders; no simultaneous edits of one asset. Human chooses at the end; unanimous model voting and repeated concept loops are not required.
+
+Current known defects addressed by the brief: tan background remnants/white fringes, visible height440px idle vs365px walk, missing rear direction. Stage A/B outputs have NOT been produced or verified by this preparation. Existing APPROVED task-002 grants still restrict both bots to art/materials; no game/Godot/source/save/audio/private-project edits, merges, grant changes or extra-agent authority inferred.
+
+No external bot was messaged automatically. No new Godot run or human/Android usability test. The user receives one concept, an ordered GPT prompt then Grok prompt, and one ZIP with exact references.
+
+Recommended models/modes: GPT art and Codex visual review — GPT-6.1 Sol / High; Grok animation — user-selected Build, with its actual model/mode/capabilities recorded; transfer/hash-only operations — Medium. These are task recommendations, not proof of general mode superiority or observed execution settings.
