@@ -1,3 +1,7 @@
+CURRENT USER FEEDBACK APPLIED — RECIPROCAL SMOOTH SWAP — 2026-10-17
+Local Frankenstein now moves BOTH stones reciprocally during the one-cell drag and continues both positions/scales into a smooth settling tween. Partial cancellation returns both; initial axis stays fixed through the gesture. Core unchanged. Focused39+board42+firstscene72 pass;rendered native-input scenario PASS with8screenshots. Human can try PLAY_STONES on monitor1. No human/phone acceptance yet.
+Record:builds/PAIRED_SWAP_UPDATE_2026-10-17.txt and own literal patch PAIRED_SWAP_REVIEW_PATCH_2026-10-17.txt. Native implementation remains local. Art frozen,no grant change/merge. Recommended GPT-6.1 Sol / High;Medium for publishing only.
+
 CURRENT HUMAN FEEDBACK APPLIED — ONE-CELL STONE DRAG — 2026-10-17
 The local Frankenstein now constrains a held stone to one orthogonal cell. Long drags can only request its immediate neighbor. Invalid attempts return; Core rules unchanged. Focused29+board42+first-scene72checks pass; rendered native input PASS. Human can try the reopened PLAY_STONES level on monitor1. No human/Android acceptance claimed.
 Record:builds/ONE_CELL_DRAG_UPDATE_2026-10-17.txt; literal own text patch:builds/ONE_CELL_DRAG_REVIEW_PATCH_2026-10-17.txt. Native game-source integration remains local only. Art frozen, no new grants or merge.

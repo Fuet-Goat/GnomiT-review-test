@@ -1,0 +1,28 @@
+GNOMIT — RECIPROCAL SMOOTH STONE SWAP — 2026-10-17
+Human request: better animation; the other stone must move into the vacated position during swapping.
+Scope: same authorized separate LOCAL Frankenstein playtest. Governed Git receives only own text reports and literal review proposals. No private/baseline/native game-source/grant changes or merge.
+
+RESULT
+Both stones now move reciprocally while dragging: the held stone moves toward its immediate orthogonal neighbor and that neighbor moves toward its source. Counterpart preview begins before the half-cell release threshold; it does not jump into existence at50%. Both static images are hidden and the grabbed sprite is drawn above the other.
+On release, the first existing Core swap animation consumes both live positions and the grabbed1.08 scale. Both then settle on a shared0.22s cubic ease-in-out tween. The held stone gently returns to normal size. Click-click swaps use the same reciprocal tween.
+Shorter-than-half-cell releases return both displaced stones together over0.12s with ease-out. Invalid combinations retain the existing forward/backward Core event stream; the drag handoff is consumed only by the first swap event. No extra move is spent on invalid attempts.
+Initial drag axis now stays fixed until release, preventing a diagonal pointer turn from abruptly selecting another pair. Direction may reverse along that axis through home. One-cell limit, owned touch, pause/focus/setup cancellation and reduced-motion behavior remain. Current Core, goals, levels, save, map, art and sound retained. No new assets generated.
+
+VERIFICATION
+Focused regression:RED7 intended behavior failures before implementation; GREEN39checks,0failures. It verifies live reciprocal movement, both-position release handoff, smooth scale settling, paired partial return, no axis switching, and existing one-cell/mouse/touch/cancellation contracts.
+Existing board tests:42checks,0failures. Existing first-scene tests:72checks,0failures. Logs under verification/paired_swap_GREEN.txt,board_after_paired_swap.txt,first_scene_after_paired_swap.txt.
+Rendered Godot scenario:PASS,failures[],screen0/monitor1,432x960 window. Eight screenshots show quarter/three-quarter/full reciprocal preview, paired partial return, invalid return, release settling and final real cascade. Both release start positions match held positions. Moves26 while dragging/partial/invalid; valid release25; final grid equals Core. Evidence:verification/paired_swap_runtime/REPORT.json and PNGs;paired_swap_runtime_console.txt. This is scripted input, not human/Android acceptance.
+Viewed the three-quarter runtime screenshot to inspect the actual drawing; no duplicated stationary counterpart. A helper performed only a read-only local code review (no tests,edits or governed repository access) and reported no blocker in pairing,handoff,invalid second swap,cancellation and drawing order. This is not independent human visual acceptance.
+Core file independently byte-compared to baseline5add419 and unchanged. All3 source art hashes rechecked against INPUTS.json and unchanged.
+
+TRY
+C:/Users/fruch/Documents/Codex/GnomiT_Playtests/Frankenstein_2026-10-17/PLAY_STONES.cmd
+Drag slowly toward an occupied neighbor: both treasures exchange places together. Release before halfway to return both, or complete a matching swap. Current game is opened on monitor1 for the human.
+Predecessor source preserved in verification/before_paired_swap/. Literal source-delta proposal:PAIRED_SWAP_REVIEW_PATCH_2026-10-17.txt. Previous report head:ba2b0ebd8390c06fc104172e7636e98c75f713e4. This update supersedes the previous per-frame dominant-axis behavior with a per-gesture fixed axis.
+Art remains frozen; no new GPT/Grok art task,automatic external message,grant update or merge.
+Recommended model/effort:GPT-6.1 Sol / High for input/animation implementation and review;Medium for publication only. Recommendation,not attested runtime model.
+
+FINAL LOCAL SOURCE HASHES
+scripts/board_view.gd | 33190 bytes | SHA-256 b5d954e27a45ba09b8038fb68886c52c9870b5e4db749f56482ed638d754830e
+tests/test_stone_drag.gd | 7890 bytes | SHA-256 1b077da2bd69273ba182fbbc748c41db5a4578d079cd4f0a5fae100f07e6aa88
+tests/capture_paired_swap.gd | 7172 bytes | SHA-256 2c40295734365881b190e1557379fb700021cc330d8901a21840cdb522015a00

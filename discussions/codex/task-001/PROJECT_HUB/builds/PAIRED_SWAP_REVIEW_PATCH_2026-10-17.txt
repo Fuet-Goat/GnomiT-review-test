@@ -1,0 +1,337 @@
+TEXT REVIEW PROPOSAL ONLY — LOCAL PLAYTEST SOURCE DELTA
+No native governed game-source files changed in Git. Apply only under a separately approved implementation task.
+
+--- before-paired-swap/scripts/board_view.gd
++++ local-playtest/scripts/board_view.gd
+@@ -34,6 +34,7 @@
+ var _pointer_position := Vector2.ZERO
+ var _pointer_owner := -2 # -2 none, -1 mouse, >=0 owning touch.
+ var _dragging := false
++var _drag_axis := Vector2.ZERO
+ var _maximum_drag_distance := 0.0
+ var _drop_preview: Dictionary = {}
+ var _return_piece: Dictionary = {}
+@@ -173,6 +174,7 @@
+ 	_pointer_position = point
+ 	_maximum_drag_distance = 0.0
+ 	_dragging = false
++	_drag_axis = Vector2.ZERO
+ 	_drop_preview.clear()
+ 	_hint.clear()
+ 	if _pressed < 0: _selected = -1
+@@ -184,19 +186,20 @@
+ 		_maximum_drag_distance = maxf(_maximum_drag_distance, point.distance_to(_press_position))
+ 		if _maximum_drag_distance >= maxf(3.0, _cell_size() * 0.10):
+ 			_dragging = true
++			if _drag_axis == Vector2.ZERO:
++				var delta := point - _press_position
++				_drag_axis = Vector2.RIGHT if absf(delta.x) >= absf(delta.y) else Vector2.DOWN
+ 			_selected = -1
+ 	queue_redraw()
+ 
+ func _drag_offset() -> Vector2:
+-	# A held stone stays on the dominant axis, at most one cell from home.
++	# One axis is chosen at grab start; neither stone can roam across the board.
+ 	var delta := _pointer_position - _press_position
+ 	var step := _cell_size()
+-	if absf(delta.x) >= absf(delta.y):
+-		return Vector2(clampf(delta.x, -step, step), 0.0)
+-	return Vector2(0.0, clampf(delta.y, -step, step))
+-
+-func _drag_target(origin: int, offset: Vector2) -> int:
+-	if maxf(absf(offset.x), absf(offset.y)) < _cell_size() * 0.5:
++	return _drag_axis * clampf(delta.dot(_drag_axis), -step, step)
++
++func _drag_neighbor(origin: int, offset: Vector2) -> int:
++	if offset == Vector2.ZERO:
+ 		return -1
+ 	var target: int = origin
+ 	if offset.x != 0.0:
+@@ -205,6 +208,11 @@
+ 		target += _cols if offset.y > 0.0 else -_cols
+ 	return target if _is_gem(target) and _neighbors(origin, target) else -1
+ 
++func _drag_target(origin: int, offset: Vector2) -> int:
++	if maxf(absf(offset.x), absf(offset.y)) < _cell_size() * 0.5:
++		return -1
++	return _drag_neighbor(origin, offset)
++
+ func _drag_visual() -> Dictionary:
+ 	if _dragging and _is_gem(_pressed):
+ 		return {"index": _pressed, "position": _center(_pressed) + _drag_offset(), "scale": 1.08}
+@@ -213,20 +221,34 @@
+ 		return {"index": index, "position": Vector2(_return_piece.position).lerp(_center(index), _return_t), "scale": lerpf(1.08, 1.0, _return_t)}
+ 	return {}
+ 
++func _drag_partner_visual() -> Dictionary:
++	if _dragging and _is_gem(_pressed):
++		var offset := _drag_offset()
++		var neighbor := _drag_neighbor(_pressed, offset)
++		if neighbor >= 0:
++			return {"index": neighbor, "position": _center(neighbor) - offset, "scale": 1.0}
++	elif not _return_piece.is_empty() and _return_piece.has("partner"):
++		var partner: Dictionary = _return_piece.partner
++		var index: int = partner.index
++		return {"index": index, "position": Vector2(partner.position).lerp(_center(index), _return_t), "scale": 1.0}
++	return {}
++
+ func cancel_pointer() -> void:
+ 	if is_instance_valid(_return_tween): _return_tween.kill()
+ 	_pointer_owner = -2
+ 	_pressed = -1
+ 	_selected = -1
+ 	_dragging = false
++	_drag_axis = Vector2.ZERO
+ 	_maximum_drag_distance = 0.0
+ 	_drop_preview.clear()
+ 	_return_piece.clear()
+ 	queue_redraw()
+ 
+-func _return_drag(index: int, position: Vector2) -> void:
++func _return_drag(index: int, position: Vector2, partner: Dictionary = {}) -> void:
+ 	if reduced_motion: return
+ 	_return_piece = {"index": index, "position": position}
++	if not partner.is_empty(): _return_piece["partner"] = partner.duplicate()
+ 	_return_t = 0.0
+ 	_return_tween = create_tween()
+ 	_return_tween.tween_property(self, "_return_t", 1.0, 0.12).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+@@ -237,6 +259,7 @@
+ 	var origin: int = _pressed
+ 	var index: int = _cell_at(point)
+ 	var was_dragging: bool = _dragging
++	var partner := _drag_partner_visual()
+ 	var offset := _drag_offset()
+ 	var held_position: Vector2 = _center(origin) + offset if origin >= 0 else point
+ 	if was_dragging and origin >= 0: index = _drag_target(origin, offset)
+@@ -248,10 +271,10 @@
+ 	elif was_dragging:
+ 		_selected = -1
+ 		if index >= 0 and _neighbors(origin, index):
+-			_drop_preview = {"from": origin, "to": index, "position": held_position}
++			_drop_preview = {"from": origin, "to": index, "position": held_position, "partner": partner}
+ 			_request_swap(origin, index)
+ 		else:
+-			_return_drag(origin, held_position)
++			_return_drag(origin, held_position, partner)
+ 	elif index < 0:
+ 		_selected = -1
+ 	elif _selected == index:
+@@ -388,14 +411,18 @@
+ 	_moving = [{"from": a, "to": b, "kind": int(_display_grid[a])}, {"from": b, "to": a, "kind": int(_display_grid[b])}]
+ 	if not _drop_preview.is_empty() and int(_drop_preview.from) == a and int(_drop_preview.to) == b:
+ 		_moving[0]["start_position"] = Vector2(_drop_preview.position)
++		_moving[0]["start_scale"] = 1.08
++		var partner: Dictionary = _drop_preview.get("partner", {})
++		if not partner.is_empty() and int(partner.index) == b:
++			_moving[1]["start_position"] = Vector2(partner.position)
+ 		_drop_preview.clear()
+ 	_hidden = {a: true, b: true}
+ 	_motion_t = 0.0
+ 	_falling = false
+ 	_tween = create_tween()
+-	_tween.tween_property(self, "_motion_t", 1.0, 0.18).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+-	queue_redraw()
+-	await _wait(0.19)
++	_tween.tween_property(self, "_motion_t", 1.0, 0.22).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
++	queue_redraw()
++	await _wait(0.23)
+ 	if epoch == _epoch:
+ 		_motion_t = 1.0
+ 		_moving.clear()
+@@ -519,13 +546,15 @@
+ 	var step := _cell_size()
+ 	var dragged: Dictionary = _drag_visual()
+ 	var lifted_index: int = int(dragged.get("index", -1))
++	var partner: Dictionary = _drag_partner_visual()
++	var partner_index: int = int(partner.get("index", -1))
+ 	for index in range(_display_grid.size()):
+ 		if int(_display_grid[index]) == HOLE:
+ 			continue
+ 		_draw_cell(index, step)
+ 	for index in range(_display_grid.size()):
+ 		var kind := int(_display_grid[index])
+-		if kind >= 0 and not _hidden.has(index) and index != lifted_index:
++		if kind >= 0 and not _hidden.has(index) and index != lifted_index and index != partner_index:
+ 			var shrink := 1.0
+ 			var alpha := 1.0
+ 			if _clearing.has(index):
+@@ -539,7 +568,9 @@
+ 			_draw_gem(gem_center, kind, step * 0.36 * shrink, alpha)
+ 		elif kind == RUNE:
+ 			_draw_rune(_center(index), step, index)
+-	for motion in _moving:
++	var motion_draw_order := _moving.duplicate()
++	if not _falling: motion_draw_order.reverse() # Keep the grabbed stone above its partner.
++	for motion in motion_draw_order:
+ 		var target := int(motion["to"])
+ 		var end := _center(target)
+ 		var start := _center(int(motion["from"])) if int(motion["from"]) >= 0 else Vector2(end.x, _board_rect().position.y + (float(motion.get("spawn_row", -1.0)) + 0.5) * step)
+@@ -551,7 +582,8 @@
+ 		if polished_art and _falling:
+ 			if _motion_t<0.999:squish=Vector2(0.95,1.06)
+ 			else:squish=Vector2(1.0+sin(_landing_t*TAU)*0.10,1.0-sin(_landing_t*TAU)*0.11)
+-		_draw_gem(point, int(motion["kind"]), step * 0.36, 1.0,squish)
++		var settling_scale := lerpf(float(motion.get("start_scale", 1.0)), 1.0, _motion_t)
++		_draw_gem(point, int(motion["kind"]), step * 0.36 * settling_scale, 1.0,squish)
+ 	for index in _clearing:
+ 		var color: Color = GEM_COLORS[int(_display_grid[index]) % 6] if _is_gem(int(index)) else Color("fce7ba")
+ 		color.a = 1.0 - _effect_t
+@@ -586,6 +618,8 @@
+ 			draw_colored_polygon(PackedVector2Array([p+Vector2(-r,-r*0.6),p+Vector2(r*0.7,-r),p+Vector2(r,r*0.6),p+Vector2(-r*0.7,r)]),color)
+ 		else:_draw_sparkle(Vector2(particle["position"]), float(particle["size"]), color)
+ 
++	if not partner.is_empty():
++		_draw_gem(Vector2(partner.position), int(_display_grid[partner_index]), step * 0.36, 1.0)
+ 	if not dragged.is_empty():
+ 		var lifted_center: Vector2 = dragged.position
+ 		var lifted_kind: int = int(_display_grid[lifted_index])
+--- before-paired-swap/tests/test_stone_drag.gd
++++ local-playtest/tests/test_stone_drag.gd
+@@ -15,6 +15,7 @@
+  checks+=1
+  if not ok:failures.append(message);print("FAIL: "+message)
+ func visual(v) -> Dictionary:return v._drag_visual() if v.has_method("_drag_visual") else {}
++func partner(v) -> Dictionary:return v._drag_partner_visual() if v.has_method("_drag_partner_visual") else {}
+ func mouse(v,point:Vector2,down:bool) -> void:
+  var e=InputEventMouseButton.new();e.button_index=MOUSE_BUTTON_LEFT;e.pressed=down;e.position=point;v._gui_input(e)
+ func move(v,point:Vector2) -> void:
+@@ -32,12 +33,20 @@
+  mouse(v,a,true);move(v,a+Vector2(25,4));var state=visual(v)
+  check(not state.is_empty(),"Held gem becomes a lifted drag visual")
+  if not state.is_empty():check(state.index==0 and Vector2(state.position).distance_to(a+Vector2(25,0))<0.01,"Gem follows only the dominant orthogonal axis")
++ var mate=partner(v)
++ check(not mate.is_empty(),"The adjacent stone participates while the first is held")
++ if not mate.is_empty():check(mate.index==1 and Vector2(mate.position).distance_to(b-Vector2(25,0))<0.01,"Partner moves reciprocally toward the vacated cell")
+  check(core.grid==original and emitted.is_empty(),"Holding/dragging spends no move or board mutation")
+- move(v,b);mouse(v,b,false);check(emitted==[[0,1]],"Release over orthogonal neighbor emits one swap")
++ move(v,b);mate=partner(v)
++ check(not mate.is_empty() and Vector2(mate.position).distance_to(a)<0.01,"Full drag has already brought the partner to the source cell")
++ mouse(v,b,false);check(emitted==[[0,1]],"Release over orthogonal neighbor emits one swap")
+  var middle=original.duplicate();middle[0]=original[1];middle[1]=original[0];core.grid=middle
+  v.animate_result({"valid":true,"events":[{"type":"swap","a":0,"b":1,"before":original,"after":middle,"floor":core.floor,"runes":core.runes}]})
+  check(not v._moving.is_empty() and v._moving[0].has("start_position"),"Swap animation continues from the held gem position")
+  if not v._moving.is_empty() and v._moving[0].has("start_position"):check(Vector2(v._moving[0].start_position).distance_to(b)<0.01,"Drop does not snap back to the source before the swap")
++ check(v._moving.size()==2 and v._moving[1].has("start_position"),"Release preserves both live positions")
++ if v._moving.size()==2 and v._moving[1].has("start_position"):check(Vector2(v._moving[1].start_position).distance_to(a)<0.01,"Partner never snaps back to its previous cell at release")
++ check(not v._moving.is_empty() and is_equal_approx(float(v._moving[0].get("start_scale",1.0)),1.08),"Lifted stone settles its scale smoothly after release")
+  await create_timer(0.5).timeout;check(not v.busy and v._display_grid==core.grid,"Drop animation finishes on authoritative Core snapshot")
+  for invalid_pair in [[1, v._center(2)], [0, Vector2(-40,a.y)], [0, Vector2(a.x,-40)]]:
+   v.setup(core);emitted.clear();var source:Vector2=v._center(invalid_pair[0]);var destination:Vector2=invalid_pair[1]
+@@ -54,7 +63,13 @@
+   check(emitted==[[source_index,int(gesture[1])]],"Long gesture requests only the immediate neighbor")
+  v.setup(core);emitted.clear();mouse(v,a,true);move(v,a+Vector2(step*0.3,step*0.1));mouse(v,a+Vector2(step*0.3,step*0.1),false)
+  check(emitted.is_empty(),"Sub-half-cell release returns without swapping")
++ mate=partner(v)
++ check(not mate.is_empty() and Vector2(mate.position).distance_to(b-Vector2(step*0.3,0))<0.01,"Partial release returns the displaced partner from its current position")
++ await create_timer(0.07).timeout
++ mate=partner(v)
++ check(not mate.is_empty() and Vector2(mate.position).x>b.x-step*0.3 and Vector2(mate.position).x<b.x,"Partner moves continuously toward home during cancellation")
+  await create_timer(0.18).timeout
++ check(partner(v).is_empty() and visual(v).is_empty(),"Both return visuals finish together")
+  v.setup(core);emitted.clear();touch(v,a,true,3);drag_touch(v,a+Vector2(step*6,step),3)
+  state=visual(v);check(not state.is_empty() and Vector2(state.position).distance_to(b)<0.01,"Touch is constrained to the same one-cell axis")
+  touch(v,a+Vector2(step*6,step),false,3);check(emitted==[[0,1]],"Long touch also swaps only its immediate neighbor")
+@@ -62,12 +77,16 @@
+  check(emitted.is_empty() and v._selected==-1,"Drag out and back is not reclassified as a click")
+  v.setup(core);mouse(v,a,true);move(v,b)
+  v.notification(Node.NOTIFICATION_WM_WINDOW_FOCUS_OUT)
+- check(visual(v).is_empty() and v._pressed==-1,"Losing window focus cancels a held gem")
++ check(visual(v).is_empty() and partner(v).is_empty() and v._pressed==-1,"Losing window focus cancels both held visuals")
+  v.setup(core);emitted.clear();touch(v,a,true,7);touch(v,b,true,8);drag_touch(v,b,8);touch(v,b,false,8)
+  check(emitted.is_empty(),"A second finger cannot drop the first finger's stone")
+  drag_touch(v,b,7);touch(v,b,false,7);check(emitted==[[0,1]],"Owning touch still completes exactly one swap")
++ v.setup(core);emitted.clear();mouse(v,a,true);move(v,a+Vector2(step*0.3,0));move(v,a+Vector2(step*0.3,step*2))
++ state=visual(v);mate=partner(v)
++ check(not state.is_empty() and Vector2(state.position).distance_to(a+Vector2(step*0.3,0))<0.01 and not mate.is_empty() and int(mate.index)==1,"A diagonal cursor turn cannot switch the held pair mid-gesture")
++ mouse(v,a+Vector2(step*0.3,step*2),false);await create_timer(0.18).timeout
+  v.setup(core);mouse(v,a,true);move(v,b);v.setup(core)
+- check(visual(v).is_empty() and v._pressed==-1,"New level/setup cannot retain a held sprite")
++ check(visual(v).is_empty() and partner(v).is_empty() and v._pressed==-1,"New level/setup cannot retain either held sprite")
+  var receipt={"status":"PASS" if failures.is_empty() else "FAIL","checks":checks,"failures":failures,"scope":"board pointer presentation only; no human/phone claim"}
+  var f=FileAccess.open("res://verification/stone_drag_checks.json",FileAccess.WRITE);f.store_string(JSON.stringify(receipt,"  "));f.close()
+  print("STONE_DRAG "+JSON.stringify(receipt));v.queue_free();await process_frame;quit(0 if failures.is_empty() else 1)
+--- /dev/null
++++ local-playtest/tests/capture_paired_swap.gd
+@@ -0,0 +1,82 @@
++extends SceneTree
++var app
++var failures:Array[String]=[]
++var observations:Array=[]
++var output:String
++func check(ok:bool,message:String) -> void:
++ if not ok:failures.append(message);push_error(message)
++func settle() -> void: await process_frame;await process_frame
++func mouse(point:Vector2,down:bool) -> void:
++ var e=InputEventMouseButton.new();e.position=root.get_final_transform()*point;e.global_position=e.position;e.button_index=MOUSE_BUTTON_LEFT;e.pressed=down;e.button_mask=MOUSE_BUTTON_MASK_LEFT if down else 0;Input.parse_input_event(e)
++func motion(point:Vector2,held:bool) -> void:
++ var e=InputEventMouseMotion.new();e.position=root.get_final_transform()*point;e.global_position=e.position;e.button_mask=MOUSE_BUTTON_MASK_LEFT if held else 0;Input.parse_input_event(e)
++func shot(name:String) -> void:
++ await RenderingServer.frame_post_draw
++ root.get_texture().get_image().save_png(output+"/"+name+".png")
++ observations.append({"frame":name,"moves":app.core.moves_left,"drag":app.board._drag_visual(),"partner":app.board._drag_partner_visual()})
++func _initialize() -> void: call_deferred("run")
++func run() -> void:
++ output=ProjectSettings.globalize_path("res://verification/paired_swap_runtime");DirAccess.make_dir_recursive_absolute(output)
++ root.size=Vector2i(432,960);app=load("res://scripts/main.gd").new();app.save_path_override="res://verification/paired_swap_runtime_progress.json";root.add_child(app);app.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
++ await settle();app.start_level("entry");await settle();app.core.setup(app.current_level,42);app.board.setup(app.core,false);app._update_hud();await settle()
++ var board=app.board;var pair:Array=app.core.hint_move();check(pair.size()==2,"Playable level has legal move")
++ if pair.size()!=2:quit(2);return
++ var from:Vector2=board.get_global_transform()*board._center(pair[0]);var to:Vector2=board.get_global_transform()*board._center(pair[1]);var initial_moves:int=app.core.moves_left;var initial_grid:Array=app.core.grid.duplicate()
++ var long_to:Vector2=from+(to-from)*5.0+(to-from).orthogonal()*0.2
++ await shot("01_BOARD")
++ motion(from,false);mouse(from,true);await settle();motion(from.lerp(to,0.25),true);await settle()
++ await shot("02_QUARTER_SWAP")
++ motion(from.lerp(to,0.75),true);await settle()
++ await shot("03_THREE_QUARTER_SWAP")
++ motion(long_to,true);await settle()
++ check(not board._drag_visual().is_empty(),"Native mouse movement lifts a stone")
++ check(Vector2(board._drag_visual().get("position",Vector2.ZERO)).distance_to(board._center(pair[1]))<0.01,"Long native drag stops at exactly one orthogonal neighbor")
++ check(app.core.grid==initial_grid and app.core.moves_left==initial_moves,"Holding doesn't modify the game")
++ check(Vector2(board._drag_partner_visual().get("position",Vector2.ZERO)).distance_to(board._center(pair[0]))<0.01,"Counterpart reaches the vacated source while dragging")
++ await shot("04_FULL_SWAP_PREVIEW")
++ app.show_pause();check(board._drag_visual().is_empty() and board._drag_partner_visual().is_empty(),"Pause cancels both held stones");app._close_modal();mouse(to,false);await settle()
++ check(app.core.moves_left==initial_moves,"Release after pause cannot create a phantom move")
++ motion(from,false);mouse(from,true);await settle();motion(from.lerp(to,0.3),true);await settle();mouse(from.lerp(to,0.3),false);await settle()
++ check(not board._drag_visual().is_empty() and not board._drag_partner_visual().is_empty(),"Partial release returns both stones together")
++ await shot("05_PAIRED_RETURN")
++ await create_timer(0.22).timeout
++ check(board._drag_visual().is_empty() and board._drag_partner_visual().is_empty() and app.core.moves_left==initial_moves,"Partial paired return completes without spending a move")
++ var blocked_index:=-1
++ for i in range(app.core.grid.size()):
++  if app.core.grid[i]>=0 and board._cell_at(board._center(i)-Vector2(board._cell_size(),0))<0:blocked_index=i;break
++ check(blocked_index>=0,"Real board has a left edge or hole for a blocked drag")
++ if blocked_index>=0:
++  var blocked_from:Vector2=board.get_global_transform()*board._center(blocked_index);var blocked_to:Vector2=blocked_from-Vector2(board._cell_size()*3.0,0)
++  motion(blocked_from,false);mouse(blocked_from,true);motion(blocked_to,true);mouse(blocked_to,false);await create_timer(0.2).timeout
++  check(board._drag_visual().is_empty() and app.core.moves_left==initial_moves,"Blocked long drag returns stone without spending a move")
++ var invalid:Array=[]
++ for i in range(app.core.grid.size()):
++  if app.core.grid[i]<0:continue
++  for j in [i+1,i+app.core.cols]:
++   if j>=app.core.grid.size() or app.core.grid[j]<0 or not board._neighbors(i,j):continue
++   var probe=load("res://scripts/match_core.gd").new();probe.setup(app.current_level,42)
++   var result:Dictionary=probe.try_swap(i,j)
++   if not result.valid:invalid=[i,j];break
++  if not invalid.is_empty():break
++ check(invalid.size()==2,"Real board has a nonmatching adjacent drop")
++ if invalid.size()==2:
++  var bad_from:Vector2=board.get_global_transform()*board._center(invalid[0]);var bad_to:Vector2=board.get_global_transform()*board._center(invalid[1])
++  motion(bad_from,false);mouse(bad_from,true);motion(bad_to,true);mouse(bad_to,false)
++  await settle() # Parsed native events are dispatched on the following frame.
++  var bad_timeout:=Time.get_ticks_msec()+10000
++  while board.busy and Time.get_ticks_msec()<bad_timeout:await process_frame
++  await settle()
++  check(not board.busy and app.core.moves_left==initial_moves and board._display_grid==initial_grid,"Nonmatching adjacent drag returns the board and spends no move")
++  await shot("06_REJECTED_SWAP_RETURNED")
++ motion(from,false);mouse(from,true);await settle();motion(from.lerp(to,0.7),true);await settle()
++ var held_from:Vector2=board._drag_visual().position;var held_partner:Vector2=board._drag_partner_visual().position
++ mouse(from.lerp(to,0.7),false);await settle()
++ check(board._moving.size()==2 and Vector2(board._moving[0].get("start_position",Vector2.ZERO)).distance_to(held_from)<0.01 and Vector2(board._moving[1].get("start_position",Vector2.ZERO)).distance_to(held_partner)<0.01,"Release tween starts from both actual held positions")
++ await shot("07_RELEASE_SETTLING")
++ check(app.core.moves_left==initial_moves-1,"Long native gesture swaps one neighbor and spends exactly one move")
++ var timeout:=Time.get_ticks_msec()+10000
++ while board.busy and Time.get_ticks_msec()<timeout:await process_frame
++ check(not board.busy and board._display_grid==app.core.grid,"Native drop cascade ends on Core snapshot")
++ await shot("08_AFTER_VALID_SWAP")
++ var result={"status":"PASS" if failures.is_empty() else "FAIL","failures":failures,"observations":observations,"proof":"Rendered Godot with scripted native mouse events; not human/Android test","screen":DisplayServer.window_get_current_screen()}
++ var f=FileAccess.open(output+"/REPORT.json",FileAccess.WRITE);f.store_string(JSON.stringify(result,"  "));f.close();print("DRAG_RUNTIME "+JSON.stringify(result));await create_timer(0.5).timeout;app.queue_free();await settle();await settle();quit(0 if failures.is_empty() else 1)
