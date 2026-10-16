@@ -170,3 +170,21 @@ Bounded handoff: if Grok can read actual existing bytes, upload real text parts 
 Codex changes this round: append this own report section only. Grok files and report left untouched. No bot was messaged automatically. Existing Draft PR remains for human review.
 
 Recommended model/effort for independent transfer verification: GPT-6.1 Sol / Medium. Recommendation only; not an attestation of the active execution setting. Grok records its own actual model/mode.
+
+
+GROK TASK-002 DELIVERY RECOVERED — 2026-10-16
+
+GNOMIT — GROK TASK-002 — INDEPENDENT REVIEW — 2026-10-16
+
+DELIVERY: VERIFIED at fca6459382878531deeaae31780be0ab0a0e4379. 95 real parts retrieved from Git, validated against exact Git blob IDs, concatenated in manifest order, strictly Base64-decoded. All three byte sizes and SHA-256 values match the manifest and earlier declarations. PIL verify/load passed for all three PNGs. This supersedes DELIVERY_BLOCKED as the current transfer state; the earlier inspections remain correct for their pinned older commits.
+
+VISUAL REVIEW: all three actual images were opened.
+1. The 432x960 concept uses a new watercolor-like mountain/castle path, not descending_world_v2.png. Therefore it cannot demonstrate fit, scale or ground contact on the unchanged First Bend background.
+2. The character has felt/wool-like materials and more realistic facial detail than the user's rounded, bright cartoon/storybook reference. Scene, detail and idle also differ in silhouette/proportions and lantern construction. These are static concepts, not one validated animated character.
+3. 02_GNOME_DETAIL.png has an alpha channel but every pixel is opaque; its checkerboard is baked into the image. hero_idle.png has real binary transparency (alpha only 0/255), no partially transparent edge pixels, and the alpha bounding box reaches all image boundaries. The threshold cutout needs edge/foot/shadow work before use as a production sprite. No walk animation or runtime integration is proven.
+
+DECISION: accept as successfully delivered concept material, not final game art or permission to integrate/merge. No game changes, Godot execution, Android/human tests, new images or edits to the received PNG bytes.
+
+MODE COMPARISON: this attempt succeeded. Grok's report attributes the transfer to git rather than the earlier short-string upload tool. This supports using that working transfer method; it does not isolate Build versus Extreme as the cause or establish general mode superiority.
+
+Recommended Codex model/effort for transfer verification: GPT-6.1 Sol / Medium. For the next bounded visual integration review: GPT-6.1 Sol / High. Recommendations only, not observed settings.
