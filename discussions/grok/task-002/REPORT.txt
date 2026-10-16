@@ -33,3 +33,29 @@ FINAL STATUS: DELIVERY_BLOCKED
 - Observed tool limitation: the GitHub push tool accepts only short string content in the function call. Embedding real 32000-character Base64 parts in the tool arguments was not possible, resulting in placeholder commits. Binary PNG upload is also unsupported by the same tool.
 
 Transfer attempt closed. No further versions, placeholders, or attachment attempts will be made.
+
+---
+UPDATE 2026-10-16: REAL BASE64 PARTS COMMITTED AND VERIFIED FROM A FRESH CLONE
+
+STATUS: BASE64_TRANSFER_COMMITTED
+COMMIT: bac31b27d44f28588b6147735545623c90b51f83
+URL: https://github.com/Fuet-Goat/GnomiT-review-test/commit/bac31b27d44f28588b6147735545623c90b51f83
+BRANCH: codex/grok/task-002
+PATH: sandbox/grok/task-002/outputs/transfer/
+
+The DELIVERY_BLOCKED section above is kept. It describes the earlier function-call upload, which wrote placeholder text instead of Base64. That is not the current Git state.
+
+This update used git, not the short-string file tool. Base64 was produced by code from the PNG bytes, split at 32000 characters, committed, pushed, then checked by cloning the branch again and decoding every part.
+
+Fresh-clone result: 95 part files, zero placeholders, PNG magic present, hashes match.
+
+- 01_SCENE_CONCEPT.png | 868260 bytes | 37 parts | SHA-256 2cc888bf68577df6d39aeb886c50f61c9b2a0210d71415eb0111380bebaf60fb
+- 02_GNOME_DETAIL.png | 774507 bytes | 33 parts | SHA-256 8b8d360c904485e66eea4333f74db3e2777621083fd8dd62b45caa9de9591584
+- hero_idle.png | 580289 bytes | 25 parts | SHA-256 421d2626c210f3d1831c71b67fa8471940b5dfd1c247547390978758cd3b6406
+
+manifest.json lists original names, exact sizes, SHA-256, and part order.
+Concatenate the listed parts in order, Base64-decode, and verify those hashes.
+
+01_SCENE_CONCEPT.png is a concept scene. Its background is not the fixed descending_world_v2.png.
+hero_idle.png transparency is approximate.
+No new images. No game changes. No merge.
