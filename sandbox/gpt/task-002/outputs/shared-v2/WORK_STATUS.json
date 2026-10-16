@@ -5,75 +5,82 @@
   "task": "task-002",
   "role": "ART_OWNER",
   "workspace_layout": "shared-v2-project-hub-v1",
-  "status": "BLOCKED_BINARY_GIT_DELIVERY",
-  "updated_by": "gpt_task002_current_session",
-  "execution": "GITHUB_READ_AND_TEXT_REPORT_ONLY__NO_ART_DELIVERY",
-  "authoritative_report": "discussions/gpt/task-002/REPORT.txt",
+  "status": "LOCAL_CHECKS_PASSED_PENDING_REMOTE_READBACK",
+  "updated_by": "codex_local_stage_A_executor",
+  "execution": "LOCAL_ART_COMPLETION_PENDING_REMOTE_READBACK",
   "handoff": "sandbox/gpt/task-002/outputs/shared-v2/handoffs/ART_HANDOFF.json",
   "project_hub": "https://github.com/Fuet-Goat/GnomiT-review-test/blob/codex/codex/task-001/discussions/codex/task-001/PROJECT_HUB/START_HERE.txt",
   "delivery_channel": "GIT_ONLY",
   "stage": "A_ART_MASTER",
-  "source_commit": "e30bdf7f4542760b151074f599d8e275273b11c7",
-  "source_refs": {
-    "gpt_v1_assets_commit": "e30bdf7f4542760b151074f599d8e275273b11c7",
-    "target_concept_commit": "c8cd4ddd1c1abb2fc8309d66e99ddc982766ab45",
-    "fixed_world_main_commit": "5add419dfc7fd73bd6d9ee837b2ba620ee5e8b81",
-    "project_hub_branch": "codex/codex/task-001"
-  },
+  "source_commit": "7ecf55cca4627d85e62256cf4d6e75d8cb627e83",
   "output_commit": null,
-  "output_files": [],
-  "required_output_paths": [
-    "sandbox/gpt/task-002/art/shared-v2/characters/hero/hero_master.png",
-    "sandbox/gpt/task-002/art/shared-v2/characters/hero/contact_shadow.png",
-    "sandbox/gpt/task-002/art/shared-v2/characters/hero/asset_metadata.json",
-    "sandbox/gpt/task-002/outputs/shared-v2/previews/01_SCENE_CONCEPT.png",
-    "sandbox/gpt/task-002/outputs/shared-v2/previews/02_HERO_DETAIL.png",
-    "sandbox/gpt/task-002/outputs/shared-v2/handoffs/ART_HANDOFF.json"
-  ],
-  "checks_performed": [
+  "output_files": [
     {
-      "check": "Read PROJECT_HUB START_HERE, PROJECT_MAP, TEAM_RULES, FOLDER_MAP, TASK_QUEUE, ASSET_CATALOG and SHARED_ART_ANIMATION_BRIEF V2",
-      "result": "PASS_TEXT_READ"
+      "path": "sandbox/gpt/task-002/art/shared-v2/characters/hero/hero_master.png",
+      "bytes": 238352,
+      "sha256": "895a1ccf8c17e756e3bc05810cceaf48ec1732d7e90e0428f1c0523e6157004d"
     },
     {
-      "check": "Read active tasks/gpt/task-002.json from main",
-      "result": "APPROVED"
+      "path": "sandbox/gpt/task-002/art/shared-v2/characters/hero/contact_shadow.png",
+      "bytes": 7824,
+      "sha256": "d87d66aab4d1183c48c54b023f90e7ff2b07eb1d8e0ee125f5c5b15b43082057"
     },
     {
-      "check": "Read own working status and historic report; compare current PR #5",
-      "result": "PASS_TEXT_READ"
+      "path": "sandbox/gpt/task-002/art/shared-v2/characters/hero/asset_metadata.json",
+      "bytes": 7390,
+      "sha256": "ab7331b66fcc0dd05c645282b7d04a5262443fd572ccb0e38be96f9f0c8596ce"
     },
     {
-      "check": "Query canonical remote hero_master.png from own task-002 branch",
-      "result": "NOT_FOUND_404"
+      "path": "sandbox/gpt/task-002/outputs/shared-v2/previews/01_SCENE_CONCEPT.png",
+      "bytes": 728611,
+      "sha256": "d896c9a93e04398fbf43fa07aa8fc625e6e8090465ee9f0d43cf0ab8da75f9ce"
     },
     {
-      "check": "Query canonical remote ART_HANDOFF.json from own task-002 branch",
-      "result": "NOT_FOUND_404"
+      "path": "sandbox/gpt/task-002/outputs/shared-v2/previews/02_HERO_DETAIL.png",
+      "bytes": 396766,
+      "sha256": "32a1b28d59d91fdc607fc3464f5b2c4686a32eef8093da5d24e3f44c0d37e6d9"
     },
     {
-      "check": "git ls-remote https://github.com/Fuet-Goat/GnomiT-review-test.git HEAD from container",
-      "result": "FAILED_DNS_RESOLUTION"
+      "path": "sandbox/gpt/task-002/outputs/shared-v2/tests/alpha_light_dark.png",
+      "bytes": 248093,
+      "sha256": "2bd5a5bfe78751f603bc5c0ae4a919f33e68f0bb8ffec27da24a67d84bca8c7c"
     },
     {
-      "check": "Create remote PNG/GIF and exact remote SHA256 readback for shared-v2",
-      "result": "NOT_PERFORMED_BLOCKED"
-    }
-  ],
-  "blockers": [
+      "path": "sandbox/gpt/task-002/outputs/shared-v2/tests/local_asset_checks.json",
+      "bytes": 1282,
+      "sha256": "16b337783c05ec82d0083a3c73124cd9b8ae0dc58d2b79e9a68edd5e9d565f72"
+    },
     {
-      "id": "BINARY_GIT_TRANSFER",
-      "severity": "BLOCKING",
-      "message": "Container cannot resolve github.com for normal Git push. Available GitHub connector can write UTF-8 text but cannot load arbitrary local PNG bytes from /mnt/data into create_blob's base64 string parameter. No confirmed binary bridge or remote readback for new shared-v2 art files.",
-      "command": "git ls-remote https://github.com/Fuet-Goat/GnomiT-review-test.git HEAD",
-      "error": "fatal: unable to access 'https://github.com/Fuet-Goat/GnomiT-review-test.git/': Could not resolve host: github.com",
-      "condition_to_clear": "Run artwork creation and Git binary commit/push + exact commit readback in an environment with access to the actual local art bytes and the repository; verify SHA256, then issue ART_HANDOFF READY."
+      "path": "sandbox/gpt/task-002/outputs/shared-v2/references/local-executor/hero_native_generated.png",
+      "bytes": 1214822,
+      "sha256": "2f87c97d3f3f13033f5be64aeac097d549fa3fc822eacae8c09e7c8c0d606a0e"
+    },
+    {
+      "path": "sandbox/gpt/task-002/outputs/shared-v2/logs/LOCAL_IMAGEGEN_PROMPT.txt",
+      "bytes": 1652,
+      "sha256": "c290e661f2485d9b83f8fab47befcb2906428d50f7ad2682ac480cfe8f328b56"
+    },
+    {
+      "path": "sandbox/gpt/task-002/outputs/shared-v2/logs/LOCAL_EXECUTOR_REPORT.txt",
+      "bytes": 1556,
+      "sha256": "65ff704cd052d955736ecfb0e53ceb55509f327b119276bd0aef104fb8505bc4"
+    },
+    {
+      "path": "sandbox/gpt/task-002/outputs/shared-v2/logs/20261016_EXTERNAL_GPT_BLOCKER.json",
+      "bytes": 3775,
+      "sha256": "accbb744320b7ec3e874ce99bc5db36cb391635980818683d1e74a29067a668c"
     }
   ],
   "handoff_ready": false,
-  "dependencies": {
-    "grok": "WAITING_FOR_GPT_ART_HANDOFF",
-    "codex": "WAITING_FOR_BOTH_HANDOFFS"
+  "blockers": [],
+  "historical_external_environment_blocker": {
+    "status": "BLOCKED_BINARY_GIT_DELIVERY",
+    "snapshot": "sandbox/gpt/task-002/outputs/shared-v2/logs/20261016_EXTERNAL_GPT_BLOCKER.json",
+    "condition": "External GPT DNS not repaired; Stage A performed by Codex with working Git."
   },
-  "notes": "V1 assets and target concept are in Git; these are NOT the new V2 canonical master. Local prior Stage A previews are NOT Git delivery. No new assets or animations are falsely claimed. No manual relay requested."
+  "dependencies": {
+    "grok": "WAITING_FOR_REMOTE_READBACK",
+    "codex": "WAITING_FOR_ANIMATION_HANDOFF"
+  },
+  "notes": "No game changes, merge or final artistic approval."
 }

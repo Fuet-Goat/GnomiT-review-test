@@ -1,0 +1,11 @@
+GNOMIT — LOCAL STAGE A COMPLETION — 2026-10-16
+ART direction: GPT. Actual executor and publisher: Codex local environment.
+The external GPT chat remains unable to resolve github.com. This delivery does not claim its environment was repaired.
+One common existing traveler identity, not a competing variant, was used for built-in image_gen. Native generation is retained with exact prompt.
+Deterministic export normalized a real RGBA source to 512x512, alpha-visible height 440px, authored foot anchor [256,467]. The original separate V1 shadow is reused byte-for-byte.
+The 432x960 concept uses the actual original world/frame. SIFT/RANSAC registration: 1078/1099 inliers, median residual 0.10626339167356491 px. Only the declared hero ROI was replaced; zero pixel changes outside it.
+Manual views: final scene at 432x960, master on light and dark grounds. New master has clear negative space around the beard/arm/lantern. No baked floor or checkerboard observed. This is a visual judgment, not runtime acceptance.
+No game execution, game changes, grants, private repository edits or merge. Historic GPT report remains unchanged.
+Publication is pending remote byte readback. ART_HANDOFF must not become READY until that check passes.
+Limitations: one idle pose, no gait/rear pose, authored ground datum rather than runtime planted-foot validation, anatomical rig side to be declared consistently by Grok.
+Recommended art/check model: GPT-6.1 Sol / High. Git-only publication: Medium. Actual model setting of this session is not attested here.
