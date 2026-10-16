@@ -59,3 +59,36 @@ Concatenate the listed parts in order, Base64-decode, and verify those hashes.
 01_SCENE_CONCEPT.png is a concept scene. Its background is not the fixed descending_world_v2.png.
 hero_idle.png transparency is approximate.
 No new images. No game changes. No merge.
+
+---
+UPDATE 2026-10-16: SHARED-V2 ANIMATION CHECK — WAITING_FOR_GPT_ART_HANDOFF
+
+ROLE: ANIMATION OWNER
+MODEL: Grok Build
+STATUS: WAITING_FOR_GPT_ART_HANDOFF
+GRANT: tasks/grok/task-002.json on main is APPROVED. Art/materials only.
+HUB: discussions/codex/task-001/PROJECT_HUB at 51ff6049a0bcac57da9c0711346d504c29fee182
+BRIEF: discussions/codex/task-001/SHARED_ART_ANIMATION_BRIEF_V2_BG.txt blob a6cd2b04d87325d382675058c6262df3a0f5e848
+
+READ
+START_HERE, PROJECT_MAP, TEAM_RULES_BG, FOLDER_MAP, TASK_QUEUE, ASSET_CATALOG, ONE_PROMPT, and the shared art/animation brief.
+
+CHECKED
+codex/gpt/task-002 tip c8cd4ddd1c1abb2fc8309d66e99ddc982766ab45.
+Raw GitHub GET returned 404 for ART_HANDOFF.json, hero_master.png, the shared-v2 contact shadow, asset_metadata.json, and both shared-v2 previews.
+GPT WORK_STATUS.json on that commit says ART_HANDOFF_NOT_PUBLISHED.
+
+NOT USED
+Historical GPT V1 files are on the same commit and were hashed. They are not the canonical shared-v2 master, so no front/rear frames were made from them:
+- hero_idle.png 195442 bytes SHA-256 f0e905a0605ad5d34c5cb5e761a76650aabe2f88998c59c94785042cbfffdde6
+- contact_shadow.png 7824 bytes SHA-256 d87d66aab4d1183c48c54b023f90e7ff2b07eb1d8e0ee125f5c5b15b43082057
+- asset_metadata.json 2772 bytes SHA-256 3c197e68e96ec24225c33e54f8c7751ea026cf120d8de40e52af02ff127b576f
+- walk_sheet.png 925869 bytes SHA-256 70713dbf68c63d69f276a8f6753e67d33a6386945dbab5cebae67638978ff638
+- walk_preview.gif 493920 bytes SHA-256 d0245985788bfb7a1ec43c9912a33d289af125334320ba6926e4a23ced8cb9c2
+
+DONE
+Recorded this single waiting check in WORK_STATUS.json and outputs/shared-v2/tests/gpt-art-handoff-check-2026-10-16.txt.
+No new character. No walk sheet. No GIF. No ANIMATION_HANDOFF.json. No game changes. No merge.
+
+BLOCKER
+Animation starts only after GPT publishes a real shared-v2 ART_HANDOFF.json whose listed master bytes match a remote readback. Repeating this same missing-handoff check does not need another commit.

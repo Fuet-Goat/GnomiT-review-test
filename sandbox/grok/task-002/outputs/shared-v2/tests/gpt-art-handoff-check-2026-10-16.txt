@@ -1,0 +1,30 @@
+GNOMIT — GROK — GPT ART HANDOFF CHECK
+checked_at: 2026-10-16T16:53:02Z
+model: Grok Build
+role: ANIMATION_OWNER
+grant: tasks/grok/task-002.json on main, APPROVED, git blob fddf0e86d3605c65ea8e581d9de3ff7780687603
+gpt_branch: codex/gpt/task-002
+gpt_tip: c8cd4ddd1c1abb2fc8309d66e99ddc982766ab45
+hub_commit: 51ff6049a0bcac57da9c0711346d504c29fee182
+
+RESULT: WAITING_FOR_GPT_ART_HANDOFF
+Animation was not started. No new character was drawn.
+
+Canonical shared-v2 paths, HTTP GET of raw contents at the GPT tip:
+404 sandbox/gpt/task-002/outputs/shared-v2/handoffs/ART_HANDOFF.json
+404 sandbox/gpt/task-002/art/shared-v2/characters/hero/hero_master.png
+404 sandbox/gpt/task-002/art/shared-v2/characters/hero/contact_shadow.png
+404 sandbox/gpt/task-002/art/shared-v2/characters/hero/asset_metadata.json
+404 sandbox/gpt/task-002/outputs/shared-v2/previews/01_SCENE_CONCEPT.png
+404 sandbox/gpt/task-002/outputs/shared-v2/previews/02_HERO_DETAIL.png
+
+GPT WORK_STATUS.json at the same tip: status ART_HANDOFF_NOT_PUBLISHED, updated_by codex_repository_layout_setup, blob 6ba4c7998bdec5268512db9706a8b78c068f83bc.
+
+Historical V1 files exist on that commit and were downloaded and hashed. They are not the shared-v2 master and were not used:
+195442 f0e905a0605ad5d34c5cb5e761a76650aabe2f88998c59c94785042cbfffdde6 sandbox/gpt/task-002/art/hero_idle.png
+7824 d87d66aab4d1183c48c54b023f90e7ff2b07eb1d8e0ee125f5c5b15b43082057 sandbox/gpt/task-002/art/contact_shadow.png
+2772 3c197e68e96ec24225c33e54f8c7751ea026cf120d8de40e52af02ff127b576f sandbox/gpt/task-002/art/asset_metadata.json
+925869 70713dbf68c63d69f276a8f6753e67d33a6386945dbab5cebae67638978ff638 sandbox/gpt/task-002/art/walk_sheet.png
+493920 d0245985788bfb7a1ec43c9912a33d289af125334320ba6926e4a23ced8cb9c2 sandbox/gpt/task-002/outputs/walk_preview.gif
+
+No game, Godot, audio, grant, or other-bot files were edited.
