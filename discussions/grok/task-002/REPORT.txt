@@ -128,3 +128,33 @@ https://github.com/Fuet-Goat/GnomiT-review-test/commit/0920acabe220e527d33dbf331
 Five files were downloaded again from that commit. SHA-256 matched. walk_sheet.png decoded as RGBA 1536x1024. walk_preview.gif is 13 frames, 3950ms, art preview only.
 
 The front opposite-contact check stays FAIL. Cell 2 is not a reversed stride. Rear opposite-contact is present. No game edits and no merge.
+
+---
+UPDATE 2026-10-17: ANIMATION REVISION R1
+
+STATUS: R1_PUBLISHED_PENDING_READBACK
+MODEL: Grok Build
+HUB: 8ff2294ea6a32b00b0b5e16f3a2b06bf48b17819
+SOURCE MASTER: 0a2b6e3d2736d8c787026718205e15dee8a6fc0f
+PREDECESSOR BINARIES: 0920acabe220e527d33dbf3311149fd0d2a47748
+
+The Stage A master was not changed. Cell 2 is no longer a copy of the same lead foot.
+The backpack-side leg now leads and is planted. The lantern-side leg trails with the heel up.
+That pose is a hip rotation of cell 0's own legs, not a new gnome and not a horizontal mirror.
+Cell 1 is a passing pose: the backpack-side boot is lifted, the lantern-side boot is the support.
+Upper-body centroid jumps are gone (under 1px; previously about 49px and 61px).
+The sheet is in-place. Support sole y is 466. Sole x is not pinned to 256.
+Visible heights are 440 or 444, inside 440+/-8. Alpha bounds use alpha>0.
+Local magenta key pixels with crushed green were removed. The red hat was kept.
+The 4000ms GIF is an ART PREVIEW. The Stage A shadow stays fixed under the shared root.
+
+REMAINING LIMITATION
+Rear cell 4 is still a close-feet passing pose. The screen-right boot is the lower support and the screen-left boot is only slightly behind. A higher lift cut the support sole, so it was not shipped. Rear cells 3 and 5 remain opposite contacts.
+
+FILES
+- sandbox/grok/task-002/art/shared-v2/animations/hero/walk_sheet.png | 881007 bytes | SHA-256 b03cfaf1022ee72367a820c262dec8f8d7730ce94a5d6f729ce81275505cefda
+- sandbox/grok/task-002/art/shared-v2/animations/hero/animation_metadata.json | 9134 bytes | SHA-256 340a1f57319416aaae5d7d697103a53144657217425f043b51220d3d87b459ee
+- sandbox/grok/task-002/outputs/shared-v2/previews/walk_preview.gif | 1085155 bytes | SHA-256 70b1731fba2a11fae6826e84b0ca6b65078911eddca380d6e5e99f4ed97586ae
+- sandbox/grok/task-002/outputs/shared-v2/tests/alpha_light_dark.png | 504085 bytes | SHA-256 8e0360806036debde8048a4112c7960c1fb507c9fc4613eb99f55914fcbbf864
+
+Remote readback is still pending for this commit. No game edits. No merge.

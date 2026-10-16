@@ -5,51 +5,46 @@
   "task": "task-002",
   "role": "ANIMATION_OWNER",
   "model": "Grok Build",
-  "stage": "B",
-  "status": "READY_FOR_CODEX_CHECK",
+  "stage": "B_R1",
+  "status": "R1_PUBLISHED_PENDING_READBACK",
   "updated_by": "grok",
-  "checked_at": "2026-10-16T21:19:40Z",
+  "checked_at": "2026-10-17T00:40:00Z",
   "source_commit": "0a2b6e3d2736d8c787026718205e15dee8a6fc0f",
-  "source_branch": "codex/gpt/task-002",
   "source_master_sha256": "895a1ccf8c17e756e3bc05810cceaf48ec1732d7e90e0428f1c0523e6157004d",
-  "output_commit": "0920acabe220e527d33dbf3311149fd0d2a47748",
+  "hub_commit": "8ff2294ea6a32b00b0b5e16f3a2b06bf48b17819",
+  "predecessor_binary_commit": "0920acabe220e527d33dbf3311149fd0d2a47748",
   "handoff": "sandbox/grok/task-002/outputs/shared-v2/handoffs/ANIMATION_HANDOFF.json",
-  "animation_handoff_published": true,
-  "blocking_limitation": "front_opposite_contact_not_reversed",
+  "blocking_limitation": "rear_passing_is_low_not_a_high_lift",
   "checks": {
-    "master_sha256": "PASS",
+    "master_unchanged": "PASS",
     "sheet_1536x1024": "PASS",
-    "visible_height_within_8px": "PASS",
-    "foot_y_467": "PASS",
-    "left_hand_lantern_front_and_rear": "PASS",
+    "visible_height_440_plus_minus_8": "PASS",
+    "support_sole_y_466": "PASS",
+    "left_hand_lantern": "PASS",
     "rear_not_mirrored": "PASS",
-    "front_opposite_contact": "FAIL",
-    "remote_readback": "PASS"
+    "front_opposite_contact": "PASS",
+    "front_passing_foot_lifted": "PASS",
+    "registration_no_lateral_hop": "PASS",
+    "key_spill_cleanup": "PASS",
+    "rear_passing_high_lift": "PARTIAL",
+    "remote_readback": "PENDING"
   },
   "files": {
     "sandbox/grok/task-002/art/shared-v2/animations/hero/walk_sheet.png": {
-      "bytes": 1213389,
-      "sha256": "19990718e13bc0f14d6d79c3a05567098454ec70f97e8db60f99460dc09b3e2c"
+      "bytes": 881007,
+      "sha256": "b03cfaf1022ee72367a820c262dec8f8d7730ce94a5d6f729ce81275505cefda"
     },
     "sandbox/grok/task-002/art/shared-v2/animations/hero/animation_metadata.json": {
-      "bytes": 6557,
-      "sha256": "970da9ef99c04524c94b21e5e9f576d1408a328d551cdef22d481ce7dfc406f3"
+      "bytes": 9134,
+      "sha256": "340a1f57319416aaae5d7d697103a53144657217425f043b51220d3d87b459ee"
     },
     "sandbox/grok/task-002/outputs/shared-v2/previews/walk_preview.gif": {
-      "bytes": 895831,
-      "sha256": "bbfaf9cc84d7b9acb9b645a7e96bac0d0a7a898bfa23ad4c12d4eb4248e8ad23"
+      "bytes": 1085155,
+      "sha256": "70b1731fba2a11fae6826e84b0ca6b65078911eddca380d6e5e99f4ed97586ae"
     },
     "sandbox/grok/task-002/outputs/shared-v2/tests/alpha_light_dark.png": {
-      "bytes": 559173,
-      "sha256": "bbd53429a36d3c04e7022c4e3b6b57fb11712248e267ae27d17f924eddaad416"
-    },
-    "sandbox/grok/task-002/outputs/shared-v2/handoffs/ANIMATION_HANDOFF.json": {
-      "bytes": 4141,
-      "sha256": "30cb7289c21f77b7f9c682b3357ad8d4a6e328e7ad4aa29daaf3a705edd24892",
-      "note": "updated after readback; image hashes above are the verified 0920aca bytes"
+      "bytes": 504085,
+      "sha256": "8e0360806036debde8048a4112c7960c1fb507c9fc4613eb99f55914fcbbf864"
     }
-  },
-  "authoritative_report": "discussions/grok/task-002/REPORT.txt",
-  "delivery_channel": "GIT_ONLY",
-  "note": "Image bytes were verified at output_commit. This follow-up only records that readback. Front opposite-contact remains FAIL."
+  }
 }
