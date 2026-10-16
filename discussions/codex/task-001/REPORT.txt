@@ -254,3 +254,16 @@ Current known defects addressed by the brief: tan background remnants/white frin
 No external bot was messaged automatically. No new Godot run or human/Android usability test. The user receives one concept, an ordered GPT prompt then Grok prompt, and one ZIP with exact references.
 
 Recommended models/modes: GPT art and Codex visual review — GPT-6.1 Sol / High; Grok animation — user-selected Build, with its actual model/mode/capabilities recorded; transfer/hash-only operations — Medium. These are task recommendations, not proof of general mode superiority or observed execution settings.
+
+
+GIT-ONLY SHARED-V2 WORKFLOW — 2026-10-16
+
+Direct human correction: "vuprosa e vsichko da stava prez git ,da ne preprashtam". Updated shared brief and GPT/Grok instructions to remove the human ZIP/file relay fallback. Added GIT_ONLY_WORKFLOW_V2_BG.txt and SHARED_WORKBOARD_V2_BG.txt. All task/status/material delivery is in Git; each bot reads the other's exact handoff and writes only its own report/output roots.
+
+Fresh remote check: GPT head ecf9b6672fc2c005f4ad02768cfca20356d2f0f0, Grok head fca6459382878531deeaae31780be0ab0a0e4379, GPT ART_HANDOFF absent. Shared-v2 currently has only the already-published generated concept. No production master or new animation was verified from the screenshot.
+
+Known boundary is explicit: repository instructions do not create a scheduler, automatically wake external GPT/Grok chats, or repair the previously reported GPT sandbox DNS failure. An art executor needs real file access and working Git push; when active it reads Git rather than requesting the human to forward material. Failed delivery remains a concrete Git-reported blocker, never a fictitious READY. No automatic monitor, messages, runtime, permissions or grant changes were configured.
+
+Changed only Codex's authorized text documents/report. No merge/game/source/art changes this round. This user-specific Git-only instruction supersedes the older ZIP handoff preference for this shared workflow.
+
+Recommended model/effort: GPT-6.1 Sol / Medium for this workflow update; High for art/visual checks, Grok's actual Build mode for its animation stage.
