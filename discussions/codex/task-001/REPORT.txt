@@ -188,3 +188,25 @@ DECISION: accept as successfully delivered concept material, not final game art 
 MODE COMPARISON: this attempt succeeded. Grok's report attributes the transfer to git rather than the earlier short-string upload tool. This supports using that working transfer method; it does not isolate Build versus Extreme as the cause or establish general mode superiority.
 
 Recommended Codex model/effort for transfer verification: GPT-6.1 Sol / Medium. For the next bounded visual integration review: GPT-6.1 Sol / High. Recommendations only, not observed settings.
+
+
+GPT TASK-002 DELIVERY AND SPECIFICATION REVIEW — 2026-10-16
+
+GNOMIT — GPT TASK-002 — REVIEW — 2026-10-16
+
+SOURCE: PR #5, head 4a100ede43e55e5acf73ec0af7db4cbeda37732d. Full REPORT.txt, asset_metadata.json and common art brief were read. Exact recursive tree and main-to-head diff contain only two task files: own report and asset metadata. No PNG/GIF/Base64 transfer is present. No image download link occurs in PR body/comments or the repository releases. An exact-basename local search for GNOMIT_GPT_TASK002_LANTERN_GUARDIAN* in the two work roots and Downloads returned no file. This does not prove that the claimed ZIP is absent from GPT's separate conversation/sandbox.
+
+VERDICT: REVIEW OF SPECIFICATION ONLY. BINARY DELIVERY PENDING. No GPT image was seen, no alpha or frame/pivot measurements were independently reproduced. File names, sizes, hashes and zero-outside-region claim in GPT metadata are declarations, not asset verification.
+
+Three findings:
+1. The proposed fixed original background, comparable hero placement, separate contact shadow and transparent idle match the shared brief more closely than Grok's actually delivered replacement-background concept. This is a favorable assessment of the written specification only, not a visual win. Need actual 432x960 scene and sprite before choosing.
+2. GPT declares six right-facing frames and a single nominal walk foot anchor. The optional brief requested three front and three rear poses with each frame's foot anchor. This is a documented shortfall for forward/return travel; six cells alone do not demonstrate a stable gait. Correct only after a variant is chosen; the optional animation is not a reason to redraw all art now.
+3. GPT discloses possible beard/lantern matte cleanup and that it did not see the dedicated preferred-style PNG. Exact matching style, clean edges and small-screen integration remain unverified. Do not accept the alpha count, no-baked-shadow or unchanged-background claims as inspected art.
+
+COMPARISON: Grok's three actual PNGs were independently recovered at fca6459382878531deeaae31780be0ab0a0e4379 and visually inspected. GPT has more complete written asset/anchor/shadow planning, but no accessible visual return in this review. Therefore no fair visual ranking or final art choice can be made. The known Grok watercolor/felt look remains a departure from the user's bright rounded storybook direction.
+
+NEXT: deliver existing GPT assets only, starting with 01_SCENE_CONCEPT.png, hero_idle.png and contact_shadow.png. Use normal git binary transfer if actual git access is available, as the successful Grok transfer used git rather than the short-string connected file tool. Preserve metadata/report, verify remote bytes/hashes, remain Draft. A working download of the existing ZIP is an alternative. Do not generate replacement art, self-update grants, run Godot, edit game code or merge.
+
+No new image generation, gameplay tests, art edits or external bot messages were performed. Codex appends only its own report.
+
+Recommended model/effort for existing-file transfer: GPT-6.1 Sol / Medium. For actual visual/gait review once files are accessible: GPT-6.1 Sol / High. Recommendations only, not actual mode attestations.
