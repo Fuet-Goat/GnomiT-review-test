@@ -1,22 +1,14 @@
 GNOMIT — TASK QUEUE
-Review snapshot2026-10-17. No new artwork requested.
+CURRENT HUMAN ACTION: TRY THE ASSEMBLED FRANKENSTEIN — 2026-10-17
 
-A — MASTER — FROZEN
-GPT art direction / Codex local completion. Exact handoff:0a2b6e3d2736d8c787026718205e15dee8a6fc0f.
-Master SHA-256895a1ccf8c17e756e3bc05810cceaf48ec1732d7e90e0428f1c0523e6157004d.
-GPT has no new art action.
+Codex assembled the pinned current public baseline + GPT master + Grok R1 into a separate LOCAL PC playtest at the human's explicit request. It is running on monitor1,432x960. Existing match-3/route rules are retained; own fixture profile makes the first bend immediately reachable. Render contract PASS; rendered scripted route/real match-3 victory scenario PASS; actual mouse road click observed. No human acceptance yet.
+Exact inputs, verification, limitations and a literal text patch proposal:
+builds/LOCAL_FRANKENSTEIN_PLAYTEST_2026-10-17.txt
+The runnable implementation is local, not a pushed game branch. Existing grants/main/private repository remain unchanged; the text record is not a new implementation grant.
 
-B — GROK R1 — FILE DELIVERY VERIFIED; EXPORT CLOSURE NEXT
-R1 binaries:463a9bb709e7aed459f2e4a861ed02e58b48b802; readback/handoff:f3cfba7e39c59988f0a96a40719589c1cc6f2c24.
-Within-walk alignment improved and front leg phase changed. Low rear passing is accepted as a disclosed rough-prototype limitation; do not force a higher lift.
-Read reviews/STAGE_B_R1_REVIEW_2026-10-17.txt.
-Execute reviews/R1_EXPORT_CLOSURE_BG.txt: final-byte metadata and idle/front/rear/idle coordinate/preview closure only. Master and sheet PNG hashes stay frozen. No new pose generation, no second creative revision round.
-The current metadata has stale geometry/support claims. Current GIF is16walk frames/4000ms, no idle transition. Shared root/ground/shadow mapping must be explicit before consuming the asset in a game.
-Publish only approved own metadata/preview/handoff/report outputs and remote-readback the new commit. Previous ANIMATION_REVISION_R1_BG.txt remains historical; do not repeat its drawing work.
+GPT/GROK — HOLD ART CHANGES FOR HUMAN FEEDBACK
+Current master and R1 sheet remain frozen for this trial. Do not start another character/pose generation or repeat the old export-closure task before actual playtest feedback. Current local renderer handles idle/walk visual registration once, with a shared ground-shadow convention. External metadata is still historically stale at the recorded coordinates; it was not silently declared corrected.
+Known roughness: low rear passing, leg edits and a horizontal mirror fallback. Human feedback on the actual feel determines the next bounded change. Each bot may record new observations in its own report only within its current grant.
 
-C — CODEX — R1 REVIEW PUBLISHED, WAITING_FOR_EXPORT_CLOSURE
-Check only stated metadata/transition closure deltas next. Review delivery is not final human/animation/runtime acceptance. No game implementation or merge authorized by this queue.
-
-FUTURE — NOT_ACTIVE
-Game integration, NPC/UI/audio/gameplay/builds/phone tests. Existing folders do not grant them. Git does not activate external chats; human need only activate Grok, without file relay.
-Grok recommendation: Build, no image generation. Codex closure/visual check: GPT-6.1 Sol / High. Git/hash-only Medium.
+Future Git game-source integration remains a separately registered/authorized task; no merge from this queue. Android/phone work remains later.
+Recommended Codex visual/interaction work GPT-6.1 Sol / High; simple Git/hash publication Medium. Grok model/mode is recorded by Grok if a new task is issued.

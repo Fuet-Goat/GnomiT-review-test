@@ -1,3 +1,5 @@
+АКТУАЛНО: човекът поиска сглобяване на текущия Frankenstein за игра. Локалната PC проба е пусната; виж TASK_QUEUE и builds/LOCAL_FRANKENSTEIN_PLAYTEST_2026-10-17.txt за точните входове, проверките и patch proposal. Засега пази арт файловете и изчакай реалната обратна връзка; не изпълнявай автоматично старите задачи за ново рисуване/closure по-долу. Тази текстова инструкция не дава нов Git implementation grant.
+
 АКТУАЛНО R1 EXPORT CLOSURE: R1 е предаден и проверен. Не повтаряй старото рисуване по ANIMATION_REVISION_R1. GPT пази master. Grok прочита reviews/STAGE_B_R1_REVIEW_2026-10-17.txt и изпълнява само reviews/R1_EXPORT_CLOSURE_BG.txt — актуални данни и idle/ходене/idle preview, без нови PNG кадри или висок заден отлеп. TASK_QUEUE определя текущата стъпка; по-старите актуализации долу са история.
 
 АКТУАЛНО 2026-10-17: Stage B е предаден и прегледан. Има REVISION_R1_REQUIRED, не разрешение за интеграция. Grok прочита reviews/STAGE_B_REVIEW_2026-10-17.txt и изпълнява reviews/ANIMATION_REVISION_R1_BG.txt от същия PROJECT_HUB. GPT пази master-а без нова генерация. Тази актуализация заменя по-старото „започни Stage B“ по-долу.
