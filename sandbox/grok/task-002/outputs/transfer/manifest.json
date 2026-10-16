@@ -5,6 +5,7 @@
       "size_bytes": 868260,
       "sha256": "2cc888bf68577df6d39aeb886c50f61c9b2a0210d71415eb0111380bebaf60fb",
       "base64_length": 1157680,
+      "part_count": 37,
       "parts": [
         "01_SCENE_CONCEPT.png.part001.txt",
         "01_SCENE_CONCEPT.png.part002.txt",
@@ -43,14 +44,14 @@
         "01_SCENE_CONCEPT.png.part035.txt",
         "01_SCENE_CONCEPT.png.part036.txt",
         "01_SCENE_CONCEPT.png.part037.txt"
-      ],
-      "part_count": 37
+      ]
     },
     {
       "original_name": "02_GNOME_DETAIL.png",
       "size_bytes": 774507,
       "sha256": "8b8d360c904485e66eea4333f74db3e2777621083fd8dd62b45caa9de9591584",
       "base64_length": 1032676,
+      "part_count": 33,
       "parts": [
         "02_GNOME_DETAIL.png.part001.txt",
         "02_GNOME_DETAIL.png.part002.txt",
@@ -85,14 +86,14 @@
         "02_GNOME_DETAIL.png.part031.txt",
         "02_GNOME_DETAIL.png.part032.txt",
         "02_GNOME_DETAIL.png.part033.txt"
-      ],
-      "part_count": 33
+      ]
     },
     {
       "original_name": "hero_idle.png",
       "size_bytes": 580289,
       "sha256": "421d2626c210f3d1831c71b67fa8471940b5dfd1c247547390978758cd3b6406",
       "base64_length": 773720,
+      "part_count": 25,
       "parts": [
         "hero_idle.png.part001.txt",
         "hero_idle.png.part002.txt",
@@ -119,9 +120,10 @@
         "hero_idle.png.part023.txt",
         "hero_idle.png.part024.txt",
         "hero_idle.png.part025.txt"
-      ],
-      "part_count": 25
+      ]
     }
   ],
-  "part_size_chars": 32000
+  "part_size_chars": 32000,
+  "encoding": "base64",
+  "source": "actual file bytes"
 }
