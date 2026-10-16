@@ -2,7 +2,7 @@
   "schema_version": 1,
   "project": "GnomiT",
   "stage": "B_ANIMATION",
-  "status": "PENDING_REMOTE_READBACK",
+  "status": "READY_FOR_CODEX_CHECK",
   "bot": "grok",
   "model": "Grok Build",
   "source_commit": "0a2b6e3d2736d8c787026718205e15dee8a6fc0f",
@@ -109,7 +109,9 @@
     },
     {
       "check": "exact-commit remote readback",
-      "result": "PENDING"
+      "result": "PASS",
+      "commit": "0920acabe220e527d33dbf3311149fd0d2a47748",
+      "method": "gh raw download of the five published files; SHA-256 match; PNG decode 1536x1024; GIF 13 frames"
     }
   ],
   "limitations": [
@@ -119,5 +121,11 @@
     "Contact shadow is the Stage A asset, used only in the preview."
   ],
   "runtime_tested": false,
-  "blocking_limitation": "front_opposite_contact_not_reversed"
+  "blocking_limitation": "front_opposite_contact_not_reversed",
+  "binaries_commit": "0920acabe220e527d33dbf3311149fd0d2a47748",
+  "remote_readback": {
+    "result": "PASS",
+    "commit": "0920acabe220e527d33dbf3311149fd0d2a47748",
+    "files": 5
+  }
 }

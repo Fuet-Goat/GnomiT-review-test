@@ -6,13 +6,13 @@
   "role": "ANIMATION_OWNER",
   "model": "Grok Build",
   "stage": "B",
-  "status": "PENDING_REMOTE_READBACK",
+  "status": "READY_FOR_CODEX_CHECK",
   "updated_by": "grok",
   "checked_at": "2026-10-16T21:19:40Z",
   "source_commit": "0a2b6e3d2736d8c787026718205e15dee8a6fc0f",
   "source_branch": "codex/gpt/task-002",
   "source_master_sha256": "895a1ccf8c17e756e3bc05810cceaf48ec1732d7e90e0428f1c0523e6157004d",
-  "output_commit": null,
+  "output_commit": "0920acabe220e527d33dbf3311149fd0d2a47748",
   "handoff": "sandbox/grok/task-002/outputs/shared-v2/handoffs/ANIMATION_HANDOFF.json",
   "animation_handoff_published": true,
   "blocking_limitation": "front_opposite_contact_not_reversed",
@@ -24,7 +24,7 @@
     "left_hand_lantern_front_and_rear": "PASS",
     "rear_not_mirrored": "PASS",
     "front_opposite_contact": "FAIL",
-    "remote_readback": "PENDING"
+    "remote_readback": "PASS"
   },
   "files": {
     "sandbox/grok/task-002/art/shared-v2/animations/hero/walk_sheet.png": {
@@ -44,10 +44,12 @@
       "sha256": "bbd53429a36d3c04e7022c4e3b6b57fb11712248e267ae27d17f924eddaad416"
     },
     "sandbox/grok/task-002/outputs/shared-v2/handoffs/ANIMATION_HANDOFF.json": {
-      "bytes": 3783,
-      "sha256": "7458d8b6823c41b2787ec61ccc01d457b96a59a1980fb62899fbda6b73bae7e2"
+      "bytes": 4141,
+      "sha256": "30cb7289c21f77b7f9c682b3357ad8d4a6e328e7ad4aa29daaf3a705edd24892",
+      "note": "updated after readback; image hashes above are the verified 0920aca bytes"
     }
   },
   "authoritative_report": "discussions/grok/task-002/REPORT.txt",
-  "delivery_channel": "GIT_ONLY"
+  "delivery_channel": "GIT_ONLY",
+  "note": "Image bytes were verified at output_commit. This follow-up only records that readback. Front opposite-contact remains FAIL."
 }

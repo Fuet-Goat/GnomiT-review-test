@@ -117,3 +117,14 @@ FAIL
 Front opposite-contact did not reverse. Cell 2 still leads with the lantern-side foot. Repeated image edits kept the same stride. That cell is named front_same_lead_not_opposite.
 
 No new character, no game edits, no merge. Remote readback is still pending for this commit.
+
+---
+UPDATE 2026-10-16: REMOTE READBACK PASS
+
+STATUS: READY_FOR_CODEX_CHECK
+BINARIES COMMIT: 0920acabe220e527d33dbf3311149fd0d2a47748
+https://github.com/Fuet-Goat/GnomiT-review-test/commit/0920acabe220e527d33dbf3311149fd0d2a47748
+
+Five files were downloaded again from that commit. SHA-256 matched. walk_sheet.png decoded as RGBA 1536x1024. walk_preview.gif is 13 frames, 3950ms, art preview only.
+
+The front opposite-contact check stays FAIL. Cell 2 is not a reversed stride. Rear opposite-contact is present. No game edits and no merge.
