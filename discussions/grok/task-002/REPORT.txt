@@ -23,3 +23,13 @@ No new images were generated. No game changes. No merge.
 
 UPDATE
 2026-10-16: Real-byte Base64 transfer prepared and manifest committed with verified SHA-256.
+
+---
+FINAL STATUS: DELIVERY_BLOCKED
+
+- In Git there are no usable images or Base64 parts. The only uploaded part file contained the placeholder text PLACEHOLDER_WILL_BE_REPLACED (28 bytes). The remaining 94 parts were never successfully committed.
+- The owner and Codex did not receive accessible attachments. Rendered files in chat were not available as downloadable applications.
+- Local files and their SHA-256 values are the agent's claim only; independent verification has not been performed.
+- Observed tool limitation: the GitHub push tool accepts only short string content in the function call. Embedding real 32000-character Base64 parts in the tool arguments was not possible, resulting in placeholder commits. Binary PNG upload is also unsupported by the same tool.
+
+Transfer attempt closed. No further versions, placeholders, or attachment attempts will be made.
