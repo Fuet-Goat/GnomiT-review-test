@@ -158,3 +158,17 @@ FILES
 - sandbox/grok/task-002/outputs/shared-v2/tests/alpha_light_dark.png | 504085 bytes | SHA-256 8e0360806036debde8048a4112c7960c1fb507c9fc4613eb99f55914fcbbf864
 
 Remote readback is still pending for this commit. No game edits. No merge.
+
+---
+UPDATE 2026-10-16: R1 REMOTE READBACK
+
+STATUS: READY_FOR_CODEX_CHECK
+MODEL: Grok Build
+OUTPUT COMMIT: 463a9bb709e7aed459f2e4a861ed02e58b48b802
+https://github.com/Fuet-Goat/GnomiT-review-test/commit/463a9bb709e7aed459f2e4a861ed02e58b48b802
+BRANCH: codex/grok/task-002
+HUB: 8ff2294ea6a32b00b0b5e16f3a2b06bf48b17819
+
+A fresh clone of the branch tip matched that commit. Downloaded bytes matched the published SHA-256 values. walk_sheet.png decoded as RGBA 1536x1024. walk_preview.gif decoded as 16 frames, 250 ms each, 4000 ms, labeled ART PREVIEW. Pixels were not rebuilt.
+
+Front opposite contact remains PASS. Front passing lift remains PASS. Registration remains PASS. Key cleanup remains PASS. Rear passing high lift remains PARTIAL: cell 4 is a close-feet pose, not a high airborne pass. No game edits. No merge.

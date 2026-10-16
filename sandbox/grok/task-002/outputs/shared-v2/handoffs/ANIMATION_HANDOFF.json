@@ -2,7 +2,7 @@
   "schema_version": 1,
   "project": "GnomiT",
   "stage": "B_ANIMATION_R1",
-  "status": "R1_PUBLISHED_PENDING_READBACK",
+  "status": "READY_FOR_CODEX_CHECK",
   "bot": "grok",
   "model": "Grok Build",
   "revision": "R1",
@@ -58,7 +58,7 @@
     "registration_no_lateral_hop": "PASS",
     "key_spill_cleanup": "PASS",
     "rear_passing_high_lift": "PARTIAL",
-    "remote_readback": "PENDING"
+    "remote_readback": "PASS"
   },
   "registration": {
     "upper_centroid_dx_from_cell0": [
@@ -106,5 +106,16 @@
     "frame_ms": 250,
     "total_ms": 4000,
     "label": "ART PREVIEW"
+  },
+  "output_commit": "463a9bb709e7aed459f2e4a861ed02e58b48b802",
+  "remote_readback": {
+    "method": "fresh clone of origin/codex/grok/task-002",
+    "tip": "463a9bb709e7aed459f2e4a861ed02e58b48b802",
+    "checked_at": "2026-10-16T22:08:25Z",
+    "result": "PASS",
+    "walk_sheet": "RGBA 1536x1024, 881007 bytes, sha256 b03cfaf1022ee72367a820c262dec8f8d7730ce94a5d6f729ce81275505cefda",
+    "animation_metadata": "9134 bytes, sha256 340a1f57319416aaae5d7d697103a53144657217425f043b51220d3d87b459ee",
+    "walk_preview": "16 frames x 250 ms = 4000 ms, 1085155 bytes, sha256 70b1731fba2a11fae6826e84b0ca6b65078911eddca380d6e5e99f4ed97586ae",
+    "alpha_light_dark": "504085 bytes, sha256 8e0360806036debde8048a4112c7960c1fb507c9fc4613eb99f55914fcbbf864"
   }
 }

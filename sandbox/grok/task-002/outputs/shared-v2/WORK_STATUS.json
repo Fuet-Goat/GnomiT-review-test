@@ -6,9 +6,9 @@
   "role": "ANIMATION_OWNER",
   "model": "Grok Build",
   "stage": "B_R1",
-  "status": "R1_PUBLISHED_PENDING_READBACK",
+  "status": "READY_FOR_CODEX_CHECK",
   "updated_by": "grok",
-  "checked_at": "2026-10-17T00:40:00Z",
+  "checked_at": "2026-10-16T22:08:25Z",
   "source_commit": "0a2b6e3d2736d8c787026718205e15dee8a6fc0f",
   "source_master_sha256": "895a1ccf8c17e756e3bc05810cceaf48ec1732d7e90e0428f1c0523e6157004d",
   "hub_commit": "8ff2294ea6a32b00b0b5e16f3a2b06bf48b17819",
@@ -27,7 +27,7 @@
     "registration_no_lateral_hop": "PASS",
     "key_spill_cleanup": "PASS",
     "rear_passing_high_lift": "PARTIAL",
-    "remote_readback": "PENDING"
+    "remote_readback": "PASS"
   },
   "files": {
     "sandbox/grok/task-002/art/shared-v2/animations/hero/walk_sheet.png": {
@@ -46,5 +46,11 @@
       "bytes": 504085,
       "sha256": "8e0360806036debde8048a4112c7960c1fb507c9fc4613eb99f55914fcbbf864"
     }
+  },
+  "output_commit": "463a9bb709e7aed459f2e4a861ed02e58b48b802",
+  "remote_readback": {
+    "method": "fresh clone of origin/codex/grok/task-002",
+    "tip": "463a9bb709e7aed459f2e4a861ed02e58b48b802",
+    "result": "PASS"
   }
 }
