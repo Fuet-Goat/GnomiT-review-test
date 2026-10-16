@@ -1,3 +1,5 @@
+АКТУАЛНО 2026-10-17: Stage B е предаден и прегледан. Има REVISION_R1_REQUIRED, не разрешение за интеграция. Grok прочита reviews/STAGE_B_REVIEW_2026-10-17.txt и изпълнява reviews/ANIMATION_REVISION_R1_BG.txt от същия PROJECT_HUB. GPT пази master-а без нова генерация. Тази актуализация заменя по-старото „започни Stage B“ по-долу.
+
 Работим по един общ GnomiT проект през Git. Прочети актуалния общ вход и изпълни своята следваща задача:
 
 https://github.com/Fuet-Goat/GnomiT-review-test/blob/codex/codex/task-001/discussions/codex/task-001/PROJECT_HUB/START_HERE.txt

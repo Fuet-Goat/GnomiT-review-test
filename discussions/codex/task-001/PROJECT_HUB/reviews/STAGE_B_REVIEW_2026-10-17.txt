@@ -1,0 +1,57 @@
+GNOMIT — CODEX COMBINED STAGE A/B STATIC ART REVIEW
+Date: 2026-10-17 (Europe/Sofia)
+VERDICT: DELIVERY_VERIFIED / ANIMATION_REVISION_REQUIRED
+No integration approval, human acceptance, game execution or merge.
+
+PINNED INPUTS
+GPT Stage A master/handoff: 0a2b6e3d2736d8c787026718205e15dee8a6fc0f
+Grok binaries: 0920acabe220e527d33dbf3311149fd0d2a47748
+Grok report/handoff/readback: ce1d7a9139728631db99c708115fa731ed21cfc0
+PR#6 is Draft, open, unmerged. Both Grok commits have successful Scope boundary and Scope policy runner checks (app15368). Those checks establish path scope, not animation quality.
+
+WHAT WAS ACTUALLY INSPECTED
+Read full Grok REPORT, ANIMATION_HANDOFF, animation_metadata and WORK_STATUS. Independently downloaded four declared output files and four GPT source files from their exact commits; all byte counts and SHA-256 matched. The four output files are unchanged at Grok's readback head. PNG decode and GIF frame/duration inspection performed as static media inspection, not a game/test-suite run.
+Viewed full sheet on light/dark backgrounds, boot-contact crops, poses at the existing scene scale (131px cells, nominal0.256), and extracted preview/source idle frames. This is not a live animation playback or Godot/phone/human test.
+Sheet1536x1024 RGBA with six512x512 cells. GIF13frames, durations600,250x11,600ms, total3950ms. Original Stage A shadow remains separate and is used by the preview.
+
+WHAT WORKS
+One recognizable traveler: red bent hat, white beard, teal coat, brown boots/backpack and brass lantern. Rounded rendering remains close enough to the shared master to continue this bounded correction; no need for another concept or engine discussion. Rear cells are genuine back views with the backpack visible, not mirrored front pictures. Lantern screen side changes in a way consistent with the declared anatomical left hand; this is visual consistency, not a rig proof.
+The visible scale defect from V1 is resolved: strict nonzero-alpha bounds give440px height for all six cells, within the existing440+/-8px contract. Metadata says439–440 for two cells, likely an edge-threshold difference; specify the threshold next time. This1px reporting discrepancy is not the blocker.
+READY_FOR_CODEX_CHECK correctly means delivered for review. The known failure was disclosed, not hidden.
+
+THREE CORRECTIONS, IN ORDER
+1. BLOCKER — alternating support/contact is missing in the front cycle.
+animation_metadata.frames[0] and frames[2] both declare screen_right_lantern_side; frame2.pose_ok=false, phase=same_lead_stride_not_opposite. The actual pictures confirm the same leading boot and similar stride. Frame1 reads close to standing with the feet together rather than a clear passing phase. Replace frame2 with a genuine opposite contact and adjust the passing pose only as needed. Preserve face/hat/coat/backpack/lantern hand. Do not mirror the whole hero. Rear passing/support must also read clearly before treating the cycle as accepted; metadata labels alone do not prove foot planting.
+Visible acceptance: front cycle has contact A -> passing -> contact B -> passing, with legs alternating. Back cycle has identifiable opposite contacts and a passing phase. Do not accept the same leading leg twice as opposite-contact.
+
+2. BLOCKER — registration/ground support must be solved as animation data, not just bottom alignment.
+The method recorded in metadata scales each image then pins its lowest boot pixel to y467 around x256. That is a cell ground datum, not a demonstrated planted-foot/root contract. In fixed cell coordinates, the centroid of opaque upper-body pixels (alpha>=128, rows80..299) jumps from209.24034995256667 to258.3255799173816 in front0->1, and237.80498800959234 to176.8655023923445 in rear4->5. These are49.08522996481494 and-60.93948561724784px, about12.56 and15.60 screen pixels at nominal0.256. This metric is a registration diagnostic, not a measured world-space slip. The scene-scale poses visibly shift laterally between frames and will need coherent root/pivot treatment.
+Visible acceptance: keep a stable authored root/pelvis reference with explicit per-frame draw offsets; separately identify the real support heel/sole contact. Allow natural weight transfer/bob without abrupt sideways hops, and avoid double-applying root travel when the game later moves the avatar. Do not shift the shadow to each frame's bounding-box bottom. Demonstrate this in a fixed-ground asset preview with consistent scale; it remains ART PREVIEW, not runtime.
+
+3. POLISH — remove remaining key-color edge contamination after the pose fix.
+Metadata records generation against a magenta field. On the light/dark views a small magenta rim remains under the front passing boot (cell1); minor keyed edge specks also appear elsewhere. Preserve correct partial alpha; inspect the corrected six cells against light and dark grounds rather than declaring clean alpha merely from min0/max255. This is lower priority than the two gait issues.
+Visible acceptance: no bright key-color line under the boot or at the coat/beard/lantern silhouette at actual scene scale. Declare alpha-bounds threshold and updated measured offsets in metadata.
+
+NEXT BOUNDED ACTION
+Grok performs one correction round within existing approved task-002 art/output/report roots. Start from exact current sheet/master, keep predecessors in Git history, do not redesign the hero or world. Prioritize genuine opposite contact, clear passing/support and registration; clean local key spill in the affected export. Update sheet, metadata,3–5s preview, ANIMATION_HANDOFF and own REPORT/WORK_STATUS. Independently reread bytes at the new commit before READY_FOR_CODEX_CHECK. Report any remaining phase failure honestly.
+GPT keeps Stage A master frozen; no new competing art. Codex reviews the corrected combined result once. No unanimous model voting, extra agents, game changes or automatic merge. Full source reference/prompt is in ANIMATION_REVISION_R1_BG.txt in this review folder.
+
+STATIC BYTE EVIDENCE
+0920acabe220e527d33dbf3311149fd0d2a47748 | sandbox/grok/task-002/art/shared-v2/animations/hero/walk_sheet.png | 1213389bytes | SHA-256 19990718e13bc0f14d6d79c3a05567098454ec70f97e8db60f99460dc09b3e2c | PASS
+0920acabe220e527d33dbf3311149fd0d2a47748 | sandbox/grok/task-002/art/shared-v2/animations/hero/animation_metadata.json | 6557bytes | SHA-256 970da9ef99c04524c94b21e5e9f576d1408a328d551cdef22d481ce7dfc406f3 | PASS
+0920acabe220e527d33dbf3311149fd0d2a47748 | sandbox/grok/task-002/outputs/shared-v2/previews/walk_preview.gif | 895831bytes | SHA-256 bbfaf9cc84d7b9acb9b645a7e96bac0d0a7a898bfa23ad4c12d4eb4248e8ad23 | PASS
+0920acabe220e527d33dbf3311149fd0d2a47748 | sandbox/grok/task-002/outputs/shared-v2/tests/alpha_light_dark.png | 559173bytes | SHA-256 bbd53429a36d3c04e7022c4e3b6b57fb11712248e267ae27d17f924eddaad416 | PASS
+0a2b6e3d2736d8c787026718205e15dee8a6fc0f | sandbox/gpt/task-002/outputs/shared-v2/handoffs/ART_HANDOFF.json | 6106bytes | SHA-256 4dcdf2c2d3640cf7c6a5a94156f8ae2d5afee0dccf73b688fcf7f7245b6256d9 | PASS
+0a2b6e3d2736d8c787026718205e15dee8a6fc0f | sandbox/gpt/task-002/art/shared-v2/characters/hero/hero_master.png | 238352bytes | SHA-256 895a1ccf8c17e756e3bc05810cceaf48ec1732d7e90e0428f1c0523e6157004d | PASS
+0a2b6e3d2736d8c787026718205e15dee8a6fc0f | sandbox/gpt/task-002/art/shared-v2/characters/hero/contact_shadow.png | 7824bytes | SHA-256 d87d66aab4d1183c48c54b023f90e7ff2b07eb1d8e0ee125f5c5b15b43082057 | PASS
+0a2b6e3d2736d8c787026718205e15dee8a6fc0f | sandbox/gpt/task-002/art/shared-v2/characters/hero/asset_metadata.json | 7390bytes | SHA-256 ab7331b66fcc0dd05c645282b7d04a5262443fd572ccb0e38be96f9f0c8596ce | PASS
+
+Actual strict alpha>0 cell bounds (right/bottom exclusive):
+cell0 [64, 27, 375, 467] height440
+cell1 [114, 27, 423, 467] height440
+cell2 [78, 27, 390, 467] height440
+cell3 [75, 27, 366, 467] height440
+cell4 [86, 27, 374, 467] height440
+cell5 [24, 27, 314, 467] height440
+
+Recommended Codex review model: GPT-6.1 Sol / High. Grok correction: Build, actual model/mode recorded by Grok. Git/hash-only publishing: Medium. These are recommendations, not observed Codex model-setting attestations.

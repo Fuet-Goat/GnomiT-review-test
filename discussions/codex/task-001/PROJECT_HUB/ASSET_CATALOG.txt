@@ -31,9 +31,13 @@ Fixed432x960 scene: sandbox/gpt/task-002/outputs/shared-v2/previews/01_SCENE_CON
 Metadata, detail, native generation, prompt, light/dark alpha checks and remote-readback receipt accompany ART_HANDOFF.
 Actual executor/publisher Codex local environment; chosen art direction GPT. External GPT DNS blocker remains historical, not falsely repaired. Static concept only, no runtime or final human acceptance.
 
-EXPECTED, NOT YET VERIFIED OR PUBLISHED
-Grok shared-v2 common-master animation sheet/metadata/preview/ANIMATION_HANDOFF. Consume the exact Stage A commit above.
-Точните пътища са във FOLDER_MAP.txt; не приемай README или WORK_STATUS за production animation.
+STAGE B — DELIVERED, REVISION REQUIRED
+Grok binary commit:0920acabe220e527d33dbf3311149fd0d2a47748; final handoff:ce1d7a9139728631db99c708115fa731ed21cfc0.
+Sheet1213389bytes SHA-25619990718e13bc0f14d6d79c3a05567098454ec70f97e8db60f99460dc09b3e2c;1536x1024 RGBA.
+Preview895831bytes SHA-256bbfaf9cc84d7b9acb9b645a7e96bac0d0a7a898bfa23ad4c12d4eb4248e8ad23;13frames,3950ms, ART PREVIEW only.
+Four output and four source files independently hash/byte verified; current output bytes equal the binary commit. Height440px at strict alpha>0 for all six cells.
+Animation not accepted for game integration: front opposite-contact repeats the same leading leg, root/support registration jumps laterally, minor key-color rim remains.
+See reviews/STAGE_B_REVIEW_2026-10-17.txt and reviews/ANIMATION_REVISION_R1_BG.txt. Expected next: corrected R1 handoff, not another character concept.
 
 ARCHIVE
 Grok original 95 Base64 parts and manifest: outputs/shared-v2/archive/legacy-base64/ at 66c9fdf749ffe1c99ec968f08e432d5c9a6c93e5; all96 Git blob IDs match the original fca6459382878531deeaae31780be0ab0a0e4379 tree. History and reports preserved.
