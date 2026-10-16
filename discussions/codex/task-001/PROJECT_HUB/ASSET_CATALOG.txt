@@ -41,3 +41,12 @@ See reviews/STAGE_B_REVIEW_2026-10-17.txt and reviews/ANIMATION_REVISION_R1_BG.t
 
 ARCHIVE
 Grok original 95 Base64 parts and manifest: outputs/shared-v2/archive/legacy-base64/ at 66c9fdf749ffe1c99ec968f08e432d5c9a6c93e5; all96 Git blob IDs match the original fca6459382878531deeaae31780be0ab0a0e4379 tree. History and reports preserved.
+
+
+R1 — DELIVERY VERIFIED, EXPORT CLOSURE PENDING — 2026-10-17
+R1 sheet881007bytes SHA-256b03cfaf1022ee72367a820c262dec8f8d7730ce94a5d6f729ce81275505cefda at463a9bb709e7aed459f2e4a861ed02e58b48b802; identical atf3cfba7e39c59988f0a96a40719589c1cc6f2c24.
+Preview1085155bytes SHA-25670b1731fba2a11fae6826e84b0ca6b65078911eddca380d6e5e99f4ed97586ae:16frames/4000ms, no idle.
+Four outputs independently size/SHA-256 verified at both commits; master independently matches.
+R1 current within-walk alignment is improved. Low rear passing accepted as a rough art limitation, no higher lift requested.
+Current final PNG strict alpha heights438,443,443,440,440,439 meet scale tolerance but differ from declared measurements. Some declared physical support coordinates are transparent. Raw idle/walk registration differs; exported idle-to-walk mapping/preview not provided.
+Master and R1 sheet are frozen inputs for metadata/preview-only closure. See reviews/STAGE_B_R1_REVIEW_2026-10-17.txt and R1_EXPORT_CLOSURE_BG.txt. Older Stage B review describes its predecessor only.

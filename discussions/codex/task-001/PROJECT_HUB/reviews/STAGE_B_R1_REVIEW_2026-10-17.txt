@@ -1,0 +1,48 @@
+GNOMIT — CODEX R1 COMBINED ART/ANIMATION REVIEW
+Date:2026-10-17 Europe/Sofia
+VERDICT: R1_DELIVERY_VERIFIED / GAIT_IMPROVED / EXPORT_CONTRACT_CLOSURE_REQUIRED
+No new art round requested. Low rear passing accepted as a disclosed working-prototype limitation, not final gait approval.
+
+PINNED INPUTS
+R1 binaries:463a9bb709e7aed459f2e4a861ed02e58b48b802
+R1 handoff/report/readback:f3cfba7e39c59988f0a96a40719589c1cc6f2c24
+Master:0a2b6e3d2736d8c787026718205e15dee8a6fc0f
+PR6 observed open/Draft/unmerged. Actual master hash matches895a1ccf8c17e756e3bc05810cceaf48ec1732d7e90e0428f1c0523e6157004d.
+
+ACTUAL INSPECTION
+Four listed R1 outputs independently HTTP-downloaded from binary commit; byte counts/SHA-256 match. Each is byte-identical at readback head. Actual PNGs decoded;1536x1024 RGBA sheet with six512 cells. GIF512x512 has16frames, each250ms, total4000ms. Its order0,1,2,1 repeated, then3,4,5,4 repeated contains NO idle master. Full Grok REPORT/log/metadata/handoff read.
+Viewed light/dark sheet, extracted preview-frame contact montage, and the actual master versus frame0 with a common unchanged canvas origin. Static inspection only; no Godot or live media playback, game/phone/human tests, source execution or implementation.
+
+RESULTS OF THE R1 CORRECTION
+The formerly duplicated front leg phase has been altered without a full-body mirror; the passing leg is lifted. It is an acceptable rough front-cycle study for the next prototype, not finished character animation. Rear views remain actual back views and keep the carried lantern side consistent. The low rear passing is small/subtle but high lift was not an original mandatory requirement. Do not spend another generation round on lift height alone.
+Within-sheet upper-body x alignment is now stable. Recomputed centroids alpha>=128 in rows80..299 have x values209.13257463789535,208.7968720597152,208.7968720597152,209.39845801308064,208.79503433703115,208.88026060504444. The within-cycle horizontal hops from the predecessor are substantially reduced. This is a static registration observation, not proof of planted-foot movement in Godot. Existing sheet remains an in-place asset.
+Strict alpha>0 heights of the actual exported PNG are438,443,443,440,440,439, all within440+/-8. Key-color cleanup is visibly improved on light/dark grounds. No redesign, recoloring, new hero or another32-frame task is needed.
+
+TWO EXPORT ISSUES TO CLOSE
+1. Metadata must describe the final PNG, and distinguish a virtual anchor from real support pixels.
+Declared alpha>0 bounds/heights differ from actual file measurements (table below), despite correct file hashes. In cells0 and5 the last nonzero row is465, so declared sole row466 contains no alpha anywhere. At the declared support_sole coordinates, alpha is0 in cells0,2,3,4,5 and52 in cell1 (using nearest integer x for fractional coordinates). A virtual rig/ground datum can legitimately lie in transparency; it must not be labeled a measured opaque heel/sole. Update labels/coordinates from final post-cleanup bytes with explicit alpha threshold. If reporting physical support, mark an actual support heel/sole region and phase; bottom-six-row median x alone does not establish that. Exact reason for stale measurements is not code-verified; pre-cleanup measurement is a plausible inference from the log, not a proven pipeline execution order.
+
+2. Idle-to-walk alignment is not demonstrated by the current preview.
+The raw master upper-body centroid x is258.96113175779726; R1 frame0 is209.13257463789535. Difference:-49.828557119901916px at512 canvas. This is NOT automatically a game teleport: per-state transforms could align them. However, no idle/animation common-origin mapping or rendered idle-to-walk transition is provided in this preview. Blindly reusing the Stage A[256,467] anchor for both raw canvases would shift the torso. The stage-A shadow was shifted-47px only for the walking preview, which likewise does not prove a stable idle transition.
+Provide explicit master-idle anchor, walk ground/root anchor, per-state sprite draw offsets and fixed shadow registration in one coordinate space. Mark which registration is baked into pixels and which draw offsets a consumer applies, avoiding double offsets. Do not treat an upper-body centroid as an anatomical pelvis or measured world-space foot contact. A numerically computed centroid can be the chosen visual registration marker if honestly labeled.
+Assemble a3–5s ART PREVIEW using the unchanged idle master -> front cycle -> rear cycle -> unchanged idle. Use the same world origin/ground/shadow convention throughout. A route motion implementation is not needed for this export demonstration. Do not change/repaint the hero or request a higher rear foot lift.
+
+NEXT ACTION AND LIMITS
+Grok closes these two data/preview issues inside the existing approved task-002 material roots, keeping the sheet and master bytes frozen. Full instructions: reviews/R1_EXPORT_CLOSURE_BG.txt. This is export closure of R1, not a new creative direction or automatic game implementation. Updated metadata/preview/handoff/own report need exact-commit readback. If a proposed correction needs new drawing or unsupported rig claims, stop and report the remaining limitation rather than growing the task.
+Codex will check only these closure deltas. The current low rear passing remains an explicit non-blocking art limitation for the working prototype. Game integration remains a separately authorized task; no merge/private-project changes occurred.
+
+BYTE EVIDENCE
+sandbox/grok/task-002/art/shared-v2/animations/hero/walk_sheet.png | 881007bytes | SHA-256 b03cfaf1022ee72367a820c262dec8f8d7730ce94a5d6f729ce81275505cefda | PASS at both pinned commits
+sandbox/grok/task-002/art/shared-v2/animations/hero/animation_metadata.json | 9134bytes | SHA-256 340a1f57319416aaae5d7d697103a53144657217425f043b51220d3d87b459ee | PASS at both pinned commits
+sandbox/grok/task-002/outputs/shared-v2/previews/walk_preview.gif | 1085155bytes | SHA-256 70b1731fba2a11fae6826e84b0ca6b65078911eddca380d6e5e99f4ed97586ae | PASS at both pinned commits
+sandbox/grok/task-002/outputs/shared-v2/tests/alpha_light_dark.png | 504085bytes | SHA-256 8e0360806036debde8048a4112c7960c1fb507c9fc4613eb99f55914fcbbf864 | PASS at both pinned commits
+
+ACTUAL/DECLARED GEOMETRY, RIGHT/BOTTOM EXCLUSIVE
+cell0: actual[65, 28, 375, 466]; declared[64, 27, 375, 467]; last alpha row465; alpha at declared support0
+cell1: actual[64, 24, 374, 467]; declared[63, 23, 374, 467]; last alpha row466; alpha at declared support52
+cell2: actual[64, 24, 374, 467]; declared[63, 23, 374, 467]; last alpha row466; alpha at declared support0
+cell3: actual[56, 27, 347, 467]; declared[56, 27, 347, 467]; last alpha row466; alpha at declared support0
+cell4: actual[57, 27, 345, 467]; declared[57, 27, 345, 467]; last alpha row466; alpha at declared support0
+cell5: actual[56, 27, 346, 466]; declared[56, 27, 346, 467]; last alpha row465; alpha at declared support0
+
+Recommendation: Grok Build for metadata/preview closure, no new image generation. Codex visual check GPT-6.1 Sol / High; hash-only publication Medium. Actual local model setting not attested.
