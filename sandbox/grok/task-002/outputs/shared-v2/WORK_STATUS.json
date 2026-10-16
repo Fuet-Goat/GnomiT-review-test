@@ -5,116 +5,49 @@
   "task": "task-002",
   "role": "ANIMATION_OWNER",
   "model": "Grok Build",
-  "workspace_layout": "shared-v2-project-hub-v1",
   "stage": "B",
-  "status": "WAITING_FOR_GPT_ART_HANDOFF",
+  "status": "PENDING_REMOTE_READBACK",
   "updated_by": "grok",
-  "checked_at": "2026-10-16T16:53:02Z",
-  "execution": "CHECKED_GPT_BRANCH_NO_ANIMATION",
-  "grant": {
-    "path": "tasks/grok/task-002.json",
-    "ref": "main",
-    "status": "APPROVED",
-    "blob_sha256_git": "fddf0e86d3605c65ea8e581d9de3ff7780687603"
-  },
-  "sources_read": [
-    {
-      "path": "discussions/codex/task-001/PROJECT_HUB/START_HERE.txt",
-      "commit": "51ff6049a0bcac57da9c0711346d504c29fee182",
-      "blob": "fbbc6183cd6ba4cb825db760e040a659b86aef87"
-    },
-    {
-      "path": "discussions/codex/task-001/PROJECT_HUB/PROJECT_MAP.txt",
-      "commit": "51ff6049a0bcac57da9c0711346d504c29fee182",
-      "blob": "45815a8d517805170913e164aacbae7d8727c693"
-    },
-    {
-      "path": "discussions/codex/task-001/PROJECT_HUB/TEAM_RULES_BG.txt",
-      "commit": "51ff6049a0bcac57da9c0711346d504c29fee182",
-      "blob": "d4bef8467c0164246f6db460d516cc4a72398377"
-    },
-    {
-      "path": "discussions/codex/task-001/PROJECT_HUB/FOLDER_MAP.txt",
-      "commit": "51ff6049a0bcac57da9c0711346d504c29fee182",
-      "blob": "1f5a6d62d6aeb5d3ea8cea84bf0448d89c44e87e"
-    },
-    {
-      "path": "discussions/codex/task-001/PROJECT_HUB/TASK_QUEUE.txt",
-      "commit": "51ff6049a0bcac57da9c0711346d504c29fee182",
-      "blob": "bbc3033c21342d96e6ffd84f952c53bbd04fa001"
-    },
-    {
-      "path": "discussions/codex/task-001/PROJECT_HUB/ASSET_CATALOG.txt",
-      "commit": "51ff6049a0bcac57da9c0711346d504c29fee182",
-      "blob": "7afdbc40ec0471f977578867269f63fbb40f4048"
-    },
-    {
-      "path": "discussions/codex/task-001/PROJECT_HUB/ONE_PROMPT_FOR_GPT_AND_GROK_BG.txt",
-      "commit": "51ff6049a0bcac57da9c0711346d504c29fee182",
-      "blob": "c1c2fe56426677a2ea9a223186fb83c3b92f659e"
-    },
-    {
-      "path": "discussions/codex/task-001/SHARED_ART_ANIMATION_BRIEF_V2_BG.txt",
-      "commit": "51ff6049a0bcac57da9c0711346d504c29fee182",
-      "blob": "a6cd2b04d87325d382675058c6262df3a0f5e848"
-    }
-  ],
-  "source_commit": "c8cd4ddd1c1abb2fc8309d66e99ddc982766ab45",
+  "checked_at": "2026-10-16T21:19:40Z",
+  "source_commit": "0a2b6e3d2736d8c787026718205e15dee8a6fc0f",
   "source_branch": "codex/gpt/task-002",
+  "source_master_sha256": "895a1ccf8c17e756e3bc05810cceaf48ec1732d7e90e0428f1c0523e6157004d",
   "output_commit": null,
-  "checks": {
-    "art_handoff_http": 404,
-    "hero_master_http": 404,
-    "shared_v2_contact_shadow_http": 404,
-    "shared_v2_asset_metadata_http": 404,
-    "shared_v2_scene_preview_http": 404,
-    "shared_v2_detail_preview_http": 404,
-    "hashes_of_canonical_master": "NOT_AVAILABLE",
-    "animation_started": false,
-    "new_character_created": false
-  },
-  "required_missing": [
-    "sandbox/gpt/task-002/outputs/shared-v2/handoffs/ART_HANDOFF.json",
-    "sandbox/gpt/task-002/art/shared-v2/characters/hero/hero_master.png",
-    "sandbox/gpt/task-002/art/shared-v2/characters/hero/contact_shadow.png",
-    "sandbox/gpt/task-002/art/shared-v2/characters/hero/asset_metadata.json",
-    "sandbox/gpt/task-002/outputs/shared-v2/previews/01_SCENE_CONCEPT.png",
-    "sandbox/gpt/task-002/outputs/shared-v2/previews/02_HERO_DETAIL.png"
-  ],
-  "historical_v1_present_not_used": [
-    {
-      "path": "sandbox/gpt/task-002/art/hero_idle.png",
-      "bytes": 195442,
-      "sha256": "f0e905a0605ad5d34c5cb5e761a76650aabe2f88998c59c94785042cbfffdde6"
-    },
-    {
-      "path": "sandbox/gpt/task-002/art/contact_shadow.png",
-      "bytes": 7824,
-      "sha256": "d87d66aab4d1183c48c54b023f90e7ff2b07eb1d8e0ee125f5c5b15b43082057"
-    },
-    {
-      "path": "sandbox/gpt/task-002/art/asset_metadata.json",
-      "bytes": 2772,
-      "sha256": "3c197e68e96ec24225c33e54f8c7751ea026cf120d8de40e52af02ff127b576f"
-    },
-    {
-      "path": "sandbox/gpt/task-002/art/walk_sheet.png",
-      "bytes": 925869,
-      "sha256": "70713dbf68c63d69f276a8f6753e67d33a6386945dbab5cebae67638978ff638"
-    },
-    {
-      "path": "sandbox/gpt/task-002/outputs/walk_preview.gif",
-      "bytes": 493920,
-      "sha256": "d0245985788bfb7a1ec43c9912a33d289af125334320ba6926e4a23ced8cb9c2"
-    }
-  ],
-  "files": {},
-  "blockers": [
-    "codex/gpt/task-002 at c8cd4ddd1c1abb2fc8309d66e99ddc982766ab45 has no shared-v2 ART_HANDOFF.json and no hero_master.png. GPT WORK_STATUS is ART_HANDOFF_NOT_PUBLISHED. Historical V1 files were hashed and not used as the animation master."
-  ],
-  "authoritative_report": "discussions/grok/task-002/REPORT.txt",
   "handoff": "sandbox/grok/task-002/outputs/shared-v2/handoffs/ANIMATION_HANDOFF.json",
-  "animation_handoff_published": false,
-  "project_hub_commit": "51ff6049a0bcac57da9c0711346d504c29fee182",
+  "animation_handoff_published": true,
+  "blocking_limitation": "front_opposite_contact_not_reversed",
+  "checks": {
+    "master_sha256": "PASS",
+    "sheet_1536x1024": "PASS",
+    "visible_height_within_8px": "PASS",
+    "foot_y_467": "PASS",
+    "left_hand_lantern_front_and_rear": "PASS",
+    "rear_not_mirrored": "PASS",
+    "front_opposite_contact": "FAIL",
+    "remote_readback": "PENDING"
+  },
+  "files": {
+    "sandbox/grok/task-002/art/shared-v2/animations/hero/walk_sheet.png": {
+      "bytes": 1213389,
+      "sha256": "19990718e13bc0f14d6d79c3a05567098454ec70f97e8db60f99460dc09b3e2c"
+    },
+    "sandbox/grok/task-002/art/shared-v2/animations/hero/animation_metadata.json": {
+      "bytes": 6557,
+      "sha256": "970da9ef99c04524c94b21e5e9f576d1408a328d551cdef22d481ce7dfc406f3"
+    },
+    "sandbox/grok/task-002/outputs/shared-v2/previews/walk_preview.gif": {
+      "bytes": 895831,
+      "sha256": "bbfaf9cc84d7b9acb9b645a7e96bac0d0a7a898bfa23ad4c12d4eb4248e8ad23"
+    },
+    "sandbox/grok/task-002/outputs/shared-v2/tests/alpha_light_dark.png": {
+      "bytes": 559173,
+      "sha256": "bbd53429a36d3c04e7022c4e3b6b57fb11712248e267ae27d17f924eddaad416"
+    },
+    "sandbox/grok/task-002/outputs/shared-v2/handoffs/ANIMATION_HANDOFF.json": {
+      "bytes": 3783,
+      "sha256": "7458d8b6823c41b2787ec61ccc01d457b96a59a1980fb62899fbda6b73bae7e2"
+    }
+  },
+  "authoritative_report": "discussions/grok/task-002/REPORT.txt",
   "delivery_channel": "GIT_ONLY"
 }

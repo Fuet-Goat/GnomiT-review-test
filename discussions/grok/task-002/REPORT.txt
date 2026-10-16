@@ -92,3 +92,28 @@ No new character. No walk sheet. No GIF. No ANIMATION_HANDOFF.json. No game chan
 
 BLOCKER
 Animation starts only after GPT publishes a real shared-v2 ART_HANDOFF.json whose listed master bytes match a remote readback. Repeating this same missing-handoff check does not need another commit.
+
+---
+UPDATE 2026-10-16: STAGE B ANIMATION FROM GPT MASTER 0a2b6e3d
+
+ROLE: ANIMATION OWNER
+MODEL: Grok Build
+STATUS: PENDING_REMOTE_READBACK
+SOURCE: codex/gpt/task-002 ART_HANDOFF at 0a2b6e3d2736d8c787026718205e15dee8a6fc0f
+MASTER: sandbox/gpt/task-002/art/shared-v2/characters/hero/hero_master.png
+MASTER SHA-256: 895a1ccf8c17e756e3bc05810cceaf48ec1732d7e90e0428f1c0523e6157004d
+The earlier WAITING section stays. This update starts only because that handoff is now present and the master hash matched a direct download.
+
+PUBLISHED
+- sandbox/grok/task-002/art/shared-v2/animations/hero/walk_sheet.png | 1213389 bytes | SHA-256 19990718e13bc0f14d6d79c3a05567098454ec70f97e8db60f99460dc09b3e2c
+- sandbox/grok/task-002/art/shared-v2/animations/hero/animation_metadata.json | 6557 bytes | SHA-256 970da9ef99c04524c94b21e5e9f576d1408a328d551cdef22d481ce7dfc406f3
+- sandbox/grok/task-002/outputs/shared-v2/previews/walk_preview.gif | 895831 bytes | SHA-256 bbfaf9cc84d7b9acb9b645a7e96bac0d0a7a898bfa23ad4c12d4eb4248e8ad23
+- sandbox/grok/task-002/outputs/shared-v2/handoffs/ANIMATION_HANDOFF.json | 3783 bytes | SHA-256 7458d8b6823c41b2787ec61ccc01d457b96a59a1980fb62899fbda6b73bae7e2
+- sandbox/grok/task-002/outputs/shared-v2/tests/alpha_light_dark.png | 559173 bytes | SHA-256 bbd53429a36d3c04e7022c4e3b6b57fb11712248e267ae27d17f924eddaad416
+
+Sheet is 1536x1024, 3x2 cells of 512. Row 0 is front three-quarter: contact, passing, and a same-lead stride. Row 1 is rear three-quarter: contact, passing, opposite-contact. Visible height is 439 or 440. Lowest boot sole is y=467. Lantern is the anatomical left hand: viewer-right in front, viewer-left from behind. Rear frames are back views, not flipped fronts. No shadow is baked into the sheet. The 3950ms GIF is an assembled art preview using the Stage A shadow. It is not a Godot runtime.
+
+FAIL
+Front opposite-contact did not reverse. Cell 2 still leads with the lantern-side foot. Repeated image edits kept the same stride. That cell is named front_same_lead_not_opposite.
+
+No new character, no game edits, no merge. Remote readback is still pending for this commit.

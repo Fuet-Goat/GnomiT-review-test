@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "project": "GnomiT",
+  "stage": "B_ANIMATION",
+  "status": "PENDING_REMOTE_READBACK",
+  "bot": "grok",
+  "model": "Grok Build",
+  "source_commit": "0a2b6e3d2736d8c787026718205e15dee8a6fc0f",
+  "source_files": [
+    {
+      "path": "sandbox/gpt/task-002/outputs/shared-v2/handoffs/ART_HANDOFF.json",
+      "bytes": 6106,
+      "sha256": "4dcdf2c2d3640cf7c6a5a94156f8ae2d5afee0dccf73b688fcf7f7245b6256d9"
+    },
+    {
+      "path": "sandbox/gpt/task-002/art/shared-v2/characters/hero/hero_master.png",
+      "bytes": 238352,
+      "sha256": "895a1ccf8c17e756e3bc05810cceaf48ec1732d7e90e0428f1c0523e6157004d"
+    },
+    {
+      "path": "sandbox/gpt/task-002/art/shared-v2/characters/hero/contact_shadow.png",
+      "bytes": 7824,
+      "sha256": "d87d66aab4d1183c48c54b023f90e7ff2b07eb1d8e0ee125f5c5b15b43082057"
+    },
+    {
+      "path": "sandbox/gpt/task-002/art/shared-v2/characters/hero/asset_metadata.json",
+      "bytes": 7390,
+      "sha256": "ab7331b66fcc0dd05c645282b7d04a5262443fd572ccb0e38be96f9f0c8596ce"
+    }
+  ],
+  "output_files": [
+    {
+      "path": "sandbox/grok/task-002/art/shared-v2/animations/hero/walk_sheet.png",
+      "bytes": 1213389,
+      "sha256": "19990718e13bc0f14d6d79c3a05567098454ec70f97e8db60f99460dc09b3e2c"
+    },
+    {
+      "path": "sandbox/grok/task-002/art/shared-v2/animations/hero/animation_metadata.json",
+      "bytes": 6557,
+      "sha256": "970da9ef99c04524c94b21e5e9f576d1408a328d551cdef22d481ce7dfc406f3"
+    },
+    {
+      "path": "sandbox/grok/task-002/outputs/shared-v2/previews/walk_preview.gif",
+      "bytes": 895831,
+      "sha256": "bbfaf9cc84d7b9acb9b645a7e96bac0d0a7a898bfa23ad4c12d4eb4248e8ad23"
+    },
+    {
+      "path": "sandbox/grok/task-002/outputs/shared-v2/tests/alpha_light_dark.png",
+      "bytes": 559173,
+      "sha256": "bbd53429a36d3c04e7022c4e3b6b57fb11712248e267ae27d17f924eddaad416"
+    }
+  ],
+  "canvas": {
+    "sheet": [
+      1536,
+      1024
+    ],
+    "cell": [
+      512,
+      512
+    ],
+    "grid": "3x2 row-major"
+  },
+  "anchors": {
+    "master_foot": [
+      256,
+      467
+    ],
+    "frame_foot_y": 467,
+    "visible_heights": [
+      439,
+      440,
+      439,
+      440,
+      440,
+      440
+    ]
+  },
+  "lantern_hand": {
+    "anatomical_side": "left",
+    "front_screen_side": "viewer_right",
+    "rear_screen_side": "viewer_left",
+    "basis": "The front three-quarter faces screen-right with the lantern on the viewer's right. The rear three-quarter keeps that same hand, which then appears on the viewer's left. Rear frames were generated as back views, not mirrored front frames."
+  },
+  "checks_performed": [
+    {
+      "check": "GPT master and handoff SHA-256 at 0a2b6e3d",
+      "result": "PASS"
+    },
+    {
+      "check": "sheet size 1536x1024 and six 512 cells",
+      "result": "PASS"
+    },
+    {
+      "check": "visible height within 8px of 440 and foot sole at y=467",
+      "result": "PASS"
+    },
+    {
+      "check": "lantern stays in the declared left hand from front to rear",
+      "result": "PASS"
+    },
+    {
+      "check": "rear frames are back views, not mirrored fronts",
+      "result": "PASS"
+    },
+    {
+      "check": "front opposite-contact lead foot reversed",
+      "result": "FAIL"
+    },
+    {
+      "check": "exact-commit remote readback",
+      "result": "PENDING"
+    }
+  ],
+  "limitations": [
+    "Front opposite-contact was not achieved. Cell 2 keeps the same lantern-side lead foot as cell 0.",
+    "Poses are reference-guided generations, not pixel-identical redraws of the master.",
+    "The GIF is an assembled art preview, not a Godot runtime test.",
+    "Contact shadow is the Stage A asset, used only in the preview."
+  ],
+  "runtime_tested": false,
+  "blocking_limitation": "front_opposite_contact_not_reversed"
+}

@@ -1,0 +1,267 @@
+{
+  "schema_version": 1,
+  "project": "GnomiT",
+  "stage": "B_ANIMATION",
+  "bot": "grok",
+  "model": "Grok Build",
+  "source_commit": "0a2b6e3d2736d8c787026718205e15dee8a6fc0f",
+  "source_master_sha256": "895a1ccf8c17e756e3bc05810cceaf48ec1732d7e90e0428f1c0523e6157004d",
+  "sheet": {
+    "path": "sandbox/grok/task-002/art/shared-v2/animations/hero/walk_sheet.png",
+    "canvas": [
+      1536,
+      1024
+    ],
+    "grid": [
+      3,
+      2
+    ],
+    "cell": [
+      512,
+      512
+    ],
+    "order": "row-major"
+  },
+  "lantern_hand": {
+    "anatomical_side": "left",
+    "front_screen_side": "viewer_right",
+    "rear_screen_side": "viewer_left",
+    "basis": "The front three-quarter faces screen-right with the lantern on the viewer's right. The rear three-quarter keeps that same hand, which then appears on the viewer's left. Rear frames were generated as back views, not mirrored front frames."
+  },
+  "scale_contract": {
+    "master_visible_height": 440,
+    "allowance_px": 8,
+    "target_foot_y": 467
+  },
+  "frames": [
+    {
+      "index": 0,
+      "name": "front_contact",
+      "cell": [
+        0,
+        0
+      ],
+      "direction": "front_three_quarter",
+      "phase": "contact",
+      "canvas": [
+        512,
+        512
+      ],
+      "visible_bbox": [
+        65,
+        28,
+        375,
+        467
+      ],
+      "visible_height": 439,
+      "visible_width": 310,
+      "height_delta_from_master_440": -1,
+      "foot_anchor": [
+        257,
+        467
+      ],
+      "support_foot": "screen_right_lantern_side",
+      "hold_ms": 250,
+      "pose_ok": true,
+      "note": "Lead foot is the lantern-side boot, planted forward. Trailing boot is on the backpack side."
+    },
+    {
+      "index": 1,
+      "name": "front_passing",
+      "cell": [
+        1,
+        0
+      ],
+      "direction": "front_three_quarter",
+      "phase": "passing",
+      "canvas": [
+        512,
+        512
+      ],
+      "visible_bbox": [
+        115,
+        27,
+        423,
+        467
+      ],
+      "visible_height": 440,
+      "visible_width": 308,
+      "height_delta_from_master_440": 0,
+      "foot_anchor": [
+        252,
+        467
+      ],
+      "support_foot": "feet_together",
+      "hold_ms": 250,
+      "pose_ok": true,
+      "note": "Boots are together under the coat. This is the passing pose, not a second contact."
+    },
+    {
+      "index": 2,
+      "name": "front_same_lead_not_opposite",
+      "cell": [
+        2,
+        0
+      ],
+      "direction": "front_three_quarter",
+      "phase": "same_lead_stride_not_opposite",
+      "canvas": [
+        512,
+        512
+      ],
+      "visible_bbox": [
+        78,
+        28,
+        390,
+        467
+      ],
+      "visible_height": 439,
+      "visible_width": 312,
+      "height_delta_from_master_440": -1,
+      "foot_anchor": [
+        256,
+        467
+      ],
+      "support_foot": "screen_right_lantern_side",
+      "hold_ms": 250,
+      "pose_ok": false,
+      "note": "NOT opposite-contact. The image tool kept the same lantern-side lead foot. Do not treat cell 2 as a reversed stride."
+    },
+    {
+      "index": 3,
+      "name": "rear_contact",
+      "cell": [
+        0,
+        1
+      ],
+      "direction": "rear_three_quarter",
+      "phase": "contact",
+      "canvas": [
+        512,
+        512
+      ],
+      "visible_bbox": [
+        75,
+        27,
+        366,
+        467
+      ],
+      "visible_height": 440,
+      "visible_width": 291,
+      "height_delta_from_master_440": 0,
+      "foot_anchor": [
+        256,
+        467
+      ],
+      "support_foot": "screen_right",
+      "hold_ms": 250,
+      "pose_ok": true,
+      "note": "Back view, lantern still in the left hand so it appears on the viewer's left. Screen-right boot is forward."
+    },
+    {
+      "index": 4,
+      "name": "rear_passing",
+      "cell": [
+        1,
+        1
+      ],
+      "direction": "rear_three_quarter",
+      "phase": "passing",
+      "canvas": [
+        512,
+        512
+      ],
+      "visible_bbox": [
+        86,
+        27,
+        374,
+        467
+      ],
+      "visible_height": 440,
+      "visible_width": 288,
+      "height_delta_from_master_440": 0,
+      "foot_anchor": [
+        256,
+        467
+      ],
+      "support_foot": "screen_right_shorter_stride",
+      "hold_ms": 250,
+      "pose_ok": true,
+      "note": "Shorter stride, feet closer, not a mirror of a front cell."
+    },
+    {
+      "index": 5,
+      "name": "rear_opposite_contact",
+      "cell": [
+        2,
+        1
+      ],
+      "direction": "rear_three_quarter",
+      "phase": "opposite_contact",
+      "canvas": [
+        512,
+        512
+      ],
+      "visible_bbox": [
+        24,
+        27,
+        314,
+        467
+      ],
+      "visible_height": 440,
+      "visible_width": 290,
+      "height_delta_from_master_440": 0,
+      "foot_anchor": [
+        255,
+        467
+      ],
+      "support_foot": "screen_left",
+      "hold_ms": 250,
+      "pose_ok": true,
+      "note": "Screen-left boot is forward and the screen-right boot is back. This is the reversed rear contact."
+    }
+  ],
+  "preview": {
+    "path": "sandbox/grok/task-002/outputs/shared-v2/previews/walk_preview.gif",
+    "kind": "ART_PREVIEW_NOT_GODOT_RUNTIME",
+    "duration_ms": 3950,
+    "assembly": "Pillow concatenation. Idle uses the untouched GPT master. Walk frames are the sheet cells. The Stage A contact_shadow.png is composited under the preview only and is not baked into walk_sheet.png.",
+    "order": [
+      "idle_master",
+      "front_contact",
+      "front_passing",
+      "front_same_lead_not_opposite",
+      "front_contact",
+      "front_passing",
+      "rear_contact",
+      "rear_passing",
+      "rear_opposite_contact",
+      "rear_contact",
+      "rear_passing",
+      "rear_opposite_contact",
+      "idle_master"
+    ],
+    "durations_ms": [
+      600,
+      250,
+      250,
+      250,
+      250,
+      250,
+      250,
+      250,
+      250,
+      250,
+      250,
+      250,
+      600
+    ]
+  },
+  "how_made": "Six poses were image-edited from the published master, keyed off a flat magenta field, scaled to the master visible height, and pinned so the lowest boot sole is at y=467 and x=256. No new character design.",
+  "limitations": [
+    "Front opposite-contact was not achieved. Cell 2 keeps the same lantern-side lead foot as cell 0.",
+    "Poses are reference-guided generations, not pixel-identical redraws of the master.",
+    "The GIF is an assembled art preview, not a Godot runtime test.",
+    "Contact shadow is the Stage A asset, used only in the preview."
+  ]
+}
