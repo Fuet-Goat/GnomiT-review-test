@@ -1,0 +1,265 @@
+{
+  "schema_version": 1,
+  "project": "GnomiT",
+  "stage": "A_ART_MASTER",
+  "asset_id": "gnomit_shared_hero_v2",
+  "art_direction_owner": "GPT",
+  "executor": "Codex local environment",
+  "execution_note": "The external GPT chat did not publish or execute this local completion; its DNS blocker is preserved in logs.",
+  "tool": "built-in image_gen",
+  "imagegen_prompt": "sandbox/gpt/task-002/outputs/shared-v2/logs/LOCAL_IMAGEGEN_PROMPT.txt",
+  "native_source": {
+    "path": "sandbox/gpt/task-002/outputs/shared-v2/references/local-executor/hero_native_generated.png",
+    "bytes": 1214822,
+    "sha256": "2f87c97d3f3f13033f5be64aeac097d549fa3fc822eacae8c09e7c8c0d606a0e"
+  },
+  "canvas": [
+    512,
+    512
+  ],
+  "mode": "RGBA",
+  "visible_alpha_bbox": [
+    110,
+    27,
+    429,
+    467
+  ],
+  "visible_height": 440,
+  "foot_anchor": [
+    256,
+    467
+  ],
+  "foot_anchor_definition": "Authored ground datum centered between the lower boot-band extremes; one boot is higher in perspective. Not a measured animation planted-foot pivot.",
+  "lantern_hand": "same carried hand as GPT V1 reference; viewer right in this three-quarter-right pose",
+  "lantern_hand_rig_status": "Anatomical left/right not certified from a single raster pose; Grok must preserve the same carried hand across front/rear views, without blind mirroring.",
+  "identity": [
+    "red bent hat",
+    "white beard",
+    "teal coat",
+    "brown belt and boots",
+    "rolled backpack",
+    "brass lantern"
+  ],
+  "shadow": {
+    "path": "sandbox/gpt/task-002/art/shared-v2/characters/hero/contact_shadow.png",
+    "canvas": [
+      512,
+      512
+    ],
+    "foot_anchor": [
+      256,
+      467
+    ],
+    "origin": "Byte-identical separate GPT V1 contact shadow; not painted into the hero sprite"
+  },
+  "export_transform": {
+    "native_size": [
+      1254,
+      1254
+    ],
+    "native_crop": [
+      273,
+      71,
+      1058,
+      1154
+    ],
+    "alpha_cleanup": "alpha below 8 -> zero, alpha normalized by min(255, round(alpha*255/253)), transparent RGB -> zero",
+    "resample": "Pillow premultiplied RGBa LANCZOS",
+    "normalized_crop_size": [
+      319,
+      440
+    ],
+    "normalized_paste": [
+      110,
+      27
+    ]
+  },
+  "scene": {
+    "kind": "STATIC ART COMPOSITE, NOT GODOT RUNTIME",
+    "canvas": [
+      432,
+      960
+    ],
+    "original_frame": {
+      "path": "media/current/01_START.png",
+      "bytes": 809829,
+      "sha256": "01cad9faf87201bcae3a460cbe12678e6901cf51292c2e237508d5f08386a459"
+    },
+    "original_world": {
+      "path": "baseline/game/assets/storybook/descending_world_v2.png",
+      "bytes": 2743119,
+      "sha256": "6d1db0d6a8f810568ffc4713a42dbf1b3551a171e0fa54c05d0c61c464be2049"
+    },
+    "hero_region": [
+      145,
+      370,
+      310,
+      550
+    ],
+    "outside_changed_pixels": 0,
+    "world_registration": {
+      "matrix": [
+        [
+          0.9209168843018598,
+          -2.333521308412864e-05,
+          -186.00368850976736
+        ],
+        [
+          2.333521308412864e-05,
+          0.9209168843018598,
+          -0.02335988184027031
+        ]
+      ],
+      "matches": 1099,
+      "inliers": 1078,
+      "median_inlier_residual": 0.10626339167356491
+    },
+    "composition": "Original frame unchanged outside ROI; registered original-world clean plate inside ROI, then separate shadow and new hero alpha-composited.",
+    "foot_at_screen": [
+      225,
+      517
+    ],
+    "tile_origin": [
+      159,
+      397
+    ],
+    "tile_size": [
+      131,
+      131
+    ],
+    "nominal_scale": 0.256,
+    "effective_tile_scale": 0.255859375
+  },
+  "checks": {
+    "canvas": [
+      512,
+      512
+    ],
+    "visible_alpha_bbox": [
+      110,
+      27,
+      429,
+      467
+    ],
+    "visible_height": 440,
+    "foot_anchor": [
+      256,
+      467
+    ],
+    "alpha_zero_pixels": 173536,
+    "alpha_partial_pixels": 16354,
+    "opaque_pixels": 72254,
+    "outside_hero_roi_changed_pixels": 0,
+    "changed_pixels_inside_roi": 22858,
+    "scene_canvas": [
+      432,
+      960
+    ],
+    "scene_hero_roi": [
+      145,
+      370,
+      310,
+      550
+    ],
+    "screen_foot_anchor": [
+      225,
+      517
+    ],
+    "screen_tile_origin": [
+      159,
+      397
+    ],
+    "screen_tile_size": [
+      131,
+      131
+    ],
+    "screen_scale_requested": 0.256,
+    "native_size": [
+      1254,
+      1254
+    ],
+    "native_crop": [
+      273,
+      71,
+      1058,
+      1154
+    ],
+    "native_foot_midpoint_x": 633.0,
+    "normalized_crop_size": [
+      319,
+      440
+    ],
+    "normalized_paste": [
+      110,
+      27
+    ],
+    "registration": {
+      "matrix": [
+        [
+          0.9209168843018598,
+          -2.333521308412864e-05,
+          -186.00368850976736
+        ],
+        [
+          2.333521308412864e-05,
+          0.9209168843018598,
+          -0.02335988184027031
+        ]
+      ],
+      "matches": 1099,
+      "inliers": 1078,
+      "median_inlier_residual": 0.10626339167356491
+    }
+  },
+  "source_files": [
+    {
+      "path": "sandbox/gpt/task-002/art/hero_idle.png",
+      "bytes": 195442,
+      "sha256": "f0e905a0605ad5d34c5cb5e761a76650aabe2f88998c59c94785042cbfffdde6",
+      "commit": "7ecf55cca4627d85e62256cf4d6e75d8cb627e83"
+    },
+    {
+      "path": "sandbox/gpt/task-002/art/contact_shadow.png",
+      "bytes": 7824,
+      "sha256": "d87d66aab4d1183c48c54b023f90e7ff2b07eb1d8e0ee125f5c5b15b43082057",
+      "commit": "7ecf55cca4627d85e62256cf4d6e75d8cb627e83"
+    },
+    {
+      "path": "sandbox/gpt/task-002/outputs/shared-v2/references/00_SHARED_TARGET_CONCEPT.png",
+      "bytes": 2264565,
+      "sha256": "4c46fd0a20f13d5bfa23d8ce20ebaf12f1abe96b32e5c2808512513f4868e09f",
+      "commit": "7ecf55cca4627d85e62256cf4d6e75d8cb627e83"
+    },
+    {
+      "path": "media/current/01_START.png",
+      "bytes": 809829,
+      "sha256": "01cad9faf87201bcae3a460cbe12678e6901cf51292c2e237508d5f08386a459",
+      "commit": "7ecf55cca4627d85e62256cf4d6e75d8cb627e83"
+    },
+    {
+      "path": "baseline/game/assets/storybook/descending_world_v2.png",
+      "bytes": 2743119,
+      "sha256": "6d1db0d6a8f810568ffc4713a42dbf1b3551a171e0fa54c05d0c61c464be2049",
+      "commit": "7ecf55cca4627d85e62256cf4d6e75d8cb627e83"
+    }
+  ],
+  "limitations": [
+    "Idle master only; no animation or rear pose supplied in Stage A.",
+    "Source identity retained by reference-guided generation, not pixel-identical to V1.",
+    "Visual inspection does not prove gameplay, foot planting in motion, phone controls or final human acceptance.",
+    "Static source-world registration is subpixel; replacement limited to the declared hero ROI.",
+    "Lantern anatomical rig side remains to be documented by animation owner."
+  ],
+  "files": [
+    {
+      "path": "sandbox/gpt/task-002/art/shared-v2/characters/hero/hero_master.png",
+      "bytes": 238352,
+      "sha256": "895a1ccf8c17e756e3bc05810cceaf48ec1732d7e90e0428f1c0523e6157004d"
+    },
+    {
+      "path": "sandbox/gpt/task-002/art/shared-v2/characters/hero/contact_shadow.png",
+      "bytes": 7824,
+      "sha256": "d87d66aab4d1183c48c54b023f90e7ff2b07eb1d8e0ee125f5c5b15b43082057"
+    }
+  ]
+}
