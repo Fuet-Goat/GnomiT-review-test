@@ -2,11 +2,11 @@
   "schema_version": 1,
   "project": "GnomiT",
   "stage": "A_ART_MASTER",
-  "status": "LOCAL_CHECKS_PASSED_PENDING_REMOTE_READBACK",
+  "status": "READY_FOR_ANIMATION",
   "art_direction_owner": "GPT",
   "executor": "Codex local environment",
   "source_commit": "7ecf55cca4627d85e62256cf4d6e75d8cb627e83",
-  "artifacts_commit": null,
+  "artifacts_commit": "0f9ffeafbe82fc8732be9c5c196d9ceb0e08aba8",
   "source_files": [
     {
       "path": "sandbox/gpt/task-002/art/hero_idle.png",
@@ -123,7 +123,7 @@
     },
     {
       "check": "GitHub exact-commit byte readback",
-      "result": "NOT_YET_PERFORMED"
+      "result": "PASS_11_EXACT_SHA256_AND_PNG_DECODE"
     }
   ],
   "limitations": [
@@ -136,5 +136,12 @@
   "next_stage": "Grok Stage B consumes only a READY handoff and exact commit; 3 front/three-quarter + 3 rear/three-quarter 512x512 cells, same 440px scale, per-frame support and pivot metadata.",
   "runtime_tested": false,
   "human_visual_acceptance": false,
-  "remote_readback": null
+  "remote_readback": {
+    "result": "PASS",
+    "artifacts_commit": "0f9ffeafbe82fc8732be9c5c196d9ceb0e08aba8",
+    "verified_files": 11,
+    "method": "Independent HTTP GET raw.githubusercontent.com pinned to full commit; actual bytes SHA256 and PNG decode",
+    "receipt_path": "sandbox/gpt/task-002/outputs/shared-v2/tests/remote_readback.json"
+  },
+  "readiness_scope": "Delivery and static-art contract ready for Stage B; no final human visual approval and no runtime verification."
 }

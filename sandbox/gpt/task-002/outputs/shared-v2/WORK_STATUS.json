@@ -5,15 +5,15 @@
   "task": "task-002",
   "role": "ART_OWNER",
   "workspace_layout": "shared-v2-project-hub-v1",
-  "status": "LOCAL_CHECKS_PASSED_PENDING_REMOTE_READBACK",
+  "status": "READY_FOR_ANIMATION",
   "updated_by": "codex_local_stage_A_executor",
-  "execution": "LOCAL_ART_COMPLETION_PENDING_REMOTE_READBACK",
+  "execution": "LOCAL_ART_COMPLETION_AND_REMOTE_DELIVERY_VERIFIED",
   "handoff": "sandbox/gpt/task-002/outputs/shared-v2/handoffs/ART_HANDOFF.json",
   "project_hub": "https://github.com/Fuet-Goat/GnomiT-review-test/blob/codex/codex/task-001/discussions/codex/task-001/PROJECT_HUB/START_HERE.txt",
   "delivery_channel": "GIT_ONLY",
   "stage": "A_ART_MASTER",
   "source_commit": "7ecf55cca4627d85e62256cf4d6e75d8cb627e83",
-  "output_commit": null,
+  "output_commit": "0f9ffeafbe82fc8732be9c5c196d9ceb0e08aba8",
   "output_files": [
     {
       "path": "sandbox/gpt/task-002/art/shared-v2/characters/hero/hero_master.png",
@@ -71,7 +71,7 @@
       "sha256": "accbb744320b7ec3e874ce99bc5db36cb391635980818683d1e74a29067a668c"
     }
   ],
-  "handoff_ready": false,
+  "handoff_ready": true,
   "blockers": [],
   "historical_external_environment_blocker": {
     "status": "BLOCKED_BINARY_GIT_DELIVERY",
@@ -79,8 +79,15 @@
     "condition": "External GPT DNS not repaired; Stage A performed by Codex with working Git."
   },
   "dependencies": {
-    "grok": "WAITING_FOR_REMOTE_READBACK",
+    "grok": "READY_TO_BEGIN_STAGE_B_FROM_PINNED_ART_HANDOFF",
     "codex": "WAITING_FOR_ANIMATION_HANDOFF"
   },
-  "notes": "No game changes, merge or final artistic approval."
+  "notes": "No game changes, merge or final artistic approval.",
+  "remote_readback": {
+    "result": "PASS",
+    "artifacts_commit": "0f9ffeafbe82fc8732be9c5c196d9ceb0e08aba8",
+    "verified_files": 11,
+    "method": "Independent HTTP GET raw.githubusercontent.com pinned to full commit; actual bytes SHA256 and PNG decode",
+    "receipt_path": "sandbox/gpt/task-002/outputs/shared-v2/tests/remote_readback.json"
+  }
 }
