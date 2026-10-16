@@ -1,3 +1,6 @@
+LATEST LOCAL FEEL TUNING — 2026-10-17
+Human asked slightly faster/smoother block movement. Swap now170ms,drag-release ease-out,paired cancellation100ms;reciprocal one-cell behavior preserved. Focused39+board42+level72freshPASS. Human can try PLAY_STONES on monitor1. Record:builds/QUICKER_SWAP_2026-10-17.txt. Local implementation only;art frozen,no grant/merge changes. Recommended GPT-6.1 Sol / Medium for timing-only work.
+
 CURRENT USER FEEDBACK APPLIED — RECIPROCAL SMOOTH SWAP — 2026-10-17
 Local Frankenstein now moves BOTH stones reciprocally during the one-cell drag and continues both positions/scales into a smooth settling tween. Partial cancellation returns both; initial axis stays fixed through the gesture. Core unchanged. Focused39+board42+firstscene72 pass;rendered native-input scenario PASS with8screenshots. Human can try PLAY_STONES on monitor1. No human/phone acceptance yet.
 Record:builds/PAIRED_SWAP_UPDATE_2026-10-17.txt and own literal patch PAIRED_SWAP_REVIEW_PATCH_2026-10-17.txt. Native implementation remains local. Art frozen,no grant change/merge. Recommended GPT-6.1 Sol / High;Medium for publishing only.

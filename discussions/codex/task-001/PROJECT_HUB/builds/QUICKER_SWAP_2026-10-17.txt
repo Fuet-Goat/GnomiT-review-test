@@ -1,0 +1,47 @@
+GNOMIT — SMALL SWAP TIMING ADJUSTMENT — 2026-10-17
+Human feedback: make the block move a little faster and more smoothly.
+Same authorized local Frankenstein only. Swap tween220ms ->170ms; wait230ms ->180ms. Drag-release settling uses cubic ease-out to continue responsively without a second slow start; click-click swaps retain cubic ease-in-out. Paired partial cancellation120ms ->100ms. Reciprocal movement,one-cell bound,axis ownership and Core unchanged. No artwork,levels,sounds,save or map changes.
+Existing tests freshly pass:focused39,board42,first-scene72,all0failures. Partial-return midpoint sample changed70ms ->40ms to remain within the shorter100ms return;no assertion weakened or new mirror-of-config test added. Logs:verification/quicker_swap_checks.txt,board_after_quicker_swap.txt,first_scene_after_quicker_swap.txt.
+No new human/Android acceptance. Predecessor source kept in verification/before_swap_timing/. User can try PLAY_STONES.cmd on monitor1. Governed Git receives own text records/proposal only;native game implementation remains local;no grants/private/main/baseline/merge changes.
+Recommended GPT-6.1 Sol / High for gameplay work;Medium is sufficient for this timing-only follow-up. Actual mode not attested.
+
+LOCAL SOURCE HASHES
+scripts/board_view.gd | 33246 bytes | SHA-256 712e82a55e1d58dec38330f7857847fb8bac3bcbc2b8e83f4503642b1b72fefb
+tests/test_stone_drag.gd | 7890 bytes | SHA-256 adba5b3128a320de0f31b8c14bcb91d6d5d863a9dce17d51f7cdcf90acc810a7
+
+LITERAL LOCAL PATCH PROPOSAL
+--- before-quicker-swap/scripts/board_view.gd
++++ local-playtest/scripts/board_view.gd
+@@ -251,7 +251,7 @@
+ 	if not partner.is_empty(): _return_piece["partner"] = partner.duplicate()
+ 	_return_t = 0.0
+ 	_return_tween = create_tween()
+-	_return_tween.tween_property(self, "_return_t", 1.0, 0.12).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
++	_return_tween.tween_property(self, "_return_t", 1.0, 0.10).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+ 	_return_tween.tween_callback(func() -> void: _return_piece.clear(); queue_redraw())
+ 
+ func _release(point: Vector2) -> void:
+@@ -420,9 +420,9 @@
+ 	_motion_t = 0.0
+ 	_falling = false
+ 	_tween = create_tween()
+-	_tween.tween_property(self, "_motion_t", 1.0, 0.22).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+-	queue_redraw()
+-	await _wait(0.23)
++	_tween.tween_property(self, "_motion_t", 1.0, 0.17).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT if _moving[0].has("start_position") else Tween.EASE_IN_OUT)
++	queue_redraw()
++	await _wait(0.18)
+ 	if epoch == _epoch:
+ 		_motion_t = 1.0
+ 		_moving.clear()
+--- before-quicker-swap/tests/test_stone_drag.gd
++++ local-playtest/tests/test_stone_drag.gd
+@@ -65,7 +65,7 @@
+  check(emitted.is_empty(),"Sub-half-cell release returns without swapping")
+  mate=partner(v)
+  check(not mate.is_empty() and Vector2(mate.position).distance_to(b-Vector2(step*0.3,0))<0.01,"Partial release returns the displaced partner from its current position")
+- await create_timer(0.07).timeout
++ await create_timer(0.04).timeout
+  mate=partner(v)
+  check(not mate.is_empty() and Vector2(mate.position).x>b.x-step*0.3 and Vector2(mate.position).x<b.x,"Partner moves continuously toward home during cancellation")
+  await create_timer(0.18).timeout
