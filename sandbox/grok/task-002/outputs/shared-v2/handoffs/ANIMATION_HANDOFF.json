@@ -1,0 +1,121 @@
+{
+  "schema_version": 1,
+  "project": "GnomiT",
+  "stage": "B_ANIMATION_R1",
+  "status": "READY_FOR_CODEX_CHECK",
+  "bot": "grok",
+  "model": "Grok Build",
+  "revision": "R1",
+  "hub_commit": "8ff2294ea6a32b00b0b5e16f3a2b06bf48b17819",
+  "predecessor_binary_commit": "0920acabe220e527d33dbf3311149fd0d2a47748",
+  "predecessor_handoff_commit": "ce1d7a9139728631db99c708115fa731ed21cfc0",
+  "source_commit": "0a2b6e3d2736d8c787026718205e15dee8a6fc0f",
+  "source_master_sha256": "895a1ccf8c17e756e3bc05810cceaf48ec1732d7e90e0428f1c0523e6157004d",
+  "output_files": [
+    {
+      "path": "sandbox/grok/task-002/art/shared-v2/animations/hero/walk_sheet.png",
+      "bytes": 881007,
+      "sha256": "b03cfaf1022ee72367a820c262dec8f8d7730ce94a5d6f729ce81275505cefda"
+    },
+    {
+      "path": "sandbox/grok/task-002/art/shared-v2/animations/hero/animation_metadata.json",
+      "bytes": 9134,
+      "sha256": "340a1f57319416aaae5d7d697103a53144657217425f043b51220d3d87b459ee"
+    },
+    {
+      "path": "sandbox/grok/task-002/outputs/shared-v2/previews/walk_preview.gif",
+      "bytes": 1085155,
+      "sha256": "70b1731fba2a11fae6826e84b0ca6b65078911eddca380d6e5e99f4ed97586ae"
+    },
+    {
+      "path": "sandbox/grok/task-002/outputs/shared-v2/tests/alpha_light_dark.png",
+      "bytes": 504085,
+      "sha256": "8e0360806036debde8048a4112c7960c1fb507c9fc4613eb99f55914fcbbf864"
+    }
+  ],
+  "canvas": {
+    "sheet": [
+      1536,
+      1024
+    ],
+    "cell": [
+      512,
+      512
+    ],
+    "grid": "3x2 row-major",
+    "in_place": true,
+    "root_travel_baked_in": false
+  },
+  "checks": {
+    "master_unchanged": "PASS",
+    "sheet_1536x1024": "PASS",
+    "visible_height_440_plus_minus_8": "PASS",
+    "support_sole_y_466": "PASS",
+    "left_hand_lantern": "PASS",
+    "rear_not_mirrored": "PASS",
+    "front_opposite_contact": "PASS",
+    "front_passing_foot_lifted": "PASS",
+    "registration_no_lateral_hop": "PASS",
+    "key_spill_cleanup": "PASS",
+    "rear_passing_high_lift": "PARTIAL",
+    "remote_readback": "PASS"
+  },
+  "registration": {
+    "upper_centroid_dx_from_cell0": [
+      0.0,
+      -0.337,
+      -0.337,
+      0.165,
+      -0.39,
+      -0.338
+    ],
+    "previous_front_jump_px": 49.085,
+    "previous_rear_jump_px": -60.939,
+    "canonical_root": [
+      209.216,
+      206.316
+    ],
+    "note": "In-place sheet. Pelvis x is shared. Support sole y is 466. Sole x is not pinned to 256."
+  },
+  "remaining_limitation": "Cell 4 rear passing stays a close-feet pose: screen-right boot is the lower support and the screen-left boot is only slightly behind. A higher lift cut the support sole and was not shipped.",
+  "not_claimed": [
+    "godot",
+    "runtime",
+    "game integration",
+    "merge"
+  ],
+  "preview": {
+    "order": [
+      0,
+      1,
+      2,
+      1,
+      0,
+      1,
+      2,
+      1,
+      3,
+      4,
+      5,
+      4,
+      3,
+      4,
+      5,
+      4
+    ],
+    "frame_ms": 250,
+    "total_ms": 4000,
+    "label": "ART PREVIEW"
+  },
+  "output_commit": "463a9bb709e7aed459f2e4a861ed02e58b48b802",
+  "remote_readback": {
+    "method": "fresh clone of origin/codex/grok/task-002",
+    "tip": "463a9bb709e7aed459f2e4a861ed02e58b48b802",
+    "checked_at": "2026-10-16T22:08:25Z",
+    "result": "PASS",
+    "walk_sheet": "RGBA 1536x1024, 881007 bytes, sha256 b03cfaf1022ee72367a820c262dec8f8d7730ce94a5d6f729ce81275505cefda",
+    "animation_metadata": "9134 bytes, sha256 340a1f57319416aaae5d7d697103a53144657217425f043b51220d3d87b459ee",
+    "walk_preview": "16 frames x 250 ms = 4000 ms, 1085155 bytes, sha256 70b1731fba2a11fae6826e84b0ca6b65078911eddca380d6e5e99f4ed97586ae",
+    "alpha_light_dark": "504085 bytes, sha256 8e0360806036debde8048a4112c7960c1fb507c9fc4613eb99f55914fcbbf864"
+  }
+}

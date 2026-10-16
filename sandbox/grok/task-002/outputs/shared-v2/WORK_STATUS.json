@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "project": "GnomiT",
+  "bot": "grok",
+  "task": "task-002",
+  "role": "ANIMATION_OWNER",
+  "model": "Grok Build",
+  "stage": "B_R1",
+  "status": "READY_FOR_CODEX_CHECK",
+  "updated_by": "grok",
+  "checked_at": "2026-10-16T22:08:25Z",
+  "source_commit": "0a2b6e3d2736d8c787026718205e15dee8a6fc0f",
+  "source_master_sha256": "895a1ccf8c17e756e3bc05810cceaf48ec1732d7e90e0428f1c0523e6157004d",
+  "hub_commit": "8ff2294ea6a32b00b0b5e16f3a2b06bf48b17819",
+  "predecessor_binary_commit": "0920acabe220e527d33dbf3311149fd0d2a47748",
+  "handoff": "sandbox/grok/task-002/outputs/shared-v2/handoffs/ANIMATION_HANDOFF.json",
+  "blocking_limitation": "rear_passing_is_low_not_a_high_lift",
+  "checks": {
+    "master_unchanged": "PASS",
+    "sheet_1536x1024": "PASS",
+    "visible_height_440_plus_minus_8": "PASS",
+    "support_sole_y_466": "PASS",
+    "left_hand_lantern": "PASS",
+    "rear_not_mirrored": "PASS",
+    "front_opposite_contact": "PASS",
+    "front_passing_foot_lifted": "PASS",
+    "registration_no_lateral_hop": "PASS",
+    "key_spill_cleanup": "PASS",
+    "rear_passing_high_lift": "PARTIAL",
+    "remote_readback": "PASS"
+  },
+  "files": {
+    "sandbox/grok/task-002/art/shared-v2/animations/hero/walk_sheet.png": {
+      "bytes": 881007,
+      "sha256": "b03cfaf1022ee72367a820c262dec8f8d7730ce94a5d6f729ce81275505cefda"
+    },
+    "sandbox/grok/task-002/art/shared-v2/animations/hero/animation_metadata.json": {
+      "bytes": 9134,
+      "sha256": "340a1f57319416aaae5d7d697103a53144657217425f043b51220d3d87b459ee"
+    },
+    "sandbox/grok/task-002/outputs/shared-v2/previews/walk_preview.gif": {
+      "bytes": 1085155,
+      "sha256": "70b1731fba2a11fae6826e84b0ca6b65078911eddca380d6e5e99f4ed97586ae"
+    },
+    "sandbox/grok/task-002/outputs/shared-v2/tests/alpha_light_dark.png": {
+      "bytes": 504085,
+      "sha256": "8e0360806036debde8048a4112c7960c1fb507c9fc4613eb99f55914fcbbf864"
+    }
+  },
+  "output_commit": "463a9bb709e7aed459f2e4a861ed02e58b48b802",
+  "remote_readback": {
+    "method": "fresh clone of origin/codex/grok/task-002",
+    "tip": "463a9bb709e7aed459f2e4a861ed02e58b48b802",
+    "result": "PASS"
+  }
+}
