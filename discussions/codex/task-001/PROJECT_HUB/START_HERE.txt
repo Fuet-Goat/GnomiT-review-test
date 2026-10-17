@@ -1,3 +1,7 @@
+ПРЕДЛОЖЕНИЕ — ПРИРОДНИ СИЛИ ОТ MATCH4/MATCH5
+Codex предлага4в линия→Volcano,T/Lот5→Tornado,5+в линия→Storm;силата остава на дъската за следваща размяна. BlackHole оставаTornado+Volcano. Виж designs/MATCH4_MATCH5_NATURAL_REWARDS_PROPOSAL_BG.txt. DESIGN_ONLY / NOT_IMPLEMENTED: няма одобрен баланс,нови gameправила или автоматична задача за GPT/Grok.
+Препоръка: GPT-6.1 Sol / High.
+
 АКТУАЛНО — ПО-ТЪМНИ ОБЛАЧЕТА И МАЛКА БУРЯ ПРЕДИ УДАРА
 По човешката задача Codex потъмни облаците почти до черно, добави надигане/завихряне и кратък вътрешен заряд. По-ясната светкавица, разпукването и новият гръм са настроени към пика на удара. Само външната рамка; Core, цели, save, Volcano/Tornado са запазени. 30 нови и24 audio проверки PASS; реален Godot запис с26цели и един V2cue, byte-identical event/result/final-state спрямо предишната проба. Новата проба е на екран1; Reset повтаря. Човешкият визуален/звуков преглед предстои. Виж builds/DARK_STORM_PASS_2026-10-17.txt и DARK_STORM_REVIEW_PATCH_2026-10-17.txt. Само собствени текстови Git отчети/patch, без merge/нови grants/автоматични чужди задачи.
 Препоръка: GPT-6.1 Sol / High.
