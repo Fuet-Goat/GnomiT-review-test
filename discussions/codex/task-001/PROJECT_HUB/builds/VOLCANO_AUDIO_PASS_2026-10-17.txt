@@ -1,0 +1,249 @@
+GNOMIT — VOLCANO SOUND PASS — 2026-10-17
+Status: LOCAL_IMPLEMENTED / RUNTIME_CHECKED / AWAITING_HUMAN_LISTENING
+
+The human requested a volcano sound, breaking lava stones and burning afterwards.
+Implemented only in the isolated local MagicAnimations_2026-10-17 playtest. The
+screen1 launcher is PLAY_MAGIC_ANIMATIONS.cmd; Painted is ON. Drag the marked
+Volcano to its adjacent glowing stone. Reset repeats the same fixture.
+
+SOUND
+Three new mono 44.1kHz/16bit WAVs: warm pressure/eruption (.92s), short airy hot
+pebble flight (.30s), and stone break/crumble with fire crackles and smooth burn
+tail (.72s). Locally synthesized with deterministic NumPy DSP, using the accepted
+stone_break_full_v1.wav as the impact body; no external audio generator was used.
+The original sample remains byte-identical. Full recipe and source hash attached.
+This is a first sound design pass, not a claim of human listening approval.
+
+SYNC AND CANCELLATION
+One eruption at the real Volcano event, then one flight and impact for each actual
+Core target. The manager reads the existing normalized animation progress:
+launch .23+n*.055, impact .65+n*.055. No audio is started from drawing, no delayed
+callbacks and no gameplay RNG. Twelve voices, modest individual gains and an
+independent limited bus allow the short stone/fire tails to finish after normal
+VFX expiry. Skip/Reset/exit immediately stop all Volcano voices and scheduling.
+Reduced motion replaces the normal soundtrack with one shorter quieter breath.
+Only the generic end-Volcano bang is suppressed. Ordinary cascades and other
+powers retain their previous stone audio; Painted OFF is the previous reference.
+Missing new WAVs fall back to that original foley. Core, terrain, icon, timing,
+save, campaign, renderer and other powers are unchanged.
+
+VERIFICATION ACTUALLY RUN
+Focused audio suite:94 checks /6 cases /zero failures, including actual lab
+Skip/Reset, no stale cues, reduced replacement and entire Core/RNG parity.
+Existing headless integration:9 cases, zero failures. Native control/candidate
+Godot captures:432x960, screen0, real scripted mouse press/drag/release, exit0.
+Both EVENT/RESULT/FINAL_STATE streams byte-identical. Candidate recorded one
+eruption, five flights, five impacts, in actual target order [2,15,18,20,25].
+Threshold sampling lag is at most one 30fps capture frame. Fixed recording rate
+is not a performance benchmark. Independent read-only source audit found no
+significant actionable issue; it did not establish sound quality.
+
+The WAV preview is original PCM extracted from the actual candidate AVI, not a
+separately arranged soundtrack. Its format is read from the container:stereo,
+48kHz/16bit,337600 frames,7.033333333333333s. It contains nonzero audio and zero
+clipped samples. Godot's AVI has an underdeclared RIFF size by70 bytes within a
+complete final idx1; the extractor reports this container warning and validates
+all media boundaries. No source movie modification. Candidate AVI remains the
+audio/video reference. Live lab reopened ready on screen1; parent saw that window.
+
+DELIVERY / LIMITS
+New evidence outputs/volcano_audio preserves all earlier fire captures. Exact
+predecessor copies and hashes are under verification/before_volcano_audio_2026-10-17.
+The handoff ZIP includes changed sources/three WAVs/candidate movie/runtime PCM,
+measurements and selected captures. It is a delta over the existing local lab.
+Governed Git remains REPORTS_ONLY:these own text receipts and literal source
+proposal are published. Native game/audio assets are local/package files, not
+claimed uploaded into the governed Git tree. No grants/main/private game/merge
+changes and no new task for external bots. Human listening and Android are pending.
+
+Recommended model/effort:GPT-6.1 Sol / High for audio integration;Medium for reports.
+
+EXACT MEASUREMENTS
+{
+  "status": "LOCAL_IMPLEMENTED / RUNTIME_CHECKED / AWAITING_HUMAN_LISTENING",
+  "source_predecessor_report_commit": "a24788824f91ced0eac0fc12f9ddab43ae32bec8",
+  "unchanged_sources": {
+    "scripts/lab/natural_power_core.gd": {
+      "bytes": 7441,
+      "sha256": "1383ab2b866a44cef82d3e6b16d45f011a60109d901acaa04dacbbfa2558c2ff"
+    },
+    "scripts/lab/natural_power_board.gd": {
+      "bytes": 10704,
+      "sha256": "9225666048153c7c7c2cf44aba9871f75b4222f0dfafbfcb622ba8002e65d61b"
+    },
+    "scripts/board_view.gd": {
+      "bytes": 33490,
+      "sha256": "c0f68b6a37805278db1684200e7d5c6bc3672bfdc04fb5d6b9b908d177a44781"
+    },
+    "scripts/match_core.gd": {
+      "bytes": 10023,
+      "sha256": "12f1d987e5a5ab194cfc1ea555a5905922290a23e67f370b9f3a4813d42166bb"
+    },
+    "scripts/main.gd": {
+      "bytes": 24717,
+      "sha256": "6f8bc515339735b907fb94e3c0b621def3f9e6e75591e849bde73b2be91e5737"
+    },
+    "scripts/progress.gd": {
+      "bytes": 4151,
+      "sha256": "2d7dce425fb70fe47d07bd14777a957ac2d7e08929a43ef56216b13fba22e501"
+    },
+    "scripts/rock_audio.gd": {
+      "bytes": 1784,
+      "sha256": "24fac13dc7093ac423121b6862b123ba32359c0b10d439d0e3f286c45093112d"
+    }
+  },
+  "renderer_unchanged": true,
+  "changed_files": {
+    "scripts/lab/natural_power_lab.gd": {
+      "bytes": 11754,
+      "sha256": "96bc767d11b415e4be50533409e475bff9580ab25e6f5ecc6ee252f247e5a2b9"
+    },
+    "scripts/lab/volcano_audio.gd": {
+      "bytes": 4600,
+      "sha256": "7acd5eeafdeaebcefe8cef41886a42edbeae2989af7f22be413557f48aa9c600"
+    },
+    "tools/build_volcano_audio.py": {
+      "bytes": 4844,
+      "sha256": "8fd9f0c2e6000ba45d64203e77341d438ffe9955a1825465cbff1ae7039604e1"
+    },
+    "tools/extract_movie_audio.py": {
+      "bytes": 19904,
+      "sha256": "35aac9380476eedc36a54a6e06dfe43e9be0832b455ecb4ca46f26c3b4a4640c"
+    },
+    "tests/test_volcano_audio.gd": {
+      "bytes": 10430,
+      "sha256": "42646760bcc0d54e321a457735dc4cc442d45062d765db740656f384a7940b27"
+    },
+    "tests/capture_painted_volcano.gd": {
+      "bytes": 20686,
+      "sha256": "5611be53a89bffa5e2df24b773a4b59bfebeb6e4523a68295c3d801873c8aa2a"
+    },
+    "README_MAGIC_ANIMATIONS.txt": {
+      "bytes": 2448,
+      "sha256": "f35e3388f33f11543d3ea15e47ee801bcbe3873d9c1b81a5d7205b229a8b8c58"
+    },
+    "assets/sfx/volcano/eruption_soft_v1.wav": {
+      "bytes": 81188,
+      "sha256": "3ba1530e006b39b3e20af8683085cb2f1ffb7db4ad26051d6fa683434b38f9e4"
+    },
+    "assets/sfx/volcano/lava_flight_soft_v1.wav": {
+      "bytes": 26504,
+      "sha256": "9451170e02e409789852074b013989807bb55d55a6fb1a0e76064c2a8828f903"
+    },
+    "assets/sfx/volcano/magma_impact_burn_v1.wav": {
+      "bytes": 63548,
+      "sha256": "39c9ebfd6313cb00aa30f6d3b45d9096fc3c94b6c9a3cf49f904b8ed46b38364"
+    }
+  },
+  "focused_checks": 94,
+  "focused_cases": [
+    "assets",
+    "normal_schedule_duplicates_and_finish",
+    "stop_all",
+    "reduced_motion",
+    "lab_skip",
+    "lab_reset"
+  ],
+  "integration_cases": 9,
+  "parity": {
+    "comparisons": {
+      "EVENT": true,
+      "FINAL_STATE": true,
+      "RESULT": true
+    },
+    "status": "PASS"
+  },
+  "actual_targets": [
+    2.0,
+    15.0,
+    18.0,
+    20.0,
+    25.0
+  ],
+  "cue_counts": {
+    "eruption": 1,
+    "flight": 5,
+    "impact": 5
+  },
+  "max_sampled_cue_lateness_seconds": 0.032000016689300415,
+  "recording_pcm": {
+    "source_avi": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\MagicAnimations_2026-10-17\\outputs\\volcano_audio\\volcano_candidate.avi",
+    "output_wav": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\MagicAnimations_2026-10-17\\outputs\\volcano_audio\\volcano_runtime_preview.wav",
+    "source_bytes": 23529276,
+    "riff_segments": [
+      "AVI"
+    ],
+    "container_warnings": [
+      "Outer RIFF size ends 70 bytes before EOF inside a complete final idx1; index ignored, media boundaries validated"
+    ],
+    "audio_streams": [
+      {
+        "index": 1,
+        "scale": 4,
+        "rate": 192000,
+        "start": 0,
+        "length": 337600,
+        "sample_size": 4,
+        "format_tag": 1,
+        "channels": 2,
+        "sample_rate": 48000,
+        "byte_rate": 192000,
+        "block_align": 4,
+        "bits_per_sample": 16
+      }
+    ],
+    "selected_stream": 1,
+    "source_format": {
+      "channels": 2,
+      "sample_rate": 48000,
+      "sample_width": 2,
+      "bits_per_sample": 16,
+      "valid_bits_per_sample": 16,
+      "block_align": 4,
+      "channel_mask": null
+    },
+    "wav_encoding": "integer PCM; original sample bytes; conventional PCM header",
+    "audio_chunk_count": 211,
+    "pcm_bytes": 1350400,
+    "sample_frames": 337600,
+    "duration_seconds": 7.033333333333333,
+    "pcm_sha256": "d3efa2ed723392c037a196d85a0806a8b4ed21b064ca4caa15f273cc04358120",
+    "wav_sha256": "825ccbea30d3660d3ab7a606e2ad5069cb765dc82f6e3099797e8fb239e5915c",
+    "wav_bytes": 1350444,
+    "statistics": {
+      "sample_count": 675200,
+      "nonzero_samples": 172638,
+      "clipped_samples": 0,
+      "peak_integer": 7797,
+      "peak_normalized": 0.237945556640625,
+      "rms_normalized": 0.020710816035388616,
+      "rms_dbfs": -33.67605577907513,
+      "mean_normalized": -1.5282563123657805e-05,
+      "per_channel": [
+        {
+          "sample_count": 337600,
+          "nonzero_samples": 86319,
+          "clipped_samples": 0,
+          "peak_integer": 7797,
+          "peak_normalized": 0.237945556640625,
+          "rms_normalized": 0.020710816035388616,
+          "rms_dbfs": -33.67605577907513,
+          "mean_normalized": -1.5282563123657805e-05
+        },
+        {
+          "sample_count": 337600,
+          "nonzero_samples": 86319,
+          "clipped_samples": 0,
+          "peak_integer": 7797,
+          "peak_normalized": 0.237945556640625,
+          "rms_normalized": 0.020710816035388616,
+          "rms_dbfs": -33.67605577907513,
+          "mean_normalized": -1.5282563123657805e-05
+        }
+      ]
+    }
+  },
+  "listening_quality": "NOT_ACCEPTED_BY_HUMAN",
+  "screen": "Live unique Magic Animation Lab observed on screen0 (user monitor1); ready before swap",
+  "independent_source_review": "No significant actionable bug found; read-only, no listening/runtime claim"
+}

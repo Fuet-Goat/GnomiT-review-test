@@ -454,3 +454,64 @@ Exactmaterials/prompts/hashes/evidence/limitations:PROJECT_HUB/builds/PAINTED_VO
 VOLCANO FIRE REFINEMENT IMPLEMENTED LOCALLY — 2026-10-17
 Human requested burning magma and burned cells. Same localMagicAnimations project:one genuine new flamePNG,layered projectile flames/tails/embers,crater plume and temporary0.8-cell scorched target square behind gem,impact tongues/sparks. Original three materials,icons,Core/damage/timing/audio/save unchanged. Previous files/captures/packages preserved. Newfire22+painted26+board18+Core80checks clean;9integrationcases and two finalnativecaptures PASS,exactsame EVENT/RESULT/FINAL_STATE,targetlist[2,15,18,20,25]. Parent inspected flight/burn/hits and reopenedliveGUIonscreen1. No human/Android acceptance. Read-only staticreview no critical/important findings;finalhelperwordingfollowedbyfreshintegration/movies.
 Exact inputs/prompts/hashes/evidence/limitations:PROJECT_HUB/builds/VOLCANO_FIRE_PASS_2026-10-17.txt;literal owntext source-delta:VOLCANO_FIRE_REVIEW_PATCH_2026-10-17.txt. NativePNGs/game remainlocal/in package,governedGitowntextonly. No extra damage/persistentburn,otherpowers,newgrants/private/main/baselinechanges ormerge. RecommendedGPT-6.1Sol/High.
+
+
+GNOMIT — VOLCANO SOUND PASS — 2026-10-17
+Status: LOCAL_IMPLEMENTED / RUNTIME_CHECKED / AWAITING_HUMAN_LISTENING
+
+The human requested a volcano sound, breaking lava stones and burning afterwards.
+Implemented only in the isolated local MagicAnimations_2026-10-17 playtest. The
+screen1 launcher is PLAY_MAGIC_ANIMATIONS.cmd; Painted is ON. Drag the marked
+Volcano to its adjacent glowing stone. Reset repeats the same fixture.
+
+SOUND
+Three new mono 44.1kHz/16bit WAVs: warm pressure/eruption (.92s), short airy hot
+pebble flight (.30s), and stone break/crumble with fire crackles and smooth burn
+tail (.72s). Locally synthesized with deterministic NumPy DSP, using the accepted
+stone_break_full_v1.wav as the impact body; no external audio generator was used.
+The original sample remains byte-identical. Full recipe and source hash attached.
+This is a first sound design pass, not a claim of human listening approval.
+
+SYNC AND CANCELLATION
+One eruption at the real Volcano event, then one flight and impact for each actual
+Core target. The manager reads the existing normalized animation progress:
+launch .23+n*.055, impact .65+n*.055. No audio is started from drawing, no delayed
+callbacks and no gameplay RNG. Twelve voices, modest individual gains and an
+independent limited bus allow the short stone/fire tails to finish after normal
+VFX expiry. Skip/Reset/exit immediately stop all Volcano voices and scheduling.
+Reduced motion replaces the normal soundtrack with one shorter quieter breath.
+Only the generic end-Volcano bang is suppressed. Ordinary cascades and other
+powers retain their previous stone audio; Painted OFF is the previous reference.
+Missing new WAVs fall back to that original foley. Core, terrain, icon, timing,
+save, campaign, renderer and other powers are unchanged.
+
+VERIFICATION ACTUALLY RUN
+Focused audio suite:94 checks /6 cases /zero failures, including actual lab
+Skip/Reset, no stale cues, reduced replacement and entire Core/RNG parity.
+Existing headless integration:9 cases, zero failures. Native control/candidate
+Godot captures:432x960, screen0, real scripted mouse press/drag/release, exit0.
+Both EVENT/RESULT/FINAL_STATE streams byte-identical. Candidate recorded one
+eruption, five flights, five impacts, in actual target order [2,15,18,20,25].
+Threshold sampling lag is at most one 30fps capture frame. Fixed recording rate
+is not a performance benchmark. Independent read-only source audit found no
+significant actionable issue; it did not establish sound quality.
+
+The WAV preview is original PCM extracted from the actual candidate AVI, not a
+separately arranged soundtrack. Its format is read from the container:stereo,
+48kHz/16bit,337600 frames,7.033333333333333s. It contains nonzero audio and zero
+clipped samples. Godot's AVI has an underdeclared RIFF size by70 bytes within a
+complete final idx1; the extractor reports this container warning and validates
+all media boundaries. No source movie modification. Candidate AVI remains the
+audio/video reference. Live lab reopened ready on screen1; parent saw that window.
+
+DELIVERY / LIMITS
+New evidence outputs/volcano_audio preserves all earlier fire captures. Exact
+predecessor copies and hashes are under verification/before_volcano_audio_2026-10-17.
+The handoff ZIP includes changed sources/three WAVs/candidate movie/runtime PCM,
+measurements and selected captures. It is a delta over the existing local lab.
+Governed Git remains REPORTS_ONLY:these own text receipts and literal source
+proposal are published. Native game/audio assets are local/package files, not
+claimed uploaded into the governed Git tree. No grants/main/private game/merge
+changes and no new task for external bots. Human listening and Android are pending.
+
+Recommended model/effort:GPT-6.1 Sol / High for audio integration;Medium for reports.
