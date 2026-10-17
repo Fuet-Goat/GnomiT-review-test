@@ -630,3 +630,59 @@ native game/assets claimed uploaded, no grant/main/private edits and no merge.
 No automatic new task sent to GPT/Grok. Human look/feel and Android pending.
 
 Recommended model/effort:GPT-6.1 Sol / High for mechanics/animation integration.
+
+
+GNOMIT — TORNADO WIND AND MAGICAL SOUND FINISH — 2026-10-17
+Status:LOCAL_WIRED / NATIVE_AUDIO_CAPTURE_PASS / HUMAN_LISTENING_PENDING
+
+The human requested Tornado sound and a cartoon/musical finish like the Volcano.
+Implemented in the same separate local MagicAnimations playtest. New original
+1.42s stereo44.1kHz/16bit WAV contains warm rising wind, soft rotating/Doppler-like
+sweeps, suction close and an original gentle three-note flourish starting .91s.
+The short ending continues after the unchanged1.10s cone animation; no long music
+loop. Source is deterministic local NumPy synthesis, not a remote provider or
+downloaded recording. Separate .22s mono breath is the reduced-motion cue.
+
+Both Tornado IDs start one complete normal clip at event zero, pitch1.0,gain-7dB,
+with own limited bus/headroom. No per-frame/per-target repeated sound. Existing
+generic end-Tornado break is suppressed, avoiding a doubled old bang; ordinary
+cascade stone foley remains. Missing selected WAV warns and retains old fallback.
+Normal event expiry leaves the short magic tail. Reset/Skip/exit stop every voice
+and cannot emit stale playback. Reduced motion uses only the shorter quieter
+breath. Volcano MP3 and its own manager remain independent; no Tornado wind there.
+Core,RNG,radial footprint,soil/runes,icons,VFX,durations,campaign and saves unchanged.
+
+VERIFICATION ACTUALLY RUN
+Tornado audio55 checks /7 cases PASS:decoded nonzero WAVs, single original-pitch
+clip, tail retention,reduced shorter/quieter sound, actual h/v and Volcano routes,
+actual Skip/Reset cancellation beyond old effect lifetime, complete Core/RNG and
+result preservation. Real foley observer confirms the Tornado end-break signal
+arrives once and its old forwarded playback is suppressed. Existing Volcano MP3
+audio36 checks PASS. Parent source review checked event guards, cancellation,
+independent process branches and cascade forwarding; no independent audit or
+human listening verdict is claimed for this sound pass.
+
+Two actual Godot movies at432x960/screen0/fixed30fps/scripted native mouse drag
+PASS, each with exactly one normal clip. EVENT/RESULT/FINAL_STATE files for both
+fixtures are byte-identical to the previous silent-wind animation pass. Native
+recording's PCM extracted without re-arrangement:stereo48kHz/16bit,7.033333333333333s,
+nonzero sound,zero clipped samples. These checks do not establish perceived sound
+quality. The extractor reports the previously documented complete-final-idx1 RIFF
+size discrepancy; original media boundaries remain validated.
+New live sound version launched on user monitor1 and observed with Tornado active
+after a move. User state was left untouched. Recording is agent-scripted,not a
+human/Android test or a performance benchmark.
+
+DELIVERY
+New assets:assets/sfx/tornado/. Recipe:tools/build_tornado_audio.py. Integration:
+scripts/lab/tornado_audio.gd and existing lab routes. Capture --sound-pass writes
+only outputs/tornado_sound, including actual audio cue logs; earlier Tornado and
+Volcano evidence remains unchanged. Exact before sources are backed up under
+verification/before_tornado_sound_2026-10-17. A single handoff ZIP contains source
+delta,real WAVs,Godot movie/runtime PCM,keyframe and checks with SHA256 manifest.
+Governed Git retains REPORTS_ONLY:own report/literal source proposal only;native
+game/audio files are local/package assets,not claimed published in its game tree.
+No grants/main/private changes,merge,new external bot task or replacement of the
+liked Volcano MP3. Human listening feedback is the next acceptance input.
+
+Recommended model/effort:GPT-6.1 Sol / High for sound/game integration.

@@ -1,0 +1,606 @@
+LITERAL LOCAL SOURCE PROPOSAL ONLY — NOT APPLIED TO GOVERNED GAME
+
+--- before/scripts/lab/natural_power_lab.gd
++++ after/scripts/lab/natural_power_lab.gd
+@@ -4,10 +4,12 @@
+ const Art = preload("res://scripts/story_art.gd")
+ const RockAudio = preload("res://scripts/rock_audio.gd")
+ const VolcanoAudio = preload("res://scripts/lab/volcano_audio.gd")
++const TornadoAudio = preload("res://scripts/lab/tornado_audio.gd")
+ const Background = preload("res://assets/first_crystals/cave_background_v1.png")
+ var core
+ var stone_audio
+ var volcano_audio
++var tornado_audio
+ var last_result:Dictionary = {}
+ var board
+ var scenario := "tornado_h"
+@@ -91,6 +93,7 @@
+ 	stack.add_child(board)
+ 	stone_audio = RockAudio.new();add_child(stone_audio)
+ 	volcano_audio = VolcanoAudio.new();add_child(volcano_audio)
++	tornado_audio = TornadoAudio.new();add_child(tornado_audio)
+ 	board.foley_requested.connect(_on_board_foley)
+ 	board.swap_requested.connect(_on_swap)
+ 	board.power_started.connect(_on_power_started)
+@@ -116,6 +119,7 @@
+ 
+ func reset_scenario(value:String) -> void:
+ 	if is_instance_valid(volcano_audio): volcano_audio.stop_all()
++	if is_instance_valid(tornado_audio): tornado_audio.stop_all()
+ 	_generation += 1;_resolving = false;scenario = value;last_result.clear()
+ 	core = LabCore.new();core.setup_lab(scenario,seed_value)
+ 	board.setup(core,reduced.button_pressed)
+@@ -162,6 +166,8 @@
+ 	# A signal listener may have skipped/reset the event before this handler.
+ 	if power == "volcano" and _has_painted_volcano_event():
+ 		volcano_audio.begin(targets,board.reduced_motion)
++	elif power in ["tornado_h","tornado_v"] and _has_tornado_event():
++		tornado_audio.begin(board.reduced_motion)
+ 	match power:
+ 		"volcano": effect_label.text = "VOLCANO · " + str(targets.size()) + " MAGMA HITS";helper.text = "Watch burning lava scorch the marked cells." if painted_toggle.button_pressed else "Watch the marked stones — one magma pebble per target."
+ 		"tornado_h", "tornado_v": effect_label.text = "TORNADO · " + str(targets.size()) + " NEARBY STONES";helper.text = "The marked stones swirl into the centre. Gaps and runes remain."
+@@ -169,6 +175,7 @@
+ 
+ func skip_effect() -> void:
+ 	if is_instance_valid(volcano_audio): volcano_audio.stop_all()
++	if is_instance_valid(tornado_audio): tornado_audio.stop_all()
+ 	if not _resolving: return
+ 	_generation += 1
+ 	board.finish_now()
+@@ -178,16 +185,23 @@
+ func _has_painted_volcano_event() -> bool:
+ 	return is_instance_valid(board) and board.painted_volcano and not board._power_event.is_empty() and board._power_epoch == board._epoch and String(board._power_event.get("power","")) == "volcano"
+ 
++func _has_tornado_event() -> bool:
++	return is_instance_valid(board) and not board._power_event.is_empty() and board._power_epoch == board._epoch and String(board._power_event.get("power","")) in ["tornado_h","tornado_v"]
++
+ func _process(_delta:float) -> void:
+-	if not is_instance_valid(volcano_audio) or not volcano_audio.event_active: return
+-	if _has_painted_volcano_event(): volcano_audio.sync_progress(board._power_t)
+-	else: volcano_audio.finish_event()
++	if is_instance_valid(volcano_audio) and volcano_audio.event_active:
++		if _has_painted_volcano_event(): volcano_audio.sync_progress(board._power_t)
++		else: volcano_audio.finish_event()
++	if is_instance_valid(tornado_audio) and tornado_audio.event_active and not _has_tornado_event():
++		tornado_audio.finish_event()
+ 
+ func _on_board_foley(kind:String,strength:float = 1.0) -> void:
+ 	# The painted impacts already have a full stone body and fire tail. Suppress
+ 	# only their old end bang; cascades and all baseline powers retain their cues.
+ 	if kind == "break" and _has_painted_volcano_event() and is_instance_valid(volcano_audio) and volcano_audio.event_active: return
++	if kind == "break" and _has_tornado_event() and is_instance_valid(tornado_audio) and tornado_audio.event_active: return
+ 	stone_audio.play_cue(kind,strength)
+ 
+ func _exit_tree() -> void:
+ 	if is_instance_valid(volcano_audio): volcano_audio.stop_all()
++	if is_instance_valid(tornado_audio): tornado_audio.stop_all()
+
+--- before/tests/capture_tornado_top.gd
++++ after/tests/capture_tornado_top.gd
+@@ -5,6 +5,7 @@
+ const LAB_PATH := "res://scripts/lab/natural_power_lab.gd"
+ const BOARD_PATH := "res://scripts/lab/magic_volcano_board.gd"
+ const OUTPUT_PATH := "res://outputs/tornado_top"
++const SOUND_OUTPUT_PATH := "res://outputs/tornado_sound"
+ const SCREEN_SIZE := Vector2i(432, 960)
+ const CAPTURE_FPS := 30
+ const CAPTURE_FRAMES := 210
+@@ -15,6 +16,7 @@
+ var app
+ var output := ""
+ var scenario := "tornado_h"
++var sound_pass := false
+ var failures: Array[String] = []
+ var observations: Array = []
+ var frame_observations: Array = []
+@@ -376,6 +378,14 @@
+ 	if ended:
+ 		return
+ 	ended = true
++	if sound_pass:
++		var audio_manager: Variant = app.get("tornado_audio") if app != null else null
++		check(audio_manager != null, "Actual lab Tornado audio manager is present for sound capture")
++		if audio_manager != null:
++			var actual_cue_log: Variant = audio_manager.get("cue_log")
++			check(actual_cue_log is Array, "Actual Tornado audio cue log is an Array")
++			if actual_cue_log is Array:
++				write_json("AUDIO_CUES", actual_cue_log)
+ 	var effect_frames := effect_end_frame - activation_frame if effect_end_frame >= 0 and activation_frame >= 0 else -1
+ 	var receipt := {
+ 		"status": "PASS" if failures.is_empty() else "FAIL", "failures": failures,
+@@ -405,12 +415,15 @@
+ 
+ func run() -> void:
+ 	start_frame = Engine.get_process_frames()
+-	output = ProjectSettings.globalize_path(OUTPUT_PATH)
++	var arguments := OS.get_cmdline_user_args()
++	sound_pass = "--sound-pass" in arguments
++	output = ProjectSettings.globalize_path(SOUND_OUTPUT_PATH if sound_pass else OUTPUT_PATH)
+ 	check(DirAccess.make_dir_recursive_absolute(output) == OK, "Dedicated Tornado output directory exists")
+-	var arguments := OS.get_cmdline_user_args()
+ 	var valid_arguments := arguments.is_empty() or (arguments.size() == 1 and String(arguments[0]) in ["--tornado-h", "--tornado-v"])
++	if sound_pass:
++		valid_arguments = arguments.size() == 1 or (arguments.size() == 2 and ("--tornado-h" in arguments or "--tornado-v" in arguments))
+ 	if not valid_arguments:
+-		check(false, "Use no user argument for tornado_h, or exactly one of --tornado-h / --tornado-v")
++		check(false, "Use no user argument for tornado_h, or one of --tornado-h / --tornado-v; optionally add --sound-pass")
+ 		finish_capture()
+ 		return
+ 	scenario = "tornado_v" if "--tornado-v" in arguments else "tornado_h"
+
+--- before/README_MAGIC_ANIMATIONS.txt
++++ after/README_MAGIC_ANIMATIONS.txt
+@@ -3,6 +3,8 @@
+ Run PLAY_MAGIC_ANIMATIONS.cmd. The lab opens on monitor 0 at 432x960 and starts with Tornado selected.
+ 
+ TORNADO: drag the highlighted whirlwind to the adjacent marked stone. At its new position it spins in place like a top and pulls in the ordinary minerals in the eight surrounding cells (a 3x3 footprint including diagonals, excluding its own centre). It does not sweep a full row or column. Borders clip the footprint; holes, runes and other specials are excluded. The ordinary targets and the tornado itself are removed in the existing one-move transaction; affected soil loses its existing single layer. There is no chain activation. Normal post-power cascades retain the usual rules. Target cells are marked first, followed by the local whirl and inward stone motion, then normal refill. Duration is 1.10s; Reduced motion keeps the short selection cue. Reset and Skip clear the effect. Volcano and its delivered MP3, Black Hole, campaign and save are unchanged. Both historical tornado type IDs now use the same radial rule; the menu exposes one Tornado button.
++
++TORNADO SOUND: one original 1.42-second cartoon wind recording rises and swirls with the cone, closes into a suction breath, then ends with a soft three-note magic flourish as the cone collapses. It plays once per activation at original pitch, with a short natural tail after the 1.10-second visual effect. The old generic Tornado end-break is suppressed; ordinary cascade stone sounds remain. Reduced motion uses one quieter 0.22-second breath. Reset, Skip and exit stop all Tornado audio. New WAVs are under assets/sfx/tornado; tools/build_tornado_audio.py is the original local NumPy synthesis recipe. Human listening feedback remains pending. This is a short game effect, not background music.
+ 
+ Painted is enabled by default and selects the improved Volcano: glowing lava stones fly with fire tails, then leave a brief scorch on each hit cell. The scorch is visual only; it causes no ongoing damage. Turn Painted off for the baseline Volcano reference. This does not reset the board, reroll the seed, spend a move, or change the resolved result. The toggle is disabled while an effect resolves. Tornado always uses the local whirl; Black Hole retains its previous VFX.
+ 
+@@ -18,4 +20,6 @@
+ 
+ Current Tornado evidence uses tests/capture_tornado_top.gd and outputs/tornado_top. Earlier captures are preserved as historical passes. Scripted Godot captures verify the real event, not human usability or Android performance.
+ 
++Add --sound-pass to that Tornado capture harness to save the sound update under outputs/tornado_sound, preserving the earlier animation pass. The native AVI includes the actual game mix; the WAV preview is extracted from that movie's PCM. GIF previews remain silent.
++
+ This is a separate local test fixture, not campaign rewards or final balance. No personal or campaign save is read or written. The current project default scene is the lab; the launcher uses that scene directly.
+
+--- /dev/null
++++ after/scripts/lab/tornado_audio.gd
+@@ -0,0 +1,79 @@
++extends Node
++## One wind/suction/magic recording per Tornado event, at its original pitch.
++## Presentation only: no timers, per-target repeats or gameplay randomness.
++
++const VOICES := 2
++const BUS_NAME := "GnomiT Tornado Foley"
++const STREAM_PATHS := {
++	"normal":"res://assets/sfx/tornado/tornado_cartoon_magic_v1.wav",
++	"reduced":"res://assets/sfx/tornado/tornado_soft_short_v1.wav",
++}
++
++var players: Array[AudioStreamPlayer] = []
++var streams: Dictionary = {}
++var cue_log: Array = []
++var event_active := false
++var _event_id := 0
++var _next_voice := 0
++
++func _ready() -> void:
++	_prepare_audio()
++
++func _prepare_audio() -> void:
++	# Direct WAV loading also works before editor import has run.
++	for kind in STREAM_PATHS:
++		if streams.has(kind) or not FileAccess.file_exists(STREAM_PATHS[kind]): continue
++		var stream := AudioStreamWAV.load_from_file(STREAM_PATHS[kind])
++		if stream != null and stream.get_length() > 0.0: streams[kind] = stream
++	if not players.is_empty(): return
++	if AudioServer.get_bus_index(BUS_NAME) < 0:
++		AudioServer.add_bus()
++		var index := AudioServer.bus_count-1
++		AudioServer.set_bus_name(index,BUS_NAME)
++		AudioServer.set_bus_volume_db(index,-2.0)
++		var limiter := AudioEffectHardLimiter.new()
++		limiter.ceiling_db = -6.0
++		AudioServer.add_bus_effect(index,limiter)
++	for voice in VOICES:
++		var player := AudioStreamPlayer.new()
++		player.bus = BUS_NAME
++		add_child(player)
++		players.append(player)
++
++func asset_status() -> Dictionary:
++	_prepare_audio()
++	var missing: Array = []
++	var lengths: Dictionary = {}
++	for kind in STREAM_PATHS:
++		if not streams.has(kind): missing.append(STREAM_PATHS[kind])
++		else: lengths[kind] = streams[kind].get_length()
++	return {"ready":missing.is_empty(),"normal_ready":streams.has("normal"),"reduced_ready":streams.has("reduced"),"missing":missing,"lengths":lengths}
++
++func begin(reduced: bool) -> void:
++	stop_all()
++	_prepare_audio()
++	var selected := "reduced" if reduced else "normal"
++	if not streams.has(selected) or players.is_empty():
++		push_warning("Tornado audio asset unavailable; retaining baseline stone foley: " + STREAM_PATHS[selected])
++		return
++	_event_id += 1
++	var slot := _next_voice
++	_next_voice = (slot+1)%players.size()
++	var player: AudioStreamPlayer = players[slot]
++	player.stream = streams[selected]
++	player.pitch_scale = 1.0
++	player.volume_db = -15.0 if reduced else -7.0
++	player.play()
++	event_active = true
++	cue_log.append({"kind":"reduced" if reduced else "clip","reduced":reduced,"pitch_scale":player.pitch_scale,"volume_db":player.volume_db,"event_id":_event_id,"voice":slot,"source_path":STREAM_PATHS[selected],"length":player.stream.get_length()})
++
++func finish_event() -> void:
++	# Normal VFX completion leaves the single recording's short magic ending.
++	event_active = false
++
++func stop_all() -> void:
++	finish_event()
++	for player in players: player.stop()
++
++func _exit_tree() -> void:
++	stop_all()
+
+--- /dev/null
++++ after/tests/test_tornado_audio.gd
+@@ -0,0 +1,223 @@
++extends SceneTree
++## Real decoded Tornado audio, actual lab routing, and bounded cancellation.
++
++const AUDIO_PATH := "res://scripts/lab/tornado_audio.gd"
++const CORE_PATH := "res://scripts/lab/natural_power_core.gd"
++const LAB_PATH := "res://scripts/lab/natural_power_lab.gd"
++var checks := 0
++var failures: Array[String] = []
++var cases: Array[String] = []
++var observations: Array = []
++
++func _initialize() -> void:
++	call_deferred("run")
++
++func check(value: bool, message: String) -> void:
++	checks += 1
++	if not value:
++		failures.append(message)
++		print("FAIL: " + message)
++
++func canonical(value: Variant) -> String:
++	return JSON.stringify(JSON.parse_string(JSON.stringify(value)), "", true)
++
++func core_state(core) -> Dictionary:
++	return {
++		"cols":core.cols, "rows":core.rows, "grid":core.grid.duplicate(),
++		"floor":core.floor.duplicate(), "runes":core.runes.duplicate(),
++		"moves_left":core.moves_left, "initial_moves":core.initial_moves,
++		"collected":core.collected, "collect_kind":core.collect_kind,
++		"collect_goal":core.collect_goal, "won":core.won, "lost":core.lost,
++		"goal":core._goal, "black_hole_used":core.black_hole_used,
++		"fixture_pair":core.fixture_pair.duplicate(),
++		"rng_seed_int64":str(core._rng.seed), "rng_state_int64":str(core._rng.state),
++	}
++
++func playing_count(manager) -> int:
++	var count := 0
++	for player in manager.players:
++		if player.playing:
++			count += 1
++	return count
++
++func wait_for_audio_end(manager, limit_msec: int) -> float:
++	var began := Time.get_ticks_msec()
++	while playing_count(manager) > 0 and Time.get_ticks_msec() - began < limit_msec:
++		await process_frame
++	return float(Time.get_ticks_msec() - began) / 1000.0
++
++func verify_assets(manager) -> void:
++	cases.append("decoded_assets")
++	check(bool(manager.asset_status().get("ready", false)), "Actual Tornado audio assets are ready")
++	check(manager.players.size() == 2, "Tornado uses a bounded two-voice pool")
++	for definition in [["normal", 1.42, true], ["reduced", 0.22, false]]:
++		var key: String = definition[0]
++		var stream = manager.streams.get(key)
++		check(stream is AudioStreamWAV, key + " decodes as a real WAV")
++		if not stream is AudioStreamWAV:
++			continue
++		check(stream.mix_rate == 44100 and stream.format == AudioStreamWAV.FORMAT_16_BITS, key + " uses actual 44100 Hz 16-bit PCM")
++		check(stream.stereo == bool(definition[2]), key + " has the intended channel layout")
++		check(absf(stream.get_length() - float(definition[1])) < 0.00001, key + " has the measured intended duration")
++		check(not stream.data.is_empty() and stream.data.count(0) < stream.data.size(), key + " contains decoded nonzero samples")
++
++func verify_manager(manager) -> void:
++	cases.append("single_clip_tail_and_reduced")
++	var core = load(CORE_PATH).new()
++	core.setup_lab("tornado_h", 42)
++	var result: Dictionary = core.try_swap(int(core.fixture_pair[0]), int(core.fixture_pair[1]))
++	var committed := canonical(core_state(core))
++	var transaction := canonical(result)
++	manager.cue_log.clear()
++	manager.begin(false)
++	check(manager.event_active and manager.cue_log.size() == 1 and playing_count(manager) == 1, "Normal begin starts only one actual clip")
++	var normal: Dictionary = manager.cue_log[0] if manager.cue_log.size() == 1 else {}
++	if not normal.is_empty():
++		var voice: int = int(normal.get("voice", -1))
++		check(normal.kind == "clip" and not bool(normal.reduced) and float(normal.pitch_scale) == 1.0, "Normal receipt identifies one original-pitch clip")
++		check(voice >= 0 and voice < manager.players.size(), "Normal cue identifies its actual voice")
++		if voice >= 0 and voice < manager.players.size():
++			check(manager.players[voice].stream == manager.streams.normal and manager.players[voice].pitch_scale == 1.0, "Actual normal voice uses the full clip at original pitch")
++	var started := canonical(manager.cue_log)
++	for ignored in range(4):
++		await process_frame
++	check(canonical(manager.cue_log) == started, "Idle process frames never add repeated target or frame cues")
++	manager.finish_event()
++	manager.finish_event()
++	check(not manager.event_active and playing_count(manager) == 1 and canonical(manager.cue_log) == started, "Normal event finish permits the existing tail without restarting audio")
++	manager.cue_log.clear()
++	manager.begin(true)
++	check(manager.cue_log.size() == 1 and playing_count(manager) == 1, "Reduced begin replaces the full tail with one short cue")
++	if manager.cue_log.size() == 1:
++		var reduced: Dictionary = manager.cue_log[0]
++		var voice: int = int(reduced.get("voice", -1))
++		check(reduced.kind == "reduced" and bool(reduced.reduced) and float(reduced.pitch_scale) == 1.0, "Reduced cue remains a distinct original-pitch short sound")
++		check(not normal.is_empty() and float(reduced.volume_db) < float(normal.volume_db), "Reduced playback has lower gain than normal")
++		check(voice >= 0 and voice < manager.players.size() and manager.players[voice].stream == manager.streams.reduced, "Reduced voice uses the separate short WAV")
++	manager.finish_event()
++	var reduced_elapsed := await wait_for_audio_end(manager, 1000)
++	check(playing_count(manager) == 0 and manager.cue_log.size() == 1, "Reduced cue ends without any delayed full clip")
++	manager.begin(false)
++	check(playing_count(manager) == 1, "Stop test has an active normal voice")
++	manager.stop_all()
++	var stopped := canonical(manager.cue_log)
++	await process_frame
++	check(not manager.event_active and playing_count(manager) == 0 and canonical(manager.cue_log) == stopped, "Stop cancels active audio and keeps receipts stable")
++	check(canonical(core_state(core)) == committed and canonical(result) == transaction, "All manager operations preserve the complete actual Core transaction and RNG")
++	observations.append({"reduced_wait_wall_seconds":reduced_elapsed, "normal_length":manager.streams.normal.get_length(), "reduced_length":manager.streams.reduced.get_length()})
++
++func wait_for_active_power(app, power: String) -> bool:
++	var deadline := Time.get_ticks_msec() + 4000
++	while Time.get_ticks_msec() < deadline:
++		if app.board._power_event.get("power", "") == power and app.board._power_t >= 0.25:
++			return true
++		await process_frame
++	return false
++
++func wait_for_lab_done(app) -> bool:
++	var deadline := Time.get_ticks_msec() + 6000
++	while (app._resolving or app.board.busy) and Time.get_ticks_msec() < deadline:
++		await process_frame
++	return not app._resolving and not app.board.busy
++
++func verify_lab() -> void:
++	var lab_script = load(LAB_PATH)
++	check(lab_script != null and lab_script.can_instantiate(), "Actual lab loads its Tornado sound integration")
++	if lab_script == null or not lab_script.can_instantiate():
++		return
++	var app = lab_script.new()
++	root.add_child(app)
++	app.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
++	await process_frame
++	await process_frame
++	var manager = app.get("tornado_audio")
++	check(manager != null, "Actual lab owns a separate Tornado sound manager")
++	if manager == null:
++		app.queue_free()
++		await process_frame
++		return
++	# Observe the real baseline bank while retaining its actual playback. This
++	# distinguishes the removed power-end bang from later ordinary cascades.
++	var foley_observer := GDScript.new()
++	foley_observer.source_code = "extends \"res://scripts/rock_audio.gd\"\nvar lab\nvar power_breaks := 0\nfunc play_cue(kind: String, strength: float = 1.0) -> void:\n\tif kind == \"break\" and lab._has_tornado_event():\n\t\tpower_breaks += 1\n\tsuper.play_cue(kind,strength)\n"
++	check(foley_observer.reload() == OK, "Real baseline foley observer loads")
++	if not foley_observer.can_instantiate():
++		app.queue_free()
++		await process_frame
++		return
++	app.stone_audio.stop_all()
++	app.stone_audio.queue_free()
++	var baseline_foley = foley_observer.new()
++	baseline_foley.lab = app
++	app.add_child(baseline_foley)
++	app.stone_audio = baseline_foley
++	var raw_foley := {"power_breaks":0}
++	app.board.foley_requested.connect(func(kind: String, _strength: float) -> void:
++		if kind == "break" and app._has_tornado_event():
++			raw_foley.power_breaks += 1)
++	for scenario in ["tornado_h", "tornado_v", "volcano"]:
++		cases.append("actual_" + scenario)
++		app.reduced.button_pressed = false
++		app.reset_scenario(scenario)
++		manager.cue_log.clear()
++		raw_foley.power_breaks = 0
++		baseline_foley.power_breaks = 0
++		app._on_swap(int(app.core.fixture_pair[0]), int(app.core.fixture_pair[1]))
++		var active := await wait_for_active_power(app, scenario)
++		check(active, scenario + " uses a real active Core event")
++		var committed := canonical(core_state(app.core))
++		var transaction := canonical(app.last_result)
++		if scenario.begins_with("tornado"):
++			check(manager.event_active and playing_count(manager) == 1 and manager.cue_log.size() == 1 and manager.cue_log[0].kind == "clip", scenario + " starts exactly one full Tornado clip")
++		else:
++			check(not manager.event_active and playing_count(manager) == 0 and manager.cue_log.is_empty(), "Volcano never starts the Tornado soundtrack")
++		var completed := await wait_for_lab_done(app)
++		check(completed, scenario + " actual animation completes")
++		check(canonical(core_state(app.core)) == committed and canonical(app.last_result) == transaction, scenario + " audio and rendering preserve complete Core and RNG")
++		var expected_cues := 1 if scenario.begins_with("tornado") else 0
++		check(manager.cue_log.size() == expected_cues, scenario + " finishes without repeated per-frame or per-target Tornado cues")
++		if scenario.begins_with("tornado"):
++			check(raw_foley.power_breaks == 1 and baseline_foley.power_breaks == 0, scenario + " suppresses the real old power-end bang before it reaches baseline foley")
++	for action in ["skip", "reset"]:
++		cases.append("actual_" + action)
++		app.reset_scenario("tornado_h")
++		manager.cue_log.clear()
++		var original_core = app.core
++		app._on_swap(int(app.core.fixture_pair[0]), int(app.core.fixture_pair[1]))
++		var active := await wait_for_active_power(app, "tornado_h")
++		check(active and playing_count(manager) == 1, "Actual " + action + " begins during audible Tornado playback")
++		var committed := canonical(core_state(original_core))
++		if action == "skip":
++			app.skip_effect()
++		else:
++			app.reset_scenario("tornado_h")
++		var current := canonical(core_state(app.core))
++		var stopped := canonical(manager.cue_log)
++		check(not manager.event_active and playing_count(manager) == 0, "Actual " + action + " immediately stops Tornado voices")
++		var began := Time.get_ticks_msec()
++		while Time.get_ticks_msec() - began < 1500:
++			await process_frame
++		check(not manager.event_active and playing_count(manager) == 0 and canonical(manager.cue_log) == stopped, "Actual " + action + " cannot emit stale cues beyond the full clip duration")
++		check(canonical(core_state(original_core)) == committed and canonical(core_state(app.core)) == current, "Actual " + action + " preserves original and displayed Core/RNG state")
++	app.queue_free()
++	await process_frame
++
++func finish() -> void:
++	print("TORNADO_AUDIO " + JSON.stringify({"status":"PASS" if failures.is_empty() else "FAIL", "checks":checks, "failures":failures, "cases":cases, "observations":observations}))
++	quit(0 if failures.is_empty() else 1)
++
++func run() -> void:
++	var audio_script = load(AUDIO_PATH)
++	check(audio_script != null and audio_script.can_instantiate(), "Tornado audio manager loads")
++	if audio_script == null or not audio_script.can_instantiate():
++		finish()
++		return
++	var manager = audio_script.new()
++	root.add_child(manager)
++	verify_assets(manager)
++	await verify_manager(manager)
++	manager.stop_all()
++	manager.queue_free()
++	await process_frame
++	await verify_lab()
++	finish()
+
+--- /dev/null
++++ after/tools/build_tornado_audio.py
+@@ -0,0 +1,91 @@
++"""Original deterministic cartoon wind + musical close, NumPy/stdlib only."""
++from pathlib import Path
++import hashlib
++import json
++import wave
++import numpy as np
++
++ROOT=Path(__file__).resolve().parents[1]
++RATE=44100
++
++def band_noise(rng,n,low,high):
++    hz=np.fft.rfftfreq(n,1/RATE)
++    spectrum=np.fft.rfft(rng.normal(size=n))
++    filt=(1-np.exp(-(hz/low)**4))*np.exp(-(hz/high)**4)
++    x=np.fft.irfft(spectrum*filt,n=n)
++    return x/max(float(np.sqrt(np.mean(x*x))),1e-9)
++
++def smoothstep(start,end,t):
++    u=np.clip((t-start)/(end-start),0,1)
++    return u*u*(3-2*u)
++
++def save(name,x,peak):
++    x=np.tanh(x*.65)
++    x*=peak/max(float(np.max(np.abs(x))),1e-9)
++    fade=round(.025*RATE)
++    x[:fade]*=np.linspace(0,1,fade)[:,None]
++    x[-fade:]*=np.linspace(1,0,fade)[:,None]**2
++    x[0]=x[-1]=0
++    pcm=np.round(x*32767).astype('<i2')
++    path=ROOT/'assets/sfx/tornado'/name
++    path.parent.mkdir(parents=True,exist_ok=True)
++    raw=pcm.tobytes()
++    if path.exists():
++        # An existing artist output is never silently overwritten.
++        with wave.open(str(path),'rb') as old:
++            assert old.getnchannels()==x.shape[1] and old.getframerate()==RATE and old.readframes(old.getnframes())==raw
++    else:
++        with wave.open(str(path),'wb') as f:
++            f.setparams((x.shape[1],2,RATE,len(x),'NONE','not compressed'));f.writeframes(raw)
++    return {'path':path.relative_to(ROOT).as_posix(),'bytes':path.stat().st_size,'sha256':hashlib.sha256(path.read_bytes()).hexdigest(),
++            'seconds':len(x)/RATE,'channels':x.shape[1],'sample_rate':RATE,'bits_per_sample':16,
++            'peak_dbfs':float(20*np.log10(np.max(np.abs(pcm))/32768)),
++            'rms_dbfs':float(20*np.log10(np.sqrt(np.mean((pcm/32768.)**2)))),
++            'last_10ms_rms':float(np.sqrt(np.mean((pcm[-441:]/32768.)**2)))}
++
++def build():
++    rng=np.random.default_rng(171020261)
++    n=round(1.42*RATE);t=np.arange(n)/RATE
++    # A broad warm breath, with staggered, soft Doppler-like sweeps. No harsh
++    # disaster siren or long ambient loop: one local magical whirlwind.
++    air=band_noise(rng,n,100,2400)
++    silk=band_noise(rng,n,450,3300)
++    low=band_noise(rng,n,45,480)
++    env=smoothstep(0,.16,t)*(1-smoothstep(.76,1.18,t))
++    flutter=.70+.17*np.sin(2*np.pi*(4.1*t+1.3*t*t))+.09*np.sin(2*np.pi*8.7*t)
++    wind=(.23*air+.075*silk+.10*low)*env*flutter
++    sweeps=np.zeros(n)
++    for at,length,freq in [(0.12,.31,440),(.35,.32,590),(.59,.34,720)]:
++        u=np.maximum(t-at,0)
++        a=np.clip(u/length,0,1)
++        shape=np.sin(np.pi*a)**2*(u<length)*(t>=at)
++        phase=2*np.pi*(freq*u-220*u*u)
++        sweeps+=.055*np.sin(phase)*shape
++    # Soft original three-note flourish as the cone collapses (.935s onward),
++    # blended into the closing breath, not a soundtrack copied from another game.
++    music=np.zeros(n)
++    for at,freq,gain in [(.91,523.251,.065),(.98,659.255,.057),(1.045,783.991,.047)]:
++        u=np.maximum(t-at,0)
++        attack=smoothstep(0,.012,u)
++        decay=np.exp(-u/.125)*(t>=at)
++        note=np.sin(2*np.pi*freq*u)+.24*np.sin(2*np.pi*2*freq*u)+.075*np.sin(2*np.pi*3*freq*u)
++        music+=gain*note*attack*decay
++    close=band_noise(rng,n,170,1800)*.04*np.exp(-((t-.95)/.11)**2)
++    mono=wind+sweeps+close
++    pan=.22*np.sin(2*np.pi*(2.3*t+.55*t*t))*env
++    stereo=np.column_stack((mono*np.sqrt((1-pan)*.5)+music*.70,mono*np.sqrt((1+pan)*.5)+music*.70))
++    # Overall smooth tail includes chimes; no final snap.
++    stereo*=1-smoothstep(1.22,1.42,t)[:,None]
++    files=[save('tornado_cartoon_magic_v1.wav',stereo,.68)]
++    n=round(.22*RATE);t=np.arange(n)/RATE
++    short=(.15*band_noise(rng,n,160,1800))*np.sin(np.pi*t/.22)**2
++    files.append(save('tornado_soft_short_v1.wav',short[:,None],.34))
++    report={'method':'Original local deterministic NumPy synthesis; no remote generator, no downloaded sound, no source music sampling',
++            'seed':171020261,'design_timeline_seconds':{'wind_rise':[0,.16],'spiral_wind':[.16,.85],'suction_close':[.85,1.08],'musical_finish':[.91,1.42]},
++            'expected_visual_event_seconds':1.10,'human_listening_acceptance':'PENDING','files':files}
++    path=ROOT/'verification/tornado_sound_assets.json'
++    assert not path.exists(),'Preserve the prior artist receipt before regeneration'
++    path.write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
++    print(json.dumps(report,indent=2))
++
++if __name__=='__main__':build()
+
+Actual WAV identities/reproducible recipe
+{
+  "method": "Original local deterministic NumPy synthesis; no remote generator, no downloaded sound, no source music sampling",
+  "seed": 171020261,
+  "design_timeline_seconds": {
+    "wind_rise": [
+      0,
+      0.16
+    ],
+    "spiral_wind": [
+      0.16,
+      0.85
+    ],
+    "suction_close": [
+      0.85,
+      1.08
+    ],
+    "musical_finish": [
+      0.91,
+      1.42
+    ]
+  },
+  "expected_visual_event_seconds": 1.1,
+  "human_listening_acceptance": "PENDING",
+  "files": [
+    {
+      "path": "assets/sfx/tornado/tornado_cartoon_magic_v1.wav",
+      "bytes": 250532,
+      "sha256": "c599537fb85b98f7bb11432eda5b4657915150b327f70b19dd2233fc9711fa53",
+      "seconds": 1.42,
+      "channels": 2,
+      "sample_rate": 44100,
+      "bits_per_sample": 16,
+      "peak_dbfs": -3.349915301314036,
+      "rms_dbfs": -19.004206540461258,
+      "last_10ms_rms": 0.0
+    },
+    {
+      "path": "assets/sfx/tornado/tornado_soft_short_v1.wav",
+      "bytes": 19448,
+      "sha256": "55a20721ee57df1b8a39b93995281792c812bba5e1587b55272188f2b112e193",
+      "seconds": 0.22,
+      "channels": 1,
+      "sample_rate": 44100,
+      "bits_per_sample": 16,
+      "peak_dbfs": -9.37051521459366,
+      "rms_dbfs": -21.985689254127408,
+      "last_10ms_rms": 0.00015591478395514497
+    }
+  ]
+}
