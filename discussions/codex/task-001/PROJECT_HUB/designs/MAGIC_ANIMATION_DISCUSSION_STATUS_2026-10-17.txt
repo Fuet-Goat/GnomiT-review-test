@@ -1,3 +1,10 @@
+CURRENT DISPATCH RECEIPT — 2026-10-17
+Shared brief and common prompt published at9ca01eab9f351b0c6e80243bf4d83e141778a424;all9remote files independently downloaded and byte-compared.
+GPT: one startup instruction referencing that exact common-prompt commit sent to verified existing conversation Реализация на Първи кристали through app messaging API. API returned its threadId without error. Immediate readback reports the chat active but still returns the older completed turn;new prompt processing and a new Git R1 are not yet verified. No repeat dispatch.
+Grok: identical startup instruction ready for the human to invoke in the existing Grok chat. No direct Grok messaging endpoint verified;no claim it has been delivered or is executing. Human relays only startup text,not source assets/answers.
+Current status: CODEX_R1_PUBLISHED / GPT_STARTUP_ACCEPTED_BY_API / PEER_R1_PENDING. No winner,consensus,new animation generation,implementation or merge.
+Previous preparation record follows as history.
+
 TOPIC_ID: MAGIC_ANIMATION_R1_2026-10-17
 Status: CODEX_PROPOSAL_PREPARED / EXTERNAL_RESPONSES_PENDING
 Codex: concrete storyboard and capability statement prepared; verify publication after push.
