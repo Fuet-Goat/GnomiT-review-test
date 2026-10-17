@@ -135,3 +135,390 @@ RECORDED CHAT VERDICT:
 
 CURRENT DOCUMENT UPDATE BOUNDARY:
 This appended section is the only change requested here and is permitted by tasks/gpt/task-001.json (REPORTS_ONLY). The earlier independent First Bend review (sections 1–10 and its update log) remains unchanged. This does not claim Task-002 was approved, performed or delivered. No game or private repository changes.
+
+
+==============================================================================
+NATURAL_POWERS_R1_2026-10-17 — INDEPENDENT PROPOSAL
+BOT=gpt | ROLE=INDEPENDENT GAME-DESIGN REVIEWER | STATUS=DISCUSSION_ONLY
+==============================================================================
+INPUT_COMMIT (canonical R1 hub brief): 43d06333534cf42b0fdc1b1719c6eba2d2f1e797
+SOURCE_REPO: Fuet-Goat/GnomiT-review-test
+OWN_BRANCH: codex/gpt/task-001
+GRANT: tasks/gpt/task-001.json @ main, REPORTS_ONLY; only this GPT REPORT is writable.
+STATUS: INDEPENDENT PROPOSAL; NOTHING IMPLEMENTED; NO HUMAN APPROVAL OR CONSENSUS.
+
+A. ПРОЧЕТЕНИ ИЗТОЧНИЦИ И ГРАНИЦИ
+
+Действително прочетени (всички от INPUT_COMMIT, освен посочените изключения):
+- discussions/codex/task-001/PROJECT_HUB/designs/NATURAL_POWERS_TEAM_REVIEW_R1_BG.txt
+  (SHA blob 9d007c05dc15d88f8d72ebb5e7e3cb6baa1b02a7);
+- designs/NATURAL_POWERS_PROPOSAL_2026-10-17.txt (предишно НЕОДОБРЕНО предложение);
+- PROJECT_HUB/PROJECT_MAP.txt;
+- builds/LOCAL_FRANKENSTEIN_PLAYTEST_2026-10-17.txt;
+- builds/PAIRED_SWAP_UPDATE_2026-10-17.txt;
+- builds/QUICKER_SWAP_2026-10-17.txt;
+- AGENTS.md и tasks/gpt/task-001.json от main, четени отделно;
+- baseline/game/scripts/match_core.gd, levels.gd, progress.gd и board_view.gd
+  от ТОЧНИЯ baseline commit 5add419dfc7fd73bd6d9ee837b2ba620ee5e8b81.
+
+Кодови факти, не нови реализации:
+- baseline/game/scripts/match_core.gd::try_swap() приема само валидна размяна
+  с match, изразходва 1 ход, разрешава cascade до MAX_CASCADE_WAVES=32;
+  ::get_matches() разпознава ред/колона >=3, но няма bonus-creation;
+  ::_clear() маха floor при match и освобождава съседни runes;
+  ::_fall() разделя гравитацията от holes (-2) и fixed runes (-3);
+  ::_goal_complete() проверява collect/floor/rune/boss действителните цели.
+  ТЕКУЩИЯТ BASELINE НЕ ПОДДЪРЖА НИТО ЕДНА ОТ НОВИТЕ СИЛИ.
+- baseline/game/scripts/levels.gd::all() съдържа различни hole masks,
+  floor цели и отделните rune, lantern, guardian нива. Пример:
+  hollow е 7x8 с отвори, entry е 7x8 collect.
+- baseline/game/scripts/progress.gd::prerequisites_met() изисква
+  подготовките rune и lantern за guardian; ::record_win() дава +10 Light
+  само за първа призната победа, след това запазва max звезди.
+- baseline/game/scripts/board_view.gd::animate_result() консумира core
+  snapshot events; board rendering не притежава gameplay state.
+- LOCAL Frankenstein, paired drag и quicker swap са ДОКЛАДВАНИ ЛОКАЛНИ
+  резултати от Codex, не native код/билд качен в този review Git.
+  Quicker swap report посочва 0.17s swap tween, 0.18s wait и 0.10s
+  partial-return. Това са контекстни отчетени стойности, не мои измервания.
+
+Не съм стартирал Godot, тест, симулация, render или файл за изпълнение.
+Не съм инспектирал наново изображения/видеозапис за този дизайн кръг;
+визуалният storyboard по-долу е САМО текстов. Без артифакти/арт/аудио.
+Уточнението на човека: две съседни ядра НЕ са одобрено условие.
+
+B. ТРИ ПРИРОДНИ СИЛИ — ПРЕДЛОЖЕНИЕ, НЕ ФИНАЛНИ ПРАВИЛА
+
+Трите фази се разграничават СТРОГО:
+(i) CAMPAIGN UNLOCK разрешава даден тип сила след обучение по пътя надолу;
+(ii) BOARD CREATION прави специален камък или изрично разположен обект;
+(iii) ACTIVATION е конкретно действие в текущия ход/ниво.
+Отключване никога не подарява безплатен начален бонус или Light.
+Не фиксирам ниво, процент, цена, честота, дневен таймер или магазин.
+
+VOLCANO / FIRE
+CAMPAIGN UNLOCK: след отделно въведение на 4-комбо/торнадо, по-дълбоко
+в експедицията; точна позиция предстои за човешко решение.
+BOARD CREATION: предложение за 5 ЕДНАКВИ минерала във форма L или T,
+оформена от намерена размяна; специален Volcano заема дестинацията
+на преместения минерал, когато тя участва в тази форма.
+ACTIVATION: доброволна размяна на Volcano с ортогонален нормален
+съсед, без изискване да образува ново 3-match; струва 1 ход.
+При редовно 3-match, което включва специален камък, бъдещата
+семантика трябва да се дефинира, не приемам тайно auto-fire.
+EFFECT: един кратък фонтан; броят отделни магмени попадения е
+произволно цяло k между 3 и 5 (само НАЧАЛНА хипотеза);
+при N<k допустими цели използвай min(k,N). Клетките са избрани
+на случаен принцип БЕЗ повторение от snapshot от текущите реални
+playable/occupied gem cells; няма удари в holes, извън grid, фиксирани
+неуязвими обекти, вече празни клетки. Показвай предварително k
+малки маркера върху точно избраните клетки (без измамна цел).
+BALANCE / TERRAIN: всяко попадение чисти минерала от допустимата
+клетка и причинява най-много ЕДИН слой поражение на soil там.
+Няколко бъдещи слоя остават за следващ удар. В днешния baseline
+floor е само 0/1; многослойният soil изисква бъдещ отделен модел.
+Няма директен удар/унищожаване на rune (-3), boss seal или hole;
+дали adjacent-rune от fire се брои е ОТВОРЕНО, моята първа
+препоръка е НЕ, докато не се създаде изричен object rule.
+GOALS: изчистен съответен collect_kind се отчита по 1, soil се
+отчита реално; няма бонус точки за пропуснат удар.
+RANDOMNESS: uniform sample без weighted goal targeting в първата
+проба, за да може честността да се обясни. Целенасочен приоритет
+за soil е балансова алтернатива след реални наблюдения.
+
+TORNADO / WIND
+CAMPAIGN UNLOCK: първият преподаван природен специален камък,
+преди Volcano и Black Hole; без фиксиран номер на ниво.
+BOARD CREATION: точно 4 ЕДНАКВИ минерала в права линия от
+размяна -> Tornado-H при хоризонтална, Tornado-V при вертикална;
+ориентацията се запазва в символа върху камъка и не се сменя
+при бъдещи swap-ове. Уточняване на 5-in-line overlap priority е
+задължително преди код, не измислям вече съществуващ core.
+ACTIVATION: доброволна ортогонална размяна със съсед, струва 1
+ход дори без нов ordinary match; sweep ориентацията е ПРЕДВАРИТЕЛНО
+видима, не се извежда от посоката на тази размяна.
+EFFECT: пълният ред H или колона V, върху всяка съществуваща
+допустима playable клетка независимо от празнините между
+сегментите. При holes няма цели и ефектът визуално прескача
+отвора със спиране/нов вход във всеки сегмент, но обхваща и
+сегментите ОТВЪД hole. Не създава нови клетки.
+TERRAIN: максимум 1 поражение на всяка засегната playable soil
+позиция; fixed rune/boss seal не се унищожават и не се третират
+като пропуск за целия ред. GOALS: само реални събрани минерали и
+реално засегнатите почвени цели; няма автоматична победа.
+
+BLACK HOLE / GRAVITY
+CAMPAIGN UNLOCK: рядка специална среща/"Gravity Chamber" по-надълбоко,
+след като играчът вече познава H/V Tornado и Volcano; не се смесва
+със Story/Boss RUNE/LANTERN prerequisites.
+BOARD CREATION (МОЯ ПРЕПОРЪКА, ВАРИАНТ C): 3 ясно отбелязани
+гравитационни рудни печата (Gravity Marks), зададени от автора на
+съответно ниво върху три ПЪРВОНАЧАЛНО допустими gem клетки.
+Играчът премахва минерал с валиден match върху всяко от трите
+маркирани места в рамките на същия опит, не е важно в кой ред.
+Марките са видими; едно място се брои максимум 1 път.
+Отделен централно нарисуван Gravity Seal започва заключен на
+предварително дефинирана безопасна клетка, която не е hole,
+rune, ordinary goal cell или случайно попълнен минерал.
+Той не участва в нормални match/гравитация докато е sealed.
+След третата mark печатът става видим активен Black Hole.
+ACTIVATION: играчът умишлено разменя отключения Gravity Seal
+с един ортогонално съседен допустим минерал. Това изразходва
+1 нормален ход; не е нужен ordinary 3-match. Ако няма ход или
+валиден съсед, level layout е НЕВАЛИДЕН и се открива преди
+публикуване; няма автоматично активиране/безплатно пропускане.
+EFFECT: точно ЕДНА пълна sweep транзакция на всички налични
+минерали върху playable grid, последвана от нормално падане,
+попълване, cascades и обикновена проверка на level goals.
+Дупките, фиксираната геометрия и sealed/objective конструкции
+остават. За soil: максимум едно нормално layer hit за клетка.
+Rune/lantern/Boss prerequisites не се удовлетворяват автоматично,
+няма автоматично премахване на всички руни/слоеве.
+Съществуващи специални камъни, погълнати от Black Hole, се
+консумират ИНЕРТНО, вместо да запалят втора Black Hole верига.
+Никакво безкрайно самозареждане и не повече от една Black Hole
+активация на конкретното level run.
+GOALS: начисляват се само реалните collect gems и реалните
+target layer effects; победа само ако ::_goal_complete() условията
+са изпълнени след всички ефекти. Празната дъска НЕ е сама по
+себе си победа. Ако след края няма цели изпълнени, играта
+продължава с refill; при 0 хода и без победа -> загуба.
+HUD: маркировките са върху board cells и печата, не е нужен
+отделен глобален ресурс/лентов брояч. Авторското добавяне на
+специална клетка и непробиваемостта й е бъдеща механика, НЕ baseline.
+
+C. BLACK HOLE — ТРИ СЪЩЕСТВЕНО РАЗЛИЧНИ УСЛОВИЯ, ПОДРЕДЕНИ
+
+#1 ВАРИАНТ C — ИЗКОПАЙ 3 GRAVITY MARKS, ПОСЛЕ SWAP THE SEAL
+Описанието в B е препоръчителният ми вариант за рядко, избрано
+по-дълбоко пъзел ниво. Пример: на условна 7x8 играема карта
+има маркирани gem места (x=1,y=2), (5,3), (2,5) и неподвижен
+Gravity Seal в (3,3), всички върху playable клетки без hole/rune
+конфликт. В ходове 4, 7 и 10 играчът прави match върху съответните
+марки, активира визуалния печат, а в ход 11 умишлено разменя
+този активен печат с минерал в (3,4) -> Black Hole.
+УМЕНИЕ: планиране на три локални задачи и запазване на един ход;
+КЪСМЕТ: стандартният refill. РЯДКОСТ: контролируема чрез authored
+level layouts, без изфабрикувани проценти.
+ЯСНОТА: висока, ако трите marks и печатът визуално се различават.
+ФРУСТРАЦИЯ: умерена, ако level board е предварително доказано
+решима с достатъчно ходове. HUD: не нужен, board labels "0/3"
+може да са близо до seal. РИСК ЗА ЦЕЛИТЕ: пълното чистене е
+мощно, затова НЕ се въвежда в ранните или Boss levels, и е
+OPTIONAL откритие, не задължителен начин за победа.
+НЕДОСТАТЪК: изисква level-authored marks и seal правила, по-голям
+нов тип клетки в бъдещия game core; затова първо лабораторен slice.
+
+#2 ВАРИАНТ B — ВИДИМА ПРИРОДНА ЗАРЯДКА + СЪЗНАТЕЛЕН ФИНАЛ
+Правило: в ЕДИН level run играчът активира поне един Volcano и
+един Tornado (H или V) в които и да е два различни хода. Малък
+индикатор FIRE [ ] WIND [ ] до целите показва точно кои две
+условия са изпълнени. Когато и двете светнат, допълнителен
+бутон GRAVITY READY позволява на играча да ARM за текущия следващ
+валиден ordinary match swap; тогава Black Hole се задейства
+след нормално изразходване на този един ход. Arm не се начислява
+като отделен ход, но изисква последваща доброволна match размяна.
+Едно зареждане/активация максимум на опит; последвалата Black
+Hole и cascades НЕ зареждат FIRE/WIND и не създават нова дупка.
+Пример: ход5 Tornado-H, ход8 Volcano -> два видими check marks;
+ход9 играчът натиска Arm и завършва валиден 3-match -> board sweep.
+УМЕНИЕ: намиране/активиране на двете различни сили; КЪСМЕТ:
+образуване на двете комбинации. РЯДКОСТ: средно/високо,
+зависи от board design (неизмерено). ЯСНОТА: добра с 2 икони
+и готовия бутон. ФРУСТРАЦИЯ: може да е висока в къси/дупчести
+нива, понеже и двата вида power може да липсват. HUD: нови
+2 икони и Arm control, риск от претоварване на 432x960.
+РИСК ЗА ЦЕЛИТЕ: мощен бонус с малко допълнително решение след
+двете активации. Подходящ за бъдещ repeatable mastery, не за
+първа обучаваща Black Hole мисия.
+
+#3 ВАРИАНТ A — ДЕТЕРМИНИРАНА ВЕРИГА H -> V -> VOLCANO В ЕДИН ХОД
+Правило: ПРЕДИ player swap вече има Tornado-H, Tornado-V и
+Volcano. Играчът активира H така, че редът му удря V; V
+задейства собствената си колона и достига Volcano; при това
+Volcano на финалната клетка се консумира, вместо да изпълни
+произволното магмено изригване; възниква 1 Black Hole.
+Пример с 0-based (x,y): H=(1,1), V=(4,1), Volcano=(4,4);
+H sweep по y=1 -> V на (4,1) -> V sweep по x=4 -> Volcano
+на (4,4), без да се разчита на random Volcano target.
+УМЕНИЕ: много високо, подреждане на три разнородни specials;
+КЪСМЕТ: висок, защото трябва и трите да съществуват съвместно.
+РЯДКОСТ: много висока (качествена прогноза, НЕ процент).
+ЯСНОТА: визуално проследима с поетапно маркиране.
+ФРУСТРАЦИЯ: най-голяма за casual и hole boards; HUD не нужен.
+РИСК: почти никой да не вижда събитието без подготвено ниво.
+Не го избирам за основен Black Hole trigger; запазвам го като
+възможна бъдеща optional "mastery combo" след наблюдаван баланс.
+
+ИСТОРИЧЕСКО СРАВНЕНИЕ, НЕ ЧЕТВЪРТА ПРЕПОРЪКА:
+"5 в права линия -> gravity core; swap на 2 съседни core -> Black
+Hole" е Codex предходно НЕОДОБРЕНО предложение. То повишава
+ролята на случайна близост на два редки core и може да натрупа
+дълги "мъртви" периоди на един core; не го приемам автоматично.
+
+ЗАЩО C ПРЕД B/A:
+Черната дупка трябва да е запомнящо се "отключих печата чрез
+копаене", а не втори случаен nuclear-swap. Може да бъде рядко,
+ясно авторски балансирано събитие, което играчът вижда преди
+да планира хода си. Изисква повече бъдеща техническа работа;
+това е признат trade-off, не твърдение за вече наличен механизъм.
+
+D. ТЕКСТОВ ANIMATION / SOUND STORYBOARD (432x960; НЕ ПРОИЗВЕДЕНО)
+
+ПРАВИЛО ЗА ВСИЧКИ:
+Обикновена размяна остава бърза; локалният отчет за по-бързата
+размяна (0.17s) НЕ се променя от тази дискусия. Един специален
+взрив следва player swap и после всичко се връща към кратки
+cascade анимации. Няма дълъг клип за всеки 3-match. Viewport
+е фиксиран; леки ефекти само вътре в board, без скриване на moves
+или целта. Всички времена са САМО пробни идеи, не измерени.
+
+VOLCANO: 0.10-0.15s целта на Volcano диша с матово оранжево;
+0.15s плитко изригване в клетката; 0.20-0.30s точно k по един
+видим метеор/магмен камък към предварително посочените клетки;
+0.10-0.18s локални cracks/удари, малко пепел, после normal
+clear/fall. Камера: без шейк или не повече от един дискретен
+2px bump само ако reduced motion е OFF. Звук: къс мек каменен
+rumble + 3–5 отделими сухи тупвания; без дълбок постоянен bass.
+Контраст: целевите outline marks са кратки, видими при 432 width.
+
+TORNADO: 0.10s H/V arrow icon очертава реда/колоната, 0.20-0.32s
+една тясна вихрушка обхожда всички playable сегменти на линията;
+по holes тя се прекъсва и рестартира в следващия сегмент;
+0.10s ясно маркирани hit cells, normal fall. Звук: кратко
+воздушно "whoosh" с две височини, без заглушаване на звука за
+match. Не се завърта целият екран или целият HUD.
+
+BLACK HOLE (C): 0.10s Gravity Marks и seal се подчертават;
+при активиращия swap ~0.12s кратко свиване на печата, 0.20-0.30s
+меко вгъване на минералите към центъра, 0.15-0.25s board sweep,
+после нормален refill/cascade/goal result. Светът/скалите/soil
+не "изчезват". Без зашеметяващо screen flash, без fullscreen
+white-out. Звук: нисък кратък вакуум "voom" + тих crackling,
+без дълго оглушително бучене. Камера стабилна; дъската
+остава четима, moves/goal HUD не се закриват.
+
+REDUCED MOTION: изключва shake, стационарни завъртания и
+плаващи частици; замества трите сили с кратък target highlight
++ ясен резултат, без телепортиране на логически state.
+Всеки "skip animation" мигновено показва вече изчисления
+пълен финален outcome, без повторна gameplay симулация/награда;
+control се връща едва когато състоянието е стабилно и HUD
+показва обикновените actual goals.
+
+E. КОМБИНАЦИИ, ГРАНИЦИ И ЗАДЪЛЖИТЕЛНИ БЪДЕЩИ РЕШЕНИЯ
+
+1. Hole/geometry: line covers eligible cells on both sides of gap;
+   never transforms -2 into gems. Tornado visuals segment at holes;
+   effects include later segments, not falsely blocked entire line.
+2. Volcano: select k unique targets from snapshot of >=0 gems.
+   One hit per target. Record chosen indices in gameplay event, not
+   decide independently during VFX playback. 0 valid targets =>
+   zero hits and honest "0 target" outcome, no out-of-range draw.
+3. Layered soil: exact 1 layer per hit per effect transaction.
+   Under future multi-layer soil must remain >0 when more layers
+   remain. Current floor[] is boolean, so new data representation
+   is a separate approved future implementation decision.
+4. Other specials: proposal for first slice is bounded FIFO queue
+   of existing, previously-created specials reached by Volcano or
+   Tornado. Each source special triggers at most once per player
+   transaction; register targets and their states before resolving
+   further refills. No automatic creation of new specials from
+   cascades in the FIRST slice. After a Black Hole: consume other
+   specials as ordinary gems, never trigger/recharge another
+   Black Hole. A soft design cap on chained specials and its
+   fallback need technical acceptance before implementation.
+5. Single user move: spend exactly 1 move for an intentional
+   accepted activation, even if it makes no ordinary match.
+   Swaps with a special that are not eligible for the defined
+   activation must reject/revert with NO move cost; no hidden
+   activations after invalid short drag/click cancel.
+   Existing paired reciprocal 0.17s motion remains a presentation
+   behavior, not a separate gameplay move.
+6. Last move: resolve the WHOLE deterministic event queue, cascades,
+   floor/rune goals and win first. If goals satisfied, WIN even with
+   moves_left=0. Otherwise LOSS. No early timeout while effects
+   animate. No new actions/duplicate collection after WIN/LOSS.
+7. Replay/progress: first legitimate win only claims +10 Light.
+   Retry can improve best stars, but never repeat original reward.
+   No free power or extra Light just for seeing Black Hole.
+   Campaign unlocks proposed at future levels, not saved now.
+8. Object rules: fixed rune -3, Boss rune/lantern prerequisites
+   are NOT Black Hole gravity charges. A black-hole clear never
+   satisfies external prerequisite records. It might be used in a
+   later Boss only if separately approved and runes obey their
+   normal object-specific hit/adjacency rules.
+9. RNG/recordability: deterministic seeded snapshot of target
+   positions; no VFX-driven random target rerolls, no duplicate
+   hit indices, no target count beyond eligible cells. Pause,
+   resize, animation skip, reduced motion and replay must not
+   mutate the predetermined gameplay result.
+10. Authoring/precedence decisions still OPEN: if 4 and 5 shapes
+    overlap, what takes priority; creation anchor if multiple
+    candidate shapes; what happens to newly formed specials
+    during cascades after first slice; whether Volcano/Tornado
+    support adjacently freeing runes; per-level Black Hole
+    placement and progress/save representation; number of
+    gravity marks and move budgets; explicit effect chain cap.
+    None is described as already implemented or approved.
+
+F. НАЙ-МАЛКА БЪДЕЩА ПРОБА (НЕ Е НАПРАВЕНА)
+
+Една ИЗОЛИРАНА тестова 7x8 puzzle лаборатория с 1 ред/колона
+с hole split, 1 soil цел, 3 gravity marks, 1 Gravity Seal
+и точно по една възможност за H/V Tornado и Volcano в
+фиксирано начално положение. По възможност първо се
+демонстрира чистият Volcano/Tornado, после специалното
+unlock+swap на seal, но не се променят стандартните
+нива. Само след НОВО одобрение за source/test execution.
+
+КРИТЕРИИ ЗА ПРИЕМАНЕ (точно 3, бъдещи):
+1. Играчът при PC 432x960 разпознава H/V Tornado, видимите k
+   Volcano targets и трите Gravity Marks/Seal БЕЗ туториал;
+   при 3 изпълнени marks умишлена swap активация работи,
+   а при 2 — не; без нежелано допълнително Play/подарък.
+2. За фиксиран seed, holes, distinct/random targets, one-hit
+   soil, последен ход, закачени други specials и skip/reduced
+   motion се получава същото крайно gameplay state/goal
+   outcome и няма loop/двойни изстрелвания/двойни награди.
+3. Рутинната обикновена размяна запазва съществуващото бързо
+   усещане; специалното събитие може да се прескочи без
+   промяна на state; успех/загуба се показват само след
+   валидно завършената цяла последователност.
+
+G. ПО-КЪСНИ СИЛИ С ДРУГА РОЛЯ (НЕ СА АКТИВНИ)
+
+Meteor: ЕДИН насочен силен удар по бронирана soil цел (дълбочина),
+не случайната площ на Volcano.
+Lightning: свързани минерали от един вид (chain by color),
+не непрекъснатият ред/колона на Tornado.
+Tsunami: избутва/repositions цели сегменти и променя падането
+за следващ match, вместо да чисти веднага всичко.
+Това са само различими бъдещи роли, без нови systems/UI.
+
+H. НЕЗАВИСИМА ПОЗИЦИЯ И ВЪПРОСИ КЪМ GROK
+
+Къде се съгласявам с предходния CODEX brief:
+- визуална H/V ориентация за Tornado, реални различни попадения
+  без дупки/пропуснати клетки за Volcano, normal goals/refill
+  след Black Hole, ограничаване на chain recursion;
+- не смесваме RUNE/LANTERN prerequisites и Black Hole charge.
+Къде НЕ се съгласявам / променям:
+- A (H->V->Volcano) е зрелищно, но твърде зависимо от рядък
+  разказан board state за основен casual trigger; не го избрах.
+- B с nature actions е гъвкаво, но изисква HUD и твърде много
+  сила/възможности в един опит; предпочитам authored C.
+- предишната идея за 5-line core + 2 adjacent cores не е
+  човешко одобрение и не я пренасям като default.
+Три конкретни въпроса за Grok R1:
+1. Би ли избрал authored Gravity Marks/Seal пред visible
+   FIRE/WIND charge и защо, без да добавяш голям HUD?
+2. Как да показваме Tornado през 2+ сегмента след holes при
+   432x960, без играчът да мисли, че эффектът е спрял?
+3. Какъв краен еднократен trigger/skip contract би гарантирал
+   без повторен fire на specials от Black Hole cascade?
+
+WAITING_FOR_PEER_REVIEW след настоящата независима публикация,
+освен ако проверката СЛЕД COMMIT намери реален Grok R1 с
+точния идентификатор. Не е заявено съгласие или консенсус.
+==============================================================================
