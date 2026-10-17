@@ -686,3 +686,63 @@ No grants/main/private changes,merge,new external bot task or replacement of the
 liked Volcano MP3. Human listening feedback is the next acceptance input.
 
 Recommended model/effort:GPT-6.1 Sol / High for sound/game integration.
+
+
+GNOMIT — LIGHTNING STORM / OUTER FRAME — 2026-10-17
+Status:LOCAL_IMPLEMENTED / NATIVE_CAPTURE_PASS / HUMAN_REVIEW_PENDING
+
+The human requested dark clouds above edge tiles, followed by lightning, and
+explicitly confirmed ONLY the outside frame, excluding internal hole edges.
+New special kind9 / lightning_storm fixture added to the isolated local lab,
+same adjacent-drag activation for one move. Targets are ordinary minerals on
+first/last row or column; corners counted once. Fixed holes/runes/other specials
+are excluded. Source special is consumed at its swapped destination. Existing
+ordinary-target soil damage loses one layer; direct runes stay unchanged. Normal
+post-effect refill/cascades retain their usual rules and can affect other cells.
+No chains, no Storm combinations; existing Tornado+Volcano Black Hole remains.
+
+VISUAL / SOUND
+Each authoritative edge target is marked first, then gains a bounded dark slate
+cloud above it. One warm cyan/gold zigzag bolt strikes each target in three groups
+at normalized .28/.40/.52, with a .24 strike/break window. Mineral shrinks/breaks
+into chips. No full-screen flash, camera shake or repeated flicker. Top-row clouds
+stay in their cell's upper region, within the board. Cloud-and-bolt power icon is
+new; other icons and full old renderer bytes remain unchanged as a source prefix.
+Normal animation1.40s; reduced.13s marks targets without moving clouds/bolts.
+Original locally synthesized1.60s cartoon thunder recording has three accents
+at .392/.56/.728s matching the grouped strikes. It plays once at original pitch,
+not once per tile. Reduced uses a quieter .18s cue. End break is filtered only
+for the live Storm; ordinary cascades keep stone foley. Normal tail may finish;
+Skip/Reset/exit cancel. Volcano MP3 and radial Tornado audio are unchanged.
+
+VERIFICATION ACTUALLY RUN
+Storm focused94 checks PASS:literal26frame targets,20with excluded edge objects,
+23on irregular mask,unique corners,no internal-hole edge targets,soil/rune rules,
+one move,no chains/rejected new combos,deterministic Core/RNG; real draw helpers,
+bounded cloud/bolt endpoints,normal/reduced/skip/reset cleanup and full Core/result
+immutability. Separate Storm audio24 PASS includes actual lab cancellation and
+one-clip playback. Regression:Core80,Tornado renderer195,Tornado sound55,Volcano
+MP3 sound36,all PASS. Tests use the existing local test fixture, not campaign.
+Actual Godot native input capture432x960,screen0,210processframes,30fps AVI PASS,
+zero engine errors/warnings. It targets exactly26frame minerals;27removed includes
+the source. All sampled Core/RNG/results remain frozen. Runtime PCM from actual
+movie is nonzero without clipping; no arranged replacement soundtrack. AVI index
+size warning is the already documented complete-final-idx1 convention; extractor
+validates media bounds. GIF preview derives from real Godot frames and is silent.
+Parent saw actual bolt screenshot and freshly launched ready live window. A final
+helper-copy cleanup after capture only generalizes Painted-toggle wording; it
+does not change captured targets,timing or the default view. No human visual/
+listening,Android or performance acceptance claimed. Parent source review only;
+no independent third-bot approval is claimed.
+
+DELIVERY / SCOPE
+Lightning Storm is selected by default; use existing PLAY_MAGIC_ANIMATIONS.cmd
+on user monitor1,drag marked cloud to adjacent glow,Reset to replay. New evidence
+outputs/lightning_storm preserves all older sound/animation captures. Exact before
+files in verification/before_lightning_storm_2026-10-17. One handoff ZIP includes
+source delta,actual new WAVs,Godot movie/GIF/keyframes/checks and SHA256 manifest.
+Governed Git remains own REPORTS_ONLY text receipt/literal patch proposal;native
+game/audio files are local/package assets. No grants/main/private game changes,
+merge,automatic external bot assignment,campaign reward/unlock or save change.
+
+Recommended model/effort:GPT-6.1 Sol / High for mechanics/animation integration.

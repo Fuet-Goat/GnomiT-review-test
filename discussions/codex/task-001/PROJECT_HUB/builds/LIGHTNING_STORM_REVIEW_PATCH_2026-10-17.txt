@@ -1,0 +1,1242 @@
+LITERAL LOCAL SOURCE PROPOSAL ONLY — NOT APPLIED TO GOVERNED GAME
+
+--- before/scripts/lab/natural_power_core.gd
++++ after/scripts/lab/natural_power_core.gd
+@@ -4,6 +4,7 @@
+ const TORNADO_H := 6
+ const TORNADO_V := 7
+ const VOLCANO := 8
++const LIGHTNING_STORM := 9
+ 
+ var fixture_pair: Array[int] = [25, 26]
+ var black_hole_used := false
+@@ -18,6 +19,8 @@
+ 	}, seed_value)
+ 	fixture_pair.assign([25, 26])
+ 	match scenario:
++		"lightning_storm":
++			grid[fixture_pair[0]] = LIGHTNING_STORM
+ 		"black_hole":
+ 			grid[fixture_pair[0]] = TORNADO_H
+ 			grid[fixture_pair[1]] = VOLCANO
+@@ -66,6 +69,13 @@
+ 			targets.append(candidates[selected])
+ 			candidates.remove_at(selected)
+ 		targets.sort()
++	elif power == "lightning_storm":
++		# Outer rectangular frame only. Internal gaps do not create new edges.
++		for index in range(grid.size()):
++			var x := index % cols
++			var y := index / cols
++			if (x == 0 or x == cols-1 or y == 0 or y == rows-1) and _is_ordinary(grid[index]):
++				targets.append(index)
+ 	else:
+ 		for index in range(grid.size()):
+ 			# A local ring around the tornado's final swapped position. Explicit
+@@ -201,7 +211,7 @@
+ 	return false
+ 
+ func _is_special(kind: int) -> bool:
+-	return kind == TORNADO_H or kind == TORNADO_V or kind == VOLCANO
++	return kind == TORNADO_H or kind == TORNADO_V or kind == VOLCANO or kind == LIGHTNING_STORM
+ 
+ func _is_ordinary(kind: int) -> bool:
+ 	return kind >= 0 and kind < GEM_KINDS
+@@ -213,4 +223,5 @@
+ 	match kind:
+ 		TORNADO_H: return "tornado_h"
+ 		TORNADO_V: return "tornado_v"
++		LIGHTNING_STORM: return "lightning_storm"
+ 	return "volcano"
+
+--- before/scripts/lab/natural_power_board.gd
++++ after/scripts/lab/natural_power_board.gd
+@@ -62,7 +62,7 @@
+ 			if not reduced_motion: _hidden[index] = true
+ 			if int(_display_grid[index]) < 6 and _core.collect_goal > 0 and int(_display_grid[index]) == _core.collect_kind:
+ 				goal_piece_cleared.emit(get_global_transform() * _center(index))
+-	var duration := 0.13 if reduced_motion else (1.04 if String(event.power) == "volcano" else (1.08 if String(event.power) == "black_hole" else 1.10))
++	var duration := 0.13 if reduced_motion else (1.04 if String(event.power) == "volcano" else (1.08 if String(event.power) == "black_hole" else (1.40 if String(event.power) == "lightning_storm" else 1.10)))
+ 	_power_tween = create_tween()
+ 	_power_tween.tween_property(self, "_power_t", 1.0, duration).set_trans(Tween.TRANS_LINEAR)
+ 	queue_redraw()
+@@ -122,6 +122,12 @@
+ 		"volcano": _draw_volcano_effect(step)
+ 		"tornado_h", "tornado_v": _draw_tornado_effect(step,power == "tornado_v")
+ 		"black_hole": _draw_black_hole_effect(step)
++		"lightning_storm": _draw_lightning_storm_effect(step)
++
++func _draw_lightning_storm_effect(_step: float) -> void:
++	# The isolated polished renderer supplies the clouds and bolts. The base
++	# remains a readable fallback instead of inventing a different target set.
++	for index in _power_event.get("targets", []): _draw_selection(int(index),Color("b6dff0"),0.65)
+ 
+ func _event_gem(index: int, point: Vector2, scale_value: float = 1.0, alpha: float = 1.0) -> void:
+ 	var before: Array = _power_event.get("before", [])
+
+--- before/scripts/lab/natural_power_lab.gd
++++ after/scripts/lab/natural_power_lab.gd
+@@ -5,14 +5,16 @@
+ const RockAudio = preload("res://scripts/rock_audio.gd")
+ const VolcanoAudio = preload("res://scripts/lab/volcano_audio.gd")
+ const TornadoAudio = preload("res://scripts/lab/tornado_audio.gd")
++const LightningAudio = preload("res://scripts/lab/lightning_audio.gd")
+ const Background = preload("res://assets/first_crystals/cave_background_v1.png")
+ var core
+ var stone_audio
+ var volcano_audio
+ var tornado_audio
++var storm_audio
+ var last_result:Dictionary = {}
+ var board
+-var scenario := "tornado_h"
++var scenario := "lightning_storm"
+ var seed_value := 42
+ var _generation := 0
+ var _resolving := false
+@@ -76,9 +78,9 @@
+ 		if scenario == "volcano":
+ 			helper.text = "Burning lava and brief scorch enabled." if value else "Baseline volcano reference enabled."
+ 		else:
+-			helper.text = "Painted changes Volcano only. Tornado keeps its local whirl.")
++			helper.text = "Painted changes Volcano only. Other powers keep their effects.")
+ 	var choices := GridContainer.new();choices.columns = 2;choices.add_theme_constant_override("h_separation",8);choices.add_theme_constant_override("v_separation",6);stack.add_child(choices)
+-	for entry in [["volcano","VOLCANO"],["tornado_h","TORNADO"],["black_hole","BLACK HOLE"]]:
++	for entry in [["volcano","VOLCANO"],["tornado_h","TORNADO"],["black_hole","BLACK HOLE"],["lightning_storm","LIGHTNING STORM"]]:
+ 		var key:String = entry[0]
+ 		var choice := _button(entry[1],func() -> void: reset_scenario(key))
+ 		choice.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+@@ -94,6 +96,7 @@
+ 	stone_audio = RockAudio.new();add_child(stone_audio)
+ 	volcano_audio = VolcanoAudio.new();add_child(volcano_audio)
+ 	tornado_audio = TornadoAudio.new();add_child(tornado_audio)
++	storm_audio = LightningAudio.new();add_child(storm_audio)
+ 	board.foley_requested.connect(_on_board_foley)
+ 	board.swap_requested.connect(_on_swap)
+ 	board.power_started.connect(_on_power_started)
+@@ -118,14 +121,15 @@
+ 	var label := _label(value,13);label.size_flags_horizontal = Control.SIZE_EXPAND_FILL;label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER;parent.add_child(label);return label
+ 
+ func reset_scenario(value:String) -> void:
++	if is_instance_valid(storm_audio): storm_audio.stop_all()
+ 	if is_instance_valid(volcano_audio): volcano_audio.stop_all()
+ 	if is_instance_valid(tornado_audio): tornado_audio.stop_all()
+ 	_generation += 1;_resolving = false;scenario = value;last_result.clear()
+ 	core = LabCore.new();core.setup_lab(scenario,seed_value)
+ 	board.setup(core,reduced.button_pressed)
+ 	board.show_hint(core.fixture_pair)
+-	effect_label.text = {"volcano":"VOLCANO · FIRE","tornado_h":"TORNADO · WHIRL","tornado_v":"TORNADO · WHIRL","black_hole":"BLACK HOLE · GRAVITY"}.get(scenario,"NATURAL POWERS")
+-	helper.text = {"volcano":("Drag it to the glow; burning lava briefly singes 3–5 marked stones." if painted_toggle.button_pressed else "Baseline reference. Drag it to the glow; magma hits 3–5 stones."),"tornado_h":"Drag the whirlwind to the glow. It spins in place and pulls in nearby stones.","tornado_v":"Drag the whirlwind to the glow. Gaps and runes stay in place.","black_hole":"Baseline reference. Swap the whirlwind and volcano to open a Black Hole."}.get(scenario,"")
++	effect_label.text = {"volcano":"VOLCANO · FIRE","tornado_h":"TORNADO · WHIRL","tornado_v":"TORNADO · WHIRL","black_hole":"BLACK HOLE · GRAVITY","lightning_storm":"LIGHTNING STORM · OUTER EDGE"}.get(scenario,"NATURAL POWERS")
++	helper.text = {"volcano":("Drag it to the glow; burning lava briefly singes 3–5 marked stones." if painted_toggle.button_pressed else "Baseline reference. Drag it to the glow; magma hits 3–5 stones."),"tornado_h":"Drag the whirlwind to the glow. It spins in place and pulls in nearby stones.","tornado_v":"Drag the whirlwind to the glow. Gaps and runes stay in place.","black_hole":"Baseline reference. Swap the whirlwind and volcano to open a Black Hole.","lightning_storm":"Drag the cloud to the glow. Lightning strikes the outer edge stones."}.get(scenario,"")
+ 	_update_stats();_update_controls()
+ 
+ func _update_stats() -> void:
+@@ -168,12 +172,16 @@
+ 		volcano_audio.begin(targets,board.reduced_motion)
+ 	elif power in ["tornado_h","tornado_v"] and _has_tornado_event():
+ 		tornado_audio.begin(board.reduced_motion)
++	elif power == "lightning_storm" and _has_storm_event():
++		storm_audio.begin(board.reduced_motion)
+ 	match power:
+ 		"volcano": effect_label.text = "VOLCANO · " + str(targets.size()) + " MAGMA HITS";helper.text = "Watch burning lava scorch the marked cells." if painted_toggle.button_pressed else "Watch the marked stones — one magma pebble per target."
+ 		"tornado_h", "tornado_v": effect_label.text = "TORNADO · " + str(targets.size()) + " NEARBY STONES";helper.text = "The marked stones swirl into the centre. Gaps and runes remain."
+ 		"black_hole": effect_label.text = "BLACK HOLE";helper.text = "Gems are absorbed. Soil and runes survive the pull; later matches may hit them."
++		"lightning_storm": effect_label.text = "LIGHTNING · " + str(targets.size()) + " EDGE STONES";helper.text = "Dark clouds strike the marked outer edge. Inner gaps stay untouched."
+ 
+ func skip_effect() -> void:
++	if is_instance_valid(storm_audio): storm_audio.stop_all()
+ 	if is_instance_valid(volcano_audio): volcano_audio.stop_all()
+ 	if is_instance_valid(tornado_audio): tornado_audio.stop_all()
+ 	if not _resolving: return
+@@ -188,7 +196,11 @@
+ func _has_tornado_event() -> bool:
+ 	return is_instance_valid(board) and not board._power_event.is_empty() and board._power_epoch == board._epoch and String(board._power_event.get("power","")) in ["tornado_h","tornado_v"]
+ 
++func _has_storm_event() -> bool:
++	return is_instance_valid(board) and not board._power_event.is_empty() and board._power_epoch == board._epoch and String(board._power_event.get("power","")) == "lightning_storm"
++
+ func _process(_delta:float) -> void:
++	if is_instance_valid(storm_audio) and storm_audio.event_active and not _has_storm_event(): storm_audio.finish_event()
+ 	if is_instance_valid(volcano_audio) and volcano_audio.event_active:
+ 		if _has_painted_volcano_event(): volcano_audio.sync_progress(board._power_t)
+ 		else: volcano_audio.finish_event()
+@@ -196,6 +208,7 @@
+ 		tornado_audio.finish_event()
+ 
+ func _on_board_foley(kind:String,strength:float = 1.0) -> void:
++	if kind == "break" and _has_storm_event() and is_instance_valid(storm_audio) and storm_audio.event_active: return
+ 	# The painted impacts already have a full stone body and fire tail. Suppress
+ 	# only their old end bang; cascades and all baseline powers retain their cues.
+ 	if kind == "break" and _has_painted_volcano_event() and is_instance_valid(volcano_audio) and volcano_audio.event_active: return
+@@ -203,5 +216,6 @@
+ 	stone_audio.play_cue(kind,strength)
+ 
+ func _exit_tree() -> void:
++	if is_instance_valid(storm_audio): storm_audio.stop_all()
+ 	if is_instance_valid(volcano_audio): volcano_audio.stop_all()
+ 	if is_instance_valid(tornado_audio): tornado_audio.stop_all()
+
+--- before/scripts/lab/magic_volcano_board.gd
++++ after/scripts/lab/magic_volcano_board.gd
+@@ -379,3 +379,134 @@
+ 	for point in points:
+ 		if distinct.is_empty() or point.distance_squared_to(distinct[-1]) > 0.04: distinct.append(point)
+ 	if distinct.size() >= 2: draw_polyline(distinct,color,width,true)
++
++func _draw_gem(center: Vector2, kind: int, radius: float, alpha: float, stretch: Vector2 = Vector2.ONE) -> void:
++	if kind != 9:
++		super._draw_gem(center,kind,radius,alpha,stretch)
++		return
++	if alpha <= 0.0 or radius < 0.3: return
++	# A small full-volume slate cloud identifies the new power; existing gem
++	# and power icons keep the exact inherited drawing implementation.
++	_draw_storm_cloud(center+Vector2(0,-radius*0.24)*stretch,Vector2(radius*2.10,radius*1.05),alpha,0.30,stretch)
++	var bolt := PackedVector2Array()
++	for point in [Vector2(0.10,-0.04),Vector2(-0.38,0.51),Vector2(-0.05,0.48),Vector2(-0.18,1.12),Vector2(0.40,0.35),Vector2(0.10,0.37)]:
++		bolt.append(center+point*radius*stretch)
++	draw_colored_polygon(bolt,Color(0.98,0.78,0.30,alpha))
++	var inner := PackedVector2Array([center+Vector2(0.055,0.13)*radius*stretch,center+Vector2(-0.20,0.47)*radius*stretch,center+Vector2(0.08,0.42)*radius*stretch,center+Vector2(-0.06,0.82)*radius*stretch])
++	draw_polyline(inner,Color(0.88,0.98,1.0,alpha*0.96),maxf(1.0,radius*0.10),true)
++	draw_set_transform(Vector2.ZERO)
++
++func storm_target_phase(index: int) -> Dictionary:
++	var targets: Array = _power_event.get("targets",[])
++	var before: Array = _power_event.get("before",[])
++	var ordinal := targets.find(index)
++	if ordinal < 0 or index < 0 or index >= before.size() or index >= _cols*_rows:
++		return {"valid":false,"index":index}
++	if int(before[index]) < 0 or int(before[index]) >= 6 or index == int(_power_event.get("origin",-1)):
++		return {"valid":false,"index":index}
++	if index%_cols != 0 and index%_cols != _cols-1 and index/_cols != 0 and index/_cols != _rows-1:
++		return {"valid":false,"index":index}
++	# Three interleaved groups, one smooth lightning pulse per actual cell.
++	var group := ordinal%3
++	var start := 0.28+float(group)*0.12
++	var hit := clampf((_power_t-start)/0.24,0.0,1.0)
++	var bolt_alpha := sin(hit*PI) if hit > 0.0 and hit < 1.0 else 0.0
++	var cloud_alpha := smoothstep(0.03,0.16,_power_t)*(1.0-smoothstep(start+0.18,start+0.38,_power_t))
++	var telegraph := 1.0-smoothstep(0.20,start+0.04,_power_t)
++	return {"valid":true,"index":index,"ordinal":ordinal,"group":group,"start":start,"hit":hit,"telegraph":telegraph,"cloud_alpha":cloud_alpha,"bolt_alpha":bolt_alpha,"gem_scale":1.0-smoothstep(0.10,0.88,hit)*0.88,"gem_alpha":1.0-smoothstep(0.42,0.94,hit)}
++
++func storm_cloud_geometry(index: int, step: float) -> Dictionary:
++	if not bool(storm_target_phase(index).valid): return {"valid":false,"index":index}
++	var target := _center(index)
++	var extent := Vector2(0.70,0.36)*step
++	var center := target+Vector2(0,-0.39)*step
++	var bounds := _board_rect().grow(-1.5)
++	# The top-row cloud sits inside its cell's upper portion. Elliptical cloud
++	# lobes have explicit margins, so no fill vertices need individual clamping.
++	center = center.clamp(bounds.position+Vector2(extent.x*0.56,extent.y*0.68),bounds.end-Vector2(extent.x*0.56,extent.y*0.56))
++	return {"valid":true,"index":index,"center":center,"extent":extent,"bolt_start":center+Vector2(0,extent.y*0.18),"target":target}
++
++func storm_bolt_points(index: int, step: float) -> PackedVector2Array:
++	var geometry := storm_cloud_geometry(index,step)
++	if not bool(geometry.valid): return PackedVector2Array()
++	var source: Vector2 = geometry.bolt_start
++	var target: Vector2 = geometry.target
++	var length := source.distance_to(target)
++	var sway := minf(step*0.075,length*0.22)
++	var sign_value := -1.0 if index%2 == 0 else 1.0
++	return PackedVector2Array([source,source.lerp(target,0.22)+Vector2(sway*sign_value,0),source.lerp(target,0.43)-Vector2(sway*sign_value,0),source.lerp(target,0.65)+Vector2(sway*0.74*sign_value,0),source.lerp(target,0.82)-Vector2(sway*0.25*sign_value,0),target])
++
++func _draw_lightning_storm_effect(step: float) -> void:
++	var before: Array = _power_event.get("before",[])
++	var origin := int(_power_event.get("origin",-1))
++	if origin < 0 or origin >= before.size(): return
++	# No board-wide overlays: all cloud, lightning and mineral commands are
++	# submitted only for validated border cells named by this same Core event.
++	for raw_index in _power_event.get("targets",[]):
++		var index := int(raw_index)
++		var phase := storm_target_phase(index)
++		if phase.valid: _draw_storm_target(index,step,phase)
++	if _power_t < 0.30:
++		var departure := smoothstep(0.08,0.30,_power_t)
++		_event_gem(origin,_center(origin),1.0-departure*0.78,1.0-departure)
++	draw_set_transform(Vector2.ZERO)
++
++func _draw_storm_target(index: int, step: float, phase: Dictionary) -> void:
++	if not bool(phase.get("valid",false)): return
++	var geometry := storm_cloud_geometry(index,step)
++	if not bool(geometry.valid): return
++	var target: Vector2 = geometry.target
++	var warning := float(phase.telegraph)
++	if warning > 0.0:
++		var selection := StyleBoxFlat.new()
++		selection.bg_color = Color(0.10,0.20,0.28,warning*0.14)
++		selection.border_color = Color(0.64,0.88,0.95,warning*0.62)
++		selection.set_border_width_all(maxi(1,int(step*0.018)))
++		selection.set_corner_radius_all(maxi(2,int(step*0.10)))
++		draw_style_box(selection,Rect2(target-Vector2.ONE*step*0.39,Vector2.ONE*step*0.78))
++	if float(phase.gem_alpha) > 0.0:
++		_event_gem(index,target,float(phase.gem_scale),float(phase.gem_alpha))
++	if float(phase.cloud_alpha) > 0.0:
++		_draw_storm_cloud(geometry.center,geometry.extent,float(phase.cloud_alpha)*0.94,float(phase.bolt_alpha))
++	var pulse := float(phase.bolt_alpha)
++	if pulse > 0.0:
++		var points := storm_bolt_points(index,step)
++		draw_polyline(points,Color(0.40,0.77,0.91,pulse*0.19),maxf(2.2,step*0.115),true)
++		draw_polyline(points,Color(1.0,0.79,0.33,pulse*0.94),maxf(1.8,step*0.061),true)
++		draw_polyline(points,Color(0.88,0.98,1.0,pulse),maxf(1.0,step*0.025),true)
++		draw_arc(target,step*(0.10+float(phase.hit)*0.14),0.0,TAU,20,Color(0.82,0.94,0.95,pulse*0.55),maxf(1.0,step*0.019),true)
++	var hit := float(phase.hit)
++	if hit > 0.0 and hit < 1.0:
++		var mineral: int = int(_power_event.before[index])
++		for chip in range(4):
++			var angle := float(chip)*TAU/4.0+float(phase.ordinal)*0.81
++			var radius := step*(0.036+float(chip%2)*0.012)*(1.0-hit)
++			if radius < 0.40: continue
++			var point := target+Vector2.from_angle(angle)*step*hit*0.29+Vector2(0,step*hit*hit*0.10)
++			var bounds := _board_rect().grow(-radius*1.5)
++			point = point.clamp(bounds.position,bounds.end)
++			var color: Color = GEM_COLORS[posmod(mineral,6)].lightened(0.18)
++			color.a = (1.0-hit)*0.90
++			var shape := PackedVector2Array([point+Vector2(-0.9,-0.65)*radius,point+Vector2(0.65,-0.85)*radius,point+Vector2(0.9,0.55)*radius,point+Vector2(-0.45,0.85)*radius])
++			draw_colored_polygon(shape,color)
++
++func _draw_storm_cloud(center: Vector2, extent: Vector2, alpha: float, charge: float = 0.0, stretch: Vector2 = Vector2.ONE) -> void:
++	if alpha <= 0.0 or extent.x <= 0.0 or extent.y <= 0.0: return
++	# Soft nested ellipses give the dark cloud depth without noisy particles,
++	# additive screen flashes or hard white fills on the cell beneath it.
++	draw_set_transform(center+Vector2(0,extent.y*0.28)*stretch,0.0,Vector2(extent.x*0.49,extent.y*0.26)*stretch)
++	draw_circle(Vector2.ZERO,1.0,Color(0.025,0.045,0.08,alpha*0.28),true,-1,true)
++	var puffs := [Vector4(-0.28,0.05,0.25,0.39),Vector4(-0.10,-0.11,0.28,0.47),Vector4(0.12,-0.15,0.28,0.49),Vector4(0.31,0.06,0.22,0.36),Vector4(0.0,0.18,0.40,0.32)]
++	for layer in range(3):
++		var inset := 1.0-float(layer)*0.09
++		for puff in puffs:
++			var point := center+Vector2(puff.x*extent.x,puff.y*extent.y-float(layer)*extent.y*0.035)*stretch
++			var scale_value := Vector2(puff.z*extent.x,puff.w*extent.y)*inset*stretch
++			draw_set_transform(point,0.0,scale_value)
++			var color := Color(0.12+float(layer)*0.055,0.17+float(layer)*0.065,0.24+float(layer)*0.075,alpha*(0.94-float(layer)*0.16))
++			color = color.lerp(Color(0.43,0.57,0.65,color.a),charge*0.10)
++			draw_circle(Vector2.ZERO,1.0,color,true,-1,true)
++	draw_set_transform(center,0.0,stretch)
++	var silver := PackedVector2Array([Vector2(-0.30,-0.16)*extent,Vector2(-0.23,-0.29)*extent,Vector2(-0.08,-0.32)*extent,Vector2(0.02,-0.25)*extent])
++	draw_polyline(silver,Color(0.56,0.71,0.76,alpha*0.42),maxf(1.0,extent.y*0.055),true)
++	draw_set_transform(Vector2.ZERO)
+
+--- before/README_MAGIC_ANIMATIONS.txt
++++ after/README_MAGIC_ANIMATIONS.txt
+@@ -1,6 +1,8 @@
+ GNOMIT MAGIC ANIMATION LAB
+ 
+-Run PLAY_MAGIC_ANIMATIONS.cmd. The lab opens on monitor 0 at 432x960 and starts with Tornado selected.
++Run PLAY_MAGIC_ANIMATIONS.cmd. The lab opens on monitor 0 at 432x960 and starts with Lightning Storm selected.
++
++LIGHTNING STORM: drag the marked cloud to its adjacent glowing stone. Only ordinary minerals on the outer rectangular frame are hit (first/last row or column). Corners are counted once. Internal holes do not create extra targets; fixed runes, holes and other specials are excluded. Dark clouds form above the actual edge targets, followed by one bolt each in three groups and short mineral break reactions. The source special is consumed at its swapped destination for one move, with existing single-layer soil damage on ordinary targets and normal refill/cascades afterwards. No chains or new combinations. Normal animation 1.40s; Reduced motion uses the existing short selection cue instead of moving clouds/lightning. Skip and Reset clear the effect. A short original cartoon thunder recording follows the three strike groups, with a quieter reduced cue. Existing Volcano, radial Tornado, Black Hole, campaign and save behavior are retained.
+ 
+ TORNADO: drag the highlighted whirlwind to the adjacent marked stone. At its new position it spins in place like a top and pulls in the ordinary minerals in the eight surrounding cells (a 3x3 footprint including diagonals, excluding its own centre). It does not sweep a full row or column. Borders clip the footprint; holes, runes and other specials are excluded. The ordinary targets and the tornado itself are removed in the existing one-move transaction; affected soil loses its existing single layer. There is no chain activation. Normal post-power cascades retain the usual rules. Target cells are marked first, followed by the local whirl and inward stone motion, then normal refill. Duration is 1.10s; Reduced motion keeps the short selection cue. Reset and Skip clear the effect. Volcano and its delivered MP3, Black Hole, campaign and save are unchanged. Both historical tornado type IDs now use the same radial rule; the menu exposes one Tornado button.
+ 
+@@ -22,4 +24,6 @@
+ 
+ Add --sound-pass to that Tornado capture harness to save the sound update under outputs/tornado_sound, preserving the earlier animation pass. The native AVI includes the actual game mix; the WAV preview is extracted from that movie's PCM. GIF previews remain silent.
+ 
++Lightning Storm evidence: tests/capture_lightning_storm.gd saves actual 432x960 native captures and event/result/state/audio logs under outputs/lightning_storm. New focused tests are test_lightning_storm.gd and test_lightning_audio.gd. New sound recipe is tools/build_lightning_audio.py. Human visual/listening and Android acceptance are pending.
++
+ This is a separate local test fixture, not campaign rewards or final balance. No personal or campaign save is read or written. The current project default scene is the lab; the launcher uses that scene directly.
+
+--- /dev/null
++++ after/scripts/lab/lightning_audio.gd
+@@ -0,0 +1,43 @@
++extends Node
++## One soft storm recording, never a sound per border tile.
++const BUS_NAME := "GnomiT Lightning Foley"
++const PATHS := {"normal":"res://assets/sfx/lightning/storm_cartoon_v1.wav","reduced":"res://assets/sfx/lightning/storm_short_v1.wav"}
++var players: Array[AudioStreamPlayer] = []
++var streams: Dictionary = {}
++var event_active := false
++var cue_log: Array = []
++
++func _ready() -> void:
++	for key in PATHS:
++		if FileAccess.file_exists(PATHS[key]):
++			var stream := AudioStreamWAV.load_from_file(PATHS[key])
++			if stream != null and stream.get_length() > 0.0: streams[key] = stream
++	if AudioServer.get_bus_index(BUS_NAME) < 0:
++		AudioServer.add_bus()
++		var index := AudioServer.bus_count-1
++		AudioServer.set_bus_name(index,BUS_NAME)
++		AudioServer.set_bus_volume_db(index,-2.0)
++		var limiter := AudioEffectHardLimiter.new();limiter.ceiling_db = -6.0
++		AudioServer.add_bus_effect(index,limiter)
++	var voice := AudioStreamPlayer.new();voice.bus = BUS_NAME;add_child(voice);players.append(voice)
++
++func begin(reduced: bool) -> void:
++	stop_all()
++	var key := "reduced" if reduced else "normal"
++	if not streams.has(key) or players.is_empty():
++		push_warning("Lightning audio unavailable; keeping stone foley.")
++		return
++	var voice: AudioStreamPlayer = players[0]
++	voice.stream = streams[key];voice.pitch_scale = 1.0;voice.volume_db = -16.0 if reduced else -7.0
++	voice.play();event_active = true
++	cue_log.append({"kind":key,"source":PATHS[key],"pitch_scale":1.0,"length":voice.stream.get_length(),"volume_db":voice.volume_db})
++
++func finish_event() -> void:
++	event_active = false
++
++func stop_all() -> void:
++	finish_event()
++	for voice in players: voice.stop()
++
++func _exit_tree() -> void:
++	stop_all()
+
+--- /dev/null
++++ after/tests/test_lightning_storm.gd
+@@ -0,0 +1,232 @@
++extends SceneTree
++## Actual Core transactions, literal rectangle oracles, and real Storm draws.
++
++const CORE_PATH := "res://scripts/lab/natural_power_core.gd"
++const BOARD_PATH := "res://scripts/lab/magic_volcano_board.gd"
++const OUTER := [0,1,2,3,4,5,6,7,13,14,20,21,27,28,34,35,41,42,48,49,50,51,52,53,54,55]
++var checks := 0
++var failures: Array[String] = []
++var observations: Array = []
++
++func _initialize() -> void:
++	call_deferred("run")
++
++func check(value: bool, label: String) -> void:
++	checks += 1
++	if not value:
++		failures.append(label)
++		print("FAIL: " + label)
++
++func canonical(value: Variant) -> String:
++	return JSON.stringify(JSON.parse_string(JSON.stringify(value)), "", true)
++
++func core_state(core) -> Dictionary:
++	return {"cols":core.cols,"rows":core.rows,"grid":core.grid.duplicate(),"floor":core.floor.duplicate(),"runes":core.runes.duplicate(),"moves_left":core.moves_left,"initial_moves":core.initial_moves,"collected":core.collected,"collect_kind":core.collect_kind,"collect_goal":core.collect_goal,"won":core.won,"lost":core.lost,"goal":core._goal,"black_hole_used":core.black_hole_used,"fixture_pair":core.fixture_pair.duplicate(),"rng_seed_int64":str(core._rng.seed),"rng_state_int64":str(core._rng.state)}
++
++func storm_event(result: Dictionary) -> Dictionary:
++	var event: Dictionary = {}
++	var count := 0
++	for item in result.get("events", []):
++		if item.get("type", "") == "natural_power":
++			count += 1
++			event = item
++	check(count == 1 and event.get("power", "") == "lightning_storm", "Real transaction emits one Storm without chained powers")
++	return event
++
++func fixture(extras: Dictionary = {}, nonrectangular := false):
++	var core = load(CORE_PATH).new()
++	core.setup_lab("lightning_storm", 42)
++	if nonrectangular:
++		core.setup({"cols":7,"rows":8,"moves":12,"goal":"collect","collect_kind":3,"collect_goal":999,"mask":["..xxxxx","xxxxxxx","xxx.xxx","xxxxxxx","xx.xxxx","xxxxxxx","xxxxxxx","xxxxxx."],"target_cells":[23,26,43],"rune_cells":[39]},42)
++		core.fixture_pair.assign([25,26])
++		core.grid[25] = 9
++	for index in extras:
++		core.grid[int(index)] = int(extras[index])
++		if int(extras[index]) == -3:
++			core.runes[int(index)] = 1
++	for index in range(core.grid.size()):
++		if core.grid[index] >= 0:
++			core.floor[index] = 2
++	return core
++
++func verify_core() -> void:
++	for definition in [
++		{"label":"baseline rectangle","extras":{},"mask":false,"omit":[]},
++		{"label":"excluded border objects","extras":{0:-2,6:-3,7:6,13:7,49:8,55:9},"mask":false,"omit":[0,6,7,13,49,55]},
++		{"label":"irregular mask","extras":{},"mask":true,"omit":[0,1,55]},
++	]:
++		var core = fixture(definition.extras, definition.mask)
++		var expected: Array = OUTER.duplicate()
++		for index in definition.omit:
++			expected.erase(index)
++		var result: Dictionary = core.try_swap(25,26)
++		var event := storm_event(result)
++		var label: String = definition.label
++		check(result.valid and core.moves_left == 11, label + " spends one move")
++		if event.is_empty():
++			continue
++		check(event.origin == 26 and event.before[26] == 9 and event.after[26] == -1, label + " consumes the swapped interior Storm origin")
++		check(event.targets == expected, label + " hits exactly the literal ascending outer frame")
++		var unique: Dictionary = {}
++		for target in event.targets:
++			unique[target] = true
++		check(unique.size() == expected.size(), label + " never duplicates corner hits")
++		var removed: Array = expected.duplicate()
++		removed.append(26)
++		removed.sort()
++		check(event.indices == removed, label + " directly removes only frame targets and origin")
++		var untouched := true
++		for index in range(event.before.size()):
++			if index not in removed and event.before[index] != event.after[index]:
++				untouched = false
++		check(untouched, label + " preserves every interior and excluded direct cell")
++		var expected_floor: Array = event.floor_before.duplicate()
++		for target in expected:
++			expected_floor[int(target)] = maxi(0,int(expected_floor[int(target)]) - 1)
++		check(event.floor == expected_floor and event.floor[26] == 2, label + " removes one soil layer only under ordinary border targets")
++		check(event.runes == event.runes_before, label + " preserves direct runes")
++		check(core.get_matches().is_empty() and core.grid.count(-1) == 0, label + " refills to a stable board")
++		for index in [16,17,18,22,23,25,29,31,32]:
++			check(index not in event.targets, label + " excludes interior cells beside holes and the source")
++		if not definition.extras.is_empty():
++			check(core.grid.count(6) == 1 and core.grid.count(7) == 1 and core.grid.count(8) == 1 and core.grid.count(9) == 1, "Non-target border specials survive without chaining or special creation")
++		observations.append({"case":label,"actual_targets":event.targets,"target_count":event.targets.size()})
++	var first = fixture()
++	var second = fixture()
++	var first_result: Dictionary = first.try_swap(25,26)
++	var second_result: Dictionary = second.try_swap(25,26)
++	check(canonical(first_result) == canonical(second_result) and canonical(core_state(first)) == canonical(core_state(second)), "Same seed produces identical Storm transaction, refill, and full RNG state")
++	for other in [6,7,8,9]:
++		var core = fixture()
++		core.grid[26] = other
++		var before := canonical(core_state(core))
++		var result: Dictionary = core.try_swap(25,26)
++		check(not result.valid and result.events.is_empty() and canonical(core_state(core)) == before, "Storm plus another special rejects without creating a Black Hole or spending a move")
++	var combination = load(CORE_PATH).new()
++	combination.setup_lab("black_hole",42)
++	combination.grid[0] = 9
++	var combination_result: Dictionary = combination.try_swap(25,26)
++	var powers: Array = []
++	for item in combination_result.events:
++		if item.get("type", "") == "natural_power":
++			powers.append(item.power)
++	check(combination_result.valid and powers == ["black_hole"] and combination.grid.count(9) == 0, "Existing Tornado plus Volcano remains the sole Black Hole combination and consumes Storm inertly")
++
++func set_event(view, event: Dictionary) -> void:
++	view._power_event = event.duplicate(true)
++	view._power_epoch = view._epoch
++	view._hidden.clear()
++	for index in event.indices:
++		view._hidden[int(index)] = true
++
++func sample(view, progress: float) -> void:
++	view._power_t = progress
++	view.queue_redraw()
++	await process_frame
++	await process_frame
++
++func cleared(view) -> bool:
++	return not view.busy and view._power_event.is_empty() and view._hidden.is_empty() and view.submitted.is_empty()
++
++func verify_renderer() -> void:
++	var renderer = load(BOARD_PATH)
++	check(renderer != null and renderer.can_instantiate(), "Storm renderer loads with existing LabBoard identity")
++	if renderer == null or not renderer.can_instantiate():
++		return
++	var probe = renderer.new()
++	var ready: bool = probe.has_method("storm_target_phase") and probe.has_method("storm_cloud_geometry") and probe.has_method("storm_bolt_points") and probe.has_method("_draw_storm_target")
++	check(ready, "Storm exposes actual phase, cloud, bolt, and draw helpers")
++	probe.free()
++	if not ready:
++		return
++	var observer := GDScript.new()
++	observer.source_code = "extends \"res://scripts/lab/magic_volcano_board.gd\"\nvar submitted: Array = []\nfunc _draw() -> void:\n\tsubmitted.clear()\n\tsuper._draw()\nfunc _draw_storm_target(index: int, step: float, phase: Dictionary) -> void:\n\tsubmitted.append({\"index\":index,\"phase\":phase.duplicate(true)})\n\tsuper._draw_storm_target(index,step,phase)\n"
++	check(observer.reload() == OK, "Observer retains actual Storm drawing")
++	if not observer.can_instantiate():
++		return
++	var core = fixture()
++	var result: Dictionary = core.try_swap(25,26)
++	var event := storm_event(result)
++	if event.is_empty():
++		return
++	var committed := canonical(core_state(core))
++	var transaction := canonical(result)
++	var view = observer.new()
++	root.add_child(view)
++	view.size = Vector2(404,550)
++	view.setup(core,false)
++	set_event(view,event)
++	for progress in [0.12,0.35,0.50,0.68,0.86]:
++		await sample(view,progress)
++		var drawn: Array = []
++		for item in view.submitted:
++			drawn.append(int(item.index))
++		check(drawn == event.targets, "Real Storm draw visits exactly the authoritative ascending border targets")
++	var all_geometry := true
++	var starts: Dictionary = {}
++	await sample(view,0.5)
++	for target in event.targets:
++		var phase: Dictionary = view.storm_target_phase(int(target))
++		var cloud: Dictionary = view.storm_cloud_geometry(int(target),view._cell_size())
++		var bolt: PackedVector2Array = view.storm_bolt_points(int(target),view._cell_size())
++		starts[phase.get("start",-1.0)] = true
++		all_geometry = all_geometry and bool(phase.get("valid",false)) and bool(cloud.get("valid",false)) and bolt.size() >= 2 and bolt[-1] == view._center(int(target))
++		for point in bolt:
++			all_geometry = all_geometry and point.is_finite() and view._board_rect().grow(0.001).has_point(point)
++	check(all_geometry, "Every actual frame target has a finite bounded bolt ending at that exact cell")
++	var sorted_starts: Array = starts.keys()
++	sorted_starts.sort()
++	check(sorted_starts.size() == 3 and absf(float(sorted_starts[0]) - 0.28) < 0.000001 and absf(float(sorted_starts[1]) - 0.40) < 0.000001 and absf(float(sorted_starts[2]) - 0.52) < 0.000001, "Actual Storm uses three deterministic bolt starts")
++	var first_bolt: PackedVector2Array = view.storm_bolt_points(0,view._cell_size())
++	check(first_bolt == view.storm_bolt_points(0,view._cell_size()), "Repeated drawing at fixed progress preserves exact bolt geometry")
++	for index in [16,23,24,26,30,39,-1,999]:
++		check(not bool(view.storm_target_phase(index).get("valid",false)), "Interior, fixed, origin, or invalid cell cannot receive Storm phase")
++	var malformed: Dictionary = event.duplicate(true)
++	malformed.targets = [16,23,24,26,30,39,-1,999]
++	set_event(view,malformed)
++	await sample(view,0.5)
++	check(view.submitted.is_empty(), "Malformed internal-hole-edge targets never draw lightning")
++	for reduced in [false,true]:
++		view.setup(core,reduced)
++		var began := Time.get_ticks_msec()
++		view.animate_result({"valid":true,"events":[event]})
++		var deadline := began + 3000
++		while view.busy and Time.get_ticks_msec() < deadline:
++			await process_frame
++		var elapsed := float(Time.get_ticks_msec() - began) / 1000.0
++		await process_frame
++		await process_frame
++		var expected := 0.13 if reduced else 1.40
++		check(absf(elapsed - expected) < 0.15, "Storm uses its configured normal or reduced duration")
++		check(cleared(view) and view._display_grid == core.grid and view._display_floor == core.floor and view._display_runes == core.runes, "Storm completion clears drawing and displays exact resolved Core state")
++		observations.append({"reduced":reduced,"elapsed_wall_seconds":elapsed,"expected_seconds":expected})
++	view.setup(core,true)
++	set_event(view,event)
++	await sample(view,0.5)
++	check(view.submitted.is_empty(), "Reduced motion suppresses the normal cloud and bolt draw stream")
++	for action in ["skip","reset"]:
++		view.setup(core,false)
++		view.animate_result({"valid":true,"events":[event]})
++		await process_frame
++		var replacement = load(CORE_PATH).new()
++		replacement.setup_lab("lightning_storm",713)
++		var replacement_snapshot := canonical(core_state(replacement))
++		if action == "skip":
++			view.finish_now()
++		else:
++			view.setup(replacement,false)
++		await create_timer(1.5).timeout
++		view.queue_redraw()
++		await process_frame
++		check(cleared(view), "Storm " + action + " clears hidden cells and all old draw state")
++		if action == "reset":
++			check(view._display_grid == replacement.grid and canonical(core_state(replacement)) == replacement_snapshot, "Reset prevents old Storm timers from overwriting replacement Core/RNG or display")
++	check(canonical(core_state(core)) == committed and canonical(result) == transaction, "All drawing, lifecycle, reduced, skip, and reset operations preserve the full actual Core transaction and RNG")
++	view.queue_free()
++	await process_frame
++
++func run() -> void:
++	verify_core()
++	await verify_renderer()
++	print("LIGHTNING_STORM " + JSON.stringify({"status":"PASS" if failures.is_empty() else "FAIL","checks":checks,"failures":failures,"observations":observations}))
++	quit(0 if failures.is_empty() else 1)
+
+--- /dev/null
++++ after/tests/test_lightning_audio.gd
+@@ -0,0 +1,113 @@
++extends SceneTree
++## Bounded actual Storm playback and real lab cancellation smoke.
++
++var checks := 0
++var failures: Array[String] = []
++var observations: Array = []
++
++func _initialize() -> void:
++	call_deferred("run")
++
++func check(value: bool, label: String) -> void:
++	checks += 1
++	if not value:
++		failures.append(label)
++		print("FAIL: " + label)
++
++func canonical(value: Variant) -> String:
++	return JSON.stringify(JSON.parse_string(JSON.stringify(value)),"",true)
++
++func state(core) -> Dictionary:
++	return {"cols":core.cols,"rows":core.rows,"grid":core.grid.duplicate(),"floor":core.floor.duplicate(),"runes":core.runes.duplicate(),"moves_left":core.moves_left,"initial_moves":core.initial_moves,"collected":core.collected,"collect_kind":core.collect_kind,"collect_goal":core.collect_goal,"won":core.won,"lost":core.lost,"goal":core._goal,"black_hole_used":core.black_hole_used,"fixture_pair":core.fixture_pair.duplicate(),"rng_seed_int64":str(core._rng.seed),"rng_state_int64":str(core._rng.state)}
++
++func playing(manager) -> int:
++	var count := 0
++	for voice in manager.players:
++		if voice.playing:
++			count += 1
++	return count
++
++func verify_short(manager) -> void:
++	manager.cue_log.clear()
++	manager.begin(false)
++	check(manager.event_active and playing(manager) == 1 and manager.cue_log.size() == 1, "Normal Storm begins one full audio recording")
++	var normal: Dictionary = manager.cue_log[0] if manager.cue_log.size() == 1 else {}
++	check(not normal.is_empty() and normal.kind == "normal" and float(normal.pitch_scale) == 1.0 and absf(float(normal.length) - 1.6) < 0.00001, "Normal recording plays its original 1.60-second duration and pitch")
++	check(manager.players.size() == 1 and manager.players[0].stream is AudioStreamWAV and manager.players[0].stream.stereo and manager.players[0].stream.mix_rate == 44100 and manager.players[0].stream.format == AudioStreamWAV.FORMAT_16_BITS, "Actual normal audio is stereo 44100 Hz 16-bit decoded WAV")
++	check(not manager.players[0].stream.data.is_empty() and manager.players[0].stream.data.count(0) < manager.players[0].stream.data.size(), "Normal stream contains nonzero decoded samples")
++	manager.finish_event()
++	check(not manager.event_active and playing(manager) == 1, "Normal event finish preserves the already-started audio tail")
++	manager.cue_log.clear()
++	manager.begin(true)
++	check(manager.event_active and playing(manager) == 1 and manager.cue_log.size() == 1, "Reduced begin replaces the full recording with one short voice")
++	if manager.cue_log.size() == 1:
++		var reduced: Dictionary = manager.cue_log[0]
++		check(reduced.kind == "reduced" and float(reduced.pitch_scale) == 1.0 and absf(float(reduced.length) - 0.18) < 0.00001 and float(reduced.volume_db) < float(normal.volume_db), "Reduced cue selects the 0.18-second lower-gain recording at original pitch")
++		check(manager.players[0].stream == manager.streams.reduced and not manager.players[0].stream.stereo and manager.players[0].stream.mix_rate == 44100, "Actual reduced voice uses the separate short mono WAV")
++		check(not manager.players[0].stream.data.is_empty() and manager.players[0].stream.data.count(0) < manager.players[0].stream.data.size(), "Reduced stream contains nonzero decoded samples")
++	manager.finish_event()
++	var began := Time.get_ticks_msec()
++	while playing(manager) > 0 and Time.get_ticks_msec() - began < 1000:
++		await process_frame
++	check(playing(manager) == 0 and manager.cue_log.size() == 1, "Reduced tail finishes without a delayed full recording")
++	observations.append({"reduced_source_seconds":0.18,"observed_end_wait_seconds":float(Time.get_ticks_msec() - began)/1000.0})
++
++func await_active(app) -> bool:
++	var deadline := Time.get_ticks_msec() + 4000
++	while Time.get_ticks_msec() < deadline:
++		if app.storm_audio.event_active and app.board._power_event.get("power","") == "lightning_storm" and app.board._power_t >= 0.2:
++			return true
++		await process_frame
++	return false
++
++func run() -> void:
++	var lab_script = load("res://scripts/lab/natural_power_lab.gd")
++	check(lab_script != null and lab_script.can_instantiate(), "Actual Storm lab loads")
++	if lab_script == null or not lab_script.can_instantiate():
++		finish()
++		return
++	var app = lab_script.new()
++	root.add_child(app)
++	app.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
++	await process_frame
++	await process_frame
++	var manager = app.get("storm_audio")
++	check(manager != null, "Actual lab owns the Storm audio manager")
++	if manager == null:
++		app.queue_free()
++		finish()
++		return
++	await verify_short(manager)
++	for action in ["normal","skip","reset"]:
++		app.reduced.button_pressed = false
++		app.reset_scenario("lightning_storm")
++		manager.cue_log.clear()
++		var original_core = app.core
++		app._on_swap(int(app.core.fixture_pair[0]),int(app.core.fixture_pair[1]))
++		var active := await await_active(app)
++		check(active and manager.cue_log.size() == 1 and manager.cue_log[0].kind == "normal" and playing(manager) == 1, "Actual " + action + " transaction starts exactly one audible Storm recording")
++		var committed := canonical(state(original_core))
++		var transaction := canonical(app.last_result)
++		var cues := canonical(manager.cue_log)
++		if action == "skip":
++			app.skip_effect()
++		elif action == "reset":
++			app.reset_scenario("lightning_storm")
++		if action != "normal":
++			check(not manager.event_active and playing(manager) == 0, "Actual " + action + " stops every Storm voice immediately")
++		var current := canonical(state(app.core))
++		var began := Time.get_ticks_msec()
++		while Time.get_ticks_msec() - began < 1700 or (action == "normal" and app._resolving and Time.get_ticks_msec() - began < 6000):
++			await process_frame
++		check(not manager.event_active and playing(manager) == 0 and canonical(manager.cue_log) == cues, "Actual " + action + " has no stale or repeated audio beyond the recording duration")
++		check(canonical(state(original_core)) == committed and canonical(state(app.core)) == current, "Actual " + action + " preserves the entire original and current Core/RNG state")
++		if action == "normal":
++			check(canonical(app.last_result) == transaction and not app._resolving, "Normal full lab rendering preserves the actual transaction and finishes")
++		observations.append({"action":action,"actual_cue_count":manager.cue_log.size(),"playing_after_wait":playing(manager)})
++	app.queue_free()
++	await process_frame
++	finish()
++
++func finish() -> void:
++	print("LIGHTNING_AUDIO " + JSON.stringify({"status":"PASS" if failures.is_empty() else "FAIL","checks":checks,"failures":failures,"observations":observations}))
++	quit(0 if failures.is_empty() else 1)
+
+--- /dev/null
++++ after/tests/capture_lightning_storm.gd
+@@ -0,0 +1,418 @@
++extends SceneTree
++## Separate outer-frame Lightning Storm capture. Activates the actual lab through native input.
++## This harness never edits the fixture or calls Core activation methods directly.
++
++const LAB_PATH := "res://scripts/lab/natural_power_lab.gd"
++const BOARD_PATH := "res://scripts/lab/magic_volcano_board.gd"
++const OUTPUT_PATH := "res://outputs/lightning_storm"
++const SCREEN_SIZE := Vector2i(432, 960)
++const CAPTURE_FPS := 30
++const CAPTURE_FRAMES := 210
++const EXPECTED_EFFECT_SECONDS := 1.40
++const TIMING_TOLERANCE_SECONDS := 2.0 / float(CAPTURE_FPS) + 0.001
++const SEED := 42
++
++var app
++var output := ""
++var scenario := "lightning_storm"
++var failures: Array[String] = []
++var observations: Array = []
++var frame_observations: Array = []
++var gesture_events: Array = []
++var initial_state: Dictionary = {}
++var frozen_event: Dictionary = {}
++var frozen_result: Dictionary = {}
++var frozen_state: Dictionary = {}
++var frozen_state_json := ""
++var frozen_result_json := ""
++var active_targets: Array = []
++var expected_targets: Array = []
++var geometry: Dictionary = {}
++var start_frame := 0
++var activation_frame := -1
++var effect_end_frame := -1
++var last_sample_frame := -1
++var effect_sampled_seconds := 0.0
++var sampled_frame_delta_seconds := 0.0
++var invariant_sample_count := 0
++var invariant_failed := false
++var result_failed := false
++var invalid_active_delta_failed := false
++var ignored_startup_delta_frames := 0
++var ended := false
++
++func _initialize() -> void:
++	call_deferred("run")
++
++func check(value: bool, message: String) -> void:
++	if not value:
++		failures.append(message)
++		push_error(message)
++
++func canonical(value: Variant) -> String:
++	# Normalize local and disk JSON equally; preserve int64 RNG values as strings.
++	return JSON.stringify(JSON.parse_string(JSON.stringify(value)), "", true) + "\n"
++
++func same_json(first: Variant, second: Variant) -> bool:
++	return canonical(first) == canonical(second)
++
++func write_json(suffix: String, value: Variant) -> void:
++	var path := output + "/" + scenario + "_" + suffix + ".json"
++	var file := FileAccess.open(path, FileAccess.WRITE)
++	if file == null:
++		check(false, "Cannot write " + path + ": " + error_string(FileAccess.get_open_error()))
++		return
++	file.store_string(canonical(value))
++	file.close()
++	check(FileAccess.get_file_as_string(path) == canonical(value), "JSON readback differs: " + path)
++
++func core_state(core) -> Dictionary:
++	return {
++		"cols": core.cols, "rows": core.rows,
++		"grid": core.grid.duplicate(), "floor": core.floor.duplicate(),
++		"runes": core.runes.duplicate(), "moves_left": core.moves_left,
++		"initial_moves": core.initial_moves, "collected": core.collected,
++		"collect_kind": core.collect_kind, "collect_goal": core.collect_goal,
++		"won": core.won, "lost": core.lost, "goal": core._goal,
++		"black_hole_used": core.black_hole_used,
++		"fixture_pair": core.fixture_pair.duplicate(),
++		"rng_seed_int64": str(core._rng.seed), "rng_state_int64": str(core._rng.state),
++	}
++
++func fixture_pair() -> Array:
++	return [25, 26]
++
++func display_matches() -> bool:
++	return app.board._display_grid == app.core.grid and app.board._display_floor == app.core.floor and app.board._display_runes == app.core.runes
++
++func presentation_clear() -> bool:
++	return not app.board.busy and app.board._power_event.is_empty() and app.board._hidden.is_empty() and not app.board._falling and app.board._moving.is_empty()
++
++func relative_frame() -> int:
++	return Engine.get_process_frames() - start_frame
++
++func capture_time_available() -> bool:
++	return relative_frame() < CAPTURE_FRAMES
++
++func sample_frame() -> void:
++	var current := Engine.get_process_frames()
++	if current == last_sample_frame or app == null or app.board == null:
++		return
++	last_sample_frame = current
++	var delta: float = app.board.get_process_delta_time()
++	sampled_frame_delta_seconds += delta
++	var active: bool = not app.board._power_event.is_empty()
++	if delta <= 0.0 and activation_frame < 0:
++		ignored_startup_delta_frames += 1
++	# Movie cadence is requested by --fixed-fps and checked in the recorded AVI.
++	# A node's actual process deltas can vary during startup and remain evidence.
++	if active and (not is_finite(delta) or delta <= 0.0) and not invalid_active_delta_failed:
++		invalid_active_delta_failed = true
++		check(false, "Every active effect frame has a positive finite measured delta")
++	var state_matches := true
++	var result_matches := true
++	if activation_frame >= 0:
++		invariant_sample_count += 1
++		state_matches = canonical(core_state(app.core)) == frozen_state_json
++		result_matches = canonical(app.last_result) == frozen_result_json
++		if not state_matches and not invariant_failed:
++			invariant_failed = true
++			check(false, "Rendering changed complete resolved Core/RNG state")
++		if not result_matches and not result_failed:
++			result_failed = true
++			check(false, "Rendering changed the actual frozen Core result")
++		if effect_end_frame < 0:
++			if active:
++				effect_sampled_seconds += delta
++			else:
++				effect_end_frame = current
++	frame_observations.append({
++		"process_frame": relative_frame(), "delta_seconds": delta,
++		"power_active": active, "power_t": app.board._power_t,
++		"board_busy": app.board.busy, "lab_resolving": app._resolving,
++		"resolved_core_rng_unchanged": state_matches,
++		"actual_result_unchanged": result_matches,
++	})
++
++func next_frame() -> void:
++	await process_frame
++	sample_frame()
++
++func wait_frames(count: int) -> void:
++	for ignored in range(count):
++		if not capture_time_available():
++			return
++		await next_frame()
++
++func mouse(point: Vector2, down: bool) -> void:
++	var event := InputEventMouseButton.new()
++	event.position = root.get_final_transform() * point
++	event.global_position = event.position
++	event.button_index = MOUSE_BUTTON_LEFT
++	event.pressed = down
++	event.button_mask = MOUSE_BUTTON_MASK_LEFT if down else 0
++	gesture_events.append({
++		"kind": "press" if down else "release", "process_frame": relative_frame(),
++		"viewport_point": [point.x, point.y], "native_point": [event.position.x, event.position.y],
++	})
++	Input.parse_input_event(event)
++
++func motion(point: Vector2, relative: Vector2) -> void:
++	var event := InputEventMouseMotion.new()
++	event.position = root.get_final_transform() * point
++	event.global_position = event.position
++	event.relative = root.get_final_transform().basis_xform(relative)
++	event.button_mask = MOUSE_BUTTON_MASK_LEFT
++	gesture_events.append({
++		"kind": "motion", "process_frame": relative_frame(),
++		"viewport_point": [point.x, point.y], "native_point": [event.position.x, event.position.y],
++	})
++	Input.parse_input_event(event)
++
++func native_fixture_drag() -> void:
++	var pair: Array = app.core.fixture_pair
++	check(pair == fixture_pair(), "Actual scenario retains its established fixture pair")
++	if pair.size() != 2:
++		return
++	var first: Vector2 = app.board.get_global_transform() * app.board._center(int(pair[0]))
++	var last: Vector2 = app.board.get_global_transform() * app.board._center(int(pair[1]))
++	check(Rect2(Vector2.ZERO, Vector2(SCREEN_SIZE)).has_point(first) and Rect2(Vector2.ZERO, Vector2(SCREEN_SIZE)).has_point(last), "Both native fixture endpoints lie inside the portrait viewport")
++	mouse(first, true)
++	await wait_frames(3)
++	var previous := first
++	for index in range(1, 7):
++		var point := first.lerp(last, float(index) / 6.0 * 0.85)
++		motion(point, point - previous)
++		previous = point
++		await next_frame()
++	mouse(previous, false)
++	await wait_frames(2)
++
++func derive_outer_targets(event: Dictionary) -> Array:
++	var derived: Array = []
++	var before: Array = event.get("before", [])
++	var cols := int(initial_state.get("cols", 0))
++	var rows := int(initial_state.get("rows", 0))
++	var origin := int(event.get("origin", -1))
++	check(cols > 0 and rows > 0 and before.size() == cols * rows, "Actual event contains the complete pre-effect grid")
++	if cols <= 0 or rows <= 0 or origin < 0 or origin >= before.size():
++		return derived
++	for index in range(before.size()):
++		var x := index % cols
++		var y := index / cols
++		if index != origin and (x == 0 or x == cols - 1 or y == 0 or y == rows - 1) and int(before[index]) >= 0 and int(before[index]) < app.core.GEM_KINDS:
++			derived.append(index)
++	return derived
++
++func on_power_started(power: String, targets: Array) -> void:
++	check(power == scenario, "Native fixture gesture activates the selected actual Lightning Storm power")
++	check(activation_frame < 0, "Native capture activates exactly one natural power")
++	if activation_frame >= 0:
++		return
++	activation_frame = Engine.get_process_frames()
++	active_targets = targets.duplicate()
++	# Emitted synchronously before this effect queues its first redraw. The lab's
++	# last_result is the actual completed transaction, never a fabricated stream.
++	frozen_result = app.last_result.duplicate(true)
++	frozen_state = core_state(app.core)
++	frozen_state_json = canonical(frozen_state)
++	frozen_result_json = canonical(frozen_result)
++	var count := 0
++	for event in frozen_result.get("events", []):
++		if String(event.get("type", "")) == "natural_power":
++			count += 1
++			frozen_event = event.duplicate(true)
++	check(count == 1, "Actual Core result contains exactly one natural_power event")
++	check(bool(frozen_result.get("valid", false)), "Actual native-input Core transaction is valid")
++	check(String(frozen_event.get("power", "")) == scenario, "Frozen Core event belongs to the selected Lightning Storm scenario")
++	check(int(frozen_event.get("origin", -1)) == int(fixture_pair()[1]), "Actual event origin is the fixture's swap destination")
++	check(same_json(active_targets, frozen_event.get("targets", [])), "Signal targets equal actual Core event targets")
++	expected_targets = derive_outer_targets(frozen_event)
++	check(same_json(active_targets, expected_targets), "Actual target list and cardinality equal ordinary cells on the rectangular outer frame")
++	check(not active_targets.has(int(frozen_event.get("origin", -1))) and active_targets.size() == 26, "Outer-frame targets exclude the interior origin and include each corner once")
++	var expected_removed := expected_targets.duplicate()
++	expected_removed.append(int(frozen_event.get("origin", -1)))
++	expected_removed.sort()
++	check(same_json(frozen_event.get("indices", []), expected_removed), "Actual removal indices contain only origin plus real outer-frame targets")
++	check(same_json(app.board._power_event, frozen_event) and is_zero_approx(float(app.board._power_t)), "Event and state freeze synchronously before the effect advances or redraws")
++	check(int(frozen_state.moves_left) == int(initial_state.moves_left) - 1, "Native activation spends exactly one move")
++	write_json("EVENT", frozen_event)
++	write_json("RESULT", frozen_result)
++	write_json("ACTIVATION_STATE", frozen_state)
++	observations.append({
++		"phase": "event_frozen_before_draw", "process_frame": relative_frame(),
++		"actual_targets": active_targets.duplicate(), "actual_target_count": active_targets.size(),
++		"derived_eligible_targets": expected_targets.duplicate(),
++	})
++
++func shot(phase: String, requested_progress: float = -1.0) -> void:
++	await RenderingServer.frame_post_draw
++	var path := output + "/" + scenario + "_" + phase + ".png"
++	var captured := root.get_texture().get_image()
++	check(captured.get_size() == SCREEN_SIZE, "Entire root capture is exactly 432x960")
++	check(captured.save_png(path) == OK, "Screenshot saves " + path)
++	observations.append({
++		"phase": phase, "file": path, "process_frame": relative_frame(),
++		"requested_progress": requested_progress, "actual_power_t": app.board._power_t,
++		"power_active": not app.board._power_event.is_empty(),
++		"actual_targets": active_targets.duplicate(), "actual_target_count": active_targets.size(),
++		"moves_left": app.core.moves_left,
++	})
++
++func wait_for_phase(progress: float) -> bool:
++	while capture_time_available():
++		if activation_frame >= 0:
++			if app.board._power_event.is_empty():
++				check(false, "Effect ended before requested phase " + str(progress))
++				return false
++			if float(app.board._power_t) >= progress:
++				return true
++		await next_frame()
++	check(false, "Seven-second capture ended before phase " + str(progress))
++	return false
++
++func validate_fixture() -> void:
++	check(app.scenario == scenario and app.seed_value == SEED, "Actual lab is reset to the selected seeded scenario")
++	check(app.core.fixture_pair == fixture_pair(), "Existing fixture pair is unchanged")
++	check(app.core.cols == 7 and app.core.rows == 8, "Existing seven-column eight-row fixture dimensions are unchanged")
++	check(app.core.grid.size() == 56 and app.core.floor.size() == 56 and app.core.runes.size() == 56, "Complete fixture arrays are present")
++	if app.core.grid.size() != 56 or app.core.floor.size() != 56 or app.core.runes.size() != 56:
++		return
++	var special_kind := 9
++	check(int(app.core.grid[int(fixture_pair()[0])]) == special_kind, "Real fixture starts with the selected special at its established source")
++	check(int(app.core.grid[int(fixture_pair()[1])]) >= 0 and int(app.core.grid[int(fixture_pair()[1])]) < app.core.GEM_KINDS, "Real fixture swap destination is an ordinary mineral")
++	check(int(app.core.grid[24]) == -2 and int(app.core.grid[30]) == -2, "Established gap cells remain unchanged")
++	check(int(app.core.grid[39]) == -3 and int(app.core.runes[39]) == 1, "Established rune remains unchanged")
++	check(int(app.core.floor[23]) == 1 and int(app.core.floor[26]) == 1 and int(app.core.floor[43]) == 1, "Established soil fixtures remain unchanged")
++	check(app.core.moves_left == 12 and app.last_result.is_empty(), "Capture starts before any activation with the original move budget")
++
++func validate_geometry() -> void:
++	var board_rect: Rect2 = app.board.get_global_rect()
++	var cells_rect: Rect2 = app.board.get_global_transform() * app.board._board_rect()
++	var viewport_rect := Rect2(Vector2.ZERO, Vector2(SCREEN_SIZE))
++	var actual_window := DisplayServer.window_get_size()
++	check(root.size == SCREEN_SIZE and root.content_scale_size == SCREEN_SIZE, "Root and content viewport remain 432x960")
++	check(actual_window == SCREEN_SIZE, "Actual native window content size is 432x960")
++	check(DisplayServer.window_get_current_screen() == 0, "Actual native window is on monitor 0")
++	check(viewport_rect.encloses(board_rect) and viewport_rect.encloses(cells_rect), "Entire board control and all cells fit inside the portrait capture")
++	check(board_rect.size.x >= 300.0 and board_rect.size.y >= 350.0, "Actual board meets the established usable minimum size")
++	geometry = {
++		"native_screen": DisplayServer.window_get_current_screen(),
++		"native_window_size": [actual_window.x, actual_window.y],
++		"root_size": [root.size.x, root.size.y],
++		"content_scale_size": [root.content_scale_size.x, root.content_scale_size.y],
++		"board_rect": [board_rect.position.x, board_rect.position.y, board_rect.size.x, board_rect.size.y],
++		"cells_rect": [cells_rect.position.x, cells_rect.position.y, cells_rect.size.x, cells_rect.size.y],
++	}
++
++func run_capture() -> void:
++	root.content_scale_size = SCREEN_SIZE
++	root.size = SCREEN_SIZE
++	if DisplayServer.get_name() == "headless":
++		check(false, "Native Lightning Storm capture requires a graphical Godot driver")
++		finish_capture()
++		return
++	DisplayServer.window_set_current_screen(0)
++	var lab_script = load(LAB_PATH)
++	if lab_script == null or not lab_script.can_instantiate():
++		check(false, "Actual natural power lab script must load")
++		finish_capture()
++		return
++	app = lab_script.new()
++	root.add_child(app)
++	app.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
++	await wait_frames(3)
++	check(app.board != null and app.board.get_script().resource_path == BOARD_PATH, "Actual lab uses the isolated magic_volcano_board renderer")
++	if not failures.is_empty():
++		finish_capture()
++		return
++	app.reduced.button_pressed = false
++	app.seed_value = SEED
++	app.reset_scenario(scenario)
++	app.board.power_started.connect(on_power_started)
++	await wait_frames(2)
++	validate_fixture()
++	validate_geometry()
++	initial_state = core_state(app.core)
++	write_json("INITIAL_STATE", initial_state)
++	if not failures.is_empty():
++		finish_capture()
++		return
++	while relative_frame() < CAPTURE_FPS:
++		await next_frame()
++	await shot("00_ready")
++	await native_fixture_drag()
++	for phase in [["01_start", 0.0], ["02_cloud", 0.12], ["03_bolts", 0.45], ["04_clear", 0.85]]:
++		if await wait_for_phase(float(phase[1])):
++			await shot(String(phase[0]), float(phase[1]))
++		else:
++			break
++	while (app._resolving or app.board.busy) and capture_time_available():
++		await next_frame()
++	check(not app._resolving and not app.board.busy, "Actual lab finishes its complete result inside the seven-second capture")
++	check(not frozen_event.is_empty(), "Actual Core event froze before effect rendering")
++	check(app.core.moves_left == int(initial_state.moves_left) - 1, "Completed native gesture spends exactly one move")
++	check(same_json(core_state(app.core), frozen_state), "Complete Core/RNG state remains equal to the synchronous resolution snapshot")
++	check(display_matches(), "Final displayed grid, soil and runes match actual resolved Core")
++	check(presentation_clear(), "Final presentation has no busy stream, hidden cells, moving stones or stale power overlay")
++	write_json("FINAL_STATE", core_state(app.core))
++	if capture_time_available():
++		await shot("05_final")
++	while capture_time_available():
++		await next_frame()
++	check(relative_frame() == CAPTURE_FRAMES, "Capture contains exactly 210 process frames at fixed 30 fps")
++	check(presentation_clear() and display_matches(), "Final hold remains clean and equal to the resolved Core")
++	check(invariant_sample_count > 0 and not invariant_failed and not result_failed, "Every sampled frame after activation preserves complete Core/RNG and actual result")
++	check(effect_end_frame >= activation_frame and activation_frame >= 0, "Actual effect start and cleanup frames are measured")
++	check(absf(effect_sampled_seconds - EXPECTED_EFFECT_SECONDS) <= TIMING_TOLERANCE_SECONDS, "Measured active effect duration agrees with 1.40 seconds within two frame intervals")
++	finish_capture()
++
++func finish_capture() -> void:
++	if ended:
++		return
++	ended = true
++	if app != null:
++		var audio_manager: Variant = app.get("storm_audio")
++		check(audio_manager != null, "Actual Storm audio manager is present")
++		if audio_manager != null:
++			var actual_cue_log: Variant = audio_manager.get("cue_log")
++			check(actual_cue_log is Array, "Actual Storm audio cue log is an Array")
++			if actual_cue_log is Array:
++				write_json("AUDIO_CUES", actual_cue_log)
++	var effect_frames := effect_end_frame - activation_frame if effect_end_frame >= 0 and activation_frame >= 0 else -1
++	var receipt := {
++		"status": "PASS" if failures.is_empty() else "FAIL", "failures": failures,
++		"scenario": scenario, "seed": SEED, "fixture_pair": fixture_pair(),
++		"actual_targets": active_targets, "actual_target_count": active_targets.size(),
++		"derived_eligible_targets": expected_targets, "derived_target_count": expected_targets.size(),
++		"geometry": geometry, "fixed_fps_expected": CAPTURE_FPS,
++		"clip_process_frames": relative_frame(), "clip_seconds_at_fixed_fps": float(relative_frame()) / float(CAPTURE_FPS),
++		"expected_effect_seconds": EXPECTED_EFFECT_SECONDS,
++		"effect_start_frame": activation_frame - start_frame if activation_frame >= 0 else -1,
++		"effect_end_frame": effect_end_frame - start_frame if effect_end_frame >= 0 else -1,
++		"effect_elapsed_process_frames": effect_frames,
++		"effect_frame_seconds_at_fixed_fps": float(effect_frames) / float(CAPTURE_FPS) if effect_frames >= 0 else -1.0,
++		"effect_sampled_delta_seconds": effect_sampled_seconds,
++		"effect_delta_from_1_40_seconds": effect_sampled_seconds - EXPECTED_EFFECT_SECONDS if activation_frame >= 0 else null,
++		"effect_timing_tolerance_seconds": TIMING_TOLERANCE_SECONDS,
++		"sampled_frame_delta_seconds": sampled_frame_delta_seconds,
++		"ignored_uninitialized_startup_delta_frames": ignored_startup_delta_frames,
++		"resolved_core_rng_invariant_sample_count": invariant_sample_count,
++		"observations": observations, "frame_observations": frame_observations,
++		"native_input_events": gesture_events,
++		"proof": "Actual Godot lab root renders and Input.parse_input_event press/drag/release; synchronous actual Core event/result/state freeze; no human, Android or visual acceptance claim",
++	}
++	write_json("REPORT", receipt)
++	print("LIGHTNING_STORM_CAPTURE " + JSON.stringify({"status": receipt.status, "scenario": scenario, "failures": failures, "actual_targets": active_targets, "clip_process_frames": relative_frame()}))
++	quit(0 if failures.is_empty() else 1)
++
++func run() -> void:
++	start_frame = Engine.get_process_frames()
++	output = ProjectSettings.globalize_path(OUTPUT_PATH)
++	check(DirAccess.make_dir_recursive_absolute(output) == OK, "Dedicated Lightning Storm output directory exists")
++	var arguments := OS.get_cmdline_user_args()
++	if not arguments.is_empty() and not (arguments.size() == 1 and arguments[0] == "--lightning-storm"):
++		check(false, "Use no user argument or --lightning-storm")
++		finish_capture()
++		return
++	await run_capture()
+
+--- /dev/null
++++ after/tools/build_lightning_audio.py
+@@ -0,0 +1,45 @@
++"""Original short cartoon thunder, synchronized to three grouped lightning hits."""
++from pathlib import Path
++import hashlib,json,wave
++import numpy as np
++ROOT=Path(__file__).resolve().parents[1]
++RATE=44100
++
++def noise(rng,n,low,high):
++    hz=np.fft.rfftfreq(n,1/RATE)
++    x=np.fft.irfft(np.fft.rfft(rng.normal(size=n))*(1-np.exp(-(hz/low)**4))*np.exp(-(hz/high)**4),n=n)
++    return x/max(float(np.sqrt(np.mean(x*x))),1e-9)
++
++def write(name,x,peak):
++    x=np.tanh(x*.6);x*=peak/max(float(np.max(np.abs(x))),1e-9)
++    fade=round(.018*RATE)
++    x[:fade]*=np.linspace(0,1,fade)[:,None]
++    x[-fade:]*=np.linspace(1,0,fade)[:,None]**2;x[0]=x[-1]=0
++    pcm=np.round(x*32767).astype('<i2')
++    path=ROOT/'assets/sfx/lightning'/name;path.parent.mkdir(parents=True,exist_ok=True)
++    assert not path.exists(),'Keep predecessor artist bytes'
++    with wave.open(str(path),'wb')as f:f.setparams((x.shape[1],2,RATE,len(x),'NONE','not compressed'));f.writeframes(pcm.tobytes())
++    return {'path':path.relative_to(ROOT).as_posix(),'bytes':path.stat().st_size,'sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'seconds':len(x)/RATE,'channels':x.shape[1],'sample_rate':RATE,'peak_dbfs':float(20*np.log10(np.max(np.abs(pcm))/32768)),'last_10ms_rms':float(np.sqrt(np.mean((pcm[-441:]/32768.)**2)))}
++
++def main():
++    rng=np.random.default_rng(171020262)
++    n=round(1.6*RATE);t=np.arange(n)/RATE
++    low=noise(rng,n,38,520);electric=noise(rng,n,600,4300)
++    x=.024*noise(rng,n,180,1900)*np.sin(np.pi*np.clip(t/.7,0,1))**2
++    for at,gain in [(.392,.24),(.56,.20),(.728,.17)]:
++        u=np.maximum(t-at,0);gate=(t>=at)
++        strike=(1-np.exp(-u/.006))*np.exp(-u/.060)*gate
++        rumble=(1-np.exp(-u/.022))*np.exp(-u/.24)*gate
++        x+=gain*(.75*low*rumble+.25*electric*strike)
++        x+=.04*np.sin(2*np.pi*(95*u-25*u*u))*rumble
++    x*=1-np.clip((t-1.28)/.32,0,1)**2
++    # Slightly different room sides, with no sample truncation or long echo.
++    side=np.roll(x,round(.009*RATE))*.15;side[:round(.009*RATE)]=0
++    files=[write('storm_cartoon_v1.wav',np.column_stack((x+side,x-side*.4)),.66)]
++    n=round(.18*RATE);t=np.arange(n)/RATE
++    short=.16*noise(rng,n,110,1600)*np.sin(np.pi*t/.18)**2
++    files.append(write('storm_short_v1.wav',short[:,None],.30))
++    report={'method':'original deterministic local NumPy synthesis; no remote provider or downloaded sample','seed':171020262,'visual_duration_seconds':1.4,'strike_group_seconds':[.392,.56,.728],'human_listening':'PENDING','files':files}
++    path=ROOT/'verification/lightning_audio_assets.json';assert not path.exists();path.write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8');print(json.dumps(report,indent=2))
++
++if __name__=='__main__':main()
+
+WAV identities/reproducible recipe
+{
+  "method": "original deterministic local NumPy synthesis; no remote provider or downloaded sample",
+  "seed": 171020262,
+  "visual_duration_seconds": 1.4,
+  "strike_group_seconds": [
+    0.392,
+    0.56,
+    0.728
+  ],
+  "human_listening": "PENDING",
+  "files": [
+    {
+      "path": "assets/sfx/lightning/storm_cartoon_v1.wav",
+      "bytes": 282284,
+      "sha256": "6d231b86864c703e417282b9379698adc3577ef47eb1a4903f36577b9fd2a8c7",
+      "seconds": 1.6,
+      "channels": 2,
+      "sample_rate": 44100,
+      "peak_dbfs": -3.6094747261075217,
+      "last_10ms_rms": 5.986482144033081e-05
+    },
+    {
+      "path": "assets/sfx/lightning/storm_short_v1.wav",
+      "bytes": 15920,
+      "sha256": "4ef3ab02c180016bc205f659b4155c62c052a8e4df317f84c8a39e39689badd5",
+      "seconds": 0.18,
+      "channels": 1,
+      "sample_rate": 44100,
+      "peak_dbfs": -10.457928342551646,
+      "last_10ms_rms": 0.0002361423366010919
+    }
+  ]
+}
