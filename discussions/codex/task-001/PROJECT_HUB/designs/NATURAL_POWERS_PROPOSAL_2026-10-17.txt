@@ -1,0 +1,26 @@
+GNOMIT — NATURAL POWERS — DESIGN PROPOSAL — 2026-10-17
+Status:DISCUSSION_ONLY / NOT_IMPLEMENTED / BALANCE_UNTESTED.
+Direct user intent: natural-element rewards; fire/volcano erupting with magma stones that hit a random number of cells; tornado taking a whole horizontal row or vertical column; black hole swallowing the board with a special activation condition.
+Prior direction includes gradual discovery/unlocking of magical disaster powers. Unlock levels,quantities,creation and activation rules are not yet approved. This note separates user intent from Codex recommendations. No game changes,tests,new art,audio or grant/merge actions.
+
+PROPOSED POWERS
+VOLCANO:small readable eruption;3-5 magma stones land on distinct eligible occupied cells. Count3-5 is a starting balance hypothesis,not a user-set value. Sample without replacement;hit at most available eligible targets. Avoid holes,absent cells and invulnerable fixed terrain. Show a clear impact/crack for each target. Material-appropriate warm light,not constant glow.
+TORNADO:traverses one full row or column,clearing eligible treasures and applying normal hits to eligible terrain on that line. Orientation shown on the special stone before activation. The line includes playable segments beyond holes;the effect never creates cells in holes. Never silently choose a different orientation at release.
+BLACK HOLE:rare full-board treasure sweep after an intentional combination,then normal refill/cascades and goal evaluation. A board clear is not a separate win condition;it can finish a level only when its real goals are met. Holes/fixed layout stay intact. Multi-hit soil/runes/obstacles receive at most one normal effect hit per covered cell;it does not erase all layers by fiat or bypass Boss prerequisites. Final object-specific rules need implementation review.
+
+PROPOSED CREATION / ACTIVATION — NOT APPROVED
+After each power has been unlocked in progression:
+- Four identical treasures in a straight line create an oriented tornado (same orientation as the creating line).
+- Five identical treasures in an L/T create a volcano.
+- Five identical treasures in a straight line create a gravity core.
+Recommended creation anchor:the destination cell of the player's moved stone when it participates in the qualifying match. Automatic cascade anchors and overlapping shape precedence remain an explicit future implementation decision.
+A single core swapped with an ordinary neighboring mineral removes that mineral type. Two adjacent cores deliberately swapped together create the black-hole full-board effect,without requiring an additional ordinary three-match.
+This makes each core useful independently instead of a dead piece while awaiting a second. The two-core effect should be optional mastery,never a mandatory completion objective in the initial levels. Its achievable frequency needs actual play/balance observation. Do not silently grant a free power at level start.
+Activation and creation of volcano/tornado still need a bounded rule decision before implementation (e.g.matching the special versus any adjacent swap);do not treat this concept as a complete executable contract. No inventory,shop,charge meter,monetization,unlock number or per-level cap specified.
+
+DESIGN CHECK
+Read-only helper reviewed the proposed mechanics without file edits or execution:warned that adjacent cores may be rare;recommended optional mastery,explicit5-in-line rule/anchor,different volcano targets,visible tornado orientation,segments beyond holes and normal goal evaluation. These points are incorporated or marked unresolved. No human consensus or balance acceptance claimed.
+
+NEXT
+Discuss the power concept with the human. Keep the existing animation/playtest as-is until a concrete implementation slice is requested. GPT/Grok art assignments stay frozen;no automatic messaging or new generation.
+Recommended GPT-6.1 Sol / High for mechanics design and later bounded implementation;Medium for publishing the note. Recommendation only,not attested current mode.

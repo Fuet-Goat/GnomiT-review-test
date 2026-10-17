@@ -349,3 +349,7 @@ Own text record:PROJECT_HUB/builds/PAIRED_SWAP_UPDATE_2026-10-17.txt;literal loc
 
 SMALL SWAP SPEED/FEEL FOLLOW-UP — 2026-10-17
 User asked for a little faster/smoother block movement. Same local copy:swap220->170ms,drag settlecubic ease-out,click-click cubic ease-in-out,paired short return120->100ms. Existing focused39+board42+firstscene72 freshPASS;short-return midpoint sampled40ms to fit shorter duration. No Core/art/save/map/audio changes. No new human/Android acceptance. Own text record with exact hashes/literal local patch:PROJECT_HUB/builds/QUICKER_SWAP_2026-10-17.txt. Native implementation remains local,grants/main/private/baseline untouched,no merge. GPT-6.1 Sol / Medium sufficient for timing-only adjustment;High for further interaction work.
+
+
+NATURAL POWER DESIGN DISCUSSION — 2026-10-17
+Human proposed volcano magma hits,whole-line tornado and conditional whole-board black hole. Recorded own discussion-only note at PROJECT_HUB/designs/NATURAL_POWERS_PROPOSAL_2026-10-17.txt. Proposed3-5distinct volcano targets,visible oriented tornado,and rare two-core swap:5straight creates a core;single core clears a mineral type,two adjacent cores swapped cause board sweep. All numeric/creation/activation/unlock details are proposals,not approved gameplay. Preserveholes/layout,normal terrain-hit strength and actual goal evaluation. No level-start free rewards. Read-only conceptual helper sanity check incorporated;no code/assets/tests/Git-grant/merge changes. Recommended GPT-6.1 Sol / High for design/implementation;Medium for publishing.
