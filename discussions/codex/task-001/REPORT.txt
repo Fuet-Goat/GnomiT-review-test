@@ -746,3 +746,56 @@ game/audio files are local/package assets. No grants/main/private game changes,
 merge,automatic external bot assignment,campaign reward/unlock or save change.
 
 Recommended model/effort:GPT-6.1 Sol / High for mechanics/animation integration.
+
+
+GNOMIT — DARK MINIATURE LIGHTNING STORMS — 2026-10-17
+Status: LOCAL_IMPLEMENTED / NATIVE_CAPTURE_PASS / HUMAN_REVIEW_PENDING
+
+Human request: darker clouds, a brief miniature storm and thunder when minerals
+break. This refines only the existing isolated local Lightning Storm lab.
+
+CHANGES
+Almost-black opaque charcoal clouds swell and churn subtly. A contained little
+blue crease charges inside each cloud before its bolt. A thicker blue-white bolt
+meets mineral fractures and six small material chips at that group's impact.
+The target mineral remains intact until the impact; it then shrinks and shatters.
+The new original 1.60s cartoon thunder clip has cracks at authored impact peaks
+0.560 / 0.728 / 0.896s, replacing the earlier pre-peak accents. It plays once at
+normal pitch through the existing quieter/limited bank. Reduced uses the exact
+previous quiet 0.18s cue. Reset/Skip/exit cancellation and natural tail preserved.
+No board shake or full-screen flash. The brief internal charge is localized.
+
+RULES PRESERVED
+Only eligible ordinary minerals on the outside rectangular frame are targeted.
+Internal-hole edges, holes, runes and other specials are excluded. Actual baseline
+event still has 26 frame targets plus the consumed source, for one move. Existing
+soil damage and ordinary refill/cascades remain. Core, input, main lab and save/
+progress code are byte-identical. Volcano/Tornado renderer prefix and all other
+sound banks are byte-identical. Normal duration1.40s; reduced0.13s unchanged.
+
+VERIFICATION ACTUALLY RUN
+30 focused dark-cloud checks PASS: draw-authoritative geometry across all26edge
+cells, animated scale/churn/charge, dark palette, three exact helper impact peaks,
+reduced/skip/reset cleanup and full Core/RNG immutability. Existing audio suite
+24 PASS: full clip, short quieter reduced cue, natural tail and cancellation.
+Actual Godot native mouse press/drag/release capture432x960, screen0,210process
+frames at30fps: PASS without engine errors/warnings. AVI records211frames with
+real runtime PCM. Event/result/initial/activation/final-state JSON bytes are
+identical to the previous Storm capture. One actual V2soundcue; nonzero runtime
+PCM with zero clipping. Media extractor documents the same complete-final-idx1
+RIFF size convention and validates media boundaries. GIF uses actual Godot frames
+and is silent. No arranged soundtrack or generated video is substituted.
+Parent inspected native charge/impact screenshots and the new live ready lab.
+Authored cue/impact timing is verified; physical output latency and human aesthetic
+or listening acceptance remain pending. No Android/performance test is claimed.
+
+DELIVERY
+The live lab is open on user monitor1. LIGHTNING STORM is selected; drag the cloud
+to the adjacent glow. Reset replays. New outputs/lightning_dark preserves every
+previous capture, V1audio and before-source. One local handoff ZIP contains source
+delta/new WAV/evidence/manifest. It is a delta for the existing isolated lab,
+not a complete game. Governed Git receives only own REPORTS_ONLY text receipt and
+literal patch proposal. No native game/assets publication, grant change, private
+game update, merge or automatic GPT/Grok assignment.
+
+Recommended model/effort: GPT-6.1 Sol / High.
