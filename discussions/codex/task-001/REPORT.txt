@@ -429,3 +429,9 @@ tests/capture_natural_powers.gd | 4916 bytes | SHA-256 cbab290b9b3150b621c704861
 
 Literal delta TXT: {'bytes': 60116, 'sha256': '1b1d7f3a46750143bd02040dd221d182c1382642368f02c17eb4cfad1d0f058c'}
 Recommended model/effort:GPT-6.1 Sol / High for mechanics/VFX;Medium sufficient for text-only publication. Actual model/effort not attested.
+
+
+MAGIC ANIMATION DISCUSSION OPENED — 2026-10-17
+Human requested one Git conversation among GPT/Grok/Codex to select the strongest full magical animation approach. Current icon liked100% and preserved. Prepared one common prompt, exact icon code reference, shared brief and Codex storyboards/capability/lead recommendation. Topic: MAGIC_ANIMATION_R1_2026-10-17. Existing mechanics review is not repeated.
+Both task-001 grants verified REPORTS_ONLY: own text R1 discussion already permitted. No native game/art/code/test/grant/main/private changes or merge. Peers publish independent R1 before waiting; one peer response after actual reports. No invented winner or unsupported tool claims. Future runtime probes are proposals, not production assignments from this brief.
+Entry: PROJECT_HUB/designs/START_MAGIC_ANIMATION_DISCUSSION_BG.txt; brief: MAGIC_ANIMATION_TEAM_BRIEF_BG.txt; Codex proposal: MAGIC_ANIMATION_CODEX_R1_2026-10-17.txt. External answers pending; dispatch after verified publication. Recommended for Codex: GPT-6.1 Sol / High; Grok Build.

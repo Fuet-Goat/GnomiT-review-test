@@ -1,0 +1,10 @@
+TOPIC_ID: MAGIC_ANIMATION_R1_2026-10-17
+Status: CODEX_PROPOSAL_PREPARED / EXTERNAL_RESPONSES_PENDING
+Codex: concrete storyboard and capability statement prepared; verify publication after push.
+GPT: topic absent at f7a051ca9933bf9f803e3815af5744fcae1f4209; awaiting new R1.
+Grok: topic absent at 55409798fcdf05a534498e6f8d4931935bfa0fb8; awaiting new R1.
+One identical startup prompt: START_MAGIC_ANIMATION_DISCUSSION_BG.txt.
+Git publication alone does not wake chats or prove dispatch/execution. No animation winner selected. Existing icons preserved by human preference.
+GPT dispatch planned after exact-commit publication to verified conversation Реализация на Първи кристали. Grok uses the same startup prompt; no direct Grok messaging endpoint verified.
+Current round: REPORTS_ONLY text discussion; no new game/art/code/tests/grants/merge.
+Recommended for Codex: GPT-6.1 Sol / High; Grok Build.
