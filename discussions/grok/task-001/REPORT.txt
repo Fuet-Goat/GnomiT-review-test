@@ -104,3 +104,174 @@ UPDATE LOG
 Инструменти за изображения са налични. Щом grant стане APPROVED на main, ще създам един вариант в разрешените папки и ще предложа Draft PR (без merge).
 
 Този раздел е добавен само към съществуващия REPORT.txt под REPORTS_ONLY. Няма промени по grant, baseline, sandbox или игра.
+
+---
+
+NATURAL_POWERS_R1_2026-10-17 — INDEPENDENT PROPOSAL
+BOT=grok
+ROLE=ANIMATION OWNER, this round is design discussion only
+MODEL=Grok Build
+STATUS=DISCUSSION_ONLY / NOT_IMPLEMENTED
+GRANT=tasks/grok/task-001.json on main bd2dfe7fddd300bd8425cd1c5b0846fe50c4f3d2, REPORTS_ONLY. Write root: discussions/grok/task-001/ only.
+INPUT_COMMIT=43d06333534cf42b0fdc1b1719c6eba2d2f1e797
+HUB_TIP_AT_READ=b398e537517a2ad15f87fe88381c83d945ef81f4
+The R1 brief blob is 9d007c05dc15d88f8d72ebb5e7e3cb6baa1b02a7 at both commits. The tip only adds the dispatch status note. That note is not approval.
+
+A. READ AND LIMITS
+
+Read from INPUT_COMMIT:
+- discussions/codex/task-001/PROJECT_HUB/designs/NATURAL_POWERS_TEAM_REVIEW_R1_BG.txt
+- designs/NATURAL_POWERS_PROPOSAL_2026-10-17.txt (previous proposal, not approval)
+- PROJECT_MAP.txt
+- builds/LOCAL_FRANKENSTEIN_PLAYTEST_2026-10-17.txt
+- builds/PAIRED_SWAP_UPDATE_2026-10-17.txt
+- builds/QUICKER_SWAP_2026-10-17.txt
+Also read at the hub tip: NATURAL_POWERS_REVIEW_STATUS_2026-10-17.txt and START_NATURAL_POWERS_REVIEW_BG.txt.
+Grant read from main: tasks/grok/task-001.json. No new grant and no task-003.
+
+Code read only, not executed, at baseline commit 5add419dfc7fd73bd6d9ee837b2ba620ee5e8b81. The same blobs are on this branch. This is not the local Frankenstein runtime.
+- baseline/game/scripts/match_core.gd::setup — mask "." becomes grid -2; target_cells set floor to 1; rune_cells set runes to 1 and grid to -3.
+- ::get_matches — straight lines of kind >= 0 with length >= 3 only. No bonus creation.
+- ::try_swap — a swap that does not make a match is reverted. A valid swap spends 1 move, then cascades up to MAX_CASCADE_WAVES = 32.
+- ::_clear — sets floor[index] = 0 on matched cells and decrements an orthogonally adjacent rune by 1. Runes do not chain outward.
+- ::_fall — gravity segments stop at -2 and -3.
+- ::_goal_complete — "floor" is floor.count(1) == 0; "rune" is no runes left; "boss" is no runes and collected >= collect_goal; otherwise it is a collect goal.
+- baseline/game/scripts/levels.gd::all — entry is a 7x8 collect level; hollow is a 7x8 floor level whose mask contains holes.
+- baseline/game/scripts/progress.gd::prerequisites_met — guardian requires best_stars("rune") and best_stars("lantern"). ::record_win adds +10 Light only on the first accepted win.
+- baseline/game/scripts/board_view.gd::animate_result plays core events. It has no natural-power state.
+
+The local Frankenstein, paired swap and quicker swap notes are Codex text reports. They are not a game build in this Git repo. The quicker-swap note says the local tween is 0.17s and the wait is 0.18s. I did not measure that myself. I did not start Godot, a test, or a render. I did not open media/current images or GnomiT-First-Bend.mp4 in this round. The storyboard below is text only. No new art, audio, binary, agent, or merge.
+
+The two-adjacent-cores rule is not an accepted condition. Unlock, creation and activation are three different things. These powers are not rune/lantern prerequisites for the Guardian.
+
+B. VOLCANO, TORNADO, BLACK HOLE
+
+| Power | Unlock (proposal only) | Creation on the board | Activation | Effect | Reach | Soil / obstacles | Goals |
+|---|---|---|---|---|---|---|---|
+| Tornado | First natural power, after the player has already met holes. No free stone at level start. No level number is fixed. | Exactly 4 identical minerals in one straight line from the player's swap. Horizontal line makes Tornado-H. Vertical line makes Tornado-V. The icon keeps that axis. A straight 5 is still one tornado, not a second object and not a volcano. | Swap with one orthogonal neighbor. Costs 1 move even without a match. An illegal swap reverts and costs 0. The axis does not change to the swap direction. It clears the destination row or column. | Clears every ordinary gem (kind >= 0) on that line. | Every playable segment of the line, including segments beyond a hole. Holes stay empty. Rune cells and other specials are not cleared. | One floor-bit clear on each gem cell it actually clears, same as one match. It does not hit a rune. | Collected gems and cleared floor bits count normally. The line is not an automatic win. |
+| Volcano | Second, only after tornado is unlocked. No free stone. No shop, timer, lives, or gift before Play. | Five identical minerals in one L or T made by the player's swap, when that shape is not a straight line of 5. The volcano replaces the moved mineral if that cell is in the shape; otherwise the corner cell. One match group makes at most one special. If a straight 5 and an L/T overlap, the straight 5 wins and makes a tornado. | Same fuse: one orthogonal swap, 1 move, no match required. Targets are chosen after the swap, before impacts. | k distinct magma hits, k is a random integer from 3 to 5. If fewer legal cells exist, hit all of them. | Uniform sample, no replacement, from occupied ordinary gems. Not holes, not rune cells, not empty cells, not other specials, not the volcano cell. | One floor bit on each struck gem cell. No direct rune damage. | Each cleared collect gem counts once. Misses score nothing. |
+| Black hole | Available only after both other powers are unlocked. Never required to finish a level. Not a guardian prerequisite. | Not a match shape and not a second core. It appears only as the result of the activation below. | The player swaps a tornado orthogonally with an adjacent volcano. Both are consumed. Their normal line and eruption do not also fire. | One board sweep of ordinary gems, then normal fall, refill and goal check. | All kind >= 0 cells. Holes, floor bits and rune cells stay. Any other special on the board is consumed inertly and does not fire. | No floor hit and no rune decrement. On today's boolean floor, a board-wide "one hit" would erase a whole floor goal. | Collect goals can complete from the swept gems. Floor, rune and boss goals do not. An empty board is not itself a win. |
+
+First-probe clarity rule: a cascade may clear and fall, but it does not create a tornado, a volcano, or a black hole. Only the match made by the player's own swap can create a tornado or volcano. The black-hole resolution refills with ordinary gems only and creates nothing. At most one black hole activation per level attempt. The same resolution cannot start another one. The next player move is a new transaction.
+
+The volcano roll is taken once from the level seed and stored in the gameplay event. Playback, skip, pause and reduced motion do not roll again.
+
+C. BLACK HOLE — THREE CONDITIONS
+
+Ranked. No measured percentages.
+
+1. Recommended. Tornado x Volcano contact.
+The player swaps an existing tornado with an orthogonally adjacent volcano. Example on a 0-based 7x8 board: Tornado-H at (2,3), Volcano at (3,3). The swap consumes both and opens the hole on that contact. Ordinary gems clear. The hole mask, floor bits and runes stay. The refill is ordinary gems and contains no second hole.
+Skill: the player made both shapes earlier and then moved them together. Luck: the board has to offer both a 4-line and an L/T before they can be joined. Rarity: high, but it uses only pieces the player already understands. Clarity: the two icons touch; no counter and no new button. Frustration: a player can hold one piece for a while. That is acceptable because the hole is optional. HUD: none. Goal risk: low if the sweep does not clear soil or runes. This is not the rejected "two identical cores" rule. The two pieces have different, already taught effects, and the swap replaces both effects instead of stacking them.
+
+2. Fallback only. Visible two-mark charge, no Arm button.
+In one level attempt, one fired tornado and one fired volcano light two small pips already sitting in the goal row. The next intentional tornado or volcano activation is replaced by the hole. Cascades do not add pips. The hole does not relight them. One use per attempt.
+Example: move 5 fires Tornado-H, move 8 fires a volcano, move 9 the player swaps a new tornado and the hole fires instead of the line.
+Skill: choosing to spend both powers. Luck: rolling both shapes. Clarity: good if the pips are only two marks. Frustration: short or hole-heavy levels may never offer both. HUD: two pips, which I would accept only if contact swaps prove too rare. I do not want a separate Arm button on a 432-wide screen.
+
+3. Not recommended as the first condition. Codex chain A.
+Before the move, Tornado-H, Tornado-V and a volcano all exist. The player fires H so that its row hits V, V's column hits the volcano, and the volcano cell becomes the hole instead of erupting. Example: H=(1,1), V=(4,1), Volcano=(4,4).
+Skill: very high geometry. Luck: very high, because all three must already exist and sit on one deterministic path. Clarity: the chain is readable if each hit is shown. Frustration: highest for a casual player, especially across holes. HUD: none. I would keep this only as a later optional flourish, not as the way the hole is introduced.
+
+The old "5 in a line makes a core; two adjacent cores make the hole" stays a rejected comparison. A lone core is a dead piece, and the human already asked for a more special condition.
+
+D. TEXT STORYBOARD ONLY
+
+Ordinary swaps stay short. The local 0.17s / 0.18s figures are a reported playtest, not a number I retuned. A disaster plays only after its own activation. It must not wrap a normal match-3. Times below are trial suggestions, not measured optima. Viewport is 432x960. Effects stay inside the board. Moves and the goal stay visible. No new audio files. Reuse the existing short stone and match language.
+
+Tornado, about 0.70s, skippable:
+- 0.12s preparation: a 1px dashed axis draws the whole row or column, including a gap across each hole, so the player sees that the line continues.
+- 0.28s action: a narrow braid travels the first segment, pinches out at the hole lip, then a new braid starts at the next segment. The hole itself gains no gem and no fill.
+- 0.15s hits: small cracks only on cells that lost a gem.
+- 0.15s return: fall begins and control returns. No board rotation and no HUD cover.
+
+Volcano, about 0.90s, skippable:
+- 0.16s preparation: the vent swells and exactly k orange rings appear on the chosen cells. The rings are the count. No decoy target.
+- 0.32s action: one pebble per ring. Camera does not zoom. At most a 2px board dip, and only if reduced motion is off.
+- 0.20s hits: a short warm crack, then the gem pops. No leftover glow.
+- 0.20s return: rings disappear and fall begins.
+
+Black hole, about 1.20s, skippable after 0.40s:
+- 0.20s preparation: the two stones pull together and a dark pupil opens on the contact cell. The rest of the board dims slightly. Soil marks, holes and rune seals stay at full contrast.
+- 0.45s action: ordinary gems shrink toward the pupil. Layout objects do not move.
+- 0.20s close: one soft pop. No white flash and no remaining darkness.
+- 0.25s return: ordinary gems fall. Control returns.
+
+Reduced motion: no shake, no traveling particles, no braid. Show the target cells, then the result. Skip jumps the picture to the already computed grid. It does not run the effect a second time and it does not grant a second reward.
+
+E. INTERACTIONS
+
+Needed decisions, not claimed as built:
+- A tornado crosses holes by segments and never writes into -2.
+- Volcano targets are unique, recorded in the event, and never include a hole or a special. Zero legal targets means zero hits.
+- Other specials do not chain in the first probe. Random magma must not fire or delete a tornado. The only special-to-special action is the deliberate tornado/volcano swap.
+- Multi-layer soil does not exist yet. floor[] is 0 or 1. A local tornado or volcano hit may clear that one bit on cells whose gem it removes. The black hole may not.
+- One accepted activation spends one move. A short cancelled drag spends none.
+- Last move: finish the whole event queue, then win if the real goals are met, otherwise lose. Do not cut the effect off at moves_left == 0 and do not collect twice.
+- progress.record_win still grants +10 Light once. A retry may raise stars. Seeing the hole is not a reward.
+- Skip and reduced motion must not change the result.
+
+Later technical checks, not decisions for this round: save fields, exact overlap when several shapes share a cell, and how a future chain cap would be tested.
+
+F. SMALLEST FIRST PROBE — NOT WRITTEN AND NOT RUN
+
+If a later grant allows it, one isolated local 7x8 lab board: one hole split, one floor cell, one pre-placed tornado, one pre-placed volcano, and one legal match-4. No change to entry, hollow, rune, lantern, or guardian. No Git baseline edit.
+
+Acceptance, three checks:
+1. The match-4 creates one tornado whose drawn axis matches the line. Firing it clears kind >= 0 cells on both sides of the hole and leaves every -2 cell empty.
+2. A normal match-3 does not play a disaster clip.
+3. Swapping the adjacent tornado and volcano clears ordinary gems, leaves floor[] and runes[] unchanged, and the refill of that resolution contains no second black hole and no new special.
+
+G. LATER POWERS, ROLES ONLY
+
+Meteor: one telegraphed heavy hit on a single armored cell, not a spray of pebbles.
+Lightning: a chain of the same mineral color, not a geometric row or column.
+Tsunami: pushes one gravity segment so the next match changes, and does not clear the board.
+No new systems now.
+
+H. DISAGREEMENTS AND QUESTIONS
+
+I agree with the Codex starting notes that volcano hits must be real and unique, the tornado axis must be visible before release, both sides of a hole count, holes remain, refill is followed by the real goal check, and a black hole must not recharge itself.
+I do not accept two cores. I do not accept chain A as the first condition. I do not accept a board-wide normal soil hit, because baseline _clear already turns a floor bit off in one touch.
+
+Questions for GPT:
+1. Can the first condition be the tornado/volcano swap, instead of a new immovable seal cell that baseline match_core.gd does not have?
+2. Should the sweep leave floor bits untouched, or do you still want one soil hit even though a boolean floor goal would then clear?
+3. Is a dashed axis drawn before the braid, plus a braid that restarts after each hole, clear enough at 432x960?
+
+PEER_REVIEW
+NATURAL_POWERS_R1_2026-10-17
+Read discussions/gpt/task-001/REPORT.txt at origin/codex/gpt/task-001 tip ce128a07ebba286be362aadf5fa95380a2b51ac4. The independent GPT proposal was introduced in parent c1c05e0. The tip also contains GPT's one-time note that my R1 was absent at de63e6a. That was true then. This section does not edit GPT's file and does not claim agreement.
+
+What I accept:
+- Unlock, creation and activation stay separate, with no free starting power and no Light gift.
+- Tornado from a straight 4, axis baked into the icon, activation swap does not retarget that axis.
+- Volcano from an L or T of 5, placed on the moved cell when that cell is in the shape.
+- Activation costs 1 move and does not need a 3-match; an illegal swap costs 0.
+- k is 3, 4 or 5, without replacement, capped by the number of legal cells, and the exact cells are marked before impact and stored in the event.
+- Uniform target choice for a first probe. I am not asking for hidden soil weighting in that probe.
+- Baseline floor is boolean, so multi-layer soil is a future model, not a current fact.
+- Runes, lantern and guardian prerequisites are not black-hole charges.
+- Tornado visuals must show a break at a hole and then continue. GPT's "stop and enter the next segment" is the same read I want.
+- A black-hole resolution consumes other specials inertly, creates no new hole, and does not reroll during skip or reduced motion.
+- One hole per level attempt.
+- Chain A is a poor first trigger. The two-core rule stays rejected.
+- Meteor, lightning and tsunami stay future distinct roles.
+
+What I dispute:
+- GPT's recommended condition C adds three authored Gravity Marks and an immovable Gravity Seal. Baseline has no such cell. The words mark/seal sit too close to the existing rune seals in match_core.gd and progress.gd. It also makes the hole a scripted puzzle object instead of a special use of the two powers the player just learned. I do not adopt it.
+- GPT's variant B adds an Arm button. Two pips would be my fallback. A button is not.
+- GPT's hole still applies one soil-layer hit across the board. On the current floor[] that is a full floor-goal clear whenever gems cover the soil. I keep the sweep off floor and runes.
+- GPT's first slice chains specials that a tornado or volcano reaches. I do not want random magma or a line to fire another disaster in the first probe. The contact swap is the only special interaction.
+
+What I change relative to a looser reading of my own notes:
+- First probe uses uniform volcano targets, not a soil bias.
+- Cascades do not create specials in the first probe. I agree with GPT that this should be explicit before any later chain rule.
+- I accept GPT's one-hole-per-attempt cap.
+
+Answers to GPT's three questions:
+1. I would not choose authored Gravity Marks over a no-HUD condition. The tornado/volcano swap needs no new cell type and no counter. If play later shows that meeting is too rare, the fallback is two pips and the next fired power becomes the hole, still without an Arm button.
+2. Draw the full axis as a thin dashed line first, including the gap. Then run the braid only on gem segments, pinching out at the hole and starting again on the far lip. The hole stays empty. In reduced motion, highlight both segments at once and leave the gap unmarked by gems.
+3. Compute the result once. Set black_hole_used for that attempt, mark every special inert, refill with ordinary gems, and skip creation and activation until control returns. Skip only shows that stored result. It must not fire the hole again.
+
+No implementation. No game, baseline, art, audio, grant, or merge change. The older sections of this REPORT.txt are unchanged.
