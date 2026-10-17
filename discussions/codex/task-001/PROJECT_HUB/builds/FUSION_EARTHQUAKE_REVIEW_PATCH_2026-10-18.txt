@@ -1,0 +1,1702 @@
+LITERAL LOCAL PATCH PROPOSAL ONLY — NOT APPLIED TO GOVERNED GAME
+
+--- before/scripts/lab/natural_power_core.gd
++++ after/scripts/lab/natural_power_core.gd
+@@ -5,6 +5,11 @@
+ const TORNADO_V := 7
+ const VOLCANO := 8
+ const LIGHTNING_STORM := 9
++# Orientation is encoded in the kind, so swapping, falling and reshuffling keep it.
++const EARTHQUAKE := 10
++const EARTHQUAKE_SW := 11
++const EARTHQUAKE_NW := 12
++const EARTHQUAKE_NE := 13
+ 
+ var fixture_pair: Array[int] = [25, 26]
+ var black_hole_used := false
+@@ -19,6 +24,18 @@
+ 	}, seed_value)
+ 	fixture_pair.assign([25, 26])
+ 	match scenario:
++		"earthquake", "earthquake_se":
++			fixture_pair.assign([7, 8])
++			grid[fixture_pair[0]] = EARTHQUAKE
++		"earthquake_sw":
++			fixture_pair.assign([7, 8])
++			grid[fixture_pair[0]] = EARTHQUAKE_SW
++		"earthquake_nw":
++			fixture_pair.assign([7, 8])
++			grid[fixture_pair[0]] = EARTHQUAKE_NW
++		"earthquake_ne":
++			fixture_pair.assign([7, 8])
++			grid[fixture_pair[0]] = EARTHQUAKE_NE
+ 		"lightning_storm":
+ 			grid[fixture_pair[0]] = LIGHTNING_STORM
+ 		"black_hole":
+@@ -53,8 +70,14 @@
+ 	var origin := b if _is_special(kind_a) else a
+ 	var power := "black_hole" if combination else _power_name(grid[origin])
+ 	var targets: Array[int] = []
++	var power_extra: Dictionary = {}
+ 	if combination:
+ 		black_hole_used = true
++		# Source positions describe the visible board after the initiating swap.
++		power_extra["fusion_sources"] = [
++			{"index": a, "kind": kind_b},
++			{"index": b, "kind": kind_a},
++		]
+ 		for index in range(grid.size()):
+ 			if _is_ordinary(grid[index]):
+ 				targets.append(index)
+@@ -69,6 +92,19 @@
+ 			targets.append(candidates[selected])
+ 			candidates.remove_at(selected)
+ 		targets.sort()
++	elif power == "earthquake":
++		var earthquake_kind := grid[origin]
++		var rays := quake_rays(origin, earthquake_kind)
++		power_extra = {
++			"orientation": quake_orientation(earthquake_kind),
++			"directions": quake_directions(earthquake_kind),
++			"rays": rays,
++		}
++		for ray in rays:
++			for index in ray:
++				if not targets.has(index):
++					targets.append(index)
++		targets.sort()
+ 	elif power == "lightning_storm":
+ 		# Outer rectangular frame only. Internal gaps do not create new edges.
+ 		for index in range(grid.size()):
+@@ -84,11 +120,11 @@
+ 			var dy := absi(index / cols - origin / cols)
+ 			if index != origin and dx <= 1 and dy <= 1 and _is_ordinary(grid[index]):
+ 				targets.append(index)
+-	_apply_power(power, origin, targets, events)
++	_apply_power(power, origin, targets, events, power_extra)
+ 	_resolve_after_power(events)
+ 	return _result(true, events)
+ 
+-func _apply_power(power: String, origin: int, targets: Array[int], events: Array) -> void:
++func _apply_power(power: String, origin: int, targets: Array[int], events: Array, extra: Dictionary = {}) -> void:
+ 	var before := grid.duplicate()
+ 	var floor_before := floor.duplicate()
+ 	var runes_before := runes.duplicate()
+@@ -110,11 +146,49 @@
+ 				floor[index] = maxi(0, floor[index] - 1)
+ 		grid[index] = -1
+ 	# Direct effects never decrement neighboring runes. Normal clears after refill can.
+-	events.append(_event("natural_power", before, {
++	var details := {
+ 		"power": power, "origin": origin,
+ 		"targets": targets.duplicate(), "indices": removed,
+ 		"floor_before": floor_before, "runes_before": runes_before,
+-	}))
++	}
++	details.merge(extra)
++	events.append(_event("natural_power", before, details))
++
++func quake_orientation(kind: int) -> String:
++	match kind:
++		EARTHQUAKE: return "se"
++		EARTHQUAKE_SW: return "sw"
++		EARTHQUAKE_NW: return "nw"
++		EARTHQUAKE_NE: return "ne"
++	return ""
++
++func quake_directions(kind: int) -> Array:
++	# Integer pairs are serializable and define the two authoritative L arms.
++	match kind:
++		EARTHQUAKE: return [[1, 0], [0, 1]]
++		EARTHQUAKE_SW: return [[-1, 0], [0, 1]]
++		EARTHQUAKE_NW: return [[-1, 0], [0, -1]]
++		EARTHQUAKE_NE: return [[1, 0], [0, -1]]
++	return []
++
++func quake_rays(origin: int, kind: int) -> Array:
++	var rays: Array = []
++	if origin < 0 or origin >= grid.size():
++		return rays
++	for direction in quake_directions(kind):
++		var ray: Array[int] = []
++		var x: int = origin % cols + int(direction[0])
++		var y: int = origin / cols + int(direction[1])
++		while x >= 0 and x < cols and y >= 0 and y < rows:
++			var index := y * cols + x
++			# Holes, runes and other powers stop a fault; it never jumps obstacles.
++			if not _is_ordinary(grid[index]) or runes[index] > 0:
++				break
++			ray.append(index)
++			x += int(direction[0])
++			y += int(direction[1])
++		rays.append(ray)
++	return rays
+ 
+ func _resolve_after_power(events: Array) -> void:
+ 	_fall(events)
+@@ -211,7 +285,7 @@
+ 	return false
+ 
+ func _is_special(kind: int) -> bool:
+-	return kind == TORNADO_H or kind == TORNADO_V or kind == VOLCANO or kind == LIGHTNING_STORM
++	return kind == TORNADO_H or kind == TORNADO_V or kind == VOLCANO or kind == LIGHTNING_STORM or (kind >= EARTHQUAKE and kind <= EARTHQUAKE_NE)
+ 
+ func _is_ordinary(kind: int) -> bool:
+ 	return kind >= 0 and kind < GEM_KINDS
+@@ -220,6 +294,8 @@
+ 	return (first == VOLCANO and (second == TORNADO_H or second == TORNADO_V)) or (second == VOLCANO and (first == TORNADO_H or first == TORNADO_V))
+ 
+ func _power_name(kind: int) -> String:
++	if kind >= EARTHQUAKE and kind <= EARTHQUAKE_NE:
++		return "earthquake"
+ 	match kind:
+ 		TORNADO_H: return "tornado_h"
+ 		TORNADO_V: return "tornado_v"
+
+--- before/scripts/lab/natural_power_board.gd
++++ after/scripts/lab/natural_power_board.gd
+@@ -62,7 +62,7 @@
+ 			if not reduced_motion: _hidden[index] = true
+ 			if int(_display_grid[index]) < 6 and _core.collect_goal > 0 and int(_display_grid[index]) == _core.collect_kind:
+ 				goal_piece_cleared.emit(get_global_transform() * _center(index))
+-	var duration := 0.13 if reduced_motion else (1.04 if String(event.power) == "volcano" else (1.08 if String(event.power) == "black_hole" else (1.40 if String(event.power) == "lightning_storm" else 1.10)))
++	var duration := power_duration(String(event.power), reduced_motion)
+ 	_power_tween = create_tween()
+ 	_power_tween.tween_property(self, "_power_t", 1.0, duration).set_trans(Tween.TRANS_LINEAR)
+ 	queue_redraw()
+@@ -72,6 +72,15 @@
+ 	_hidden.clear()
+ 	_clear_power()
+ 	queue_redraw()
++
++func power_duration(power: String, reduced: bool) -> float:
++	if reduced: return 0.13
++	match power:
++		"volcano": return 1.04
++		"black_hole": return 1.65
++		"earthquake": return 1.25
++		"lightning_storm": return 1.40
++	return 1.10
+ 
+ func _draw_gem(center: Vector2, kind: int, radius: float, alpha: float, stretch: Vector2 = Vector2.ONE) -> void:
+ 	if kind < TORNADO_H:
+@@ -123,6 +132,13 @@
+ 		"tornado_h", "tornado_v": _draw_tornado_effect(step,power == "tornado_v")
+ 		"black_hole": _draw_black_hole_effect(step)
+ 		"lightning_storm": _draw_lightning_storm_effect(step)
++		"earthquake": _draw_earthquake_effect(step)
++
++func _draw_earthquake_effect(_step: float) -> void:
++	# The selected lab renderer provides the travelling cracks and stone debris.
++	# A base-board caller still keeps targets visible until the event resolves.
++	for index in _power_event.get("indices", []):
++		_event_gem(int(index), _center(int(index)), 1.0, 1.0 - _power_t)
+ 
+ func _draw_lightning_storm_effect(_step: float) -> void:
+ 	# The isolated polished renderer supplies the clouds and bolts. The base
+
+--- before/scripts/lab/natural_power_lab.gd
++++ after/scripts/lab/natural_power_lab.gd
+@@ -1,20 +1,22 @@
+ extends Control
+ const LabCore = preload("res://scripts/lab/natural_power_core.gd")
+-const LabBoard = preload("res://scripts/lab/magic_volcano_board.gd")
++const LabBoard = preload("res://scripts/lab/magic_fusion_board.gd")
+ const Art = preload("res://scripts/story_art.gd")
+ const RockAudio = preload("res://scripts/rock_audio.gd")
+ const VolcanoAudio = preload("res://scripts/lab/volcano_audio.gd")
+ const TornadoAudio = preload("res://scripts/lab/tornado_audio.gd")
+ const LightningAudio = preload("res://scripts/lab/lightning_audio.gd")
++const ElementAudio = preload("res://scripts/lab/element_audio.gd")
+ const Background = preload("res://assets/first_crystals/cave_background_v1.png")
+ var core
+ var stone_audio
+ var volcano_audio
+ var tornado_audio
+ var storm_audio
++var element_audio
+ var last_result:Dictionary = {}
+ var board
+-var scenario := "lightning_storm"
++var scenario := "black_hole"
+ var seed_value := 42
+ var _generation := 0
+ var _resolving := false
+@@ -80,12 +82,15 @@
+ 		else:
+ 			helper.text = "Painted changes Volcano only. Other powers keep their effects.")
+ 	var choices := GridContainer.new();choices.columns = 2;choices.add_theme_constant_override("h_separation",8);choices.add_theme_constant_override("v_separation",6);stack.add_child(choices)
+-	for entry in [["volcano","VOLCANO"],["tornado_h","TORNADO"],["black_hole","BLACK HOLE"],["lightning_storm","LIGHTNING STORM"]]:
++	for entry in [["volcano","VOLCANO"],["tornado_h","TORNADO"],["black_hole","BLACK HOLE"],["lightning_storm","LIGHTNING STORM"],["earthquake","L · EARTHQUAKE"]]:
+ 		var key:String = entry[0]
+ 		var choice := _button(entry[1],func() -> void: reset_scenario(key))
+ 		choice.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+ 		choice.custom_minimum_size.y = 40
+ 		choices.add_child(choice);scenario_buttons[key] = choice
++	var rotate := _button("Rotate L", _rotate_earthquake)
++	rotate.custom_minimum_size.y = 40
++	choices.add_child(rotate);scenario_buttons["rotate_l"] = rotate
+ 	var stats := HBoxContainer.new();stats.add_theme_constant_override("separation",8);stack.add_child(stats)
+ 	moves_label = _stat("MOVES 12",stats);soil_label = _stat("SOIL 3",stats);rune_label = _stat("RUNES 1",stats);collect_label = _stat("DIAMONDS 0",stats)
+ 	board = LabBoard.new();board.polished_art = true
+@@ -97,6 +102,7 @@
+ 	volcano_audio = VolcanoAudio.new();add_child(volcano_audio)
+ 	tornado_audio = TornadoAudio.new();add_child(tornado_audio)
+ 	storm_audio = LightningAudio.new();add_child(storm_audio)
++	element_audio = ElementAudio.new();add_child(element_audio)
+ 	board.foley_requested.connect(_on_board_foley)
+ 	board.swap_requested.connect(_on_swap)
+ 	board.power_started.connect(_on_power_started)
+@@ -121,6 +127,7 @@
+ 	var label := _label(value,13);label.size_flags_horizontal = Control.SIZE_EXPAND_FILL;label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER;parent.add_child(label);return label
+ 
+ func reset_scenario(value:String) -> void:
++	if is_instance_valid(element_audio): element_audio.stop_all()
+ 	if is_instance_valid(storm_audio): storm_audio.stop_all()
+ 	if is_instance_valid(volcano_audio): volcano_audio.stop_all()
+ 	if is_instance_valid(tornado_audio): tornado_audio.stop_all()
+@@ -128,9 +135,15 @@
+ 	core = LabCore.new();core.setup_lab(scenario,seed_value)
+ 	board.setup(core,reduced.button_pressed)
+ 	board.show_hint(core.fixture_pair)
+-	effect_label.text = {"volcano":"VOLCANO · FIRE","tornado_h":"TORNADO · WHIRL","tornado_v":"TORNADO · WHIRL","black_hole":"BLACK HOLE · GRAVITY","lightning_storm":"LIGHTNING STORM · OUTER EDGE"}.get(scenario,"NATURAL POWERS")
+-	helper.text = {"volcano":("Drag it to the glow; burning lava briefly singes 3–5 marked stones." if painted_toggle.button_pressed else "Baseline reference. Drag it to the glow; magma hits 3–5 stones."),"tornado_h":"Drag the whirlwind to the glow. It spins in place and pulls in nearby stones.","tornado_v":"Drag the whirlwind to the glow. Gaps and runes stay in place.","black_hole":"Baseline reference. Swap the whirlwind and volcano to open a Black Hole.","lightning_storm":"Drag the cloud to the glow. Lightning strikes the outer edge stones."}.get(scenario,"")
++	effect_label.text = {"volcano":"VOLCANO · FIRE","tornado_h":"TORNADO · WHIRL","tornado_v":"TORNADO · WHIRL","black_hole":"BLACK HOLE · COLOUR FUSION","lightning_storm":"LIGHTNING STORM · OUTER EDGE"}.get(scenario,"L · EARTHQUAKE")
++	helper.text = {"volcano":("Drag it to the glow; burning lava briefly singes 3–5 marked stones." if painted_toggle.button_pressed else "Baseline reference. Drag it to the glow; magma hits 3–5 stones."),"tornado_h":"Drag the whirlwind to the glow. It spins in place and pulls in nearby stones.","tornado_v":"Drag the whirlwind to the glow. Gaps and runes stay in place.","black_hole":"Swap Tornado and Volcano. Their colours merge before the gravity pull.","lightning_storm":"Drag the cloud to the glow. Lightning strikes the outer edge stones."}.get(scenario,"Drag the split stone to the glow. Two L-shaped cracks stop at gaps and runes.")
+ 	_update_stats();_update_controls()
++
++func _rotate_earthquake() -> void:
++	if _resolving: return
++	var variants := ["earthquake","earthquake_sw","earthquake_nw","earthquake_ne"]
++	var next := (variants.find(scenario)+1)%variants.size()
++	reset_scenario(String(variants[next]))
+ 
+ func _update_stats() -> void:
+ 	moves_label.text = "MOVES " + str(core.moves_left)
+@@ -142,7 +155,8 @@
+ 	for key in scenario_buttons:
+ 		var button:Button = scenario_buttons[key]
+ 		button.disabled = _resolving
+-		button.modulate = Color("ffe3a0") if key == scenario else Color.WHITE
++		var selected: bool = key == scenario or (key == "earthquake" and scenario.begins_with("earthquake"))
++		button.modulate = Color("ffe3a0") if selected else Color.WHITE
+ 	skip_button.disabled = not _resolving
+ 	reduced.disabled = _resolving
+ 	painted_toggle.disabled = _resolving
+@@ -174,13 +188,17 @@
+ 		tornado_audio.begin(board.reduced_motion)
+ 	elif power == "lightning_storm" and _has_storm_event():
+ 		storm_audio.begin(board.reduced_motion)
++	elif power in ["black_hole","earthquake"] and _has_element_event():
++		element_audio.begin(power,board.reduced_motion)
+ 	match power:
+ 		"volcano": effect_label.text = "VOLCANO · " + str(targets.size()) + " MAGMA HITS";helper.text = "Watch burning lava scorch the marked cells." if painted_toggle.button_pressed else "Watch the marked stones — one magma pebble per target."
+ 		"tornado_h", "tornado_v": effect_label.text = "TORNADO · " + str(targets.size()) + " NEARBY STONES";helper.text = "The marked stones swirl into the centre. Gaps and runes remain."
+-		"black_hole": effect_label.text = "BLACK HOLE";helper.text = "Gems are absorbed. Soil and runes survive the pull; later matches may hit them."
++		"black_hole": effect_label.text = "BLACK HOLE · COLOUR FUSION";helper.text = "Fire and wind merge, darken, then pull in the stones. Soil and runes remain."
++		"earthquake": effect_label.text = "EARTHQUAKE · " + str(targets.size()) + " STONES";helper.text = "Two travelling cracks split the marked stones. Gaps and runes stop the waves."
+ 		"lightning_storm": effect_label.text = "LIGHTNING · " + str(targets.size()) + " EDGE STONES";helper.text = "Dark clouds strike the marked outer edge. Inner gaps stay untouched."
+ 
+ func skip_effect() -> void:
++	if is_instance_valid(element_audio): element_audio.stop_all()
+ 	if is_instance_valid(storm_audio): storm_audio.stop_all()
+ 	if is_instance_valid(volcano_audio): volcano_audio.stop_all()
+ 	if is_instance_valid(tornado_audio): tornado_audio.stop_all()
+@@ -199,7 +217,11 @@
+ func _has_storm_event() -> bool:
+ 	return is_instance_valid(board) and not board._power_event.is_empty() and board._power_epoch == board._epoch and String(board._power_event.get("power","")) == "lightning_storm"
+ 
++func _has_element_event() -> bool:
++	return is_instance_valid(board) and not board._power_event.is_empty() and board._power_epoch == board._epoch and String(board._power_event.get("power","")) in ["black_hole","earthquake"]
++
+ func _process(_delta:float) -> void:
++	if is_instance_valid(element_audio) and element_audio.event_active and not _has_element_event(): element_audio.finish_event()
+ 	if is_instance_valid(storm_audio) and storm_audio.event_active and not _has_storm_event(): storm_audio.finish_event()
+ 	if is_instance_valid(volcano_audio) and volcano_audio.event_active:
+ 		if _has_painted_volcano_event(): volcano_audio.sync_progress(board._power_t)
+@@ -208,6 +230,7 @@
+ 		tornado_audio.finish_event()
+ 
+ func _on_board_foley(kind:String,strength:float = 1.0) -> void:
++	if kind == "break" and _has_element_event() and is_instance_valid(element_audio) and element_audio.event_active: return
+ 	if kind == "break" and _has_storm_event() and is_instance_valid(storm_audio) and storm_audio.event_active: return
+ 	# The painted impacts already have a full stone body and fire tail. Suppress
+ 	# only their old end bang; cascades and all baseline powers retain their cues.
+@@ -216,6 +239,7 @@
+ 	stone_audio.play_cue(kind,strength)
+ 
+ func _exit_tree() -> void:
++	if is_instance_valid(element_audio): element_audio.stop_all()
+ 	if is_instance_valid(storm_audio): storm_audio.stop_all()
+ 	if is_instance_valid(volcano_audio): volcano_audio.stop_all()
+ 	if is_instance_valid(tornado_audio): tornado_audio.stop_all()
+
+--- before/README_MAGIC_ANIMATIONS.txt
++++ after/README_MAGIC_ANIMATIONS.txt
+@@ -1,6 +1,12 @@
+ GNOMIT MAGIC ANIMATION LAB
+ 
+-Run PLAY_MAGIC_ANIMATIONS.cmd. The lab opens on monitor 0 at 432x960 and starts with Lightning Storm selected.
++Run PLAY_MAGIC_ANIMATIONS.cmd. The lab opens on user monitor 1 (Godot screen 0) at 432x960 and starts with Black Hole selected.
++
++CURRENT PASS — COLOUR FUSION AND L EARTHQUAKE (2026-10-18)
++BLACK HOLE: swap the marked Tornado and Volcano. Their actual source positions/kinds drive two differently coloured orbiting streams, a blended and darkening core, then the spiral gravity pull. Only the existing Tornado+Volcano pair qualifies, once per lab attempt. Normal duration is now 1.65s; Reduced motion retains the 0.13s static target cue. Fixed soil/runes stay grounded and direct-sweep protection is unchanged; ordinary later cascades retain their rules. Other specials are consumed inertly without chains.
++L EARTHQUAKE: drag the split stone to the marked neighbour. A travelling fissure splits ordinary minerals along two perpendicular rays. Rays stop before holes, runes, other powers and the board edge. Rotate L resets the isolated fixture in the next orientation so all four directions can be previewed. Existing single-layer soil damage and ordinary refill/cascades apply. Duration 1.25s; Reduced motion is 0.13s. This is a pre-placed test power: automatic creation from match4/match5 and campaign unlocks are still design proposals.
++New element_audio bank plays one original locally synthesized gravity or stone-fault recording per event, with a separate quieter short reduced cue. Skip/Reset/exit cancel it, normal completion allows its short tail, and ordinary cascade stone foley remains. Existing Volcano/Tornado/Storm audio files and the previous polished renderer are unchanged. All UI remains English.
++Fresh scripted native-input evidence uses tests/capture_fusion_earthquake.gd -- --black-hole or -- --earthquake and outputs/fusion_earthquake_2026-10-18. New checks: tests/test_fusion_earthquake.gd. Previous outputs and source backups remain preserved. Human visual/listening, Android and performance acceptance are pending.
+ 
+ LIGHTNING STORM: drag the marked cloud to its adjacent glowing stone. Only ordinary minerals on the outer rectangular frame are hit (first/last row or column). Corners are counted once. Internal holes do not create extra targets; fixed runes, holes and other specials are excluded. Dark clouds form above the actual edge targets, followed by one bolt each in three groups and short mineral break reactions. The source special is consumed at its swapped destination for one move, with existing single-layer soil damage on ordinary targets and normal refill/cascades afterwards. No chains or new combinations. Normal animation 1.40s; Reduced motion uses the existing short selection cue instead of moving clouds/lightning. Skip and Reset clear the effect. A short original cartoon thunder recording follows the three strike groups, with a quieter reduced cue. Existing Volcano, radial Tornado, Black Hole, campaign and save behavior are retained.
+ 
+@@ -10,7 +16,7 @@
+ 
+ TORNADO SOUND: one original 1.42-second cartoon wind recording rises and swirls with the cone, closes into a suction breath, then ends with a soft three-note magic flourish as the cone collapses. It plays once per activation at original pitch, with a short natural tail after the 1.10-second visual effect. The old generic Tornado end-break is suppressed; ordinary cascade stone sounds remain. Reduced motion uses one quieter 0.22-second breath. Reset, Skip and exit stop all Tornado audio. New WAVs are under assets/sfx/tornado; tools/build_tornado_audio.py is the original local NumPy synthesis recipe. Human listening feedback remains pending. This is a short game effect, not background music.
+ 
+-Painted is enabled by default and selects the improved Volcano: glowing lava stones fly with fire tails, then leave a brief scorch on each hit cell. The scorch is visual only; it causes no ongoing damage. Turn Painted off for the baseline Volcano reference. This does not reset the board, reroll the seed, spend a move, or change the resolved result. The toggle is disabled while an effect resolves. Tornado always uses the local whirl; Black Hole retains its previous VFX.
++Painted is enabled by default and selects the improved Volcano: glowing lava stones fly with fire tails, then leave a brief scorch on each hit cell. The scorch is visual only; it causes no ongoing damage. Turn Painted off for the baseline Volcano reference. This does not reset the board, reroll the seed, spend a move, or change the resolved result. The toggle is disabled while an effect resolves. Other powers retain their own current effects regardless of this Volcano toggle.
+ 
+ Drag the highlighted special to its neighboring highlighted stone. For Black Hole, swap the adjacent whirlwind and volcano. Reset restores the same seed. Skip effect and Reduced motion preserve the game result. Existing icons and ordinary stone audio are retained.
+ 
+
+--- /dev/null
++++ after/scripts/lab/magic_earthquake_board.gd
+@@ -0,0 +1,191 @@
++extends "res://scripts/lab/magic_volcano_board.gd"
++## Presentation of the L-shaped fault only. Core owns both rays, their order,
++## the affected minerals and terrain. Nothing here changes or rerolls them.
++
++const QUAKE_FIRST_KIND := 10
++const QUAKE_LAST_KIND := 13
++
++func _draw_gem(center: Vector2, kind: int, radius: float, alpha: float, stretch: Vector2 = Vector2.ONE) -> void:
++	if kind < QUAKE_FIRST_KIND or kind > QUAKE_LAST_KIND:
++		super._draw_gem(center,kind,radius,alpha,stretch)
++		return
++	if alpha <= 0.0 or radius < 0.3: return
++	# Warm slate, a shaded bevel, and two amber fissures. The stone keeps one
++	# lighting direction while the fissures turn to identify its two real rays.
++	draw_set_transform(center+Vector2(0,radius*0.59)*stretch,0.0,stretch*Vector2(1,0.34))
++	draw_circle(Vector2.ZERO,radius*0.93,Color(0.035,0.027,0.025,alpha*0.35),true,-1,true)
++	draw_set_transform(center,0.0,stretch)
++	var outline := PackedVector2Array([Vector2(-0.92,0.29),Vector2(-0.76,-0.42),Vector2(-0.27,-0.88),Vector2(0.46,-0.82),Vector2(0.92,-0.16),Vector2(0.79,0.63),Vector2(0.15,0.91),Vector2(-0.58,0.75)])
++	for n in outline.size(): outline[n] *= radius
++	draw_colored_polygon(outline,Color(0.22,0.19,0.17,alpha))
++	var top := PackedVector2Array([Vector2(-0.76,-0.42),Vector2(-0.27,-0.88),Vector2(0.46,-0.82),Vector2(0.70,-0.27),Vector2(0.20,0.10),Vector2(-0.39,-0.03)])
++	var left := PackedVector2Array([Vector2(-0.92,0.29),Vector2(-0.76,-0.42),Vector2(-0.39,-0.03),Vector2(-0.22,0.54),Vector2(-0.58,0.75)])
++	var right := PackedVector2Array([Vector2(0.70,-0.27),Vector2(0.92,-0.16),Vector2(0.79,0.63),Vector2(0.15,0.91),Vector2(-0.22,0.54),Vector2(0.20,0.10)])
++	for n in top.size(): top[n] *= radius
++	for n in left.size(): left[n] *= radius
++	for n in right.size(): right[n] *= radius
++	draw_colored_polygon(top,Color(0.64,0.60,0.51,alpha))
++	draw_colored_polygon(left,Color(0.45,0.41,0.35,alpha))
++	draw_colored_polygon(right,Color(0.34,0.30,0.27,alpha))
++	draw_polyline(PackedVector2Array([outline[1],outline[2],outline[3]]),Color(0.86,0.79,0.62,alpha*0.80),maxf(0.8,radius*0.055),true)
++	var directions := _quake_icon_directions(kind)
++	for direction in directions:
++		var side: Vector2 = direction.orthogonal()
++		var crack := PackedVector2Array([Vector2(-0.08,-0.02)*radius,direction*radius*0.25+side*radius*0.065,direction*radius*0.43-side*radius*0.035,direction*radius*0.78])
++		draw_polyline(crack,Color(0.10,0.075,0.05,alpha),maxf(2.2,radius*0.18),true)
++		draw_polyline(crack,Color(0.94,0.59,0.22,alpha),maxf(1.1,radius*0.075),true)
++		draw_line(crack[0],crack[1],Color(1.0,0.84,0.47,alpha*0.88),maxf(0.8,radius*0.036),true)
++	draw_set_transform(Vector2.ZERO)
++
++func _quake_icon_directions(kind: int) -> Array[Vector2]:
++	match kind:
++		11: return [Vector2.LEFT,Vector2.DOWN]
++		12: return [Vector2.LEFT,Vector2.UP]
++		13: return [Vector2.RIGHT,Vector2.UP]
++	return [Vector2.RIGHT,Vector2.DOWN]
++
++func quake_paths() -> Array:
++	# A malformed preview stops at its first invalid tile. Never join separate
++	# segments through a hole, rune, special object or an unlisted mineral.
++	var result: Array = []
++	if String(_power_event.get("power","")) != "earthquake": return result
++	var before: Array = _power_event.get("before",[])
++	var runes_before: Array = _power_event.get("runes_before",[])
++	var origin := int(_power_event.get("origin",-1))
++	if origin < 0 or origin >= before.size() or origin >= _cols*_rows: return result
++	if int(before[origin]) < QUAKE_FIRST_KIND or int(before[origin]) > QUAKE_LAST_KIND: return result
++	var targets: Array = _power_event.get("targets",[])
++	var raw_rays: Array = _power_event.get("rays",[])
++	var raw_directions: Array = _power_event.get("directions",[])
++	for ray_number in mini(raw_rays.size(),raw_directions.size()):
++		var ray: Array = []
++		var raw_direction: Array = raw_directions[ray_number]
++		if raw_direction.size() != 2:
++			result.append(ray)
++			continue
++		var direction := Vector2i(int(raw_direction[0]),int(raw_direction[1]))
++		if absi(direction.x)+absi(direction.y) != 1:
++			result.append(ray)
++			continue
++		var previous := Vector2i(origin%_cols,origin/_cols)
++		for raw_index in raw_rays[ray_number]:
++			var index := int(raw_index)
++			if index < 0 or index >= before.size() or index >= _cols*_rows or not targets.has(index): break
++			if int(before[index]) < 0 or int(before[index]) >= 6: break
++			if index < runes_before.size() and int(runes_before[index]) > 0: break
++			var position := Vector2i(index%_cols,index/_cols)
++			if position != previous+direction: break
++			ray.append(index)
++			previous = position
++		result.append(ray)
++	return result
++
++func quake_target_phase(index: int) -> Dictionary:
++	var paths := quake_paths()
++	for ray_number in paths.size():
++		var position: int = paths[ray_number].find(index)
++		if position < 0: continue
++		var rank := position+1
++		var raw_direction: Array = _power_event.directions[ray_number]
++		var direction := Vector2(int(raw_direction[0]),int(raw_direction[1]))
++		var start := 0.20+float(rank-1)*0.075
++		var impact_t := start+0.06
++		var age := clampf((_power_t-impact_t)/0.20,0.0,1.0)
++		var shake := smoothstep(start-0.11,start,_power_t)*(1.0-smoothstep(impact_t,impact_t+0.035,_power_t))
++		var impact := (1.0-smoothstep(impact_t,impact_t+0.12,_power_t)) if _power_t >= impact_t else 0.0
++		return {"valid":true,"index":index,"ray":ray_number,"rank":rank,"direction":direction,"start":start,"impact_t":impact_t,"impact_age":age,"impact":impact,"travel":smoothstep(start,impact_t,_power_t),"shake":shake,"gem_alpha":1.0-smoothstep(impact_t,impact_t+0.11,_power_t),"gem_scale":1.0-smoothstep(impact_t,impact_t+0.13,_power_t)*0.34}
++	return {"valid":false,"index":index}
++
++func quake_target_pose(index: int, step: float) -> Dictionary:
++	var phase := quake_target_phase(index)
++	if not bool(phase.valid): return {"valid":false,"index":index}
++	var center := _center(index)
++	var shake := float(phase.shake)
++	var offset := Vector2(sin((_power_t-float(phase.start))*83.0+float(phase.ray)*0.60)*0.032,-absf(sin((_power_t-float(phase.start))*65.0))*0.020)*step*shake
++	var bounds := Rect2(center-Vector2.ONE*step*0.055,Vector2.ONE*step*0.11).intersection(_board_rect().grow(-step*0.40))
++	var point := (center+offset).clamp(bounds.position,bounds.end)
++	return {"valid":true,"index":index,"center":center,"point":point,"scale":phase.gem_scale,"alpha":phase.gem_alpha,"bounds":bounds}
++
++func quake_crack_points(index: int, step: float) -> PackedVector2Array:
++	var phase := quake_target_phase(index)
++	if not bool(phase.valid): return PackedVector2Array()
++	var center := _center(index)
++	var direction: Vector2 = phase.direction
++	var side := direction.orthogonal()
++	var bounds := Rect2(center-Vector2.ONE*step*0.46,Vector2.ONE*step*0.92).intersection(_board_rect().grow(-step*0.035))
++	var points := PackedVector2Array([center-direction*step*0.45,center-direction*step*0.20+side*step*0.045,center-side*step*0.055,center+direction*step*0.19+side*step*0.065,center+direction*step*0.45])
++	for n in points.size(): points[n] = points[n].clamp(bounds.position,bounds.end)
++	return points
++
++func _draw_earthquake_effect(step: float) -> void:
++	var before: Array = _power_event.get("before",[])
++	var origin := int(_power_event.get("origin",-1))
++	if origin < 0 or origin >= before.size(): return
++	for ray in quake_paths():
++		for raw_index in ray:
++			var index := int(raw_index)
++			_draw_quake_target(index,step,quake_target_phase(index))
++	# The origin is consumed separately by Core; its icon cracks and settles
++	# locally. No full-board shake, flash, or persistent plate overlay is added.
++	var source := _center(origin)
++	var departure := smoothstep(0.14,0.34,_power_t)
++	if departure < 1.0:
++		var charge := sin(clampf(_power_t/0.28,0.0,1.0)*PI)
++		var offset := Vector2(sin(_power_t*95.0)*0.025,-absf(sin(_power_t*66.0))*0.016)*step*charge
++		_event_gem(origin,source+offset,1.0-departure*0.34,1.0-departure)
++	var origin_age := (_power_t-0.22)/0.23
++	if origin_age > 0.0 and origin_age < 1.0:
++		_draw_quake_fragments(origin,step,origin_age,0,2)
++	draw_set_transform(Vector2.ZERO)
++
++func _draw_quake_target(index: int, step: float, phase: Dictionary) -> void:
++	if not bool(phase.get("valid",false)): return
++	var points := quake_crack_points(index,step)
++	var crack_alpha := smoothstep(float(phase.start),float(phase.impact_t),_power_t)*(1.0-smoothstep(float(phase.impact_t)+0.10,float(phase.impact_t)+0.30,_power_t))
++	if crack_alpha > 0.0:
++		var visible := _quake_partial_path(points,float(phase.travel))
++		if visible.size() >= 2:
++			draw_polyline(visible,Color(0.09,0.055,0.038,crack_alpha*0.95),maxf(2.0,step*0.065),true)
++			draw_polyline(visible,Color(0.60,0.35,0.14,crack_alpha*0.70),maxf(0.9,step*0.020),true)
++	var pose := quake_target_pose(index,step)
++	if float(pose.alpha) > 0.0:
++		_event_gem(index,pose.point,float(pose.scale),float(pose.alpha))
++	if _power_t >= float(phase.impact_t) and float(phase.impact_age) < 1.0:
++		var mineral := int(_power_event.before[index])
++		_draw_quake_fragments(index,step,float(phase.impact_age),int(phase.rank)+int(phase.ray)*7,mineral)
++
++func _quake_partial_path(points: PackedVector2Array, fraction: float) -> PackedVector2Array:
++	if points.size() < 2 or fraction <= 0.0: return PackedVector2Array()
++	var result := PackedVector2Array([points[0]])
++	var remaining := clampf(fraction,0.0,1.0)*float(points.size()-1)
++	for n in range(1,points.size()):
++		result.append(points[n-1].lerp(points[n],minf(remaining,1.0)))
++		remaining -= 1.0
++		if remaining <= 0.0: break
++	return result
++
++func _draw_quake_fragments(index: int, step: float, age: float, ordinal: int, mineral: int) -> void:
++	var center := _center(index)
++	# Dust and rock chips stay inside their real affected cell. They cannot
++	# appear over a neighbouring hole or rune, even on the outer board edge.
++	var cell_bounds := Rect2(center-Vector2.ONE*step*0.45,Vector2.ONE*step*0.90).intersection(_board_rect().grow(-1.0))
++	var dust_alpha := sin(pow(age,0.65)*PI)*0.25
++	for puff in range(3):
++		var extent := Vector2(0.11+age*0.10,0.065+age*0.065)*step
++		var point := center+Vector2(float(puff-1)*(0.08+age*0.10),0.13-age*0.12)*step
++		point = point.clamp(cell_bounds.position+extent,cell_bounds.end-extent)
++		draw_set_transform(point,0.0,Vector2(1.0,extent.y/extent.x))
++		draw_circle(Vector2.ZERO,extent.x,Color(0.55,0.39,0.23,dust_alpha),true,-1,true)
++		draw_set_transform(Vector2.ZERO)
++	for chip in range(5):
++		var angle := float(chip)*TAU/5.0+float(ordinal)*0.63
++		var radius := step*(0.045+float(chip%2)*0.016)*(1.0-age)
++		if radius < 0.35: continue
++		var point := center+Vector2.from_angle(angle)*step*(0.06+age*0.29)+Vector2(0,step*(-sin(age*PI)*0.15+age*age*0.14))
++		point = point.clamp(cell_bounds.position+Vector2.ONE*radius*1.2,cell_bounds.end-Vector2.ONE*radius*1.2)
++		var color: Color = GEM_COLORS[posmod(mineral,6)].lerp(Color(0.47,0.35,0.24),0.48)
++		if chip%2 == 0: color = color.lightened(0.17)
++		color.a = 1.0-age
++		var shape := PackedVector2Array([point+Vector2(-0.94,-0.43)*radius,point+Vector2(0.23,-0.95)*radius,point+Vector2(0.96,0.23)*radius,point+Vector2(-0.16,0.85)*radius])
++		draw_colored_polygon(shape,color)
++		draw_line(shape[0],shape[1],Color(0.94,0.79,0.53,(1.0-age)*0.60),maxf(0.6,step*0.012),true)
+
+--- /dev/null
++++ after/scripts/lab/magic_fusion_board.gd
+@@ -0,0 +1,133 @@
++extends "res://scripts/lab/magic_earthquake_board.gd"
++## The real event supplies both source kinds and targets. Drawing never resolves
++## a new combination, chooses a target, or changes the gameplay RNG.
++
++func fusion_sources() -> Array:
++	if String(_power_event.get("power", "")) != "black_hole": return []
++	var before: Array = _power_event.get("before", [])
++	var sources: Array = []
++	for raw_source in _power_event.get("fusion_sources", []):
++		if not raw_source is Dictionary: return []
++		var index := int(raw_source.get("index", -1))
++		var kind := int(raw_source.get("kind", -1))
++		if index < 0 or index >= before.size() or int(before[index]) != kind: return []
++		if kind not in [6, 7, 8]: return []
++		sources.append({"index":index,"kind":kind})
++	if sources.size() != 2 or int(sources[0].index) == int(sources[1].index): return []
++	if not ((int(sources[0].kind) == 8) != (int(sources[1].kind) == 8)): return []
++	return sources
++
++func fusion_phase() -> Dictionary:
++	return {"valid":fusion_sources().size() == 2,
++		"mix":smoothstep(0.04,0.35,_power_t),
++		"collapse":smoothstep(0.34,0.53,_power_t),
++		"pull":smoothstep(0.48,0.90,_power_t),
++		"fade":smoothstep(0.90,1.0,_power_t)}
++
++func _fusion_color(kind: int) -> Color:
++	return Color(1.0,0.34,0.07) if kind == 8 else Color(0.38,0.89,0.85)
++
++func fusion_palette() -> Dictionary:
++	var sources := fusion_sources()
++	if sources.size() != 2: return {"valid":false}
++	var a := _fusion_color(int(sources[0].kind))
++	var b := _fusion_color(int(sources[1].kind))
++	return {"valid":true,"a":a,"b":b,"mixed":a.lerp(b,0.5)}
++
++func fusion_center() -> Vector2:
++	var sources := fusion_sources()
++	if sources.size() != 2: return _center(int(_power_event.get("origin",0)))
++	return (_center(int(sources[0].index))+_center(int(sources[1].index)))*0.5
++
++func fusion_target_pose(index: int, step: float) -> Dictionary:
++	var before: Array = _power_event.get("before", [])
++	if not fusion_phase().valid or index not in _power_event.get("indices", []): return {"valid":false}
++	if index < 0 or index >= before.size() or int(before[index]) < 0: return {"valid":false}
++	var phase := fusion_phase()
++	var pull := float(phase.pull)
++	var point := _center(index)
++	var scale_value := 1.0-pow(pull,0.85)*0.94
++	var opacity := 1.0-smoothstep(0.80,1.0,pull)
++	var sources := fusion_sources()
++	var source_ordinal := -1
++	for ordinal in sources.size():
++		if int(sources[ordinal].index) == index: source_ordinal = ordinal
++	if source_ordinal >= 0:
++		# Source sprites orbit from their exact post-swap positions. No opening snap.
++		var mix_value := float(phase.mix)
++		var offset := point-fusion_center()
++		var orbit_radius := offset.length()*(1.0-mix_value*0.90)+step*0.60*sin(mix_value*PI)
++		point = fusion_center()+offset.normalized().rotated(mix_value*TAU*0.90)*orbit_radius
++		scale_value = 1.0-mix_value*0.55
++		opacity = 1.0-smoothstep(0.72,1.0,mix_value)
++	else:
++		var offset := point-fusion_center()
++		point = fusion_center()+offset.rotated(pull*PI*0.70)*(1.0-pull)
++	var margin := maxf(1.0,step*0.38*scale_value)
++	var bounds := _board_rect().grow(-margin)
++	point = point.clamp(bounds.position,bounds.end)
++	return {"valid":true,"index":index,"position":point,"scale":scale_value,"alpha":opacity,"pull":pull}
++
++func _draw_black_hole_effect(step: float) -> void:
++	var phase := fusion_phase()
++	if not bool(phase.valid):
++		super._draw_black_hole_effect(step)
++		return
++	var palette := fusion_palette()
++	var center := fusion_center()
++	var mix_value := float(phase.mix)
++	var collapse := float(phase.collapse)
++	var fade := float(phase.fade)
++	var sources := fusion_sources()
++	# Keep every non-source mineral grounded during the two-colour preparation.
++	for raw_index in _power_event.get("indices", []):
++		var index := int(raw_index)
++		var pose := fusion_target_pose(index,step)
++		if pose.valid and float(pose.alpha) > 0.0:
++			_event_gem(index,pose.position,float(pose.scale),float(pose.alpha))
++	var bounds := _board_rect().grow(-step*0.035)
++	if mix_value > 0.0 and collapse < 1.0:
++		for ordinal in range(2):
++			var source := _center(int(sources[ordinal].index))
++			var initial := source-center
++			var source_color: Color = palette.a if ordinal == 0 else palette.b
++			var color := source_color.lerp(palette.mixed,mix_value*0.80)
++			color = color.lerp(Color(0.16,0.09,0.23),collapse)
++			for strand in range(3):
++				var points := PackedVector2Array()
++				for sample in range(25):
++					var tail := float(sample)/24.0
++					var age := maxf(0.0,mix_value-tail*0.26)
++					var radius := initial.length()*(1.0-age*0.88)+step*0.60*sin(age*PI)+step*0.025*sin(tail*PI)
++					var angle := initial.angle()+age*TAU*1.05+float(strand)*0.075
++					var point := center+Vector2.from_angle(angle)*radius
++					points.append(point.clamp(bounds.position,bounds.end))
++				var alpha := mix_value*(1.0-collapse)*(0.85-float(strand)*0.23)
++				draw_polyline(points,Color(color,alpha),maxf(1.0,step*(0.11-float(strand)*0.028)),true)
++			for mote in range(5):
++				var orbit := mix_value*TAU*1.05+initial.angle()-float(mote)*0.22
++				var radius := initial.length()*(1.0-mix_value*0.88)+step*0.60*sin(mix_value*PI)
++				var point := center+Vector2.from_angle(orbit)*radius
++				point = point.clamp(bounds.position,bounds.end)
++				draw_circle(point,step*(0.055-float(mote)*0.006),Color(color,(1.0-collapse)*mix_value*0.94),true,-1,true)
++	var birth := smoothstep(0.24,0.53,_power_t)
++	var radius := step*(0.10+0.43*birth)*(1.0-fade)
++	if radius > 0.2 and birth > 0.0:
++		var mixed: Color = palette.mixed
++		var ring_color := mixed.lerp(Color(0.55,0.35,0.79),collapse)
++		draw_circle(center,radius,Color(0.012,0.010,0.021,birth*0.99),true,-1,true)
++		for ring in range(3):
++			var start := _power_t*TAU*2.0+float(ring)*TAU/3.0
++			var color := ring_color.lerp(Color(0.87,0.79,0.98),float(ring)*0.16)
++			color.a = birth*(1.0-fade)*(0.81-float(ring)*0.16)
++			draw_arc(center,radius+step*(0.025+float(ring)*0.027),start,start+PI*1.13,36,color,maxf(1.0,step*0.036),true)
++		# Inward dust belongs to mineral targets; fixed terrain never moves.
++		if float(phase.pull) > 0.0 and float(phase.pull) < 1.0:
++			for ordinal in range(10):
++				var fraction := fmod(_power_t*1.55+float(ordinal)*0.10,1.0)
++				var angle := float(ordinal)*2.399+fraction*PI
++				var point := center+Vector2.from_angle(angle)*step*(1.15-fraction*0.63)
++				point = point.clamp(bounds.position,bounds.end)
++				draw_circle(point,step*0.020,Color(ring_color,0.55*(1.0-fade)),true,-1,true)
++		draw_circle(center,radius*0.73,Color(0.006,0.005,0.012,birth),true,-1,true)
++	draw_set_transform(Vector2.ZERO)
+
+--- /dev/null
++++ after/scripts/lab/element_audio.gd
+@@ -0,0 +1,43 @@
++extends Node
++## One recording per event, with actual playback and cancellation evidence.
++const BUS_NAME := "GnomiT Fusion and Quake"
++const PATHS := {"black_hole":"res://assets/sfx/elements/fusion_gravity_v1.wav","earthquake":"res://assets/sfx/elements/earthquake_stones_v1.wav","reduced":"res://assets/sfx/elements/elements_quiet_short_v1.wav"}
++var players: Array[AudioStreamPlayer] = []
++var streams: Dictionary = {}
++var event_active := false
++var cue_log: Array = []
++
++func _ready() -> void:
++	for key in PATHS:
++		if FileAccess.file_exists(PATHS[key]):
++			var stream := AudioStreamWAV.load_from_file(PATHS[key])
++			if stream != null and stream.get_length() > 0.0: streams[key] = stream
++	if AudioServer.get_bus_index(BUS_NAME) < 0:
++		AudioServer.add_bus()
++		var index := AudioServer.bus_count-1
++		AudioServer.set_bus_name(index,BUS_NAME)
++		AudioServer.set_bus_volume_db(index,-2.0)
++		var limiter := AudioEffectHardLimiter.new();limiter.ceiling_db = -6.0
++		AudioServer.add_bus_effect(index,limiter)
++	var voice := AudioStreamPlayer.new();voice.bus = BUS_NAME;add_child(voice);players.append(voice)
++
++func begin(power: String, reduced: bool) -> void:
++	stop_all()
++	var key := "reduced" if reduced else power
++	if not streams.has(key) or players.is_empty():
++		push_warning("Element audio unavailable; keeping stone foley.")
++		return
++	var voice := players[0]
++	voice.stream = streams[key];voice.pitch_scale = 1.0;voice.volume_db = -17.0 if reduced else -8.0
++	voice.play();event_active = true
++	cue_log.append({"power":power,"kind":key,"source":PATHS[key],"pitch_scale":1.0,"length":voice.stream.get_length(),"volume_db":voice.volume_db})
++
++func finish_event() -> void:
++	event_active = false
++
++func stop_all() -> void:
++	finish_event()
++	for voice in players: voice.stop()
++
++func _exit_tree() -> void:
++	stop_all()
+
+--- /dev/null
++++ after/tools/build_fusion_earthquake_audio.py
+@@ -0,0 +1,71 @@
++"""Original deterministic local soft magic/stone Foley for the isolated lab."""
++from pathlib import Path
++import hashlib, json, wave
++import numpy as np
++
++ROOT = Path(__file__).resolve().parents[1]
++RATE = 44100
++
++
++def band(rng, n, low, high):
++    hz = np.fft.rfftfreq(n, 1 / RATE)
++    x = np.fft.irfft(np.fft.rfft(rng.normal(size=n)) * (1 - np.exp(-(hz / low) ** 4)) * np.exp(-(hz / high) ** 4), n=n)
++    return x / max(float(np.sqrt(np.mean(x * x))), 1e-9)
++
++
++def write(name, x):
++    x = np.tanh(x * .65)
++    x *= .60 / max(float(np.max(np.abs(x))), 1e-9)
++    fade = min(660, len(x) // 4)
++    x[:fade] *= np.linspace(0, 1, fade)
++    x[-fade:] *= np.linspace(1, 0, fade) ** 2
++    pcm = np.round(x * 32767).astype('<i2')
++    path = ROOT / 'assets/sfx/elements' / name
++    path.parent.mkdir(parents=True, exist_ok=True)
++    assert not path.exists()
++    with wave.open(str(path), 'wb') as audio:
++        audio.setparams((1, 2, RATE, len(pcm), 'NONE', 'not compressed'))
++        audio.writeframes(pcm.tobytes())
++    return {'path': path.relative_to(ROOT).as_posix(), 'bytes': path.stat().st_size,
++            'sha256': hashlib.sha256(path.read_bytes()).hexdigest(), 'seconds': len(x) / RATE,
++            'sample_rate': RATE, 'channels': 1, 'peak': float(np.max(np.abs(pcm)) / 32768)}
++
++
++def main():
++    rng = np.random.default_rng(18102026)
++    n = round(1.85 * RATE)
++    t = np.arange(n) / RATE
++    wind = band(rng, n, 180, 2400)
++    low = band(rng, n, 45, 380)
++    envelope = np.sin(np.pi * np.clip((t - .03) / 1.65, 0, 1)) ** 2
++    x = .12 * wind * envelope * (1 + .35 * np.sin(2 * np.pi * (3 * t + 2 * t * t)))
++    x += .10 * np.sin(2 * np.pi * (250 * t - 48 * t * t)) * envelope
++    u = np.maximum(t - .79, 0)
++    x += .22 * low * (t >= .79) * (1 - np.exp(-u / .018)) * np.exp(-u / .38)
++    x += .12 * wind * np.exp(-((t - 1.20) / .25) ** 2)
++    files = [write('fusion_gravity_v1.wav', x)]
++    n = round(1.45 * RATE)
++    t = np.arange(n) / RATE
++    rumble = band(rng, n, 48, 400)
++    stone = band(rng, n, 320, 3100)
++    x = .06 * rumble * np.sin(np.pi * np.clip(t / 1.4, 0, 1)) ** 2
++    for rank in range(6):
++        at = (.26 + rank * .075) * 1.25
++        u = np.maximum(t - at, 0)
++        crack = (t >= at) * (1 - np.exp(-u / .003)) * np.exp(-u / .045)
++        body = (t >= at) * (1 - np.exp(-u / .012)) * np.exp(-u / .13)
++        x += (.14 - rank * .009) * (stone * crack + .65 * rumble * body)
++    files.append(write('earthquake_stones_v1.wav', x))
++    t = np.arange(round(.18 * RATE)) / RATE
++    x = .08 * band(rng, len(t), 140, 1000) * np.sin(np.pi * t / .18) ** 2
++    files.append(write('elements_quiet_short_v1.wav', x))
++    receipt = ROOT / 'verification/fusion_earthquake_audio_assets_2026-10-18.json'
++    assert not receipt.exists()
++    value = {'method': 'original deterministic local NumPy synthesis; no downloaded or provider-generated sample',
++             'seed': 18102026, 'human_listening': 'PENDING', 'files': files}
++    receipt.write_text(json.dumps(value, indent=2) + '\n', encoding='utf-8')
++    print(json.dumps(value))
++
++
++if __name__ == '__main__':
++    main()
+
+--- /dev/null
++++ after/tests/test_fusion_earthquake.gd
+@@ -0,0 +1,388 @@
++extends SceneTree
++## Bounded Core/ray oracles and real fusion + L-fault draw/lifecycle checks.
++const CORE_PATH := "res://scripts/lab/natural_power_core.gd"
++const OLD_CORE_PATH := "res://verification/before_fusion_earthquake_2026-10-17/scripts/lab/natural_power_core.gd"
++const BOARD_PATH := "res://scripts/lab/magic_fusion_board.gd"
++const ORIENTATIONS := [
++	{"kind":10,"orientation":"se","directions":[[1,0],[0,1]],"rays":[[25,26,27],[31,38,45]]},
++	{"kind":11,"orientation":"sw","directions":[[-1,0],[0,1]],"rays":[[23,22,21],[31,38,45]]},
++	{"kind":12,"orientation":"nw","directions":[[-1,0],[0,-1]],"rays":[[23,22,21],[17,10,3]]},
++	{"kind":13,"orientation":"ne","directions":[[1,0],[0,-1]],"rays":[[25,26,27],[17,10,3]]},
++]
++var checks := 0
++var failures: Array[String] = []
++var observations: Array = []
++
++func _initialize() -> void:
++	call_deferred("run")
++
++func check(value: bool, label: String) -> void:
++	checks += 1
++	if not value:
++		failures.append(label)
++		print("FAIL: " + label)
++
++func canonical(value: Variant) -> String:
++	return JSON.stringify(JSON.parse_string(JSON.stringify(value)), "", true)
++
++func same(first: Variant, second: Variant) -> bool:
++	return canonical(first) == canonical(second)
++
++func core_state(core) -> Dictionary:
++	return {"cols":core.cols,"rows":core.rows,"grid":core.grid.duplicate(),"floor":core.floor.duplicate(),"runes":core.runes.duplicate(),"moves_left":core.moves_left,"initial_moves":core.initial_moves,"collected":core.collected,"collect_kind":core.collect_kind,"collect_goal":core.collect_goal,"won":core.won,"lost":core.lost,"goal":core._goal,"black_hole_used":core.black_hole_used,"fixture_pair":core.fixture_pair.duplicate(),"rng_seed_int64":str(core._rng.seed),"rng_state_int64":str(core._rng.state)}
++
++func event_from(result: Dictionary, expected: String) -> Dictionary:
++	var event: Dictionary = {}
++	var count := 0
++	for item in result.get("events", []):
++		if item.get("type", "") == "natural_power":
++			count += 1
++			event = item
++	check(count == 1 and event.get("power", "") == expected, "Real transaction emits exactly one " + expected + " without chains")
++	return event
++
++func plain_fixture(kind: int = 10):
++	var core = load(CORE_PATH).new()
++	core.setup({"cols":7,"rows":7,"moves":12,"goal":"collect","collect_kind":3,"collect_goal":999,"mask":["xxxxxxx","xxxxxxx","xxxxxxx","xxxxxxx","xxxxxxx","xxxxxxx","xxxxxxx"],"target_cells":[],"rune_cells":[]},42)
++	core.fixture_pair.assign([23,24])
++	core.grid[23] = kind
++	for index in range(core.floor.size()):
++		core.floor[index] = 2
++	return core
++
++func verify_direct_event(core, result: Dictionary, expected_rays: Array, label: String) -> Dictionary:
++	var event := event_from(result,"earthquake")
++	check(result.valid and core.moves_left == 11, label + " consumes exactly one move")
++	if event.is_empty():
++		return event
++	var targets: Array = []
++	for ray in expected_rays:
++		for index in ray:
++			targets.append(index)
++	targets.sort()
++	check(same(event.rays, expected_rays) and same(event.targets, targets), label + " follows independent literal near-to-far rays")
++	var removed := targets.duplicate()
++	removed.append(int(event.origin))
++	removed.sort()
++	check(same(event.indices, removed), label + " removes only real ray targets and the origin")
++	var floor_expected: Array = event.floor_before.duplicate()
++	for index in targets:
++		floor_expected[int(index)] = maxi(0,int(floor_expected[int(index)]) - 1)
++	check(same(event.floor,floor_expected) and same(event.runes,event.runes_before), label + " only target soil loses one layer; direct runes stay intact")
++	var outside_unchanged := true
++	for index in range(event.before.size()):
++		if index not in removed and event.before[index] != event.after[index]:
++			outside_unchanged = false
++	check(outside_unchanged, label + " preserves all unrelated and blocking direct cells")
++	check(core.get_matches().is_empty() and core.grid.count(-1) == 0, label + " completes refill and cascades to a stable full board")
++	observations.append({"case":label,"actual_rays":event.rays,"actual_targets":event.targets,"orientation":event.orientation})
++	return event
++
++func verify_core() -> void:
++	for definition in ORIENTATIONS:
++		var core = plain_fixture(int(definition.kind))
++		var result: Dictionary = core.try_swap(23,24)
++		var event := verify_direct_event(core,result,definition.rays,definition.orientation)
++		if not event.is_empty():
++			check(event.origin == 24 and event.before[24] == definition.kind and event.after[24] == -1, definition.orientation + " retains the orientation kind through the adjacent swap")
++			check(event.orientation == definition.orientation and same(event.directions,definition.directions), definition.orientation + " records literal orientation and directions")
++	for definition in [
++		{"label":"hole and fixed rune","objects":{26:-2,31:-3},"runes":[31],"rays":[[25],[]]},
++		{"label":"other special barriers","objects":{25:8,38:9},"runes":[],"rays":[[],[31]]},
++		{"label":"rune flag on ordinary cell","objects":{},"runes":[26],"rays":[[25],[31,38,45]]},
++	]:
++		var core = plain_fixture()
++		for index in definition.objects:
++			core.grid[int(index)] = int(definition.objects[index])
++		for index in definition.runes:
++			core.runes[int(index)] = 1
++		verify_direct_event(core,core.try_swap(23,24),definition.rays,definition.label)
++	var edge = plain_fixture(13)
++	edge.grid[23] = 0
++	edge.grid[1] = 13
++	var edge_event := verify_direct_event(edge,edge.try_swap(1,0),[[1,2,3,4,5,6],[]],"top left NE edge")
++	check(edge_event.get("origin",-1) == 0, "Edge quake never wraps into another row")
++	for special in [6,7,8,9,10,11,12,13]:
++		var core = plain_fixture()
++		core.grid[24] = special
++		var snapshot := canonical(core_state(core))
++		var result: Dictionary = core.try_swap(23,24)
++		check(not result.valid and result.events.is_empty() and snapshot == canonical(core_state(core)), "Quake plus kind " + str(special) + " cannot create an unapproved combination or spend a move")
++	var default_core = load(CORE_PATH).new()
++	default_core.setup_lab("earthquake",42)
++	check(default_core.fixture_pair == [7,8] and default_core.grid[7] == 10, "New default SE lab fixture uses its explicitly selected source")
++	verify_direct_event(default_core,default_core.try_swap(7,8),[[9,10,11,12,13],[15,22,29,36,43,50]],"lab fixture")
++	for scenario in ["volcano","tornado_h","tornado_v","lightning_storm","black_hole"]:
++		for seed_value in [42,713]:
++			var core = load(CORE_PATH).new()
++			var old_core = load(OLD_CORE_PATH).new()
++			core.setup_lab(scenario,seed_value)
++			old_core.setup_lab(scenario,seed_value)
++			check(same(core_state(core),core_state(old_core)), scenario + " old fixture stays byte-equivalent at seed " + str(seed_value))
++			var pair: Array = core.fixture_pair
++			var result: Dictionary = core.try_swap(pair[0],pair[1])
++			var old_result: Dictionary = old_core.try_swap(pair[0],pair[1])
++			var stripped := result.duplicate(true)
++			for item in stripped.events:
++				if item.get("type", "") == "natural_power":
++					item.erase("fusion_sources")
++			check(same(stripped,old_result) and same(core_state(core),core_state(old_core)), scenario + " preserves actual transaction, target RNG, refill and final state versus exact predecessor")
++	for tornado_kind in [6,7]:
++		for reversed in [false,true]:
++			var core = load(CORE_PATH).new()
++			core.setup_lab("black_hole",42)
++			core.grid[25] = 8 if reversed else tornado_kind
++			core.grid[26] = tornado_kind if reversed else 8
++			core.grid[0] = 10
++			var first := int(core.grid[25])
++			var second := int(core.grid[26])
++			var result: Dictionary = core.try_swap(25,26)
++			var event := event_from(result,"black_hole")
++			check(result.valid and core.black_hole_used and core.moves_left == 11, "Either valid T+V order activates once and spends one move")
++			check(same(event.get("fusion_sources",[]),[{"index":25,"kind":second},{"index":26,"kind":first}]), "Fusion provenance retains the actual two kinds at their post-swap positions")
++			check(event.indices.has(0) and not event.targets.has(0) and core.grid.count(10) == 0, "Black Hole consumes Quake inertly without adding a new target or chain")
++			check(same(event.floor,event.floor_before) and same(event.runes,event.runes_before), "Direct Black Hole preserves soil and runes")
++			core.grid[25] = 6
++			core.grid[26] = 8
++			var before := canonical(core_state(core))
++			var repeat: Dictionary = core.try_swap(25,26)
++			check(not repeat.valid and repeat.events.is_empty() and canonical(core_state(core)) == before, "Second Black Hole is rejected with no mutation, move or RNG use")
++
++func set_event(view, event: Dictionary) -> void:
++	view._power_event = event.duplicate(true)
++	view._power_epoch = view._epoch
++	view._hidden.clear()
++	for index in event.indices:
++		view._hidden[int(index)] = true
++
++func sample(view, progress: float) -> void:
++	view._power_t = progress
++	view.queue_redraw()
++	await process_frame
++	await process_frame
++
++func presentation_clear(view) -> bool:
++	return not view.busy and view._power_event.is_empty() and view._hidden.is_empty() and view._moving.is_empty() and not view._falling
++
++func verify_renderer() -> void:
++	var renderer = load(BOARD_PATH)
++	check(renderer != null and renderer.can_instantiate(), "Actual fusion renderer and earthquake base load")
++	if renderer == null or not renderer.can_instantiate():
++		return
++	var observer := GDScript.new()
++	observer.source_code = "extends \"res://scripts/lab/magic_fusion_board.gd\"\nvar fusion_draws := 0\nvar quake_draws: Array = []\nvar drawn_gems: Array = []\nfunc _draw() -> void:\n\tfusion_draws = 0\n\tquake_draws.clear()\n\tdrawn_gems.clear()\n\tsuper._draw()\nfunc _draw_black_hole_effect(step: float) -> void:\n\tfusion_draws += 1\n\tsuper._draw_black_hole_effect(step)\nfunc _draw_quake_target(index: int,step: float,phase: Dictionary) -> void:\n\tquake_draws.append(index)\n\tsuper._draw_quake_target(index,step,phase)\nfunc _event_gem(index: int,point: Vector2,scale_value: float=1.0,alpha: float=1.0) -> void:\n\tdrawn_gems.append({\"index\":index,\"point\":point,\"scale\":scale_value,\"alpha\":alpha})\n\tsuper._event_gem(index,point,scale_value,alpha)\n"
++	check(observer.reload() == OK and observer.can_instantiate(), "Observer retains real draws and only records submitted work")
++	if not observer.can_instantiate():
++		return
++	var view = observer.new()
++	root.add_child(view)
++	view.size = Vector2(404,550)
++	for scenario in ["black_hole","earthquake"]:
++		var core = load(CORE_PATH).new()
++		core.setup_lab(scenario,42)
++		var pair: Array = core.fixture_pair
++		var result: Dictionary = core.try_swap(pair[0],pair[1])
++		var event := event_from(result,scenario)
++		var committed := canonical(core_state(core))
++		var transaction := canonical(result)
++		view.setup(core,false)
++		set_event(view,event)
++		for progress in [0.0,0.18,0.28,0.45,0.55,0.70,0.85,0.96]:
++			await sample(view,progress)
++			check(view.fusion_draws == (1 if scenario == "black_hole" else 0), scenario + " real draw dispatch is active only for its own power")
++			if scenario == "black_hole":
++				check(view.quake_draws.is_empty(), "Black Hole never dispatches an earthquake ray")
++				var all_bounded := true
++				for target in event.indices:
++					var pose: Dictionary = view.fusion_target_pose(int(target),view._cell_size())
++					all_bounded = all_bounded and bool(pose.get("valid",false)) and pose.position.is_finite() and view._board_rect().grow(0.001).has_point(pose.position) and float(pose.scale) > 0.0 and float(pose.scale) <= 1.0 and float(pose.alpha) >= 0.0 and float(pose.alpha) <= 1.0
++				check(all_bounded, "Actual fusion poses stay finite and inside the board at " + str(progress))
++			else:
++				check(same(view.quake_draws,event.targets), "Real quake drawing visits exactly the authoritative target rays")
++				var bounded := true
++				for target in event.targets:
++					var pose: Dictionary = view.quake_target_pose(int(target),view._cell_size())
++					var points: PackedVector2Array = view.quake_crack_points(int(target),view._cell_size())
++					var cell := Rect2(view._center(int(target))-Vector2.ONE*view._cell_size()*0.47,Vector2.ONE*view._cell_size()*0.94)
++					bounded = bounded and bool(pose.get("valid",false)) and cell.grow(0.001).has_point(pose.point) and points.size() >= 2
++					for point in points:
++						bounded = bounded and point.is_finite() and cell.grow(0.001).has_point(point) and view._board_rect().grow(0.001).has_point(point)
++				check(bounded, "Actual fault cracks and shaking minerals remain in their eligible cells at " + str(progress))
++		check(canonical(core_state(core)) == committed and canonical(result) == transaction, scenario + " actual drawing never changes resolved Core, result or gameplay RNG")
++		if scenario == "black_hole":
++			await sample(view,0.0)
++			var exact_start := true
++			for source in event.fusion_sources:
++				var pose: Dictionary = view.fusion_target_pose(int(source.index),view._cell_size())
++				exact_start = exact_start and pose.position.is_equal_approx(view._center(int(source.index))) and is_equal_approx(float(pose.scale),1.0)
++			check(exact_start, "Both sources start at their true post-swap centers without teleporting")
++			var palette: Dictionary = view.fusion_palette()
++			check(bool(palette.get("valid",false)) and palette.a.r > palette.a.g and palette.b.g > palette.b.r, "Actual source provenance produces fire-orange and wind-teal in their correct order")
++			var reversed: Dictionary = event.duplicate(true)
++			reversed.fusion_sources.reverse()
++			set_event(view,reversed)
++			var reversed_palette: Dictionary = view.fusion_palette()
++			check(palette.a == reversed_palette.b and palette.b == reversed_palette.a and palette.mixed == reversed_palette.mixed, "Changing actual source order changes its two colors while retaining their common mixture")
++			set_event(view,event)
++			await sample(view,0.18)
++			var mix_phase: Dictionary = view.fusion_phase()
++			var waiting_pose: Dictionary = view.fusion_target_pose(0,view._cell_size())
++			check(float(mix_phase.mix) > 0.0 and is_zero_approx(float(mix_phase.collapse)) and is_zero_approx(float(mix_phase.pull)) and waiting_pose.position.is_equal_approx(view._center(0)), "Board minerals remain grounded while the two source colors start mixing")
++			await sample(view,0.45)
++			var collapse_phase: Dictionary = view.fusion_phase()
++			check(float(collapse_phase.collapse) > 0.0 and is_zero_approx(float(collapse_phase.pull)), "Color collapse forms before the board-wide pull")
++			await sample(view,0.70)
++			var pulled: Dictionary = view.fusion_target_pose(0,view._cell_size())
++			var center: Vector2 = view.fusion_center()
++			var start: Vector2 = view._center(0)-center
++			var moved: Vector2 = pulled.position-center
++			check(moved.length() < start.length() and absf(start.cross(moved)) > 1.0 and float(pulled.scale) < 1.0, "Actual far-corner mineral follows an inward spiral and shrinks rather than travelling straight or teleporting")
++			for fixed in [24,30,39,-1,999]:
++				check(not bool(view.fusion_target_pose(fixed,view._cell_size()).get("valid",false)), "Fusion never moves a hole, rune or invalid index " + str(fixed))
++			var malformed: Dictionary = event.duplicate(true)
++			malformed.fusion_sources[0].kind = 9
++			set_event(view,malformed)
++			check(not bool(view.fusion_phase().get("valid",false)), "A source-kind mismatch cannot forge color fusion")
++		else:
++			check(same(view.quake_paths(),[[9,10,11,12,13],[15,22,29,36,43,50]]), "Actual rendered L rays match their independent literal fixture")
++			var near: Dictionary = view.quake_target_phase(9)
++			var far: Dictionary = view.quake_target_phase(50)
++			check(float(near.impact_t) < float(far.impact_t), "Visible fault travels outward from near to far targets")
++			await sample(view,float(near.impact_t)+0.02)
++			check(float(view.quake_target_phase(9).impact) > 0.0 and is_zero_approx(float(view.quake_target_phase(50).impact)), "Near stone breaks before the far stone instead of all cells disappearing at once")
++			for fixed in [0,7,8,24,30,39,-1,999]:
++				check(not bool(view.quake_target_phase(fixed).get("valid",false)), "Fault never draws at unrelated, origin, gap, rune or invalid cell " + str(fixed))
++			var malformed: Dictionary = event.duplicate(true)
++			malformed.before[10] = -2
++			set_event(view,malformed)
++			check(same(view.quake_paths(),[[9],[15,22,29,36,43,50]]) and not bool(view.quake_target_phase(11).get("valid",false)), "Malformed ray stops at its first hole and never draws beyond it")
++			malformed = event.duplicate(true)
++			malformed.runes_before[10] = 1
++			set_event(view,malformed)
++			check(same(view.quake_paths(),[[9],[15,22,29,36,43,50]]), "Malformed ray also stops at an ordinary tile with a rune flag")
++		for reduced in [false,true]:
++			view.setup(core,reduced)
++			var began := Time.get_ticks_msec()
++			view.animate_result({"valid":true,"events":[event]})
++			var deadline := began+3500
++			while view.busy and Time.get_ticks_msec() < deadline:
++				await process_frame
++			var elapsed := float(Time.get_ticks_msec()-began)/1000.0
++			await process_frame
++			await process_frame
++			var expected := 0.13 if reduced else (1.65 if scenario == "black_hole" else 1.25)
++			check(absf(elapsed-expected) < 0.16, scenario + " normal/reduced event duration matches its specification")
++			check(presentation_clear(view) and view._display_grid == core.grid and view._display_floor == core.floor and view._display_runes == core.runes, scenario + " completion clears the effect and shows exact resolved Core")
++			observations.append({"scenario":scenario,"reduced":reduced,"expected_seconds":expected,"measured_wall_seconds":elapsed})
++		view.setup(core,true)
++		set_event(view,event)
++		await sample(view,0.5)
++		check(view.fusion_draws == 0 and view.quake_draws.is_empty(), scenario + " reduced motion suppresses fusion travel and fault shake draws")
++		for action in ["skip","reset"]:
++			view.setup(core,false)
++			view.animate_result({"valid":true,"events":[event]})
++			await process_frame
++			var replacement = load(CORE_PATH).new()
++			replacement.setup_lab("earthquake",713)
++			var replacement_snapshot := canonical(core_state(replacement))
++			if action == "skip":
++				view.finish_now()
++			else:
++				view.setup(replacement,false)
++			await create_timer(1.8).timeout
++			view.queue_redraw()
++			await process_frame
++			check(presentation_clear(view) and view.fusion_draws == 0 and view.quake_draws.is_empty(), scenario + " " + action + " removes all old drawing and hidden/moving state")
++			if action == "reset":
++				check(view._display_grid == replacement.grid and canonical(core_state(replacement)) == replacement_snapshot, "Stale event timers cannot overwrite replacement Core or display after reset")
++		check(canonical(core_state(core)) == committed and canonical(result) == transaction, scenario + " complete lifecycle preserves original Core transaction and RNG")
++	view.queue_free()
++	await process_frame
++
++func playing(manager) -> int:
++	var count := 0
++	for voice in manager.players:
++		if voice.playing:
++			count += 1
++	return count
++
++func wait_for_audio(app, scenario: String) -> bool:
++	var deadline := Time.get_ticks_msec()+4000
++	while Time.get_ticks_msec() < deadline:
++		if app.element_audio.event_active and app.board._power_event.get("power","") == scenario:
++			return true
++		await process_frame
++	return false
++
++func verify_audio_lifecycle() -> void:
++	var lab = load("res://scripts/lab/natural_power_lab.gd")
++	check(lab != null and lab.can_instantiate(), "Actual integrated lab loads for audio lifecycle checks")
++	if lab == null or not lab.can_instantiate():
++		return
++	var app = lab.new()
++	root.add_child(app)
++	app.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
++	await process_frame
++	await process_frame
++	var manager = app.get("element_audio")
++	check(manager != null and manager.players.size() == 1, "Actual lab owns one new element voice")
++	if manager == null:
++		app.queue_free()
++		await process_frame
++		return
++	for scenario in ["black_hole","earthquake"]:
++		for action in ["normal","reduced","skip","reset"]:
++			app.reduced.button_pressed = action == "reduced"
++			app.reset_scenario(scenario)
++			manager.cue_log.clear()
++			var original_core = app.core
++			var pair: Array = original_core.fixture_pair
++			app._on_swap(int(pair[0]),int(pair[1]))
++			var active := await wait_for_audio(app,scenario)
++			check(active and manager.cue_log.size() == 1 and playing(manager) == 1, scenario + " " + action + " starts one actual playing voice")
++			var cue: Dictionary = manager.cue_log[0] if manager.cue_log.size() == 1 else {}
++			var short: bool = action == "reduced"
++			var expected_length := 0.18 if short else (1.85 if scenario == "black_hole" else 1.45)
++			check(not cue.is_empty() and cue.get("power","") == scenario and cue.get("kind","") == ("reduced" if short else scenario) and absf(float(cue.get("length",0.0))-expected_length) < 0.00001 and is_equal_approx(float(cue.get("pitch_scale",0.0)),1.0), scenario + " " + action + " selects its complete actual recording at original pitch")
++			if not cue.is_empty():
++				check(is_equal_approx(float(cue.get("volume_db",0.0)),-17.0 if short else -8.0), scenario + " " + action + " uses the separate reduced or normal gain")
++			var voice = manager.players[0]
++			check(voice.stream is AudioStreamWAV and voice.stream.mix_rate == 44100 and voice.stream.format == AudioStreamWAV.FORMAT_16_BITS and not voice.stream.stereo, scenario + " " + action + " plays its decoded mono 44100Hz 16-bit WAV")
++			check(not voice.stream.data.is_empty() and voice.stream.data.count(0) < voice.stream.data.size(), scenario + " " + action + " contains real nonzero samples")
++			var committed := canonical(core_state(original_core))
++			var transaction := canonical(app.last_result)
++			var cues := canonical(manager.cue_log)
++			if action == "skip":
++				app.skip_effect()
++			elif action == "reset":
++				app.reset_scenario(scenario)
++			if action in ["skip","reset"]:
++				check(not manager.event_active and playing(manager) == 0, scenario + " " + action + " stops all element playback immediately")
++			var current := canonical(core_state(app.core))
++			var began := Time.get_ticks_msec()
++			while Time.get_ticks_msec()-began < 1950 or (app._resolving and Time.get_ticks_msec()-began < 6500):
++				await process_frame
++			check(not manager.event_active and playing(manager) == 0 and canonical(manager.cue_log) == cues, scenario + " " + action + " never restarts stale audio after its full duration")
++			check(canonical(core_state(original_core)) == committed and canonical(core_state(app.core)) == current, scenario + " " + action + " preserves complete original and current Core/RNG")
++			if action in ["normal","reduced"]:
++				check(canonical(app.last_result) == transaction and not app._resolving and presentation_clear(app.board), scenario + " " + action + " finishes actual full lab rendering without transaction changes")
++			observations.append({"scenario":scenario,"audio_action":action,"actual_cue":cue,"playing_after_wait":playing(manager),"observed_wait_seconds":float(Time.get_ticks_msec()-began)/1000.0})
++	manager.begin("black_hole",false)
++	check(playing(manager) == 1, "Exit cleanup begins with a real active element voice")
++	var owned_voice = manager.players[0]
++	app.queue_free()
++	await process_frame
++	await process_frame
++	check(not is_instance_valid(manager) and not is_instance_valid(owned_voice), "Exiting the actual lab destroys its audio bank and owned voice")
++	# The mixer releases AudioStreamPlayback references on its own audio tick;
++	# two uncapped headless process frames are not an audio drain interval.
++	await create_timer(0.12).timeout
++	await process_frame
++
++func run() -> void:
++	verify_core()
++	await verify_renderer()
++	await verify_audio_lifecycle()
++	print("FUSION_EARTHQUAKE " + JSON.stringify({"status":"PASS" if failures.is_empty() else "FAIL","checks":checks,"failures":failures,"observations":observations}))
++	quit(0 if failures.is_empty() else 1)
++
+
+--- /dev/null
++++ after/tests/capture_fusion_earthquake.gd
+@@ -0,0 +1,458 @@
++extends SceneTree
++## Genuine fusion and L-fault capture through the actual lab and native input.
++## This harness never edits the fixture or calls Core activation methods directly.
++
++const LAB_PATH := "res://scripts/lab/natural_power_lab.gd"
++const BOARD_PATH := "res://scripts/lab/magic_fusion_board.gd"
++const OUTPUT_PATH := "res://outputs/fusion_earthquake_2026-10-18"
++const SCREEN_SIZE := Vector2i(432, 960)
++const CAPTURE_FPS := 30
++const CAPTURE_FRAMES := 210
++var expected_effect_seconds := 1.65
++const TIMING_TOLERANCE_SECONDS := 2.0 / float(CAPTURE_FPS) + 0.001
++const SEED := 42
++
++var app
++var output := ""
++var scenario := "black_hole"
++var refined := false
++var failures: Array[String] = []
++var observations: Array = []
++var frame_observations: Array = []
++var gesture_events: Array = []
++var initial_state: Dictionary = {}
++var frozen_event: Dictionary = {}
++var frozen_result: Dictionary = {}
++var frozen_state: Dictionary = {}
++var frozen_state_json := ""
++var frozen_result_json := ""
++var active_targets: Array = []
++var expected_targets: Array = []
++var geometry: Dictionary = {}
++var start_frame := 0
++var activation_frame := -1
++var effect_end_frame := -1
++var last_sample_frame := -1
++var effect_sampled_seconds := 0.0
++var sampled_frame_delta_seconds := 0.0
++var invariant_sample_count := 0
++var invariant_failed := false
++var result_failed := false
++var invalid_active_delta_failed := false
++var ignored_startup_delta_frames := 0
++var ended := false
++
++
++func _initialize() -> void:
++	call_deferred("run")
++
++func check(value: bool, message: String) -> void:
++	if not value:
++		failures.append(message)
++		push_error(message)
++
++func canonical(value: Variant) -> String:
++	# Normalize local and disk JSON equally; preserve int64 RNG values as strings.
++	return JSON.stringify(JSON.parse_string(JSON.stringify(value)), "", true) + "\n"
++
++func same_json(first: Variant, second: Variant) -> bool:
++	return canonical(first) == canonical(second)
++
++func write_json(suffix: String, value: Variant) -> void:
++	var path := output + "/" + scenario + "_" + suffix + ".json"
++	var file := FileAccess.open(path, FileAccess.WRITE)
++	if file == null:
++		check(false, "Cannot write " + path + ": " + error_string(FileAccess.get_open_error()))
++		return
++	file.store_string(canonical(value))
++	file.close()
++	check(FileAccess.get_file_as_string(path) == canonical(value), "JSON readback differs: " + path)
++
++func core_state(core) -> Dictionary:
++	return {
++		"cols": core.cols, "rows": core.rows,
++		"grid": core.grid.duplicate(), "floor": core.floor.duplicate(),
++		"runes": core.runes.duplicate(), "moves_left": core.moves_left,
++		"initial_moves": core.initial_moves, "collected": core.collected,
++		"collect_kind": core.collect_kind, "collect_goal": core.collect_goal,
++		"won": core.won, "lost": core.lost, "goal": core._goal,
++		"black_hole_used": core.black_hole_used,
++		"fixture_pair": core.fixture_pair.duplicate(),
++		"rng_seed_int64": str(core._rng.seed), "rng_state_int64": str(core._rng.state),
++	}
++
++func fixture_pair() -> Array:
++	return [25,26] if scenario == "black_hole" else [7,8]
++
++func display_matches() -> bool:
++	return app.board._display_grid == app.core.grid and app.board._display_floor == app.core.floor and app.board._display_runes == app.core.runes
++
++func presentation_clear() -> bool:
++	return not app.board.busy and app.board._power_event.is_empty() and app.board._hidden.is_empty() and not app.board._falling and app.board._moving.is_empty()
++
++func relative_frame() -> int:
++	return Engine.get_process_frames() - start_frame
++
++func capture_time_available() -> bool:
++	return relative_frame() < CAPTURE_FRAMES
++
++func sample_frame() -> void:
++	var current := Engine.get_process_frames()
++	if current == last_sample_frame or app == null or app.board == null:
++		return
++	last_sample_frame = current
++	var delta: float = app.board.get_process_delta_time()
++	sampled_frame_delta_seconds += delta
++	var active: bool = not app.board._power_event.is_empty()
++	if delta <= 0.0 and activation_frame < 0:
++		ignored_startup_delta_frames += 1
++	# Movie cadence is requested by --fixed-fps and checked in the recorded AVI.
++	# A node's actual process deltas can vary during startup and remain evidence.
++	if active and (not is_finite(delta) or delta <= 0.0) and not invalid_active_delta_failed:
++		invalid_active_delta_failed = true
++		check(false, "Every active effect frame has a positive finite measured delta")
++	var state_matches := true
++	var result_matches := true
++	if activation_frame >= 0:
++		invariant_sample_count += 1
++		state_matches = canonical(core_state(app.core)) == frozen_state_json
++		result_matches = canonical(app.last_result) == frozen_result_json
++		if not state_matches and not invariant_failed:
++			invariant_failed = true
++			check(false, "Rendering changed complete resolved Core/RNG state")
++		if not result_matches and not result_failed:
++			result_failed = true
++			check(false, "Rendering changed the actual frozen Core result")
++		if effect_end_frame < 0:
++			if active:
++				effect_sampled_seconds += delta
++			else:
++				effect_end_frame = current
++	frame_observations.append({
++		"process_frame": relative_frame(), "delta_seconds": delta,
++		"power_active": active, "power_t": app.board._power_t,
++		"board_busy": app.board.busy, "lab_resolving": app._resolving,
++		"resolved_core_rng_unchanged": state_matches,
++		"actual_result_unchanged": result_matches,
++	})
++
++func next_frame() -> void:
++	await process_frame
++	sample_frame()
++
++func wait_frames(count: int) -> void:
++	for ignored in range(count):
++		if not capture_time_available():
++			return
++		await next_frame()
++
++func mouse(point: Vector2, down: bool) -> void:
++	var event := InputEventMouseButton.new()
++	event.position = root.get_final_transform() * point
++	event.global_position = event.position
++	event.button_index = MOUSE_BUTTON_LEFT
++	event.pressed = down
++	event.button_mask = MOUSE_BUTTON_MASK_LEFT if down else 0
++	gesture_events.append({
++		"kind": "press" if down else "release", "process_frame": relative_frame(),
++		"viewport_point": [point.x, point.y], "native_point": [event.position.x, event.position.y],
++	})
++	Input.parse_input_event(event)
++
++func motion(point: Vector2, relative: Vector2) -> void:
++	var event := InputEventMouseMotion.new()
++	event.position = root.get_final_transform() * point
++	event.global_position = event.position
++	event.relative = root.get_final_transform().basis_xform(relative)
++	event.button_mask = MOUSE_BUTTON_MASK_LEFT
++	gesture_events.append({
++		"kind": "motion", "process_frame": relative_frame(),
++		"viewport_point": [point.x, point.y], "native_point": [event.position.x, event.position.y],
++	})
++	Input.parse_input_event(event)
++
++func native_fixture_drag() -> void:
++	var pair: Array = app.core.fixture_pair
++	check(pair == fixture_pair(), "Actual scenario retains its established fixture pair")
++	if pair.size() != 2:
++		return
++	var first: Vector2 = app.board.get_global_transform() * app.board._center(int(pair[0]))
++	var last: Vector2 = app.board.get_global_transform() * app.board._center(int(pair[1]))
++	check(Rect2(Vector2.ZERO, Vector2(SCREEN_SIZE)).has_point(first) and Rect2(Vector2.ZERO, Vector2(SCREEN_SIZE)).has_point(last), "Both native fixture endpoints lie inside the portrait viewport")
++	mouse(first, true)
++	await wait_frames(3)
++	var previous := first
++	for index in range(1, 7):
++		var point := first.lerp(last, float(index) / 6.0 * 0.85)
++		motion(point, point - previous)
++		previous = point
++		await next_frame()
++	mouse(previous, false)
++	await wait_frames(2)
++
++func derive_targets(event: Dictionary) -> Array:
++	var derived: Array = []
++	var before: Array = event.get("before", [])
++	check(before.size() == 56, "Actual event contains complete post-swap pre-effect board")
++	if scenario == "black_hole":
++		for index in range(before.size()):
++			if int(before[index]) >= 0 and int(before[index]) < app.core.GEM_KINDS:
++				derived.append(index)
++	else:
++		# Independent literal oracle for the established SE fixture at cell8.
++		derived = [9,10,11,12,13,15,22,29,36,43,50]
++		check(same_json(event.get("rays", []), [[9,10,11,12,13],[15,22,29,36,43,50]]), "Actual fixture fault follows the literal right and down rays")
++		check(event.get("orientation", "") == "se" and same_json(event.get("directions", []), [[1,0],[0,1]]), "Actual fixture keeps its SE orientation")
++	return derived
++
++func on_power_started(power: String, targets: Array) -> void:
++	check(power == scenario, "Native fixture gesture activates the selected actual fusion or earthquake power")
++	check(activation_frame < 0, "Native capture activates exactly one natural power")
++	if activation_frame >= 0:
++		return
++	activation_frame = Engine.get_process_frames()
++	active_targets = targets.duplicate()
++	# Emitted synchronously before this effect queues its first redraw. The lab's
++	# last_result is the actual completed transaction, never a fabricated stream.
++	frozen_result = app.last_result.duplicate(true)
++	frozen_state = core_state(app.core)
++	frozen_state_json = canonical(frozen_state)
++	frozen_result_json = canonical(frozen_result)
++	var count := 0
++	for event in frozen_result.get("events", []):
++		if String(event.get("type", "")) == "natural_power":
++			count += 1
++			frozen_event = event.duplicate(true)
++	check(count == 1, "Actual Core result contains exactly one natural_power event")
++	check(bool(frozen_result.get("valid", false)), "Actual native-input Core transaction is valid")
++	check(String(frozen_event.get("power", "")) == scenario, "Frozen Core event belongs to the selected fusion or earthquake scenario")
++	check(int(frozen_event.get("origin", -1)) == int(fixture_pair()[1]), "Actual event origin is the fixture's swap destination")
++	check(same_json(active_targets, frozen_event.get("targets", [])), "Signal targets equal actual Core event targets")
++	expected_targets = derive_targets(frozen_event)
++	check(same_json(active_targets, expected_targets), "Actual target list equals the independently derived eligible cells")
++	var expected_removed: Array = []
++	if scenario == "black_hole":
++		for index in range(frozen_event.before.size()):
++			if int(frozen_event.before[index]) >= 0:
++				expected_removed.append(index)
++		check(same_json(frozen_event.get("fusion_sources", []), [{"index":25,"kind":8},{"index":26,"kind":6}]), "Fusion colors use the actual post-swap source kinds and positions")
++		check(same_json(frozen_event.floor, frozen_event.floor_before) and same_json(frozen_event.runes, frozen_event.runes_before), "Direct Black Hole preserves soil and runes")
++	else:
++		expected_removed = expected_targets.duplicate()
++		expected_removed.append(8)
++		expected_removed.sort()
++	check(same_json(frozen_event.get("indices", []), expected_removed), "Actual direct removals match the independent scenario oracle")
++	check(same_json(app.board._power_event, frozen_event) and is_zero_approx(float(app.board._power_t)), "Event and state freeze synchronously before the effect advances or redraws")
++	check(int(frozen_state.moves_left) == int(initial_state.moves_left) - 1, "Native activation spends exactly one move")
++	write_json("EVENT", frozen_event)
++	write_json("RESULT", frozen_result)
++	write_json("ACTIVATION_STATE", frozen_state)
++	observations.append({
++		"phase": "event_frozen_before_draw", "process_frame": relative_frame(),
++		"actual_targets": active_targets.duplicate(), "actual_target_count": active_targets.size(),
++		"derived_eligible_targets": expected_targets.duplicate(),
++	})
++
++func shot(phase: String, requested_progress: float = -1.0) -> void:
++	await RenderingServer.frame_post_draw
++	var path := output + "/" + scenario + "_" + phase + ".png"
++	var captured := root.get_texture().get_image()
++	check(captured.get_size() == SCREEN_SIZE, "Entire root capture is exactly 432x960")
++	check(captured.save_png(path) == OK, "Screenshot saves " + path)
++	var actual_visual_state: Dictionary = {}
++	if not app.board._power_event.is_empty():
++		if scenario == "black_hole" and app.board.has_method("fusion_phase"):
++			actual_visual_state["phase"] = app.board.fusion_phase().duplicate(true)
++			if app.board.has_method("fusion_palette"):
++				var actual_palette: Dictionary = app.board.fusion_palette()
++				var palette_values: Dictionary = {"valid":actual_palette.get("valid",false)}
++				for key in ["a","b","mixed"]:
++					if actual_palette.get(key) is Color:
++						var value: Color = actual_palette[key]
++						palette_values[key] = [value.r,value.g,value.b,value.a]
++				actual_visual_state["palette"] = palette_values
++		elif scenario == "earthquake" and app.board.has_method("quake_target_phase"):
++			var phases: Array = []
++			for target in active_targets:
++				phases.append(app.board.quake_target_phase(int(target)).duplicate(true))
++			actual_visual_state["target_phases"] = phases
++	observations.append({
++		"phase": phase, "file": path, "process_frame": relative_frame(),
++		"requested_progress": requested_progress, "actual_power_t": app.board._power_t,
++		"power_active": not app.board._power_event.is_empty(),
++		"actual_targets": active_targets.duplicate(), "actual_target_count": active_targets.size(),
++		"moves_left": app.core.moves_left,
++		"actual_visual_state": actual_visual_state,
++	})
++
++func wait_for_phase(progress: float) -> bool:
++	while capture_time_available():
++		if activation_frame >= 0:
++			if app.board._power_event.is_empty():
++				check(false, "Effect ended before requested phase " + str(progress))
++				return false
++			if float(app.board._power_t) >= progress:
++				return true
++		await next_frame()
++	check(false, "Seven-second capture ended before phase " + str(progress))
++	return false
++
++func validate_fixture() -> void:
++	check(app.scenario == scenario and app.seed_value == SEED, "Actual lab is reset to the selected seeded scenario")
++	check(app.core.fixture_pair == fixture_pair(), "Existing fixture pair is unchanged")
++	check(app.core.cols == 7 and app.core.rows == 8, "Existing seven-column eight-row fixture dimensions are unchanged")
++	check(app.core.grid.size() == 56 and app.core.floor.size() == 56 and app.core.runes.size() == 56, "Complete fixture arrays are present")
++	if app.core.grid.size() != 56 or app.core.floor.size() != 56 or app.core.runes.size() != 56:
++		return
++	var special_kind := 6 if scenario == "black_hole" else 10
++	check(int(app.core.grid[int(fixture_pair()[0])]) == special_kind, "Real fixture starts with the selected special at its established source")
++	check(int(app.core.grid[26]) == 8 if scenario == "black_hole" else (int(app.core.grid[8]) >= 0 and int(app.core.grid[8]) < app.core.GEM_KINDS), "Real fixture has the correct destination mineral or Volcano")
++	check(int(app.core.grid[24]) == -2 and int(app.core.grid[30]) == -2, "Established gap cells remain unchanged")
++	check(int(app.core.grid[39]) == -3 and int(app.core.runes[39]) == 1, "Established rune remains unchanged")
++	check(int(app.core.floor[23]) == 1 and int(app.core.floor[26]) == 1 and int(app.core.floor[43]) == 1, "Established soil fixtures remain unchanged")
++	check(app.core.moves_left == 12 and app.last_result.is_empty(), "Capture starts before any activation with the original move budget")
++
++func validate_geometry() -> void:
++	var board_rect: Rect2 = app.board.get_global_rect()
++	var cells_rect: Rect2 = app.board.get_global_transform() * app.board._board_rect()
++	var viewport_rect := Rect2(Vector2.ZERO, Vector2(SCREEN_SIZE))
++	var actual_window := DisplayServer.window_get_size()
++	check(root.size == SCREEN_SIZE and root.content_scale_size == SCREEN_SIZE, "Root and content viewport remain 432x960")
++	check(actual_window == SCREEN_SIZE, "Actual native window content size is 432x960")
++	check(DisplayServer.window_get_current_screen() == 0, "Actual native window is on monitor 0")
++	check(viewport_rect.encloses(board_rect) and viewport_rect.encloses(cells_rect), "Entire board control and all cells fit inside the portrait capture")
++	check(board_rect.size.x >= 300.0 and board_rect.size.y >= 350.0, "Actual board meets the established usable minimum size")
++	geometry = {
++		"native_screen": DisplayServer.window_get_current_screen(),
++		"native_window_size": [actual_window.x, actual_window.y],
++		"root_size": [root.size.x, root.size.y],
++		"content_scale_size": [root.content_scale_size.x, root.content_scale_size.y],
++		"board_rect": [board_rect.position.x, board_rect.position.y, board_rect.size.x, board_rect.size.y],
++		"cells_rect": [cells_rect.position.x, cells_rect.position.y, cells_rect.size.x, cells_rect.size.y],
++	}
++
++func run_capture() -> void:
++	root.content_scale_size = SCREEN_SIZE
++	root.size = SCREEN_SIZE
++	if DisplayServer.get_name() == "headless":
++		check(false, "Native fusion and earthquake capture requires a graphical Godot driver")
++		finish_capture()
++		return
++	DisplayServer.window_set_current_screen(0)
++	var lab_script = load(LAB_PATH)
++	if lab_script == null or not lab_script.can_instantiate():
++		check(false, "Actual natural power lab script must load")
++		finish_capture()
++		return
++	app = lab_script.new()
++	root.add_child(app)
++	app.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
++	await wait_frames(3)
++	check(app.board != null and app.board.get_script().resource_path == BOARD_PATH, "Actual lab uses the isolated magic_fusion_board renderer")
++	if not failures.is_empty():
++		finish_capture()
++		return
++	app.reduced.button_pressed = false
++	app.seed_value = SEED
++	app.reset_scenario(scenario)
++	app.board.power_started.connect(on_power_started)
++	await wait_frames(2)
++	validate_fixture()
++	validate_geometry()
++	initial_state = core_state(app.core)
++	write_json("INITIAL_STATE", initial_state)
++	if not failures.is_empty():
++		finish_capture()
++		return
++	while relative_frame() < CAPTURE_FPS:
++		await next_frame()
++	await shot("00_ready")
++	await native_fixture_drag()
++	var phases: Array = [["01_start",0.0],["02_source_colors",0.12],["03_mixing",0.28],["04_collapse",0.48],["05_spiral_pull",0.70],["06_end",0.93]]
++	if scenario == "earthquake":
++		phases = [["01_start",0.0],["02_charge",0.15],["03_first_impact",0.28],["04_travelling_fault",0.43],["05_last_impact",0.58],["06_settle",0.85]]
++	for phase in phases:
++		if await wait_for_phase(float(phase[1])):
++			await shot(String(phase[0]), float(phase[1]))
++		else:
++			break
++	while (app._resolving or app.board.busy) and capture_time_available():
++		await next_frame()
++	check(not app._resolving and not app.board.busy, "Actual lab finishes its complete result inside the seven-second capture")
++	check(not frozen_event.is_empty(), "Actual Core event froze before effect rendering")
++	check(app.core.moves_left == int(initial_state.moves_left) - 1, "Completed native gesture spends exactly one move")
++	check(same_json(core_state(app.core), frozen_state), "Complete Core/RNG state remains equal to the synchronous resolution snapshot")
++	check(display_matches(), "Final displayed grid, soil and runes match actual resolved Core")
++	check(presentation_clear(), "Final presentation has no busy stream, hidden cells, moving stones or stale power overlay")
++	write_json("FINAL_STATE", core_state(app.core))
++	if capture_time_available():
++		await shot("07_final")
++	while capture_time_available():
++		await next_frame()
++	check(relative_frame() == CAPTURE_FRAMES, "Capture contains exactly 210 process frames at fixed 30 fps")
++	check(presentation_clear() and display_matches(), "Final hold remains clean and equal to the resolved Core")
++	check(invariant_sample_count > 0 and not invariant_failed and not result_failed, "Every sampled frame after activation preserves complete Core/RNG and actual result")
++	check(effect_end_frame >= activation_frame and activation_frame >= 0, "Actual effect start and cleanup frames are measured")
++	check(absf(effect_sampled_seconds - expected_effect_seconds) <= TIMING_TOLERANCE_SECONDS, "Measured active effect duration agrees with the configured scenario within two frame intervals")
++	finish_capture()
++
++func finish_capture() -> void:
++	if ended:
++		return
++	ended = true
++	if app != null:
++		var actual_cues: Dictionary = {}
++		for property in ["element_audio", "storm_audio", "tornado_audio", "volcano_audio"]:
++			var manager: Variant = app.get(property)
++			if manager != null:
++				var log: Variant = manager.get("cue_log")
++				if log is Array:
++					actual_cues[property] = log.duplicate(true)
++		check(actual_cues.has("element_audio"), "Actual new element audio bank is present")
++		if actual_cues.has("element_audio"):
++			check(actual_cues.element_audio.size() == 1 and actual_cues.element_audio[0].get("power", "") == scenario, "One actual element sound cue matches the activated power")
++		write_json("AUDIO_CUES", actual_cues)
++	var effect_frames := effect_end_frame - activation_frame if effect_end_frame >= 0 and activation_frame >= 0 else -1
++	var receipt := {
++		"status": "PASS" if failures.is_empty() else "FAIL", "failures": failures,
++		"scenario": scenario, "seed": SEED, "fixture_pair": fixture_pair(),
++		"visual_pass": ("refined_" if refined else "") + ("colored_fusion" if scenario == "black_hole" else "oriented_L_fault"),
++		"actual_targets": active_targets, "actual_target_count": active_targets.size(),
++		"derived_eligible_targets": expected_targets, "derived_target_count": expected_targets.size(),
++		"geometry": geometry, "fixed_fps_expected": CAPTURE_FPS,
++		"clip_process_frames": relative_frame(), "clip_seconds_at_fixed_fps": float(relative_frame()) / float(CAPTURE_FPS),
++		"expected_effect_seconds": expected_effect_seconds,
++		"effect_start_frame": activation_frame - start_frame if activation_frame >= 0 else -1,
++		"effect_end_frame": effect_end_frame - start_frame if effect_end_frame >= 0 else -1,
++		"effect_elapsed_process_frames": effect_frames,
++		"effect_frame_seconds_at_fixed_fps": float(effect_frames) / float(CAPTURE_FPS) if effect_frames >= 0 else -1.0,
++		"effect_sampled_delta_seconds": effect_sampled_seconds,
++		"effect_delta_from_configured_seconds": effect_sampled_seconds - expected_effect_seconds if activation_frame >= 0 else null,
++		"effect_timing_tolerance_seconds": TIMING_TOLERANCE_SECONDS,
++		"sampled_frame_delta_seconds": sampled_frame_delta_seconds,
++		"ignored_uninitialized_startup_delta_frames": ignored_startup_delta_frames,
++		"resolved_core_rng_invariant_sample_count": invariant_sample_count,
++		"observations": observations, "frame_observations": frame_observations,
++		"native_input_events": gesture_events,
++		"proof": "Actual Godot lab root renders and Input.parse_input_event press/drag/release; synchronous actual Core event/result/state freeze; no human, Android or visual acceptance claim",
++	}
++	write_json("REPORT", receipt)
++	print("FUSION_EARTHQUAKE_CAPTURE " + JSON.stringify({"status": receipt.status, "scenario": scenario, "failures": failures, "actual_targets": active_targets, "clip_process_frames": relative_frame()}))
++	quit(0 if failures.is_empty() else 1)
++
++func run() -> void:
++	start_frame = Engine.get_process_frames()
++	var arguments := OS.get_cmdline_user_args()
++	refined = arguments.has("--refined")
++	check(arguments.size() in [1,2] and arguments[0] in ["--black-hole","--earthquake"] and (arguments.size() == 1 or arguments[1] == "--refined"), "Choose --black-hole or --earthquake with optional --refined")
++	if not failures.is_empty():
++		quit(1)
++		return
++	scenario = "black_hole" if arguments[0] == "--black-hole" else "earthquake"
++	expected_effect_seconds = 1.65 if scenario == "black_hole" else 1.25
++	output = ProjectSettings.globalize_path(OUTPUT_PATH + ("/refined/" if refined else "/") + scenario)
++	check(DirAccess.make_dir_recursive_absolute(output) == OK, "Dedicated fusion or fault output directory exists")
++	if not failures.is_empty():
++		finish_capture()
++		return
++	await run_capture()
+
+ORIGINAL AUDIO IDENTITIES AND LOCAL RECIPE
+{
+  "method": "original deterministic local NumPy synthesis; no downloaded or provider-generated sample",
+  "seed": 18102026,
+  "human_listening": "PENDING",
+  "files": [
+    {
+      "path": "assets/sfx/elements/fusion_gravity_v1.wav",
+      "bytes": 163214,
+      "sha256": "7c643a4bef093f491d6cdc6d56d0c4be4f486d6dcdc07207d96142dd0ab1302d",
+      "seconds": 1.85,
+      "sample_rate": 44100,
+      "channels": 1,
+      "peak": 0.5999755859375
+    },
+    {
+      "path": "assets/sfx/elements/earthquake_stones_v1.wav",
+      "bytes": 127934,
+      "sha256": "590a68abb33743b1ea6d5c86f85dd6cc331cbf915fb9f36e61580d1b8e099071",
+      "seconds": 1.45,
+      "sample_rate": 44100,
+      "channels": 1,
+      "peak": 0.5999755859375
+    },
+    {
+      "path": "assets/sfx/elements/elements_quiet_short_v1.wav",
+      "bytes": 15920,
+      "sha256": "af248c4586538890719119c5fea51e0ce9e246cf719011b1fd932b3eb31da786",
+      "seconds": 0.18,
+      "sample_rate": 44100,
+      "channels": 1,
+      "peak": 0.5999755859375
+    }
+  ]
+}

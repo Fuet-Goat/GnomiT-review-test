@@ -909,3 +909,80 @@ L / EARTHQUAKE — ПРЕДЛОЖЕНИЕ
 чужди доклади,външни задачи заGPT/Grok,grants промени илиmerge.
 Няма външен преглед/общо одобрение на новатаLсила.
 Препоръка за бъдещата реализация: GPT-6.1 Sol / High.
+
+
+GNOMIT — COLOUR FUSION AND L EARTHQUAKE — 2026-10-18
+Status: LOCAL_IMPLEMENTED / NATIVE_CAPTURE_PASS / HUMAN_REVIEW_PENDING
+
+HUMAN TASK
+Animate the two source colours mixing/darkening into a Black Hole before the
+gravity pull; animate the new L power and explain its effect. Local implementation
+is confined to the existing isolated MagicAnimations lab, separate from Cradle.
+
+BLACK HOLE
+Only the existing adjacent Tornado+Volcano swap qualifies, once per attempt and
+one move. Core records the actual post-swap source indices/kinds. Those sources
+drive orange fire and turquoise wind streams which orbit, blend, darken into a
+black core, then spiral the minerals inward. The core sits between the sources;
+fixed cell plates/soil/runes never move. Ordinary minerals stay in place during
+the mixing stage. Other special objects are absorbed inertly without chains.
+Direct soil/rune protection and ordinary later cascades remain unchanged.
+Normal visual is1.65s; reduced0.13s static target cue. New1.85s locally synthesized
+soft fusion/pressure/gravity recording plays once at original pitch.
+No other special pair becomes eligible. The actual source colours follow the
+two source kinds/order rather than a fabricated new-combination rule.
+
+L EARTHQUAKE
+A split-stone icon identifies two perpendicular fault rays. Four encoded kind
+orientations survive swap/fall/shuffle without a new save schema. The actual
+Core rays visit ordinary minerals only, stopping before gaps,runes,other powers
+and the edge. Both arms advance outward with local stone tremor,fractures,
+angular fragments and brown dust, not a full-screen shake. Particles stay within
+affected cells. Existing one-layer soil damage and later refill/cascades apply;
+direct runes are protected. Default SE fixture7->8 has11ordinary targets plus
+the source; Rotate L resets only the lab fixture through all four orientations.
+Normal visual1.25s; reduced0.13s. New1.45s original soft stone/rumble recording;
+both new powers use a separate quieter0.18s reduced cue. Skip/Reset/exit cancel
+voices, normal completion keeps the short tail, ordinary cascade foley remains.
+
+BOUNDARY
+Automatic creation from4/T5/L5/straight5 remains a DESIGN PROPOSAL. This task
+delivers animations and pre-placed power fixtures; no campaign/progress/save,
+unlock milestones or ordinary match creation rules were introduced. UI English.
+Existing polished Volcano/Tornado/Storm renderer bytes and old audio banks are
+unchanged. Main lab selects the new final subclass; inheritance supplies old VFX.
+
+VERIFICATION ACTUALLY RUN
+New focused290checks PASS: independent four-direction ray oracles,edge/hole/rune/
+special barriers,soil/direct protection,source provenance,both T+V orders,once
+limit,old Core/event/result/RNG parity at two seeds (only new fusion metadata
+stripped for comparison),actual draw geometry/phases,reduced/skip/reset cleanup,
+both audio normal/reduced/skip/reset and exit cleanup. ExistingCore80 and Storm94
+PASS. Initial new-test failures/warnings are retained as history: malformed
+rune-flag preview guard fixed; channel expectation corrected to actual mono;
+test exit waits120ms for actual mixer release. FinalR4 is clean,exit0.
+
+Two final scripted actual Godot native-input captures432x960,screen0,30fps,
+210processframes/211AVIframes each PASS, with frozen actual Core/result/RNG in
+every sampled frame. BlackHole51ordinary targets/53direct removals; Earthquake
+11ordinary targets/12direct removals. One actual element clip per activation.
+Runtime PCM extracted from each real AVI is nonzero with zero clipping. Extractor
+documents the complete-final-idx1 RIFF size convention and validates media bounds.
+GIFs are silent previews decoded from real Godot MJPEG frames. No generated video
+or arranged replacement soundtrack. Parent inspected charge/mix/pull/L-fault
+screenshots and the ready live lab. First fusion was visually too small; a wider
+source orbit/ribbon pass was recorded separately without overwriting the first.
+Original/refined event/result/final-state JSON bytes match for both powers.
+Human visual/listening,Android and performance acceptance remain pending.
+
+DELIVERY / GIT
+Use BLACK HOLE,swap the marked pair; L EARTHQUAKE,drag the split stone to its
+glowing neighbour; Rotate L changes direction; Reset replays. Live monitor1.
+One local handoff ZIP contains source delta,newWAVs,real movies/previews/states,
+checks,before-source and manifest. It is a delta over the existing isolated lab.
+Git receives only own REPORTS_ONLY text receipt/literal patch. No native code/
+audio upload,grant/main/private-game changes,merge or external bot assignment.
+Backup directory retains its initially assigned2026-10-17name; this finished
+pass and all new evidence are dated2026-10-18 after the environment date rollover.
+
+Recommended model/effort: GPT-6.1 Sol / High.
