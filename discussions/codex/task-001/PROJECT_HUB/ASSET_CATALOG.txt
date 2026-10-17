@@ -1,0 +1,52 @@
+GNOMIT — ASSET CATALOG
+
+PUBLISHED / VERIFIED
+Обща целева концепция:
+https://raw.githubusercontent.com/Fuet-Goat/GnomiT-review-test/c8cd4ddd1c1abb2fc8309d66e99ddc982766ab45/sandbox/gpt/task-002/outputs/shared-v2/references/00_SHARED_TARGET_CONCEPT.png
+SHA-256 4c46fd0a20f13d5bfa23d8ce20ebaf12f1abe96b32e5c2808512513f4868e09f, 2264565bytes, 840x1871. CONCEPT с генерирани background разлики, не production сцена.
+
+GPT V1: original seven PNG/GIF assets, commit e30bdf7f4542760b151074f599d8e275273b11c7, PR#5; запазени.
+Grok V1 PNG: 66c9fdf749ffe1c99ec968f08e432d5c9a6c93e5, sandbox/grok/task-002/outputs/shared-v2/references/grok-v1/. И трите са реално изтеглени повторно и SHA-256 съвпадат:
+01_SCENE_CONCEPT.png — 868260bytes — 2cc888bf68577df6d39aeb886c50f61c9b2a0210d71415eb0111380bebaf60fb
+02_GNOME_DETAIL.png — 774507bytes — 8b8d360c904485e66eea4333f74db3e2777621083fd8dd62b45caa9de9591584
+hero_idle.png — 580289bytes — 421d2626c210f3d1831c71b67fa8471940b5dfd1c247547390978758cd3b6406
+Материални/исторически референции, не новият каноничен master.
+
+FIXED SOURCE
+Original background and CURRENT_START: commit5add419dfc7fd73bd6d9ee837b2ba620ee5e8b81.
+baseline/game/assets/storybook/descending_world_v2.png; media/current/01_START.png.
+Предпочитан потребителски стил:
+https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/first-bend-review-v1/GNOMIT_USER_STORYBOOK_STYLE_REFERENCE.png
+Съществуващи build/review downloads: https://github.com/Fuet-Goat/GnomiT-review-test/releases/tag/first-bend-review-v1
+
+SHARED-V2 STAGE A — PUBLISHED / REMOTE VERIFIED
+Handoff commit: 0a2b6e3d2736d8c787026718205e15dee8a6fc0f
+Artifact commit: 0f9ffeafbe82fc8732be9c5c196d9ceb0e08aba8
+Canonical hero_master.png: sandbox/gpt/task-002/art/shared-v2/characters/hero/hero_master.png
+238352 bytes; SHA-256895a1ccf8c17e756e3bc05810cceaf48ec1732d7e90e0428f1c0523e6157004d
+512x512 RGBA; visible alpha height440px; authored foot anchor[256,467].
+Separate original V1 shadow: 7824bytes; SHA-256d87d66aab4d1183c48c54b023f90e7ff2b07eb1d8e0ee125f5c5b15b43082057.
+Fixed432x960 scene: sandbox/gpt/task-002/outputs/shared-v2/previews/01_SCENE_CONCEPT.png
+728611bytes; SHA-256d896c9a93e04398fbf43fa07aa8fc625e6e8090465ee9f0d43cf0ab8da75f9ce.
+Metadata, detail, native generation, prompt, light/dark alpha checks and remote-readback receipt accompany ART_HANDOFF.
+Actual executor/publisher Codex local environment; chosen art direction GPT. External GPT DNS blocker remains historical, not falsely repaired. Static concept only, no runtime or final human acceptance.
+
+STAGE B — DELIVERED, REVISION REQUIRED
+Grok binary commit:0920acabe220e527d33dbf3311149fd0d2a47748; final handoff:ce1d7a9139728631db99c708115fa731ed21cfc0.
+Sheet1213389bytes SHA-25619990718e13bc0f14d6d79c3a05567098454ec70f97e8db60f99460dc09b3e2c;1536x1024 RGBA.
+Preview895831bytes SHA-256bbfaf9cc84d7b9acb9b645a7e96bac0d0a7a898bfa23ad4c12d4eb4248e8ad23;13frames,3950ms, ART PREVIEW only.
+Four output and four source files independently hash/byte verified; current output bytes equal the binary commit. Height440px at strict alpha>0 for all six cells.
+Animation not accepted for game integration: front opposite-contact repeats the same leading leg, root/support registration jumps laterally, minor key-color rim remains.
+See reviews/STAGE_B_REVIEW_2026-10-17.txt and reviews/ANIMATION_REVISION_R1_BG.txt. Expected next: corrected R1 handoff, not another character concept.
+
+ARCHIVE
+Grok original 95 Base64 parts and manifest: outputs/shared-v2/archive/legacy-base64/ at 66c9fdf749ffe1c99ec968f08e432d5c9a6c93e5; all96 Git blob IDs match the original fca6459382878531deeaae31780be0ab0a0e4379 tree. History and reports preserved.
+
+
+R1 — DELIVERY VERIFIED, EXPORT CLOSURE PENDING — 2026-10-17
+R1 sheet881007bytes SHA-256b03cfaf1022ee72367a820c262dec8f8d7730ce94a5d6f729ce81275505cefda at463a9bb709e7aed459f2e4a861ed02e58b48b802; identical atf3cfba7e39c59988f0a96a40719589c1cc6f2c24.
+Preview1085155bytes SHA-25670b1731fba2a11fae6826e84b0ca6b65078911eddca380d6e5e99f4ed97586ae:16frames/4000ms, no idle.
+Four outputs independently size/SHA-256 verified at both commits; master independently matches.
+R1 current within-walk alignment is improved. Low rear passing accepted as a rough art limitation, no higher lift requested.
+Current final PNG strict alpha heights438,443,443,440,440,439 meet scale tolerance but differ from declared measurements. Some declared physical support coordinates are transparent. Raw idle/walk registration differs; exported idle-to-walk mapping/preview not provided.
+Master and R1 sheet are frozen inputs for metadata/preview-only closure. See reviews/STAGE_B_R1_REVIEW_2026-10-17.txt and R1_EXPORT_CLOSURE_BG.txt. Older Stage B review describes its predecessor only.

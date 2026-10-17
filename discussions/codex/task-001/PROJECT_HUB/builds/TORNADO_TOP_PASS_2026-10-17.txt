@@ -1,0 +1,248 @@
+GNOMIT — RADIAL SPINNING-TOP TORNADO — 2026-10-17
+Status:LOCAL_IMPLEMENTED / NATIVE_CAPTURE_PASS / HUMAN_FEEL_PENDING
+
+USER DECISION
+The human asked for a tornado spinning like a top and explicitly selected
+"Кръг от съседни клетки около торнадото". This pass uses up to eight immediately
+surrounding cells, including diagonals:3x3 footprint excluding the center target.
+The tornado activates at its final adjacent-swap destination and is itself
+consumed, for the existing one-move cost. Only ordinary minerals are direct
+targets. Edges clip geometrically without wrapping; holes, runes and other
+specials are excluded. Existing direct soil damage loses one layer per ordinary
+target; normal refill/cascades retain existing rules and may affect other cells.
+No chain activation, campaign unlock, save or reward changes.
+
+IMPLEMENTATION
+Both historical tornado_h/tornado_v IDs use the same local radial rule. The lab
+shows one TORNADO button and starts with it selected, avoiding misleading row/
+column labels. Internal fixture IDs remain for compatibility and edge/gap tests.
+Real Core event targets are marked before motion. Original mineral artwork
+rotates, shrinks and spirals toward the fixed center; ground plates stay put.
+A contact shadow, translucent cone, depth-separated cream/cyan/dust ribbons and
+helical strands rotate around the anchored tip. It does not sweep a row/column.
+Normal duration1.10s, reduced motion remains the short .13s cue; skip/reset clear
+all presentation without rerunning Core. Painted remains Volcano-only. Existing
+Volcano icon/renderer prefix/MP3/audio timing and Black Hole rules are preserved.
+No new Tornado sound was requested/created; ordinary stone foley remains.
+
+VERIFICATION ACTUALLY RUN
+Radial focused195 checks PASS:literal center/corner/edges/gaps/rune/special target
+sets, identical h/v rules for the same board, one move, no chain, soil damage,
+fixed tip, actual target contraction/rotation/draws, reduced/skip/reset and full
+Core/RNG preservation. Corner render33 checks PASS covers origins0,6,49,55 with
+both IDs. Core regression80 PASS; delivered Volcano MP3 regression36 PASS.
+Native Godot captures at432x960, screen0, fixed30fps, actual scripted mouse press/
+drag/release:both PASS, zero engine errors/warnings. Center fixture origin26 hits
+[18,19,20,25,27,32,33,34]. Gap fixture origin23 hits[15,16,17,22,29,31]. Every
+sample after activation preserves frozen Core/RNG/result. Actual AVI headers
+confirm30fps; fixed recording is not a performance benchmark or human test.
+Parent inspected the real swirl screenshot and live window with Tornado selected;
+the user had already moved, so that live state was left untouched.
+
+CORRECTIONS / EVIDENCE LIMITS
+The initial focused rune-case oracle listed33 instead of the nearby hole30;
+the literal expected set was corrected. Failed receipt retained. Independent
+source review found that clamping filled-cone vertices at a top edge could fold
+its roof. Unclamped body/shadow now use Geometry2D.intersect_polygons and a
+triangulatable-result guard. Actual corner draw tests pass, and focused source
+re-review found no remaining actionable issue. First renderer kept separately.
+Two initial movie harness attempts wrongly asserted every node's smoothed delta
+must equal1/30, despite startup values .025/.033333/.041667. Those failed movies,
+reports and logs were preserved. Final harness records actual deltas, validates
+finite positive active-event deltas and measured event duration, while actual AVI
+header proves recording rate. Core/event invariants were never relaxed.
+One early core regression wrote its default receipt; fresh bytes were verified
+identical to the untouched NaturalPowers predecessor. Optional --report-path now
+isolates the final receipt as verification/tornado_core_results.json.
+
+DELIVERY / SCOPE
+Current evidence outputs/tornado_top; earlier Volcano outputs and predecessor
+sources preserved. One handoff ZIP contains source delta, before sources, actual
+movie/GIF/keyframes and verification. GIF comes from Godot frames and is silent.
+Existing local PLAY_MAGIC_ANIMATIONS.cmd opens the latest isolated lab on user
+monitor1. This is an authoring/playtest fixture, not campaign rollout. Governed
+Git is still REPORTS_ONLY:own text receipt and literal patch proposal only, no
+native game/assets claimed uploaded, no grant/main/private edits and no merge.
+No automatic new task sent to GPT/Grok. Human look/feel and Android pending.
+
+Recommended model/effort:GPT-6.1 Sol / High for mechanics/animation integration.
+
+EXACT MEASUREMENTS
+{
+  "status": "LOCAL_IMPLEMENTED / NATIVE_CAPTURE_PASS / HUMAN_FEEL_PENDING",
+  "input_report_commit": "d33ce5100947d2d0549e9d722715e4989deaaf3d",
+  "direct_footprint": "Eight neighboring 3x3 cells including diagonals; center consumed separately; ordinary minerals only",
+  "checks": {
+    "radial": 195,
+    "corner_smoke": 33,
+    "core_regression": 80,
+    "volcano_mp3_regression": 36
+  },
+  "captures": {
+    "tornado_h": {
+      "actual_targets": [
+        18.0,
+        19.0,
+        20.0,
+        25.0,
+        27.0,
+        32.0,
+        33.0,
+        34.0
+      ],
+      "actual_target_count": 8.0,
+      "fixture_pair": [
+        25.0,
+        26.0
+      ],
+      "effect_sampled_delta_seconds": 1.13333333333333,
+      "effect_frame_seconds_at_fixed_fps": 1.16666666666667,
+      "resolved_core_rng_invariant_sample_count": 165.0,
+      "geometry": {
+        "board_rect": [
+          14.0,
+          213.0,
+          404.0,
+          571.0
+        ],
+        "cells_rect": [
+          28.0,
+          283.642852783203,
+          376.0,
+          429.714324951172
+        ],
+        "content_scale_size": [
+          432.0,
+          960.0
+        ],
+        "native_screen": 0.0,
+        "native_window_size": [
+          432.0,
+          960.0
+        ],
+        "root_size": [
+          432.0,
+          960.0
+        ]
+      }
+    },
+    "tornado_v": {
+      "actual_targets": [
+        15.0,
+        16.0,
+        17.0,
+        22.0,
+        29.0,
+        31.0
+      ],
+      "actual_target_count": 6.0,
+      "fixture_pair": [
+        16.0,
+        23.0
+      ],
+      "effect_sampled_delta_seconds": 1.13333333333333,
+      "effect_frame_seconds_at_fixed_fps": 1.16666666666667,
+      "resolved_core_rng_invariant_sample_count": 165.0,
+      "geometry": {
+        "board_rect": [
+          14.0,
+          213.0,
+          404.0,
+          571.0
+        ],
+        "cells_rect": [
+          28.0,
+          283.642852783203,
+          376.0,
+          429.714324951172
+        ],
+        "content_scale_size": [
+          432.0,
+          960.0
+        ],
+        "native_screen": 0.0,
+        "native_window_size": [
+          432.0,
+          960.0
+        ],
+        "root_size": [
+          432.0,
+          960.0
+        ]
+      }
+    }
+  },
+  "volcano_prefix_identical": true,
+  "preserved_sources": {
+    "scripts/board_view.gd": {
+      "bytes": 33490,
+      "sha256": "c0f68b6a37805278db1684200e7d5c6bc3672bfdc04fb5d6b9b908d177a44781"
+    },
+    "scripts/match_core.gd": {
+      "bytes": 10023,
+      "sha256": "12f1d987e5a5ab194cfc1ea555a5905922290a23e67f370b9f3a4813d42166bb"
+    },
+    "scripts/main.gd": {
+      "bytes": 24717,
+      "sha256": "6f8bc515339735b907fb94e3c0b621def3f9e6e75591e849bde73b2be91e5737"
+    },
+    "scripts/progress.gd": {
+      "bytes": 4151,
+      "sha256": "2d7dce425fb70fe47d07bd14777a957ac2d7e08929a43ef56216b13fba22e501"
+    },
+    "scripts/rock_audio.gd": {
+      "bytes": 1784,
+      "sha256": "24fac13dc7093ac423121b6862b123ba32359c0b10d439d0e3f286c45093112d"
+    },
+    "scripts/lab/volcano_audio.gd": {
+      "bytes": 5591,
+      "sha256": "9f42169292b7d6c8ca7a3e7d79c553c8b29cb58c193005a2a01fb0a9787d0247"
+    },
+    "assets/sfx/volcano/gnomit_volcano_cartoon_eruption.mp3": {
+      "bytes": 16724,
+      "sha256": "165bba4707d48883e96d1c7626400e36a454e206469d58b3b21ec9c536fda27c"
+    },
+    "tests/capture_painted_volcano.gd": {
+      "bytes": 20850,
+      "sha256": "ad2755062dc4f25dd1fb3e9f6e19973fcfb0e69c6b75039e2e76a054b1d1b1e7"
+    }
+  },
+  "source_delta": {
+    "scripts/lab/natural_power_core.gd": {
+      "bytes": 7610,
+      "sha256": "417a45ebdf247a86a3381d8c5696959e39ff76a784620bd134bb8d52b16669fd"
+    },
+    "scripts/lab/natural_power_board.gd": {
+      "bytes": 10704,
+      "sha256": "3902ebf4f18a72e9f0e45648a9123b865a18b15159c5100adab700994edcc28c"
+    },
+    "scripts/lab/natural_power_lab.gd": {
+      "bytes": 11629,
+      "sha256": "8eaa3437a671151c41cea0d718d7e1f79179cfc915eca6ef370f4c9c351fc7b3"
+    },
+    "scripts/lab/magic_volcano_board.gd": {
+      "bytes": 22008,
+      "sha256": "027d632c11a0fbb2dd44f8ba5add7bc7dc300858963768d6366927d2ce066538"
+    },
+    "tests/test_natural_powers.gd": {
+      "bytes": 13078,
+      "sha256": "fab515818c813f08ce6a6cddddc28fba859696317846ed596b15e4d37b4f9095"
+    },
+    "README_MAGIC_ANIMATIONS.txt": {
+      "bytes": 4045,
+      "sha256": "bb396b5c8f6bdb8a990ab1d96c415d2e8154a93fc4de4cc48e877f4888a16c51"
+    },
+    "tests/test_tornado_top.gd": {
+      "bytes": 14452,
+      "sha256": "c6aa2f6e9daf6f90d1a0c3e09236e838c8e9feb4625c7c92108219c5ba9fa51b"
+    },
+    "tests/capture_tornado_top.gd": {
+      "bytes": 20915,
+      "sha256": "b9e2f594ed9611d0bebbd7197e4cf6c81e936e070487861359710715ac44aaa5"
+    }
+  },
+  "live_window": "Observed screen0/user monitor1, Tornado selected, after a move; user state left as observed",
+  "review": "Source-derived top-edge fill issue fixed with polygon intersection; focused re-review found no remaining actionable issue",
+  "sound": "No new Tornado audio in this pass; existing stone foley remains",
+  "human_and_android_acceptance": "PENDING"
+}

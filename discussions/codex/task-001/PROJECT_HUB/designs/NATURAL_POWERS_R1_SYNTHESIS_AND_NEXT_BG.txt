@@ -1,0 +1,33 @@
+GNOMIT — NATURAL POWERS: VERIFIED R1 AND NEXT STEP — 2026-10-17
+Status:DISCUSSION_ONLY / NO IMPLEMENTATION / NO CONSENSUS.
+Verified GPT report:ce128a07ebba286be362aadf5fa95380a2b51ac4,discussions/gpt/task-001/REPORT.txt. It contains independentR1 and a one-time WAITING_FOR_PEER_REVIEW check made before Grok published.
+Verified Grok report:9b2614af4c02da4b9181deb922a2211141faf4fe,discussions/grok/task-001/REPORT.txt. It contains independentR1 AND actual peer review of GPT atce128a07. Exact submitted report equals the current Grok report at this check. This is the new natural-power response,not old art/animation work.
+
+WHAT IS ALREADY DONE
+Both published their independent options for Volcano,Tornado,Black Hole. Grok has already answered GPT's questions. Do not send the fullR1 assignment to Grok again. No new sprite/animation/code task is next.
+
+SHARED PROPOSALS,NOT HUMAN APPROVAL
+Both propose4-in-line oriented tornado,5-in-L/T volcano,one-move intentional activation,unique marked magma hits,holes preserved,no free starting rewards,normal goals and deterministic results under skip/reducedmotion. Both dislike the demandingH->V->Volcano setup as the first teaching condition. Future meteor/lightning/tsunami stay deferred.
+
+THREE ACTUAL DIFFERENCES TO RESOLVE
+1. Trigger:GPT recommends level-authored3Gravity Marks plus an immovable Gravity Seal;Grok recommends a deliberate adjacent swap of an existing tornado and volcano. Different scope and player experience,not the same decision.
+2. Soil:GPT proposes one normal layer hit across the board;Grok leaves floor/runes unchanged. Current baseline floor isboolean:match_core.gd setup assigns1,_clear sets0,_goal_complete checksfloor.count(1)==0. A whole-board single-hit proposal can clear all covered floor targets. This must be acknowledged explicitly,not hidden under the phrase no automatic win.
+3. Other bonuses:GPT allows an explicit bounded chain of existing specials reached by tornado/volcano;Grok's first probe does not chain and uses only the deliberate special-to-special swap. Clarify ordinary matched minerals,adjacent runes and post-refill cascades separately.
+
+ONE SOURCE CORRECTION
+The old Codex core proposal already gave a single core a use:swap with an ordinary mineral clears that mineral type. See NATURAL_POWERS_PROPOSAL_2026-10-17.txt,lines17-18. Grok's claim that a lone core was necessarily a dead piece is not supported by that proposal. The user asked for a more special condition;unapproved is not the same as formally rejected. Neither reviewer should base its ranking on a missing single-core effect. This correction does not choose that old condition.
+
+NEXT — GPT ONLY:ONE TARGETED PEER RESPONSE
+Read Grok's full exact report:
+https://github.com/Fuet-Goat/GnomiT-review-test/blob/9b2614af4c02da4b9181deb922a2211141faf4fe/discussions/grok/task-001/REPORT.txt
+Then append one NATURAL_POWERS_R1_2026-10-17 — PEER_REVIEW_RESPONSE section to your own discussions/gpt/task-001/REPORT.txt oncodex/gpt/task-001,under existingREPORTS_ONLY grant. Keep your first independent proposal intact.
+Answer the3differences above and Grok's3questions. Say what you accept,change or retain and why. Distinguish the smallest initial prototype from a later special Gravity Chamber. Give ONE recommended trigger and a short English tooltip;no3new long proposals,no new full review,art,code,test,grant change ormerge.
+Discuss whether strict floor preservation also excludes indirect rune/floor damage caused by refill matches or only direct Black Hole hits;do not claim unchanged runes after the whole transaction without defining cascades. The same precision is needed for suppressing other special activation versus ordinary refill matches.
+After publication,return exactcommit/REPORT link. No invented consensus;the human chooses the final condition.
+
+GROK NOW
+R1 and peer review are received. Preserve the report and wait for GPT's targeted response. Do not repeatR1,publish empty status commits,restart art or implement. If directly asked afterward,make one short follow-up on the actual remaining disagreement.
+
+CODEX THEN
+Read actual GPT response fromGit,update the comparison and present the remaining human design decision. The current authority is discussion only;no game change is queued by this note.
+Recommended GPT-6.1 Sol / High for targeted design review;Grok Build if a later direct follow-up is needed. Medium for publishing only.

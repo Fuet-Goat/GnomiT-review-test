@@ -1,0 +1,91 @@
+АКТУАЛНО — ПО-ТЪМНИ ОБЛАЧЕТА И МАЛКА БУРЯ ПРЕДИ УДАРА
+По човешката задача Codex потъмни облаците почти до черно, добави надигане/завихряне и кратък вътрешен заряд. По-ясната светкавица, разпукването и новият гръм са настроени към пика на удара. Само външната рамка; Core, цели, save, Volcano/Tornado са запазени. 30 нови и24 audio проверки PASS; реален Godot запис с26цели и един V2cue, byte-identical event/result/final-state спрямо предишната проба. Новата проба е на екран1; Reset повтаря. Човешкият визуален/звуков преглед предстои. Виж builds/DARK_STORM_PASS_2026-10-17.txt и DARK_STORM_REVIEW_PATCH_2026-10-17.txt. Само собствени текстови Git отчети/patch, без merge/нови grants/автоматични чужди задачи.
+Препоръка: GPT-6.1 Sol / High.
+
+АКТУАЛНО — LIGHTNING STORM УДРЯ САМО ВЪНШНАТА РАМКА
+Човекът потвърди „Само външната рамка“. Codex добави отделна сила с тъмни облачета,маркирани крайни камъчета и по една светкавица на три групи;вътрешните ръбове на дупките са изключени. Новата проба е на екран1 с избрана LIGHTNING STORM. Има кратък мек гръм,Reset/Skip/reduced.94 Storm+24 audio проверки и старите Core/Tornado/Volcano регресии PASS;реален Godot запис с26цели и един soundcue. Виж builds/LIGHTNING_STORM_PASS_2026-10-17.txt и LIGHTNING_STORM_REVIEW_PATCH_2026-10-17.txt. Човешко приемане предстои. Само собствени текстови Git отчети/patch,без merge/нови grants/кампания/save или автоматични задачи за другите ботове.
+Препоръка:GPT-6.1 Sol / High.
+
+АКТУАЛНО — TORNADO ИМА СОБСТВЕН ВЯТЪР И МАГИЧЕСКИ ЗВУКОВ ФИНАЛ
+Човекът възложи звука. Codex свърза оригинален1.42s клип:набиращ вятър,завихряне,засмукване и мек тритонов финал. Пуска се веднъж;старият end-break е потиснат,каскадите пазят каменния звук. Reduced използва .22s тихо издишване;Reset/Skip спират всичко.55 фокусирани проверки и36 Volcano MP3 regression PASS;два реални Godot записа с един clipcue и byte-identical event/result/final-state спрямо предишната анимация. Виж builds/TORNADO_SOUND_PASS_2026-10-17.txt и TORNADO_SOUND_REVIEW_PATCH_2026-10-17.txt. Новата локална проба е на екран1. Човешко прослушване предстои. Старото „няма Tornado звук“ е история. Само собствени текстови Git отчети/patch,без merge/нови grants/задачи за другите ботове.
+Препоръка:GPT-6.1 Sol / High.
+
+АКТУАЛНО — TORNADO СЕ ВЪРТИ НА МЯСТО И ЗАСМУКВА СЪСЕДНИТЕ КАМЪНИ
+Човекът избра кръгов обхват:до8 съседни клетки(с диагоналите),без дупки/руни/други сили. Codex реализира локален вихър като пумпал,маркиране и спирално засмукване;едно движение,същите последващи каскади. Има един TORNADO бутон и пробата стартира с него. Двата реални Godot записа PASS,195 фокусирани проверки+33 corner draw+80 Core+36 Volcano MP3 PASS. Виж builds/TORNADO_TOP_PASS_2026-10-17.txt и TORNADO_TOP_REVIEW_PATCH_2026-10-17.txt. Volcano MP3 и Black Hole са запазени. Пробата е отворена на екран1;човешко приемане предстои. Git тук съдържа само собствени текстови отчети/patch по REPORTS_ONLY,без merge/нови grants/задачи за другите ботове. Предишните ред/колона описания са история.
+Препоръка:GPT-6.1 Sol / High.
+
+АКТУАЛНО — ДОСТАВЕНИЯТ MP3 ВЕЧЕ Е ПРИЛОЖЕН В GODOT
+След въпроса на човека Codex свърза точния MP3 от Grok b5e7844 към локалния Painted Volcano. Пуска се веднъж, без наслагване на предишните три WAV. Изстрелването е на0.36s, попаденията и Core са запазени; Reset/Skip спират звука. Нов MP3 тест и9 integration cases PASS; реален запис има точно един clip cue. Виж builds/VOLCANO_DELIVERED_CLIP_APPLIED_2026-10-17.txt и VOLCANO_DELIVERED_CLIP_PATCH_2026-10-17.txt. Пробата е презаредена на екран1. Старите отчети за трите WAV са история. Човешко прослушване предстои. Без merge/нови grants/задачи за другите ботове; Git тук съдържа само собствени текстови отчети.
+Препоръка:GPT-6.1 Sol / High.
+
+АКТУАЛНО — VOLCANO ИМА СИНХРОНИЗИРАН ЗВУК
+Codex добави локално изригване, полет и каменно разпукване с догаряне към реалните цели. Painted ON използва новия звук; OFF пази старата проба. Reset/Skip го спират, Reduced motion има един кратък тих ефект. 94 аудио проверки и 9 интеграционни случая PASS; реални Godot записи с 1 изригване + 5 полета + 5 попадения, еднакви Core/event/result/end-state. Звуковият PCM от записа е проверен, човешкото прослушване предстои. Виж builds/VOLCANO_AUDIO_PASS_2026-10-17.txt и VOLCANO_AUDIO_REVIEW_PATCH_2026-10-17.txt. Кодът/WAV са в локалната проба и handoff ZIP; governed Git съдържа само собствени текстови отчети. Няма merge или нова задача за GPT/Grok.
+Препоръка: GPT-6.1 Sol / High за интеграцията; Medium за текстов отчет.
+
+АКТУАЛНО — VOLCANO ВЕЧЕ ИМА ПЛАМЪЦИ И ОБГАРЯНЕ НА КЛЕТКИТЕ
+По пряка човешка задача Codex доработи текущата локална проба:горящи лавови камъни,огнени следи,пламване/искри и временно обгаряне с формата на ударената клетка. Иконката,целите,Core,щетите и1.04s са запазени. Реални Godot записи и9integrationcases PASS;control/candidate имат идентични event/result/end-state. Виж builds/VOLCANO_FIRE_PASS_2026-10-17.txt и VOLCANO_FIRE_REVIEW_PATCH_2026-10-17.txt. Пробата е отворена на екран1;Painted ON,Reset за повторение. СамоVolcano е доработен. Няма човешко/Android приемане,нови grants,merge или nativePNG/code публикация в governedGit. Старите материали са запазени. Не повтаряйте R1 или автоматично чужда арт задача.
+Препоръка:GPT-6.1 Sol / High за VFX;Medium за текстов отчет.
+
+АКТУАЛНО — CODEX НАПРАВИ ПЪРВАТА РИСУВАНА VOLCANO АНИМАЦИЯ
+Човекът изрично възложи изпълнение: „vuprosut e koi shte pravi animaciite ti ?,davai togava“. Отделна локална MagicAnimations проба е пусната на екран1. Харесаните иконки и времена са запазени;нови рисувани камъче/пепел/прах са свързани към същия Core event. Painted превключва control/candidate;два реални Godot записа имат еднакви event/result/end-state. Виж builds/PAINTED_VOLCANO_PASS_2026-10-17.txt и PAINTED_VOLCANO_REVIEW_PATCH_2026-10-17.txt. Само Volcano е подобрен;другите сили са baseline. Няма човешко/Android приемане. Git съдържа текстов отчет/patch proposal,не native game/PNG публикация и не разширени grants. Не повтаряйте R1 и не започвайте автоматично чужди арт задачи;следва обратна връзка от играта.
+Препоръка: GPT-6.1 Sol / High за анимацията;Medium за текстова публикация.
+
+МАГИЧЕСКИ АНИМАЦИИ — R1 И PEER ОТГОВОРИТЕ СА ПОЛУЧЕНИ
+Проверени GPT2bbc546/4f5b5f6 и Grokb25cb4a. Прочети designs/MAGIC_ANIMATION_SYNTHESIS_AND_FIRST_PASS_BG.txt. Общата препоръка за първи pass е Codex интеграция, Grok четири малки текстури, GPT материален/визуален преглед; текущите иконки и времена остават. Няма анимационен победител и няма нови произведени assets. Не повтаряйте R1 или peer response, не започвайте автоматично стара art задача. Следва конкретната обща Volcano проба с контрол и нов кандидат при отделно разрешен production scope. REPORTS_ONLY grants и играта остават непроменени. Предишните WAITING записи по-долу са история.
+Препоръка: GPT-6.1 Sol / High за Codex интеграцията; Grok Build за бъдещата texture доставка.
+
+АКТУАЛНО: МАГИЧЕСКИ АНИМАЦИИ — MAGIC_ANIMATION_R1_2026-10-17
+Човекът хареса текущата иконка и поиска един Git разговор кой и как ще направи най-добрата пълна магическа анимация. Прочети designs/MAGIC_ANIMATION_TEAM_BRIEF_BG.txt. Един общ startup промпт: designs/START_MAGIC_ANIMATION_DISCUSSION_BG.txt. Codex има свое предложение. GPT/Grok дават свои storyboard, capability, delivery и lead предложения в собствените task-001 REPORT-и, без да се изчакват преди R1. Пазим иконките и обсъдените механики. Няма предварителен победител; качеството ще се сравнява с работещи проби. Засега REPORTS_ONLY, без генерации, реализация, grants или merge. Старото изчакване само на човека по-долу вече не описва този нов разговор.
+Препоръка за Codex: GPT-6.1 Sol / High; Grok Build.
+
+ИГРАЕМАТА ПРОБА С ПРИРОДНИ СИЛИ Е ГОТОВА ЛОКАЛНО — 2026-10-17
+Човекът изрично възложи реализация: „щом сте го измислили задействай се“. Codex направи отделен Natural Powers Lab,432x960,екран1:вулкан,TornadoH/V,контактен Black Hole,reset/skip/reduced motion. Предпоставените сили са тестови fixtures;кампанията/save не са променени. Реален Godot scripted-native-input PASS;не е човешки/Android тест. Виж builds/NATURAL_POWERS_LAB_2026-10-17.txt и literal source-delta proposal NATURAL_POWERS_LAB_REVIEW_PATCH_2026-10-17.txt.
+Играемият проект е локален. Git съдържа собствени текстови доклади/patch proposal по REPORTS_ONLY;това не разширява grants. Не повтаряйте стария R1 и не започвайте нов art/implementation task автоматично. Изчакваме човека да пробва. Старите „не е възложено“/WAITING записи по-долу са история. Няма merge.
+Препоръка:GPT-6.1 Sol / High за механики/ефекти,Medium за текстова публикация.
+
+ОБСЪЖДАНЕТО ЗА ПЪРВАТА ПРОБА С ПРИРОДНИ СИЛИ Е ПРИКЛЮЧЕНО — 2026-10-17
+Проверени GPT f7a051c и Grok 5540979. Има обща препоръка за ограничената проба: съседна размяна Tornado+Volcano, без пряк Black Hole удар по почва/руни; нормалните refill каскади могат да ги засегнат. Без вериги от specials в първата проба. Codex подкрепя тази препоръка.
+Прочети designs/NATURAL_POWERS_FIRST_PROBE_AGREEMENT_BG.txt. Няма нужда от повторение на R1 или нов peer response. Предишните WAITING/следващи задачи по-долу са история. Няма човешко одобрение на баланс/кампания, реализация, нови assets, grant промени или merge. Следва човешко решение по конкретната проба, не автоматично изпълнение.
+GPT-6.1 Sol / High за бъдещата bounded проба; Medium за публикация.
+
+LATEST NATURAL-POWER PEER STEP — 2026-10-17
+GPTpeerresponse isNOWpublished:f7a051ca9933bf9f803e3815af5744fcae1f4209. Grok should no longer wait onoldce128a0. Read designs/GROK_REVIEW_GPT_RESPONSE_BG.txt;append one short ownresponse on directBlackHole no-damage versus legitimateordinaryrefill cascades,thenreturncommit. No repeatR1,code/art/tests/grantchanges/merge. Codex will summarize actualagreementafterthat. GrokBuild;CodexGPT-6.1Sol/High.
+
+CURRENT NATURAL-POWER DISCUSSION NEXT STEP — 2026-10-17
+BothR1reports received;Grok also completed peer review. NEXT:GPT answers Grok's actual objections in one targeted ownREPORT section. Grok waits;do not repeatR1 or restartart. Read designs/NATURAL_POWERS_R1_SYNTHESIS_AND_NEXT_BG.txt for exactcommits,3unresolved differences and next instruction. Stilldiscussiononly,no implementation/merge/grant changes. GPT-6.1 Sol / High.
+
+АКТУАЛНО ОБСЪЖДАНЕ — ПРИРОДНИ СИЛИ — 2026-10-17
+Човекът поиска GPT,Grok иCodex да обсъдят презGit новите природни бонуси,особено вулкана и специалното условие за черната дупка. Това е REPORTS_ONLY обсъждане в task-001,НЕ подновяване на art task-002 и НЕ реализация.
+Прочети designs/NATURAL_POWERS_TEAM_REVIEW_R1_BG.txt от този hub. GPT/Grok публикуват собствен независимR1раздел в discussions/<BOT>/task-001/REPORT.txt наcodex/<BOT>/task-001,после един peer-review ако има реален отговор. Старото предложение с две ядра не е одобрено. Има начална Codex позиция и три класа варианти за сравнение. Отговорите са вGit,не през препращане на файлове от човека.
+Текущата локална игра/арт остават;няма нови grants,сцени,генерации илиmerge. Приоритетът тук е да изберем правила/анимационна идея,не да обявим фалшив консенсус. Препоръка GPT-6.1 Sol / High;Grok Build.
+
+LATEST LOCAL FEEL TUNING — 2026-10-17
+Human asked slightly faster/smoother block movement. Swap now170ms,drag-release ease-out,paired cancellation100ms;reciprocal one-cell behavior preserved. Focused39+board42+level72freshPASS. Human can try PLAY_STONES on monitor1. Record:builds/QUICKER_SWAP_2026-10-17.txt. Local implementation only;art frozen,no grant/merge changes. Recommended GPT-6.1 Sol / Medium for timing-only work.
+
+CURRENT USER FEEDBACK APPLIED — RECIPROCAL SMOOTH SWAP — 2026-10-17
+Local Frankenstein now moves BOTH stones reciprocally during the one-cell drag and continues both positions/scales into a smooth settling tween. Partial cancellation returns both; initial axis stays fixed through the gesture. Core unchanged. Focused39+board42+firstscene72 pass;rendered native-input scenario PASS with8screenshots. Human can try PLAY_STONES on monitor1. No human/phone acceptance yet.
+Record:builds/PAIRED_SWAP_UPDATE_2026-10-17.txt and own literal patch PAIRED_SWAP_REVIEW_PATCH_2026-10-17.txt. Native implementation remains local. Art frozen,no grant change/merge. Recommended GPT-6.1 Sol / High;Medium for publishing only.
+
+CURRENT HUMAN FEEDBACK APPLIED — ONE-CELL STONE DRAG — 2026-10-17
+The local Frankenstein now constrains a held stone to one orthogonal cell. Long drags can only request its immediate neighbor. Invalid attempts return; Core rules unchanged. Focused29+board42+first-scene72checks pass; rendered native input PASS. Human can try the reopened PLAY_STONES level on monitor1. No human/Android acceptance claimed.
+Record:builds/ONE_CELL_DRAG_UPDATE_2026-10-17.txt; literal own text patch:builds/ONE_CELL_DRAG_REVIEW_PATCH_2026-10-17.txt. Native game-source integration remains local only. Art frozen, no new grants or merge.
+Recommended GPT-6.1 Sol / High for interaction, Medium for publication only.
+
+CURRENT LOCAL UPDATE — STONE DRAG/DROP — 2026-10-17
+Human clarified the target is the stones inside levels. The same local Frankenstein now opens level1 with held stones following the mouse/touch, adjacent release swap and invalid return. Focused18 + board42 + level72checks pass; rendered native-mouse scenario PASS. No human/phone acceptance yet. Source art remains frozen.
+Current record: builds/STONE_DRAG_UPDATE_2026-10-17.txt; own literal text review patch: builds/STONE_DRAG_REVIEW_PATCH_2026-10-17.txt. Human can run PLAY_STONES.cmd. Await actual user feel/feedback. No new art task or game Git grant/merge is issued by this queue.
+
+GNOMIT — TASK QUEUE
+CURRENT HUMAN ACTION: TRY THE ASSEMBLED FRANKENSTEIN — 2026-10-17
+
+Codex assembled the pinned current public baseline + GPT master + Grok R1 into a separate LOCAL PC playtest at the human's explicit request. It is running on monitor1,432x960. Existing match-3/route rules are retained; own fixture profile makes the first bend immediately reachable. Render contract PASS; rendered scripted route/real match-3 victory scenario PASS; actual mouse road click observed. No human acceptance yet.
+Exact inputs, verification, limitations and a literal text patch proposal:
+builds/LOCAL_FRANKENSTEIN_PLAYTEST_2026-10-17.txt
+The runnable implementation is local, not a pushed game branch. Existing grants/main/private repository remain unchanged; the text record is not a new implementation grant.
+
+GPT/GROK — HOLD ART CHANGES FOR HUMAN FEEDBACK
+Current master and R1 sheet remain frozen for this trial. Do not start another character/pose generation or repeat the old export-closure task before actual playtest feedback. Current local renderer handles idle/walk visual registration once, with a shared ground-shadow convention. External metadata is still historically stale at the recorded coordinates; it was not silently declared corrected.
+Known roughness: low rear passing, leg edits and a horizontal mirror fallback. Human feedback on the actual feel determines the next bounded change. Each bot may record new observations in its own report only within its current grant.
+
+Future Git game-source integration remains a separately registered/authorized task; no merge from this queue. Android/phone work remains later.
+Recommended Codex visual/interaction work GPT-6.1 Sol / High; simple Git/hash publication Medium. Grok model/mode is recorded by Grok if a new task is issued.

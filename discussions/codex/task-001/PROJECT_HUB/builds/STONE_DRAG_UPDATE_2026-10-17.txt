@@ -1,0 +1,37 @@
+GNOMIT — STONE DRAG AND DROP LOCAL UPDATE — 2026-10-17
+Direct human request: "iskame da ima drag and drop da go hvana i drupna"; clarification:"Камъните в самото ниво".
+Scope: existing authorized local Frankenstein copy only, board input/presentation. No new map navigation/character art, Core rules, rewards, audio, protected game snapshot or grants were changed. Git delivery here is own text review/patch proposal, not native game-source integration into a registered task.
+
+LOCAL TRYOUT
+C:/Users/fruch/Documents/Codex/GnomiT_Playtests/Frankenstein_2026-10-17
+PLAY_STONES.cmd opens the actual existing level1 directly on screen1/Godot0,432x960. PLAY_GNOMIT.cmd still opens the map. Same isolated test save profile. No personal/original project save.
+
+BEHAVIOR
+Press and hold a treasure; movement lifts it above the other gems and follows the pointer displacement, preserving grab offset. On release over an orthogonal occupied neighbor, one swap is requested from existing Core. The swap animation consumes the live held position instead of snapping to origin first.
+Drops onto holes, diagonals, non-neighbors or outside the board return the piece over0.12s and do not request a swap. A neighboring nonmatching drop uses the existing invalid-swap/revert stream, spending no move. Reduced motion returns directly.
+Tap-then-tap remains compatible. One native pointer owns the grab; extra fingers and emulated duplicate mouse events cannot steal/drop it. Drag out and back does not become a click. Focus loss, resize, setup/new level and pause/settings cancel the grab and release the visual; pause hooks live in main.gd. Existing cascades, goals and sounds stay with Core/presentation as before.
+The level's English helper now says Drag a treasure to swap.
+
+FRESH VERIFICATION
+Focused test_stone_drag:18checks,0failures. Before implementation it failed5behavior assertions (lift, swap start handoff, drag classification, focus cancel, owning touch). This is scripted native input/state verification, not a phone test.
+Existing test_board:42checks,0failures; existing test_first_scene after final helper text change:72checks,0failures.
+Rendered capture_stone_drag:PASS,failures[]. Native mouse events show a held/lifted stone with moves26 and unchanged Core; pause cancellation; outside drop return; nonmatching adjacent drop returns with26moves; following valid drop finishes with25moves and Core-equal board. Four actual screenshots in verification/stone_drag_runtime. Final capture log has no Godot warning/error. An initial short-exit capture had transient ObjectDB/resource warnings; verbose rerun did not reproduce, and the final harness waits for pending visual callbacks before teardown. This is not a claimed production memory-leak fix.
+The expanded capture initially queued its invalid input and checked busy before native events were dispatched; the subsequent valid attempt was then sent during animation. Adding the missing frame-settle in the HARNESS before waiting for completion fixed that verification race; no game logic was changed to hide it.
+Windows Computer Use additionally observed the reopened real level and dragged the first-row diamond into the adjacent empty gap; the board returned with26moves. The updated level is left open for the human to try. This is agent-driven desktop interaction, not human or Android acceptance.
+All three source character/sheet/shadow PNG hashes from INPUTS.json remain identical. No new art or audio generated.
+
+FILES
+scripts/board_view.gd; scripts/main.gd pause hooks; scripts/first_crystals_view.gd helper; new focused/runtime checks, tools/play_stones.gd and PLAY_STONES.cmd. Literal patch proposal against the preceding local assembly is in STONE_DRAG_REVIEW_PATCH_2026-10-17.txt. Predecessor assembly is recorded at b2605eb09b02104cf742b421fc445a0cd41a3e3e.
+
+CURRENT FEEDBACK
+Human should test hold -> move -> release, invalid return and feel. GPT/Grok keep their art frozen; no new generation task or automatic bot messaging. Local implementation is not a published game-source PR, and this text record does not expand grants or permit merge.
+Recommended Codex model/effort: GPT-6.1 Sol / High for interaction work and review; Medium for file/hash publication only. Actual model setting not attested.
+
+LOCAL FINAL SOURCE HASHES
+scripts/board_view.gd | 30670bytes | SHA-256 23d9f95fa7609073fb58a2d1dcd2de0f959066bca2dadc220e7b5d91b3dacd35
+scripts/main.gd | 24717bytes | SHA-256 6f8bc515339735b907fb94e3c0b621def3f9e6e75591e849bde73b2be91e5737
+scripts/first_crystals_view.gd | 11003bytes | SHA-256 a2366cd2e2f48be93935648a5e8ad9521e51dc7f7fbb804e2e4372298933fda6
+tests/test_stone_drag.gd | 4344bytes | SHA-256 3b106d50cba828fa62e244a175fb46a05d2cf28845f80ddca823825b728f0ee0
+tests/capture_stone_drag.gd | 5045bytes | SHA-256 fbbd7689d34885b93b5751e38d72e505da064fb4525f2ab07d6623a8ee453522
+tools/play_stones.gd | 292bytes | SHA-256 ef7ed11c567bbcff04dfa4d39c1d5ab06c250135dd21b8bc3a8f375dd95bf81b
+PLAY_STONES.cmd | 200bytes | SHA-256 98f0199dae4f3996cb13ae72dc67c623fe9ee21943e12aefa251136f99df5294

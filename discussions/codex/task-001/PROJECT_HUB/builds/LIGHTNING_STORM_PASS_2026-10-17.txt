@@ -1,0 +1,323 @@
+GNOMIT — LIGHTNING STORM / OUTER FRAME — 2026-10-17
+Status:LOCAL_IMPLEMENTED / NATIVE_CAPTURE_PASS / HUMAN_REVIEW_PENDING
+
+The human requested dark clouds above edge tiles, followed by lightning, and
+explicitly confirmed ONLY the outside frame, excluding internal hole edges.
+New special kind9 / lightning_storm fixture added to the isolated local lab,
+same adjacent-drag activation for one move. Targets are ordinary minerals on
+first/last row or column; corners counted once. Fixed holes/runes/other specials
+are excluded. Source special is consumed at its swapped destination. Existing
+ordinary-target soil damage loses one layer; direct runes stay unchanged. Normal
+post-effect refill/cascades retain their usual rules and can affect other cells.
+No chains, no Storm combinations; existing Tornado+Volcano Black Hole remains.
+
+VISUAL / SOUND
+Each authoritative edge target is marked first, then gains a bounded dark slate
+cloud above it. One warm cyan/gold zigzag bolt strikes each target in three groups
+at normalized .28/.40/.52, with a .24 strike/break window. Mineral shrinks/breaks
+into chips. No full-screen flash, camera shake or repeated flicker. Top-row clouds
+stay in their cell's upper region, within the board. Cloud-and-bolt power icon is
+new; other icons and full old renderer bytes remain unchanged as a source prefix.
+Normal animation1.40s; reduced.13s marks targets without moving clouds/bolts.
+Original locally synthesized1.60s cartoon thunder recording has three accents
+at .392/.56/.728s matching the grouped strikes. It plays once at original pitch,
+not once per tile. Reduced uses a quieter .18s cue. End break is filtered only
+for the live Storm; ordinary cascades keep stone foley. Normal tail may finish;
+Skip/Reset/exit cancel. Volcano MP3 and radial Tornado audio are unchanged.
+
+VERIFICATION ACTUALLY RUN
+Storm focused94 checks PASS:literal26frame targets,20with excluded edge objects,
+23on irregular mask,unique corners,no internal-hole edge targets,soil/rune rules,
+one move,no chains/rejected new combos,deterministic Core/RNG; real draw helpers,
+bounded cloud/bolt endpoints,normal/reduced/skip/reset cleanup and full Core/result
+immutability. Separate Storm audio24 PASS includes actual lab cancellation and
+one-clip playback. Regression:Core80,Tornado renderer195,Tornado sound55,Volcano
+MP3 sound36,all PASS. Tests use the existing local test fixture, not campaign.
+Actual Godot native input capture432x960,screen0,210processframes,30fps AVI PASS,
+zero engine errors/warnings. It targets exactly26frame minerals;27removed includes
+the source. All sampled Core/RNG/results remain frozen. Runtime PCM from actual
+movie is nonzero without clipping; no arranged replacement soundtrack. AVI index
+size warning is the already documented complete-final-idx1 convention; extractor
+validates media bounds. GIF preview derives from real Godot frames and is silent.
+Parent saw actual bolt screenshot and freshly launched ready live window. A final
+helper-copy cleanup after capture only generalizes Painted-toggle wording; it
+does not change captured targets,timing or the default view. No human visual/
+listening,Android or performance acceptance claimed. Parent source review only;
+no independent third-bot approval is claimed.
+
+DELIVERY / SCOPE
+Lightning Storm is selected by default; use existing PLAY_MAGIC_ANIMATIONS.cmd
+on user monitor1,drag marked cloud to adjacent glow,Reset to replay. New evidence
+outputs/lightning_storm preserves all older sound/animation captures. Exact before
+files in verification/before_lightning_storm_2026-10-17. One handoff ZIP includes
+source delta,actual new WAVs,Godot movie/GIF/keyframes/checks and SHA256 manifest.
+Governed Git remains own REPORTS_ONLY text receipt/literal patch proposal;native
+game/audio files are local/package assets. No grants/main/private game changes,
+merge,automatic external bot assignment,campaign reward/unlock or save change.
+
+Recommended model/effort:GPT-6.1 Sol / High for mechanics/animation integration.
+
+EXACT MEASUREMENTS
+{
+  "status": "LOCAL_IMPLEMENTED / NATIVE_CAPTURE_PASS / HUMAN_REVIEW_PENDING",
+  "predecessor_commit": "38ad3f0f3226c5edf0ea1325e1adf4443fae5c6f",
+  "target_definition": "Only first/last row or column, ordinary minerals; no internal gap edges",
+  "actual_targets": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    13,
+    14,
+    20,
+    21,
+    27,
+    28,
+    34,
+    35,
+    41,
+    42,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55
+  ],
+  "one_move_removed_count": 27,
+  "checks": {
+    "storm_core_render": 94,
+    "storm_audio": 24,
+    "core_regression": 80,
+    "tornado_render_regression": 195,
+    "tornado_audio_regression": 55,
+    "volcano_mp3_regression": 36
+  },
+  "capture_effect_seconds": 1.43333333333333,
+  "normal_duration": 1.4,
+  "reduced_duration": 0.13,
+  "sound": {
+    "method": "original deterministic local NumPy synthesis; no remote provider or downloaded sample",
+    "seed": 171020262,
+    "visual_duration_seconds": 1.4,
+    "strike_group_seconds": [
+      0.392,
+      0.56,
+      0.728
+    ],
+    "human_listening": "PENDING",
+    "files": [
+      {
+        "path": "assets/sfx/lightning/storm_cartoon_v1.wav",
+        "bytes": 282284,
+        "sha256": "6d231b86864c703e417282b9379698adc3577ef47eb1a4903f36577b9fd2a8c7",
+        "seconds": 1.6,
+        "channels": 2,
+        "sample_rate": 44100,
+        "peak_dbfs": -3.6094747261075217,
+        "last_10ms_rms": 5.986482144033081e-05
+      },
+      {
+        "path": "assets/sfx/lightning/storm_short_v1.wav",
+        "bytes": 15920,
+        "sha256": "4ef3ab02c180016bc205f659b4155c62c052a8e4df317f84c8a39e39689badd5",
+        "seconds": 0.18,
+        "channels": 1,
+        "sample_rate": 44100,
+        "peak_dbfs": -10.457928342551646,
+        "last_10ms_rms": 0.0002361423366010919
+      }
+    ]
+  },
+  "actual_sound_cues": [
+    {
+      "kind": "normal",
+      "length": 1.6,
+      "pitch_scale": 1.0,
+      "source": "res://assets/sfx/lightning/storm_cartoon_v1.wav",
+      "volume_db": -7.0
+    }
+  ],
+  "runtime_pcm": {
+    "source_avi": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\MagicAnimations_2026-10-17\\outputs\\lightning_storm\\lightning_storm.avi",
+    "output_wav": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\MagicAnimations_2026-10-17\\outputs\\lightning_storm\\lightning_runtime_preview.wav",
+    "source_bytes": 22984966,
+    "riff_segments": [
+      "AVI"
+    ],
+    "container_warnings": [
+      "Outer RIFF size ends 70 bytes before EOF inside a complete final idx1; index ignored, media boundaries validated"
+    ],
+    "audio_streams": [
+      {
+        "index": 1,
+        "scale": 4,
+        "rate": 192000,
+        "start": 0,
+        "length": 337600,
+        "sample_size": 4,
+        "format_tag": 1,
+        "channels": 2,
+        "sample_rate": 48000,
+        "byte_rate": 192000,
+        "block_align": 4,
+        "bits_per_sample": 16
+      }
+    ],
+    "selected_stream": 1,
+    "source_format": {
+      "channels": 2,
+      "sample_rate": 48000,
+      "sample_width": 2,
+      "bits_per_sample": 16,
+      "valid_bits_per_sample": 16,
+      "block_align": 4,
+      "channel_mask": null
+    },
+    "wav_encoding": "integer PCM; original sample bytes; conventional PCM header",
+    "audio_chunk_count": 211,
+    "pcm_bytes": 1350400,
+    "sample_frames": 337600,
+    "duration_seconds": 7.033333333333333,
+    "pcm_sha256": "e94726143bbd81584fec85dd9e9964bec2dc5b3e319394575d0a87dd3b372190",
+    "wav_sha256": "d01ad1d64aba40dec2568d0e6b8fbb18425b361a2f9cb6c12f5259b6d15ec323",
+    "wav_bytes": 1350444,
+    "statistics": {
+      "sample_count": 675200,
+      "nonzero_samples": 357351,
+      "clipped_samples": 0,
+      "peak_integer": 7659,
+      "peak_normalized": 0.233734130859375,
+      "rms_normalized": 0.02362159642290244,
+      "rms_dbfs": -32.53381509445984,
+      "mean_normalized": -1.6386610636778916e-05,
+      "per_channel": [
+        {
+          "sample_count": 337600,
+          "nonzero_samples": 178669,
+          "clipped_samples": 0,
+          "peak_integer": 7659,
+          "peak_normalized": 0.233734130859375,
+          "rms_normalized": 0.023686303217656527,
+          "rms_dbfs": -32.510054308932375,
+          "mean_normalized": -1.675248711030065e-05
+        },
+        {
+          "sample_count": 337600,
+          "nonzero_samples": 178682,
+          "clipped_samples": 0,
+          "peak_integer": 6863,
+          "peak_normalized": 0.209442138671875,
+          "rms_normalized": 0.023556711888847913,
+          "rms_dbfs": -32.55770659364718,
+          "mean_normalized": -1.602073416325718e-05
+        }
+      ]
+    }
+  },
+  "preserved_sources": {
+    "scripts/board_view.gd": {
+      "bytes": 33490,
+      "sha256": "c0f68b6a37805278db1684200e7d5c6bc3672bfdc04fb5d6b9b908d177a44781"
+    },
+    "scripts/match_core.gd": {
+      "bytes": 10023,
+      "sha256": "12f1d987e5a5ab194cfc1ea555a5905922290a23e67f370b9f3a4813d42166bb"
+    },
+    "scripts/main.gd": {
+      "bytes": 24717,
+      "sha256": "6f8bc515339735b907fb94e3c0b621def3f9e6e75591e849bde73b2be91e5737"
+    },
+    "scripts/progress.gd": {
+      "bytes": 4151,
+      "sha256": "2d7dce425fb70fe47d07bd14777a957ac2d7e08929a43ef56216b13fba22e501"
+    },
+    "scripts/rock_audio.gd": {
+      "bytes": 1784,
+      "sha256": "24fac13dc7093ac423121b6862b123ba32359c0b10d439d0e3f286c45093112d"
+    },
+    "scripts/lab/volcano_audio.gd": {
+      "bytes": 5591,
+      "sha256": "9f42169292b7d6c8ca7a3e7d79c553c8b29cb58c193005a2a01fb0a9787d0247"
+    },
+    "assets/sfx/volcano/gnomit_volcano_cartoon_eruption.mp3": {
+      "bytes": 16724,
+      "sha256": "165bba4707d48883e96d1c7626400e36a454e206469d58b3b21ec9c536fda27c"
+    },
+    "tests/capture_painted_volcano.gd": {
+      "bytes": 20850,
+      "sha256": "ad2755062dc4f25dd1fb3e9f6e19973fcfb0e69c6b75039e2e76a054b1d1b1e7"
+    },
+    "scripts/lab/tornado_audio.gd": {
+      "bytes": 2866,
+      "sha256": "f762aaf1e89d6148907b30cf50a71bdec5decd9e8baee5511dae9fc4e00eeaad"
+    },
+    "assets/sfx/tornado/tornado_cartoon_magic_v1.wav": {
+      "bytes": 250532,
+      "sha256": "c599537fb85b98f7bb11432eda5b4657915150b327f70b19dd2233fc9711fa53"
+    },
+    "assets/sfx/tornado/tornado_soft_short_v1.wav": {
+      "bytes": 19448,
+      "sha256": "55a20721ee57df1b8a39b93995281792c812bba5e1587b55272188f2b112e193"
+    }
+  },
+  "previous_renderer_exact_prefix": true,
+  "source_delta": {
+    "scripts/lab/natural_power_core.gd": {
+      "bytes": 8076,
+      "sha256": "906bc33b4614b1f63308357856a5925f153ebb4893105c4a418faef6fa519b78"
+    },
+    "scripts/lab/natural_power_board.gd": {
+      "bytes": 11120,
+      "sha256": "12a1d6dbeb7ca1329fbde714a1803669be98e438e5a24cdee57f008331335555"
+    },
+    "scripts/lab/natural_power_lab.gd": {
+      "bytes": 13797,
+      "sha256": "ee3cce787ab77462483ed26e734e4bd6afd83e3172e2935aca4b760642ebe952"
+    },
+    "scripts/lab/magic_volcano_board.gd": {
+      "bytes": 30124,
+      "sha256": "7d9b42b0753941e78668026fa4808045e12407ed922d07b2e875537eaeb22240"
+    },
+    "README_MAGIC_ANIMATIONS.txt": {
+      "bytes": 6322,
+      "sha256": "c93fcf07c9bb0af5be782ed7f1ae7806fa91b34ae3eee839f9c36b0403dce318"
+    },
+    "scripts/lab/lightning_audio.gd": {
+      "bytes": 1694,
+      "sha256": "689b8821e1125c71ec47f129f819c02947796c2c4432a6480f3fbd407a8ac436"
+    },
+    "tests/test_lightning_storm.gd": {
+      "bytes": 12118,
+      "sha256": "94018c3677e4dc4c1c17a898676975612702fd15e79452063950bf03b7826678"
+    },
+    "tests/test_lightning_audio.gd": {
+      "bytes": 6549,
+      "sha256": "3f012f766d26cbee512b8f9b0254272d2f96ca54622f3aec41bb315363c99241"
+    },
+    "tests/capture_lightning_storm.gd": {
+      "bytes": 20862,
+      "sha256": "dec6318d06b23e3cf8b95bce893deb3de5475dc85559ec956902d2d3bf779de8"
+    },
+    "tools/build_lightning_audio.py": {
+      "bytes": 2701,
+      "sha256": "c9873d238e7eb1fc7bcd454169015cd90e791e897e20fcc666223def0befc7df"
+    },
+    "assets/sfx/lightning/storm_cartoon_v1.wav": {
+      "bytes": 282284,
+      "sha256": "6d231b86864c703e417282b9379698adc3577ef47eb1a4903f36577b9fd2a8c7"
+    },
+    "assets/sfx/lightning/storm_short_v1.wav": {
+      "bytes": 15920,
+      "sha256": "4ef3ab02c180016bc205f659b4155c62c052a8e4df317f84c8a39e39689badd5"
+    }
+  },
+  "live_window": "Unique freshly launched Lightning Storm lab observed ready on user monitor1/screen0 at432x960",
+  "human_android_acceptance": "PENDING"
+}

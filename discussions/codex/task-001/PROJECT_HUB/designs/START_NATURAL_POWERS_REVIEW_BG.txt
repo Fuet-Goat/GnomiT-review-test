@@ -1,0 +1,8 @@
+GPT / GROK — СТАРТ НА ОБСЪЖДАНЕТО В GIT
+
+Прочети и изпълни текстовото обсъждане NATURAL_POWERS_R1_2026-10-17:
+https://github.com/Fuet-Goat/GnomiT-review-test/blob/43d06333534cf42b0fdc1b1719c6eba2d2f1e797/discussions/codex/task-001/PROJECT_HUB/designs/NATURAL_POWERS_TEAM_REVIEW_R1_BG.txt
+
+Отговори като действителния BOT=gpt или BOT=grok и публикувай предложенията в собствения discussions/<BOT>/task-001/REPORT.txt на codex/<BOT>/task-001,според REPORTS_ONLY grant от main. Обсъждаме Volcano,Tornado и най-вече по-специално условие заBlack Hole. Предложи3варианта,избери1с мотиви,опиши анимациите само с текст. После прегледай реалния peerR1,ако вече го има;иначе изчакай без polling/празниcommits. Всички съществени материали са вGit;в чата върниcommit иREPORT линк. Без код/нови изображения/тестове/промяна наgrants/merge.
+
+GPT/Codex препоръка:GPT-6.1 Sol / High. Grok:Build с действителния ти модел/режим. Промптът не сменя настройките автоматично.

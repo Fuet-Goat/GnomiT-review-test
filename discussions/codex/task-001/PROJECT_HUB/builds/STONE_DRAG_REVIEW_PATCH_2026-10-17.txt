@@ -1,0 +1,787 @@
+GNOMIT STONE DRAG — TEXT REVIEW PATCH PROPOSAL
+Not auto-applied and not an implementation grant. Predecessor local assembly:PROJECT_HUB/builds/LOCAL_FRANKENSTEIN_PLAYTEST_2026-10-17.txt atb2605eb09b02104cf742b421fc445a0cd41a3e3e.
+
+--- a/scripts/board_view.gd
++++ b/scripts/board_view.gd
+@@ -32,6 +32,13 @@
+ var _pressed := -1
+ var _press_position := Vector2.ZERO
+ var _pointer_position := Vector2.ZERO
++var _pointer_owner := -2 # -2 none, -1 mouse, >=0 owning touch.
++var _dragging := false
++var _maximum_drag_distance := 0.0
++var _drop_preview: Dictionary = {}
++var _return_piece: Dictionary = {}
++var _return_t := 0.0
++var _return_tween: Tween
+ var _last_swap: Array = []
+ var _hint: Array = []
+ var _hint_until := 0.0
+@@ -57,7 +64,7 @@
+ 	custom_minimum_size = Vector2(300, 350)
+ 	clip_contents = true
+ 	mouse_exited.connect(func() -> void: _hover = -1; queue_redraw())
+-	resized.connect(queue_redraw)
++	resized.connect(func() -> void: cancel_pointer(); queue_redraw())
+ 	if polished_art:
+ 		_gem_atlas=Art.TREASURES
+ 		for kind in range(6):
+@@ -71,6 +78,7 @@
+ 	set_process(true)
+ 
+ func setup(core: RefCounted, reduced: bool = false) -> void:
++	cancel_pointer()
+ 	_epoch += 1
+ 	if is_instance_valid(_tween):
+ 		_tween.kill()
+@@ -129,64 +137,117 @@
+ 	return absi(a % _cols - b % _cols) + absi(a / _cols - b / _cols) == 1
+ 
+ func _gui_input(event: InputEvent) -> void:
+-	if busy or _core == null:
+-		return
+-	# Native mouse and touch are both supported; discard their synthetic duplicates.
++	if busy or _core == null or not _return_piece.is_empty():
++		return
+ 	if event.device == InputEvent.DEVICE_ID_EMULATION:
+ 		return
+ 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+ 		if event.pressed:
+-			_press(event.position)
+-		else:
++			if _pointer_owner == -2: _press(event.position, -1)
++		elif _pointer_owner == -1:
+ 			_release(event.position)
+ 		accept_event()
+ 	elif event is InputEventMouseMotion:
+-		_pointer_position = event.position
+ 		_hover = _cell_at(event.position)
++		if _pointer_owner == -1:
++			if event.button_mask & MOUSE_BUTTON_MASK_LEFT:
++				_move_pointer(event.position)
++			else:
++				cancel_pointer()
+ 		queue_redraw()
+ 	elif event is InputEventScreenTouch:
+ 		if event.pressed:
+-			_press(event.position)
+-		else:
+-			_release(event.position)
++			if _pointer_owner == -2: _press(event.position, event.index)
++		elif _pointer_owner == event.index:
++			if event.canceled: cancel_pointer()
++			else: _release(event.position)
+ 		accept_event()
+ 	elif event is InputEventScreenDrag:
+-		_pointer_position = event.position
+-		queue_redraw()
++		if _pointer_owner == event.index: _move_pointer(event.position)
+ 		accept_event()
+ 
+-func _press(point: Vector2) -> void:
++func _press(point: Vector2, owner: int = -1) -> void:
+ 	_pressed = _cell_at(point)
++	_pointer_owner = owner if _pressed >= 0 else -2
+ 	_press_position = point
+ 	_pointer_position = point
++	_maximum_drag_distance = 0.0
++	_dragging = false
++	_drop_preview.clear()
+ 	_hint.clear()
+-	if _pressed < 0:
++	if _pressed < 0: _selected = -1
++	queue_redraw()
++
++func _move_pointer(point: Vector2) -> void:
++	_pointer_position = point
++	if _pressed >= 0:
++		_maximum_drag_distance = maxf(_maximum_drag_distance, point.distance_to(_press_position))
++		if _maximum_drag_distance >= maxf(3.0, _cell_size() * 0.10):
++			_dragging = true
++			_selected = -1
++	queue_redraw()
++
++func _drag_visual() -> Dictionary:
++	if _dragging and _is_gem(_pressed):
++		return {"index": _pressed, "position": _center(_pressed) + _pointer_position - _press_position, "scale": 1.08}
++	if not _return_piece.is_empty():
++		var index: int = _return_piece.index
++		return {"index": index, "position": Vector2(_return_piece.position).lerp(_center(index), _return_t), "scale": lerpf(1.08, 1.0, _return_t)}
++	return {}
++
++func cancel_pointer() -> void:
++	if is_instance_valid(_return_tween): _return_tween.kill()
++	_pointer_owner = -2
++	_pressed = -1
++	_selected = -1
++	_dragging = false
++	_maximum_drag_distance = 0.0
++	_drop_preview.clear()
++	_return_piece.clear()
++	queue_redraw()
++
++func _return_drag(index: int, position: Vector2) -> void:
++	if reduced_motion: return
++	_return_piece = {"index": index, "position": position}
++	_return_t = 0.0
++	_return_tween = create_tween()
++	_return_tween.tween_property(self, "_return_t", 1.0, 0.12).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
++	_return_tween.tween_callback(func() -> void: _return_piece.clear(); queue_redraw())
++
++func _release(point: Vector2) -> void:
++	_move_pointer(point)
++	var origin: int = _pressed
++	var index: int = _cell_at(point)
++	var was_dragging: bool = _dragging
++	var held_position: Vector2 = _center(origin) + point - _press_position if origin >= 0 else point
++	_pressed = -1
++	_pointer_owner = -2
++	_dragging = false
++	if origin < 0:
+ 		_selected = -1
+-	queue_redraw()
+-
+-func _release(point: Vector2) -> void:
+-	var index := _cell_at(point)
+-	if _pressed < 0 or index < 0:
++	elif was_dragging:
+ 		_selected = -1
+-		_pressed = -1
+-		queue_redraw()
+-		return
+-	if point.distance_to(_press_position) > _cell_size() * 0.24:
+-		if _neighbors(_pressed, index):
+-			_request_swap(_pressed, index)
++		if index >= 0 and _neighbors(origin, index):
++			_drop_preview = {"from": origin, "to": index, "position": held_position}
++			_request_swap(origin, index)
+ 		else:
+-			_selected = -1
++			_return_drag(origin, held_position)
++	elif index < 0:
++		_selected = -1
+ 	elif _selected == index:
+ 		_selected = -1
+ 	elif _selected >= 0:
+-		if _neighbors(_selected, index):
+-			_request_swap(_selected, index)
+-		else:
+-			_selected = -1
++		if _neighbors(_selected, index): _request_swap(_selected, index)
++		else: _selected = -1
+ 	else:
+ 		_selected = index
+-	_pressed = -1
+-	queue_redraw()
++	queue_redraw()
++
++func _notification(what: int) -> void:
++	if what == NOTIFICATION_WM_WINDOW_FOCUS_OUT:
++		cancel_pointer()
++	elif what == NOTIFICATION_VISIBILITY_CHANGED and not is_visible_in_tree():
++		cancel_pointer()
+ 
+ func _request_swap(a: int, b: int) -> void:
+ 	_selected = -1
+@@ -210,6 +271,9 @@
+ 	busy = true
+ 	_selected = -1
+ 	_pressed = -1
++	_pointer_owner = -2
++	_dragging = false
++	_return_piece.clear()
+ 	_hint.clear()
+ 	_invalid = false
+ 	var events: Array = result.get("events", [])
+@@ -276,6 +340,7 @@
+ 	_releases.clear()
+ 	_invalid = false
+ 	_last_swap.clear()
++	_drop_preview.clear()
+ 	busy = false
+ 	queue_redraw()
+ 
+@@ -301,6 +366,9 @@
+ 		await _wait(0.05)
+ 		return
+ 	_moving = [{"from": a, "to": b, "kind": int(_display_grid[a])}, {"from": b, "to": a, "kind": int(_display_grid[b])}]
++	if not _drop_preview.is_empty() and int(_drop_preview.from) == a and int(_drop_preview.to) == b:
++		_moving[0]["start_position"] = Vector2(_drop_preview.position)
++		_drop_preview.clear()
+ 	_hidden = {a: true, b: true}
+ 	_motion_t = 0.0
+ 	_falling = false
+@@ -429,13 +497,15 @@
+ 	if _display_grid.is_empty() or _cols <= 0 or _rows <= 0:
+ 		return
+ 	var step := _cell_size()
++	var dragged: Dictionary = _drag_visual()
++	var lifted_index: int = int(dragged.get("index", -1))
+ 	for index in range(_display_grid.size()):
+ 		if int(_display_grid[index]) == HOLE:
+ 			continue
+ 		_draw_cell(index, step)
+ 	for index in range(_display_grid.size()):
+ 		var kind := int(_display_grid[index])
+-		if kind >= 0 and not _hidden.has(index):
++		if kind >= 0 and not _hidden.has(index) and index != lifted_index:
+ 			var shrink := 1.0
+ 			var alpha := 1.0
+ 			if _clearing.has(index):
+@@ -453,6 +523,7 @@
+ 		var target := int(motion["to"])
+ 		var end := _center(target)
+ 		var start := _center(int(motion["from"])) if int(motion["from"]) >= 0 else Vector2(end.x, _board_rect().position.y + (float(motion.get("spawn_row", -1.0)) + 0.5) * step)
++		if motion.has("start_position"): start = Vector2(motion.start_position)
+ 		var point := start.lerp(end, _motion_t)
+ 		if _falling and _motion_t >= 0.999:
+ 			point.y -= sin(_landing_t * PI) * step * 0.065
+@@ -495,6 +566,12 @@
+ 			draw_colored_polygon(PackedVector2Array([p+Vector2(-r,-r*0.6),p+Vector2(r*0.7,-r),p+Vector2(r,r*0.6),p+Vector2(-r*0.7,r)]),color)
+ 		else:_draw_sparkle(Vector2(particle["position"]), float(particle["size"]), color)
+ 
++	if not dragged.is_empty():
++		var lifted_center: Vector2 = dragged.position
++		var lifted_kind: int = int(_display_grid[lifted_index])
++		draw_circle(lifted_center + Vector2(step * 0.045, step * 0.10), step * 0.30, Color(0.04, 0.05, 0.07, 0.24), true, -1, true)
++		_draw_gem(lifted_center, lifted_kind, step * 0.36 * float(dragged.scale), 1.0)
++
+ func _draw_cell(index: int, step: float) -> void:
+ 	var center := _center(index)
+ 	var rect := Rect2(center - Vector2.ONE * step * 0.5, Vector2.ONE * step)
+
+--- a/scripts/main.gd
++++ b/scripts/main.gd
+@@ -483,7 +483,9 @@
+ 	if is_instance_valid(board) and board.busy:return
+ 	var column: VBoxContainer = _modal_box()
+ 	_paused = true
+-	if is_instance_valid(board): board.mouse_filter = Control.MOUSE_FILTER_IGNORE
++	if is_instance_valid(board):
++		board.cancel_pointer()
++		board.mouse_filter = Control.MOUSE_FILTER_IGNORE
+ 	column.add_child(_label("Paused",34,Color("ffe19e"),true))
+ 	column.add_child(_button("Resume",_close_modal,"green"))
+ 	column.add_child(_button("Settings",show_options))
+@@ -494,7 +496,9 @@
+ 	if is_instance_valid(board) and board.busy:return
+ 	var column: VBoxContainer = _modal_box()
+ 	_paused = current_screen == "play"
+-	if is_instance_valid(board): board.mouse_filter = Control.MOUSE_FILTER_IGNORE
++	if is_instance_valid(board):
++		board.cancel_pointer()
++		board.mouse_filter = Control.MOUSE_FILTER_IGNORE
+ 	column.add_child(_label("Settings",35,Color("ffe09c"),true))
+ 	var sound: CheckButton = CheckButton.new()
+ 	sound.text = "Sound Effects"
+
+--- a/scripts/first_crystals_view.gd
++++ b/scripts/first_crystals_view.gd
+@@ -1,180 +1,180 @@
+-extends Control
+-signal pause_requested
+-signal hint_requested
+-signal exit_requested
+-const Board=preload("res://scripts/board_view.gd")
+-const Trails=preload("res://scripts/goal_trails.gd")
+-const Art=preload("res://scripts/story_art.gd")
+-const BACKGROUND=preload("res://assets/first_crystals/cave_background_v1.png")
+-const ATLAS=Art.TREASURES
+-var board
+-var moves_label: Label
+-var goal_label: Label
+-var secondary_goal_label: Label
+-var status_label: Label
+-var lantern_bar: ProgressBar
+-var pause_button: Button
+-var hint_button: Button
+-var exit_button: Button
+-var title: Label
+-var move_caption: Label
+-var goal_caption: Label
+-var goal_icon: TextureRect
+-var gnome: TextureRect
+-var helper: Label
+-var guardian: TextureRect
+-var trails
+-var target:=12
+-var shown_collected:=0
+-var shown_runes:=0
+-var reduced_motion:=false
+-var hud_rects: Dictionary={}
+-var _pulse: Tween
+-var _core
+-var _level: Dictionary={}
+-var _goal_type: String="collect"
+-var _bold_font: FontVariation
+-func _ready() -> void:
+-	mouse_filter=Control.MOUSE_FILTER_IGNORE
+-	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+-	resized.connect(layout)
+-	_bold_font=Art.font()
+-	title=label("FIRST CRYSTALS",32)
+-	move_caption=label("MOVES",20)
+-	moves_label=label("26",48)
+-	goal_caption=label("COLLECT",20)
+-	goal_label=label("0 / 12",42)
+-	secondary_goal_label=label("",24);secondary_goal_label.hide()
+-	status_label=label("Match 3 treasures to dig!",24)
+-	status_label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+-	goal_icon=texture(Art.treasure(3))
+-	lantern_bar=ProgressBar.new();add_child(lantern_bar);lantern_bar.show_percentage=false
+-	lantern_bar.mouse_filter=Control.MOUSE_FILTER_IGNORE
+-	lantern_bar.add_theme_stylebox_override("background",style(Color("152e3b"),Color("6d897b"),8,1))
+-	lantern_bar.add_theme_stylebox_override("fill",style(Color("61d9ee"),Color("e3f5b1"),8,1))
+-	board=Board.new();board.polished_art=true;add_child(board)
+-	board.goal_piece_cleared.connect(on_goal_piece)
+-	board.terrain_target_cleared.connect(on_soil)
+-	board.rune_freed.connect(on_rune)
+-	exit_button=button("‹",func() -> void:exit_requested.emit())
+-	pause_button=button("Ⅱ",func() -> void:pause_requested.emit())
+-	hint_button=button("✦  Hint",func() -> void:hint_requested.emit())
+-	exit_button.tooltip_text="Back to the map";pause_button.tooltip_text="Pause"
+-	gnome=texture(Art.gnome())
+-	guardian=texture(Art.material(3));guardian.hide()
+-	helper=label("Light the way!",24)
+-	trails=Trails.new();add_child(trails);trails.z_index=20;trails.arrived.connect(on_arrived)
+-	layout()
+-func texture(image: Texture2D) -> TextureRect:
+-	var t=TextureRect.new();t.texture=image;t.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;t.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED;t.mouse_filter=Control.MOUSE_FILTER_IGNORE;add_child(t);return t
+-func configure(level: Dictionary, core) -> void:
+-	_level=level;_core=core;_goal_type=String(level.goal)
+-	title.text=String(level.name).to_upper()
+-	status_label.text=level.description
+-	goal_caption.text="CLEAR SOIL" if _goal_type=="floor" else ("FREE RUNES" if _goal_type=="rune" else "COLLECT")
+-	goal_icon.texture=Art.SOIL if _goal_type=="floor" else (Art.material(5) if _goal_type=="rune" else Art.treasure(core.collect_kind))
+-	trails.token_texture=goal_icon.texture
+-	trails.tint=Color("ffe09c") if _goal_type in ["floor","rune"] else Board.GEM_COLORS[core.collect_kind%6]
+-	secondary_goal_label.visible=_goal_type=="boss";guardian.visible=_goal_type=="boss"
+-	helper.text="Light the Guardian!" if _goal_type=="boss" else "Light the way!"
+-	sync_from_core();layout()
+-func remaining(values: Array) -> int:
+-	var result:=0
+-	for value in values:
+-		if int(value)>0:result+=1
+-	return result
+-func objective_done() -> int:
+-	if _core==null:return shown_collected
+-	if _goal_type=="floor":return _level.target_cells.size()-remaining(_core.floor)
+-	if _goal_type=="rune":return _level.rune_cells.size()-remaining(_core.runes)
+-	return mini(_core.collected,target)
+-func sync_from_core() -> void:
+-	if _core==null:return
+-	var total: int=_level.target_cells.size() if _goal_type=="floor" else (_level.rune_cells.size() if _goal_type=="rune" else _core.collect_goal)
+-	update_stats(_core.moves_left,objective_done(),total)
+-	if _goal_type=="boss":
+-		shown_runes=_level.rune_cells.size()-remaining(_core.runes)
+-		secondary_goal_label.text="FREE RUNES   %d / %d"%[shown_runes,_level.rune_cells.size()]
+-		guardian.modulate=Color.WHITE.lerp(Color("c5f6dd"),float(shown_collected)/maxi(1,target))
+-func label(text: String, font_size: int) -> Label:
+-	var l=Label.new();l.text=text;l.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER;l.vertical_alignment=VERTICAL_ALIGNMENT_CENTER
+-	l.autowrap_mode=TextServer.AUTOWRAP_OFF;l.mouse_filter=Control.MOUSE_FILTER_IGNORE
+-	l.add_theme_font_override("font",_bold_font);l.add_theme_font_size_override("font_size",font_size);l.add_theme_color_override("font_color",Color("fff8e2"));l.add_theme_color_override("font_outline_color",Color("352a20"));l.add_theme_constant_override("outline_size",2)
+-	add_child(l);return l
+-func style(fill: Color, edge: Color, radius: int=20, border: int=2) -> StyleBoxFlat:
+-	var s=StyleBoxFlat.new();s.bg_color=fill;s.border_color=edge;s.set_border_width_all(border);s.set_corner_radius_all(radius);return s
+-func button(text: String, action: Callable) -> Button:
+-	var b=Button.new();b.add_theme_font_override("font",_bold_font);b.text=text;b.pressed.connect(action);b.add_theme_font_size_override("font_size",30)
+-	b.add_theme_color_override("font_color",Color("fff3ca"))
+-	for state in ["normal","hover","pressed","disabled"]:
+-		b.add_theme_stylebox_override(state,Art.round_button() if text.length()<3 else Art.panel(Color("bfdba5") if state=="normal" else (Color.WHITE if state=="hover" else Color("9faaa5"))))
+-	add_child(b);return b
+-func layout() -> void:
+-	if board==null:return
+-	var w: float=size.x
+-	var unit: float=minf(1.0,w/720.0)
+-	var edge: float=24*unit
+-	var title_y: float=30*unit
+-	title.position=Vector2(edge+76*unit,title_y);title.size=Vector2(w-2*edge-152*unit,76*unit)
+-	title.add_theme_font_size_override("font_size",int((25 if _goal_type=="boss" else 30)*unit))
+-	exit_button.position=Vector2(edge,title_y+4*unit);exit_button.size=Vector2.ONE*68*unit
+-	pause_button.position=Vector2(w-edge-68*unit,title_y+4*unit);pause_button.size=Vector2.ONE*68*unit
+-	var hud_y: float=134*unit
+-	hud_rects.moves=Rect2(edge,hud_y,184*unit,102*unit)
+-	hud_rects.goal=Rect2(edge+198*unit,hud_y,w-2*edge-198*unit,102*unit)
+-	move_caption.position=hud_rects.moves.position+Vector2(6,6)*unit;move_caption.size=Vector2(hud_rects.moves.size.x-12*unit,26*unit)
+-	moves_label.position=hud_rects.moves.position+Vector2(6,30)*unit;moves_label.size=Vector2(hud_rects.moves.size.x-12*unit,66*unit)
+-	goal_icon.position=hud_rects.goal.position+Vector2(8,10)*unit;goal_icon.size=Vector2.ONE*82*unit
+-	goal_caption.position=hud_rects.goal.position+Vector2(92,7)*unit;goal_caption.size=Vector2(hud_rects.goal.size.x-100*unit,25*unit)
+-	goal_label.position=hud_rects.goal.position+Vector2(92,28)*unit;goal_label.size=Vector2(hud_rects.goal.size.x-100*unit,66*unit)
+-	lantern_bar.position=Vector2(edge+7*unit,hud_y+115*unit);lantern_bar.size=Vector2(w-2*edge-14*unit,11*unit)
+-	var boss_extra: float=65*unit if _goal_type=="boss" else 0.0
+-	secondary_goal_label.position=Vector2(edge+75*unit,hud_y+139*unit);secondary_goal_label.size=Vector2(w-2*edge-80*unit,43*unit)
+-	guardian.position=Vector2(edge,hud_y+133*unit);guardian.size=Vector2(64,64)*unit
+-	var board_top: float=hud_y+148*unit+boss_extra
+-	var footer_height: float=220*unit
+-	board.position=Vector2(edge-8*unit,board_top);board.size=Vector2(w-2*edge+16*unit,maxf(360*unit,size.y-board_top-footer_height))
+-	var lower: float=size.y-footer_height
+-	gnome.position=Vector2(edge-10*unit,lower-2*unit);gnome.size=Vector2(152,174)*unit
+-	helper.position=Vector2(edge+140*unit,lower+12*unit);helper.size=Vector2(w-2*edge-140*unit,36*unit)
+-	status_label.position=Vector2(edge+142*unit,lower+52*unit);status_label.size=Vector2(w-2*edge-142*unit,86*unit)
+-	hud_rects.helper=Rect2(Vector2(edge+136*unit,lower+9*unit),Vector2(w-2*edge-136*unit,138*unit))
+-	hint_button.position=Vector2(w*0.5-156*unit,size.y-75*unit);hint_button.size=Vector2(312,62)*unit
+-	move_caption.add_theme_font_size_override("font_size",int(20*unit));goal_caption.add_theme_font_size_override("font_size",int(20*unit));secondary_goal_label.add_theme_font_size_override("font_size",int(25*unit))
+-	moves_label.add_theme_font_size_override("font_size",int(48*unit));goal_label.add_theme_font_size_override("font_size",int(42*unit));status_label.add_theme_font_size_override("font_size",int(23*unit));helper.add_theme_font_size_override("font_size",int(24*unit));hint_button.add_theme_font_size_override("font_size",int(26*unit))
+-	queue_redraw()
+-func update_stats(moves: int, collected: int, goal: int) -> void:
+-	target=goal;shown_collected=mini(collected,goal);moves_label.text=str(moves);goal_label.text="%d / %d"%[shown_collected,target];lantern_bar.max_value=maxi(1,goal);lantern_bar.value=shown_collected
+-func fly(global_center: Vector2) -> void:
+-	trails.reduced_motion=reduced_motion
+-	trails.launch(global_center,goal_icon.global_position+goal_icon.size*0.5,1)
+-func on_goal_piece(global_center: Vector2) -> void:
+-	if _goal_type in ["collect","lantern","boss"]:fly(global_center)
+-func on_soil(global_center: Vector2) -> void:
+-	if _goal_type=="floor":fly(global_center)
+-func on_rune(global_center: Vector2) -> void:
+-	if _goal_type=="rune":fly(global_center)
+-	elif _goal_type=="boss":
+-		shown_runes=mini(_level.rune_cells.size()-remaining(_core.runes),shown_runes+1)
+-		secondary_goal_label.text="FREE RUNES   %d / %d"%[shown_runes,_level.rune_cells.size()]
+-func on_arrived(amount: int) -> void:
+-	# The core owns counts. Late flights may never inflate the displayed objective.
+-	shown_collected=mini(objective_done(),shown_collected+amount)
+-	goal_label.text="%d / %d"%[shown_collected,target];lantern_bar.value=shown_collected
+-	if reduced_motion:return
+-	if _pulse!=null and _pulse.is_valid():_pulse.kill()
+-	goal_icon.pivot_offset=goal_icon.size*0.5
+-	_pulse=create_tween();_pulse.tween_property(goal_icon,"scale",Vector2.ONE*1.13,0.07);_pulse.tween_property(goal_icon,"scale",Vector2.ONE,0.12)
+-func celebrate() -> void:
+-	gnome.texture=Art.gnome(true)
+-	helper.text="Passage open!"
+-	if reduced_motion:return
+-	gnome.pivot_offset=gnome.size*Vector2(0.5,1.0)
+-	var tw=create_tween();tw.tween_property(gnome,"scale",Vector2.ONE*1.06,0.16).set_trans(Tween.TRANS_SINE);tw.tween_property(gnome,"scale",Vector2.ONE,0.16)
+-func _draw() -> void:
+-	if size.x<=0:return
+-	draw_texture_rect(BACKGROUND,Rect2(Vector2.ZERO,size),false)
+-	if not hud_rects.has("moves"):return
+-	Art.panel().draw(get_canvas_item(),hud_rects.moves)
+-	Art.panel().draw(get_canvas_item(),hud_rects.goal)
+-	Art.panel(Color(0.65,0.77,0.72,0.9)).draw(get_canvas_item(),hud_rects.helper)
++extends Control
++signal pause_requested
++signal hint_requested
++signal exit_requested
++const Board=preload("res://scripts/board_view.gd")
++const Trails=preload("res://scripts/goal_trails.gd")
++const Art=preload("res://scripts/story_art.gd")
++const BACKGROUND=preload("res://assets/first_crystals/cave_background_v1.png")
++const ATLAS=Art.TREASURES
++var board
++var moves_label: Label
++var goal_label: Label
++var secondary_goal_label: Label
++var status_label: Label
++var lantern_bar: ProgressBar
++var pause_button: Button
++var hint_button: Button
++var exit_button: Button
++var title: Label
++var move_caption: Label
++var goal_caption: Label
++var goal_icon: TextureRect
++var gnome: TextureRect
++var helper: Label
++var guardian: TextureRect
++var trails
++var target:=12
++var shown_collected:=0
++var shown_runes:=0
++var reduced_motion:=false
++var hud_rects: Dictionary={}
++var _pulse: Tween
++var _core
++var _level: Dictionary={}
++var _goal_type: String="collect"
++var _bold_font: FontVariation
++func _ready() -> void:
++	mouse_filter=Control.MOUSE_FILTER_IGNORE
++	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
++	resized.connect(layout)
++	_bold_font=Art.font()
++	title=label("FIRST CRYSTALS",32)
++	move_caption=label("MOVES",20)
++	moves_label=label("26",48)
++	goal_caption=label("COLLECT",20)
++	goal_label=label("0 / 12",42)
++	secondary_goal_label=label("",24);secondary_goal_label.hide()
++	status_label=label("Match 3 treasures to dig!",24)
++	status_label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
++	goal_icon=texture(Art.treasure(3))
++	lantern_bar=ProgressBar.new();add_child(lantern_bar);lantern_bar.show_percentage=false
++	lantern_bar.mouse_filter=Control.MOUSE_FILTER_IGNORE
++	lantern_bar.add_theme_stylebox_override("background",style(Color("152e3b"),Color("6d897b"),8,1))
++	lantern_bar.add_theme_stylebox_override("fill",style(Color("61d9ee"),Color("e3f5b1"),8,1))
++	board=Board.new();board.polished_art=true;add_child(board)
++	board.goal_piece_cleared.connect(on_goal_piece)
++	board.terrain_target_cleared.connect(on_soil)
++	board.rune_freed.connect(on_rune)
++	exit_button=button("‹",func() -> void:exit_requested.emit())
++	pause_button=button("Ⅱ",func() -> void:pause_requested.emit())
++	hint_button=button("✦  Hint",func() -> void:hint_requested.emit())
++	exit_button.tooltip_text="Back to the map";pause_button.tooltip_text="Pause"
++	gnome=texture(Art.gnome())
++	guardian=texture(Art.material(3));guardian.hide()
++	helper=label("Light the way!",24)
++	trails=Trails.new();add_child(trails);trails.z_index=20;trails.arrived.connect(on_arrived)
++	layout()
++func texture(image: Texture2D) -> TextureRect:
++	var t=TextureRect.new();t.texture=image;t.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;t.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED;t.mouse_filter=Control.MOUSE_FILTER_IGNORE;add_child(t);return t
++func configure(level: Dictionary, core) -> void:
++	_level=level;_core=core;_goal_type=String(level.goal)
++	title.text=String(level.name).to_upper()
++	status_label.text=level.description
++	goal_caption.text="CLEAR SOIL" if _goal_type=="floor" else ("FREE RUNES" if _goal_type=="rune" else "COLLECT")
++	goal_icon.texture=Art.SOIL if _goal_type=="floor" else (Art.material(5) if _goal_type=="rune" else Art.treasure(core.collect_kind))
++	trails.token_texture=goal_icon.texture
++	trails.tint=Color("ffe09c") if _goal_type in ["floor","rune"] else Board.GEM_COLORS[core.collect_kind%6]
++	secondary_goal_label.visible=_goal_type=="boss";guardian.visible=_goal_type=="boss"
++	helper.text="Light the Guardian!" if _goal_type=="boss" else "Drag a treasure to swap"
++	sync_from_core();layout()
++func remaining(values: Array) -> int:
++	var result:=0
++	for value in values:
++		if int(value)>0:result+=1
++	return result
++func objective_done() -> int:
++	if _core==null:return shown_collected
++	if _goal_type=="floor":return _level.target_cells.size()-remaining(_core.floor)
++	if _goal_type=="rune":return _level.rune_cells.size()-remaining(_core.runes)
++	return mini(_core.collected,target)
++func sync_from_core() -> void:
++	if _core==null:return
++	var total: int=_level.target_cells.size() if _goal_type=="floor" else (_level.rune_cells.size() if _goal_type=="rune" else _core.collect_goal)
++	update_stats(_core.moves_left,objective_done(),total)
++	if _goal_type=="boss":
++		shown_runes=_level.rune_cells.size()-remaining(_core.runes)
++		secondary_goal_label.text="FREE RUNES   %d / %d"%[shown_runes,_level.rune_cells.size()]
++		guardian.modulate=Color.WHITE.lerp(Color("c5f6dd"),float(shown_collected)/maxi(1,target))
++func label(text: String, font_size: int) -> Label:
++	var l=Label.new();l.text=text;l.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER;l.vertical_alignment=VERTICAL_ALIGNMENT_CENTER
++	l.autowrap_mode=TextServer.AUTOWRAP_OFF;l.mouse_filter=Control.MOUSE_FILTER_IGNORE
++	l.add_theme_font_override("font",_bold_font);l.add_theme_font_size_override("font_size",font_size);l.add_theme_color_override("font_color",Color("fff8e2"));l.add_theme_color_override("font_outline_color",Color("352a20"));l.add_theme_constant_override("outline_size",2)
++	add_child(l);return l
++func style(fill: Color, edge: Color, radius: int=20, border: int=2) -> StyleBoxFlat:
++	var s=StyleBoxFlat.new();s.bg_color=fill;s.border_color=edge;s.set_border_width_all(border);s.set_corner_radius_all(radius);return s
++func button(text: String, action: Callable) -> Button:
++	var b=Button.new();b.add_theme_font_override("font",_bold_font);b.text=text;b.pressed.connect(action);b.add_theme_font_size_override("font_size",30)
++	b.add_theme_color_override("font_color",Color("fff3ca"))
++	for state in ["normal","hover","pressed","disabled"]:
++		b.add_theme_stylebox_override(state,Art.round_button() if text.length()<3 else Art.panel(Color("bfdba5") if state=="normal" else (Color.WHITE if state=="hover" else Color("9faaa5"))))
++	add_child(b);return b
++func layout() -> void:
++	if board==null:return
++	var w: float=size.x
++	var unit: float=minf(1.0,w/720.0)
++	var edge: float=24*unit
++	var title_y: float=30*unit
++	title.position=Vector2(edge+76*unit,title_y);title.size=Vector2(w-2*edge-152*unit,76*unit)
++	title.add_theme_font_size_override("font_size",int((25 if _goal_type=="boss" else 30)*unit))
++	exit_button.position=Vector2(edge,title_y+4*unit);exit_button.size=Vector2.ONE*68*unit
++	pause_button.position=Vector2(w-edge-68*unit,title_y+4*unit);pause_button.size=Vector2.ONE*68*unit
++	var hud_y: float=134*unit
++	hud_rects.moves=Rect2(edge,hud_y,184*unit,102*unit)
++	hud_rects.goal=Rect2(edge+198*unit,hud_y,w-2*edge-198*unit,102*unit)
++	move_caption.position=hud_rects.moves.position+Vector2(6,6)*unit;move_caption.size=Vector2(hud_rects.moves.size.x-12*unit,26*unit)
++	moves_label.position=hud_rects.moves.position+Vector2(6,30)*unit;moves_label.size=Vector2(hud_rects.moves.size.x-12*unit,66*unit)
++	goal_icon.position=hud_rects.goal.position+Vector2(8,10)*unit;goal_icon.size=Vector2.ONE*82*unit
++	goal_caption.position=hud_rects.goal.position+Vector2(92,7)*unit;goal_caption.size=Vector2(hud_rects.goal.size.x-100*unit,25*unit)
++	goal_label.position=hud_rects.goal.position+Vector2(92,28)*unit;goal_label.size=Vector2(hud_rects.goal.size.x-100*unit,66*unit)
++	lantern_bar.position=Vector2(edge+7*unit,hud_y+115*unit);lantern_bar.size=Vector2(w-2*edge-14*unit,11*unit)
++	var boss_extra: float=65*unit if _goal_type=="boss" else 0.0
++	secondary_goal_label.position=Vector2(edge+75*unit,hud_y+139*unit);secondary_goal_label.size=Vector2(w-2*edge-80*unit,43*unit)
++	guardian.position=Vector2(edge,hud_y+133*unit);guardian.size=Vector2(64,64)*unit
++	var board_top: float=hud_y+148*unit+boss_extra
++	var footer_height: float=220*unit
++	board.position=Vector2(edge-8*unit,board_top);board.size=Vector2(w-2*edge+16*unit,maxf(360*unit,size.y-board_top-footer_height))
++	var lower: float=size.y-footer_height
++	gnome.position=Vector2(edge-10*unit,lower-2*unit);gnome.size=Vector2(152,174)*unit
++	helper.position=Vector2(edge+140*unit,lower+12*unit);helper.size=Vector2(w-2*edge-140*unit,36*unit)
++	status_label.position=Vector2(edge+142*unit,lower+52*unit);status_label.size=Vector2(w-2*edge-142*unit,86*unit)
++	hud_rects.helper=Rect2(Vector2(edge+136*unit,lower+9*unit),Vector2(w-2*edge-136*unit,138*unit))
++	hint_button.position=Vector2(w*0.5-156*unit,size.y-75*unit);hint_button.size=Vector2(312,62)*unit
++	move_caption.add_theme_font_size_override("font_size",int(20*unit));goal_caption.add_theme_font_size_override("font_size",int(20*unit));secondary_goal_label.add_theme_font_size_override("font_size",int(25*unit))
++	moves_label.add_theme_font_size_override("font_size",int(48*unit));goal_label.add_theme_font_size_override("font_size",int(42*unit));status_label.add_theme_font_size_override("font_size",int(23*unit));helper.add_theme_font_size_override("font_size",int(24*unit));hint_button.add_theme_font_size_override("font_size",int(26*unit))
++	queue_redraw()
++func update_stats(moves: int, collected: int, goal: int) -> void:
++	target=goal;shown_collected=mini(collected,goal);moves_label.text=str(moves);goal_label.text="%d / %d"%[shown_collected,target];lantern_bar.max_value=maxi(1,goal);lantern_bar.value=shown_collected
++func fly(global_center: Vector2) -> void:
++	trails.reduced_motion=reduced_motion
++	trails.launch(global_center,goal_icon.global_position+goal_icon.size*0.5,1)
++func on_goal_piece(global_center: Vector2) -> void:
++	if _goal_type in ["collect","lantern","boss"]:fly(global_center)
++func on_soil(global_center: Vector2) -> void:
++	if _goal_type=="floor":fly(global_center)
++func on_rune(global_center: Vector2) -> void:
++	if _goal_type=="rune":fly(global_center)
++	elif _goal_type=="boss":
++		shown_runes=mini(_level.rune_cells.size()-remaining(_core.runes),shown_runes+1)
++		secondary_goal_label.text="FREE RUNES   %d / %d"%[shown_runes,_level.rune_cells.size()]
++func on_arrived(amount: int) -> void:
++	# The core owns counts. Late flights may never inflate the displayed objective.
++	shown_collected=mini(objective_done(),shown_collected+amount)
++	goal_label.text="%d / %d"%[shown_collected,target];lantern_bar.value=shown_collected
++	if reduced_motion:return
++	if _pulse!=null and _pulse.is_valid():_pulse.kill()
++	goal_icon.pivot_offset=goal_icon.size*0.5
++	_pulse=create_tween();_pulse.tween_property(goal_icon,"scale",Vector2.ONE*1.13,0.07);_pulse.tween_property(goal_icon,"scale",Vector2.ONE,0.12)
++func celebrate() -> void:
++	gnome.texture=Art.gnome(true)
++	helper.text="Passage open!"
++	if reduced_motion:return
++	gnome.pivot_offset=gnome.size*Vector2(0.5,1.0)
++	var tw=create_tween();tw.tween_property(gnome,"scale",Vector2.ONE*1.06,0.16).set_trans(Tween.TRANS_SINE);tw.tween_property(gnome,"scale",Vector2.ONE,0.16)
++func _draw() -> void:
++	if size.x<=0:return
++	draw_texture_rect(BACKGROUND,Rect2(Vector2.ZERO,size),false)
++	if not hud_rects.has("moves"):return
++	Art.panel().draw(get_canvas_item(),hud_rects.moves)
++	Art.panel().draw(get_canvas_item(),hud_rects.goal)
++	Art.panel(Color(0.65,0.77,0.72,0.9)).draw(get_canvas_item(),hud_rects.helper)
+
+--- /dev/null
++++ b/tests/test_stone_drag.gd
+@@ -0,0 +1,59 @@
++extends SceneTree
++class Fixture extends RefCounted:
++ var cols:=7
++ var rows:=8
++ var grid:Array=[]
++ var floor:Array=[]
++ var runes:Array=[]
++ func _init() -> void:
++  for i in range(56):grid.append(i%6);floor.append(0);runes.append(0)
++  grid[2]=-2
++var checks:=0
++var failures:Array[String]=[]
++var emitted:Array=[]
++func check(ok:bool,message:String) -> void:
++ checks+=1
++ if not ok:failures.append(message);print("FAIL: "+message)
++func visual(v) -> Dictionary:return v._drag_visual() if v.has_method("_drag_visual") else {}
++func mouse(v,point:Vector2,down:bool) -> void:
++ var e=InputEventMouseButton.new();e.button_index=MOUSE_BUTTON_LEFT;e.pressed=down;e.position=point;v._gui_input(e)
++func move(v,point:Vector2) -> void:
++ var e=InputEventMouseMotion.new();e.position=point;e.button_mask=MOUSE_BUTTON_MASK_LEFT;v._gui_input(e)
++func touch(v,point:Vector2,down:bool,index:int) -> void:
++ var e=InputEventScreenTouch.new();e.index=index;e.position=point;e.pressed=down;v._gui_input(e)
++func drag_touch(v,point:Vector2,index:int) -> void:
++ var e=InputEventScreenDrag.new();e.index=index;e.position=point;v._gui_input(e)
++func _initialize() -> void:call_deferred("run")
++func run() -> void:
++ var v=load("res://scripts/board_view.gd").new();root.add_child(v);v.size=Vector2(480,520)
++ var core=Fixture.new();v.setup(core);v.swap_requested.connect(func(a:int,b:int) -> void:emitted.append([a,b]))
++ await process_frame
++ var a:Vector2=v._center(0);var b:Vector2=v._center(1);var d:Vector2=v._center(8);var original:Array=core.grid.duplicate()
++ mouse(v,a,true);move(v,a+Vector2(25,4));var state=visual(v)
++ check(not state.is_empty(),"Held gem becomes a lifted drag visual")
++ if not state.is_empty():check(state.index==0 and Vector2(state.position).distance_to(a+Vector2(25,4))<0.01,"Gem follows the pointer displacement without moving Core")
++ check(core.grid==original and emitted.is_empty(),"Holding/dragging spends no move or board mutation")
++ move(v,b);mouse(v,b,false);check(emitted==[[0,1]],"Release over orthogonal neighbor emits one swap")
++ var middle=original.duplicate();middle[0]=original[1];middle[1]=original[0];core.grid=middle
++ v.animate_result({"valid":true,"events":[{"type":"swap","a":0,"b":1,"before":original,"after":middle,"floor":core.floor,"runes":core.runes}]})
++ check(not v._moving.is_empty() and v._moving[0].has("start_position"),"Swap animation continues from the held gem position")
++ if not v._moving.is_empty() and v._moving[0].has("start_position"):check(Vector2(v._moving[0].start_position).distance_to(b)<0.01,"Drop does not snap back to the source before the swap")
++ await create_timer(0.5).timeout;check(not v.busy and v._display_grid==core.grid,"Drop animation finishes on authoritative Core snapshot")
++ for destination in [v._center(2),d,Vector2(-40,-40)]:
++  v.setup(core);emitted.clear();mouse(v,a,true);move(v,destination);mouse(v,destination,false)
++  check(emitted.is_empty(),"Hole/diagonal/outside drop cannot request a swap")
++  await create_timer(0.18).timeout;check(visual(v).is_empty() and v._pressed==-1,"Invalid drop returns and releases the gem")
++ v.setup(core);emitted.clear();mouse(v,a,true);move(v,b);move(v,a);mouse(v,a,false);await create_timer(0.18).timeout
++ check(emitted.is_empty() and v._selected==-1,"Drag out and back is not reclassified as a click")
++ v.setup(core);mouse(v,a,true);move(v,b)
++ v.notification(Node.NOTIFICATION_WM_WINDOW_FOCUS_OUT)
++ check(visual(v).is_empty() and v._pressed==-1,"Losing window focus cancels a held gem")
++ v.setup(core);emitted.clear();touch(v,a,true,7);touch(v,b,true,8);drag_touch(v,b,8);touch(v,b,false,8)
++ check(emitted.is_empty(),"A second finger cannot drop the first finger's stone")
++ drag_touch(v,b,7);touch(v,b,false,7);check(emitted==[[0,1]],"Owning touch still completes exactly one swap")
++ v.setup(core);mouse(v,a,true);move(v,b);v.setup(core)
++ check(visual(v).is_empty() and v._pressed==-1,"New level/setup cannot retain a held sprite")
++ var receipt={"status":"PASS" if failures.is_empty() else "FAIL","checks":checks,"failures":failures,"scope":"board pointer presentation only; no human/phone claim"}
++ var f=FileAccess.open("res://verification/stone_drag_checks.json",FileAccess.WRITE);f.store_string(JSON.stringify(receipt,"  "));f.close()
++ print("STONE_DRAG "+JSON.stringify(receipt));v.queue_free();await process_frame;quit(0 if failures.is_empty() else 1)
++
+
+--- /dev/null
++++ b/tests/capture_stone_drag.gd
+@@ -0,0 +1,60 @@
++extends SceneTree
++var app
++var failures:Array[String]=[]
++var observations:Array=[]
++var output:String
++func check(ok:bool,message:String) -> void:
++ if not ok:failures.append(message);push_error(message)
++func settle() -> void: await process_frame;await process_frame
++func mouse(point:Vector2,down:bool) -> void:
++ var e=InputEventMouseButton.new();e.position=root.get_final_transform()*point;e.global_position=e.position;e.button_index=MOUSE_BUTTON_LEFT;e.pressed=down;e.button_mask=MOUSE_BUTTON_MASK_LEFT if down else 0;Input.parse_input_event(e)
++func motion(point:Vector2,held:bool) -> void:
++ var e=InputEventMouseMotion.new();e.position=root.get_final_transform()*point;e.global_position=e.position;e.button_mask=MOUSE_BUTTON_MASK_LEFT if held else 0;Input.parse_input_event(e)
++func shot(name:String) -> void:
++ await RenderingServer.frame_post_draw
++ root.get_texture().get_image().save_png(output+"/"+name+".png")
++ observations.append({"frame":name,"moves":app.core.moves_left,"drag":app.board._drag_visual()})
++func _initialize() -> void: call_deferred("run")
++func run() -> void:
++ output=ProjectSettings.globalize_path("res://verification/stone_drag_runtime");DirAccess.make_dir_recursive_absolute(output)
++ root.size=Vector2i(432,960);app=load("res://scripts/main.gd").new();app.save_path_override="res://verification/stone_drag_runtime_progress.json";root.add_child(app);app.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
++ await settle();app.start_level("entry");await settle();app.core.setup(app.current_level,42);app.board.setup(app.core,false);app._update_hud();await settle()
++ var board=app.board;var pair:Array=app.core.hint_move();check(pair.size()==2,"Playable level has legal move")
++ if pair.size()!=2:quit(2);return
++ var from:Vector2=board.get_global_transform()*board._center(pair[0]);var to:Vector2=board.get_global_transform()*board._center(pair[1]);var initial_moves:int=app.core.moves_left;var initial_grid:Array=app.core.grid.duplicate()
++ await shot("01_BOARD")
++ motion(from,false);mouse(from,true);await settle();motion(from.lerp(to,0.6),true);await settle()
++ check(not board._drag_visual().is_empty(),"Native mouse movement lifts a stone")
++ check(app.core.grid==initial_grid and app.core.moves_left==initial_moves,"Holding doesn't modify the game")
++ await shot("02_HELD_STONE")
++ app.show_pause();check(board._drag_visual().is_empty(),"Pause cancels the held stone");app._close_modal();mouse(to,false);await settle()
++ check(app.core.moves_left==initial_moves,"Release after pause cannot create a phantom move")
++ motion(from,false);mouse(from,true);motion(Vector2(board.global_position.x-25,from.y),true);mouse(Vector2(board.global_position.x-25,from.y),false);await create_timer(0.2).timeout
++ check(board._drag_visual().is_empty() and app.core.moves_left==initial_moves,"Native outside drop returns stone without spending a move")
++ var invalid:Array=[]
++ for i in range(app.core.grid.size()):
++  if app.core.grid[i]<0:continue
++  for j in [i+1,i+app.core.cols]:
++   if j>=app.core.grid.size() or app.core.grid[j]<0 or not board._neighbors(i,j):continue
++   var probe=load("res://scripts/match_core.gd").new();probe.setup(app.current_level,42)
++   var result:Dictionary=probe.try_swap(i,j)
++   if not result.valid:invalid=[i,j];break
++  if not invalid.is_empty():break
++ check(invalid.size()==2,"Real board has a nonmatching adjacent drop")
++ if invalid.size()==2:
++  var bad_from:Vector2=board.get_global_transform()*board._center(invalid[0]);var bad_to:Vector2=board.get_global_transform()*board._center(invalid[1])
++  motion(bad_from,false);mouse(bad_from,true);motion(bad_to,true);mouse(bad_to,false)
++  await settle() # Parsed native events are dispatched on the following frame.
++  var bad_timeout:=Time.get_ticks_msec()+10000
++  while board.busy and Time.get_ticks_msec()<bad_timeout:await process_frame
++  await settle()
++  check(not board.busy and app.core.moves_left==initial_moves and board._display_grid==initial_grid,"Nonmatching adjacent drag returns the board and spends no move")
++  await shot("03_REJECTED_DROP")
++ motion(from,false);mouse(from,true);motion(to,true);mouse(to,false);await settle()
++ check(app.core.moves_left==initial_moves-1,"Native valid drop spends exactly one move")
++ var timeout:=Time.get_ticks_msec()+10000
++ while board.busy and Time.get_ticks_msec()<timeout:await process_frame
++ check(not board.busy and board._display_grid==app.core.grid,"Native drop cascade ends on Core snapshot")
++ await shot("04_AFTER_DROP")
++ var result={"status":"PASS" if failures.is_empty() else "FAIL","failures":failures,"observations":observations,"proof":"Rendered Godot with scripted native mouse events; not human/Android test","screen":DisplayServer.window_get_current_screen()}
++ var f=FileAccess.open(output+"/REPORT.json",FileAccess.WRITE);f.store_string(JSON.stringify(result,"  "));f.close();print("DRAG_RUNTIME "+JSON.stringify(result));await create_timer(0.5).timeout;app.queue_free();await settle();await settle();quit(0 if failures.is_empty() else 1)
+
+--- /dev/null
++++ b/tools/play_stones.gd
+@@ -0,0 +1,9 @@
++extends SceneTree
++func _initialize() -> void: call_deferred("run")
++func run() -> void:
++ var app=load("res://scripts/main.gd").new()
++ root.add_child(app)
++ app.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
++ await process_frame
++ await process_frame
++ app.start_level("entry")
+
+--- /dev/null
++++ b/PLAY_STONES.cmd
+@@ -0,0 +1,2 @@
++@echo off
++start "" "C:\Tools\Godot\4.7.2\engine\Godot_v4.7.2-stable_win64.exe" --path "%~dp0." --screen 0 --position 80,65 --resolution 432x960 --script res://tools/play_stones.gd -- --walk-preview
+
