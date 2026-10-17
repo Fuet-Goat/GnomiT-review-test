@@ -1,3 +1,7 @@
+АКТУАЛНО ПРЕДЛОЖЕНИЕ — T И L ДАВАТ РАЗЛИЧНИ СИЛИ
+Човекът поиска отделни награди за5Tи5L. Codex предлагаT→Tornado,L→новEarthquake с две перпендикулярни рамена.4→Volcano,5линия→Storm,BlackHole условието остават. Виж designs/MATCH5_T_L_DISTINCT_AMENDMENT_BG.txt. Предишното общоT/L→Tornado е история. DESIGN_ONLY / NOT_IMPLEMENTED,без общо одобрение/игрови промени.
+Препоръка: GPT-6.1 Sol / High.
+
 ПРЕДЛОЖЕНИЕ — ПРИРОДНИ СИЛИ ОТ MATCH4/MATCH5
 Codex предлага4в линия→Volcano,T/Lот5→Tornado,5+в линия→Storm;силата остава на дъската за следваща размяна. BlackHole оставаTornado+Volcano. Виж designs/MATCH4_MATCH5_NATURAL_REWARDS_PROPOSAL_BG.txt. DESIGN_ONLY / NOT_IMPLEMENTED: няма одобрен баланс,нови gameправила или автоматична задача за GPT/Grok.
 Препоръка: GPT-6.1 Sol / High.
