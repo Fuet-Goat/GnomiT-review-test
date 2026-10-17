@@ -560,3 +560,73 @@ available on Grok's cited commit. No grants,main,private project or merge change
 Live lab has been reopened on user monitor1,Painted ON,ready before swap.
 
 Recommended:GPT-6.1 Sol / High for integration;Medium for reports.
+
+
+GNOMIT — RADIAL SPINNING-TOP TORNADO — 2026-10-17
+Status:LOCAL_IMPLEMENTED / NATIVE_CAPTURE_PASS / HUMAN_FEEL_PENDING
+
+USER DECISION
+The human asked for a tornado spinning like a top and explicitly selected
+"Кръг от съседни клетки около торнадото". This pass uses up to eight immediately
+surrounding cells, including diagonals:3x3 footprint excluding the center target.
+The tornado activates at its final adjacent-swap destination and is itself
+consumed, for the existing one-move cost. Only ordinary minerals are direct
+targets. Edges clip geometrically without wrapping; holes, runes and other
+specials are excluded. Existing direct soil damage loses one layer per ordinary
+target; normal refill/cascades retain existing rules and may affect other cells.
+No chain activation, campaign unlock, save or reward changes.
+
+IMPLEMENTATION
+Both historical tornado_h/tornado_v IDs use the same local radial rule. The lab
+shows one TORNADO button and starts with it selected, avoiding misleading row/
+column labels. Internal fixture IDs remain for compatibility and edge/gap tests.
+Real Core event targets are marked before motion. Original mineral artwork
+rotates, shrinks and spirals toward the fixed center; ground plates stay put.
+A contact shadow, translucent cone, depth-separated cream/cyan/dust ribbons and
+helical strands rotate around the anchored tip. It does not sweep a row/column.
+Normal duration1.10s, reduced motion remains the short .13s cue; skip/reset clear
+all presentation without rerunning Core. Painted remains Volcano-only. Existing
+Volcano icon/renderer prefix/MP3/audio timing and Black Hole rules are preserved.
+No new Tornado sound was requested/created; ordinary stone foley remains.
+
+VERIFICATION ACTUALLY RUN
+Radial focused195 checks PASS:literal center/corner/edges/gaps/rune/special target
+sets, identical h/v rules for the same board, one move, no chain, soil damage,
+fixed tip, actual target contraction/rotation/draws, reduced/skip/reset and full
+Core/RNG preservation. Corner render33 checks PASS covers origins0,6,49,55 with
+both IDs. Core regression80 PASS; delivered Volcano MP3 regression36 PASS.
+Native Godot captures at432x960, screen0, fixed30fps, actual scripted mouse press/
+drag/release:both PASS, zero engine errors/warnings. Center fixture origin26 hits
+[18,19,20,25,27,32,33,34]. Gap fixture origin23 hits[15,16,17,22,29,31]. Every
+sample after activation preserves frozen Core/RNG/result. Actual AVI headers
+confirm30fps; fixed recording is not a performance benchmark or human test.
+Parent inspected the real swirl screenshot and live window with Tornado selected;
+the user had already moved, so that live state was left untouched.
+
+CORRECTIONS / EVIDENCE LIMITS
+The initial focused rune-case oracle listed33 instead of the nearby hole30;
+the literal expected set was corrected. Failed receipt retained. Independent
+source review found that clamping filled-cone vertices at a top edge could fold
+its roof. Unclamped body/shadow now use Geometry2D.intersect_polygons and a
+triangulatable-result guard. Actual corner draw tests pass, and focused source
+re-review found no remaining actionable issue. First renderer kept separately.
+Two initial movie harness attempts wrongly asserted every node's smoothed delta
+must equal1/30, despite startup values .025/.033333/.041667. Those failed movies,
+reports and logs were preserved. Final harness records actual deltas, validates
+finite positive active-event deltas and measured event duration, while actual AVI
+header proves recording rate. Core/event invariants were never relaxed.
+One early core regression wrote its default receipt; fresh bytes were verified
+identical to the untouched NaturalPowers predecessor. Optional --report-path now
+isolates the final receipt as verification/tornado_core_results.json.
+
+DELIVERY / SCOPE
+Current evidence outputs/tornado_top; earlier Volcano outputs and predecessor
+sources preserved. One handoff ZIP contains source delta, before sources, actual
+movie/GIF/keyframes and verification. GIF comes from Godot frames and is silent.
+Existing local PLAY_MAGIC_ANIMATIONS.cmd opens the latest isolated lab on user
+monitor1. This is an authoring/playtest fixture, not campaign rollout. Governed
+Git is still REPORTS_ONLY:own text receipt and literal patch proposal only, no
+native game/assets claimed uploaded, no grant/main/private edits and no merge.
+No automatic new task sent to GPT/Grok. Human look/feel and Android pending.
+
+Recommended model/effort:GPT-6.1 Sol / High for mechanics/animation integration.
