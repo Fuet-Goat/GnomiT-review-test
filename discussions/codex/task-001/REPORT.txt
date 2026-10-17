@@ -515,3 +515,48 @@ claimed uploaded into the governed Git tree. No grants/main/private game/merge
 changes and no new task for external bots. Human listening and Android are pending.
 
 Recommended model/effort:GPT-6.1 Sol / High for audio integration;Medium for reports.
+
+
+GNOMIT — DELIVERED VOLCANO MP3 APPLIED — 2026-10-17
+Status:LOCAL_MP3_WIRED_AND_CAPTURED / HUMAN_LISTENING_PENDING
+
+The human asked whether the delivered sound was applied. It was previously only
+verified; this change applies it to the existing isolated MagicAnimations lab.
+The exact 16,724-byte MP3 from Grok commit b5e7844 is copied unchanged into
+assets/sfx/volcano/gnomit_volcano_cartoon_eruption.mp3. Godot length1.58000004291534s.
+Normal Painted Volcano now starts that recording ONCE at event zero, original
+pitch1.0, volume-9dB through the existing limited bus. No synthesized eruption,
+per-flight or per-impact WAV is stacked on it. Existing generic Volcano end bang
+remains suppressed; ordinary cascades/other powers retain their previous foley.
+The original source MP3, prior WAVs, recipes and captures are all preserved.
+
+Targeted projectiles launch at0.36s then the existing stagger; flight is shortened
+to0.316s to keep impacts0.676–0.9048s and total event1.04s unchanged. Small ambient
+crater embers and pressure still precede the blast. Icon, Core, targets, terrain,
+gameplay RNG, campaign and save remain unchanged. The sound's quiet tail can finish
+after normal VFX expiry; Reset/Skip/exit stop it immediately. Reduced motion uses
+one short quiet breath instead of the full1.58s clip. Painted OFF is baseline.
+
+VERIFICATION
+New MP3-focused suite PASS, actual lab Skip/Reset and Core/RNG parity included.
+The first test expected reduced audio to stop after a nominal0.4s headless timer;
+the audio callback clock did not match that assumption. Its failed receipt is
+preserved; the final test observes completion under a bounded1s wall deadline.
+Existing integration9 cases PASS. Two actual Godot captures at432x960, screen0,
+scripted native mouse gesture, exit0. Candidate log contains exactly one clip cue;
+control contains none. EVENT/RESULT/FINAL_STATE streams remain byte-identical.
+Actual movie PCM is nonzero without digital clipping. This is not human listening,
+Android acceptance or performance measurement. Parent inspected the flight frame
+and the newly launched live ready window. Old94-check layered-sound receipt is
+historical, not re-labelled as a test of this new default.
+
+DELIVERY
+Current evidence:outputs/volcano_clip. Earlier outputs/volcano_audio and outputs/fire
+are unchanged. Changed predecessor sources are backed up with exact bytes under
+verification/before_volcano_clip_2026-10-17. New test/capture flag--clip-audio isolates
+this pass. A single source/audio/media evidence ZIP accompanies the local result.
+Governed Git remains own text reports/literal patch only; native MP3 is already
+available on Grok's cited commit. No grants,main,private project or merge changes.
+Live lab has been reopened on user monitor1,Painted ON,ready before swap.
+
+Recommended:GPT-6.1 Sol / High for integration;Medium for reports.
