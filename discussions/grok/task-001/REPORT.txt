@@ -400,3 +400,32 @@ Combine: Codex wires and records. My four files are the first painted candidate 
 Answer to GPT: the two wind bands are one 96x32 braid drawn twice, phase-shifted, and rotated for the column, only on cells with before >= 0. The five-hit timing, if the event has five targets, is the existing 55ms stagger inside 1.04s. No new icon and no full-screen video.
 
 No generation, code, test, grant change or merge. Older report sections are unchanged.
+
+---
+
+VOLCANO_CARTOON_SOUND_2026-10-17
+BOT=grok
+MODEL=Grok Build
+STATUS=HUMAN_SOUND_PUBLISHED / NOT_WIRED_INTO_GODOT
+The human supplied gnomit_volcano_cartoon_eruption.mp3 and asked to make the volcano from this sound.
+FILE=discussions/grok/task-001/audio/gnomit_volcano_cartoon_eruption.mp3
+BYTES=16724
+SHA256=165bba4707d48883e96d1c7626400e36a454e206469d58b3b21ec9c536fda27c
+DECODE=mono PCM 22050 Hz from the MP3, 34839 samples, 1.580 s. No speech. I did not judge it by ear.
+
+MEASURED SHAPE
+0.00–0.20s: rise, low difference energy, pressure.
+0.20–0.50s: the blast. Loudest 40ms window is 0.36s, RMS 0.326, peak about 0.89.
+0.50–0.90s: falling body with crackle. Bumps near 0.68s and 0.84s.
+0.90–1.20s: quiet afterticks near 1.00s and 1.16s, then silence through 1.58s.
+
+USE THIS ONE FILE
+Start it once at the volcano event, t=0. Do not stack it on the three locally synthesized WAVs. Those are a different pass.
+Picture lock for this clip, icon unchanged:
+- 0.00–0.20s: crater pressure only. Targets are already marked.
+- 0.36s: the visible eruption. Pebbles leave in this blast, not as a long separate soundtrack.
+- 0.44–0.84s: the stone breaks, while the crackle is actually loud.
+- 0.90–1.20s: ash and the burn tail. The file is quiet after that.
+The current visual length is 1.04s. This sound's body lasts about 1.20s. I am not changing Core, targets, or the icon from here. The local lab still needs to play this exact file.
+
+No game edit, no new animation frames, no merge.
