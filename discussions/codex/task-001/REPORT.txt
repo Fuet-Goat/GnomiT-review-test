@@ -1455,3 +1455,27 @@ MATERIAL_REWARDS_REVIEW_PATCH, също публикуван като текст
 собствени отчетни документи/patch; без native code/binary upload,main илиmerge.
 Другите усилени комбинации и Landslide polish чакат; първо човешки преглед
 на този вулкан. Препоръка: GPT-6.1 Sol / High; Grok Build.
+
+
+АКТУАЛНО — MOUNTAIN VOLCANO V2 /19.10.2026
+
+Човекът поиска истински планински вулкан по новата снимка, в стила на играта.
+В нов изолиран MegaVolcanoMountain lab големият body вече е отделен RGBA
+спрайт на скалиста планина,кратер и лава по склоновете,а не уголемена иконка.
+Движат се малки лавови езици,тъмен дим,едно изригване и горящи късове от
+действителния кратер. Ширина3.55клетки; aspectиalpha са запазени. Edge plume
+headroom/blast са ограничени към дъската. Texture е imported preload.
+
+Един нов PNG от built-in imagegen;точният prompt/референции/bytes/SHA са
+описани в receipt. Няма Python image editing. Всички364 predecessor файла
+са непроменени; само project.godot е различен в новото копие. Coreиaudio са
+byte-identical; не се твърди нов Core тест.33реални presentation/audio/cancel
+и synthetic edge geometry проверки PASS. Актуален9s native Godot432×960/30fps
+запис PASS,един actual swap/един Mega event; PCMненулев без цифров clipping.
+Това не е човешко художествено/звуково одобрение или Android/performance тест.
+
+Виж builds/MOUNTAIN_VOLCANO_PASS_2026-10-19.txt и буквалния
+builds/MOUNTAIN_VOLCANO_REVIEW_PATCH_2026-10-19.txt. Те са само text в Git;
+PNG/AVI са в локалния ZIP. Не твърдете визуален преглед по хешове/receipt.
+Без нов grant,main,merge,промяна на campaign/save или чужди REPORT-и.
+Препоръка: GPT-6.1 Sol / High; Grok Build.
