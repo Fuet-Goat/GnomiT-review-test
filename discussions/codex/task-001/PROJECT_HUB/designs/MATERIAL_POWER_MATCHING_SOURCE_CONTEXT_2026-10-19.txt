@@ -1,0 +1,399 @@
+GNOMIT — EXACT READ-ONLY SOURCE CONTEXT / 2026-10-19
+STATUS: CURRENT CODE FACTS, NOT THE PROPOSED MATERIAL MATCHING FEATURE
+Root: C:\Users\fruch\Documents\Codex\GnomiT_Playtests\RewardRules_2026-10-18
+Baseline hub commit: d3ee13c7113aca8d00dfc56c4050107c9cc1453b
+No tests or execution performed for this design discussion.
+
+scripts/lab/reward_rules_core.gd
+{"bytes": 19221, "sha256": "c771d019270f5015f64ff5a86a0e2cac81f1e39f7c9afaa0d0e1747c2d7e2934"}
+Lines 28-45:
+28: 	var reward: Dictionary = _rewards[index]
+29: 	if index < 0 or index >= grid.size() or grid[index] != int(reward.get("kind", -99)):
+30: 		return {}
+31: 	return reward.duplicate(true)
+32: 
+33: func place_reward(index: int, kind: int, recipe: String = "fixture") -> void:
+34: 	if index < 0 or index >= grid.size() or grid[index] < 0 or not _is_special(kind):
+35: 		return
+36: 	grid[index] = kind
+37: 	var reward := {
+38: 		"id": _next_reward_id, "token_id": _next_reward_id, "kind": kind,
+39: 		"birth_tier": 4 if kind == VOLCANO else 5, "recipe": recipe,
+40: 	}
+41: 	if kind >= EARTHQUAKE and kind <= EARTHQUAKE_NE:
+42: 		reward["orientation"] = quake_orientation(kind)
+43: 	_rewards[index] = reward
+44: 	_next_reward_id += 1
+45: 
+Lines 55-90:
+55: func preview_rewards(a: int, b: int) -> Array:
+56: 	if not _can_swap(a, b) or not _is_ordinary(grid[a]) or not _is_ordinary(grid[b]):
+57: 		return []
+58: 	var snapshot: Array[int] = grid.duplicate()
+59: 	var old := snapshot[a]
+60: 	snapshot[a] = snapshot[b]
+61: 	snapshot[b] = old
+62: 	return _detect_on(snapshot, a, b)
+63: 
+64: ## Pure detector for a board ALREADY in its post-swap state.
+65: func detect_rewards(a: int, b: int) -> Array:
+66: 	return _detect_on(grid, a, b)
+67: 
+68: func _ordinary_runs(snapshot: Array[int]) -> Array:
+69: 	var runs: Array = []
+70: 	for horizontal in [true, false]:
+71: 		var lines := rows if horizontal else cols
+72: 		var length := cols if horizontal else rows
+73: 		for line in range(lines):
+74: 			var position := 0
+75: 			while position < length:
+76: 				var start := position
+77: 				var index: int = line * cols + position if horizontal else position * cols + line
+78: 				var kind := snapshot[index]
+79: 				position += 1
+80: 				while position < length:
+81: 					var next: int = line * cols + position if horizontal else position * cols + line
+82: 					if not _is_ordinary(kind) or snapshot[next] != kind:
+83: 						break
+84: 					position += 1
+85: 				if _is_ordinary(kind) and position - start >= 3:
+86: 					var cells: Array[int] = []
+87: 					for offset in range(start, position):
+88: 						cells.append(line * cols + offset if horizontal else offset * cols + line)
+89: 					runs.append({"cells": cells, "horizontal": horizontal, "kind": kind})
+90: 	return runs
+Lines 155-173:
+155: 						var vertical: Dictionary = second if first["horizontal"] else first
+156: 						var east: bool = shared == horizontal["cells"][0]
+157: 						var south: bool = shared == vertical["cells"][0]
+158: 						var kind := EARTHQUAKE if east and south else EARTHQUAKE_SW if south else EARTHQUAKE_NE if east else EARTHQUAKE_NW
+159: 						candidates.append(_candidate(2, kind, "intersecting_l", union_cells, int(shared)))
+160: 		if candidates.is_empty():
+161: 			continue
+162: 		candidates.sort_custom(_candidate_precedes)
+163: 		var best: Dictionary = candidates[0]
+164: 		var kind := int(best["kind"])
+165: 		var award := {
+166: 			"index": anchors[0], "anchor": anchors[0], "kind": kind,
+167: 			"birth_tier": 4 if kind == VOLCANO else 5, "recipe": best["recipe"],
+168: 			"component_indices": component.duplicate(), "matched": component.duplicate(),
+169: 			"recipe_indices": best["cells"].duplicate(), "intersection": best["tie"],
+170: 		}
+171: 		if kind >= EARTHQUAKE and kind <= EARTHQUAKE_NE:
+172: 			award["orientation"] = quake_orientation(kind)
+173: 		awards.append(award)
+Lines 199-260:
+199: func try_swap(a: int, b: int) -> Dictionary:
+200: 	if won or lost or not _can_swap(a, b):
+201: 		return _result(false, [])
+202: 	var special_a := _is_special(grid[a])
+203: 	var special_b := _is_special(grid[b])
+204: 	if special_a and special_b:
+205: 		# A numeric icon alone is not authority for a birth tier or fusion.
+206: 		if not _registered_pair(a, b):
+207: 			return _result(false, [])
+208: 	var events: Array = []
+209: 	var before: Array[int] = grid.duplicate()
+210: 	_exchange(a, b)
+211: 	events.append(_event("swap", before, {"a": a, "b": b}))
+212: 	if not special_a and not special_b:
+213: 		if not _has_match_at(a) and not _has_match_at(b):
+214: 			before = grid.duplicate()
+215: 			_exchange(a, b)
+216: 			events.append(_event("swap", before, {"a": a, "b": b}))
+217: 			return _result(false, events)
+218: 		moves_left -= 1
+219: 		var awards := detect_rewards(a, b)
+220: 		var matches := get_matches()
+221: 		if awards.is_empty():
+222: 			_clear(matches, events)
+223: 		else:
+224: 			_birth_rewards(matches, awards, events)
+225: 		_resolve_after_power(events)
+226: 		return _result(true, events)
+227: 	moves_left -= 1
+228: 	var sources: Array = []
+229: 	for index in [a, b]:
+230: 		if _is_special(grid[index]):
+231: 			var reward := reward_at(index)
+232: 			sources.append({"index": index, "kind": grid[index], "birth_tier": int(reward.get("birth_tier", 0)), "token_id": int(reward.get("token_id", -1))})
+233: 	if sources.size() == 2:
+234: 		var first_tier := int(sources[0]["birth_tier"])
+235: 		var second_tier := int(sources[1]["birth_tier"])
+236: 		if first_tier == 5 and second_tier == 5:
+237: 			black_hole_used = true # Diagnostic only; repeated qualifying pairs are legal.
+238: 			_apply_atomic_power("black_hole", sources, [], events)
+239: 		else:
+240: 			var components: Array = []
+241: 			var excluded: Array[int] = []
+242: 			# The five-born footprint is evaluated first on the common snapshot.
+243: 			var ordered_sources: Array = sources.duplicate(true)
+244: 			if first_tier == 4 and second_tier == 5:
+245: 				ordered_sources.reverse()
+246: 			for source in ordered_sources:
+247: 				var component := _power_component(int(source["index"]), int(source["kind"]), excluded)
+248: 				components.append(component)
+249: 				for index in component["targets"]:
+250: 					if not excluded.has(index):
+251: 						excluded.append(index)
+252: 			var tiers: Array[int] = [first_tier, second_tier]
+253: 			tiers.sort()
+254: 			_apply_atomic_power("power_combo", sources, components, events, {"combo_tiers": tiers})
+255: 	else:
+256: 		var source: Dictionary = sources[0]
+257: 		var component := _power_component(int(source["index"]), int(source["kind"]), [])
+258: 		_apply_atomic_power(String(component["power"]), sources, [component], events)
+259: 	_resolve_after_power(events)
+260: 	return _result(true, events)
+Lines 415-455:
+415: func _exchange(a: int, b: int) -> void:
+416: 	_pending_before_rewards = _reward_snapshot()
+417: 	var first: Dictionary = _rewards.get(a, {}).duplicate(true)
+418: 	var second: Dictionary = _rewards.get(b, {}).duplicate(true)
+419: 	super._exchange(a, b)
+420: 	_rewards.erase(a)
+421: 	_rewards.erase(b)
+422: 	if not second.is_empty():
+423: 		_rewards[a] = second
+424: 	if not first.is_empty():
+425: 		_rewards[b] = first
+426: 
+427: func _clear(matches: Array[int], events: Array) -> void:
+428: 	_pending_before_rewards = _reward_snapshot()
+429: 	for index in matches:
+430: 		_rewards.erase(index)
+431: 	super._clear(matches, events)
+432: 
+433: func _fall(events: Array) -> void:
+434: 	var before_rewards := _reward_snapshot()
+435: 	super._fall(events)
+436: 	if not events.is_empty():
+437: 		events[-1]["before_rewards"] = before_rewards
+438: 		events[-1]["after_rewards"] = _reward_snapshot()
+439: 
+440: func _fall_segment(segment: Array[int], falls: Array, spawn_number: int) -> int:
+441: 	var gems: Array = []
+442: 	for position in range(segment.size() - 1, -1, -1):
+443: 		var index := segment[position]
+444: 		if grid[index] >= 0:
+445: 			gems.append({"from": index, "kind": grid[index], "reward": reward_at(index)})
+446: 		_rewards.erase(index)
+447: 		grid[index] = -1
+448: 	var write_position := segment.size() - 1
+449: 	for gem in gems:
+450: 		var destination := segment[write_position]
+451: 		grid[destination] = int(gem["kind"])
+452: 		if not gem["reward"].is_empty():
+453: 			_rewards[destination] = gem["reward"].duplicate(true)
+454: 		if int(gem["from"]) != destination:
+455: 			falls.append({"from": int(gem["from"]), "to": destination, "kind": int(gem["kind"])})
+Lines 470-500:
+470: 	_pending_before_rewards = before_rewards
+471: 	return playable
+472: 
+473: func _find_move() -> Array:
+474: 	for index in range(grid.size()):
+475: 		if grid[index] < 0:
+476: 			continue
+477: 		for neighbor in [index + 1, index + cols]:
+478: 			if not _can_swap(index, neighbor):
+479: 				continue
+480: 			if _is_special(grid[index]) and _is_special(grid[neighbor]):
+481: 				if _registered_pair(index, neighbor):
+482: 					return [index, neighbor]
+483: 				continue
+484: 			if _is_special(grid[index]) or _is_special(grid[neighbor]):
+485: 				return [index, neighbor]
+486: 			if grid[index] == grid[neighbor]:
+487: 				continue
+488: 			_exchange(index, neighbor)
+489: 			var matched := _has_match_at(index) or _has_match_at(neighbor)
+490: 			_exchange(index, neighbor)
+491: 			if matched:
+492: 				return [index, neighbor]
+493: 	return []
+494: 
+495: func _event(event_type: String, before: Array[int], extra: Dictionary = {}) -> Dictionary:
+496: 	var details := extra.duplicate(true)
+497: 	if not details.has("before_rewards"):
+498: 		details["before_rewards"] = _pending_before_rewards.duplicate(true)
+499: 	details["after_rewards"] = _reward_snapshot()
+500: 	return super._event(event_type, before, details)
+
+scripts/lab/natural_power_core.gd
+{"bytes": 10548, "sha256": "d6219ab8d92d32cd7b65661105b81e16389002d4e2ce9406ee19e877db7e5a05"}
+Lines 174-225:
+174: func quake_rays(origin: int, kind: int) -> Array:
+175: 	var rays: Array = []
+176: 	if origin < 0 or origin >= grid.size():
+177: 		return rays
+178: 	for direction in quake_directions(kind):
+179: 		var ray: Array[int] = []
+180: 		var x: int = origin % cols + int(direction[0])
+181: 		var y: int = origin / cols + int(direction[1])
+182: 		while x >= 0 and x < cols and y >= 0 and y < rows:
+183: 			var index := y * cols + x
+184: 			# Holes, runes and other powers stop a fault; it never jumps obstacles.
+185: 			if not _is_ordinary(grid[index]) or runes[index] > 0:
+186: 				break
+187: 			ray.append(index)
+188: 			x += int(direction[0])
+189: 			y += int(direction[1])
+190: 		rays.append(ray)
+191: 	return rays
+192: 
+193: func _resolve_after_power(events: Array) -> void:
+194: 	_fall(events)
+195: 	var matches := get_matches()
+196: 	var wave := 0
+197: 	while not matches.is_empty() and wave < MAX_CASCADE_WAVES:
+198: 		_clear(matches, events)
+199: 		_fall(events)
+200: 		matches = get_matches()
+201: 		wave += 1
+202: 	if not matches.is_empty() or _find_move().is_empty():
+203: 		var before := grid.duplicate()
+204: 		var playable := _make_playable()
+205: 		events.append(_event("shuffle", before))
+206: 		if not playable:
+207: 			lost = true
+208: 	# Resolve the real goal after every cascade, including on the final move.
+209: 	won = _goal_complete()
+210: 	lost = not won and (lost or moves_left <= 0)
+211: 
+212: func get_matches() -> Array[int]:
+213: 	var matches := super.get_matches()
+214: 	var ordinary: Array[int] = []
+215: 	for index in matches:
+216: 		if _is_ordinary(grid[index]):
+217: 			ordinary.append(index)
+218: 	return ordinary
+219: 
+220: func _has_match_at(index: int) -> bool:
+221: 	return index >= 0 and index < grid.size() and _is_ordinary(grid[index]) and super._has_match_at(index)
+222: 
+223: func _find_move() -> Array:
+224: 	for index in range(grid.size()):
+225: 		if grid[index] < 0:
+
+scripts/match_core.gd
+{"bytes": 10023, "sha256": "12f1d987e5a5ab194cfc1ea555a5905922290a23e67f370b9f3a4813d42166bb"}
+Lines 99-149:
+99: func get_matches() -> Array[int]:
+100: 	var marked: Dictionary = {}
+101: 	for y in range(rows):
+102: 		var x := 0
+103: 		while x < cols:
+104: 			var start := x
+105: 			var kind := grid[y * cols + x]
+106: 			x += 1
+107: 			while x < cols and kind >= 0 and grid[y * cols + x] == kind:
+108: 				x += 1
+109: 			if kind >= 0 and x - start >= 3:
+110: 				for match_x in range(start, x):
+111: 					marked[y * cols + match_x] = true
+112: 	for x in range(cols):
+113: 		var y := 0
+114: 		while y < rows:
+115: 			var start := y
+116: 			var kind := grid[y * cols + x]
+117: 			y += 1
+118: 			while y < rows and kind >= 0 and grid[y * cols + x] == kind:
+119: 				y += 1
+120: 			if kind >= 0 and y - start >= 3:
+121: 				for match_y in range(start, y):
+122: 					marked[match_y * cols + x] = true
+123: 	var matches: Array[int] = []
+124: 	for index in marked:
+125: 		matches.append(int(index))
+126: 	matches.sort()
+127: 	return matches
+128: 
+129: func _clear(matches: Array[int], events: Array) -> void:
+130: 	var before := grid.duplicate()
+131: 	var broken: Array[int] = []
+132: 	var adjacent_runes: Dictionary = {}
+133: 	for index in matches:
+134: 		if grid[index] == collect_kind:
+135: 			collected += 1
+136: 		floor[index] = 0
+137: 		for neighbor in _neighbors(index):
+138: 			if runes[neighbor] > 0:
+139: 				adjacent_runes[neighbor] = true
+140: 		grid[index] = -1
+141: 	# Use only neighbors of actual matches; liberated runes never chain outward.
+142: 	for index in adjacent_runes:
+143: 		runes[index] = maxi(0, runes[index] - 1)
+144: 		if runes[index] == 0:
+145: 			grid[index] = -1
+146: 			broken.append(int(index))
+147: 	broken.sort()
+148: 	events.append(_event("clear", before, {"indices": matches.duplicate(), "matched": matches.duplicate(), "broken_runes": broken}))
+149: 
+Lines 210-235:
+210: func _has_match_at(index: int) -> bool:
+211: 	if grid[index] < 0:
+212: 		return false
+213: 	var kind := grid[index]
+214: 	var count := 1
+215: 	var cursor := index - 1
+216: 	while cursor >= 0 and (cursor + 1) % cols != 0 and grid[cursor] == kind:
+217: 		count += 1
+218: 		cursor -= 1
+219: 	cursor = index + 1
+220: 	while cursor < grid.size() and cursor % cols != 0 and grid[cursor] == kind:
+221: 		count += 1
+222: 		cursor += 1
+223: 	if count >= 3:
+224: 		return true
+225: 	count = 1
+226: 	cursor = index - cols
+227: 	while cursor >= 0 and grid[cursor] == kind:
+228: 		count += 1
+229: 		cursor -= cols
+230: 	cursor = index + cols
+231: 	while cursor < grid.size() and grid[cursor] == kind:
+232: 		count += 1
+233: 		cursor += cols
+234: 	return count >= 3
+235: 
+
+scripts/lab/reward_rules_board.gd
+{"bytes": 13889, "sha256": "1a94561e384213beb5002942d47e87239a1d15f9dac3d7a08429fd2230fb6e1e"}
+Lines 27-40:
+27: 	if is_instance_valid(_birth_tween): _birth_tween.kill()
+28: 	_birth_event.clear()
+29: 	_birth_t = 0.0
+30: 
+31: func _apply_after(event: Dictionary) -> void:
+32: 	super._apply_after(event)
+33: 	if event.has("after_rewards"):
+34: 		_display_rewards = Dictionary(event.after_rewards).duplicate(true)
+35: 
+36: func _animate_swap(event: Dictionary, epoch: int) -> void:
+37: 	if event.has("before_rewards"):
+38: 		_display_rewards = Dictionary(event.before_rewards).duplicate(true)
+39: 	await super._animate_swap(event, epoch)
+40: 
+Lines 110-124:
+110: 	queue_redraw()
+111: 
+112: func _draw_gem(center: Vector2, kind: int, radius: float, alpha: float, stretch: Vector2 = Vector2.ONE) -> void:
+113: 	super._draw_gem(center, kind, radius, alpha, stretch)
+114: 	if kind not in [6, 7, 9, 10, 11, 12, 13] or alpha <= 0.0 or radius < 0.3: return
+115: 	# FIVE-TICK follows the very same icon draw for idle, held, swapping,
+116: 	# falling and power-event sprites. It never grants fusion eligibility.
+117: 	draw_set_transform(center, 0.0, stretch)
+118: 	var badge := Vector2(0.57, 0.57) * radius
+119: 	draw_circle(badge, radius * 0.33, Color(0.05, 0.12, 0.16, alpha * 0.94), true, -1, true)
+120: 	for tick in 5:
+121: 		var angle := -PI * 0.82 + float(tick) * PI * 0.41
+122: 		var direction := Vector2.from_angle(angle)
+123: 		draw_line(badge + direction * radius * 0.17, badge + direction * radius * 0.27, Color(0.98, 0.89, 0.61, alpha), maxf(1.0, radius * 0.075), true)
+124: 	draw_set_transform(Vector2.ZERO)
+
+CODE-VERIFIED: material is absent from current reward metadata; recipes and
+matchers exclude specials; direct power swaps bypass ordinary recipe births.
+INFERRED REQUIRED CHANGE: shared token-aware material lookup and explicit
+initial-match / old activation / new-birth ordering; not a sprite-only edit.
+Do not broaden is_ordinary globally: it also selects targets and blockers.

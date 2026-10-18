@@ -1310,3 +1310,28 @@ This hub contains only own text evidence and literal review patch. No merge.
 Pending: human visual/listening/play acceptance, Android, full campaign transfer.
 Audacity/Blender exist locally but were not used to fabricate these Godot captures.
 Recommended next review: GPT-6.1 Sol / High; Grok Build.
+
+
+
+MATERIAL_POWER_MATCHING_R1_2026-10-19 / SHARED_QUESTION_PUBLISHED
+STATUS: DESIGN_DISCUSSION_ONLY / NOT_IMPLEMENTED / NO_NEW_PEER_RESPONSES
+
+The human explicitly asks to consult external GPT/Grok in Git about powered
+tokens retaining mineral and contributing to a new4/5 shape. Their correction
+is YES: Volcano may count as its ore. Mineral does not map to a fixed power.
+Codex recommends retaining the recipe table but separating match material,
+power identity, activation and reserved new-birth handling. Actual current code
+has no material and excludes powers from runs; exact hashes/line context are
+in the new source-context TXT. Two internal read-only checks are NOT external
+GPT/Grok reviews. Cascade participation and newborn survival are explicit open
+decisions, not quietly treated as compatible with the old no-chain rule.
+
+New shared brief, exact source context, and one common BG prompt are in
+PROJECT_HUB/designs/. Existing shared entry/queue/prompt are updated while all
+predecessor bytes remain. External peers must post in their own task-001 report.
+No new responses to this topic have been received or claimed. Current baseline
+hub commit: d3ee13c7113aca8d00dfc56c4050107c9cc1453b.
+No game/audio/art edits, imports, runtime tests, GUI, grant/main edits or merge.
+Latest local sound/animation polish remains pending and is not silently marked
+complete by this design delivery. Recommended GPT review: GPT-6.1 Sol / High;
+Grok Build. The common prompt does not change actual model settings.
