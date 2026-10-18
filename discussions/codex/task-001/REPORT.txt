@@ -1246,3 +1246,67 @@ EXACT INPUT IDENTITIES
     "sha256": "c252e0f6f5fc840bbea95e1f52dffec22d188780b686fc2824cfa81400a00a6c"
   }
 }
+
+
+
+REWARD_RULES_IMPLEMENTED_2026-10-18
+REWARD RULES IMPLEMENTATION / CODEX / 18 OCTOBER 2026
+LOCAL_PC_BUILD_VERIFIED / HUMAN_ACCEPTANCE_PENDING
+
+Human authorized local implementation after the R2 discussion, then continuation.
+This is a fresh isolated playable PC lab; Git remains own REPORTS_ONLY text.
+Input hub commit: 3022362e0b5f9cd8186a9f33318c123791f81d5d.
+Peer inputs: GPT ecfce495ccd4e2d7b2a9737fa08ef1a72fc1cd44;
+Grok 4d2ea20e0412d2936e28f01cec805f004cf67b4f.
+No final Grok ACK or three-bot consensus is invented.
+
+Implemented: actual ordinary player matches create 4-line Volcano / straight5+
+Storm / T-plus Tornado / L Landslide, one per eligible matched component, no
+cascade births, reserved anchor and durable token provenance with five ticks.
+Priority: real straight5+ > T/plus > L > straight4. Extra T/L stones retain tier5.
+4+4 has two disjoint eruptions; 4+5 resolves five-targets then remaining Volcano
+targets in one transaction. Adjacent registered five-born + five-born yields
+one repeatable Black Hole, including identical powers. Old T+V trigger removed.
+Direct BH preserves soil/runes, swallowed other powers do not recurse; later
+normal cascades keep their terrain rules. Missing metadata pairs cost no move.
+
+Animation: the current painted material Black Hole takes actual source wind,
+electricity or stone from the post-swap token identities, including equal pairs.
+Combined native effects share one frozen grid, no target resurrection/refill
+between components, one goal count. Birth reveal, badge movement, reduced-motion
+and interruption paths are wired. Existing icons/single-power assets retained.
+Sound: six original pair-specific soft 2.8s fusion cues plus .25s birth cue;
+existing approved individual and scrape/break sounds unchanged. Reset/Skip/exit
+stop all power AND stone voices; the omitted stone-stop path was fixed before
+delivery and verified with real actively playing streams.
+
+Validation: 40 Core scenario checks; 105 integrated presentation checks;
+31 audio checks; 16 focused stone-cancellation checks PASS. Five real native
+scripted press/motion/release Godot captures PASS: create_four, create_five,
+pair44, pair45, storm_landslide, each432x960/screen0/270frames/30fps/9s.
+Native capture uses actual final Core/RNG immutability checks (238 samples each).
+Captured PCM for pair45 and storm_landslide: stereo48k/9s/0 clipped samples.
+AVI outer RIFF ends70bytes early inside final idx1; extractor validates all media
+boundaries and records this Godot container quirk, rather than hiding it.
+Actual ready window and selected native stills inspected, no human test claimed.
+
+Independent read-only code review found one inferred stone-stop omission;
+it was corrected and re-read, then 16 focused runtime checks passed. Separate
+read-only integrity audit confirms all258 predecessor files intact, all257
+unmodified existing local files intact except intentional project.godot setup.
+Current success logs have no engine errors/warnings. Historical RED, parse,
+fixture expectation and harness cleanup failures retained separately.
+
+Fixture honesty: literal plus cannot be formed by one adjacent ordinary swap
+from a stable match-free board. Selectable Extended T is reachable6T; actual
+plus/7plus tested only as post-swap detector masks. Pair scenarios are preplaced
+registered powers, not a claim that both were made through a full played run.
+
+Scope: no source/private Cradle/GnomiT/campaign/unlock/save/old sound edits.
+Fresh local path: C:/Users/fruch/Documents/Codex/GnomiT_Playtests/RewardRules_2026-10-18
+Launcher: PLAY_REWARD_RULES.cmd, existingGodot4.7.2, monitor1,432x960.
+Native assets/source remain LOCAL+ZIP, not silently uploaded under REPORTS_ONLY.
+This hub contains only own text evidence and literal review patch. No merge.
+Pending: human visual/listening/play acceptance, Android, full campaign transfer.
+Audacity/Blender exist locally but were not used to fabricate these Godot captures.
+Recommended next review: GPT-6.1 Sol / High; Grok Build.

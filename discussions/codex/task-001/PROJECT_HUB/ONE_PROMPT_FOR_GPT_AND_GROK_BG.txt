@@ -1,3 +1,51 @@
+ОБЩ ПРОМПТ ЗА GPT И GROK — REWARD RULES IMPLEMENTATION REVIEW
+
+Git hub: https://github.com/Fuet-Goat/GnomiT-review-test
+
+Определи истинската си роля. Прочети AGENTS.md и актуалния собствен
+task-001 grant от main. Работи в собствения си клон и REPORT.txt.
+
+От клона codex/codex/task-001 прочети двата НОВИ файла:
+discussions/codex/task-001/PROJECT_HUB/builds/REWARD_RULES_PASS_2026-10-18.txt
+discussions/codex/task-001/PROJECT_HUB/builds/REWARD_RULES_REVIEW_PATCH_2026-10-18.txt
+Запиши точния входен commit.
+
+Това е реална отделна локална Godot PC проба, а не само дизайн. В Git има
+текстов receipt и literal patch. PNG/AVI/WAV и native GD файловете остават
+local+ZIP според REPORTS_ONLY. Не твърди, че си видял видео или изпълнил
+проекта, ако разполагаш само с текста. Посочи границите на своя преглед.
+
+Прегледай тези четири области:
+1. Валидна четворка, права петица, T или L създава една подходяща сила.
+   Каскадите не раждат сили; запазената клетка не се брои като премахната.
+2. Произходът следва token при swap, gravity и shuffle. Две съседни сили
+   с петичен произход, включително еднакви, дават една Black Hole.
+3. 4+4 и 4+5 имат общ resolve, без двойни щети, междинен refill,
+   повторно появяване на премахнати цели или дублирани goal сигнали.
+4. Skip, Reset и reduced motion не променят resolved Core/RNG и не
+   оставят закъснели звуци или ефекти след прекъсване.
+
+Дай до три конкретни дефекта с file:function и контрапример или кажи,
+че не намираш. Не отваряй избора на engine или цялата таблица без дефект.
+Literal plus не е представен като stable pre-swap fixture. Extended T е
+реална шесторка T; plus/7plus се проверяват като detector masks.
+Не обявявай човешки/Android тест, пълен консенсус или разрешение за кампания.
+
+Запази историята. Добави REWARD_RULES_IMPLEMENTED_2026-10-18 / PEER_REVIEW
+само в discussions/<bot>/task-001/REPORT.txt. При разрешение направи
+commit/push и провери remote байтовете. Без промени по код, арт, звук,
+grants, чужди файлове или main; без merge и празни status commits.
+Не чакай другия бот в polling loop.
+
+Върни: вердикт, commit, REPORT линк и до три находки/ограничения.
+Ако достъпът липсва, посочи точно какво не си успял да прочетеш.
+
+Препоръка за GPT: GPT-6.1 Sol / High. За Grok: Build.
+Текстът не превключва модела или effort.
+
+
+--- HISTORY ---
+
 ОБЩ КРАТЪК ПРОМПТ ЗА GPT И GROK — ФИНАЛНО R2 УТОЧНЕНИЕ
 
 Хранилище: https://github.com/Fuet-Goat/GnomiT-review-test

@@ -1,0 +1,443 @@
+REWARD RULES IMPLEMENTATION / CODEX / 18 OCTOBER 2026
+LOCAL_PC_BUILD_VERIFIED / HUMAN_ACCEPTANCE_PENDING
+
+Human authorized local implementation after the R2 discussion, then continuation.
+This is a fresh isolated playable PC lab; Git remains own REPORTS_ONLY text.
+Input hub commit: 3022362e0b5f9cd8186a9f33318c123791f81d5d.
+Peer inputs: GPT ecfce495ccd4e2d7b2a9737fa08ef1a72fc1cd44;
+Grok 4d2ea20e0412d2936e28f01cec805f004cf67b4f.
+No final Grok ACK or three-bot consensus is invented.
+
+Implemented: actual ordinary player matches create 4-line Volcano / straight5+
+Storm / T-plus Tornado / L Landslide, one per eligible matched component, no
+cascade births, reserved anchor and durable token provenance with five ticks.
+Priority: real straight5+ > T/plus > L > straight4. Extra T/L stones retain tier5.
+4+4 has two disjoint eruptions; 4+5 resolves five-targets then remaining Volcano
+targets in one transaction. Adjacent registered five-born + five-born yields
+one repeatable Black Hole, including identical powers. Old T+V trigger removed.
+Direct BH preserves soil/runes, swallowed other powers do not recurse; later
+normal cascades keep their terrain rules. Missing metadata pairs cost no move.
+
+Animation: the current painted material Black Hole takes actual source wind,
+electricity or stone from the post-swap token identities, including equal pairs.
+Combined native effects share one frozen grid, no target resurrection/refill
+between components, one goal count. Birth reveal, badge movement, reduced-motion
+and interruption paths are wired. Existing icons/single-power assets retained.
+Sound: six original pair-specific soft 2.8s fusion cues plus .25s birth cue;
+existing approved individual and scrape/break sounds unchanged. Reset/Skip/exit
+stop all power AND stone voices; the omitted stone-stop path was fixed before
+delivery and verified with real actively playing streams.
+
+Validation: 40 Core scenario checks; 105 integrated presentation checks;
+31 audio checks; 16 focused stone-cancellation checks PASS. Five real native
+scripted press/motion/release Godot captures PASS: create_four, create_five,
+pair44, pair45, storm_landslide, each432x960/screen0/270frames/30fps/9s.
+Native capture uses actual final Core/RNG immutability checks (238 samples each).
+Captured PCM for pair45 and storm_landslide: stereo48k/9s/0 clipped samples.
+AVI outer RIFF ends70bytes early inside final idx1; extractor validates all media
+boundaries and records this Godot container quirk, rather than hiding it.
+Actual ready window and selected native stills inspected, no human test claimed.
+
+Independent read-only code review found one inferred stone-stop omission;
+it was corrected and re-read, then 16 focused runtime checks passed. Separate
+read-only integrity audit confirms all258 predecessor files intact, all257
+unmodified existing local files intact except intentional project.godot setup.
+Current success logs have no engine errors/warnings. Historical RED, parse,
+fixture expectation and harness cleanup failures retained separately.
+
+Fixture honesty: literal plus cannot be formed by one adjacent ordinary swap
+from a stable match-free board. Selectable Extended T is reachable6T; actual
+plus/7plus tested only as post-swap detector masks. Pair scenarios are preplaced
+registered powers, not a claim that both were made through a full played run.
+
+Scope: no source/private Cradle/GnomiT/campaign/unlock/save/old sound edits.
+Fresh local path: C:/Users/fruch/Documents/Codex/GnomiT_Playtests/RewardRules_2026-10-18
+Launcher: PLAY_REWARD_RULES.cmd, existingGodot4.7.2, monitor1,432x960.
+Native assets/source remain LOCAL+ZIP, not silently uploaded under REPORTS_ONLY.
+This hub contains only own text evidence and literal review patch. No merge.
+Pending: human visual/listening/play acceptance, Android, full campaign transfer.
+Audacity/Blender exist locally but were not used to fabricate these Godot captures.
+Recommended next review: GPT-6.1 Sol / High; Grok Build.
+
+EXACT LOCAL RECEIPT
+{
+  "status": "LOCAL_PC_BUILD_VERIFIED / HUMAN_ACCEPTANCE_PENDING",
+  "recorded_utc": "2026-10-18T17:10:41.022527+00:00",
+  "local_project": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\RewardRules_2026-10-18",
+  "predecessor": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\MagicAnimations_2026-10-17",
+  "predecessor_baseline_files": 258,
+  "predecessor_file_deltas": [],
+  "existing_local_file_deltas": [
+    "project.godot"
+  ],
+  "tests": {
+    "core_scenarios": 40,
+    "presentation_checks": 105,
+    "audio_checks": 31,
+    "stone_cancel_checks": 16
+  },
+  "success_logs": {
+    "core": "reward_rules_green.log",
+    "audio": "reward_rules_audio_check_R2.log",
+    "presentation": "reward_rules_presentation_attempt1.log",
+    "stone_cancel": "reward_stone_cancellation.log"
+  },
+  "native_captures": {
+    "create_four": {
+      "report": "outputs\\native_reward_rules\\create_four\\REPORT.json",
+      "movie": "outputs/creation_four.avi",
+      "viewport": [
+        432,
+        960
+      ],
+      "screen": 0,
+      "status": "PASS",
+      "fps": 30,
+      "encoded_frames": 270,
+      "duration_seconds": 9.0,
+      "movie_identity": {
+        "bytes": 32064996,
+        "sha256": "dbe7efa9fbd86a9cf85426d2562237910dedec40f44b2485b153d30b9343c099"
+      },
+      "immutable_resolved_state_samples": 238,
+      "input": "scripted real Input.parse_input_event press/motion/release, not human"
+    },
+    "create_five": {
+      "report": "outputs\\native_reward_rules\\create_five\\REPORT.json",
+      "movie": "outputs/creation_five.avi",
+      "viewport": [
+        432,
+        960
+      ],
+      "screen": 0,
+      "status": "PASS",
+      "fps": 30,
+      "encoded_frames": 270,
+      "duration_seconds": 9.0,
+      "movie_identity": {
+        "bytes": 31979024,
+        "sha256": "56bdef51f8d320597ebf997922c4308da3c787014dcf33e8b44c3d82776374de"
+      },
+      "immutable_resolved_state_samples": 238,
+      "input": "scripted real Input.parse_input_event press/motion/release, not human"
+    },
+    "pair44": {
+      "report": "outputs\\native_reward_rules\\pair44\\REPORT.json",
+      "movie": "outputs/pair44.avi",
+      "viewport": [
+        432,
+        960
+      ],
+      "screen": 0,
+      "status": "PASS",
+      "fps": 30,
+      "encoded_frames": 270,
+      "duration_seconds": 9.0,
+      "movie_identity": {
+        "bytes": 31465344,
+        "sha256": "123e864d3f3a00560038ed4960bbb77ae5b456d35e8777f64100e9464c1cdcf4"
+      },
+      "immutable_resolved_state_samples": 238,
+      "input": "scripted real Input.parse_input_event press/motion/release, not human"
+    },
+    "pair45": {
+      "report": "outputs\\native_reward_rules\\pair45\\REPORT.json",
+      "movie": "outputs/pair45.avi",
+      "viewport": [
+        432,
+        960
+      ],
+      "screen": 0,
+      "status": "PASS",
+      "fps": 30,
+      "encoded_frames": 270,
+      "duration_seconds": 9.0,
+      "movie_identity": {
+        "bytes": 31608208,
+        "sha256": "3fb6970d9c223f47471d96aa5b3f63135e0ef3578bf7f0795258dee27def515e"
+      },
+      "immutable_resolved_state_samples": 238,
+      "input": "scripted real Input.parse_input_event press/motion/release, not human"
+    },
+    "storm_landslide": {
+      "report": "outputs\\native_reward_rules\\storm_landslide\\REPORT.json",
+      "movie": "outputs/storm_landslide.avi",
+      "viewport": [
+        432,
+        960
+      ],
+      "screen": 0,
+      "status": "PASS",
+      "fps": 30,
+      "encoded_frames": 270,
+      "duration_seconds": 9.0,
+      "movie_identity": {
+        "bytes": 30847418,
+        "sha256": "ed5986d940728bd95ffdffc07e6490a1cf6ce9cfa50d34ec5f7331319897a748"
+      },
+      "immutable_resolved_state_samples": 238,
+      "input": "scripted real Input.parse_input_event press/motion/release, not human"
+    }
+  },
+  "runtime_audio": {
+    "pair45": {
+      "source_avi": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\RewardRules_2026-10-18\\outputs\\pair45.avi",
+      "output_wav": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\RewardRules_2026-10-18\\outputs\\pair45_audio.wav",
+      "source_bytes": 31608208,
+      "riff_segments": [
+        "AVI"
+      ],
+      "container_warnings": [
+        "Outer RIFF size ends 70 bytes before EOF inside a complete final idx1; index ignored, media boundaries validated"
+      ],
+      "audio_streams": [
+        {
+          "index": 1,
+          "scale": 4,
+          "rate": 192000,
+          "start": 0,
+          "length": 432000,
+          "sample_size": 4,
+          "format_tag": 1,
+          "channels": 2,
+          "sample_rate": 48000,
+          "byte_rate": 192000,
+          "block_align": 4,
+          "bits_per_sample": 16
+        }
+      ],
+      "selected_stream": 1,
+      "source_format": {
+        "channels": 2,
+        "sample_rate": 48000,
+        "sample_width": 2,
+        "bits_per_sample": 16,
+        "valid_bits_per_sample": 16,
+        "block_align": 4,
+        "channel_mask": null
+      },
+      "wav_encoding": "integer PCM; original sample bytes; conventional PCM header",
+      "audio_chunk_count": 270,
+      "pcm_bytes": 1728000,
+      "sample_frames": 432000,
+      "duration_seconds": 9.0,
+      "pcm_sha256": "978bfc60e0b233a6c7516911c9aed1d99c9e4a7d5a8a77849bb5ceb03151d92e",
+      "wav_sha256": "31d2f25478cf3b1a610d836c18f326761aa53b2cd1b3461e592b5936de183ac8",
+      "wav_bytes": 1728044,
+      "statistics": {
+        "sample_count": 864000,
+        "nonzero_samples": 452482,
+        "clipped_samples": 0,
+        "peak_integer": 8215,
+        "peak_normalized": 0.250701904296875,
+        "rms_normalized": 0.025006008817368083,
+        "rms_dbfs": -32.03911240042787,
+        "mean_normalized": -1.5987113670066552e-05,
+        "per_channel": [
+          {
+            "sample_count": 432000,
+            "nonzero_samples": 226243,
+            "clipped_samples": 0,
+            "peak_integer": 8215,
+            "peak_normalized": 0.250701904296875,
+            "rms_normalized": 0.025022762564391905,
+            "rms_dbfs": -32.033294899853956,
+            "mean_normalized": -1.6017631248191552e-05
+          },
+          {
+            "sample_count": 432000,
+            "nonzero_samples": 226239,
+            "clipped_samples": 0,
+            "peak_integer": 8215,
+            "peak_normalized": 0.250701904296875,
+            "rms_normalized": 0.024989243837992527,
+            "rms_dbfs": -32.0449377041663,
+            "mean_normalized": -1.5956596091941552e-05
+          }
+        ]
+      }
+    },
+    "storm_landslide": {
+      "source_avi": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\RewardRules_2026-10-18\\outputs\\storm_landslide.avi",
+      "output_wav": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\RewardRules_2026-10-18\\outputs\\storm_landslide_audio.wav",
+      "source_bytes": 30847418,
+      "riff_segments": [
+        "AVI"
+      ],
+      "container_warnings": [
+        "Outer RIFF size ends 70 bytes before EOF inside a complete final idx1; index ignored, media boundaries validated"
+      ],
+      "audio_streams": [
+        {
+          "index": 1,
+          "scale": 4,
+          "rate": 192000,
+          "start": 0,
+          "length": 432000,
+          "sample_size": 4,
+          "format_tag": 1,
+          "channels": 2,
+          "sample_rate": 48000,
+          "byte_rate": 192000,
+          "block_align": 4,
+          "bits_per_sample": 16
+        }
+      ],
+      "selected_stream": 1,
+      "source_format": {
+        "channels": 2,
+        "sample_rate": 48000,
+        "sample_width": 2,
+        "bits_per_sample": 16,
+        "valid_bits_per_sample": 16,
+        "block_align": 4,
+        "channel_mask": null
+      },
+      "wav_encoding": "integer PCM; original sample bytes; conventional PCM header",
+      "audio_chunk_count": 270,
+      "pcm_bytes": 1728000,
+      "sample_frames": 432000,
+      "duration_seconds": 9.0,
+      "pcm_sha256": "6eed6d9be4d5a59e8e934df420a2b902c6d5009ea9e25bb7982046d6cefac4a4",
+      "wav_sha256": "10483ac911329b99fc011a294d9ba0129ed6b48075b985d76585ab37838c44d5",
+      "wav_bytes": 1728044,
+      "statistics": {
+        "sample_count": 864000,
+        "nonzero_samples": 474100,
+        "clipped_samples": 0,
+        "peak_integer": 5338,
+        "peak_normalized": 0.16290283203125,
+        "rms_normalized": 0.014914184993875467,
+        "rms_dbfs": -36.528009485439696,
+        "mean_normalized": -1.4720740141691985e-05,
+        "per_channel": [
+          {
+            "sample_count": 432000,
+            "nonzero_samples": 237002,
+            "clipped_samples": 0,
+            "peak_integer": 5338,
+            "peak_normalized": 0.16290283203125,
+            "rms_normalized": 0.014894242637856473,
+            "rms_dbfs": -36.539631509351,
+            "mean_normalized": -1.4731159916630497e-05
+          },
+          {
+            "sample_count": 432000,
+            "nonzero_samples": 237098,
+            "clipped_samples": 0,
+            "peak_integer": 5338,
+            "peak_normalized": 0.16290283203125,
+            "rms_normalized": 0.014934100719753384,
+            "rms_dbfs": -36.51641847988794,
+            "mean_normalized": -1.4710320366753472e-05
+          }
+        ]
+      }
+    }
+  },
+  "new_text_source": {
+    "scripts/lab/reward_rules_core.gd": {
+      "bytes": 19221,
+      "sha256": "c771d019270f5015f64ff5a86a0e2cac81f1e39f7c9afaa0d0e1747c2d7e2934"
+    },
+    "scripts/lab/reward_rules_fixtures.gd": {
+      "bytes": 3143,
+      "sha256": "1fd411a5cf2ff7b62f3452d5b371619e151cbaa80f6bd1201483972101c91e40"
+    },
+    "scripts/lab/reward_rules_board.gd": {
+      "bytes": 13889,
+      "sha256": "1a94561e384213beb5002942d47e87239a1d15f9dac3d7a08429fd2230fb6e1e"
+    },
+    "scripts/lab/reward_rules_lab.gd": {
+      "bytes": 17303,
+      "sha256": "7323211b46aa8cccb1422aad1ffa762dbd6a9e1d3aefb7c59a9d22e5530274f2"
+    },
+    "scripts/lab/reward_rules_audio.gd": {
+      "bytes": 2049,
+      "sha256": "bcd83ecbf372387689f34d443770ebec429d08252a9bb4be837af40c210b3e4a"
+    },
+    "reward_rules.tscn": {
+      "bytes": 299,
+      "sha256": "146d5e2633b88f30d1815e5da52cd779fd92b85ee4aa96351ba8a14547cf1d67"
+    },
+    "PLAY_REWARD_RULES.cmd": {
+      "bytes": 135,
+      "sha256": "585e5f0253aede9f2d902488e509a703c2f2b73a781313200cff93fd7abd3464"
+    },
+    "tools/build_reward_rules_audio.py": {
+      "bytes": 4272,
+      "sha256": "c66ca370ca04f4c70be8200397d97f828aec699e730bd0235381ca71209244e8"
+    },
+    "tests/test_reward_rules.gd": {
+      "bytes": 19904,
+      "sha256": "1e54c2ae40415a93f1c43d0a38a3a8a54b4f5602103c4f9754e727c70326811a"
+    },
+    "tests/test_reward_rules_audio.gd": {
+      "bytes": 2022,
+      "sha256": "84e1b82492d739a1c8f1ae146fc9a363a210fd7af29992ba8bdd39071ffe6989"
+    },
+    "tests/test_reward_rules_presentation.gd": {
+      "bytes": 15170,
+      "sha256": "e943a1b3267535675f1b731ece528dad5386ddddb91e5c91b6bca87231a862e0"
+    },
+    "tests/test_reward_stone_cancellation.gd": {
+      "bytes": 4489,
+      "sha256": "5e9da3b40ae1d60754092c4797433fc15cded8a05dcc695072fa215e915ab327"
+    },
+    "tests/capture_reward_rules.gd": {
+      "bytes": 8317,
+      "sha256": "226976d6e5261adfe38d07c6673ecba5cd9948c68fcee5bd0d337441c33f090a"
+    },
+    "README_REWARD_RULES.txt": {
+      "bytes": 4706,
+      "sha256": "b99888014725ab301f49f16505a54f37535a7279dcb705e855ef2d24a4bfb6ac"
+    }
+  },
+  "new_sounds": {
+    "assets/sfx/reward_rules/fusion_10_10_soft_v1.wav": {
+      "bytes": 493964,
+      "sha256": "bbd8fc607a45292b43c5dafb4e949bb6f784a5dbd41016ff9b3e2637fb12ebed"
+    },
+    "assets/sfx/reward_rules/fusion_6_10_soft_v1.wav": {
+      "bytes": 493964,
+      "sha256": "d1c54a133812655412269831aad325fa8b16b21411e284579ed106afbc839076"
+    },
+    "assets/sfx/reward_rules/fusion_6_6_soft_v1.wav": {
+      "bytes": 493964,
+      "sha256": "4da029773bf66834ca4a5d93154d641d43c9c4ff96efe060e8beff3ed9a04782"
+    },
+    "assets/sfx/reward_rules/fusion_6_9_soft_v1.wav": {
+      "bytes": 493964,
+      "sha256": "5cd7b0e8a59190af0f5ef89c9a7e1703de4e70650f39b1e9a8bb24f9e98400b1"
+    },
+    "assets/sfx/reward_rules/fusion_9_10_soft_v1.wav": {
+      "bytes": 493964,
+      "sha256": "ca9ee0bda217b0cfc7b329853ba575035d7ae149e51489b61e7e411c6ad9218e"
+    },
+    "assets/sfx/reward_rules/fusion_9_9_soft_v1.wav": {
+      "bytes": 493964,
+      "sha256": "7893bd5c6d89fce8a41e018ceae4cda1c74c683bc42d846b0db1887c73fbfa0c"
+    },
+    "assets/sfx/reward_rules/reward_birth_soft_v1.wav": {
+      "bytes": 44144,
+      "sha256": "4b424d949d554ba572f63260d2ee3bb158d8a2d0fc50842be75ebd18426dffb9"
+    }
+  },
+  "current_project_config": {
+    "bytes": 963,
+    "sha256": "940300933a69663918f9be7c64c1de8382b0eea7b5e13bc1e6d9b8019fd4565b"
+  },
+  "independent_integrity_review": {
+    "bytes": 6875,
+    "sha256": "83d08220a4fd610c2edd42a8ac00629bc518ca0826901133cf1d0c62cbcc0d99"
+  },
+  "ui_observation": "Actual default Create 4 -> Volcano ready window inspected through Computer Use after bringing the exact returned Godot window forward. Monitor 1; no OS drag/human play acceptance claimed.",
+  "not_claimed": [
+    "full peer consensus",
+    "human play/listening approval",
+    "Android test",
+    "campaign integration",
+    "native source/binary upload into governed Git repository",
+    "merge"
+  ]
+}

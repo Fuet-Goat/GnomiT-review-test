@@ -1,0 +1,2574 @@
+REWARD RULES IMPLEMENTATION / CODEX / 18 OCTOBER 2026
+LOCAL_PC_BUILD_VERIFIED / HUMAN_ACCEPTANCE_PENDING
+
+Human authorized local implementation after the R2 discussion, then continuation.
+This is a fresh isolated playable PC lab; Git remains own REPORTS_ONLY text.
+Input hub commit: 3022362e0b5f9cd8186a9f33318c123791f81d5d.
+Peer inputs: GPT ecfce495ccd4e2d7b2a9737fa08ef1a72fc1cd44;
+Grok 4d2ea20e0412d2936e28f01cec805f004cf67b4f.
+No final Grok ACK or three-bot consensus is invented.
+
+Implemented: actual ordinary player matches create 4-line Volcano / straight5+
+Storm / T-plus Tornado / L Landslide, one per eligible matched component, no
+cascade births, reserved anchor and durable token provenance with five ticks.
+Priority: real straight5+ > T/plus > L > straight4. Extra T/L stones retain tier5.
+4+4 has two disjoint eruptions; 4+5 resolves five-targets then remaining Volcano
+targets in one transaction. Adjacent registered five-born + five-born yields
+one repeatable Black Hole, including identical powers. Old T+V trigger removed.
+Direct BH preserves soil/runes, swallowed other powers do not recurse; later
+normal cascades keep their terrain rules. Missing metadata pairs cost no move.
+
+Animation: the current painted material Black Hole takes actual source wind,
+electricity or stone from the post-swap token identities, including equal pairs.
+Combined native effects share one frozen grid, no target resurrection/refill
+between components, one goal count. Birth reveal, badge movement, reduced-motion
+and interruption paths are wired. Existing icons/single-power assets retained.
+Sound: six original pair-specific soft 2.8s fusion cues plus .25s birth cue;
+existing approved individual and scrape/break sounds unchanged. Reset/Skip/exit
+stop all power AND stone voices; the omitted stone-stop path was fixed before
+delivery and verified with real actively playing streams.
+
+Validation: 40 Core scenario checks; 105 integrated presentation checks;
+31 audio checks; 16 focused stone-cancellation checks PASS. Five real native
+scripted press/motion/release Godot captures PASS: create_four, create_five,
+pair44, pair45, storm_landslide, each432x960/screen0/270frames/30fps/9s.
+Native capture uses actual final Core/RNG immutability checks (238 samples each).
+Captured PCM for pair45 and storm_landslide: stereo48k/9s/0 clipped samples.
+AVI outer RIFF ends70bytes early inside final idx1; extractor validates all media
+boundaries and records this Godot container quirk, rather than hiding it.
+Actual ready window and selected native stills inspected, no human test claimed.
+
+Independent read-only code review found one inferred stone-stop omission;
+it was corrected and re-read, then 16 focused runtime checks passed. Separate
+read-only integrity audit confirms all258 predecessor files intact, all257
+unmodified existing local files intact except intentional project.godot setup.
+Current success logs have no engine errors/warnings. Historical RED, parse,
+fixture expectation and harness cleanup failures retained separately.
+
+Fixture honesty: literal plus cannot be formed by one adjacent ordinary swap
+from a stable match-free board. Selectable Extended T is reachable6T; actual
+plus/7plus tested only as post-swap detector masks. Pair scenarios are preplaced
+registered powers, not a claim that both were made through a full played run.
+
+Scope: no source/private Cradle/GnomiT/campaign/unlock/save/old sound edits.
+Fresh local path: C:/Users/fruch/Documents/Codex/GnomiT_Playtests/RewardRules_2026-10-18
+Launcher: PLAY_REWARD_RULES.cmd, existingGodot4.7.2, monitor1,432x960.
+Native assets/source remain LOCAL+ZIP, not silently uploaded under REPORTS_ONLY.
+This hub contains only own text evidence and literal review patch. No merge.
+Pending: human visual/listening/play acceptance, Android, full campaign transfer.
+Audacity/Blender exist locally but were not used to fabricate these Godot captures.
+Recommended next review: GPT-6.1 Sol / High; Grok Build.
+
+LITERAL REVIEW PATCH — DO NOT APPLY WITHOUT SEPARATE TASK AUTHORITY
+--- a/project.godot
++++ b/project.godot
+@@ -2,11 +2,11 @@
+ config_version=5
+ 
+ [application]
+-config/name="GnomiT Magic Animation Lab"
++config/name="GnomiT Reward Rules Lab"
+ config/use_custom_user_dir=true
+-config/custom_user_dir_name="GnomiT-MagicAnimation-Lab-2026-10-17"
++config/custom_user_dir_name="GnomiT-RewardRules-Lab-2026-10-18"
+ config/version="0.1.0-local-frankenstein-r1"
+-run/main_scene="res://natural_powers.tscn"
++run/main_scene="res://reward_rules.tscn"
+ config/features=PackedStringArray("4.7", "GL Compatibility")
+ 
+ [display]
+--- /dev/null
++++ b/scripts/lab/reward_rules_core.gd
+@@ -0,0 +1,500 @@
++extends "res://scripts/lab/natural_power_core.gd"
++## Standalone reward lab. Metadata maps use integer cell-index keys on events.
++## Only ordinary initiating player swaps can create rewards; cascades cannot.
++
++var _rewards: Dictionary = {}
++var _next_reward_id := 1
++var _pending_before_rewards: Dictionary = {}
++
++func setup(level: Dictionary, seed_value: int = 1) -> void:
++	_rewards.clear()
++	_pending_before_rewards.clear()
++	_next_reward_id = 1
++	black_hole_used = false
++	super.setup(level, seed_value)
++
++func setup_lab(scenario: String, seed_value: int = 42) -> void:
++	preload("res://scripts/lab/reward_rules_fixtures.gd").configure(self, scenario, seed_value)
++
++func _setup_legacy_lab(scenario: String, seed_value: int = 42) -> void:
++	super.setup_lab(scenario, seed_value)
++	for index in range(grid.size()):
++		if _is_special(grid[index]):
++			place_reward(index, grid[index], "fixture")
++
++func reward_at(index: int) -> Dictionary:
++	if not _rewards.has(index):
++		return {}
++	var reward: Dictionary = _rewards[index]
++	if index < 0 or index >= grid.size() or grid[index] != int(reward.get("kind", -99)):
++		return {}
++	return reward.duplicate(true)
++
++func place_reward(index: int, kind: int, recipe: String = "fixture") -> void:
++	if index < 0 or index >= grid.size() or grid[index] < 0 or not _is_special(kind):
++		return
++	grid[index] = kind
++	var reward := {
++		"id": _next_reward_id, "token_id": _next_reward_id, "kind": kind,
++		"birth_tier": 4 if kind == VOLCANO else 5, "recipe": recipe,
++	}
++	if kind >= EARTHQUAKE and kind <= EARTHQUAKE_NE:
++		reward["orientation"] = quake_orientation(kind)
++	_rewards[index] = reward
++	_next_reward_id += 1
++
++func _reward_snapshot() -> Dictionary:
++	var snapshot: Dictionary = {}
++	for index in _rewards:
++		var reward := reward_at(int(index))
++		if not reward.is_empty():
++			snapshot[int(index)] = reward
++	return snapshot
++
++## Simulate the proposed swap using a duplicate; neither RNG nor live state changes.
++func preview_rewards(a: int, b: int) -> Array:
++	if not _can_swap(a, b) or not _is_ordinary(grid[a]) or not _is_ordinary(grid[b]):
++		return []
++	var snapshot: Array[int] = grid.duplicate()
++	var old := snapshot[a]
++	snapshot[a] = snapshot[b]
++	snapshot[b] = old
++	return _detect_on(snapshot, a, b)
++
++## Pure detector for a board ALREADY in its post-swap state.
++func detect_rewards(a: int, b: int) -> Array:
++	return _detect_on(grid, a, b)
++
++func _ordinary_runs(snapshot: Array[int]) -> Array:
++	var runs: Array = []
++	for horizontal in [true, false]:
++		var lines := rows if horizontal else cols
++		var length := cols if horizontal else rows
++		for line in range(lines):
++			var position := 0
++			while position < length:
++				var start := position
++				var index: int = line * cols + position if horizontal else position * cols + line
++				var kind := snapshot[index]
++				position += 1
++				while position < length:
++					var next: int = line * cols + position if horizontal else position * cols + line
++					if not _is_ordinary(kind) or snapshot[next] != kind:
++						break
++					position += 1
++				if _is_ordinary(kind) and position - start >= 3:
++					var cells: Array[int] = []
++					for offset in range(start, position):
++						cells.append(line * cols + offset if horizontal else offset * cols + line)
++					runs.append({"cells": cells, "horizontal": horizontal, "kind": kind})
++	return runs
++
++func _detect_on(snapshot: Array[int], a: int, b: int) -> Array:
++	var runs := _ordinary_runs(snapshot)
++	var matched: Dictionary = {}
++	for run in runs:
++		for index in run["cells"]:
++			matched[int(index)] = true
++	var visited: Dictionary = {}
++	var awards: Array = []
++	var ordered: Array = matched.keys()
++	ordered.sort()
++	for start in ordered:
++		if visited.has(start):
++			continue
++		var component: Array[int] = []
++		var pending: Array[int] = [int(start)]
++		visited[start] = true
++		while not pending.is_empty():
++			var current := pending.pop_back() as int
++			component.append(current)
++			for neighbor in _neighbors(current):
++				# Only MATCHED cells bridge a connected component.
++				if matched.has(neighbor) and not visited.has(neighbor) and snapshot[neighbor] == snapshot[current]:
++					visited[neighbor] = true
++					pending.append(neighbor)
++		component.sort()
++		var anchors: Array[int] = []
++		if component.has(a):
++			anchors.append(a)
++		if component.has(b) and not anchors.has(b):
++			anchors.append(b)
++		if anchors.is_empty():
++			continue
++		anchors.sort()
++		var candidates: Array = []
++		var component_runs: Array = []
++		for run in runs:
++			if component.has(int(run["cells"][0])):
++				component_runs.append(run)
++				var cells: Array = run["cells"]
++				if cells.size() >= 5:
++					candidates.append(_candidate(4, LIGHTNING_STORM, "straight_five", cells, int(cells[0])))
++				elif cells.size() == 4:
++					candidates.append(_candidate(1, VOLCANO, "straight_four", cells, int(cells[0])))
++		for first_index in range(component_runs.size()):
++			var first: Dictionary = component_runs[first_index]
++			for second_index in range(first_index + 1, component_runs.size()):
++				var second: Dictionary = component_runs[second_index]
++				if first["horizontal"] == second["horizontal"]:
++					continue
++				for shared in first["cells"]:
++					if not second["cells"].has(shared):
++						continue
++					var union_cells: Array = first["cells"].duplicate()
++					for cell in second["cells"]:
++						if not union_cells.has(cell):
++							union_cells.append(cell)
++					union_cells.sort()
++					var first_interior: bool = shared != first["cells"][0] and shared != first["cells"][-1]
++					var second_interior: bool = shared != second["cells"][0] and shared != second["cells"][-1]
++					if first_interior or second_interior:
++						candidates.append(_candidate(3, TORNADO_H, "intersecting_t", union_cells, int(shared)))
++					else:
++						var horizontal: Dictionary = first if first["horizontal"] else second
++						var vertical: Dictionary = second if first["horizontal"] else first
++						var east: bool = shared == horizontal["cells"][0]
++						var south: bool = shared == vertical["cells"][0]
++						var kind := EARTHQUAKE if east and south else EARTHQUAKE_SW if south else EARTHQUAKE_NE if east else EARTHQUAKE_NW
++						candidates.append(_candidate(2, kind, "intersecting_l", union_cells, int(shared)))
++		if candidates.is_empty():
++			continue
++		candidates.sort_custom(_candidate_precedes)
++		var best: Dictionary = candidates[0]
++		var kind := int(best["kind"])
++		var award := {
++			"index": anchors[0], "anchor": anchors[0], "kind": kind,
++			"birth_tier": 4 if kind == VOLCANO else 5, "recipe": best["recipe"],
++			"component_indices": component.duplicate(), "matched": component.duplicate(),
++			"recipe_indices": best["cells"].duplicate(), "intersection": best["tie"],
++		}
++		if kind >= EARTHQUAKE and kind <= EARTHQUAKE_NE:
++			award["orientation"] = quake_orientation(kind)
++		awards.append(award)
++	awards.sort_custom(func(left: Dictionary, right: Dictionary) -> bool: return int(left["index"]) < int(right["index"]))
++	return awards
++
++func _candidate(priority: int, kind: int, recipe: String, cells: Array, tie: int) -> Dictionary:
++	return {"priority": priority, "kind": kind, "recipe": recipe, "cells": cells.duplicate(), "tie": tie}
++
++func _candidate_precedes(left: Dictionary, right: Dictionary) -> bool:
++	if left["priority"] != right["priority"]:
++		return int(left["priority"]) > int(right["priority"])
++	if left["cells"].size() != right["cells"].size():
++		return left["cells"].size() > right["cells"].size()
++	if left["tie"] != right["tie"]:
++		return int(left["tie"]) < int(right["tie"])
++	var first: Array = left["cells"]
++	var second: Array = right["cells"]
++	for offset in range(mini(first.size(), second.size())):
++		if first[offset] != second[offset]:
++			return int(first[offset]) < int(second[offset])
++	return int(left["kind"]) < int(right["kind"])
++
++func _registered_pair(a: int, b: int) -> bool:
++	var reward_a := reward_at(a)
++	var reward_b := reward_at(b)
++	return not reward_a.is_empty() and not reward_b.is_empty() and int(reward_a.get("birth_tier", 0)) in [4, 5] and int(reward_b.get("birth_tier", 0)) in [4, 5]
++
++func try_swap(a: int, b: int) -> Dictionary:
++	if won or lost or not _can_swap(a, b):
++		return _result(false, [])
++	var special_a := _is_special(grid[a])
++	var special_b := _is_special(grid[b])
++	if special_a and special_b:
++		# A numeric icon alone is not authority for a birth tier or fusion.
++		if not _registered_pair(a, b):
++			return _result(false, [])
++	var events: Array = []
++	var before: Array[int] = grid.duplicate()
++	_exchange(a, b)
++	events.append(_event("swap", before, {"a": a, "b": b}))
++	if not special_a and not special_b:
++		if not _has_match_at(a) and not _has_match_at(b):
++			before = grid.duplicate()
++			_exchange(a, b)
++			events.append(_event("swap", before, {"a": a, "b": b}))
++			return _result(false, events)
++		moves_left -= 1
++		var awards := detect_rewards(a, b)
++		var matches := get_matches()
++		if awards.is_empty():
++			_clear(matches, events)
++		else:
++			_birth_rewards(matches, awards, events)
++		_resolve_after_power(events)
++		return _result(true, events)
++	moves_left -= 1
++	var sources: Array = []
++	for index in [a, b]:
++		if _is_special(grid[index]):
++			var reward := reward_at(index)
++			sources.append({"index": index, "kind": grid[index], "birth_tier": int(reward.get("birth_tier", 0)), "token_id": int(reward.get("token_id", -1))})
++	if sources.size() == 2:
++		var first_tier := int(sources[0]["birth_tier"])
++		var second_tier := int(sources[1]["birth_tier"])
++		if first_tier == 5 and second_tier == 5:
++			black_hole_used = true # Diagnostic only; repeated qualifying pairs are legal.
++			_apply_atomic_power("black_hole", sources, [], events)
++		else:
++			var components: Array = []
++			var excluded: Array[int] = []
++			# The five-born footprint is evaluated first on the common snapshot.
++			var ordered_sources: Array = sources.duplicate(true)
++			if first_tier == 4 and second_tier == 5:
++				ordered_sources.reverse()
++			for source in ordered_sources:
++				var component := _power_component(int(source["index"]), int(source["kind"]), excluded)
++				components.append(component)
++				for index in component["targets"]:
++					if not excluded.has(index):
++						excluded.append(index)
++			var tiers: Array[int] = [first_tier, second_tier]
++			tiers.sort()
++			_apply_atomic_power("power_combo", sources, components, events, {"combo_tiers": tiers})
++	else:
++		var source: Dictionary = sources[0]
++		var component := _power_component(int(source["index"]), int(source["kind"]), [])
++		_apply_atomic_power(String(component["power"]), sources, [component], events)
++	_resolve_after_power(events)
++	return _result(true, events)
++
++func _birth_rewards(matches: Array[int], awards: Array, events: Array) -> void:
++	var before: Array[int] = grid.duplicate()
++	_pending_before_rewards = _reward_snapshot()
++	var floor_before: Array[int] = floor.duplicate()
++	var runes_before: Array[int] = runes.duplicate()
++	var anchors: Array[int] = []
++	for award in awards:
++		anchors.append(int(award["index"]))
++	var removed: Array[int] = []
++	var adjacent_runes: Dictionary = {}
++	for index in matches:
++		if anchors.has(index):
++			continue
++		removed.append(index)
++		if grid[index] == collect_kind:
++			collected += 1
++		floor[index] = 0
++		for neighbor in _neighbors(index):
++			if runes[neighbor] > 0:
++				adjacent_runes[neighbor] = true
++		grid[index] = -1
++		_rewards.erase(index)
++	var broken: Array[int] = []
++	for index in adjacent_runes:
++		runes[index] = maxi(0, runes[index] - 1)
++		if runes[index] == 0:
++			grid[index] = -1
++			broken.append(int(index))
++	broken.sort()
++	# The ordinary clear owns collection/terrain animation. Reserved anchors stay
++	# ordinary until the separate birth event, so there is no double clear/count.
++	events.append(_event("clear", before, {
++		"indices": removed.duplicate(), "matched": removed.duplicate(),
++		"broken_runes": broken, "reserved_anchors": anchors.duplicate(),
++		"floor_before": floor_before, "runes_before": runes_before,
++		"floor_after": floor.duplicate(), "runes_after": runes.duplicate(),
++	}))
++	before = grid.duplicate()
++	_pending_before_rewards = _reward_snapshot()
++	floor_before = floor.duplicate()
++	runes_before = runes.duplicate()
++	for award in awards:
++		var index := int(award["index"])
++		place_reward(index, int(award["kind"]), String(award["recipe"]))
++		award["token_id"] = reward_at(index)["token_id"]
++		award["id"] = reward_at(index)["id"]
++	events.append(_event("reward_birth", before, {
++		"awards": awards.duplicate(true), "indices": [], "matched": matches.duplicate(),
++		"broken_runes": [], "floor_before": floor_before, "runes_before": runes_before,
++		"floor_after": floor.duplicate(), "runes_after": runes.duplicate(),
++	}))
++
++func _power_component(origin: int, kind: int, excluded: Array) -> Dictionary:
++	var power := _power_name(kind)
++	var targets: Array[int] = []
++	var component := {"power": power, "origin": origin, "kind": kind}
++	if kind == VOLCANO:
++		var candidates: Array[int] = []
++		for index in range(grid.size()):
++			if _is_ordinary(grid[index]) and not excluded.has(index):
++				candidates.append(index)
++		var budget := _rng.randi_range(3, 5)
++		component["budget"] = budget
++		for hit in range(mini(budget, candidates.size())):
++			var selected := _rng.randi_range(0, candidates.size() - 1)
++			targets.append(candidates[selected])
++			candidates.remove_at(selected)
++	elif kind >= EARTHQUAKE and kind <= EARTHQUAKE_NE:
++		var rays := quake_rays(origin, kind)
++		component["orientation"] = quake_orientation(kind)
++		component["directions"] = quake_directions(kind)
++		component["rays"] = rays
++		for ray in rays:
++			for index in ray:
++				if not targets.has(index):
++					targets.append(index)
++	elif kind == LIGHTNING_STORM:
++		for index in range(grid.size()):
++			var x := index % cols
++			var y: int = index / cols
++			if (x == 0 or x == cols - 1 or y == 0 or y == rows - 1) and _is_ordinary(grid[index]):
++				targets.append(index)
++	else:
++		for index in range(grid.size()):
++			var dx := absi(index % cols - origin % cols)
++			var dy := absi(index / cols - origin / cols)
++			if index != origin and dx <= 1 and dy <= 1 and _is_ordinary(grid[index]):
++				targets.append(index)
++	targets.sort()
++	var removed: Array[int] = targets.duplicate()
++	if not removed.has(origin):
++		removed.append(origin)
++	removed.sort()
++	component["targets"] = targets
++	component["indices"] = removed
++	return component
++
++func _apply_atomic_power(power: String, sources: Array, components: Array, events: Array, extra: Dictionary = {}) -> void:
++	var before: Array[int] = grid.duplicate()
++	_pending_before_rewards = _reward_snapshot()
++	var floor_before: Array[int] = floor.duplicate()
++	var runes_before: Array[int] = runes.duplicate()
++	var targets: Array[int] = []
++	var removed: Array[int] = []
++	if power == "black_hole":
++		for index in range(grid.size()):
++			if _is_ordinary(grid[index]):
++				targets.append(index)
++			if grid[index] >= 0:
++				removed.append(index)
++	else:
++		for component in components:
++			for index in component["targets"]:
++				if not targets.has(index):
++					targets.append(index)
++		for index in targets:
++			removed.append(index)
++		for source in sources:
++			var index := int(source["index"])
++			if not removed.has(index):
++				removed.append(index)
++	targets.sort()
++	removed.sort()
++	for index in removed:
++		if _is_ordinary(grid[index]):
++			if grid[index] == collect_kind:
++				collected += 1
++			if power != "black_hole":
++				floor[index] = maxi(0, floor[index] - 1)
++		grid[index] = -1
++		_rewards.erase(index)
++	for component in components:
++		component["before"] = before.duplicate()
++		component["after"] = grid.duplicate()
++		component["floor_before"] = floor_before.duplicate()
++		component["floor_after"] = floor.duplicate()
++		component["runes_before"] = runes_before.duplicate()
++		component["runes_after"] = runes.duplicate()
++	var details := {
++		"power": power, "origin": int(sources[0]["index"]), "kind": int(sources[0]["kind"]),
++		"fusion_sources": sources.duplicate(true), "targets": targets, "indices": removed,
++		"floor_before": floor_before, "runes_before": runes_before,
++		"floor_after": floor.duplicate(), "runes_after": runes.duplicate(),
++	}
++	if power == "power_combo":
++		details["components"] = components.duplicate(true)
++	elif components.size() == 1:
++		for key in ["orientation", "directions", "rays", "budget"]:
++			if components[0].has(key):
++				details[key] = components[0][key]
++	details.merge(extra)
++	events.append(_event("natural_power", before, details))
++
++func _exchange(a: int, b: int) -> void:
++	_pending_before_rewards = _reward_snapshot()
++	var first: Dictionary = _rewards.get(a, {}).duplicate(true)
++	var second: Dictionary = _rewards.get(b, {}).duplicate(true)
++	super._exchange(a, b)
++	_rewards.erase(a)
++	_rewards.erase(b)
++	if not second.is_empty():
++		_rewards[a] = second
++	if not first.is_empty():
++		_rewards[b] = first
++
++func _clear(matches: Array[int], events: Array) -> void:
++	_pending_before_rewards = _reward_snapshot()
++	for index in matches:
++		_rewards.erase(index)
++	super._clear(matches, events)
++
++func _fall(events: Array) -> void:
++	var before_rewards := _reward_snapshot()
++	super._fall(events)
++	if not events.is_empty():
++		events[-1]["before_rewards"] = before_rewards
++		events[-1]["after_rewards"] = _reward_snapshot()
++
++func _fall_segment(segment: Array[int], falls: Array, spawn_number: int) -> int:
++	var gems: Array = []
++	for position in range(segment.size() - 1, -1, -1):
++		var index := segment[position]
++		if grid[index] >= 0:
++			gems.append({"from": index, "kind": grid[index], "reward": reward_at(index)})
++		_rewards.erase(index)
++		grid[index] = -1
++	var write_position := segment.size() - 1
++	for gem in gems:
++		var destination := segment[write_position]
++		grid[destination] = int(gem["kind"])
++		if not gem["reward"].is_empty():
++			_rewards[destination] = gem["reward"].duplicate(true)
++		if int(gem["from"]) != destination:
++			falls.append({"from": int(gem["from"]), "to": destination, "kind": int(gem["kind"])})
++		write_position -= 1
++	while write_position >= 0:
++		var destination := segment[write_position]
++		var kind := _rng.randi_range(0, GEM_KINDS - 1)
++		grid[destination] = kind
++		_rewards.erase(destination)
++		spawn_number += 1
++		falls.append({"from": -spawn_number, "to": destination, "kind": kind})
++		write_position -= 1
++	return spawn_number
++
++func _make_playable() -> bool:
++	var before_rewards := _reward_snapshot()
++	var playable := super._make_playable()
++	_pending_before_rewards = before_rewards
++	return playable
++
++func _find_move() -> Array:
++	for index in range(grid.size()):
++		if grid[index] < 0:
++			continue
++		for neighbor in [index + 1, index + cols]:
++			if not _can_swap(index, neighbor):
++				continue
++			if _is_special(grid[index]) and _is_special(grid[neighbor]):
++				if _registered_pair(index, neighbor):
++					return [index, neighbor]
++				continue
++			if _is_special(grid[index]) or _is_special(grid[neighbor]):
++				return [index, neighbor]
++			if grid[index] == grid[neighbor]:
++				continue
++			_exchange(index, neighbor)
++			var matched := _has_match_at(index) or _has_match_at(neighbor)
++			_exchange(index, neighbor)
++			if matched:
++				return [index, neighbor]
++	return []
++
++func _event(event_type: String, before: Array[int], extra: Dictionary = {}) -> Dictionary:
++	var details := extra.duplicate(true)
++	if not details.has("before_rewards"):
++		details["before_rewards"] = _pending_before_rewards.duplicate(true)
++	details["after_rewards"] = _reward_snapshot()
++	return super._event(event_type, before, details)
+--- /dev/null
++++ b/scripts/lab/reward_rules_fixtures.gd
+@@ -0,0 +1,71 @@
++extends RefCounted
++## Interactive fixtures are BEFORE an ordinary swap; they are not played awards.
++## create_plus is an honest six-cell extended T. A literal plus cannot be born
++## from a match-free board in one adjacent ordinary swap (its source is an arm).
++
++static func configure(core, scenario: String, seed_value: int = 42) -> void:
++	if scenario.begins_with("create_"):
++		_creation(core, scenario, seed_value)
++		return
++	if scenario in ["pair44", "pair45", "black_hole", "black_hole_same", "storm_storm", "tornado_tornado", "landslide_landslide", "storm_tornado", "storm_landslide", "tornado_landslide"]:
++		core._setup_legacy_lab("volcano", seed_value)
++		core.fixture_pair.assign([25, 26])
++		match scenario:
++			"pair44":
++				core.place_reward(25, core.VOLCANO, "fixture_pair44")
++				core.place_reward(26, core.VOLCANO, "fixture_pair44")
++			"pair45":
++				core.place_reward(25, core.VOLCANO, "fixture_pair45")
++				core.place_reward(26, core.TORNADO_H, "fixture_pair45")
++			"black_hole_same":
++				core.place_reward(25, core.TORNADO_H, "fixture_black_hole_same")
++				core.place_reward(26, core.TORNADO_H, "fixture_black_hole_same")
++			"storm_storm":
++				core.place_reward(25, core.LIGHTNING_STORM, "fixture_storm_storm")
++				core.place_reward(26, core.LIGHTNING_STORM, "fixture_storm_storm")
++			"tornado_tornado":
++				core.place_reward(25, core.TORNADO_H, "fixture_tornado_tornado")
++				core.place_reward(26, core.TORNADO_H, "fixture_tornado_tornado")
++			"landslide_landslide":
++				core.place_reward(25, core.EARTHQUAKE, "fixture_landslide_landslide")
++				core.place_reward(26, core.EARTHQUAKE_SW, "fixture_landslide_landslide")
++			"storm_landslide":
++				core.place_reward(25, core.LIGHTNING_STORM, "fixture_storm_landslide")
++				core.place_reward(26, core.EARTHQUAKE, "fixture_storm_landslide")
++			"tornado_landslide":
++				core.place_reward(25, core.TORNADO_H, "fixture_tornado_landslide")
++				core.place_reward(26, core.EARTHQUAKE, "fixture_tornado_landslide")
++			_:
++				core.place_reward(25, core.TORNADO_H, "fixture_black_hole")
++				core.place_reward(26, core.LIGHTNING_STORM, "fixture_black_hole")
++		return
++	core._setup_legacy_lab(scenario, seed_value)
++
++static func _creation(core, scenario: String, seed_value: int) -> void:
++	core.setup({"cols": 7, "rows": 8, "moves": 12, "goal": "collect", "collect_kind": 0, "collect_goal": 999}, seed_value)
++	# Background deliberately has no colour 0 and no initial horizontal/vertical run.
++	for index in range(core.grid.size()):
++		core.grid[index] = (index % core.cols + 2 * int(index / core.cols)) % 5 + 1
++	var shape: Array[int] = []
++	var anchor := 24
++	var source := 31
++	match scenario:
++		"create_five":
++			shape.assign([22, 23, 24, 25, 26])
++		"create_t":
++			shape.assign([23, 24, 25, 31, 38])
++			source = 17
++		"create_l":
++			shape.assign([22, 23, 24, 31, 38])
++			source = 25
++		"create_plus":
++			# Horizontal length 4, vertical length 3, shared interior/endpoint: 6T.
++			shape.assign([22, 23, 24, 25, 31, 38])
++			source = 17
++		_:
++			shape.assign([22, 23, 24, 25])
++	for index in shape:
++		core.grid[index] = 0
++	core.grid[anchor] = 2
++	core.grid[source] = 0
++	core.fixture_pair.assign([anchor, source])
+--- /dev/null
++++ b/scripts/lab/reward_rules_board.gd
+@@ -0,0 +1,293 @@
++extends "res://scripts/lab/magic_landslide_board.gd"
++## Presentation only. Core supplies births, provenance and one resolved snapshot.
++## The marker's fixed kind mapping is visual; combo eligibility lives in Core.
++signal reward_born(awards: Array)
++
++var _display_rewards: Dictionary = {}
++var _combo_parent: Dictionary = {}
++var _combo_consumed: Dictionary = {}
++var _birth_event: Dictionary = {}
++var _birth_t := 0.0
++var _birth_tween: Tween
++
++func setup(core: RefCounted, reduced: bool = false) -> void:
++	_clear_birth()
++	super.setup(core, reduced)
++	_display_rewards.clear()
++	for index in _display_grid.size():
++		var reward: Dictionary = core.reward_at(index)
++		if not reward.is_empty(): _display_rewards[index] = reward.duplicate(true)
++
++func _clear_power() -> void:
++	super._clear_power()
++	_combo_parent.clear()
++	_combo_consumed.clear()
++
++func _clear_birth() -> void:
++	if is_instance_valid(_birth_tween): _birth_tween.kill()
++	_birth_event.clear()
++	_birth_t = 0.0
++
++func _apply_after(event: Dictionary) -> void:
++	super._apply_after(event)
++	if event.has("after_rewards"):
++		_display_rewards = Dictionary(event.after_rewards).duplicate(true)
++
++func _animate_swap(event: Dictionary, epoch: int) -> void:
++	if event.has("before_rewards"):
++		_display_rewards = Dictionary(event.before_rewards).duplicate(true)
++	await super._animate_swap(event, epoch)
++
++func _animate_custom_event(event: Dictionary, epoch: int) -> void:
++	if String(event.get("type", "")) == "reward_birth":
++		await _animate_birth(event, epoch)
++		return
++	if String(event.get("type", "")) != "natural_power" or String(event.get("power", "")) != "power_combo":
++		await super._animate_custom_event(event, epoch)
++		return
++	_clear_power()
++	_combo_parent = event.duplicate(true)
++	_combo_consumed.clear()
++	if event.has("before_rewards"):
++		_display_rewards = Dictionary(event.before_rewards).duplicate(true)
++	# One parent owns all removals and collection signals. A component never
++	# applies an after-grid, refills, counts a second move or restores a target.
++	for raw_index in event.get("indices", []):
++		var index := int(raw_index)
++		if not _is_gem(index): continue
++		_hidden[index] = true
++		if int(_display_grid[index]) < 6 and _core.collect_goal > 0 and int(_display_grid[index]) == _core.collect_kind:
++			goal_piece_cleared.emit(get_global_transform() * _center(index))
++	for raw_component in event.get("components", []):
++		if epoch != _epoch or not is_inside_tree(): return
++		if not raw_component is Dictionary: continue
++		var component: Dictionary = raw_component.duplicate(true)
++		# Every constituent uses exactly the parent's frozen post-swap mineral
++		# and provenance snapshot, including cells another constituent removes.
++		component["before"] = event.get("before", []).duplicate()
++		component["before_rewards"] = event.get("before_rewards", {}).duplicate(true)
++		component["runes_before"] = event.get("runes_before", []).duplicate()
++		_power_event = component
++		_power_epoch = epoch
++		_power_t = 0.0
++		power_started.emit(String(component.get("power", "")), Array(component.get("targets", [])).duplicate())
++		if epoch != _epoch: return
++		var duration := power_duration(String(component.get("power", "")), reduced_motion)
++		_power_tween = create_tween()
++		_power_tween.tween_property(self, "_power_t", 1.0, duration).set_trans(Tween.TRANS_LINEAR)
++		queue_redraw()
++		await _wait(duration + 0.01)
++		if epoch != _epoch: return
++		foley_requested.emit("break", 0.9 if String(component.get("power", "")) == "volcano" else 0.8)
++		for index in component.get("indices", []): _combo_consumed[int(index)] = true
++		# Leave the parent and its hidden cells intact between constituents.
++		if is_instance_valid(_power_tween): _power_tween.kill()
++		_power_event.clear()
++		_power_epoch = -1
++		queue_redraw()
++	_hidden.clear()
++	_clear_power()
++	queue_redraw()
++
++func _animate_birth(event: Dictionary, epoch: int) -> void:
++	_clear_birth()
++	_birth_event = event.duplicate(true)
++	reward_born.emit(Array(event.get("awards",[])).duplicate(true))
++	if epoch != _epoch: return
++	# The reserved anchor is excluded from the ordinary clear. Reveal its
++	# authored reward immediately, then a small local material glint settles.
++	for award in event.get("awards", []):
++		var index := int(award.get("index", -1))
++		if index >= 0 and index < _display_grid.size(): _hidden[index] = true
++	var duration := 0.14 if reduced_motion else 0.38
++	_birth_tween = create_tween()
++	_birth_tween.tween_property(self, "_birth_t", 1.0, duration).set_trans(Tween.TRANS_SINE)
++	queue_redraw()
++	await _wait(duration + 0.01)
++	if epoch != _epoch: return
++	_hidden.clear()
++	_clear_birth()
++	queue_redraw()
++
++func _draw_gem(center: Vector2, kind: int, radius: float, alpha: float, stretch: Vector2 = Vector2.ONE) -> void:
++	super._draw_gem(center, kind, radius, alpha, stretch)
++	if kind not in [6, 7, 9, 10, 11, 12, 13] or alpha <= 0.0 or radius < 0.3: return
++	# FIVE-TICK follows the very same icon draw for idle, held, swapping,
++	# falling and power-event sprites. It never grants fusion eligibility.
++	draw_set_transform(center, 0.0, stretch)
++	var badge := Vector2(0.57, 0.57) * radius
++	draw_circle(badge, radius * 0.33, Color(0.05, 0.12, 0.16, alpha * 0.94), true, -1, true)
++	for tick in 5:
++		var angle := -PI * 0.82 + float(tick) * PI * 0.41
++		var direction := Vector2.from_angle(angle)
++		draw_line(badge + direction * radius * 0.17, badge + direction * radius * 0.27, Color(0.98, 0.89, 0.61, alpha), maxf(1.0, radius * 0.075), true)
++	draw_set_transform(Vector2.ZERO)
++
++func _event_gem(index: int, point: Vector2, scale_value: float = 1.0, alpha: float = 1.0) -> void:
++	if not _combo_parent.is_empty() and _combo_consumed.has(index): return
++	super._event_gem(index, point, scale_value, alpha)
++
++func _draw() -> void:
++	if _combo_parent.is_empty():
++		super._draw()
++	else:
++		# Draw unchanged board and pending constituent minerals underneath the
++		# active effect. Previously consumed gems never reappear between clips.
++		var active := _power_event
++		_power_event = {}
++		super._draw()
++		_power_event = active
++		var before: Array = _combo_parent.get("before", [])
++		var active_indices: Array = active.get("indices", [])
++		for raw_index in _combo_parent.get("indices", []):
++			var index := int(raw_index)
++			if _combo_consumed.has(index) or index in active_indices: continue
++			if index >= 0 and index < before.size() and int(before[index]) >= 0:
++				_draw_gem(_center(index), int(before[index]), _cell_size() * 0.36, 1.0)
++		_draw_active_constituent(_cell_size())
++	_draw_birth()
++
++func _draw_active_constituent(step: float) -> void:
++	if _power_event.is_empty() or _power_epoch != _epoch: return
++	var power := String(_power_event.get("power", ""))
++	if reduced_motion:
++		for index in _power_event.get("indices", []):
++			if not _combo_consumed.has(int(index)):
++				_event_gem(int(index), _center(int(index)))
++				_draw_selection(int(index), Color("f3d8a0"), 0.65)
++		return
++	match power:
++		"volcano": _draw_volcano_effect(step)
++		"tornado_h", "tornado_v": _draw_tornado_effect(step, power == "tornado_v")
++		"lightning_storm": _draw_lightning_storm_effect(step)
++		"earthquake": _draw_earthquake_effect(step)
++		"black_hole": _draw_black_hole_effect(step)
++
++func _draw_birth() -> void:
++	if _birth_event.is_empty(): return
++	var step := _cell_size()
++	for award in _birth_event.get("awards", []):
++		var index := int(award.get("index", -1))
++		if index < 0 or index >= _display_grid.size(): continue
++		var after: Array = _birth_event.get("after", [])
++		var kind := int(award.get("kind", after[index] if index < after.size() else -1))
++		if kind < 6: continue
++		var point := _center(index)
++		var scale_value := 1.0 if reduced_motion else 0.87 + sin(_birth_t * PI * 0.5) * 0.13
++		_draw_gem(point, kind, step * 0.36 * scale_value, 1.0)
++		if reduced_motion: continue
++		var tint := _fusion_color(kind)
++		var alpha := sin(_birth_t * PI) * 0.88
++		if kind == VOLCANO: tint = Color("ffc078")
++		for ordinal in 3:
++			var angle := -2.3 + float(ordinal) * 2.1
++			var offset := Vector2.from_angle(angle) * step * (0.28 + _birth_t * 0.12)
++			_draw_sparkle(point + offset, step * (0.045 + (1.0 - _birth_t) * 0.018), Color(tint, alpha))
++
++func fusion_sources() -> Array:
++	if String(_power_event.get("power", "")) != "black_hole": return []
++	var before: Array = _power_event.get("before", [])
++	var rewards: Dictionary = _power_event.get("before_rewards", {})
++	var sources: Array = []
++	for raw_source in _power_event.get("fusion_sources", []):
++		if not raw_source is Dictionary: return []
++		var index := int(raw_source.get("index", -1))
++		var kind := int(raw_source.get("kind", -1))
++		if index < 0 or index >= before.size() or int(before[index]) != kind: return []
++		if kind not in [6, 7, 9, 10, 11, 12, 13]: return []
++		# Require snapshot provenance, not the appearance or the old T+V rule.
++		var reward: Dictionary = rewards.get(index, {})
++		if int(reward.get("birth_tier", -1)) != 5 or int(reward.get("kind", -1)) != kind: return []
++		if int(reward.get("token_id", -1)) <= 0: return []
++		if int(raw_source.get("birth_tier", -1)) != 5: return []
++		if raw_source.get("token_id", "") != reward.get("token_id", ""): return []
++		sources.append({"index":index, "kind":kind, "birth_tier":5, "token_id":reward.get("token_id", "")})
++	if sources.size() != 2 or int(sources[0].index) == int(sources[1].index): return []
++	return sources
++
++func _fusion_color(kind: int) -> Color:
++	if kind == 9: return Color("b98bff")
++	if kind in [6, 7]: return Color("80e1d2")
++	return Color("c9a878")
++
++func fusion_palette() -> Dictionary:
++	var sources := fusion_sources()
++	if sources.size() != 2: return {"valid":false}
++	var a := _fusion_color(int(sources[0].kind))
++	var b := _fusion_color(int(sources[1].kind))
++	return {"valid":true, "a":a, "b":b, "mixed":a.lerp(b, 0.5)}
++
++func _draw_black_hole_effect(step: float) -> void:
++	if fusion_sources().size() != 2:
++		# A malformed or legacy T+Volcano event cannot silently select the old
++		# black-hole fallback. Keep its supplied minerals visible instead.
++		for index in _power_event.get("indices", []): _event_gem(int(index), _center(int(index)))
++		return
++	super._draw_black_hole_effect(step)
++
++func source_material_particles(step: float) -> Array:
++	var result: Array = []
++	var sources := fusion_sources()
++	if sources.size() != 2: return result
++	var t := clampf(_power_t, 0.0, 1.0)
++	var center := fusion_center()
++	var gather := smoothstep(0.00, 0.16, t)
++	var transfer := smoothstep(0.41, 0.70, t)
++	var opacity := smoothstep(0.01, 0.09, t) * (1.0 - smoothstep(0.55, 0.71, t))
++	for source_ordinal in sources.size():
++		var source: Dictionary = sources[source_ordinal]
++		var source_kind := int(source.kind)
++		var source_point := _center(int(source.index))
++		var initial_angle := (source_point - center).angle()
++		var material := "air" if source_kind in [6, 7] else ("electric" if source_kind == 9 else "rock")
++		var count := 7 if material == "rock" else 5
++		for ordinal in count:
++			var fraction := float(ordinal) / float(count)
++			# The opposite initial angles keep both real sources readable even
++			# when they share a family and therefore share their material colour.
++			var angle := initial_angle + t * TAU * 2.8 + fraction * TAU * 0.82
++			var radius := step * (1.10 + sin(fraction * TAU + 0.6) * 0.13) * (1.0 - transfer * 0.94)
++			var orbit_point := center + Vector2(cos(angle) * radius, sin(angle) * radius * 0.72)
++			var point := source_point.lerp(orbit_point, gather)
++			var scale_value := (0.86 + float(ordinal % 3) * 0.07) * gather * (1.0 - transfer * 0.88)
++			point = _material_bound(point, step * (0.27 if material == "rock" else 0.10) * scale_value)
++			result.append({"position":point, "scale":scale_value, "alpha":opacity,
++				"kind":source_kind, "material":material, "source_kind":source_kind,
++				"source_index":int(source.index), "source_ordinal":source_ordinal,
++				"ordinal":ordinal, "angle":angle, "radius":radius, "gather":gather,
++				"transfer":transfer, "front":sin(angle) >= 0.0})
++	return result
++
++func _draw_material_particle(particle: Dictionary, step: float) -> void:
++	var material := String(particle.get("material", ""))
++	if material == "air":
++		super._draw_material_particle(particle, step)
++		return
++	var alpha := float(particle.alpha)
++	var scale_value := float(particle.scale)
++	if alpha <= 0.0 or scale_value <= 0.0: return
++	if material == "rock":
++		# Reuse the actual slate painted landslide rock; no volcano lava,
++		# crater, flame or substituted ordinary treasure enters this fusion.
++		_draw_landslide_rock({"position":particle.position,
++			"radius":step * (0.13 + float(int(particle.ordinal) % 3) * 0.018) * scale_value,
++			"alpha":alpha, "angle":float(particle.angle) + float(particle.ordinal) * 1.71}, step)
++		return
++	# Storm contributes a branching electric filament with a violet body and
++	# bright core, curved around its own real source's orbit before transfer.
++	var point: Vector2 = particle.position
++	var angle := float(particle.angle)
++	var direction := Vector2.from_angle(angle + PI * 0.5)
++	var side := direction.orthogonal()
++	var length := step * (0.30 + float(int(particle.ordinal) % 2) * 0.09) * scale_value
++	var points := PackedVector2Array()
++	for sample in 6:
++		var u := float(sample) / 5.0
++		var zig := 0.0 if sample in [0, 5] else (0.09 if sample % 2 == 0 else -0.09)
++		points.append(_material_bound(point + direction * length * (u - 0.5) + side * step * zig * scale_value, step * 0.025))
++	draw_polyline(points, Color(0.53, 0.28, 0.90, alpha * 0.45), maxf(1.7, step * 0.075 * scale_value), true)
++	draw_polyline(points, Color(0.77, 0.58, 1.0, alpha), maxf(1.1, step * 0.035 * scale_value), true)
++	draw_polyline(points, Color(0.95, 0.91, 1.0, alpha * 0.96), maxf(0.7, step * 0.014 * scale_value), true)
++	var branch := PackedVector2Array([points[2], _material_bound(points[2] + side * length * 0.35 - direction * length * 0.10, step * 0.02)])
++	draw_polyline(branch, Color(0.84, 0.71, 1.0, alpha * 0.85), maxf(0.8, step * 0.022 * scale_value), true)
++	draw_set_transform(Vector2.ZERO)
+--- /dev/null
++++ b/scripts/lab/reward_rules_lab.gd
+@@ -0,0 +1,380 @@
++extends Control
++## Standalone playable reward-rule lab. No campaign, save or unlock changes.
++const LabCore = preload("res://scripts/lab/reward_rules_core.gd")
++const Fixtures = preload("res://scripts/lab/reward_rules_fixtures.gd")
++const LabBoard = preload("res://scripts/lab/reward_rules_board.gd")
++const Art = preload("res://scripts/story_art.gd")
++const RockAudio = preload("res://scripts/rock_audio.gd")
++const VolcanoAudio = preload("res://scripts/lab/volcano_audio.gd")
++const TornadoAudio = preload("res://scripts/lab/tornado_audio.gd")
++const LightningAudio = preload("res://scripts/lab/lightning_audio.gd")
++const ElementAudio = preload("res://scripts/lab/reward_rules_audio.gd")
++const Background = preload("res://assets/first_crystals/cave_background_v1.png")
++
++const SCENARIOS := [
++	["create_four", "Create 4 → Volcano"],
++	["create_five", "Create straight 5 → Storm"],
++	["create_t", "Create T → Tornado"],
++	["create_l", "Create L → Landslide"],
++	["create_plus", "Create Extended T → Tornado"],
++	["pair44", "4 + 4 · Double eruption"],
++	["pair45", "4 + 5 · Tornado then Volcano"],
++	["black_hole", "5 + 5 · Tornado + Storm"],
++	["black_hole_same", "5 + 5 · Tornado + Tornado"],
++	["storm_storm", "5 + 5 · Storm + Storm"],
++	["storm_landslide", "5 + 5 · Storm + Landslide"],
++	["tornado_landslide", "5 + 5 · Tornado + Landslide"],
++	["landslide_landslide", "5 + 5 · Landslide + Landslide"],
++	["volcano", "Single Volcano · 4-born"],
++	["tornado_h", "Single Tornado · 5-born"],
++	["tornado_v", "Single Tornado · alternate icon"],
++	["lightning_storm", "Single Storm · 5-born"],
++	["earthquake", "Single Landslide · SE"],
++	["earthquake_sw", "Single Landslide · SW"],
++	["earthquake_nw", "Single Landslide · NW"],
++	["earthquake_ne", "Single Landslide · NE"],
++]
++
++var core
++var board
++var stone_audio
++var volcano_audio
++var tornado_audio
++var storm_audio
++var element_audio
++var last_result: Dictionary = {}
++var scenario := "create_four"
++var seed_value := 42
++var _generation := 0
++var _resolving := false
++var scenario_picker: OptionButton
++var moves_label: Label
++var soil_label: Label
++var rune_label: Label
++var collect_label: Label
++var helper: Label
++var effect_label: Label
++var reduced: CheckButton
++var painted_toggle: CheckButton
++var skip_button: Button
++var reset_button: Button
++var hint_button: Button
++
++func _ready() -> void:
++	get_window().content_scale_size = Vector2i(432, 960)
++	DisplayServer.window_set_title("GnomiT — Reward Rules · PLAYABLE LAB")
++	if DisplayServer.get_name() != "headless": DisplayServer.window_set_current_screen(0)
++	var lab_theme := Theme.new()
++	lab_theme.default_font = Art.font(750.0)
++	lab_theme.default_font_size = 13
++	lab_theme.set_color("font_color", "Label", Color("fff2ce"))
++	lab_theme.set_color("font_color", "Button", Color("fff2ce"))
++	lab_theme.set_color("font_color", "OptionButton", Color("fff2ce"))
++	for state in ["normal", "hover", "pressed", "disabled"]:
++		var skin := StyleBoxFlat.new()
++		skin.bg_color = Color("16424d") if state == "normal" else Color("286267")
++		if state == "pressed": skin.bg_color = Color("875426")
++		if state == "disabled": skin.bg_color = Color("25383f")
++		skin.border_color = Color("bda367")
++		skin.set_border_width_all(1)
++		skin.set_corner_radius_all(9)
++		skin.content_margin_left = 7
++		skin.content_margin_right = 7
++		lab_theme.set_stylebox(state, "Button", skin)
++		lab_theme.set_stylebox(state, "OptionButton", skin)
++	theme = lab_theme
++	var backdrop := TextureRect.new()
++	backdrop.texture = Background
++	backdrop.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
++	backdrop.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
++	backdrop.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
++	backdrop.mouse_filter = Control.MOUSE_FILTER_IGNORE
++	add_child(backdrop)
++	var shade := ColorRect.new()
++	shade.color = Color(0.015, 0.035, 0.055, 0.46)
++	shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
++	shade.mouse_filter = Control.MOUSE_FILTER_IGNORE
++	add_child(shade)
++	var margin := MarginContainer.new()
++	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
++	for side in ["left", "top", "right", "bottom"]:
++		margin.add_theme_constant_override("margin_" + side, 10)
++	add_child(margin)
++	var stack := VBoxContainer.new()
++	stack.add_theme_constant_override("separation", 6)
++	margin.add_child(stack)
++	var heading := HBoxContainer.new()
++	stack.add_child(heading)
++	var title := _label("REWARD RULES", 22)
++	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
++	heading.add_child(title)
++	reset_button = _button("Reset", func() -> void: reset_scenario(scenario))
++	reset_button.custom_minimum_size = Vector2(66, 34)
++	heading.add_child(reset_button)
++	var subtitle := _label("PLAYABLE LAB · fixture seed 42 · no save", 12)
++	subtitle.modulate = Color("b5d9d2")
++	stack.add_child(subtitle)
++	scenario_picker = OptionButton.new()
++	scenario_picker.custom_minimum_size.y = 37
++	scenario_picker.size_flags_horizontal = Control.SIZE_EXPAND_FILL
++	scenario_picker.fit_to_longest_item = false
++	for entry in SCENARIOS: scenario_picker.add_item(String(entry[1]))
++	scenario_picker.item_selected.connect(func(index: int) -> void: reset_scenario(String(SCENARIOS[index][0])))
++	stack.add_child(scenario_picker)
++	var rules := _label("4 → Volcano  |  straight 5 → Storm\nT / plus → Tornado  |  L → Landslide\n4 + 4 → two eruptions  |  4 + 5 → five, then Volcano\n5 + 5 → Black Hole · same families also combine", 12)
++	rules.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
++	rules.modulate = Color("f3d8a0")
++	stack.add_child(rules)
++	var legend := _label("FIVE-TICK badge = born from a five-piece recipe", 11)
++	legend.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
++	legend.modulate = Color("bde5d8")
++	stack.add_child(legend)
++	var stats := HBoxContainer.new()
++	stats.add_theme_constant_override("separation", 5)
++	stack.add_child(stats)
++	moves_label = _stat("MOVES 12", stats)
++	soil_label = _stat("SOIL 3", stats)
++	rune_label = _stat("RUNES 1", stats)
++	collect_label = _stat("DIAMONDS 0", stats)
++	board = LabBoard.new()
++	board.polished_art = true
++	board.size_flags_vertical = Control.SIZE_EXPAND_FILL
++	board.size_flags_horizontal = Control.SIZE_EXPAND_FILL
++	board.custom_minimum_size = Vector2(300, 390)
++	stack.add_child(board)
++	stone_audio = RockAudio.new(); add_child(stone_audio)
++	volcano_audio = VolcanoAudio.new(); add_child(volcano_audio)
++	tornado_audio = TornadoAudio.new(); add_child(tornado_audio)
++	storm_audio = LightningAudio.new(); add_child(storm_audio)
++	element_audio = ElementAudio.new(); add_child(element_audio)
++	board.foley_requested.connect(_on_board_foley)
++	board.swap_requested.connect(_on_swap)
++	board.power_started.connect(_on_power_started)
++	board.reward_born.connect(func(awards: Array) -> void:
++		if not awards.is_empty(): element_audio.begin_birth(int(awards[0].get("birth_tier",5)),board.reduced_motion))
++	var info := PanelContainer.new()
++	info.add_theme_stylebox_override("panel", Art.panel(Color("c9d6bd")))
++	info.custom_minimum_size.y = 98
++	stack.add_child(info)
++	var words := VBoxContainer.new()
++	words.add_theme_constant_override("separation", 3)
++	info.add_child(words)
++	effect_label = _label("CREATE A VOLCANO", 16)
++	effect_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
++	words.add_child(effect_label)
++	helper = _label("", 13)
++	helper.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
++	helper.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
++	helper.custom_minimum_size.y = 58
++	words.add_child(helper)
++	var actions := HBoxContainer.new()
++	actions.add_theme_constant_override("separation", 6)
++	stack.add_child(actions)
++	hint_button = _button("Show move", _show_hint)
++	hint_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
++	hint_button.custom_minimum_size.y = 36
++	actions.add_child(hint_button)
++	skip_button = _button("Skip effect", skip_effect)
++	skip_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
++	skip_button.custom_minimum_size.y = 36
++	actions.add_child(skip_button)
++	var options := HBoxContainer.new()
++	options.alignment = BoxContainer.ALIGNMENT_CENTER
++	options.add_theme_constant_override("separation", 12)
++	stack.add_child(options)
++	painted_toggle = CheckButton.new()
++	painted_toggle.text = "Painted Volcano"
++	painted_toggle.add_theme_font_size_override("font_size", 12)
++	painted_toggle.button_pressed = true
++	painted_toggle.toggled.connect(func(value: bool) -> void:
++		if not _resolving: board.set_painted_volcano(value))
++	options.add_child(painted_toggle)
++	reduced = CheckButton.new()
++	reduced.text = "Reduced motion"
++	reduced.add_theme_font_size_override("font_size", 12)
++	reduced.toggled.connect(func(value: bool) -> void:
++		if not _resolving: board.reduced_motion = value)
++	options.add_child(reduced)
++	reset_scenario(scenario)
++
++func _label(value: String, font_size: int) -> Label:
++	var label := Label.new()
++	label.text = value
++	label.add_theme_font_size_override("font_size", font_size)
++	return label
++
++func _button(value: String, action: Callable) -> Button:
++	var button := Button.new()
++	button.text = value
++	button.focus_mode = Control.FOCUS_NONE
++	button.pressed.connect(action)
++	return button
++
++func _stat(value: String, parent: Control) -> Label:
++	var label := _label(value, 12)
++	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
++	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
++	parent.add_child(label)
++	return label
++
++func reset_scenario(value: String) -> void:
++	_stop_audio()
++	_generation += 1
++	_resolving = false
++	scenario = value
++	last_result.clear()
++	core = LabCore.new()
++	Fixtures.configure(core, scenario, seed_value)
++	board.setup(core, reduced.button_pressed)
++	board.set_painted_volcano(painted_toggle.button_pressed)
++	board.show_hint(core.fixture_pair)
++	for index in SCENARIOS.size():
++		if String(SCENARIOS[index][0]) == scenario:
++			scenario_picker.select(index)
++			effect_label.text = String(SCENARIOS[index][1]).to_upper()
++	helper.text = _scenario_help()
++	_update_stats()
++	_update_controls()
++
++func _scenario_help() -> String:
++	match scenario:
++		"create_four": return "Drag either glowing stone to its neighbour. The real four-match leaves a Volcano; play on to activate it."
++		"create_five": return "Swap the glowing pair to make five in a line. A Storm appears at the reserved match anchor."
++		"create_t": return "Swap the glowing pair to complete the T. Five matched stones award a Tornado."
++		"create_l": return "Swap the glowing pair to complete the L. Its Landslide keeps that L orientation."
++		"create_plus": return "Extended T fixture: one swap joins six stones. It awards a Tornado. A true plus is detector-supported."
++		"pair44": return "Swap the two Volcanos. Both erupt in sequence on one frozen board; this spends one move."
++		"pair45": return "Swap the four-born and five-born powers. The five effect resolves first; Volcano hits the residual stones."
++	if scenario.begins_with("black_hole") or scenario in ["storm_storm", "storm_landslide", "tornado_landslide", "landslide_landslide"]:
++		return "Swap the two FIVE-TICK powers. Both materials form the painted Black Hole before ordinary stones spiral in."
++	return "Pre-placed reward fixture. Drag the glowing power to its neighbour to activate it, then continue playing."
++
++func _show_hint() -> void:
++	if _resolving: return
++	# The board's real native pointer path performs the move. After the first
++	# fixture move, use Core's current legal move instead of stale coordinates.
++	var pair: Array = core.fixture_pair.duplicate() if last_result.is_empty() else core._find_move()
++	board.show_hint(pair)
++	helper.text = "Drag a glowing stone to the other glowing neighbour." if pair.size() == 2 else "No legal move is available. Reset this fixture."
++
++func _update_stats() -> void:
++	moves_label.text = "MOVES " + str(core.moves_left)
++	soil_label.text = "SOIL " + str(core.floor.count(1))
++	rune_label.text = "RUNES " + str(core.runes.count(1))
++	collect_label.text = "DIAMONDS " + str(core.collected)
++
++func _update_controls() -> void:
++	scenario_picker.disabled = _resolving
++	skip_button.disabled = not _resolving
++	hint_button.disabled = _resolving
++	reduced.disabled = _resolving
++	painted_toggle.disabled = _resolving
++
++func _on_swap(a: int, b: int) -> void:
++	if _resolving: return
++	if core.won or core.lost:
++		helper.text = "This test is finished. Press Reset to replay the fixture."
++		return
++	var generation := _generation
++	var result: Dictionary = core.try_swap(a, b)
++	last_result = result
++	_resolving = true
++	_update_controls()
++	moves_label.text = "MOVES " + str(core.moves_left)
++	await board.animate_result(result)
++	if generation != _generation: return
++	_resolving = false
++	_update_stats()
++	_update_controls()
++	if not bool(result.get("valid", false)):
++		helper.text = "That swap cannot activate a power or make a match. No move spent."
++	elif core.lost:
++		helper.text = "No moves left. Press Reset or choose another fixture."
++	else:
++		var names: Array[String] = []
++		for event in result.get("events", []):
++			if String(event.get("type", "")) == "reward_birth":
++				for award in event.get("awards", []):
++					var name_value := _power_title(int(award.get("kind", -1)))
++					if not names.has(name_value): names.append(name_value)
++		if not names.is_empty():
++			effect_label.text = "CREATED · " + ", ".join(names).to_upper()
++			helper.text = "Your match created " + ", ".join(names) + ". Drag the new power to an ordinary neighbour to use it, or keep matching."
++		else:
++			helper.text = "One move resolved. Keep playing this board, Show move for a hint, or choose another fixture."
++
++func _power_title(kind: int) -> String:
++	if kind == 8: return "Volcano"
++	if kind in [6, 7]: return "Tornado"
++	if kind == 9: return "Storm"
++	if kind in [10, 11, 12, 13]: return "Landslide"
++	return "reward"
++
++func _on_power_started(power: String, targets: Array) -> void:
++	if not _active_power(power): return
++	if power == "volcano" and board.painted_volcano:
++		volcano_audio.begin(targets, board.reduced_motion)
++	elif power in ["tornado_h", "tornado_v"]:
++		tornado_audio.begin(board.reduced_motion)
++	elif power == "lightning_storm":
++		storm_audio.begin(board.reduced_motion)
++	elif power == "black_hole":
++		var kinds: Array = []
++		for source in board.fusion_sources(): kinds.append(int(source.kind))
++		element_audio.begin_fusion(kinds, board.reduced_motion)
++	elif power == "earthquake":
++		element_audio.begin(power, board.reduced_motion)
++	match power:
++		"volcano": effect_label.text = "VOLCANO · " + str(targets.size()) + " MAGMA HITS"
++		"tornado_h", "tornado_v": effect_label.text = "TORNADO · " + str(targets.size()) + " NEARBY STONES"
++		"black_hole": effect_label.text = "BLACK HOLE · TWO FIVE-BORN MATERIALS"
++		"earthquake": effect_label.text = "LANDSLIDE · " + str(targets.size()) + " STONES"
++		"lightning_storm": effect_label.text = "STORM · " + str(targets.size()) + " EDGE STONES"
++	if not board._combo_parent.is_empty():
++		helper.text = "One swap, one move. Constituent effects resolve in order; cleared stones stay cleared."
++	elif power == "black_hole":
++		helper.text = "Both real source materials orbit, the painted Black Hole forms, then it pulls the target minerals."
++	else:
++		helper.text = "The effect follows the exact stones selected by this move."
++
++func _active_power(power: String) -> bool:
++	return is_instance_valid(board) and not board._power_event.is_empty() and board._power_epoch == board._epoch and String(board._power_event.get("power", "")) == power
++
++func _has_element_event() -> bool:
++	return _active_power("black_hole") or _active_power("earthquake")
++
++func _process(_delta: float) -> void:
++	if is_instance_valid(element_audio) and element_audio.event_active and not _has_element_event(): element_audio.finish_event()
++	if is_instance_valid(storm_audio) and storm_audio.event_active and not _active_power("lightning_storm"): storm_audio.finish_event()
++	if is_instance_valid(volcano_audio) and volcano_audio.event_active:
++		if _active_power("volcano") and board.painted_volcano: volcano_audio.sync_progress(board._power_t)
++		else: volcano_audio.finish_event()
++	if is_instance_valid(tornado_audio) and tornado_audio.event_active and not (_active_power("tornado_h") or _active_power("tornado_v")): tornado_audio.finish_event()
++
++func _on_board_foley(kind: String, strength: float = 1.0) -> void:
++	if kind == "break":
++		if _has_element_event() and is_instance_valid(element_audio) and element_audio.event_active: return
++		if _active_power("lightning_storm") and is_instance_valid(storm_audio) and storm_audio.event_active: return
++		if _active_power("volcano") and board.painted_volcano and is_instance_valid(volcano_audio) and volcano_audio.event_active: return
++		if (_active_power("tornado_h") or _active_power("tornado_v")) and is_instance_valid(tornado_audio) and tornado_audio.event_active: return
++	stone_audio.play_cue(kind, strength)
++
++func _stop_audio() -> void:
++	if is_instance_valid(stone_audio): stone_audio.stop_all()
++	if is_instance_valid(element_audio): element_audio.stop_all()
++	if is_instance_valid(storm_audio): storm_audio.stop_all()
++	if is_instance_valid(volcano_audio): volcano_audio.stop_all()
++	if is_instance_valid(tornado_audio): tornado_audio.stop_all()
++
++func skip_effect() -> void:
++	_stop_audio()
++	if not _resolving: return
++	_generation += 1
++	board.finish_now()
++	_resolving = false
++	_update_stats()
++	_update_controls()
++	helper.text = "Animation skipped. The same resolved board is shown; no extra move spent."
++
++func _exit_tree() -> void:
++	_stop_audio()
+--- /dev/null
++++ b/scripts/lab/reward_rules_audio.gd
+@@ -0,0 +1,46 @@
++extends "res://scripts/lab/element_audio.gd"
++## New pair-specific soft cues; the established individual power banks are intact.
++const FUSION_ROOT := "res://assets/sfx/reward_rules/"
++var fusion_streams: Dictionary = {}
++var birth_stream: AudioStreamWAV
++
++func _ready() -> void:
++	super._ready()
++	for key in ["6_6","6_9","6_10","9_9","9_10","10_10"]:
++		var path: String = FUSION_ROOT+"fusion_"+String(key)+"_soft_v1.wav"
++		if FileAccess.file_exists(path):
++			var stream := AudioStreamWAV.load_from_file(path)
++			if stream != null: fusion_streams[key] = stream
++	birth_stream = AudioStreamWAV.load_from_file(FUSION_ROOT+"reward_birth_soft_v1.wav")
++
++func _material_kind(kind: int) -> int:
++	if kind in [6,7]: return 6
++	if kind == 9: return 9
++	if kind >= 10 and kind <= 13: return 10
++	return -1
++
++func begin_fusion(kinds: Array, reduced: bool) -> void:
++	if reduced:
++		begin("black_hole",true)
++		return
++	stop_all()
++	if kinds.size() != 2: return
++	var pair: Array[int] = [_material_kind(int(kinds[0])),_material_kind(int(kinds[1]))]
++	if pair.has(-1): return
++	pair.sort()
++	var key := str(pair[0])+"_"+str(pair[1])
++	if not fusion_streams.has(key) or players.is_empty():
++		push_warning("Actual five-power fusion sound unavailable: "+key)
++		return
++	var voice := players[0]
++	voice.stream = fusion_streams[key];voice.pitch_scale = 1.0;voice.volume_db = -9.0
++	voice.play();event_active = true
++	cue_log.append({"power":"black_hole","kind":key,"source":FUSION_ROOT+"fusion_"+key+"_soft_v1.wav","source_kinds":kinds.duplicate(),"pitch_scale":1.0,"length":voice.stream.get_length(),"volume_db":voice.volume_db})
++
++func begin_birth(_tier: int = 5, reduced: bool = false) -> void:
++	stop_all()
++	if birth_stream == null or players.is_empty(): return
++	var voice := players[0]
++	voice.stream = birth_stream;voice.pitch_scale = 1.0;voice.volume_db = -23.0 if reduced else -16.0
++	voice.play();event_active = true
++	cue_log.append({"power":"reward_birth","source":FUSION_ROOT+"reward_birth_soft_v1.wav","pitch_scale":1.0,"length":voice.stream.get_length(),"volume_db":voice.volume_db})
+--- /dev/null
++++ b/reward_rules.tscn
+@@ -0,0 +1,12 @@
++[gd_scene load_steps=2 format=3]
++
++[ext_resource type="Script" path="res://scripts/lab/reward_rules_lab.gd" id="1"]
++
++[node name="RewardRulesLab" type="Control"]
++layout_mode = 3
++anchors_preset = 15
++anchor_right = 1.0
++anchor_bottom = 1.0
++grow_horizontal = 2
++grow_vertical = 2
++script = ExtResource("1")
+--- /dev/null
++++ b/PLAY_REWARD_RULES.cmd
+@@ -0,0 +1,2 @@
++@echo off
++"C:\Tools\Godot\4.7.2\engine\Godot_v4.7.2-stable_win64.exe" --path "%~dp0." --screen 0 --position 80,65 --resolution 432x960
+--- /dev/null
++++ b/tools/build_reward_rules_audio.py
+@@ -0,0 +1,80 @@
++"""Original soft elemental fusion cues; no external service or downloaded sample."""
++from pathlib import Path
++import hashlib,io,json,wave
++import numpy as np
++
++ROOT=Path(__file__).resolve().parents[1]
++RATE=44100
++PAIRS=[(6,6),(6,9),(6,10),(9,9),(9,10),(10,10)]
++
++def noise(rng,n,low,high):
++    hz=np.fft.rfftfreq(n,1/RATE)
++    signal=np.fft.irfft(np.fft.rfft(rng.normal(size=n))*(1-np.exp(-(hz/low)**4))*np.exp(-(hz/high)**4),n=n)
++    return signal/max(float(np.sqrt(np.mean(signal*signal))),1e-9)
++
++def material(kind,t,rng,ordinal):
++    env=np.sin(np.pi*np.clip(t/1.87,0,1))**2
++    if kind==6:
++        return .060*noise(rng,len(t),180,1900)*env*(.75+.25*np.sin(2*np.pi*(2.4*t+1.05*t*t)+ordinal))
++    if kind==9:
++        pulse=np.sin(2*np.pi*(7.0*t+3.2*t*t)+ordinal)**8
++        return (.040*noise(rng,len(t),650,2600)*pulse+.014*np.sin(2*np.pi*(360*t+28*t*t)))*env
++    body=.016*noise(rng,len(t),60,390)*env
++    grains=noise(rng,len(t),330,2100)
++    for at in [.14,.28,.43,.59,.76,.94,1.13]:
++        u=np.maximum(t-at-ordinal*.011,0)
++        body+=.050*grains*(t>=at+ordinal*.011)*(1-np.exp(-u/.004))*np.exp(-u/.031)
++    return body*env
++
++def encode(signal):
++    signal=np.tanh(signal)
++    signal*=.48/max(float(np.max(np.abs(signal))),1e-9)
++    fade=round(.026*RATE)
++    signal[:fade]*=np.linspace(0,1,fade)[:,None]
++    signal[-fade:]*=np.linspace(1,0,fade)[:,None]**2
++    pcm=np.round(signal*32767).astype('<i2')
++    stream=io.BytesIO()
++    with wave.open(stream,'wb') as out:
++        out.setparams((2,2,RATE,len(pcm),'NONE','not compressed'));out.writeframes(pcm.tobytes())
++    return stream.getvalue(),pcm
++
++def main():
++    output=ROOT/'assets/sfx/reward_rules';output.mkdir(exist_ok=True)
++    records=[]
++    for a,b in PAIRS:
++        n=round(2.8*RATE);t=np.arange(n)/RATE
++        rng=np.random.default_rng(18102600+a*100+b)
++        signal=np.zeros((n,2))
++        for ordinal,kind in enumerate([a,b]):
++            source=material(kind,t,rng,ordinal)
++            pan=.32*np.sin(2*np.pi*(1.2*t+.25*ordinal))
++            signal[:,0]+=source*(.7-pan);signal[:,1]+=source*(.7+pan)
++        birth=np.exp(-((t-1.34)/.23)**2)
++        gravity=np.sin(np.pi*np.clip((t-1.51)/1.10,0,1))**2
++        shared=.034*noise(rng,n,55,340)*birth+.085*noise(rng,n,150,1600)*gravity
++        shared+=.028*np.sin(2*np.pi*(128*t-13*t*t))*gravity
++        # A short, soft magical finish follows the gravity collapse, not a
++        # per-cell hit or additional attack from either consumed source.
++        for at,hz in [(2.30,660),(2.38,880),(2.45,1100)]:
++            u=np.maximum(t-at,0)
++            shared+=.025*np.sin(2*np.pi*hz*u)*(t>=at)*(1-np.exp(-u/.004))*np.exp(-u/.075)
++        signal+=shared[:,None]
++        data,pcm=encode(signal)
++        name=f'fusion_{a}_{b}_soft_v1.wav';p=output/name
++        if p.exists():assert p.read_bytes()==data,p
++        else:p.write_bytes(data)
++        records.append({'key':f'{a}_{b}','path':p.relative_to(ROOT).as_posix(),'seconds':len(pcm)/RATE,'channels':2,'sample_rate':RATE,'bytes':len(data),'sha256':hashlib.sha256(data).hexdigest(),'clipped_samples':int(np.count_nonzero(np.abs(pcm.astype(np.int32))>=32767)),'peak':float(np.max(np.abs(pcm.astype(np.int32))))/32768})
++    t=np.arange(round(.25*RATE))/RATE
++    env=(1-np.exp(-t/.004))*np.exp(-t/.065)
++    mono=(.08*np.sin(2*np.pi*660*t)+.04*np.sin(2*np.pi*990*t))*env
++    data,pcm=encode(np.column_stack([mono,mono]))
++    p=output/'reward_birth_soft_v1.wav'
++    if p.exists():assert p.read_bytes()==data
++    else:p.write_bytes(data)
++    records.append({'key':'birth','path':p.relative_to(ROOT).as_posix(),'seconds':len(pcm)/RATE,'channels':2,'sample_rate':RATE,'bytes':len(data),'sha256':hashlib.sha256(data).hexdigest(),'clipped_samples':int(np.count_nonzero(np.abs(pcm.astype(np.int32))>=32767))})
++    receipt={'method':'original deterministic NumPy synthesis; actual source material types; no external samples/services','normal_fusion_visual_seconds':2.6,'human_listening':'PENDING','files':records}
++    p=ROOT/'verification/reward_rules_audio_assets.json';assert not p.exists()
++    p.write_text(json.dumps(receipt,indent=2)+'\n',encoding='utf-8')
++    print(json.dumps({'status':'GENERATED','files':len(records),'clipped_samples':sum(r['clipped_samples'] for r in records)}))
++
++if __name__=='__main__':main()
+--- /dev/null
++++ b/tests/test_reward_rules.gd
+@@ -0,0 +1,389 @@
++extends SceneTree
++## Independent contract tests. Fixed masks are detector tests, never passed off
++## as playable creations. Only real try_swap transactions prove birth/combo rules.
++
++var checks := 0
++var failures := 0
++var cases: Array = []
++var core_script: Script
++
++func _initialize() -> void:
++	call_deferred("_run")
++
++func _check(condition: bool, label: String, detail: Variant = "") -> void:
++	checks += 1
++	if not condition:
++		failures += 1
++	cases.append({"label": label, "pass": condition, "detail": str(detail) if not condition else ""})
++	print(("PASS: " if condition else "FAIL: ") + label + (" | " + str(detail) if not condition else ""))
++
++func _run() -> void:
++	if not FileAccess.file_exists("res://scripts/lab/reward_rules_core.gd"):
++		_check(false, "Reward rules implementation exists before contract execution", "Expected RED: authorized reward_rules_core.gd is absent; no parser failure")
++		_finish()
++		return
++	core_script = load("res://scripts/lab/reward_rules_core.gd")
++	if core_script == null or not core_script.can_instantiate():
++		_check(false, "Reward rules implementation loads")
++		_finish()
++		return
++	_contract_tests()
++	_finish()
++
++func _contract_tests() -> void:
++	_detection_tests()
++	_creation_tests()
++	_identity_tests()
++	_pair_tests()
++	_integrity_tests()
++
++func _new_core(seed_value: int = 42):
++	var core = core_script.new()
++	core.setup({"cols": 7, "rows": 8, "moves": 30, "collect_kind": 0, "collect_goal": 9999}, seed_value)
++	# Independent fixture background, with no color zero and no existing triples.
++	for y in range(8):
++		for x in range(7):
++			core.grid[y * 7 + x] = 1 + (x + 2 * y) % 5
++	return core
++
++func _mask(core, cells: Array) -> Array[int]:
++	var indices: Array[int] = []
++	for point in cells:
++		var index: int = int(point[1]) * 7 + int(point[0])
++		core.grid[index] = 0
++		indices.append(index)
++	indices.sort()
++	return indices
++
++func _events(result: Dictionary, event_type: String) -> Array:
++	var found: Array = []
++	for event in result.get("events", []):
++		if event.get("type", "") == event_type:
++			found.append(event)
++	return found
++
++func _powers(result: Dictionary) -> Array:
++	return _events(result, "natural_power")
++
++func _all_rewards(core) -> Dictionary:
++	var rewards := {}
++	for index in range(core.grid.size()):
++		var reward: Dictionary = core.reward_at(index)
++		if not reward.is_empty():
++			rewards[index] = reward
++	return rewards
++
++func _find_token(core, token_id: int) -> Dictionary:
++	for index in range(core.grid.size()):
++		var reward: Dictionary = core.reward_at(index)
++		if int(reward.get("id", -1)) == token_id:
++			return {"index": index, "reward": reward}
++	return {}
++
++func _direct(result: Dictionary) -> Dictionary:
++	var powers := _powers(result)
++	return powers[0] if not powers.is_empty() else {}
++
++func _unique(values: Array) -> bool:
++	var seen := {}
++	for value in values:
++		seen[value] = true
++	return seen.size() == values.size()
++
++func _state(core) -> Dictionary:
++	return {"grid": core.grid.duplicate(), "floor": core.floor.duplicate(), "runes": core.runes.duplicate(), "moves": core.moves_left, "collected": core.collected, "rng": core._rng.state, "rewards": _all_rewards(core)}
++
++func _detection_tests() -> void:
++	var examples := [
++		["straight four", [[1,2],[2,2],[3,2],[4,2]], 8, 4],
++		["straight five", [[0,2],[1,2],[2,2],[3,2],[4,2]], 9, 5],
++		["five T", [[1,2],[2,2],[3,2],[2,3],[2,4]], 6, 5],
++		["five plus", [[1,2],[2,2],[3,2],[2,1],[2,3]], 6, 5],
++		["six T subset beats contained four", [[1,2],[2,2],[3,2],[4,2],[2,3],[2,4]], 6, 5],
++		["six L subset beats contained four", [[1,2],[2,2],[3,2],[4,2],[1,3],[1,4]], 10, 5],
++		["seven plus subset beats contained four", [[1,2],[2,2],[3,2],[4,2],[2,1],[2,3],[2,4]], 6, 5],
++		["straight six remains Storm", [[0,2],[1,2],[2,2],[3,2],[4,2],[5,2]], 9, 5],
++		["two by three rectangle has no recipe", [[1,2],[2,2],[3,2],[1,3],[2,3],[3,3]], -1, 0],
++		["southeast L", [[2,2],[3,2],[4,2],[2,3],[2,4]], 10, 5],
++		["southwest L", [[2,2],[1,2],[0,2],[2,3],[2,4]], 11, 5],
++		["northwest L", [[2,4],[1,4],[0,4],[2,3],[2,2]], 12, 5],
++		["northeast L", [[2,4],[3,4],[4,4],[2,3],[2,2]], 13, 5],
++	]
++	for example in examples:
++		var core = _new_core()
++		var indices := _mask(core, example[1])
++		var before := _state(core)
++		var awards: Array = core.detect_rewards(indices[0], indices[0])
++		var valid: bool = awards.is_empty() if example[2] == -1 else awards.size() == 1
++		if valid and not awards.is_empty():
++			var award: Dictionary = awards[0]
++			valid = award.kind == example[2] and award.birth_tier == example[3] and award.component_indices == indices and int(award.index) in indices and int(award.anchor) == int(award.index)
++		_check(valid and before == _state(core), "Post-swap detector: " + str(example[0]), awards)
++	# Board population is not eligibility: a component must contain an endpoint.
++	var isolated = _new_core()
++	_mask(isolated, [[0,2],[1,2],[2,2],[3,2],[4,2]])
++	_check(isolated.detect_rewards(48,49).is_empty(), "Unrelated matched component cannot create a reward")
++	var disjoint = _new_core()
++	_mask(disjoint, [[0,1],[1,1],[2,1],[3,1],[0,6],[1,6],[2,6],[3,6],[4,6]])
++	var disconnected: Array = disjoint.detect_rewards(7,8)
++	_check(disconnected.size() == 1 and disconnected[0].kind == 8 and disconnected[0].component_indices.size() == 4, "Disconnected same-color components cannot pool their sizes", disconnected)
++	var adjacent_colors = _new_core()
++	_mask(adjacent_colors, [[1,2],[2,2],[3,2]])
++	for index in [22,23,24]:
++		adjacent_colors.grid[index] = 5
++	_check(adjacent_colors.detect_rewards(15,22).is_empty(), "Adjacent differently colored triples do not combine into a reward")
++	var preview = _pre_swap([[1,2],[2,2],[3,2],[4,2]], 16, 9)
++	var snapshot := _state(preview)
++	var first: Array = preview.preview_rewards(9,16)
++	var second: Array = preview.preview_rewards(9,16)
++	_check(first == second and first.size() == 1 and first[0].kind == 8 and snapshot == _state(preview), "Preview simulates swap without changing board, metadata, counters or RNG", first)
++
++func _pre_swap(cells: Array, anchor: int, donor: int, seed_value: int = 42):
++	var core = _new_core(seed_value)
++	_mask(core, cells)
++	var displaced: int = core.grid[donor]
++	core.grid[donor] = core.grid[anchor]
++	core.grid[anchor] = displaced
++	return core
++
++func _creation_tests() -> void:
++	var creations := [
++		["line four", [[1,2],[2,2],[3,2],[4,2]], 16,9,8,4],
++		["line five", [[0,3],[1,3],[2,3],[3,3],[4,3]],23,16,9,5],
++		["T five", [[1,2],[2,2],[3,2],[2,3],[2,4]],16,9,6,5],
++		["L five", [[1,2],[2,2],[3,2],[1,3],[1,4]],15,14,10,5],
++		# Extended T is honestly playable; a true plus is detector-only above.
++		["extended T six", [[1,2],[2,2],[3,2],[4,2],[2,3],[2,4]],16,9,6,5],
++	]
++	for example in creations:
++		var core = _pre_swap(example[1], example[2], example[3])
++		var clean: bool = core.get_matches().is_empty()
++		var result: Dictionary = core.try_swap(example[3],example[2])
++		var births := _events(result,"reward_birth")
++		var valid: bool = clean and result.valid and core.moves_left == 29 and births.size() == 1 and _powers(result).is_empty()
++		if valid:
++			var birth: Dictionary = births[0]
++			valid = birth.awards.size() == 1
++			if valid:
++				var award: Dictionary = birth.awards[0]
++				var index: int = award.index
++				valid = award.kind == example[4] and award.birth_tier == example[5] and not index in birth.indices and birth.after[index] == example[4] and not _find_token(core,award.token_id).is_empty()
++		_check(valid, "Actual stable-board swap births one reserved inert reward: " + str(example[0]), {"clean":clean,"births":births,"events":result.events})
++	# A reserved ordinary mineral of the goal color must not count as collected.
++	var goal_core = _pre_swap([[1,2],[2,2],[3,2],[4,2]],16,9)
++	var goal_result: Dictionary = goal_core.try_swap(9,16)
++	var expected_collected := 0
++	for event in goal_result.events:
++		if event.type == "clear" or event.type == "reward_birth":
++			for index in event.indices:
++				if event.before[index] == 0:
++					expected_collected += 1
++	_check(goal_core.collected == expected_collected and expected_collected >= 3, "Reserved anchor is excluded from collected goal; later clears count normally", {"actual":goal_core.collected,"expected":expected_collected})
++	# Independent seed search exercises an actual cascade after a normal triple.
++	var cascade_seen := false
++	var cascade_safe := true
++	for seed_value in range(1,25):
++		var core = _pre_swap([[1,2],[2,2],[3,2]],16,9,seed_value)
++		var result: Dictionary = core.try_swap(9,16)
++		if _events(result,"clear").size() > 1:
++			cascade_seen = true
++			cascade_safe = cascade_safe and _events(result,"reward_birth").is_empty() and _all_rewards(core).is_empty()
++			break
++	_check(cascade_seen and cascade_safe, "Real refill cascade does not mint secondary rewards", cascade_seen)
++	var fixture_ok := true
++	var fixture_failures: Array = []
++	for fixture in [["create_four",8],["create_five",9],["create_t",6],["create_l",11],["create_plus",6]]:
++		var core = core_script.new()
++		core.setup_lab(fixture[0],42)
++		var valid: bool = core.get_matches().is_empty() and _all_rewards(core).is_empty()
++		var preview: Array = core.preview_rewards(core.fixture_pair[0],core.fixture_pair[1])
++		valid = valid and preview.size() == 1 and preview[0].kind == fixture[1]
++		var result: Dictionary = core.try_swap(core.fixture_pair[0],core.fixture_pair[1])
++		valid = valid and result.valid and _events(result,"reward_birth").size() == 1 and _powers(result).is_empty()
++		if not valid:
++			fixture_failures.append(fixture[0])
++		fixture_ok = fixture_ok and valid
++	_check(fixture_ok, "All five interactive creation fixtures start clean and birth their advertised reward", fixture_failures)
++
++func _identity_tests() -> void:
++	var falling = _new_core()
++	falling.place_reward(2,11,"identity_gravity")
++	var token: Dictionary = falling.reward_at(2)
++	falling.grid[9] = -1
++	falling.grid[16] = -1
++	var falls: Array = []
++	falling._fall(falls)
++	var retained := _find_token(falling,token.id)
++	_check(not retained.is_empty() and retained.index == 16 and retained.reward == token, "Gravity carries reward ID, tier, recipe and L orientation", retained)
++	var swapping = _new_core()
++	swapping.place_reward(0,12,"identity_exchange")
++	var original: Dictionary = swapping.reward_at(0)
++	swapping._exchange(0,1)
++	_check(swapping.reward_at(0).is_empty() and swapping.reward_at(1) == original and original.birth_tier == 5 and original.orientation == "nw", "Exchange carries complete metadata with the reward token")
++	var shuffle = _new_core()
++	shuffle.place_reward(17,13,"identity_shuffle")
++	var before := _all_rewards(shuffle)
++	var playable: bool = shuffle._make_playable()
++	_check(playable and before == _all_rewards(shuffle) and shuffle.grid[17] == 13 and shuffle.get_matches().is_empty(), "Reshuffle preserves existing reward identity and occupied slot")
++
++func _pair_core(first_kind: int, second_kind: int, seed_value: int = 42):
++	var core = _new_core(seed_value)
++	core.place_reward(24,first_kind,"fixture_pair_a")
++	core.place_reward(25,second_kind,"fixture_pair_b")
++	return core
++
++func _pair_tests() -> void:
++	var tier_five := [6,9,10,11,12,13]
++	var matrix_ok := true
++	var matrix_failures: Array = []
++	for first_kind in tier_five:
++		for second_kind in tier_five:
++			var core = _pair_core(first_kind,second_kind)
++			for index in range(core.floor.size()):
++				core.floor[index] = 1
++			# A fixed rune survives the direct sweep and is never a source.
++			core.grid[7] = -3
++			core.runes[7] = 2
++			var source_a: Dictionary = core.reward_at(24)
++			var source_b: Dictionary = core.reward_at(25)
++			var result: Dictionary = core.try_swap(24,25)
++			var powers := _powers(result)
++			var valid: bool = result.valid and core.moves_left == 29 and powers.size() == 1
++			if valid:
++				var event: Dictionary = powers[0]
++				valid = event.power == "black_hole" and event.floor == event.floor_before and event.runes == event.runes_before and event.after[24] == -1 and event.after[25] == -1 and event.after[7] == -3 and _find_token(core,source_a.id).is_empty() and _find_token(core,source_b.id).is_empty()
++			if not valid:
++				matrix_failures.append([first_kind,second_kind,powers])
++			matrix_ok = matrix_ok and valid
++	_check(matrix_ok, "All 36 ordered ANY five-tier pairs fuse once, consume IDs and preserve direct terrain", matrix_failures)
++	var repeated = _pair_core(6,9)
++	var first: Dictionary = repeated.try_swap(24,25)
++	repeated.place_reward(24,10,"second_legitimate_a")
++	repeated.place_reward(25,10,"second_legitimate_b")
++	var second: Dictionary = repeated.try_swap(24,25)
++	_check(first.valid and second.valid and repeated.moves_left == 28 and _powers(second).size() == 1 and _direct(second).get("power", "") == "black_hole", "A second independently registered five-plus-five pair is accepted next move")
++	var unregistered = _new_core()
++	unregistered.grid[24] = 6
++	unregistered.grid[25] = 9
++	var raw_before := _state(unregistered)
++	var raw: Dictionary = unregistered.try_swap(24,25)
++	_check(not raw.valid and _powers(raw).is_empty() and raw_before == _state(unregistered), "Raw numeric special kinds cannot impersonate birth metadata")
++	var pair_four = _pair_core(8,8,713)
++	var four_result: Dictionary = pair_four.try_swap(24,25)
++	var four_event := _direct(four_result)
++	var four_targets: Array = four_event.get("targets",[])
++	_check(four_result.valid and pair_four.moves_left == 29 and _powers(four_result).size() == 1 and four_event.get("power", "") != "black_hole" and four_targets.size() >= 6 and four_targets.size() <= 10 and _unique(four_targets) and not 24 in four_targets and not 25 in four_targets, "Four-plus-four uses 6-10 unique ordinary targets and one move", four_event)
++	var capped = _pair_core(8,8)
++	for index in range(capped.grid.size()):
++		if not index in [24,25,0,1,2]:
++			capped.grid[index] = -2
++	var capped_result: Dictionary = capped.try_swap(24,25)
++	var capped_event := _direct(capped_result)
++	_check(capped_result.valid and capped_event.get("targets", []).size() == 3 and _unique(capped_event.get("targets", [])), "Four-plus-four caps hit count at remaining ordinary population", capped_event)
++	_combo_test()
++
++func _combo_test() -> void:
++	var core = _pair_core(8,6,713)
++	for index in range(core.floor.size()):
++		core.floor[index] = 2
++	core.grid[7] = -3
++	core.runes[7] = 2
++	var result: Dictionary = core.try_swap(24,25)
++	var event := _direct(result)
++	var components: Array = event.get("components",[])
++	var atomic: bool = result.valid and core.moves_left == 29 and _powers(result).size() == 1 and event.get("power", "") == "power_combo" and components.size() == 2
++	if atomic:
++		atomic = str(components[0].get("power", "")) != "volcano" and str(components[1].get("power", "")) == "volcano"
++		atomic = atomic and components[0].before == event.before and components[1].before == event.before and components[0].after == event.after and components[1].after == event.after
++	_check(atomic, "Four-plus-five is one atomic power_combo with five-tier component before Volcano", event)
++	var targets: Array = event.get("targets",[])
++	var residual_safe := components.size() == 2 and _unique(targets)
++	if residual_safe:
++		var five_targets: Array = components[0].get("targets",[])
++		var volcano_targets: Array = components[1].get("targets",[])
++		# Concrete tornado footprint at final cell24; cell25 is the other source.
++		residual_safe = five_targets == [16,17,18,23,30,31,32]
++		for index in volcano_targets:
++			residual_safe = residual_safe and not index in five_targets
++		var union: Array = five_targets.duplicate()
++		union.append_array(volcano_targets)
++		union.sort()
++		var sorted_targets: Array = targets.duplicate()
++		sorted_targets.sort()
++		residual_safe = residual_safe and union == sorted_targets and volcano_targets.size() >= 3 and volcano_targets.size() <= 5
++		var expected_floor: Array = event.floor_before.duplicate()
++		for index in targets:
++			residual_safe = residual_safe and event.before[index] >= 0 and event.before[index] < 6
++			expected_floor[index] -= 1
++		residual_safe = residual_safe and event.floor == expected_floor and event.runes == event.runes_before
++	_check(residual_safe, "Combo chooses Volcano residual after actual five-tier footprint; terrain is hit once", event)
++	var expected_collected := 0
++	for recorded in result.events:
++		if recorded.type == "natural_power" or recorded.type == "clear" or recorded.type == "reward_birth":
++			var unique_indices := {}
++			for index in recorded.get("indices",[]):
++				if recorded.before[index] == 0:
++					unique_indices[index] = true
++			expected_collected += unique_indices.size()
++	_check(core.collected == expected_collected, "Atomic combo and cascades count each actual goal mineral once", {"actual":core.collected,"expected":expected_collected})
++
++func _integrity_tests() -> void:
++	var invalid = _pair_core(6,9)
++	var invalid_ok := true
++	for pair in [[24,24],[24,26],[24,32],[-1,24],[6,7]]:
++		var before := _state(invalid)
++		var result: Dictionary = invalid.try_swap(pair[0],pair[1])
++		invalid_ok = invalid_ok and not result.valid and before == _state(invalid) and _powers(result).is_empty()
++	_check(invalid_ok, "Cancelled, distant, diagonal and wrapped pairs use zero moves and preserve full state")
++	var deterministic := true
++	var seed_targets := {}
++	for seed_value in [42,713]:
++		var first = _pair_core(8,6,seed_value)
++		var second = _pair_core(8,6,seed_value)
++		var result_a: Dictionary = first.try_swap(24,25)
++		var result_b: Dictionary = second.try_swap(24,25)
++		deterministic = deterministic and result_a == result_b and _state(first) == _state(second)
++		seed_targets[seed_value] = _direct(result_a).get("targets",[])
++	_check(deterministic, "Two seeds replay identical complete transactions and RNG state when repeated", seed_targets)
++	var replay_ok := true
++	for seed_value in [42,713]:
++		var core = _pair_core(8,6,seed_value)
++		var snapshot: Array = core.grid.duplicate()
++		var rewards := _all_rewards(core)
++		var result: Dictionary = core.try_swap(24,25)
++		for event in result.events:
++			replay_ok = replay_ok and event.before == snapshot and event.before_rewards == rewards
++			snapshot = event.after.duplicate()
++			rewards = event.after_rewards.duplicate(true)
++		replay_ok = replay_ok and snapshot == core.grid and rewards == _all_rewards(core) and result.events[-1].floor == core.floor and result.events[-1].runes == core.runes
++	_check(replay_ok, "Atomic transactions have contiguous grid and reward-metadata replay receipts")
++	var parity := true
++	for seed_value in [42,713]:
++		var core = _pre_swap([[1,2],[2,2],[3,2]],16,9,seed_value)
++		var base = load("res://scripts/lab/natural_power_core.gd").new()
++		base.setup({"cols":7,"rows":8,"moves":30,"collect_kind":0,"collect_goal":9999},seed_value)
++		base.grid.assign(core.grid)
++		base.floor.assign(core.floor)
++		base.runes.assign(core.runes)
++		base._rng.state = core._rng.state
++		var expected: Dictionary = base.try_swap(9,16)
++		var actual: Dictionary = core.try_swap(9,16)
++		# Reward metadata snapshots are additive; ordinary replay values must match.
++		var normalized: Dictionary = actual.duplicate(true)
++		for event in normalized.events:
++			event.erase("before_rewards")
++			event.erase("after_rewards")
++		parity = parity and normalized == expected and core.grid == base.grid and core.floor == base.floor and core.runes == base.runes and core.collected == base.collected and core._rng.state == base._rng.state
++	_check(parity, "Normal triple transactions equal unchanged natural rules at two seeds")
++
++func _finish() -> void:
++	var report := {"checks": checks, "failures": failures, "status": "PASS" if failures == 0 else "FAIL", "cases": cases}
++	var report_path := "res://verification/reward_rules_results.json"
++	for argument in OS.get_cmdline_user_args():
++		if argument.begins_with("--report-path="):
++			report_path = argument.trim_prefix("--report-path=")
++	var output := FileAccess.open(report_path, FileAccess.WRITE)
++	if output:
++		output.store_string(JSON.stringify(report, "\t") + "\n")
++	print("REWARD_RULES_CONTRACT: %d scenario checks; %d failures" % [checks, failures])
++	quit(1 if failures else 0)
+--- /dev/null
++++ b/tests/test_reward_rules_audio.gd
+@@ -0,0 +1,43 @@
++extends SceneTree
++const AudioBank = preload("res://scripts/lab/reward_rules_audio.gd")
++var failures: Array[String] = []
++var checks := 0
++
++func _initialize() -> void:
++	call_deferred("run")
++
++func check(value: bool, message: String) -> void:
++	checks += 1
++	if not value: failures.append(message)
++
++func run() -> void:
++	var bank = AudioBank.new()
++	root.add_child(bank)
++	await process_frame
++	var cases := [[6,6,"6_6"],[6,9,"6_9"],[6,10,"6_10"],[9,9,"9_9"],[9,10,"9_10"],[10,10,"10_10"],[13,7,"6_10"]]
++	for item in cases:
++		bank.begin_fusion([item[0],item[1]],false)
++		await process_frame
++		var player: AudioStreamPlayer = bank.players[0]
++		check(player.playing and bank.event_active,"Actual fusion voice starts "+String(item[2]))
++		check(player.pitch_scale == 1.0 and player.stream.stereo and absf(player.stream.get_length()-2.8)<0.001,"Correct actual stereo source/length/pitch "+String(item[2]))
++		check(String(bank.cue_log[-1].kind)==String(item[2]),"Actual source material selects expected sound "+String(item[2]))
++		bank.stop_all()
++		check(not player.playing and not bank.event_active,"Skip/reset stops voice "+String(item[2]))
++	bank.begin_fusion([9,10],true)
++	await process_frame
++	check(bank.players[0].playing and absf(bank.players[0].stream.get_length()-0.18)<0.001,"Reduced motion uses actual short quiet cue")
++	bank.stop_all()
++	bank.begin_birth(5,false)
++	await process_frame
++	check(bank.players[0].playing and absf(bank.players[0].stream.get_length()-0.25)<0.001,"Birth plays its short chime")
++	bank.stop_all()
++	var before: int = bank.cue_log.size()
++	bank.begin_fusion([8,6],false)
++	# A legacy four+five pair never masquerades as a five+five fusion sound.
++	check(bank.cue_log.size()==before and not bank.players[0].playing,"Unsupported legacy pair does not start a fusion cue")
++	bank.queue_free()
++	await process_frame
++	await create_timer(0.15).timeout
++	print("REWARD_AUDIO "+JSON.stringify({"checks":checks,"failures":failures,"status":"PASS" if failures.is_empty() else "FAIL"}))
++	quit(0 if failures.is_empty() else 1)
+--- /dev/null
++++ b/tests/test_reward_rules_presentation.gd
+@@ -0,0 +1,283 @@
++extends SceneTree
++## Integrated Lab -> Core.try_swap -> real board animation -> audio banks.
++## Headless checks prove lifecycle/contracts, not visual or audible acceptance.
++
++const LAB = preload("res://scripts/lab/reward_rules_lab.gd")
++var app
++var checks := 0
++var failures: Array[String] = []
++var observations: Array = []
++var powers: Array = []
++var power_events: Array = []
++var births: Array = []
++var fusion_samples: Array = []
++var combo_samples: Array = []
++var goal_signals := 0
++var _cancel_mode := ""
++var _cancel_started := false
++var _finished_swap := false
++
++func _initialize() -> void:
++	call_deferred("_run")
++
++func _check(condition: bool, label: String, detail: Variant = "") -> void:
++	checks += 1
++	if not condition: failures.append(label)
++	print(("PASS: " if condition else "FAIL: ") + label + (" | " + str(detail) if not condition else ""))
++
++func _same(first: Variant, second: Variant) -> bool:
++	return JSON.stringify(first, "", true) == JSON.stringify(second, "", true)
++
++func _state(core) -> String:
++	var rewards := {}
++	for index in core.grid.size():
++		var reward: Dictionary = core.reward_at(index)
++		if not reward.is_empty(): rewards[index] = reward
++	return JSON.stringify({"grid":core.grid, "floor":core.floor, "runes":core.runes,
++		"rewards":rewards, "next_token":core._next_reward_id, "moves":core.moves_left,
++		"collected":core.collected, "won":core.won, "lost":core.lost,
++		"black_hole_used":core.black_hole_used, "rng_seed":str(core._rng.seed),
++		"rng_state":str(core._rng.state)}, "", true)
++
++func _audio_counts() -> Array:
++	return [app.volcano_audio.cue_log.size(), app.tornado_audio.cue_log.size(),
++		app.storm_audio.cue_log.size(), app.element_audio.cue_log.size()]
++
++func _reset_observation() -> void:
++	powers.clear(); power_events.clear(); births.clear(); fusion_samples.clear(); combo_samples.clear()
++	goal_signals = 0
++	_cancel_mode = ""; _cancel_started = false; _finished_swap = false
++	for manager in [app.volcano_audio, app.tornado_audio, app.storm_audio, app.element_audio]: manager.cue_log.clear()
++
++func _on_power(power: String, _targets: Array) -> void:
++	powers.append(power)
++	power_events.append(app.board._power_event.duplicate(true))
++	if not app.board._combo_parent.is_empty():
++		combo_samples.append({"frozen":_same(app.board._display_grid, app.board._combo_parent.before)
++			and _same(app.board._power_event.before, app.board._combo_parent.before),
++			"consumed":app.board._combo_consumed.keys(), "hidden":app.board._hidden.keys(),
++			"parent_indices":app.board._combo_parent.indices.duplicate()})
++	if power == "black_hole": _sample_fusion()
++	if not _cancel_mode.is_empty() and not _cancel_started:
++		_cancel_started = true
++		_cancel_later(_cancel_mode)
++
++func _sample_fusion() -> void:
++	# Inspect the REAL active event at an exact declared presentation phase;
++	# restore its clock before the normal tween is created by the real board.
++	var saved_t: float = app.board._power_t
++	app.board._power_t = 0.42
++	var sources: Array = app.board.fusion_sources().duplicate(true)
++	var particles: Array = app.board.source_material_particles(app.board._cell_size())
++	var materials := {}
++	var source_indices := {}
++	for particle in particles:
++		materials[int(particle.source_kind)] = String(particle.material)
++		source_indices[int(particle.source_index)] = true
++	var png: Dictionary = app.board.painted_hole_status()
++	var phase: Dictionary = app.board.material_v2_phase()
++	var target_pose := {}
++	var targets: Array = app.board._power_event.get("targets", [])
++	if not targets.is_empty(): target_pose = app.board.material_v2_target_pose(int(targets[0]), app.board._cell_size())
++	# Mutations here are confined to a temporary renderer event. Core and the
++	# actual event are restored before normal playback continues.
++	var real_event: Dictionary = app.board._power_event
++	var forged: Dictionary = real_event.duplicate(true)
++	forged.fusion_sources[0]["token_id"] = -222
++	app.board._power_event = forged
++	var rejects_token: bool = app.board.fusion_sources().is_empty()
++	forged = real_event.duplicate(true)
++	var source_index := int(forged.fusion_sources[0].index)
++	forged.before_rewards[source_index]["birth_tier"] = 4
++	app.board._power_event = forged
++	var rejects_tier: bool = app.board.fusion_sources().is_empty()
++	forged = real_event.duplicate(true)
++	forged.before[source_index] = 8
++	forged.fusion_sources[0]["kind"] = 8
++	forged.before_rewards[source_index]["kind"] = 8
++	app.board._power_event = forged
++	var rejects_volcano: bool = app.board.fusion_sources().is_empty()
++	app.board._power_event = real_event
++	app.board._power_t = saved_t
++	fusion_samples.append({"sources":sources, "particle_count":particles.size(), "materials":materials,
++		"source_indices":source_indices.keys(), "png":png, "phase":phase, "target_pose":target_pose,
++		"rejects_forged_token":rejects_token, "rejects_tier4":rejects_tier, "rejects_legacy_volcano":rejects_volcano})
++
++func _invoke_swap(a: int, b: int) -> void:
++	await app._on_swap(a, b)
++	_finished_swap = true
++
++func _settled() -> bool:
++	return not app._resolving and not app.board.busy and app.board._power_event.is_empty() \
++		and app.board._birth_event.is_empty() and app.board._combo_parent.is_empty() \
++		and app.board._combo_consumed.is_empty() and app.board._hidden.is_empty() \
++		and app.board._moving.is_empty() and not app.board._falling
++
++func _display_matches() -> bool:
++	return _same(app.board._display_grid, app.core.grid) and _same(app.board._display_floor, app.core.floor) \
++		and _same(app.board._display_runes, app.core.runes)
++
++func _expected_goals(result: Dictionary, kind: int) -> int:
++	var count := 0
++	for event in result.get("events", []):
++		if String(event.get("type", "")) not in ["clear", "natural_power"]: continue
++		var seen := {}
++		for raw_index in event.get("indices", event.get("matched", [])):
++			var index := int(raw_index)
++			if seen.has(index): continue
++			seen[index] = true
++			if index >= 0 and index < event.before.size() and int(event.before[index]) == kind: count += 1
++	return count
++
++func _play(scenario: String, reduced: bool = false) -> Dictionary:
++	app.reduced.button_pressed = reduced
++	app.reset_scenario(scenario)
++	_reset_observation()
++	var start_moves: int = app.core.moves_left
++	var start_collected: int = app.core.collected
++	var pair: Array = app.core.fixture_pair.duplicate()
++	_invoke_swap(int(pair[0]), int(pair[1]))
++	# _on_swap has synchronously resolved Core before its first presentation
++	# await. Measure that actual state, then watch every rendered await frame.
++	var final_state := _state(app.core)
++	var stable := true
++	var deadline := Time.get_ticks_msec() + 16000
++	while app._resolving and Time.get_ticks_msec() < deadline:
++		await process_frame
++		if _state(app.core) != final_state: stable = false
++	var result: Dictionary = app.last_result.duplicate(true)
++	var label := scenario + (" reduced" if reduced else " normal")
++	_check(bool(result.get("valid", false)) and app.core.moves_left == start_moves - 1,
++		label + " integrates one real move through Lab and Core")
++	_check(stable and _finished_swap and _settled() and _display_matches(),
++		label + " rendering preserves Core/RNG and settles at its exact resolved board")
++	var expected := _expected_goals(result, app.core.collect_kind)
++	_check(goal_signals == expected and expected == app.core.collected - start_collected,
++		label + " emits each actually removed goal exactly once", [goal_signals, expected, app.core.collected - start_collected])
++	observations.append({"scenario":scenario, "reduced":reduced, "power_sequence":powers.duplicate(),
++		"goal_signals":goal_signals, "cue_counts":_audio_counts(), "core_stable_during_await":stable,
++		"fusion_samples":fusion_samples.duplicate(true), "combo_samples":combo_samples.duplicate(true)})
++	return result
++
++func _creation_cases() -> void:
++	for definition in [["create_four", 8, "Volcano"], ["create_five", 9, "Storm"],
++		["create_t", 6, "Tornado"], ["create_l", 11, "Landslide"], ["create_plus", 6, "Tornado"]]:
++		await _play(String(definition[0]))
++		_check(powers.is_empty() and births.size() == 1 and int(births[0][0].kind) == int(definition[1])
++			and app.helper.text.contains(String(definition[2])), String(definition[0]) + " reveals the created reward and names it without firing a power")
++		_check(app.element_audio.cue_log.size() == 1 and app.element_audio.cue_log[0].get("power", "") == "reward_birth"
++			and app.element_audio.cue_log[0].get("source", "").ends_with("reward_birth_soft_v1.wav"),
++			String(definition[0]) + " uses the actual quiet birth cue bank")
++
++func _combo_cases() -> void:
++	for definition in [["pair44", ["volcano", "volcano"]], ["pair45", ["tornado_h", "volcano"]]]:
++		await _play(String(definition[0]))
++		_check(_same(powers, definition[1]) and combo_samples.size() == 2,
++			String(definition[0]) + " emits complete constituent powers in the required order", powers)
++		var frozen := combo_samples.size() == 2
++		if frozen:
++			for sample in combo_samples:
++				if not bool(sample.frozen) or not _same(sample.hidden, sample.parent_indices): frozen = false
++			if combo_samples[1].consumed.is_empty(): frozen = false
++		_check(frozen, String(definition[0]) + " keeps one frozen snapshot and hides first-effect removals before the second")
++		var first: Dictionary = power_events[0]
++		var second: Dictionary = power_events[1]
++		var residual := true
++		for index in second.targets:
++			if index in first.targets: residual = false
++		_check(residual and _same(first.before, second.before), String(definition[0]) + " uses residual ordinary targets without fake refill")
++		_check(app.volcano_audio.cue_log.size() == (2 if definition[0] == "pair44" else 1)
++			and app.tornado_audio.cue_log.size() == (1 if definition[0] == "pair45" else 0),
++			String(definition[0]) + " schedules each real constituent audio once", _audio_counts())
++
++func _fusion_cases() -> void:
++	var definitions := [["black_hole", "6_9"], ["black_hole_same", "6_6"], ["storm_storm", "9_9"],
++		["storm_landslide", "9_10"], ["tornado_landslide", "6_10"], ["landslide_landslide", "10_10"]]
++	for definition in definitions:
++		var found := false
++		for entry in app.SCENARIOS:
++			if entry[0] == definition[0]: found = true
++		_check(found, String(definition[0]) + " is selectable in the actual Lab dropdown")
++		await _play(String(definition[0]))
++		_check(_same(powers, ["black_hole"]) and fusion_samples.size() == 1,
++			String(definition[0]) + " runs one Black Hole and no individual source powers")
++		if fusion_samples.size() != 1: continue
++		var sample: Dictionary = fusion_samples[0]
++		var materials_ok: bool = sample.sources.size() == 2 and sample.source_indices.size() == 2 and int(sample.particle_count) >= 10
++		for source in sample.sources:
++			var kind := int(source.kind)
++			var expected := "air" if kind in [6, 7] else ("electric" if kind == 9 else "rock")
++			if sample.materials.get(kind, "") != expected: materials_ok = false
++		_check(materials_ok and bool(sample.rejects_forged_token) and bool(sample.rejects_tier4) and bool(sample.rejects_legacy_volcano),
++			String(definition[0]) + " phase .42 uses both actual source materials and validates tier/token provenance")
++		_check(bool(sample.png.ready) and sample.png.path.ends_with("black_hole_core_v2.png") and sample.png.size.x > 0
++			and bool(sample.phase.valid) and float(sample.phase.birth) > 0.0 and float(sample.phase.pull) == 0.0
++			and bool(sample.target_pose.get("valid", false)) and float(sample.target_pose.get("pull", -1.0)) == 0.0,
++			String(definition[0]) + " decodes the real painted PNG and births it before target pull")
++		_check(app.element_audio.cue_log.size() == 1 and app.element_audio.cue_log[0].get("kind", "") == definition[1]
++			and app.element_audio.cue_log[0].get("source", "").ends_with("fusion_" + String(definition[1]) + "_soft_v1.wav")
++			and app.volcano_audio.cue_log.is_empty() and app.tornado_audio.cue_log.is_empty() and app.storm_audio.cue_log.is_empty(),
++			String(definition[0]) + " selects its real pair cue and suppresses individual cues", _audio_counts())
++
++func _cancel_later(mode: String) -> void:
++	await create_timer(0.08).timeout
++	if mode == "skip": app.skip_effect()
++	else: app.reset_scenario("create_four")
++
++func _cancel_case(mode: String) -> void:
++	app.reduced.button_pressed = false
++	app.reset_scenario("pair45")
++	_reset_observation()
++	_cancel_mode = mode
++	var old_core = app.core
++	var pair: Array = old_core.fixture_pair.duplicate()
++	_invoke_swap(int(pair[0]), int(pair[1]))
++	var resolved_state := _state(old_core)
++	var deadline := Time.get_ticks_msec() + 5000
++	while (not _cancel_started or app._resolving) and Time.get_ticks_msec() < deadline: await process_frame
++	var cue_counts := _audio_counts()
++	await create_timer(2.55).timeout
++	var stopped := true
++	for manager in [app.volcano_audio, app.tornado_audio, app.storm_audio, app.element_audio]:
++		if manager.event_active: stopped = false
++		for voice in manager.players:
++			if voice.playing: stopped = false
++	_check(_cancel_started and _same(powers, ["tornado_h"]) and _same(cue_counts, _audio_counts())
++		and app.volcano_audio.cue_log.is_empty(), mode + " cancels before the future Volcano constituent and its audio")
++	_check(_state(old_core) == resolved_state and _settled() and _display_matches() and stopped,
++		mode + " leaves no stale effect/voice or renderer mutation after old waits expire")
++	if mode == "reset":
++		_check(app.scenario == "create_four" and app.core != old_core and app.core.moves_left == 12,
++			"Reset installs the chosen fresh fixture while the interrupted move stays resolved on its old Core")
++
++func _run() -> void:
++	app = LAB.new()
++	root.add_child(app)
++	app.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
++	await process_frame
++	app.board.power_started.connect(_on_power)
++	app.board.reward_born.connect(func(awards: Array) -> void: births.append(awards.duplicate(true)))
++	app.board.goal_piece_cleared.connect(func(_point: Vector2) -> void: goal_signals += 1)
++	_check(app.scenario == "create_four" and app.board._hint == app.core.fixture_pair
++		and app.core.preview_rewards(int(app.core.fixture_pair[0]), int(app.core.fixture_pair[1])).size() == 1,
++		"Initial Lab chooses the real playable four-creation fixture and native board hint")
++	await _creation_cases()
++	await _combo_cases()
++	await _fusion_cases()
++	await _play("create_four", true)
++	_check(births.size() == 1 and app.element_audio.cue_log.size() == 1,
++		"Reduced birth retains the authored reward and one quiet cue")
++	await _play("pair45", true)
++	_check(_same(powers, ["tornado_h", "volcano"]) and app.tornado_audio.cue_log[0].get("kind", "") == "reduced"
++		and app.volcano_audio.cue_log[0].get("reduced", false), "Reduced combo retains order with the actual reduced sound cues")
++	await _play("black_hole", true)
++	_check(_same(powers, ["black_hole"]) and app.element_audio.cue_log[0].get("kind", "") == "reduced",
++		"Reduced fusion remains one Black Hole with its quiet short cue")
++	await _cancel_case("skip")
++	await _cancel_case("reset")
++	app.queue_free()
++	await process_frame
++	print("PRESENTATION_OBSERVATIONS=" + JSON.stringify(observations))
++	print("PRESENTATION_SUMMARY=" + JSON.stringify({"checks":checks, "failures":failures.size(),
++		"failure_labels":failures, "acceptance":"HEADLESS_INTEGRATION_ONLY"}))
++	quit(0 if failures.is_empty() else 1)
+--- /dev/null
++++ b/tests/test_reward_stone_cancellation.gd
+@@ -0,0 +1,97 @@
++extends SceneTree
++## Real Lab lifecycle and real stone voice pool, using the headless audio driver.
++## This proves cancellation contracts, not human listening or acoustic quality.
++
++const LAB = preload("res://scripts/lab/reward_rules_lab.gd")
++var app
++var checks := 0
++var failures: Array[String] = []
++var observations: Array = []
++var swap_finished := false
++
++func _initialize() -> void:
++	call_deferred("_run")
++
++func _check(condition: bool, label: String, detail: Variant = "") -> void:
++	checks += 1
++	if not condition: failures.append(label)
++	print(("PASS: " if condition else "FAIL: ") + label + (" | " + str(detail) if not condition else ""))
++
++func _playing(manager) -> int:
++	var count := 0
++	for voice in manager.players:
++		if voice.playing: count += 1
++	return count
++
++func _core_state(core) -> String:
++	return JSON.stringify({"grid":core.grid,"floor":core.floor,"runes":core.runes,
++		"moves":core.moves_left,"collected":core.collected,
++		"rng_seed":str(core._rng.seed),"rng_state":str(core._rng.state)},"",true)
++
++func _start_swap(a: int, b: int) -> void:
++	await app._on_swap(a,b)
++	swap_finished = true
++
++func _start_real_stone_voices() -> void:
++	# Use the Lab's actual sound dispatcher. Never forge a voice playing flag,
++	# replace its stream, or wait for natural completion before cancelling.
++	app._on_board_foley("move",1.0)
++	app._on_board_foley("break",1.0)
++
++func _cancel_case(mode: String) -> void:
++	app.reset_scenario("create_four")
++	swap_finished = false
++	var old_core = app.core
++	var pair: Array = old_core.fixture_pair.duplicate()
++	_start_swap(int(pair[0]),int(pair[1]))
++	var resolved := _core_state(old_core)
++	_check(app._resolving and app.last_result.get("valid",false),mode+" starts during a real valid move presentation")
++	_start_real_stone_voices()
++	var before := _playing(app.stone_audio)
++	var has_break := false
++	var has_move := false
++	for voice in app.stone_audio.players:
++		if voice.playing:
++			if voice.stream == app.stone_audio.BREAK: has_break = true
++			if voice.stream == app.stone_audio.MOVE: has_move = true
++	_check(before >= 2 and has_break and has_move,mode+" has both actual scrape and break streams actively playing",before)
++	# No await separates this precondition from cancellation: the regression
++	# cannot pass merely because the very short scrape has finished naturally.
++	if mode == "Skip": app.skip_effect()
++	else: app.reset_scenario("create_five")
++	_check(_playing(app.stone_audio) == 0,mode+" stops every active stone voice synchronously")
++	_check(not app._resolving and not app.board.busy,mode+" clears presentation busy state")
++	await create_timer(1.1).timeout
++	_check(_playing(app.stone_audio) == 0 and swap_finished,mode+" leaves no resurrected stone cue after the interrupted waits expire")
++	_check(_core_state(old_core) == resolved,mode+" audio/presentation cancellation leaves resolved Core and RNG unchanged")
++	if mode == "Reset":
++		_check(app.scenario == "create_five" and app.core != old_core and app.core.moves_left == 12,
++			"Reset installs its requested fresh fixture without reusing the interrupted Core")
++	observations.append({"action":mode,"voices_before":before,"voices_after":_playing(app.stone_audio),
++		"scrape_active_before":has_move,"break_active_before":has_break,"old_swap_returned":swap_finished,
++		"old_core_stable":_core_state(old_core)==resolved})
++
++func _run() -> void:
++	app = LAB.new()
++	root.add_child(app)
++	app.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
++	await process_frame
++	_check(app.stone_audio.players.size() == 8,"Real Lab creates the eight-voice stone pool")
++	await _cancel_case("Skip")
++	await _cancel_case("Reset")
++	_start_real_stone_voices()
++	var exit_before := _playing(app.stone_audio)
++	_check(exit_before >= 2,"Exit begins with actual overlapping stone voices",exit_before)
++	var stone_manager = app.stone_audio
++	root.remove_child(app)
++	_check(not app.is_inside_tree() and _playing(stone_manager) == 0,
++		"Real tree exit synchronously stops the stone voice pool")
++	observations.append({"action":"tree_exit","voices_before":exit_before,"voices_after":_playing(stone_manager)})
++	app.free()
++	await process_frame
++	# Let the audio driver release stopped source resources before engine exit.
++	await create_timer(0.2).timeout
++	print("STONE_CANCELLATION_OBSERVATIONS="+JSON.stringify(observations))
++	print("STONE_CANCELLATION_SUMMARY="+JSON.stringify({"checks":checks,"failures":failures.size(),
++		"failure_labels":failures,"acceptance":"HEADLESS_AUDIO_LIFECYCLE_ONLY"}))
++	quit(0 if failures.is_empty() else 1)
+--- /dev/null
++++ b/tests/capture_reward_rules.gd
+@@ -0,0 +1,146 @@
++extends SceneTree
++## Scripted native press/motion/release in the real lab, not a human test.
++const Lab = preload("res://scripts/lab/reward_rules_lab.gd")
++var app
++var scenario := "create_four"
++var output := ""
++var start_frame := 0
++var failures: Array[String] = []
++var observations: Array = []
++var frozen := ""
++var invariant_samples := 0
++var initial: Dictionary = {}
++var shots: Dictionary = {}
++
++func _initialize() -> void:
++	call_deferred("run")
++
++func check(value: bool, message: String) -> void:
++	if not value: failures.append(message)
++
++func state() -> Dictionary:
++	var rewards: Dictionary = {}
++	for index in app.core.grid.size():
++		var item: Dictionary = app.core.reward_at(index)
++		if not item.is_empty(): rewards[index] = item
++	return {"grid":app.core.grid.duplicate(),"floor":app.core.floor.duplicate(),"runes":app.core.runes.duplicate(),"moves":app.core.moves_left,"collected":app.core.collected,"rewards":rewards,"rng":str(app.core._rng.state)}
++
++func canonical(value: Variant) -> String:
++	return JSON.stringify(value,"",true)
++
++func write(name: String, value: Variant) -> void:
++	var p := output+"/"+name+".json"
++	var bytes := (JSON.stringify(value,"\t",true)+"\n").to_utf8_buffer()
++	var f := FileAccess.open(p,FileAccess.WRITE)
++	f.store_buffer(bytes);f.close()
++	check(FileAccess.get_file_as_bytes(p)==bytes,"JSON readback "+name)
++
++func next_frame() -> void:
++	await process_frame
++	if frozen.is_empty() and not app.last_result.is_empty():
++		frozen = canonical(state())
++		write("RESULT",app.last_result)
++		write("RESOLVED_STATE",state())
++	if not frozen.is_empty():
++		invariant_samples += 1
++		check(canonical(state())==frozen,"Presentation changed actual resolved state/RNG")
++	if not app.board._power_event.is_empty():
++		var power: String = String(app.board._power_event.get("power",""))
++		var t: float = float(app.board._power_t)
++		if t>=0.28 and not shots.has(power+"_materials"):
++			await shot(power+"_materials")
++		if power=="black_hole" and t>=0.65 and not shots.has("black_hole_pull"):
++			await shot("black_hole_pull")
++	if not app.board._birth_event.is_empty() and not shots.has("reward_birth"):
++		await shot("reward_birth")
++
++func shot(name: String) -> void:
++	shots[name] = true
++	await RenderingServer.frame_post_draw
++	var image := root.get_texture().get_image()
++	check(image.get_size()==Vector2i(432,960),"432x960 capture "+name)
++	check(image.save_png(output+"/"+name+".png")==OK,"Save screenshot "+name)
++	var info := {"phase":name,"frame":Engine.get_process_frames()-start_frame,"power":app.board._power_event.duplicate(true),"power_t":app.board._power_t,"birth":app.board._birth_event.duplicate(true)}
++	if not app.board._power_event.is_empty() and String(app.board._power_event.get("power",""))=="black_hole":
++		info["sources"] = app.board.fusion_sources()
++		info["materials"] = app.board.source_material_particles(app.board._cell_size())
++		info["painted_hole"] = app.board.painted_hole_status()
++	observations.append(info)
++
++func native_move(a: int,b: int) -> void:
++	var first: Vector2 = app.board.get_global_transform()*app.board._center(a)
++	var last: Vector2 = app.board.get_global_transform()*app.board._center(b)
++	var down := InputEventMouseButton.new()
++	down.button_index=MOUSE_BUTTON_LEFT;down.pressed=true;down.position=first;down.global_position=first
++	Input.parse_input_event(down)
++	await next_frame()
++	for n in range(1,6):
++		var motion := InputEventMouseMotion.new()
++		motion.position=first.lerp(last,float(n)/5.0);motion.global_position=motion.position
++		motion.button_mask=MOUSE_BUTTON_MASK_LEFT
++		Input.parse_input_event(motion)
++		await next_frame()
++	var up := InputEventMouseButton.new()
++	up.button_index=MOUSE_BUTTON_LEFT;up.pressed=false;up.position=last;up.global_position=last
++	Input.parse_input_event(up)
++	await next_frame()
++
++func run() -> void:
++	start_frame=Engine.get_process_frames()
++	var args := OS.get_cmdline_user_args()
++	if args.size()!=1:
++		push_error("Pass one scenario name");quit(1);return
++	scenario=String(args[0])
++	output=ProjectSettings.globalize_path("res://outputs/native_reward_rules/"+scenario)
++	if DirAccess.dir_exists_absolute(output):
++		push_error("Refusing to overwrite existing capture");quit(1);return
++	DirAccess.make_dir_recursive_absolute(output)
++	if DisplayServer.get_name()=="headless":
++		push_error("Native capture requires graphical driver");quit(1);return
++	root.content_scale_size=Vector2i(432,960);root.size=Vector2i(432,960)
++	DisplayServer.window_set_current_screen(0)
++	app=Lab.new();root.add_child(app);app.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
++	await process_frame;await process_frame
++	app.reset_scenario(scenario)
++	await process_frame;await process_frame
++	initial=state();write("INITIAL_STATE",initial)
++	check(app.core.get_matches().is_empty(),"Honest fixture starts without matches")
++	var view := Rect2(Vector2.ZERO,Vector2(432,960))
++	var board_rect: Rect2=app.board.get_global_rect()
++	check(view.encloses(board_rect),"Entire board fits portrait viewport")
++	check(view.encloses(app.helper.get_global_rect()) and view.encloses(app.reduced.get_global_rect()),"Controls/helper fit portrait viewport")
++	write("GEOMETRY",{"screen":DisplayServer.window_get_current_screen(),"root_size":[root.size.x,root.size.y],"board_rect":str(board_rect),"helper_rect":str(app.helper.get_global_rect()),"scenario":scenario})
++	while Engine.get_process_frames()-start_frame<25: await next_frame()
++	await shot("00_ready")
++	var pair: Array=app.core.fixture_pair.duplicate()
++	check(pair.size()==2,"Real fixture supplies native adjacent pair")
++	await native_move(int(pair[0]),int(pair[1]))
++	while (app._resolving or app.board.busy or app.last_result.is_empty()) and Engine.get_process_frames()-start_frame<230:
++		await next_frame()
++	check(not app.last_result.is_empty() and bool(app.last_result.get("valid",false)),"Native gesture resolves actual valid move")
++	check(not app._resolving and not app.board.busy,"Complete real animation finishes")
++	check(app.core.moves_left==int(initial.moves)-1,"Exactly one move spent")
++	check(app.board._display_grid==app.core.grid and app.board._display_floor==app.core.floor and app.board._display_runes==app.core.runes,"Final display matches real resolved core")
++	check(app.board._power_event.is_empty() and app.board._birth_event.is_empty() and app.board._combo_parent.is_empty(),"No stale VFX after completion")
++	var births: Array=[]
++	var powers: Array=[]
++	for event in app.last_result.get("events",[]):
++		if String(event.type)=="reward_birth":births.append(event)
++		if String(event.type)=="natural_power":powers.append(event)
++	if scenario.begins_with("create_"):
++		check(births.size()==1 and births[0].awards.size()==1 and powers.is_empty(),"Player match creates exactly one reward without activating it")
++	elif scenario in ["pair44","pair45"]:
++		check(powers.size()==1 and String(powers[0].power)=="power_combo" and powers[0].components.size()==2,"One combined parent event, never Black Hole")
++	else:
++		check(powers.size()==1 and String(powers[0].power)=="black_hole","Actual five-born pair activates Black Hole")
++		if powers.size()==1:
++			check(powers[0].floor_before==powers[0].floor and powers[0].runes_before==powers[0].runes,"Direct Black Hole preserves soil/runes")
++		check(shots.has("black_hole_materials") and shots.has("black_hole_pull"),"Real source-material birth and pull captured")
++	await shot("99_final")
++	write("FINAL_STATE",state())
++	write("AUDIO_CUES",{"element":app.element_audio.cue_log,"volcano":app.volcano_audio.cue_log,"tornado":app.tornado_audio.cue_log,"storm":app.storm_audio.cue_log})
++	while Engine.get_process_frames()-start_frame<269:await next_frame()
++	var report={"status":"PASS" if failures.is_empty() else "FAIL","failures":failures,"scenario":scenario,"viewport":[432,960],"screen":DisplayServer.window_get_current_screen(),"fixed_fps":30,"elapsed_intervals":Engine.get_process_frames()-start_frame,"encoded_frames_expected":270,"immutable_resolved_state_samples":invariant_samples,"observations":observations,"proof":"Scripted real Godot Input.parse_input_event press/motion/release, actual project/audio. Not a human or Android test."}
++	write("REPORT",report)
++	print("REWARD_RULES_NATIVE "+JSON.stringify({"status":report.status,"failures":failures,"scenario":scenario,"samples":invariant_samples,"process_intervals":report.elapsed_intervals}))
++	quit(0 if failures.is_empty() else 1)
+--- /dev/null
++++ b/README_REWARD_RULES.txt
+@@ -0,0 +1,79 @@
++GNOMIT — REWARD RULES PLAYABLE LAB / 18 OCTOBER 2026
++
++START
++Double-click PLAY_REWARD_RULES.cmd. It uses the existing Godot 4.7.2 install at
++C:\Tools\Godot\4.7.2\engine and opens a 432 x 960 window on screen 0 (monitor 1).
++Alternatively import this folder's project.godot in Godot 4.7.2 and run the project.
++First import can rebuild .godot; generated cache is deliberately absent from ZIP.
++This package does not include an installer or engine executable.
++
++PLAY
++The default scenario is Create 4 -> Volcano. Hold one highlighted mineral and
++drag towards the adjacent highlighted mineral. Movement remains one cell.
++The actual valid match creates a Volcano at the reserved anchor. Continue playing
++to activate it. Show move points to a current legal move; Reset restores seed 42.
++Choose another scenario from the top dropdown for straight 5, T, L, extended T,
++4+4, 4+5 or all six families of 5+5 pairs, including equal powers.
++The pair scenarios begin with deliberately placed, registered powers; they do
++not pretend that both powers were created through a full played session.
++Skip effect finishes the presentation and stops sound without undoing the move.
++Reduced motion removes the elaborate motion and uses short quiet cues.
++
++RULES IN THIS LAB
++4 in a straight line: Volcano, four-born.
++5 or more in a straight line: Lightning Storm, five-born.
++Intersecting runs of at least 3 forming T/plus: Tornado, five-born.
++L intersection: oriented Landslide, five-born.
++Priority: actual straight 5+ > T/plus > L > straight 4. One reward per connected
++matched component touched by the valid ordinary player swap. Extra T/L stones
++retain tier 5. The anchor is reserved, neither collected nor activated at birth.
++Cascades clear normally but do not create new powers in this first version.
++Five small ticks follow the five-born token through swaps, falling and shuffle.
++
++4+4: two eruptions, distinct available mineral targets (limited by the pool).
++4+5: determine the five-power targets first; Volcano uses remaining minerals.
++5+5: swap adjacent existing five-born powers to create ONE Black Hole; equal
++powers also qualify. Individual source attacks are suppressed. Sources retain
++their real wind/electric/stone materials as they orbit and form the painted hole.
++Direct sweep preserves soil/runes; later ordinary cascades retain terrain rules.
++There is no once-per-attempt cap on legitimately created future five-born pairs.
++Unknown/missing token provenance is rejected, rather than guessed from the icon.
++
++PLUS FIXTURE LIMIT
++A literal plus cannot be born by one adjacent swap on a stable match-free board:
++the donor would occupy an arm or leave an existing triple. The selectable
++Extended T scenario is a reachable six-stone T (4 horizontal / 3 vertical).
++Literal plus and larger plus masks are tested as detector inputs, not presented
++as a played stable pre-swap fixture.
++
++SOUND
++Existing approved single-power clips, stone scrape/break and icons are unchanged.
++Six original deterministic synthesized fusion clips distinguish wind/electric/
++stone pairs; there is also a short quiet reward-birth cue. No paid AI service.
++Reset, Skip and exit stop active stone and power voices. Actual captured 4+5 and
++Storm+Landslide PCM is stereo 48 kHz, 9 s, with zero clipped samples. This is a
++technical measurement, not a human listening approval.
++
++EVIDENCE
++40 Core scenario checks, 105 integrated presentation checks, 31 audio checks,
++16 focused stone-cancellation checks: PASS. Five actual scripted native Godot
++captures: 432 x 960, monitor 1, 270 frames / 30 fps / 9 s each.
++outputs contains the real AVI recordings (with their Godot audio), screenshots,
++JSON event/state receipts, one silent GIF preview and two extracted WAV files.
++verification retains current success evidence AND explicitly historical failed
++RED/parser/cleanup attempts. Old copied tests refer to the predecessor lab;
++only the current reward_* suites are claimed for this delivery.
++
++SCOPE / STATUS
++Isolated PC lab. Original Cradle, original GnomiT, match-3 base classes, map,
++campaign/unlocks/save and prior approved sounds remain unchanged. No Android,
++human playtest, human listening or final visual approval is claimed.
++Godot animated these effects. No Blender render or Audacity edit is claimed.
++The latest human request authorizes this local implementation. The exact shape
++priority is Codex's deterministic choice; no final Grok ACK is claimed.
++
++Git review hub permits own text reports only. Code is reviewable as a literal
++text patch there; binary media and runnable project are delivered in this ZIP.
++No native source/binary publication or automatic merge into the game occurred.
++
++Recommended model/effort for the next review: GPT-6.1 Sol / High.
+
+NEW WAV IDENTITIES (generator text above; bytes are LOCAL+ZIP only)
+{
+  "assets/sfx/reward_rules/fusion_10_10_soft_v1.wav": {
+    "bytes": 493964,
+    "sha256": "bbd8fc607a45292b43c5dafb4e949bb6f784a5dbd41016ff9b3e2637fb12ebed"
+  },
+  "assets/sfx/reward_rules/fusion_6_10_soft_v1.wav": {
+    "bytes": 493964,
+    "sha256": "d1c54a133812655412269831aad325fa8b16b21411e284579ed106afbc839076"
+  },
+  "assets/sfx/reward_rules/fusion_6_6_soft_v1.wav": {
+    "bytes": 493964,
+    "sha256": "4da029773bf66834ca4a5d93154d641d43c9c4ff96efe060e8beff3ed9a04782"
+  },
+  "assets/sfx/reward_rules/fusion_6_9_soft_v1.wav": {
+    "bytes": 493964,
+    "sha256": "5cd7b0e8a59190af0f5ef89c9a7e1703de4e70650f39b1e9a8bb24f9e98400b1"
+  },
+  "assets/sfx/reward_rules/fusion_9_10_soft_v1.wav": {
+    "bytes": 493964,
+    "sha256": "ca9ee0bda217b0cfc7b329853ba575035d7ae149e51489b61e7e411c6ad9218e"
+  },
+  "assets/sfx/reward_rules/fusion_9_9_soft_v1.wav": {
+    "bytes": 493964,
+    "sha256": "7893bd5c6d89fce8a41e018ceae4cda1c74c683bc42d846b0db1887c73fbfa0c"
+  },
+  "assets/sfx/reward_rules/reward_birth_soft_v1.wav": {
+    "bytes": 44144,
+    "sha256": "4b424d949d554ba572f63260d2ee3bb158d8a2d0fc50842be75ebd18426dffb9"
+  }
+}
