@@ -507,3 +507,43 @@ Not as a campaign rule. Five-plus-five is already a deliberate swap, and this pa
 4. Correct single pay: one straight line of six is one Storm, not a Storm plus a second bonus from an L inside those cells. Two tier-5 pieces on opposite sides of the board also do nothing until they are swapped as neighbors. Two Volcanoes swapped together erupt twice and do not open a hole.
 
 Direct powers still hit soil only under ordinary cells they actually clear, and they do not break a rune by themselves. The Black Hole does not damage floor or runes directly. No game edit, art, grant change or merge. GPT had no R2 section at 4f5b5f6fc6b4c24bde37970f71ee27063e173f47 when this was written.
+
+---
+
+MATERIAL_POWER_MATCHING_R1_2026-10-19 / INDEPENDENT_RESPONSE
+BOT=grok
+MODEL=Grok Build
+STATUS=DESIGN_ONLY / NOT_IMPLEMENTED / NO_CONSENSUS
+INPUT_COMMIT=82c56acae22ca2cf133efd750a6f21fcbee76c24
+R1_BLOB=21d171ad0b6d0f6dd75463169132b916ea7253a2
+CONTEXT_BLOB=051f44a5e898bc090e61bf6ac919dde2d0f352a3
+PATCH_BLOB=ba6c68942d58be055e2749086c0ae252036f75db
+GRANT=tasks/grok/task-001.json on main bd2dfe7fddd300bd8425cd1c5b0846fe50c4f3d2, REPORTS_ONLY
+I read the two design notes and the reward-rules patch as text. I did not run the lab, did not watch a capture, and did not treat painted colour as a matcher. The current records have token_id, kind, birth_tier, recipe and sometimes orientation. They have no mineral. _ordinary_runs rejects every special. A power-plus-ordinary swap activates and does not look for a new recipe. is_ordinary also chooses volcano, storm, tornado and landslide targets and stops rays. I do not widen it.
+
+RULE
+Keep the recipe table. Do not rebuild the families for this question. Add material as its own field and split the player turn into steps: match, activate the old tokens, reserve the new token, then resolve. Straight 4 is Volcano. Straight 5 or more is Storm. T or plus is Tornado. L is Landslide. Four rubies and four gold-ore pieces both make a Volcano; the mineral only says which colour that Volcano later counts as. This pass uses the lab's current shape order, straight 5+ before T/plus before L before 4. I am not reopening that order here, and I am not calling it agreement with my older overlap note.
+
+A power stores mineral_kind, taken from its birth component before the anchor is replaced. It follows the same token through swap, fall and shuffle. A fixture with no mineral matches nothing; do not guess ruby from the volcano icon. match_material is a new lookup for the initial recipe, its preview and its hint. Ordinary cells still use their kind. Specials use mineral_kind. Holes and runes have none. Cascade matching and effect targeting stay on the old ordinary test.
+
+Q1. Keep 4/5/T/L. The minimum change is the material field, the initial-swap lookup, and the order below. Not a new engine.
+Q2. A power swapped with an ordinary gem still fires directly when that swap makes no material line of 3 or more. A material line on that same swap wins over the direct fire. I am not requiring a colour match for every single-power use: the current hint already treats a lone special beside an ordinary gem as a move, and the human did not cancel that control.
+Q3. On the one post-swap snapshot, before any explosion, clear, fall or refill: every material component that touches a swapped cell is examined. Every old power token in those components activates once, including a stationary one. Order is increasing cell index. Each component still births at most one power, with a new token id and a tier from the new recipe, not from the old piece. Its mineral is the component mineral. Two new pieces from two colours do not fuse in that move.
+Q4. A cascade does not create a power and does not activate an old one. This is a real choice, not "no change". The cascade matcher stays ordinary-only. A coloured power that merely completes a line after a fall stays put and does not fire. The line waits for the next player turn.
+Q5. The newborn is reserved before the old effect, so the eruption cannot erase it. It also ignores cascade matching and cascade clears for the rest of that same turn. If it falls between two of its own mineral, it sits there. It is not a hidden wildcard and it does not retry. On the next player turn the rimmed piece counts again.
+Q6. Activating an old ruby-material power does not add a collected ruby. Only an ordinary cell whose kind is the goal counts, and only once. The reserved anchor is not removed, so it gives no collection, soil or rune. A cell that is both matched and attacked is cleared once: the match rule wins for that cell, floor clears once and each neighboring rune loses one layer once. A cell hit only by the attack keeps the existing direct-power rule. The Black Hole still does not damage floor or runes directly.
+Q7. At 432x960 the approved icon stays the family. A thin rim in the existing mineral colour, plus one small chip on the opposite corner from the badge, shows the material. Five pale ticks still mean tier 5 only. No ticks means tier 4. No new HUD. Rim and ticks are different facts.
+
+The fixed pair rule stays outside this matcher. Only a direct adjacent swap of two already existing tier-5 powers makes one Black Hole, even if the minerals differ or the families match. Sitting together in a colour line does not. 4+4 and 4+5 keep their own combo and do not also birth a colour reward. An unregistered special pair is still rejected.
+
+MASKS
+A. [R,R,V_R,R], when the swap touches that line: one old ruby Volcano fires once and one new ruby Volcano is reserved. One move. No Black Hole. If the anchor is the old cell, the old token fires and the new token is placed there afterwards. If the anchor is another cell inside the eruption footprint, that cell is excluded and the volcano hits other ordinary cells only.
+B. [R,R,V_R,R,R]: the old Volcano fires once and the new reward is one ruby Storm, not a Volcano. Same protection when the anchor coincides with the source or sits in the footprint.
+C. [R,S_R,R]: the old Storm activates once. The line is only 3, so nothing is born. Its five-tier history does not make a new power or a Black Hole.
+D. [R,S_R,R,T_R,R]: one straight component. Storm and Tornado each activate once, lower index first. Their targets are deduped. One new ruby Storm is born. No Black Hole and no second reward.
+E. Direct swap S_R with T_G: one Black Hole. Minerals do not matter. Neither source attack plays, and the swap does not also birth a colour power.
+F. [R,R,V_G,R] is not a ruby four. The green Volcano is not a wildcard. If that swap also makes no material line of 3 or more, the old direct activation fires V_G and nothing is born.
+G. A new ruby power falls between two rubies in the same turn: it stays. No activation, no second birth, no clear. The end state is readable because the icon and ruby rim are not an ordinary ruby.
+H. [R,R,V_R,R] appears only after refill: no new Volcano is created and the old one does not erupt. The line remains for a later player swap. Cascades still do not create powers.
+
+No game edit, test, image, sound, grant change or merge. GPT had no section on this question at ecfce495ccd4e2d7b2a9737fa08ef1a72fc1cd44.
