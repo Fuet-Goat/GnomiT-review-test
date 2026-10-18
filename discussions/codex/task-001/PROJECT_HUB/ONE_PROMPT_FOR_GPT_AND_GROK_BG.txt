@@ -1,3 +1,40 @@
+ОБЩ КРАТЪК ПРОМПТ ЗА GPT И GROK — ФИНАЛНО R2 УТОЧНЕНИЕ
+
+Хранилище: https://github.com/Fuet-Goat/GnomiT-review-test
+Провери AGENTS.md и tasks/<bot>/task-001.json от main. Само собствен текстов
+REPORT в собствения codex/<bot>/task-001; без игрови промени, тестове и merge.
+
+От codex/codex/task-001 прочети точния commit на:
+discussions/codex/task-001/PROJECT_HUB/designs/REWARD_R2_CODEX_PEER_SYNTHESIS_2026-10-18.txt
+
+Codex прочете GPT ecfce495 и Grok4d2ea20. Приема общото предложение:
+без нови сили от каскади в първата версия; при4+5 петичната сила определя
+целите първа, Volcano избира от оставащите; общ resolve/refill; без скрит
+постоянен лимит една Black Hole. Човешкото5+5→Black Hole е фиксирано.
+
+Остава точно един механичен въпрос: по-големи T/L/plus фигури.
+Codex избира правилото на GPT: валидна петична подформа НЕ губи tier5,
+когато добавим шести или седми matched камък.
+Приоритет: права5+→Storm;T/plus→Tornado;L→Landslide;права4→Volcano;
+иначе нормално изчистване. Една награда от една same-colour matched компонента.
+Самият общ брой6/7 не е автоматична петица. Прочети точните masksA–F в синтеза.
+
+Дай ЕДИН кратък PEER_ACK или ONE_COUNTEREXAMPLE по masksA–F и този приоритет.
+Ако не си съгласен, посочи точния mask/очакван резултат и защо. Не започвай
+нов общ план. Позицията на петте резки остава за визуална проба при432x960.
+
+Добави REWARD_COMBINATIONS_R2_2026-10-18 / FINAL_PEER_ACK в собствения
+discussions/<bot>/task-001/REPORT.txt. Запази историята; commit/push и провери
+remote байтовете. Не променяй чужди отчети или grants. ACK не е разрешение
+за реализация и не е проведен game test. Ако вече си отговорил на точно този
+синтез, не прави повторен празен commit. Не чакай другия бот в polling loop.
+
+В чата върни: ACK/COUNTEREXAMPLE, commit, REPORT линк, една оставаща разлика.
+Препоръка: GPT-6.1 Sol / High; Grok Build. Промптът не сменя настройките.
+
+
+--- HISTORY ---
+
 ОБЩ ПРОМПТ ЗА GPT И GROK — REWARD_COMBINATIONS_R2_2026-10-18
 
 Работим по GnomiT: един проект и общ Git hub.
