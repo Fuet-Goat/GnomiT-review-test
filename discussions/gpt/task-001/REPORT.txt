@@ -1472,3 +1472,322 @@ Godot/тест, не съм създал game code, assets, audio,
 нов grant, чужд REPORT, PR merge, runtime clip
 или нова AI provider операция. Консенсус НЕ е обявен.
 ==============================================================================
+
+
+==============================================================================
+MATERIAL_POWER_MATCHING_R1_2026-10-19 / INDEPENDENT_RESPONSE
+BOT=gpt | MODEL=GPT-6 | STATUS=INDEPENDENT DESIGN / NOT IMPLEMENTED
+INPUT_COMMIT=82c56acae22ca2cf133efd750a6f21fcbee76c24
+SOURCE_R1_BLOB=21d171ad0b6d0f6dd75463169132b916ea7253a2
+SOURCE_CONTEXT_BLOB=051f44a5e898bc090e61bf6ac919dde2d0f352a3
+LITERAL_PATCH_BLOB=ba6c68942d58be055e2749086c0ae252036f75db
+LAB_SOURCE_BASELINE=d3ee13c7113aca8d00dfc56c4050107c9cc1453b
+LOCAL_REWARD_CORE_SHA256=c771d019270f5015f64ff5a86a0e2cac81f1e39f7c9afaa0d0e1747c2d7e2934
+GRANT=tasks/gpt/task-001.json @ main, REPORTS_ONLY
+WRITE_ONLY=discussions/gpt/task-001/REPORT.txt @ codex/gpt/task-001
+
+1. НАБЛЮДЕНИЯ И Q1: НЕ СМЕНЯМЕ СИЛИТЕ, СМЕНЯМЕ RESOLVE
+
+Прочетени: AGENTS.md, активен GPT grant от main,
+новите MATERIAL_POWER_MATCHING_R1_2026-10-19.txt и
+MATERIAL_POWER_MATCHING_SOURCE_CONTEXT_2026-10-19.txt,
+както и literal REWARD_RULES_REVIEW_PATCH_2026-10-18.txt
+от Codex branch на INPUT_COMMIT.
+Сегашният reward_rules_core.gd има token_id/kind/birth_tier/
+recipe, но НЯМА mineral_kind. _ordinary_runs сравнява
+само ordinary grid kinds; preview_rewards отказва special
+endpoints; try_swap директно активира special+ordinary
+вместо да търси цветно ново съвпадение. И наследените
+get_matches/_has_match_at филтрират ordinary kinds.
+Reward overlay има 5 ticks за tier5, но не и материал.
+Това са статични източникови факти; НЕ е пускан Godot.
+
+ОСТАВЯМЕ настоящата таблица:
+3 in line -> normal clear;
+straight4 -> Volcano tier4;
+straight5+ -> Lightning Storm tier5;
+T or plus -> Tornado tier5;
+L -> Landslide tier5.
+Пробен Codex shape priority straight5+ > T/plus > L >
+straight4; не представям този 6+ ред като окончателен
+човешки консенсус.
+Разделяме ДАННИТЕ на материален вид mineral_kind 0..5
+(цвят от първоначалния минерал), family power_kind,
+birth_tier, token_id и birth recipe/orientation.
+Два рубинени/златни четворни компонента дават
+еднакъв POWER Volcano, но различен MATERIAL.
+Стойност UNKNOWN за legacy/fixture без provenance
+НЕ участва в colour matcher; не отгатваме материал
+от кратера на иконката. Fixups/migration са отделно
+бъдещо одобрено действие.
+
+Специализиран match_material(cell/token) връща
+ordinary kind или registered mineral_kind на power,
+иначе NO_MATCH. Един и същ lookup се използва в
+preview, real initial detection, matches, cascade
+matches, no-move/shuffle проверка. Не разширяваме
+глобално is_ordinary, защото в source той управлява
+effect targets, ray blockers, floor/collection logic.
+
+2. Q2: ДИРЕКТНО ЗАДЕЙСТВАНЕ БЕЗ ЦВЕТЕН MATCH
+
+ЗАПАЗВАМЕ direct power+ordinary swap като 1 валиден ход
+и активиране на старата сила, дори когато не възниква
+цветен match; без него НЕ се ражда нова сила.
+Но ако същата размяна специална+обикновена СЪЗДАДЕ
+валиден material match, old special участва в същия
+initial match и fires ONCE, а рецептата може да роди
+ONE NEW special. Това изисква нова обща transaction
+branch вместо старото взаимно изключване ordinary/other.
+Ordinary+ordinary без match -> rollback, 0 хода.
+Пряка special+special swap има НАЙ-ВИСОК приоритет:
+регистрираните 4+4 и 4+5 правят своите комбинации;
+две съществуващи FIVE-BORN, съседни и разменени
+директно, правят ONE Black Hole, дори с еднакъв kind
+или различен материал. Тези pair swaps НЕ раждат
+отделна цветна награда. Само съвпадение на два
+five-born в цвят НЕ задейства Black Hole, дори
+когато попаднат един до друг; новородени токени
+НЕ могат auto-fuse при същия swap или refill.
+
+3. Q3: INITIAL MATCH -> OLD ACTIVATIONS -> NEW BIRTH
+
+Класифицирай direct pair precedence ПРЕДИ matcher.
+За друг валиден initiating player swap: от ЕДИН
+post-swap snapshot намери matched runs и всяка
+same-material connected matched component, която
+докосва swap endpoint. Във всяка component избери
+точно ЕДНА award candidate от формата, ако има
+straight4/5, T, plus, L. Old specials се откриват
+ПО TOKEN_ID включително неподвижните; всеки се
+консумира и активира веднъж, без рекурсивни
+chains. Редът е component smallest row-major index,
+после old source index ASC, после token_id ASC.
+До една new power на същия компонент, независимо
+от броя old tokens; различни независимо matched
+компоненти може да раждат отделно по една.
+
+Една приета размяна струва точно 1 move независимо
+от броя source activations. Snapshot, clear ledger,
+old source IDs и future birth anchors се фиксират
+ПРЕДИ първото поражение. New power наследява
+material от компонента, power/tier от НОВАТА форма,
+а не от old token. Нов token_id винаги различен.
+Един source-действителен Core event получава
+истинските hits и RNG target list; animated VFX
+само го показва, не тегли собствени hits.
+
+4. Q4: CASCADE УЧАСТИЕ НА СТАРА ОЦВЕТЕНА СИЛА
+
+Избирам материално съвпадение при refill cascade,
+но СТАРА special се изчиства ИНЕРТНО като
+match member, без да fire-ва, без нов бонус
+от cascade. Колекция, floor и rune adjacency
+се третират като обикновен matching clear,
+когато токенът е действително consumed от
+този material match. Powers struck indirectly
+by an old power effect do not auto-chain.
+Това Е нов matcher/clear rule спрямо
+ordinary-only текущия код, но НЕ отключва
+нови reward births в cascades. Match след
+refill, който просто прави двата five-tier
+токена съседни, НЕ активира Black Hole;
+трябва следваща пряка доброволна размяна.
+
+5. Q5: RESERVATION / NEWBORN IMMUNITY
+
+Fresh newborn е защитен за ЦЯЛАТА текуща player
+transaction, не само за непосредствения old blast:
+списък created_token_ids / birth_epoch.
+Той не се активира/изчиства от old attacks,
+refill cascade или друг old source. Не е
+invisible wildcard. Неговият material се
+вижда от cascade matcher: ако 2 RUBY ordinary
+и 1 fresh ruby special образуват 3+, clear
+се прилага само върху 2 OLD ordinary tokens,
+born protected token остава на пътеката,
+следва refill и още bounded cascade checks.
+НЯМА допълнителен bonus от този refill match.
+Birth shield е видим кратък маркер само в
+текущия transaction, след final settling
+изчезва и следващият swap може да активира
+токена нормално. Това премахва необясними
+стабилни 3+ от ordinary камъни, вместо
+matcher да игнорира невидимо цвета.
+Максимум 2 reward components може да са
+родени от двата swap endpoints, следователно
+три purely newborn tokens в един run не
+са нормален birth outcome. Нужен бъдещ
+invariant/assert за extraordinary fixtures
+и bounded MAX_CASCADE_WAVES; при cap
+явна детерминирана стабилизация, не loop.
+
+A edge case, старият SOURCE = birth ANCHOR:
+ако стар V_R е moved into match при index=2
+на [R,R,V_R,R], anchor=2 може да се ползва
+повторно като координата, НО old token_id=41
+се consumed и erupts ONCE, new ruby Volcano
+token_id=42 се ражда на клетката и се
+пази от source attack/същия turn.
+Колекция брои само действително изчезналия
+OLD token, НЕ newborn въпреки общия index.
+
+B edge case, бъдещият ANCHOR е в সম্ভoup
+old-target footprint: [R,R,V_R,R,R], old V_R
+може да target-не обикновения индекс4,
+но той е предварително резервиран за NEW
+ruby Storm от straight5. При направения
+atomic source event индекс4 се премахва
+от eligible random Volcano targets ПРЕДИ
+Core target RNG; ако има друг ordinary target,
+Core избира него, иначе реалните попадения
+са по-малко. Геометричен fixed-hit overlay
+може да пресече index4, но не вреди на
+новия token/soil по тази клетка. VFX не
+показва фалшив clear или допълнителен reroll.
+
+6. Q6: ONE CONSUMPTION LEDGER, COLLECTION / TERRAIN
+
+Моята позиция: ако old ruby Volcano е РЕАЛЕН
+член на ruby material-match и token се consumed,
+брои се за +1 collected Ruby при Ruby objective,
+дори когато едновременно fire-ва old effect.
+Всички matching old gem/token identities се
+начисляват поединично; newborn reward anchor
+не се брои за removed и не носи collect.
+Old SOURCE и new TOKEN върху една клетка са
+два различни IDs, само old е consumed.
+
+Ledger keyed by (transaction,token_id или
+ordinary cell instance) дедупликира пряк
+match clear и попадение от old source.
+За initial transaction: 1 consumed old
+минерал = max 1 collect, една директно
+увредена soil cell = max 1 layer damage
+(булевата floor сега е 0/1). Само actual
+MATCH има нормални ортогонални rune-neighbor
+hits; direct Volcano/Tornado/Storm/Landslide
+не увеличават rune hits по съседство.
+Множество matched клетки до една rune дават
+макс. 1 initial hit; по-късна отделна
+REFILL cascade wave може да има нов normal
+rune hit. Black Hole директно не чисти
+soil/rune, последваща normal cascade може.
+
+Direct-only activation на power+ordinary БЕЗ
+colour match НЕ начислява automatic mineral
+collection за изчезналия source само защото
+той има материал. BH погълнати powers не
+стават тайно ordinary collect targets.
+Collection proposal is specific to MATERIAL
+MATCH consumption; broader economy changes
+need separate owner decision.
+
+7. Q7: МАТЕРИАЛ / POWER / TIER КАТО ТРИ ЗНАКА
+
+Харесаният family icon остава както е:
+Volcano кратер, Storm ток, Tornado вихър,
+Landslide камъни. Над отделна ниска цветна
+rim/base (ruby червена, emerald зелена,
+ore охрена) поставяме малка фасетна chip
+с разпознаваема форма, за да не разчитаме
+единствено на цвета. Birth-tier FIVE има
+вече съществуващите 5 светли ticks на
+ДРУГ ъгъл; FOUR няма. Material base,
+family icon и five ticks следват ЕДИН
+token_id през drag/swap/fall/shuffle.
+Не сменяме художествения минерален Volcano
+с ruby иконка: ruby е материалът ВЪТРЕ
+в същото семейство. Нужна е бъдеща
+432x960 actual screenshot проверка за
+двойната маркировка, цветна слепота и HUD.
+
+8. MASKS A–H / CONCEPT EXPECTATIONS, НЕ ТЕСТОВЕ
+
+A [R,R,V_R,R] след valid initial swap,
+touching component: FOUR ruby material cells
+(вкл. old V_R), old Volcano erupts once
+(дори STATIONARY), ONE NEW ruby Volcano tier4.
+Ако swap endpoint V_R е birth anchor, old
+и new IDs се различават, newborn не е
+изчистен от старата атака.
+
+B [R,R,V_R,R,R]: FIVE cells -> ONE new
+ruby Lightning Storm tier5, old Volcano
+erupts once. Ако future anchor е сред
+възможните target cells на стария Volcano,
+той се резервира преди target RNG; no
+false hit on newborn. Не се ражда
+още един Volcano от подчетворката.
+
+C [R,S_R,R]: OLD Storm e MATERIAL matched
+ruby participant, Storm fires once
+и се consumed; няма нов tier4/tier5
+(това е TRIPLE, не 5+ shape).
+
+D [R,S_R,R,T_R,R]: initial RUBY straight5
+с 2 OLD powers: Storm и Tornado fire
+в ред по source index (всеки веднъж);
+ЕДНА NEW Storm, няма Black Hole от
+common color row. Пряка special-pair
+swap не е имало.
+
+E direct adjacent S_R <-> T_G:
+registered FIVE-born pair, ONE Black Hole
+regardless different minerals, 1 move;
+NO separate Storm/Tornado and NO
+simultaneous colour reward. Equal 5-tier
+family също би била допустима.
+
+F [R,R,V_G,R]: emerald Volcano няма Ruby
+material => НЕ е Ruby4. Direct swap
+special+ordinary without match може
+все пак да activate OLD Volcano за
+1 ход, без Ruby reward; ordinary pair
+swap без match -> invalid 0 moves.
+
+G fresh newborn ruby power FALLS between
+two RUBY ordinary in SAME turn:
+match_material намира 3+, двата OLD
+rubies са cleared; newborn остава
+shielded/visible, no bonus, no eruption.
+След refill board се стабилизира преди
+следващия ход; born не начислява collect.
+
+H [R,R,V_R,R] създадена САМО от refill
+cascade, а V_R е СТАР преди хода:
+ordinary material cascade clear consumes
+old V_R INERTLY + други rubies, NO
+Volcano eruption, NO new Volcano birth.
+Ако V_R е fresh token от същия ход,
+важи G newborn shield, не инертно clear.
+
+9. ДО ТРИ КОРЕКЦИИ / РИСКОВЕ
+
+(1) Add distinct match_material for matcher,
+    previews, cascades, hints and no-move,
+    НЕ глобално widening of is_ordinary.
+(2) Use ONE snapshot plus old IDs,
+    deterministic multi-source activation,
+    protected separate new IDs, deduped
+    clear/soil/runes and a direct-pair
+    precedence; no dual free rewards.
+(3) Make cascade policy EXPLICIT:
+    old colored powers match inertly,
+    fresh newborn remains until end-turn
+    with ordinary matched neighbors
+    still clearing; no cascade births.
+
+ОТВОРЕНО: дали match-consumed power +1 material
+collection отговаря на всички цели; четимост
+на base rim при 432px; newborn-shield/normal
+cascade visual affordance; exact 6+ priority
+остава предложен от Codex, не одобрен за
+цялата кампания.
+
+РЕАЛНО ИЗПЪЛНЕНО: прочит на точни source/brief,
+само append на собствен текстов report.
+Няма game edits, Godot/testing, audio,
+new images, source blobs, grants, main,
+foreign report edits, merge, consensus.
+==============================================================================
