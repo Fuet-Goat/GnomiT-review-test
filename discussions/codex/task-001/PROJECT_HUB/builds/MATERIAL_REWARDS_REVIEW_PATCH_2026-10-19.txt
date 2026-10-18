@@ -1,0 +1,5692 @@
+GNOMIT MATERIAL REWARDS — LITERAL REVIEW PATCH / 19 OCTOBER 2026
+Applies to a COPY of RewardRules_2026-10-18 only. Text for review, not an authorized Git game implementation.
+Existing file project.godot is replaced intentionally; all other listed files are new. No binary changes.
+The installed engine path in the launcher is local to this PC. No campaign/save migration.
+
+--- a/project.godot
+
++++ b/project.godot
+
+@@ -1,30 +1,30 @@
+
+-; GnomiT first playable skeleton, Godot 4.7.2.
+
+-config_version=5
+
+-
+
+-[application]
+
+-config/name="GnomiT Reward Rules Lab"
+
+-config/use_custom_user_dir=true
+
+-config/custom_user_dir_name="GnomiT-RewardRules-Lab-2026-10-18"
+
+-config/version="0.1.0-local-frankenstein-r1"
+
+-run/main_scene="res://reward_rules.tscn"
+
+-config/features=PackedStringArray("4.7", "GL Compatibility")
+
+-
+
+-[display]
+
+-window/size/viewport_width=720
+
+-window/size/viewport_height=1600
+
+-window/size/window_width_override=432
+
+-window/size/window_height_override=960
+
+-window/size/resizable=true
+
+-window/size/initial_screen=0
+
+-window/stretch/mode="canvas_items"
+
+-window/stretch/aspect="expand"
+
+-window/handheld/orientation=1
+
+-
+
+-[rendering]
+
+-renderer/rendering_method="gl_compatibility"
+
+-renderer/rendering_method.mobile="gl_compatibility"
+
+-textures/default_filters/use_nearest_mipmap_filter=false
+
+-environment/defaults/default_clear_color=Color(0.025,0.045,0.09,1)
+
+-
+
+-[audio]
+
+-driver/enable_input=false
+
++; GnomiT first playable skeleton, Godot 4.7.2.
+
++config_version=5
+
++
+
++[application]
+
++config/name="GnomiT Material Rewards Lab"
+
++config/use_custom_user_dir=true
+
++config/custom_user_dir_name="GnomiT-MaterialRewards-Lab-2026-10-19"
+
++config/version="0.1.0-local-frankenstein-r1"
+
++run/main_scene="res://material_rewards.tscn"
+
++config/features=PackedStringArray("4.7", "GL Compatibility")
+
++
+
++[display]
+
++window/size/viewport_width=720
+
++window/size/viewport_height=1600
+
++window/size/window_width_override=432
+
++window/size/window_height_override=960
+
++window/size/resizable=true
+
++window/size/initial_screen=0
+
++window/stretch/mode="canvas_items"
+
++window/stretch/aspect="expand"
+
++window/handheld/orientation=1
+
++
+
++[rendering]
+
++renderer/rendering_method="gl_compatibility"
+
++renderer/rendering_method.mobile="gl_compatibility"
+
++textures/default_filters/use_nearest_mipmap_filter=false
+
++environment/defaults/default_clear_color=Color(0.025,0.045,0.09,1)
+
++
+
++[audio]
+
++driver/enable_input=false
+
+
+
+--- /dev/null
+
++++ b/scripts/lab/material_power_core.gd
+
+@@ -0,0 +1,698 @@
+
++extends "res://scripts/lab/reward_rules_core.gd"
+
++## Isolated R3 material matching: waiting powers have material but never auto-use.
+
++## Ordinary-only cascades can earn powers. Ability identity is not material identity.
+
++
+
++var cascade_wave_limit := MAX_CASCADE_WAVES
+
++var recovery_observations: Array = []
+
++var _material_ids: Array[int] = []
+
++var _next_material_id := 1
+
++var _pending_before_instances: Array[int] = []
+
++var _paid_instances: Dictionary = {}
+
++var _paid_components: Dictionary = {}
+
++var _no_spawn := false
+
++
+
++func setup(level: Dictionary, seed_value: int = 1) -> void:
+
++	_material_ids.clear()
+
++	_pending_before_instances.clear()
+
++	_next_material_id = 1
+
++	_paid_instances.clear()
+
++	_paid_components.clear()
+
++	recovery_observations.clear()
+
++	_no_spawn = false
+
++	super.setup(level, seed_value)
+
++	_ensure_instances()
+
++
+
++func setup_lab(scenario: String, seed_value: int = 42) -> void:
+
++	preload("res://scripts/lab/material_power_fixtures.gd").configure(self, scenario, seed_value)
+
++
+
++func place_reward(index: int, kind: int, recipe: String = "fixture") -> void:
+
++	var material := grid[index] if index >= 0 and index < grid.size() and _is_ordinary(grid[index]) else -1
+
++	place_material_reward(index, kind, material, recipe)
+
++
+
++func place_material_reward(index: int, kind: int, mineral_kind: int, recipe: String = "fixture") -> void:
+
++	if index < 0 or index >= grid.size() or grid[index] < 0 or not _is_special(kind):
+
++		return
+
++	_ensure_instances()
+
++	super.place_reward(index, kind, recipe)
+
++	_rewards[index]["mineral_kind"] = mineral_kind if _is_ordinary(mineral_kind) else -1
+
++	_rewards[index]["material_instance_id"] = _material_ids[index]
+
++
+
++func refresh_material_instances() -> void:
+
++	# Authoring helper only: direct fixture masks must describe fresh real instances.
+
++	_material_ids.resize(grid.size())
+
++	for index in range(grid.size()):
+
++		_material_ids[index] = _new_material_id() if grid[index] >= 0 else 0
+
++		if _rewards.has(index):
+
++			_rewards[index]["material_instance_id"] = _material_ids[index]
+
++	_paid_instances.clear()
+
++	_paid_components.clear()
+
++
+
++func _new_material_id() -> int:
+
++	var value := _next_material_id
+
++	_next_material_id += 1
+
++	return value
+
++
+
++func _ensure_instances() -> void:
+
++	if _material_ids.size() != grid.size():
+
++		_material_ids.resize(grid.size())
+
++	for index in range(grid.size()):
+
++		if grid[index] < 0:
+
++			_material_ids[index] = 0
+
++		elif _material_ids[index] <= 0:
+
++			_material_ids[index] = _new_material_id()
+
++		if _rewards.has(index):
+
++			_rewards[index]["material_instance_id"] = _material_ids[index]
+
++
+
++func _material_snapshot(snapshot: Array[int], rewards: Dictionary) -> Array[int]:
+
++	var material: Array[int] = snapshot.duplicate()
+
++	for index in range(snapshot.size()):
+
++		if _is_special(snapshot[index]):
+
++			var token: Dictionary = rewards.get(index, {})
+
++			material[index] = int(token.get("mineral_kind", -1)) if int(token.get("kind", -1)) == snapshot[index] else -1
+
++	return material
+
++
+
++func material_at(index: int) -> int:
+
++	if index < 0 or index >= grid.size():
+
++		return -1
+
++	if _is_ordinary(grid[index]):
+
++		return grid[index]
+
++	return int(reward_at(index).get("mineral_kind", -1))
+
++
+
++func _material_components(snapshot: Array[int]) -> Array:
+
++	var matched: Dictionary = {}
+
++	for run in _ordinary_runs(snapshot):
+
++		for index in run["cells"]:
+
++			matched[int(index)] = true
+
++	var ordered: Array = matched.keys()
+
++	ordered.sort()
+
++	var visited: Dictionary = {}
+
++	var components: Array = []
+
++	for start in ordered:
+
++		if visited.has(start):
+
++			continue
+
++		var cells: Array[int] = []
+
++		var pending: Array[int] = [int(start)]
+
++		visited[start] = true
+
++		while not pending.is_empty():
+
++			var current: int = pending.pop_back()
+
++			cells.append(current)
+
++			for neighbor in _neighbors(current):
+
++				if matched.has(neighbor) and not visited.has(neighbor) and snapshot[neighbor] == snapshot[current]:
+
++					visited[neighbor] = true
+
++					pending.append(neighbor)
+
++		cells.sort()
+
++		components.append(cells)
+
++	return components
+
++
+
++func _initial_material_matches(snapshot: Array[int], a: int, b: int) -> Array[int]:
+
++	var matches: Array[int] = []
+
++	for component in _material_components(snapshot):
+
++		if component.has(a) or component.has(b):
+
++			for index in component:
+
++				matches.append(int(index))
+
++	matches.sort()
+
++	return matches
+
++
+
++func _awards_for(snapshot: Array[int], a: int, b: int, initial: bool, moved_origin: int = -1) -> Array:
+
++	var awards: Array = []
+
++	for component in _material_components(snapshot):
+
++		if initial and not component.has(a) and not component.has(b):
+
++			continue
+
++		var candidates: Array = super._detect_on(snapshot, int(component[0]), int(component[0]))
+
++		if candidates.is_empty():
+
++			continue
+
++		var award: Dictionary = candidates[0].duplicate(true)
+
++		var ordinary_anchors: Array[int] = []
+
++		for endpoint in [a, b]:
+
++			if component.has(endpoint) and _is_ordinary(grid[endpoint]) and not ordinary_anchors.has(endpoint):
+
++				ordinary_anchors.append(endpoint)
+
++		ordinary_anchors.sort()
+
++		for index in component:
+
++			if _is_ordinary(grid[index]) and not ordinary_anchors.has(index):
+
++				ordinary_anchors.append(index)
+
++		var anchor := moved_origin if component.has(moved_origin) else -1
+
++		if anchor < 0:
+
++			if ordinary_anchors.is_empty():
+
++				continue # Never replace a stationary waiting ability.
+
++			anchor = ordinary_anchors[0]
+
++		award["index"] = anchor
+
++		award["anchor"] = anchor
+
++		award["mineral_kind"] = snapshot[int(component[0])]
+
++		award["component_indices"] = component.duplicate()
+
++		award["matched"] = component.duplicate()
+
++		awards.append(award)
+
++	awards.sort_custom(func(left: Dictionary, right: Dictionary) -> bool: return int(left["index"]) < int(right["index"]))
+
++	return awards
+
++
+
++func preview_rewards(a: int, b: int) -> Array:
+
++	if not _can_swap(a, b):
+
++		return []
+
++	if not _is_special(grid[a]) and not _is_special(grid[b]) and grid[a] == grid[b]:
+
++		return []
+
++	if _is_special(grid[a]) and _is_special(grid[b]):
+
++		return [] # A deliberate pair has priority over material recipes.
+
++	var snapshot: Array[int] = grid.duplicate()
+
++	var rewards := _reward_snapshot()
+
++	var old := snapshot[a]
+
++	snapshot[a] = snapshot[b]
+
++	snapshot[b] = old
+
++	var first: Dictionary = rewards.get(a, {}).duplicate(true)
+
++	var second: Dictionary = rewards.get(b, {}).duplicate(true)
+
++	rewards.erase(a)
+
++	rewards.erase(b)
+
++	if not second.is_empty(): rewards[a] = second
+
++	if not first.is_empty(): rewards[b] = first
+
++	var moved := b if _is_special(grid[a]) else a if _is_special(grid[b]) else -1
+
++	# _awards_for uses grid to choose eligible anchors; do not touch live state.
+
++	return _preview_awards(snapshot, rewards, a, b, moved)
+
++
+
++func _preview_awards(snapshot: Array[int], rewards: Dictionary, a: int, b: int, moved: int) -> Array:
+
++	var material := _material_snapshot(snapshot, rewards)
+
++	var result: Array = []
+
++	for component in _material_components(material):
+
++		if not component.has(a) and not component.has(b): continue
+
++		var found: Array = super._detect_on(material, int(component[0]), int(component[0]))
+
++		if found.is_empty(): continue
+
++		var anchors: Array[int] = []
+
++		for endpoint in [a, b]:
+
++			if component.has(endpoint) and _is_ordinary(snapshot[endpoint]) and not anchors.has(endpoint): anchors.append(endpoint)
+
++		anchors.sort()
+
++		for index in component:
+
++			if _is_ordinary(snapshot[index]) and not anchors.has(index): anchors.append(index)
+
++		var anchor := moved if component.has(moved) else -1
+
++		if anchor < 0:
+
++			if anchors.is_empty(): continue
+
++			anchor = anchors[0]
+
++		var award: Dictionary = found[0].duplicate(true)
+
++		award["index"] = anchor
+
++		award["anchor"] = anchor
+
++		award["mineral_kind"] = material[int(component[0])]
+
++		result.append(award)
+
++	result.sort_custom(func(left: Dictionary, right: Dictionary) -> bool: return int(left["index"]) < int(right["index"]))
+
++	return result
+
++
+
++func detect_rewards(a: int, b: int) -> Array:
+
++	var moved := a if _is_special(grid[a]) else b if _is_special(grid[b]) else -1
+
++	return _awards_for(_material_snapshot(grid, _reward_snapshot()), a, b, true, moved)
+
++
+
++func try_swap(a: int, b: int) -> Dictionary:
+
++	if won or lost or not _can_swap(a, b):
+
++		return _result(false, [])
+
++	var first_special := _is_special(grid[a])
+
++	var second_special := _is_special(grid[b])
+
++	if (first_special and reward_at(a).is_empty()) or (second_special and reward_at(b).is_empty()):
+
++		return _result(false, [])
+
++	if first_special and second_special and not _registered_pair(a, b):
+
++		return _result(false, [])
+
++	if not first_special and not second_special and grid[a] == grid[b]:
+
++		return _result(false, [])
+
++	_ensure_instances()
+
++	var events: Array = []
+
++	var previous_pending_rewards := _pending_before_rewards.duplicate(true)
+
++	var previous_pending_instances := _pending_before_instances.duplicate()
+
++	var before: Array[int] = grid.duplicate()
+
++	_exchange(a, b)
+
++	events.append(_event("swap", before, {"a": a, "b": b}))
+
++	var material := _material_snapshot(grid, _reward_snapshot())
+
++	var matches := _initial_material_matches(material, a, b)
+
++	if not first_special and not second_special and matches.is_empty():
+
++		before = grid.duplicate()
+
++		_exchange(a, b)
+
++		events.append(_event("swap", before, {"a": a, "b": b}))
+
++		_pending_before_rewards = previous_pending_rewards
+
++		_pending_before_instances = previous_pending_instances
+
++		return _result(false, events)
+
++	_paid_instances.clear()
+
++	_paid_components.clear()
+
++	recovery_observations.clear()
+
++	moves_left -= 1
+
++	var sources: Array = []
+
++	for index in [a, b]:
+
++		if _is_special(grid[index]):
+
++			var source := reward_at(index)
+
++			source["index"] = index
+
++			sources.append(source)
+
++	if sources.size() == 2:
+
++		if int(sources[0]["birth_tier"]) == 5 and int(sources[1]["birth_tier"]) == 5:
+
++			black_hole_used = true
+
++			_apply_atomic_power("black_hole", sources, [], events)
+
++		else:
+
++			var ordered: Array = sources.duplicate(true)
+
++			if int(ordered[0]["birth_tier"]) == 4 and int(ordered[1]["birth_tier"]) == 5: ordered.reverse()
+
++			var components: Array = []
+
++			var excluded: Array[int] = []
+
++			for source in ordered:
+
++				var component := _power_component(int(source["index"]), int(source["kind"]), excluded)
+
++				components.append(component)
+
++				for index in component["targets"]:
+
++					if not excluded.has(index): excluded.append(index)
+
++			var tiers: Array[int] = [int(sources[0]["birth_tier"]), int(sources[1]["birth_tier"])]
+
++			tiers.sort()
+
++			_apply_atomic_power("power_combo", sources, components, events, {"combo_tiers": tiers})
+
++	elif sources.size() == 1:
+
++		var source: Dictionary = sources[0]
+
++		var origin := int(source["index"])
+
++		var awards := _awards_for(material, a, b, true, origin)
+
++		if matches.is_empty():
+
++			var component := _power_component(origin, int(source["kind"]), [])
+
++			_apply_atomic_power(String(component["power"]), sources, [component], events)
+
++		else:
+
++			_apply_material_turn(matches, awards, source, events)
+
++	else:
+
++		var awards := _awards_for(material, a, b, true)
+
++		_resolve_match_wave(matches, awards, events, true)
+
++	_resolve_after_power(events)
+
++	return _result(true, events)
+
++
+
++func _capture_begin() -> void:
+
++	_pending_before_rewards = _reward_snapshot()
+
++	_pending_before_instances = _material_ids.duplicate()
+
++
+
++func _component_key(award: Dictionary) -> String:
+
++	var instances: Array[int] = []
+
++	for index in award["component_indices"]:
+
++		instances.append(_material_ids[int(index)])
+
++	instances.sort()
+
++	return str(instances)
+
++
+
++func _fresh_awards(awards: Array) -> Array:
+
++	var fresh: Array = []
+
++	for award in awards:
+
++		var key := _component_key(award)
+
++		if _paid_components.has(key): continue
+
++		_paid_components[key] = true
+
++		fresh.append(award)
+
++	return fresh
+
++
+
++func _collect_removed(indices: Array[int]) -> Dictionary:
+
++	var materials: Dictionary = {}
+
++	for index in indices:
+
++		var material := material_at(index)
+
++		var instance := _material_ids[index]
+
++		if _is_ordinary(material) and not _paid_instances.has(instance):
+
++			materials[index] = material
+
++			_paid_instances[instance] = true
+
++			if material == collect_kind: collected += 1
+
++	return materials
+
++
+
++func _goal_indices(materials: Dictionary) -> Array[int]:
+
++	var result: Array[int] = []
+
++	for index in materials:
+
++		if int(materials[index]) == collect_kind: result.append(int(index))
+
++	result.sort()
+
++	return result
+
++
+
++func _erase_material(index: int) -> void:
+
++	grid[index] = -1
+
++	_rewards.erase(index)
+
++	_material_ids[index] = 0
+
++
+
++func _apply_match_terrain(indices: Array[int]) -> Array[int]:
+
++	var adjacent: Dictionary = {}
+
++	for index in indices:
+
++		floor[index] = 0
+
++		for neighbor in _neighbors(index):
+
++			if runes[neighbor] > 0: adjacent[neighbor] = true
+
++	var broken: Array[int] = []
+
++	for index in adjacent:
+
++		runes[index] = maxi(0, runes[index] - 1)
+
++		if runes[index] == 0:
+
++			_erase_material(int(index))
+
++			broken.append(int(index))
+
++	broken.sort()
+
++	return broken
+
++
+
++func _commit_awards(awards: Array) -> void:
+
++	for award in awards:
+
++		var index := int(award["index"])
+
++		place_material_reward(index, int(award["kind"]), int(award["mineral_kind"]), String(award["recipe"]))
+
++		award["token_id"] = reward_at(index)["token_id"]
+
++		award["id"] = award["token_id"]
+
++		award["material_instance_id"] = _material_ids[index]
+
++
+
++func _birth_event(awards: Array, events: Array, initial: bool, state_before: Array[int] = []) -> void:
+
++	if awards.is_empty(): return
+
++	if state_before.is_empty():
+
++		state_before = grid.duplicate()
+
++		_capture_begin()
+
++	events.append(_event("reward_birth", state_before, {
+
++		"awards": awards.duplicate(true), "indices": [], "matched": [], "broken_runes": [],
+
++		"initial_player_wave": initial, "waiting_for_player": true,
+
++		"floor_before": floor.duplicate(), "floor_after": floor.duplicate(),
+
++		"runes_before": runes.duplicate(), "runes_after": runes.duplicate(),
+
++		"removed_materials": {}, "collected_indices": [],
+
++	}))
+
++
+
++func _resolve_match_wave(matches: Array[int], raw_awards: Array, events: Array, initial: bool = false) -> void:
+
++	var awards := _fresh_awards(raw_awards)
+
++	var anchors: Array[int] = []
+
++	for award in awards: anchors.append(int(award["index"]))
+
++	var removed: Array[int] = []
+
++	for index in matches:
+
++		# A stationary catalyst contributes a colour, never a removed material unit.
+
++		if _is_ordinary(grid[index]) and not anchors.has(index): removed.append(index)
+
++	var before: Array[int] = grid.duplicate()
+
++	_capture_begin()
+
++	var floor_before := floor.duplicate()
+
++	var runes_before := runes.duplicate()
+
++	var materials := _collect_removed(removed)
+
++	var broken := _apply_match_terrain(removed)
+
++	for index in removed: _erase_material(index)
+
++	events.append(_event("clear", before, {
+
++		"indices": removed.duplicate(), "matched": matches.duplicate(), "broken_runes": broken,
+
++		"reserved_anchors": anchors, "initial_player_wave": initial,
+
++		"removed_materials": materials, "collected_indices": _goal_indices(materials),
+
++		"floor_before": floor_before, "floor_after": floor.duplicate(),
+
++		"runes_before": runes_before, "runes_after": runes.duplicate(),
+
++	}))
+
++	if not awards.is_empty():
+
++		before = grid.duplicate()
+
++		_capture_begin()
+
++		_commit_awards(awards)
+
++		_birth_event(awards, events, initial, before)
+
++
+
++func _apply_material_turn(matches: Array[int], raw_awards: Array, source: Dictionary, events: Array) -> void:
+
++	var awards := _fresh_awards(raw_awards)
+
++	var anchors: Array[int] = []
+
++	for award in awards: anchors.append(int(award["index"]))
+
++	var origin := int(source["index"])
+
++	var component := _power_component(origin, int(source["kind"]), anchors)
+
++	var removed: Array[int] = []
+
++	for index in matches:
+
++		if _is_ordinary(grid[index]) and not anchors.has(index): removed.append(index)
+
++	for index in component["targets"]:
+
++		if not removed.has(index): removed.append(index)
+
++	if not anchors.has(origin) and not removed.has(origin): removed.append(origin)
+
++	removed.sort()
+
++	var before: Array[int] = grid.duplicate()
+
++	_capture_begin()
+
++	var floor_before := floor.duplicate()
+
++	var runes_before := runes.duplicate()
+
++	var materials := _collect_removed(removed)
+
++	var actual_matches: Array[int] = []
+
++	for index in matches:
+
++		if removed.has(index): actual_matches.append(index)
+
++	var broken := _apply_match_terrain(actual_matches)
+
++	# Hits overlapping a colour clear do not damage floor a second time.
+
++	for index in removed:
+
++		if not actual_matches.has(index) and _is_ordinary(grid[index]): floor[index] = maxi(0, floor[index] - 1)
+
++	for index in removed: _erase_material(index)
+
++	# A moved source reused as anchor retires its old ABILITY but keeps material.
+
++	_commit_awards(awards)
+
++	component["before"] = before.duplicate()
+
++	component["after"] = grid.duplicate()
+
++	component["floor_before"] = floor_before.duplicate()
+
++	component["floor_after"] = floor.duplicate()
+
++	component["runes_before"] = runes_before.duplicate()
+
++	component["runes_after"] = runes.duplicate()
+
++	var component_indices: Array[int] = []
+
++	for index in component["indices"]:
+
++		if not anchors.has(index): component_indices.append(int(index))
+
++	component["indices"] = component_indices
+
++	events.append(_event("material_turn", before, {
+
++		"power": String(component["power"]), "origin": origin, "kind": int(source["kind"]),
+
++		"fusion_sources": [source.duplicate(true)], "components": [component],
+
++		"matched_indices": matches.duplicate(), "indices": removed, "targets": component["targets"].duplicate(),
+
++		"reserved_anchors": anchors, "awards": awards.duplicate(true), "broken_runes": broken,
+
++		"removed_materials": materials, "collected_indices": _goal_indices(materials),
+
++		"floor_before": floor_before, "floor_after": floor.duplicate(),
+
++		"runes_before": runes_before, "runes_after": runes.duplicate(),
+
++	}))
+
++	_birth_event(awards, events, true)
+
++
+
++func _power_component(origin: int, kind: int, excluded: Array) -> Dictionary:
+
++	# A reserved new reward is also a ray barrier. Core and the inherited
+
++	# quake_paths renderer must stop together instead of clearing past a gap.
+
++	var component := super._power_component(origin, kind, excluded)
+
++	var targets: Array[int] = []
+
++	if kind >= EARTHQUAKE and kind <= EARTHQUAKE_NE:
+
++		var rays: Array = []
+
++		for raw_ray in component["rays"]:
+
++			var ray: Array[int] = []
+
++			for index in raw_ray:
+
++				if excluded.has(index): break
+
++				ray.append(int(index))
+
++				if _is_ordinary(grid[index]) and not targets.has(index): targets.append(int(index))
+
++			rays.append(ray)
+
++		component["rays"] = rays
+
++	else:
+
++		for index in component["targets"]:
+
++			if _is_ordinary(grid[index]) and not excluded.has(index): targets.append(int(index))
+
++	targets.sort()
+
++	component["targets"] = targets
+
++	var indices: Array[int] = targets.duplicate()
+
++	if not excluded.has(origin): indices.append(origin)
+
++	indices.sort()
+
++	component["indices"] = indices
+
++	return component
+
++
+
++func _apply_atomic_power(power: String, sources: Array, components: Array, events: Array, extra: Dictionary = {}) -> void:
+
++	var before: Array[int] = grid.duplicate()
+
++	_capture_begin()
+
++	var floor_before := floor.duplicate()
+
++	var runes_before := runes.duplicate()
+
++	var targets: Array[int] = []
+
++	var removed: Array[int] = []
+
++	if power == "black_hole":
+
++		for index in range(grid.size()):
+
++			if _is_ordinary(grid[index]): targets.append(index)
+
++			if grid[index] >= 0: removed.append(index)
+
++	else:
+
++		for component in components:
+
++			for index in component["targets"]:
+
++				if not targets.has(index): targets.append(int(index))
+
++		removed.assign(targets)
+
++		for source in sources:
+
++			if not removed.has(int(source["index"])): removed.append(int(source["index"]))
+
++	targets.sort()
+
++	removed.sort()
+
++	var materials := _collect_removed(removed)
+
++	for index in removed:
+
++		if power != "black_hole" and _is_ordinary(grid[index]): floor[index] = maxi(0, floor[index] - 1)
+
++		_erase_material(index)
+
++	for component in components:
+
++		component["before"] = before.duplicate()
+
++		component["after"] = grid.duplicate()
+
++		component["floor_before"] = floor_before.duplicate()
+
++		component["floor_after"] = floor.duplicate()
+
++		component["runes_before"] = runes_before.duplicate()
+
++		component["runes_after"] = runes.duplicate()
+
++	var details := {
+
++		"power": power, "origin": int(sources[0]["index"]), "kind": int(sources[0]["kind"]),
+
++		"fusion_sources": sources.duplicate(true), "targets": targets, "indices": removed,
+
++		"removed_materials": materials, "collected_indices": _goal_indices(materials),
+
++		"floor_before": floor_before, "floor_after": floor.duplicate(),
+
++		"runes_before": runes_before, "runes_after": runes.duplicate(),
+
++	}
+
++	if power == "power_combo": details["components"] = components.duplicate(true)
+
++	elif components.size() == 1:
+
++		for key in ["orientation", "directions", "rays", "budget"]:
+
++			if components[0].has(key): details[key] = components[0][key]
+
++	if power == "black_hole":
+
++		var swallowed: Array[int] = []
+
++		for index in removed:
+
++			if _is_special(before[index]):
+
++				var is_source := false
+
++				for source in sources:
+
++					if int(source["index"]) == index: is_source = true
+
++				if not is_source: swallowed.append(index)
+
++		details["inert_swallowed"] = swallowed
+
++	details.merge(extra)
+
++	events.append(_event("natural_power", before, details))
+
++
+
++func _resolve_after_power(events: Array) -> void:
+
++	_fall(events)
+
++	_resolve_cascades(events)
+
++
+
++func _resolve_cascades(events: Array) -> void:
+
++	var matches := get_matches()
+
++	var wave := 0
+
++	while not matches.is_empty() and wave < maxi(0, cascade_wave_limit):
+
++		_resolve_match_wave(matches, _awards_for(grid, -1, -1, false), events)
+
++		_fall(events)
+
++		matches = get_matches()
+
++		wave += 1
+
++	if not matches.is_empty(): _recover_cascade(events)
+
++	# This is only a genuine no-move fallback, never an unresolved-match repair.
+
++	if _find_move().is_empty():
+
++		var before: Array[int] = grid.duplicate()
+
++		_capture_begin()
+
++		var playable := _make_playable()
+
++		events.append(_event("shuffle", before, {"reason": "genuine_no_move"}))
+
++		if not playable: lost = true
+
++	won = _goal_complete()
+
++	lost = not won and (lost or moves_left <= 0)
+
++
+
++func _ordinary_count() -> int:
+
++	var count := 0
+
++	for kind in grid:
+
++		if _is_ordinary(kind): count += 1
+
++	return count
+
++
+
++func _recovery_marker(phase: String, events: Array, extra: Dictionary = {}) -> void:
+
++	_capture_begin()
+
++	var details := {"phase": phase, "ordinary_count": _ordinary_count()}
+
++	details.merge(extra)
+
++	recovery_observations.append(details.duplicate(true))
+
++	events.append(_event("cascade_recovery", grid.duplicate(), details))
+
++
+
++func _recover_cascade(events: Array) -> void:
+
++	var entry_count := _ordinary_count()
+
++	_recovery_marker("drain_begin", events, {"entry_ordinary_count": entry_count, "wave_limit": cascade_wave_limit})
+
++	_no_spawn = true
+
++	var matches := get_matches()
+
++	var drain_wave := 0
+
++	while not matches.is_empty():
+
++		var previous := _ordinary_count()
+
++		_resolve_match_wave(matches, _awards_for(grid, -1, -1, false), events)
+
++		_fall(events)
+
++		drain_wave += 1
+
++		var current := _ordinary_count()
+
++		assert(current <= previous - 3, "No-spawn drain must remove at least three ordinary instances")
+
++		assert(drain_wave <= int(entry_count / 3), "Finite drain bound exceeded")
+
++		_recovery_marker("drain_wave", events, {"wave": drain_wave, "before_ordinary_count": previous, "after_ordinary_count": current})
+
++		matches = get_matches()
+
++	_no_spawn = false
+
++	_safe_fill(events)
+
++	assert(get_matches().is_empty(), "Safe fill must settle without any ordinary triple")
+
++	_recovery_marker("safe_fill_complete", events, {"drain_waves": drain_wave})
+
++
+
++func _safe_fill_choices(index: int) -> Array[int]:
+
++	var choices: Array[int] = []
+
++	for kind in range(GEM_KINDS):
+
++		var allowed := true
+
++		for horizontal in [true, false]:
+
++			for start in range(-2, 1):
+
++				var same := true
+
++				for offset in range(3):
+
++					var dx := start + offset if horizontal else 0
+
++					var dy := 0 if horizontal else start + offset
+
++					var x := index % cols + dx
+
++					var y: int = index / cols + dy
+
++					if x < 0 or x >= cols or y < 0 or y >= rows:
+
++						same = false
+
++						break
+
++					var next := y * cols + x
+
++					if next != index and grid[next] != kind:
+
++						same = false
+
++						break
+
++				if same:
+
++					allowed = false
+
++					break
+
++			if not allowed: break
+
++		if allowed: choices.append(kind)
+
++	return choices
+
++
+
++func _safe_fill(events: Array) -> void:
+
++	var before: Array[int] = grid.duplicate()
+
++	_capture_begin()
+
++	var falls: Array = []
+
++	var order: Array[int] = []
+
++	var spawn_number := 0
+
++	for index in range(grid.size()):
+
++		if grid[index] != -1: continue
+
++		var choices := _safe_fill_choices(index)
+
++		assert(not choices.is_empty(), "Six-kind safe refill must have an admissible colour")
+
++		# Fixed first admissible colour: explicitly zero RNG draws, deterministic order.
+
++		grid[index] = choices[0]
+
++		_material_ids[index] = _new_material_id()
+
++		spawn_number += 1
+
++		falls.append({"from": -spawn_number, "to": index, "kind": grid[index]})
+
++		order.append(index)
+
++	events.append(_event("fall", before, {"falls": falls, "safe_fill": true, "fill_order": order, "rng_draws": 0}))
+
++
+
++func _fall(events: Array) -> void:
+
++	_ensure_instances()
+
++	var before: Array[int] = grid.duplicate()
+
++	_capture_begin()
+
++	var falls: Array = []
+
++	var spawn_number := 0
+
++	for x in range(cols):
+
++		var segment: Array[int] = []
+
++		for y in range(rows + 1):
+
++			var index := y * cols + x
+
++			if y < rows and grid[index] != -2 and grid[index] != -3:
+
++				segment.append(index)
+
++			elif not segment.is_empty():
+
++				spawn_number = _fall_segment(segment, falls, spawn_number)
+
++				segment.clear()
+
++	events.append(_event("fall", before, {"falls": falls, "no_spawn": _no_spawn}))
+
++
+
++func _fall_segment(segment: Array[int], falls: Array, spawn_number: int) -> int:
+
++	var gems: Array = []
+
++	for position in range(segment.size() - 1, -1, -1):
+
++		var index := segment[position]
+
++		if grid[index] >= 0:
+
++			gems.append({"from": index, "kind": grid[index], "reward": reward_at(index), "instance": _material_ids[index]})
+
++		_rewards.erase(index)
+
++		grid[index] = -1
+
++		_material_ids[index] = 0
+
++	var write_position := segment.size() - 1
+
++	for gem in gems:
+
++		var destination := segment[write_position]
+
++		grid[destination] = int(gem["kind"])
+
++		_material_ids[destination] = int(gem["instance"])
+
++		if not gem["reward"].is_empty(): _rewards[destination] = gem["reward"].duplicate(true)
+
++		if int(gem["from"]) != destination: falls.append({"from": int(gem["from"]), "to": destination, "kind": int(gem["kind"])})
+
++		write_position -= 1
+
++	if not _no_spawn:
+
++		while write_position >= 0:
+
++			var destination := segment[write_position]
+
++			var kind := _rng.randi_range(0, GEM_KINDS - 1)
+
++			grid[destination] = kind
+
++			_material_ids[destination] = _new_material_id()
+
++			spawn_number += 1
+
++			falls.append({"from": -spawn_number, "to": destination, "kind": kind})
+
++			write_position -= 1
+
++	return spawn_number
+
++
+
++func _exchange(a: int, b: int) -> void:
+
++	_ensure_instances()
+
++	var before_instances := _material_ids.duplicate()
+
++	super._exchange(a, b)
+
++	var old := _material_ids[a]
+
++	_material_ids[a] = _material_ids[b]
+
++	_material_ids[b] = old
+
++	_pending_before_instances = before_instances
+
++
+
++func _find_move() -> Array:
+
++	var rewards := _reward_snapshot()
+
++	for index in range(grid.size()):
+
++		if grid[index] < 0: continue
+
++		for neighbor in [index + 1, index + cols]:
+
++			if not _can_swap(index, neighbor): continue
+
++			var first_special := _is_special(grid[index])
+
++			var second_special := _is_special(grid[neighbor])
+
++			if first_special and second_special:
+
++				if _registered_pair(index, neighbor): return [index, neighbor]
+
++				continue
+
++			if first_special or second_special:
+
++				if not reward_at(index if first_special else neighbor).is_empty(): return [index, neighbor]
+
++				continue
+
++			if grid[index] == grid[neighbor]: continue
+
++			var snapshot: Array[int] = _material_snapshot(grid, rewards)
+
++			var old := snapshot[index]
+
++			snapshot[index] = snapshot[neighbor]
+
++			snapshot[neighbor] = old
+
++			if not _initial_material_matches(snapshot, index, neighbor).is_empty(): return [index, neighbor]
+
++	return []
+
++
+
++func _make_playable() -> bool:
+
++	var before_instances := _material_ids.duplicate()
+
++	var playable := super._make_playable()
+
++	_material_ids.resize(grid.size())
+
++	for index in range(grid.size()):
+
++		if _is_ordinary(grid[index]): _material_ids[index] = _new_material_id()
+
++		elif grid[index] < 0: _material_ids[index] = 0
+
++		elif reward_at(index).is_empty():
+
++			_material_ids[index] = _new_material_id()
+
++		elif index < before_instances.size(): _material_ids[index] = before_instances[index]
+
++	_pending_before_instances = before_instances
+
++	_ensure_instances()
+
++	return playable
+
++
+
++func _event(event_type: String, before: Array[int], extra: Dictionary = {}) -> Dictionary:
+
++	var details := extra.duplicate(true)
+
++	if not details.has("before_instances"): details["before_instances"] = _pending_before_instances.duplicate()
+
++	details["after_instances"] = _material_ids.duplicate()
+
++	return super._event(event_type, before, details)
+
+
+
+--- /dev/null
+
++++ b/scripts/lab/material_power_fixtures.gd
+
+@@ -0,0 +1,111 @@
+
++extends RefCounted
+
++## Authored BEFORE-swap examples. Cascades below arise from real no-spawn-needed
+
++## gravity: a vertical triple releases an existing ore down into a bottom-row gap.
+
++
+
++static func configure(core, scenario: String, seed_value: int = 42) -> void:
+
++	if scenario in ["moved_volcano_four", "moved_four", "moved_volcano_five", "moved_five", "catalyst_four", "stationary_four", "catalyst_five", "stationary_five"]:
+
++		_material_recipe(core, scenario, seed_value)
+
++		return
+
++	if scenario in ["cascade_four", "cascade_five", "cascade_three_births", "cascade_three"]:
+
++		_cascade(core, scenario, seed_value)
+
++		return
+
++	if scenario in ["waiting_between", "waiting_barrier"]:
+
++		_base(core, seed_value)
+
++		core.grid[23] = 2
+
++		core.grid[25] = 2
+
++		core.place_material_reward(24, core.VOLCANO, 2, "fixture_waiting_barrier")
+
++		# A remote valid three makes a turn pass without touching the waiting ore.
+
++		core.grid[43] = 0
+
++		core.grid[44] = 1
+
++		core.grid[45] = 0
+
++		core.grid[37] = 0
+
++		core.fixture_pair.assign([37, 44])
+
++		core.refresh_material_instances()
+
++		return
+
++	if scenario == "black_hole_swallow":
+
++		_base(core, seed_value)
+
++		core.place_material_reward(24, core.LIGHTNING_STORM, 2, "fixture_bh_source")
+
++		core.place_material_reward(25, core.TORNADO_H, 3, "fixture_bh_source")
+
++		core.place_material_reward(10, core.VOLCANO, 4, "fixture_inert_swallow")
+
++		core.place_material_reward(38, core.EARTHQUAKE_SW, 5, "fixture_inert_swallow")
+
++		core.fixture_pair.assign([24, 25])
+
++		core.floor[10] = 1
+
++		core.floor[38] = 1
+
++		core.refresh_material_instances()
+
++		return
+
++	# Preserve existing fixtures, assigning explicit authored materials after setup.
+
++	preload("res://scripts/lab/reward_rules_fixtures.gd").configure(core, scenario, seed_value)
+
++	for index in core._rewards:
+
++		core._rewards[index]["mineral_kind"] = 2 if int(core.grid[index]) == core.VOLCANO else 3
+
++	core.refresh_material_instances()
+
++
+
++static func _base(core, seed_value: int) -> void:
+
++	core.setup({"cols": 7, "rows": 8, "moves": 20, "goal": "collect", "collect_kind": 2, "collect_goal": 999}, seed_value)
+
++	for index in range(core.grid.size()):
+
++		# Exclude ore2 so the deliberately authored shape is obvious and isolated.
+
++		var palette: Array[int] = [0, 1, 3, 4, 5]
+
++		core.grid[index] = palette[(index % 7 + 2 * int(index / 7)) % 5]
+
++	core._rewards.clear()
+
++	core.floor.fill(0)
+
++	core.runes.fill(0)
+
++	core.refresh_material_instances()
+
++
+
++static func _material_recipe(core, scenario: String, seed_value: int) -> void:
+
++	_base(core, seed_value)
+
++	var five := scenario.ends_with("five")
+
++	var stationary := scenario.begins_with("catalyst") or scenario.begins_with("stationary")
+
++	var cells: Array[int] = [22, 23, 24, 25]
+
++	if five: cells.append(26)
+
++	for index in cells: core.grid[index] = 2
+
++	core.grid[24] = 3
+
++	if stationary:
+
++		core.place_material_reward(23, core.VOLCANO, 2, "fixture_stationary_catalyst")
+
++		core.grid[17] = 2
+
++	else:
+
++		core.place_material_reward(17, core.VOLCANO, 2, "fixture_moved_source")
+
++	core.fixture_pair.assign([17, 24])
+
++	core.refresh_material_instances()
+
++
+
++static func _cascade(core, scenario: String, seed_value: int) -> void:
+
++	_base(core, seed_value)
+
++	var five := scenario == "cascade_five"
+
++	if scenario in ["cascade_three_births", "cascade_three"]:
+
++		# Three independent rows are prepared to align by real vertical gravity.
+
++		# A narrow triple is the initiating player move; its refill is seeded.
+
++		# Distinct colours separate all three recipes. No power is pre-placed.
+
++		_three_cascades(core)
+
++		core.refresh_material_instances()
+
++		return
+
++	# Bottom recipe has a central gap, so it has NO initial ordinary triple.
+
++	var recipe: Array[int] = [50, 51, 52, 53]
+
++	if five: recipe.append(54)
+
++	for index in recipe: core.grid[index] = 2
+
++	core.grid[52] = 0
+
++	# Existing ore at row4 drops through three cleared ordinary0 positions.
+
++	core.grid[31] = 2
+
++	core.grid[38] = 0
+
++	core.grid[45] = 1
+
++	core.grid[46] = 0
+
++	core.fixture_pair.assign([45, 46])
+
++	core.refresh_material_instances()
+
++
+
++static func _three_cascades(core) -> void:
+
++	# One central-column vertical initial triple opens a column. Ore0/2/4 then
+
++	# lands in one gap in each of three four-wide rows at y3, y5 and y7.
+
++	# This is an authored cascade stress fixture; the initial rows are match-free.
+
++	# All three gaps shift downward by3; rows above provide corresponding donors.
+
++	var target_rows: Array[int] = [3, 5, 7]
+
++	var materials: Array[int] = [0, 2, 4]
+
++	for n in range(3):
+
++		var y := target_rows[n]
+
++		for x in range(1, 5): core.grid[y * 7 + x] = materials[n]
+
++		core.grid[y * 7 + 3] = 1
+
++	# Column3 initial triple at rows5..7. Swap row6 changes middle1 to5.
+
++	core.grid[38] = 5
+
++	core.grid[45] = 1
+
++	core.grid[52] = 5
+
++	core.grid[46] = 5
+
++	core.grid[31] = 4
+
++	core.grid[17] = 2
+
++	core.grid[3] = 0
+
++	core.fixture_pair.assign([45, 46])
+
+
+
+--- /dev/null
+
++++ b/scripts/lab/material_power_board.gd
+
+@@ -0,0 +1,336 @@
+
++extends "res://scripts/lab/reward_rules_board.gd"
+
++## Material identity is presentation data, separate from the authored power icon.
+
++## Every draw receives its real snapshot index, including held and falling tokens.
+
++const MINERAL_NAMES := ["Ruby", "Amethyst", "Gold ore", "Diamond", "Emerald", "Pearl"]
+
++var _drawing_reward: Dictionary = {}
+
++var _suppress_clear_accounting := false
+
++var _material_clear_event: Dictionary = {}
+
++
+
++func setup(core: RefCounted, reduced: bool = false) -> void:
+
++	_drawing_reward.clear()
+
++	_material_clear_event.clear()
+
++	_suppress_clear_accounting = false
+
++	super.setup(core, reduced)
+
++
+
++func _clear_power() -> void:
+
++	super._clear_power()
+
++	_material_clear_event.clear()
+
++
+
++func _snapshot_reward(index: int, snapshot: Dictionary = {}) -> Dictionary:
+
++	var rewards: Dictionary = _display_rewards if snapshot.is_empty() else snapshot
+
++	return Dictionary(rewards.get(index, rewards.get(str(index), {}))).duplicate(true)
+
++
+
++func _draw_indexed_gem(index: int, point: Vector2, kind: int, radius: float, alpha: float, stretch: Vector2 = Vector2.ONE, snapshot: Dictionary = {}) -> void:
+
++	var previous := _drawing_reward
+
++	_drawing_reward = _snapshot_reward(index, snapshot) if index >= 0 else {}
+
++	_draw_gem(point, kind, radius, alpha, stretch)
+
++	_drawing_reward = previous
+
++
+
++func material_visual(index: int) -> Dictionary:
+
++	# Read-only observable contract for native capture and integration checks.
+
++	var reward := _snapshot_reward(index)
+
++	return {"index": index, "token_id": reward.get("token_id", -1),
+
++		"material_instance_id": reward.get("material_instance_id", -1),
+
++		"mineral_kind": reward.get("mineral_kind", -1), "kind": reward.get("kind", -1),
+
++		"birth_tier": reward.get("birth_tier", -1)}
+
++
+
++func material_draw_samples() -> Array:
+
++	# Uses the exact draw-layer source indices and interpolation, never the
+
++	# nearest cell: same-family/different-material pieces may cross in a swap.
+
++	var result: Array = []
+
++	if _display_grid.is_empty(): return result
+
++	var step := _cell_size()
+
++	var dragged: Dictionary = _drag_visual()
+
++	var partner: Dictionary = _drag_partner_visual()
+
++	var lifted := int(dragged.get("index", -1))
+
++	var partner_index := int(partner.get("index", -1))
+
++	for index in _display_grid.size():
+
++		if int(_display_grid[index]) < 6 or _hidden.has(index) or index in [lifted, partner_index]: continue
+
++		var point := _center(index)
+
++		if polished_art and index in [_selected, _pressed]: point.y -= step * 0.035
+
++		result.append(_material_sample(index, point, int(_display_grid[index]), "static"))
+
++	for motion in _moving:
+
++		var source := int(motion.get("from", -1))
+
++		var kind := int(motion.get("kind", -1))
+
++		if kind < 6: continue
+
++		var end := _center(int(motion.to))
+
++		var start := _center(source) if source >= 0 else Vector2(end.x, _board_rect().position.y + (float(motion.get("spawn_row", -1.0)) + 0.5) * step)
+
++		if motion.has("start_position"): start = Vector2(motion.start_position)
+
++		var point := start.lerp(end, _motion_t)
+
++		if _falling and _motion_t >= 0.999: point.y -= sin(_landing_t * PI) * step * 0.065
+
++		result.append(_material_sample(source, point, kind, "fall" if _falling else "swap"))
+
++	if not partner.is_empty() and int(_display_grid[partner_index]) >= 6:
+
++		result.append(_material_sample(partner_index, partner.position, int(_display_grid[partner_index]), "drag_partner"))
+
++	if not dragged.is_empty() and int(_display_grid[lifted]) >= 6:
+
++		result.append(_material_sample(lifted, dragged.position, int(_display_grid[lifted]), "drag"))
+
++	return result
+
++
+
++func _material_sample(index: int, point: Vector2, kind: int, phase: String) -> Dictionary:
+
++	var result := material_visual(index)
+
++	result["position"] = point
+
++	result["draw_kind"] = kind
+
++	result["phase"] = phase
+
++	return result
+
++
+
++func _draw_gem(center: Vector2, kind: int, radius: float, alpha: float, stretch: Vector2 = Vector2.ONE) -> void:
+
++	var mineral := int(_drawing_reward.get("mineral_kind", -1))
+
++	var is_coloured := kind >= 6 and int(_drawing_reward.get("kind", -1)) == kind and mineral >= 0 and mineral < 6
+
++	if not is_coloured or alpha <= 0.0 or radius < 0.3:
+
++		super._draw_gem(center, kind, radius, alpha, stretch)
+
++		return
+
++	# A restrained material socket leaves the liked family icon unmodified.
+
++	# Mineral chip (lower-left) is intentionally separate from FIVE-TICK (right).
+
++	var tint: Color = GEM_COLORS[mineral]
+
++	draw_set_transform(center, 0.0, stretch)
+
++	draw_circle(Vector2(0, radius * 0.10), radius * 1.06, Color(0.035, 0.08, 0.105, alpha * 0.91), true, -1, true)
+
++	draw_circle(Vector2(0, radius * 0.10), radius * 1.04, Color(tint.darkened(0.66), alpha * 0.74), true, -1, true)
+
++	draw_arc(Vector2(0, radius * 0.10), radius * 1.02, 0.0, TAU, 40, Color(tint, alpha * 0.92), maxf(1.2, radius * 0.075), true)
+
++	draw_set_transform(Vector2.ZERO)
+
++	super._draw_gem(center + Vector2(0, -radius * 0.08) * stretch, kind, radius * 0.82, alpha, stretch)
+
++	var chip := center + Vector2(-0.70, 0.66) * radius * stretch
+
++	draw_set_transform(chip, 0.0, stretch)
+
++	draw_circle(Vector2.ZERO, radius * 0.40, Color(0.025, 0.07, 0.095, alpha * 0.96), true, -1, true)
+
++	draw_arc(Vector2.ZERO, radius * 0.385, 0.0, TAU, 24, Color(tint.lightened(0.12), alpha), maxf(1.0, radius * 0.055), true)
+
++	draw_set_transform(Vector2.ZERO)
+
++	if mineral < _gem_textures.size():
+
++		var extent := Vector2.ONE * radius * 0.95 * stretch
+
++		draw_texture_rect(_gem_textures[mineral], Rect2(chip - extent * 0.5, extent), false, Color(1, 1, 1, alpha))
+
++	else:
+
++		draw_circle(chip, radius * 0.22, Color(tint, alpha), true, -1, true)
+
++	draw_set_transform(Vector2.ZERO)
+
++
+
++func _event_gem(index: int, point: Vector2, scale_value: float = 1.0, alpha: float = 1.0) -> void:
+
++	if not _combo_parent.is_empty() and _combo_consumed.has(index): return
+
++	var before: Array = _power_event.get("before", [])
+
++	if index < 0 or index >= before.size() or int(before[index]) < 0: return
+
++	_draw_indexed_gem(index, point, int(before[index]), _cell_size() * 0.36 * scale_value, alpha,
+
++		Vector2.ONE, Dictionary(_power_event.get("before_rewards", {})))
+
++
+
++func _emit_accounting(event: Dictionary) -> void:
+
++	# Core's deduplicated removal ledger owns collection; a held catalyst and
+
++	# a retained new-power anchor are deliberately absent from these indices.
+
++	for raw_index in event.get("collected_indices", []):
+
++		var index := int(raw_index)
+
++		if index >= 0 and index < _display_grid.size(): goal_piece_cleared.emit(get_global_transform() * _center(index))
+
++	var next_floor: Array = _copy_array(event.get("floor", _display_floor))
+
++	for index in mini(_display_floor.size(), next_floor.size()):
+
++		if int(_display_floor[index]) > 0 and int(next_floor[index]) == 0:
+
++			terrain_target_cleared.emit(get_global_transform() * _center(index))
+
++	for raw_index in event.get("broken_runes", []):
+
++		rune_freed.emit(get_global_transform() * _center(int(raw_index)))
+
++
+
++func _prepare_clear(event: Dictionary) -> void:
+
++	var cleared: Array = event.get("indices", event.get("matched", []))
+
++	if not cleared.is_empty(): foley_requested.emit("break", clampf(0.7 + cleared.size() * 0.035, 0.8, 1.15))
+
++	_clearing.clear()
+
++	_releases.clear()
+
++	for raw_index in cleared:
+
++		var index := int(raw_index)
+
++		_clearing[index] = true
+
++		if _is_gem(index) and not reduced_motion:
+
++			_spawn_burst(_center(index), GEM_COLORS[int(_display_grid[index]) % 6], 10 if polished_art else 8, "chip")
+
++			if polished_art and not _excavated.has(index):
+
++				_spawn_burst(_center(index) + Vector2(0, _cell_size() * 0.2), Color("a97948"), 9, "soil")
+
++	if not _suppress_clear_accounting: _emit_accounting(event)
+
++	var next_floor: Array = _copy_array(event.get("floor", _display_floor))
+
++	for index in mini(_display_floor.size(), next_floor.size()):
+
++		if int(_display_floor[index]) > 0 and int(next_floor[index]) == 0:
+
++			_releases[index] = true
+
++			if not reduced_motion: _spawn_burst(_center(index), Color("ffcf6b"), 9)
+
++	for raw_index in event.get("broken_runes", []):
+
++		_releases[int(raw_index)] = true
+
++		if not reduced_motion: _spawn_burst(_center(int(raw_index)), Color("bdefff"), 14)
+
++
+
++func _animate_custom_event(event: Dictionary, epoch: int) -> void:
+
++	var event_type := String(event.get("type", ""))
+
++	if event_type == "reward_birth":
+
++		await _animate_birth(event, epoch)
+
++		return
+
++	if event_type not in ["material_turn", "natural_power"]:
+
++		await super._animate_custom_event(event, epoch)
+
++		return
+
++	_clear_power()
+
++	_combo_parent = event.duplicate(true)
+
++	_combo_consumed.clear()
+
++	_display_rewards = Dictionary(event.get("before_rewards", {})).duplicate(true)
+
++	_emit_accounting(event)
+
++	for raw_index in event.get("indices", []): _hidden[int(raw_index)] = true
+
++	for raw_index in event.get("reserved_anchors", []): _hidden[int(raw_index)] = true
+
++	var components: Array = Array(event.get("components", [])).duplicate(true)
+
++	if components.is_empty(): components.append(event.duplicate(true))
+
++	for raw_component in components:
+
++		if epoch != _epoch or not is_inside_tree(): return
+
++		if not raw_component is Dictionary: continue
+
++		var component: Dictionary = raw_component.duplicate(true)
+
++		component["before"] = event.get("before", []).duplicate()
+
++		component["before_rewards"] = event.get("before_rewards", {}).duplicate(true)
+
++		component["runes_before"] = event.get("runes_before", []).duplicate()
+
++		_power_event = component
+
++		_power_epoch = epoch
+
++		_power_t = 0.0
+
++		power_started.emit(String(component.get("power", "")), Array(component.get("targets", [])).duplicate())
+
++		if epoch != _epoch: return
+
++		var duration := power_duration(String(component.get("power", "")), reduced_motion)
+
++		_power_tween = create_tween()
+
++		_power_tween.tween_property(self, "_power_t", 1.0, duration).set_trans(Tween.TRANS_LINEAR)
+
++		queue_redraw()
+
++		await _wait(duration + 0.01)
+
++		if epoch != _epoch: return
+
++		foley_requested.emit("break", 0.9 if String(component.get("power", "")) == "volcano" else 0.8)
+
++		for raw_index in component.get("indices", []): _combo_consumed[int(raw_index)] = true
+
++		if is_instance_valid(_power_tween): _power_tween.kill()
+
++		_power_event.clear()
+
++		_power_epoch = -1
+
++		queue_redraw()
+
++	# Match-only removals are animated once AFTER the source effect. Cells
+
++	# already consumed by that effect cannot reappear in this local clear.
+
++	var match_only: Array = []
+
++	for raw_index in event.get("indices", []):
+
++		var index := int(raw_index)
+
++		if not _combo_consumed.has(index): match_only.append(index)
+
++	if not match_only.is_empty():
+
++		_material_clear_event = {"indices": match_only}
+
++		_suppress_clear_accounting = true
+
++		if reduced_motion:
+
++			_prepare_clear(_material_clear_event)
+
++			_effect_t = 0.75
+
++			queue_redraw()
+
++			await _wait(0.055)
+
++		else:
+
++			await _animate_clear(_material_clear_event, epoch)
+
++		if epoch != _epoch: return
+
++		_suppress_clear_accounting = false
+
++		for index in match_only: _combo_consumed[int(index)] = true
+
++		_material_clear_event.clear()
+
++	_hidden.clear()
+
++	_clearing.clear()
+
++	_clear_power()
+
++	queue_redraw()
+
++
+
++func _draw() -> void:
+
++	_draw_board_layer()
+
++	if not _combo_parent.is_empty():
+
++		var before: Array = _combo_parent.get("before", [])
+
++		var active_indices: Array = _power_event.get("indices", [])
+
++		for raw_index in _combo_parent.get("indices", []):
+
++			var index := int(raw_index)
+
++			if _combo_consumed.has(index) or index in active_indices: continue
+
++			if index < 0 or index >= before.size() or int(before[index]) < 0: continue
+
++			var shrink := 1.0
+
++			var alpha := 1.0
+
++			if _clearing.has(index):
+
++				shrink = 1.0 + sin(minf(1.0, _effect_t * 2.6) * PI) * 0.27 - pow(_effect_t, 1.6) * 0.86
+
++				alpha = 1.0 - _effect_t
+
++			_draw_indexed_gem(index, _center(index), int(before[index]), _cell_size() * 0.36 * shrink, alpha,
+
++				Vector2.ONE, Dictionary(_combo_parent.get("before_rewards", {})))
+
++	_draw_active_constituent(_cell_size())
+
++	_draw_birth()
+
++
+
++func _draw_birth() -> void:
+
++	if _birth_event.is_empty(): return
+
++	var step := _cell_size()
+
++	for raw_award in _birth_event.get("awards", []):
+
++		var award: Dictionary = raw_award
+
++		var index := int(award.get("index", -1))
+
++		var kind := int(award.get("kind", -1))
+
++		if index < 0 or index >= _display_grid.size() or kind < 6: continue
+
++		var previous := _drawing_reward
+
++		_drawing_reward = award.duplicate(true)
+
++		var point := _center(index)
+
++		var scale_value := 1.0 if reduced_motion else 0.87 + sin(_birth_t * PI * 0.5) * 0.13
+
++		_draw_gem(point, kind, step * 0.36 * scale_value, 1.0)
+
++		_drawing_reward = previous
+
++		if reduced_motion: continue
+
++		var mineral := int(award.get("mineral_kind", -1))
+
++		var tint: Color = GEM_COLORS[mineral] if mineral >= 0 and mineral < 6 else Color("f3d8a0")
+
++		var opacity := sin(_birth_t * PI) * 0.65
+
++		for ordinal in 3:
+
++			var angle := -2.3 + float(ordinal) * 2.1
+
++			var offset := Vector2.from_angle(angle) * step * (0.28 + _birth_t * 0.12)
+
++			_draw_sparkle(point + offset, step * 0.045, Color(tint, opacity))
+
++
+
++func _draw_board_layer() -> void:
+
++	if _display_grid.is_empty() or _cols <= 0 or _rows <= 0:
+
++		return
+
++	var step := _cell_size()
+
++	var dragged: Dictionary = _drag_visual()
+
++	var lifted_index: int = int(dragged.get("index", -1))
+
++	var partner: Dictionary = _drag_partner_visual()
+
++	var partner_index: int = int(partner.get("index", -1))
+
++	for index in range(_display_grid.size()):
+
++		if int(_display_grid[index]) == HOLE:
+
++			continue
+
++		_draw_cell(index, step)
+
++	for index in range(_display_grid.size()):
+
++		var kind := int(_display_grid[index])
+
++		if kind >= 0 and not _hidden.has(index) and index != lifted_index and index != partner_index:
+
++			var shrink := 1.0
+
++			var alpha := 1.0
+
++			if _clearing.has(index):
+
++				shrink = 1.0 + sin(minf(1.0,_effect_t*2.6) * PI) * 0.27 - pow(_effect_t,1.6) * 0.86
+
++				alpha = 1.0 - _effect_t
+
++			elif _shuffle_t > 0.0:
+
++				shrink = 1.0 - sin(_shuffle_t * PI) * 0.7
+
++			var gem_center: Vector2=_center(index)
+
++			if polished_art and (index==_selected or index==_pressed):
+
++				gem_center.y-=step*0.035;shrink*=1.08
+
++			_draw_indexed_gem(index, gem_center, kind, step * 0.36 * shrink, alpha)
+
++		elif kind == RUNE:
+
++			_draw_rune(_center(index), step, index)
+
++	var motion_draw_order := _moving.duplicate()
+
++	if not _falling: motion_draw_order.reverse() # Keep the grabbed stone above its partner.
+
++	for motion in motion_draw_order:
+
++		var target := int(motion["to"])
+
++		var end := _center(target)
+
++		var start := _center(int(motion["from"])) if int(motion["from"]) >= 0 else Vector2(end.x, _board_rect().position.y + (float(motion.get("spawn_row", -1.0)) + 0.5) * step)
+
++		if motion.has("start_position"): start = Vector2(motion.start_position)
+
++		var point := start.lerp(end, _motion_t)
+
++		if _falling and _motion_t >= 0.999:
+
++			point.y -= sin(_landing_t * PI) * step * 0.065
+
++		var squish:=Vector2.ONE
+
++		if polished_art and _falling:
+
++			if _motion_t<0.999:squish=Vector2(0.95,1.06)
+
++			else:squish=Vector2(1.0+sin(_landing_t*TAU)*0.10,1.0-sin(_landing_t*TAU)*0.11)
+
++		var settling_scale := lerpf(float(motion.get("start_scale", 1.0)), 1.0, _motion_t)
+
++		_draw_indexed_gem(int(motion["from"]), point, int(motion["kind"]), step * 0.36 * settling_scale, 1.0,squish)
+
++	for index in _clearing:
+
++		var color: Color = GEM_COLORS[int(_display_grid[index]) % 6] if _is_gem(int(index)) else Color("fce7ba")
+
++		color.a = 1.0 - _effect_t
+
++		draw_arc(_center(int(index)), step * (0.20 + _effect_t * 0.38), 0.0, TAU, 32, color, 2.2, true)
+
++		if polished_art:
+
++			draw_circle(_center(int(index)),step*(0.22+_effect_t*0.18),Color(1,1,0.9,(1-_effect_t)*0.15),true,-1,true)
+
++			_draw_sparkle(_center(int(index)),step*(0.15+_effect_t*0.32),Color(1,1,0.85,1-_effect_t))
+
++	for index in _releases:
+
++		var color := Color(1.0, 0.83, 0.45, 1.0 - _effect_t)
+
++		draw_arc(_center(int(index)), step * (0.38 + _effect_t * 0.12), 0.0, TAU, 32, color, 3.0, true)
+
++		_draw_sparkle(_center(int(index)), step * (0.20 + _effect_t * 0.13), color)
+
++	if _selected >= 0:
+
++		_draw_selection(_selected, Color("ffdc8d"), 1.0)
+
++	if _pressed >= 0 and _selected != _pressed:
+
++		_draw_selection(_pressed, Color("e7f5ff"), 0.55)
+
++	if _hover >= 0 and not busy and _selected != _hover:
+
++		_draw_selection(_hover, Color("abd6db"), 0.22)
+
++	for index in _hint:
+
++		var intensity := 0.75 if reduced_motion else 0.60 + sin(_clock * 5.0) * 0.22
+
++		_draw_selection(int(index), Color("ffecaf"), intensity)
+
++		_draw_sparkle(_center(int(index)) + Vector2(step * 0.27, -step * 0.27), step * 0.065, Color(1.0, 0.94, 0.68, intensity))
+
++	if _hint.size() == 2:
+
++		draw_line(_center(int(_hint[0])), _center(int(_hint[1])), Color(1.0, 0.91, 0.61, 0.5), 2.0, true)
+
++	if _invalid:
+
++		for index in _last_swap:
+
++			_draw_selection(int(index), Color("fb8279"), 0.8)
+
++	for particle in _particles:
+
++		var color: Color = particle["color"]
+
++		color.a = 1.0 - float(particle["age"]) / float(particle["life"])
+
++		if String(particle.get("material","light")) in ["soil","chip"]:
+
++			var p: Vector2=particle["position"];var r: float=particle["size"]
+
++			draw_colored_polygon(PackedVector2Array([p+Vector2(-r,-r*0.6),p+Vector2(r*0.7,-r),p+Vector2(r,r*0.6),p+Vector2(-r*0.7,r)]),color)
+
++		else:_draw_sparkle(Vector2(particle["position"]), float(particle["size"]), color)
+
++
+
++	if not partner.is_empty():
+
++		_draw_indexed_gem(partner_index, Vector2(partner.position), int(_display_grid[partner_index]), step * 0.36, 1.0)
+
++	if not dragged.is_empty():
+
++		var lifted_center: Vector2 = dragged.position
+
++		var lifted_kind: int = int(_display_grid[lifted_index])
+
++		draw_circle(lifted_center + Vector2(step * 0.045, step * 0.10), step * 0.30, Color(0.04, 0.05, 0.07, 0.24), true, -1, true)
+
++		_draw_indexed_gem(lifted_index, lifted_center, lifted_kind, step * 0.36 * float(dragged.scale), 1.0)
+
+
+
+--- /dev/null
+
++++ b/scripts/lab/material_power_lab.gd
+
+@@ -0,0 +1,415 @@
+
++extends Control
+
++## Standalone material-power lab. Every result is Core-owned; no campaign/save writes.
+
++const LabCore = preload("res://scripts/lab/material_power_core.gd")
+
++const Fixtures = preload("res://scripts/lab/material_power_fixtures.gd")
+
++const LabBoard = preload("res://scripts/lab/material_power_board.gd")
+
++const Art = preload("res://scripts/story_art.gd")
+
++const RockAudio = preload("res://scripts/rock_audio.gd")
+
++const VolcanoAudio = preload("res://scripts/lab/volcano_audio.gd")
+
++const TornadoAudio = preload("res://scripts/lab/tornado_audio.gd")
+
++const LightningAudio = preload("res://scripts/lab/lightning_audio.gd")
+
++const ElementAudio = preload("res://scripts/lab/reward_rules_audio.gd")
+
++const Background = preload("res://assets/first_crystals/cave_background_v1.png")
+
++
+
++const MINERAL_GOALS := ["RUBIES", "AMETHYST", "ORE", "DIAMONDS", "EMERALDS", "PEARLS"]
+
++const SCENARIOS := [
+
++	["moved_volcano_four", "Move ore Volcano → eruption + new Volcano"],
+
++	["moved_volcano_five", "Move ore Volcano → eruption + new Storm"],
+
++	["catalyst_four", "Match 4 · waiting Volcano stays"],
+
++	["catalyst_five", "Match 5 · waiting Volcano stays"],
+
++	["cascade_four", "Falling 4 → waiting Volcano"],
+
++	["cascade_five", "Falling 5 → waiting Storm"],
+
++	["cascade_three_births", "Three falling fours → three rewards"],
+
++	["waiting_between", "Falling stones · waiting power is a barrier"],
+
++	["black_hole_swallow", "5 + 5 · swallow other waiting powers"],
+
++	["create_four", "Create 4 → Volcano"],
+
++	["create_five", "Create straight 5 → Storm"],
+
++	["create_t", "Create T → Tornado"],
+
++	["create_l", "Create L → Landslide"],
+
++	["create_plus", "Create Extended T → Tornado"],
+
++	["pair44", "4 + 4 · Double eruption"],
+
++	["pair45", "4 + 5 · Tornado then Volcano"],
+
++	["black_hole", "5 + 5 · Tornado + Storm"],
+
++	["black_hole_same", "5 + 5 · Tornado + Tornado"],
+
++	["storm_storm", "5 + 5 · Storm + Storm"],
+
++	["storm_landslide", "5 + 5 · Storm + Landslide"],
+
++	["tornado_landslide", "5 + 5 · Tornado + Landslide"],
+
++	["landslide_landslide", "5 + 5 · Landslide + Landslide"],
+
++	["volcano", "Single Volcano · 4-born"],
+
++	["tornado_h", "Single Tornado · 5-born"],
+
++	["tornado_v", "Single Tornado · alternate icon"],
+
++	["lightning_storm", "Single Storm · 5-born"],
+
++	["earthquake", "Single Landslide · SE"],
+
++	["earthquake_sw", "Single Landslide · SW"],
+
++	["earthquake_nw", "Single Landslide · NW"],
+
++	["earthquake_ne", "Single Landslide · NE"],
+
++]
+
++
+
++var core
+
++var board
+
++var stone_audio
+
++var volcano_audio
+
++var tornado_audio
+
++var storm_audio
+
++var element_audio
+
++var last_result: Dictionary = {}
+
++var scenario := "moved_volcano_four"
+
++var seed_value := 42
+
++var _generation := 0
+
++var _resolving := false
+
++var scenario_picker: OptionButton
+
++var moves_label: Label
+
++var soil_label: Label
+
++var rune_label: Label
+
++var collect_label: Label
+
++var helper: Label
+
++var effect_label: Label
+
++var reduced: CheckButton
+
++var painted_toggle: CheckButton
+
++var skip_button: Button
+
++var reset_button: Button
+
++var hint_button: Button
+
++
+
++func _ready() -> void:
+
++	get_window().content_scale_size = Vector2i(432, 960)
+
++	DisplayServer.window_set_title("GnomiT — Material Rewards · PLAYABLE LAB")
+
++	if DisplayServer.get_name() != "headless": DisplayServer.window_set_current_screen(0)
+
++	var lab_theme := Theme.new()
+
++	lab_theme.default_font = Art.font(750.0)
+
++	lab_theme.default_font_size = 13
+
++	lab_theme.set_color("font_color", "Label", Color("fff2ce"))
+
++	lab_theme.set_color("font_color", "Button", Color("fff2ce"))
+
++	lab_theme.set_color("font_color", "OptionButton", Color("fff2ce"))
+
++	for state in ["normal", "hover", "pressed", "disabled"]:
+
++		var skin := StyleBoxFlat.new()
+
++		skin.bg_color = Color("16424d") if state == "normal" else Color("286267")
+
++		if state == "pressed": skin.bg_color = Color("875426")
+
++		if state == "disabled": skin.bg_color = Color("25383f")
+
++		skin.border_color = Color("bda367")
+
++		skin.set_border_width_all(1)
+
++		skin.set_corner_radius_all(9)
+
++		skin.content_margin_left = 7
+
++		skin.content_margin_right = 7
+
++		lab_theme.set_stylebox(state, "Button", skin)
+
++		lab_theme.set_stylebox(state, "OptionButton", skin)
+
++	theme = lab_theme
+
++	var backdrop := TextureRect.new()
+
++	backdrop.texture = Background
+
++	backdrop.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+
++	backdrop.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+
++	backdrop.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+
++	backdrop.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
++	add_child(backdrop)
+
++	var shade := ColorRect.new()
+
++	shade.color = Color(0.015, 0.035, 0.055, 0.46)
+
++	shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+
++	shade.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
++	add_child(shade)
+
++	var margin := MarginContainer.new()
+
++	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+
++	for side in ["left", "top", "right", "bottom"]:
+
++		margin.add_theme_constant_override("margin_" + side, 10)
+
++	add_child(margin)
+
++	var stack := VBoxContainer.new()
+
++	stack.add_theme_constant_override("separation", 6)
+
++	margin.add_child(stack)
+
++	var heading := HBoxContainer.new()
+
++	stack.add_child(heading)
+
++	var title := _label("MATERIAL REWARDS", 20)
+
++	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+
++	heading.add_child(title)
+
++	reset_button = _button("Reset", func() -> void: reset_scenario(scenario))
+
++	reset_button.custom_minimum_size = Vector2(66, 34)
+
++	heading.add_child(reset_button)
+
++	var subtitle := _label("PLAYABLE LAB · real Core · no campaign save", 12)
+
++	subtitle.modulate = Color("b5d9d2")
+
++	stack.add_child(subtitle)
+
++	scenario_picker = OptionButton.new()
+
++	scenario_picker.custom_minimum_size.y = 37
+
++	scenario_picker.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+
++	scenario_picker.fit_to_longest_item = false
+
++	for entry in SCENARIOS: scenario_picker.add_item(String(entry[1]))
+
++	scenario_picker.item_selected.connect(func(index: int) -> void: reset_scenario(String(SCENARIOS[index][0])))
+
++	stack.add_child(scenario_picker)
+
++	var rules := _label("4 → Volcano  |  straight 5 → Storm\nT / plus → Tornado  |  L → Landslide\nFalling matches create powers. Move a power to use it.\n5 + 5 → Black Hole · other powers are swallowed", 12)
+
++	rules.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+
++	rules.modulate = Color("f3d8a0")
+
++	stack.add_child(rules)
+
++	var legend := _label("Colour + mineral chip = stored material\nFIVE-TICK badge = five-born power", 11)
+
++	legend.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+
++	legend.modulate = Color("bde5d8")
+
++	stack.add_child(legend)
+
++	var stats := HBoxContainer.new()
+
++	stats.add_theme_constant_override("separation", 5)
+
++	stack.add_child(stats)
+
++	moves_label = _stat("MOVES 12", stats)
+
++	soil_label = _stat("SOIL 3", stats)
+
++	rune_label = _stat("RUNES 1", stats)
+
++	collect_label = _stat("ORE 0", stats)
+
++	board = LabBoard.new()
+
++	board.polished_art = true
+
++	board.size_flags_vertical = Control.SIZE_EXPAND_FILL
+
++	board.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+
++	board.custom_minimum_size = Vector2(300, 390)
+
++	stack.add_child(board)
+
++	stone_audio = RockAudio.new(); add_child(stone_audio)
+
++	volcano_audio = VolcanoAudio.new(); add_child(volcano_audio)
+
++	tornado_audio = TornadoAudio.new(); add_child(tornado_audio)
+
++	storm_audio = LightningAudio.new(); add_child(storm_audio)
+
++	element_audio = ElementAudio.new(); add_child(element_audio)
+
++	board.foley_requested.connect(_on_board_foley)
+
++	board.swap_requested.connect(_on_swap)
+
++	board.power_started.connect(_on_power_started)
+
++	board.reward_born.connect(func(awards: Array) -> void:
+
++		if not awards.is_empty(): element_audio.begin_birth(int(awards[0].get("birth_tier",5)),board.reduced_motion))
+
++	var info := PanelContainer.new()
+
++	info.add_theme_stylebox_override("panel", Art.panel(Color("c9d6bd")))
+
++	info.custom_minimum_size.y = 98
+
++	stack.add_child(info)
+
++	var words := VBoxContainer.new()
+
++	words.add_theme_constant_override("separation", 3)
+
++	info.add_child(words)
+
++	effect_label = _label("MOVE AN ORE VOLCANO", 16)
+
++	effect_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+
++	effect_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+
++	words.add_child(effect_label)
+
++	helper = _label("", 13)
+
++	helper.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+
++	helper.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+
++	helper.custom_minimum_size.y = 58
+
++	words.add_child(helper)
+
++	var actions := HBoxContainer.new()
+
++	actions.add_theme_constant_override("separation", 6)
+
++	stack.add_child(actions)
+
++	hint_button = _button("Show move", _show_hint)
+
++	hint_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+
++	hint_button.custom_minimum_size.y = 36
+
++	actions.add_child(hint_button)
+
++	skip_button = _button("Skip effect", skip_effect)
+
++	skip_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+
++	skip_button.custom_minimum_size.y = 36
+
++	actions.add_child(skip_button)
+
++	var options := HBoxContainer.new()
+
++	options.alignment = BoxContainer.ALIGNMENT_CENTER
+
++	options.add_theme_constant_override("separation", 12)
+
++	stack.add_child(options)
+
++	painted_toggle = CheckButton.new()
+
++	painted_toggle.text = "Painted Volcano"
+
++	painted_toggle.add_theme_font_size_override("font_size", 12)
+
++	painted_toggle.button_pressed = true
+
++	painted_toggle.toggled.connect(func(value: bool) -> void:
+
++		if not _resolving: board.set_painted_volcano(value))
+
++	options.add_child(painted_toggle)
+
++	reduced = CheckButton.new()
+
++	reduced.text = "Reduced motion"
+
++	reduced.add_theme_font_size_override("font_size", 12)
+
++	reduced.toggled.connect(func(value: bool) -> void:
+
++		if not _resolving: board.reduced_motion = value)
+
++	options.add_child(reduced)
+
++	reset_scenario(scenario)
+
++
+
++func _label(value: String, font_size: int) -> Label:
+
++	var label := Label.new()
+
++	label.text = value
+
++	label.add_theme_font_size_override("font_size", font_size)
+
++	return label
+
++
+
++func _button(value: String, action: Callable) -> Button:
+
++	var button := Button.new()
+
++	button.text = value
+
++	button.focus_mode = Control.FOCUS_NONE
+
++	button.pressed.connect(action)
+
++	return button
+
++
+
++func _stat(value: String, parent: Control) -> Label:
+
++	var label := _label(value, 12)
+
++	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+
++	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+
++	parent.add_child(label)
+
++	return label
+
++
+
++func reset_scenario(value: String) -> void:
+
++	_stop_audio()
+
++	_generation += 1
+
++	_resolving = false
+
++	scenario = value
+
++	last_result.clear()
+
++	core = LabCore.new()
+
++	Fixtures.configure(core, scenario, seed_value)
+
++	board.setup(core, reduced.button_pressed)
+
++	board.set_painted_volcano(painted_toggle.button_pressed)
+
++	board.show_hint(core.fixture_pair)
+
++	for index in SCENARIOS.size():
+
++		if String(SCENARIOS[index][0]) == scenario:
+
++			scenario_picker.select(index)
+
++			effect_label.text = _scenario_caption(String(SCENARIOS[index][1]))
+
++	helper.text = _scenario_help()
+
++	_update_stats()
+
++	_update_controls()
+
++
+
++func _scenario_caption(fallback: String) -> String:
+
++	match scenario:
+
++		"moved_volcano_four": return "ORE VOLCANO → NEW VOLCANO"
+
++		"moved_volcano_five": return "ORE VOLCANO → NEW STORM"
+
++		"catalyst_four": return "WAITING CATALYST · FOUR"
+
++		"catalyst_five": return "WAITING CATALYST · FIVE"
+
++		"cascade_four": return "FALLING FOUR · VOLCANO"
+
++		"cascade_five": return "FALLING FIVE · STORM"
+
++		"cascade_three_births": return "THREE CASCADE REWARDS"
+
++		"waiting_between": return "WAITING POWER · NO AUTO-USE"
+
++		"black_hole_swallow": return "BLACK HOLE · INERT SWALLOW"
+
++	return fallback.to_upper()
+
++
+
++func _scenario_help() -> String:
+
++	match scenario:
+
++		"moved_volcano_four": return "Grab the ore Volcano and drag it to the glowing neighbour. It erupts once; the ore four leaves a new Volcano."
+
++		"moved_volcano_five": return "Move the ore Volcano into the glowing line of ore. The old Volcano erupts once; the five leaves a waiting Storm."
+
++		"catalyst_four": return "Move the ordinary glowing ore, not the Volcano. Its material helps make four; the waiting Volcano stays and a new one is born."
+
++		"catalyst_five": return "Move the ordinary ore to complete five. The unmoved Volcano helps by material, stays still, and a new Storm waits."
+
++		"cascade_four": return "Swap the glowing minerals. Break, fall, then four ordinary stones create a Volcano. It waits until YOU move it."
+
++		"cascade_five": return "Swap the glowing minerals. After the first break, five falling stones create a Storm. Birth does not activate it."
+
++		"cascade_three_births": return "One real swap causes falling fours in three separate groups. Each creates its own waiting power."
+
++		"waiting_between": return "Make the glowing ordinary move. Falling same-material stones do not trigger or consume the waiting power."
+
++		"black_hole_swallow": return "Swap the two FIVE-TICK sources. Black Hole swallows the other waiting powers without firing their effects."
+
++		"create_four": return "Drag either glowing stone to its neighbour. The real four-match leaves a Volcano; play on to activate it."
+
++		"create_five": return "Swap the glowing pair to make five in a line. A Storm appears at the reserved match anchor."
+
++		"create_t": return "Swap the glowing pair to complete the T. Five matched stones award a Tornado."
+
++		"create_l": return "Swap the glowing pair to complete the L. Its Landslide keeps that L orientation."
+
++		"create_plus": return "Extended T fixture: one swap joins six stones. It awards a Tornado. A true plus is detector-supported."
+
++		"pair44": return "Swap the two Volcanos. Both erupt in sequence on one frozen board; this spends one move."
+
++		"pair45": return "Swap the four-born and five-born powers. The five effect resolves first; Volcano hits the residual stones."
+
++	if scenario.begins_with("black_hole") or scenario in ["storm_storm", "storm_landslide", "tornado_landslide", "landslide_landslide"]:
+
++		return "Swap the two FIVE-TICK powers. Both materials form the painted Black Hole before ordinary stones spiral in."
+
++	return "Pre-placed reward fixture. Drag the glowing power to its neighbour to activate it, then continue playing."
+
++
+
++func _show_hint() -> void:
+
++	if _resolving: return
+
++	# The board's real native pointer path performs the move. After the first
+
++	# fixture move, use Core's current legal move instead of stale coordinates.
+
++	var pair: Array = core.fixture_pair.duplicate() if last_result.is_empty() else core._find_move()
+
++	board.show_hint(pair)
+
++	helper.text = "Drag a glowing stone to the other glowing neighbour." if pair.size() == 2 else "No legal move is available. Reset this fixture."
+
++
+
++func _update_stats() -> void:
+
++	moves_label.text = "MOVES " + str(core.moves_left)
+
++	soil_label.text = "SOIL " + str(core.floor.count(1))
+
++	rune_label.text = "RUNES " + str(core.runes.count(1))
+
++	collect_label.text = MINERAL_GOALS[clampi(int(core.collect_kind), 0, 5)] + " " + str(core.collected)
+
++
+
++func _update_controls() -> void:
+
++	scenario_picker.disabled = _resolving
+
++	skip_button.disabled = not _resolving
+
++	hint_button.disabled = _resolving
+
++	reduced.disabled = _resolving
+
++	painted_toggle.disabled = _resolving
+
++
+
++func _on_swap(a: int, b: int) -> void:
+
++	if _resolving: return
+
++	if core.won or core.lost:
+
++		helper.text = "This test is finished. Press Reset to replay the fixture."
+
++		return
+
++	var generation := _generation
+
++	var result: Dictionary = core.try_swap(a, b)
+
++	last_result = result
+
++	_resolving = true
+
++	_update_controls()
+
++	moves_label.text = "MOVES " + str(core.moves_left)
+
++	await board.animate_result(result)
+
++	if generation != _generation: return
+
++	_resolving = false
+
++	_update_stats()
+
++	_update_controls()
+
++	if not bool(result.get("valid", false)):
+
++		helper.text = "That swap cannot activate a power or make a match. No move spent."
+
++	elif core.lost:
+
++		helper.text = "No moves left. Press Reset or choose another fixture."
+
++	else:
+
++		var names: Array[String] = []
+
++		for event in result.get("events", []):
+
++			if String(event.get("type", "")) == "reward_birth":
+
++				for award in event.get("awards", []):
+
++					var name_value := _power_title(int(award.get("kind", -1)))
+
++					if not names.has(name_value): names.append(name_value)
+
++		if not names.is_empty():
+
++			effect_label.text = "CREATED · " + ", ".join(names).to_upper()
+
++			helper.text = "Your move created " + ", ".join(names) + ". It waits on the board. Drag that power to a neighbour when you want to use it."
+
++		else:
+
++			helper.text = "One move resolved. Keep playing this board, Show move for a hint, or choose another fixture."
+
++
+
++func _power_title(kind: int) -> String:
+
++	if kind == 8: return "Volcano"
+
++	if kind in [6, 7]: return "Tornado"
+
++	if kind == 9: return "Storm"
+
++	if kind in [10, 11, 12, 13]: return "Landslide"
+
++	return "reward"
+
++
+
++func _on_power_started(power: String, targets: Array) -> void:
+
++	if not _active_power(power): return
+
++	if power == "volcano" and board.painted_volcano:
+
++		volcano_audio.begin(targets, board.reduced_motion)
+
++	elif power in ["tornado_h", "tornado_v"]:
+
++		tornado_audio.begin(board.reduced_motion)
+
++	elif power == "lightning_storm":
+
++		storm_audio.begin(board.reduced_motion)
+
++	elif power == "black_hole":
+
++		var kinds: Array = []
+
++		for source in board.fusion_sources(): kinds.append(int(source.kind))
+
++		element_audio.begin_fusion(kinds, board.reduced_motion)
+
++	elif power == "earthquake":
+
++		element_audio.begin(power, board.reduced_motion)
+
++	match power:
+
++		"volcano": effect_label.text = "VOLCANO · " + str(targets.size()) + " MAGMA HITS"
+
++		"tornado_h", "tornado_v": effect_label.text = "TORNADO · " + str(targets.size()) + " NEARBY STONES"
+
++		"black_hole": effect_label.text = "BLACK HOLE · TWO FIVE-BORN MATERIALS"
+
++		"earthquake": effect_label.text = "LANDSLIDE · " + str(targets.size()) + " STONES"
+
++		"lightning_storm": effect_label.text = "STORM · " + str(targets.size()) + " EDGE STONES"
+
++	if power == "black_hole":
+
++		helper.text = "Two five-born sources form Black Hole. Other waiting powers are swallowed without their own effects."
+
++	elif String(board._combo_parent.get("type", "")) == "material_turn":
+
++		helper.text = "Your moved power fires once. The material match also creates a new power, which stays for your next choice."
+
++	elif String(board._combo_parent.get("power", "")) == "power_combo":
+
++		helper.text = "One swap, one move. Combined effects resolve in order; cleared stones stay cleared."
+
++	else:
+
++		helper.text = "Only the power you moved fires. Other waiting powers keep their identity and material."
+
++
+
++func _active_power(power: String) -> bool:
+
++	return is_instance_valid(board) and not board._power_event.is_empty() and board._power_epoch == board._epoch and String(board._power_event.get("power", "")) == power
+
++
+
++func _has_element_event() -> bool:
+
++	return _active_power("black_hole") or _active_power("earthquake")
+
++
+
++func _process(_delta: float) -> void:
+
++	if is_instance_valid(element_audio) and element_audio.event_active and not _has_element_event(): element_audio.finish_event()
+
++	if is_instance_valid(storm_audio) and storm_audio.event_active and not _active_power("lightning_storm"): storm_audio.finish_event()
+
++	if is_instance_valid(volcano_audio) and volcano_audio.event_active:
+
++		if _active_power("volcano") and board.painted_volcano: volcano_audio.sync_progress(board._power_t)
+
++		else: volcano_audio.finish_event()
+
++	if is_instance_valid(tornado_audio) and tornado_audio.event_active and not (_active_power("tornado_h") or _active_power("tornado_v")): tornado_audio.finish_event()
+
++
+
++func _on_board_foley(kind: String, strength: float = 1.0) -> void:
+
++	if kind == "break":
+
++		if _has_element_event() and is_instance_valid(element_audio) and element_audio.event_active: return
+
++		if _active_power("lightning_storm") and is_instance_valid(storm_audio) and storm_audio.event_active: return
+
++		if _active_power("volcano") and board.painted_volcano and is_instance_valid(volcano_audio) and volcano_audio.event_active: return
+
++		if (_active_power("tornado_h") or _active_power("tornado_v")) and is_instance_valid(tornado_audio) and tornado_audio.event_active: return
+
++	stone_audio.play_cue(kind, strength)
+
++
+
++func _stop_audio() -> void:
+
++	if is_instance_valid(stone_audio): stone_audio.stop_all()
+
++	if is_instance_valid(element_audio): element_audio.stop_all()
+
++	if is_instance_valid(storm_audio): storm_audio.stop_all()
+
++	if is_instance_valid(volcano_audio): volcano_audio.stop_all()
+
++	if is_instance_valid(tornado_audio): tornado_audio.stop_all()
+
++
+
++func skip_effect() -> void:
+
++	_stop_audio()
+
++	if not _resolving: return
+
++	_generation += 1
+
++	board.finish_now()
+
++	_resolving = false
+
++	_update_stats()
+
++	_update_controls()
+
++	helper.text = "Animation skipped. The same resolved board is shown; no extra move spent."
+
++
+
++func _exit_tree() -> void:
+
++	_stop_audio()
+
+
+
+--- /dev/null
+
++++ b/material_rewards.tscn
+
+@@ -0,0 +1,12 @@
+
++[gd_scene load_steps=2 format=3]
+
++
+
++[ext_resource type="Script" path="res://scripts/lab/material_power_lab.gd" id="1"]
+
++
+
++[node name="MaterialPowersLab" type="Control"]
+
++layout_mode = 3
+
++anchors_preset = 15
+
++anchor_right = 1.0
+
++anchor_bottom = 1.0
+
++grow_horizontal = 2
+
++grow_vertical = 2
+
++script = ExtResource("1")
+
+
+
+--- /dev/null
+
++++ b/PLAY_MATERIAL_REWARDS.cmd
+
+@@ -0,0 +1,2 @@
+
++@echo off
+
++"C:\Tools\Godot\4.7.2\engine\Godot_v4.7.2-stable_win64.exe" --path "%~dp0." --screen 0 --position 80,65 --resolution 432x960
+
+
+
+--- /dev/null
+
++++ b/README_MATERIAL_REWARDS.txt
+
+@@ -0,0 +1,150 @@
+
++GNOMIT - MATERIAL REWARDS PLAYABLE PC LAB
+
++2026-10-19 (Europe/Sofia)
+
++
+
++START HERE
+
++Run PLAY_MATERIAL_REWARDS.cmd in this folder.
+
++The launcher uses the installed Godot 4.7.2 executable at:
+
++C:\Tools\Godot\4.7.2\engine\Godot_v4.7.2-stable_win64.exe
+
++It opens a 432 x 960 portrait game window on screen 0, which is monitor 1.
+
++If that executable is not installed at this path on another computer, open
+
++project.godot with Godot 4.7.2 and run its Material Rewards main scene instead.
+
++Other PLAY_*.cmd files are inherited launchers; use PLAY_MATERIAL_REWARDS.cmd
+
++for this handoff.
+
++
+
++TRY THE DEFAULT EXAMPLE
+
++The initial dropdown is "Move ore Volcano -> eruption + new Volcano".
+
++Grab the ore Volcano in row 3, column 4 and drag DOWN exactly one cell to the
+
++glowing neighbour in row 4, column 4. These are zero-based grid indices 17 -> 24.
+
++The old Volcano erupts once. Its ore material completes a four-match, which
+
++leaves a NEW Volcano on the board. The newborn does not erupt automatically.
+
++You can then choose when to drag that new power to an adjacent cell to use it.
+
++
+
++CONTROLS
+
++- Hold the left mouse button on a stone or power, drag towards one orthogonally
+
++  adjacent cell, and release. Each gesture exchanges at most one neighbour.
+
++  An invalid swap spends no move.
+
++- Show move highlights the fixture move initially and a current legal move
+
++  after play has begun.
+
++- Reset restores the selected fixture and its seed, cancelling old animation
+
++  and sound. It does not reset the original game or any campaign save.
+
++- The top dropdown switches examples. You can keep playing the resulting board
+
++  after the advertised first move, rather than watching a standalone animation.
+
++- Skip effect finishes presentation immediately with the same resolved Core
+
++  state and no additional move. It also stops the active effect audio.
+
++- Reduced motion uses the reduced presentation. Select it while the board is
+
++  idle. It changes presentation, not rewards, collected minerals or moves.
+
++- Painted Volcano changes the Volcano presentation while idle; it does not
+
++  change the affected cells or the reward rules.
+
++
+
++WHAT MAKES A POWER
+
++The SHAPE chooses the power. The mineral does not choose its power family.
+
++- Four in a straight line: Volcano, four-born.
+
++- Five or more in a straight line: Storm, five-born.
+
++- T or plus-shaped matching runs: Tornado, five-born.
+
++- L-shaped matching runs: Landslide, five-born, retaining its L orientation.
+
++For larger intersecting shapes, the existing lab priority is straight five,
+
++then T/plus, then L, then straight four. One connected matched component earns
+
++at most one power; independent components can each earn a power.
+
++
+
++MATERIAL AND ABILITY ARE SEPARATE
+
++Four rubies create a ruby Volcano. Four ore pieces create an ore Volcano.
+
++Both erupt as Volcanos, but keep different stored mineral materials.
+
++The small mineral chip and coloured base identify the stored material.
+
++The main icon identifies the ability. FIVE-TICK marks a five-born ability.
+
++Ruby, amethyst, ore, diamond, emerald and pearl materials are supported.
+
++Material, ability, birth tier, ability ID and material-instance ID are tracked
+
++separately through swaps, gravity and ordinary reshuffling.
+
++
+
++WAITING POWERS, CATALYSTS AND CASCADES
+
++- Ordinary four/five/T/L matches after falling can create powers too.
+
++- Every newborn waits until the player deliberately swaps that power.
+
++  Birth, gravity, passing turns and nearby powers never activate it.
+
++- An unmoved waiting power can contribute its stored mineral to an INITIAL
+
++  player-made colour match. It remains the same waiting ability and does not
+
++  erupt or get collected. A new reward uses an ordinary matched anchor.
+
++- Example: move ordinary ore to complete [ore, ore-Volcano, ore, ore].
+
++  The stationary Volcano stays; the ordinary four-match leaves another Volcano.
+
++- If you deliberately MOVE an old power into a four/five match, the old effect
+
++  fires once and the new reward survives. Its reserved anchor is protected.
+
++- Automatic cascade matching considers ordinary stones only. Waiting powers
+
++  break those runs: [ruby, ruby-Volcano, ruby] does not automatically clear,
+
++  activate the Volcano, or mint another power after falling.
+
++- A retained catalyst or reserved new-reward anchor collects zero mineral units.
+
++  A genuinely removed power can contribute at most one stored mineral unit,
+
++  never the original four/five stones again.
+
++
+
++DIRECT POWER PAIRS
+
++Deliberately swapping two registered powers takes priority over colour recipes.
+
++- Four-born + four-born: two Volcano eruptions in one move.
+
++- Four-born + five-born: the five-born effect first, then Volcano targets the
+
++  remaining eligible ordinary stones. Shared cells are not counted twice.
+
++- Five-born + five-born: ONE Black Hole, including two identical power families.
+
++  These must be two already existing powers swapped directly by the player.
+
++  Incidental adjacency or matching colours never causes Black Hole.
+
++- Black Hole swallows other waiting powers without triggering any of their
+
++  separate effects or another Black Hole. Its direct sweep preserves soil and
+
++  runes; later genuine ordinary cascades can affect terrain normally.
+
++
+
++DROPDOWN EXAMPLES
+
++The first group demonstrates the new material rules:
+
++- Move ore Volcano -> eruption + new Volcano / new Storm.
+
++- Match 4 / Match 5 with a stationary waiting Volcano.
+
++- Falling 4 / Falling 5 -> a waiting Volcano / Storm.
+
++- Three falling fours -> three independent waiting rewards in one wave.
+
++- Waiting power between falling same-material stones: no automatic use.
+
++- Five + five -> Black Hole swallows other waiting powers inertly.
+
++
+
++Further examples retain ordinary four/five/T/L creation, an Extended T,
+
++four+four, four+five, same/different five-born pairs, individual powers and
+
++four Landslide orientations. Pair and single-power fixtures intentionally
+
++start with pre-placed registered powers. They do not claim that a human has
+
++already played to earn those powers. The Extended T fixture is a real six-stone
+
++T creation; a literal plus is separately detector-supported, not mislabelled as
+
++a clean one-swap creation fixture.
+
++
+
++SOUND AND ART
+
++This slice preserves the existing Volcano, Tornado, Storm, Landslide, fusion,
+
++birth, stone movement and breaking sounds. No new audio or image assets were
+
++created for the material-rule change. New material markers are drawn by code.
+
++Sound and animation quality still need the user's visual/listening review.
+
++
+
++VERIFICATION AND RECORDINGS
+
++Current independent Core result: 89 checks PASS, 0 failures.
+
++  tests/test_material_power_core.gd
+
++  verification/material_core_final_R5.json
+
++  verification/material_core_final_R5.log
+
++  verification/material_core_receipt_R5.json
+
++This includes the protected-newborn Landslide ray regression: an NE Landslide
+
++moved 16 -> 23 stops at the new Volcano on 16, without hitting cells 9/2 behind it.
+
++The earlier material_core_receipt.json is preserved as history on earlier bytes.
+
++
+
++Current presentation integration result: 72 checks PASS.
+
++  verification/material_presentation_final.json
+
++  verification/material_presentation_final.log
+
++Material-marker metadata probe: 10 checks PASS.
+
++  verification/material_marker_probe.json
+
++  verification/material_marker_probe.log
+
++These automated probes are not human visual, listening or Android acceptance.
+
++
+
++Five successful native Godot runtime recording cases are retained under outputs,
+
++with their screenshots/receipts under outputs/native_material_rewards/:
+
++  Material-Moved-Volcano-Four-Final.avi
+
++  Material-Moved-Volcano-Five-Final.avi
+
++  Material-Catalyst-Four-Final.avi
+
++  Material-Cascade-Five-Take2.avi
+
++  Material-Black-Hole-Swallow-Final.avi
+
++These are automated runtime recordings, not human playtests or generated video.
+
++Earlier takes, RED checks and failed authoring/parser attempts are deliberately
+
++preserved. Their status is historical; use the final result files above for the
+
++current tested state. An old failure log does not mean the final run failed.
+
++
+
++SCOPE AND LIMITS
+
++This is an isolated, playable PC laboratory copied for this bounded material-
+
++rewards change. It is not the full campaign and is not merged into the private
+
++game or the original Cradle of Gnome project. Existing campaign progress and
+
++saves are not edited by this lab. The high goal counter is a test fixture goal,
+
++not a promise of a balanced campaign level.
+
++The human-authorized rules are implemented here. This does not claim a new
+
++three-bot final consensus, completed human acceptance or an Android test.
+
++No Godot installer is bundled. Native project/audio/image files belong in this
+
++local handoff; the governed review Git repository remains REPORTS_ONLY.
+
+
+
+--- /dev/null
+
++++ b/tests/test_material_power_core.gd
+
+@@ -0,0 +1,564 @@
+
++extends SceneTree
+
++## Independent human-R3 contracts. Detector/solver masks below are explicitly
+
++## distinguished from stable-board, real player try_swap transactions.
+
++
+
++var checks := 0
+
++var failures := 0
+
++var cases: Array = []
+
++var core_script: Script
+
++
+
++func _initialize() -> void:
+
++	call_deferred("_run")
+
++
+
++func _check(condition: bool, label: String, detail: Variant = "") -> void:
+
++	checks += 1
+
++	if not condition:
+
++		failures += 1
+
++	cases.append({"label": label, "pass": condition, "detail": str(detail) if not condition else ""})
+
++	print(("PASS: " if condition else "FAIL: ") + label + (" | " + str(detail) if not condition else ""))
+
++
+
++func _run() -> void:
+
++	if not FileAccess.file_exists("res://scripts/lab/material_power_core.gd"):
+
++		_check(false, "Material Core exists", "EXPECTED RED: missing new implementation, not a parser failure")
+
++		_finish()
+
++		return
+
++	core_script = load("res://scripts/lab/material_power_core.gd")
+
++	if core_script == null or not core_script.can_instantiate():
+
++		_check(false, "Material Core loads and instantiates")
+
++		_finish()
+
++		return
+
++	_test_birth_materials()
+
++	_test_catalyst_and_moved_source()
+
++	_test_protected_anchor_ray()
+
++	_test_identity_and_purity()
+
++	_test_cascade_masks()
+
++	_test_native_fixtures()
+
++	_test_pair_precedence()
+
++	_test_safe_fill_windows()
+
++	_test_guard()
+
++	_finish()
+
++
+
++func _new_core(seed_value: int = 42, material: int = 0):
+
++	var core = core_script.new()
+
++	core.setup({"cols":7, "rows":8, "moves":30, "collect_kind":material, "collect_goal":9999}, seed_value)
+
++	var palette: Array[int] = []
+
++	for kind in range(6):
+
++		if kind != material:
+
++			palette.append(kind)
+
++	for y in range(8):
+
++		for x in range(7):
+
++			core.grid[y * 7 + x] = palette[(x + 2 * y) % 5]
+
++	core.refresh_material_instances()
+
++	return core
+
++
+
++func _all_rewards(core) -> Dictionary:
+
++	var output := {}
+
++	for index in range(core.grid.size()):
+
++		var reward: Dictionary = core.reward_at(index)
+
++		if not reward.is_empty():
+
++			output[index] = reward
+
++	return output
+
++
+
++func _find_token(core, token_id: int) -> Dictionary:
+
++	for index in range(core.grid.size()):
+
++		var reward: Dictionary = core.reward_at(index)
+
++		if int(reward.get("token_id", -1)) == token_id:
+
++			return {"index":index, "reward":reward}
+
++	return {}
+
++
+
++func _state(core) -> Dictionary:
+
++	return {"grid":core.grid.duplicate(), "floor":core.floor.duplicate(), "runes":core.runes.duplicate(), "rewards":_all_rewards(core), "instances":core._material_ids.duplicate(), "paid_instances":core._paid_instances.duplicate(true), "paid_components":core._paid_components.duplicate(true), "recovery":core.recovery_observations.duplicate(true), "moves":core.moves_left, "collected":core.collected, "rng":core._rng.state, "won":core.won, "lost":core.lost}
+
++
+
++func _events(result: Dictionary, event_type: String) -> Array:
+
++	var output: Array = []
+
++	for event in result.get("events", []):
+
++		if event.get("type", "") == event_type:
+
++			output.append(event)
+
++	return output
+
++
+
++func _awards(result: Dictionary) -> Array:
+
++	var output: Array = []
+
++	for event in _events(result, "reward_birth"):
+
++		output.append_array(event.get("awards", []))
+
++	return output
+
++
+
++func _effects(result: Dictionary) -> Array:
+
++	var output: Array = []
+
++	for event in result.get("events", []):
+
++		if event.get("type", "") == "natural_power":
+
++			output.append(event)
+
++		elif event.get("type", "") == "material_turn":
+
++			output.append_array(event.get("components", []))
+
++	return output
+
++
+
++func _mask(core, cells: Array, material: int = 0) -> Array[int]:
+
++	var output: Array[int] = []
+
++	for point in cells:
+
++		var index := int(point[1]) * 7 + int(point[0])
+
++		core.grid[index] = material
+
++		output.append(index)
+
++	output.sort()
+
++	core.refresh_material_instances()
+
++	return output
+
++
+
++func _pre_swap(cells: Array, destination: int, donor: int, seed_value: int = 42, material: int = 0):
+
++	var core = _new_core(seed_value, material)
+
++	_mask(core, cells, material)
+
++	var displaced: int = core.grid[donor]
+
++	core.grid[donor] = material
+
++	core.grid[destination] = displaced
+
++	core.refresh_material_instances()
+
++	return core
+
++
+
++func _replay_and_ledger(core, before: Dictionary, result: Dictionary) -> Dictionary:
+
++	var grid: Array = before.grid.duplicate()
+
++	var rewards: Dictionary = before.rewards.duplicate(true)
+
++	var instances: Array = before.instances.duplicate()
+
++	var valid := true
+
++	var expected_collected: int = before.collected
+
++	var count_removed := 0
+
++	for event in result.get("events", []):
+
++		valid = valid and event.get("before", []) == grid and event.get("before_rewards", {}) == rewards and event.get("before_instances",[]) == instances
+
++		if event.get("type", "") in ["clear", "natural_power", "material_turn"]:
+
++			var visited := {}
+
++			for index in event.get("indices", []):
+
++				if visited.has(index) or index in event.get("reserved_anchors", []):
+
++					continue
+
++				visited[index] = true
+
++				var material := int(event.before[index])
+
++				if material < 0 or material >= 6:
+
++					material = int(event.get("before_rewards", {}).get(index, {}).get("mineral_kind", -1))
+
++				if material >= 0 and material < 6:
+
++					count_removed += 1
+
++					if material == core.collect_kind:
+
++						expected_collected += 1
+
++		grid = event.get("after", []).duplicate()
+
++		rewards = event.get("after_rewards", {}).duplicate(true)
+
++		instances = event.get("after_instances",[]).duplicate()
+
++	valid = valid and grid == core.grid and rewards == _all_rewards(core) and instances == core._material_ids
+
++	return {"replay":valid, "ledger":expected_collected == core.collected, "expected_goal":expected_collected, "actual_goal":core.collected, "removed":count_removed}
+
++
+
++func _test_birth_materials() -> void:
+
++	var recipes := [
+
++		["four", [[1,2],[2,2],[3,2],[4,2]],16,9,8,4],
+
++		["five", [[0,3],[1,3],[2,3],[3,3],[4,3]],23,16,9,5],
+
++		["T", [[1,2],[2,2],[3,2],[2,3],[2,4]],16,9,6,5],
+
++		["L", [[1,2],[2,2],[3,2],[1,3],[1,4]],15,14,10,5],
+
++	]
+
++	for material in range(6):
+
++		for recipe in recipes:
+
++			var core = _pre_swap(recipe[1], recipe[2], recipe[3], 42, material)
+
++			var before := _state(core)
+
++			var clean: bool = core.get_matches().is_empty()
+
++			var result: Dictionary = core.try_swap(recipe[3], recipe[2])
+
++			var awards := _awards(result)
+
++			var valid: bool = clean and result.valid and core.moves_left == 29 and not awards.is_empty() and _effects(result).is_empty()
+
++			if valid:
+
++				var award: Dictionary = awards[0]
+
++				var found := _find_token(core, int(award.get("token_id", -1)))
+
++				valid = int(award.kind) == recipe[4] and int(award.birth_tier) == recipe[5] and int(award.get("mineral_kind", -1)) == material and not found.is_empty() and int(found.reward.get("mineral_kind", -1)) == material
+
++			var receipt := _replay_and_ledger(core, before, result)
+
++			_check(valid and receipt.replay and receipt.ledger, "Real stable swap births waiting %s with mineral %d and contiguous goal ledger" % [recipe[0],material], {"clean":clean,"awards":awards,"receipt":receipt})
+
++
+
++func _test_catalyst_and_moved_source() -> void:
+
++	for seed_value in [42,713]:
+
++		var catalyst = _pre_swap([[1,3],[2,3],[3,3],[4,3]],24,17,seed_value)
+
++		catalyst.place_material_reward(23,8,0,"stationary_catalyst")
+
++		catalyst.floor[23] = 1
+
++		catalyst.floor[24] = 1
+
++		var old: Dictionary = catalyst.reward_at(23)
+
++		var before := _state(catalyst)
+
++		var result: Dictionary = catalyst.try_swap(17,24)
+
++		var awards := _awards(result)
+
++		var found := _find_token(catalyst,int(old.token_id))
+
++		var receipt := _replay_and_ledger(catalyst,before,result)
+
++		var valid: bool = result.valid and not found.is_empty() and found.reward == old and _effects(result).is_empty() and not awards.is_empty()
+
++		if valid:
+
++			valid = int(awards[0].kind) == 8 and int(awards[0].get("mineral_kind",-1)) == 0 and int(awards[0].index) != 23 and awards[0].token_id != old.token_id
+
++		_check(valid and receipt.replay and receipt.ledger, "Different-material ordinary swap uses stationary catalyst without firing/removing it, seed%d" % seed_value, {"awards":awards,"retained":found,"receipt":receipt})
+
++		var clears := _events(result,"clear")
+
++		var first_clear: Dictionary = clears[0] if not clears.is_empty() else {}
+
++		_check(first_clear.get("indices",[]).size() == 2 and first_clear.get("removed_materials",{}).size() == 2 and first_clear.get("floor_after",[])[23] == 1 and first_clear.get("floor_after",[])[24] == 1, "Stationary catalyst plus reserved anchor count ZERO goal/floor damage; only two real gems clear, seed%d" % seed_value, first_clear)
+
++		var sources := [
+
++			["four", [[1,3],[2,3],[3,3],[4,3]],24,17,8],
+
++			["five", [[0,3],[1,3],[2,3],[3,3],[4,3]],23,16,9],
+
++		]
+
++		for example in sources:
+
++			var core = _pre_swap(example[1],example[2],example[3],seed_value)
+
++			core.place_material_reward(example[3],8,0,"deliberately_moved")
+
++			var source: Dictionary = core.reward_at(example[3])
+
++			before = _state(core)
+
++			result = core.try_swap(example[3],example[2])
+
++			awards = _awards(result)
+
++			receipt = _replay_and_ledger(core,before,result)
+
++			valid = result.valid and core.moves_left == 29 and _effects(result).size() == 1 and _find_token(core,int(source.token_id)).is_empty() and not awards.is_empty()
+
++			if valid:
+
++				var newborn := _find_token(core,int(awards[0].token_id))
+
++				valid = awards[0].kind == example[4] and int(awards[0].get("mineral_kind",-1)) == 0 and int(awards[0].token_id) != int(source.token_id) and not newborn.is_empty()
+
++			_check(valid and receipt.replay and receipt.ledger, "Moved old Volcano fires once and creates protected %s, seed%d" % [example[0],seed_value], {"effects":_effects(result),"awards":awards,"receipt":receipt})
+
++			var turns := _events(result,"material_turn")
+
++			var turn: Dictionary = turns[0] if not turns.is_empty() else {}
+
++			var anchor := int(example[2])
+
++			var transfer: Dictionary = turn.get("after_rewards",{}).get(anchor,{})
+
++			_check(turn.get("reserved_anchors",[]).has(anchor) and not turn.get("removed_materials",{}).has(anchor) and not transfer.is_empty() and int(transfer.get("token_id",-1)) != int(source.token_id) and int(transfer.get("material_instance_id",-1)) == int(source.material_instance_id) and int(transfer.get("mineral_kind",-1)) == 0, "Source-to-new-anchor replaces ability but transfers SAME material instance without collecting it, %s seed%d" % [example[0],seed_value], turn)
+
++		var outside = _pre_swap([[1,2],[2,2],[3,2],[4,2]],16,23,seed_value)
+
++		outside.place_material_reward(16,8,1,"moved_outside_new_line")
+
++		before = _state(outside)
+
++		result = outside.try_swap(16,23)
+
++		awards = _awards(result)
+
++		receipt = _replay_and_ledger(outside,before,result)
+
++		_check(result.valid and _effects(result).size() == 1 and not awards.is_empty() and awards[0].kind == 8 and receipt.replay and receipt.ledger, "Deliberate source outside OTHER endpoint's new line still activates once, seed%d" % seed_value, {"effects":_effects(result),"awards":awards,"receipt":receipt})
+
++
+
++func _test_protected_anchor_ray() -> void:
+
++	# A moved NE Landslide leaves Ruby0 behind at16, completing ordinary0four
+
++	# row15..18. The new Volcano at16 is the FIRST cell in source23's raw up-ray
+
++	# [16,9,2], so it must stop that ray, not allow invisible hits behind it.
+
++	var core = _pre_swap([[1,2],[2,2],[3,2],[4,2]],16,23,713)
+
++	core.place_material_reward(16,13,1,"moved_NE_protected_new_anchor")
+
++	var source: Dictionary = core.reward_at(16)
+
++	var before := _state(core)
+
++	var clean: bool = core.get_matches().is_empty()
+
++	var result: Dictionary = core.try_swap(16,23)
+
++	var turns := _events(result,"material_turn")
+
++	var turn: Dictionary = turns[0] if not turns.is_empty() else {}
+
++	var components: Array = turn.get("components",[])
+
++	var component: Dictionary = components[0] if not components.is_empty() else {}
+
++	var rays: Array = component.get("rays",[])
+
++	var footprint: Array[int] = []
+
++	var ray_barrier := not rays.is_empty()
+
++	for ray in rays:
+
++		for index in ray:
+
++			ray_barrier = ray_barrier and not index in [16,9,2]
+
++			if core._is_ordinary(turn.get("before",[])[index]) and not footprint.has(index):
+
++				footprint.append(index)
+
++	footprint.sort()
+
++	var targets: Array = component.get("targets",[]).duplicate()
+
++	targets.sort()
+
++	var awards := _awards(result)
+
++	var protected := not awards.is_empty()
+
++	if protected:
+
++		var award: Dictionary = awards[0]
+
++		protected = int(award.index) == 16 and int(award.kind) == 8 and int(award.token_id) != int(source.token_id) and int(turn.get("after",[])[16]) == 8 and not _find_token(core,int(award.token_id)).is_empty()
+
++	var untouched_beyond: bool = turn.has("before") and turn.has("after") and turn.before[9] == turn.after[9] and turn.before[2] == turn.after[2] and not turn.get("indices",[]).has(9) and not turn.get("indices",[]).has(2)
+
++	var receipt := _replay_and_ledger(core,before,result)
+
++	_check(clean and result.valid and turns.size() == 1 and components.size() == 1 and protected and ray_barrier and footprint == targets and untouched_beyond and receipt.replay and receipt.ledger, "Moved NE Landslide stops at protected newborn anchor; visible rays equal Core targets and cannot hit9/2 behind it", {"rays":rays,"targets":targets,"awards":awards,"receipt":receipt})
+
++
+
++func _test_identity_and_purity() -> void:
+
++	var core = _new_core()
+
++	core.place_material_reward(2,11,4,"identity")
+
++	var token: Dictionary = core.reward_at(2)
+
++	core.grid[9] = -1
+
++	core.grid[16] = -1
+
++	var events: Array = []
+
++	core._fall(events)
+
++	var found := _find_token(core,int(token.token_id))
+
++	_check(not found.is_empty() and found.index == 16 and found.reward == token, "Gravity carries complete immutable material/tier/orientation identity", found)
+
++	var before := _state(core)
+
++	core._exchange(16,17)
+
++	core._exchange(16,17)
+
++	_check(before == _state(core), "Exchange plus rollback preserves material metadata and RNG exactly")
+
++	before = _state(core)
+
++	var playable: bool = core._make_playable()
+
++	_check(playable and _all_rewards(core) == before.rewards and core.grid[16] == 11, "Ordinary shuffle keeps existing power identity/material/occupied slot")
+
++	var preview_core = _pre_swap([[1,3],[2,3],[3,3],[4,3]],24,17)
+
++	preview_core.place_material_reward(23,8,0,"preview_catalyst")
+
++	before = _state(preview_core)
+
++	var preview_a: Array = preview_core.preview_rewards(17,24)
+
++	var preview_b: Array = preview_core.preview_rewards(17,24)
+
++	var hint_a: Array = preview_core.hint_move()
+
++	var hint_b: Array = preview_core.hint_move()
+
++	_check(preview_a == preview_b and not preview_a.is_empty() and hint_a == hint_b and not hint_a.is_empty() and before == _state(preview_core), "Material-aware preview and hints are pure across board/token/RNG/goal state", {"preview":preview_a,"hint":hint_a})
+
++	var invalid = _new_core()
+
++	invalid.place_material_reward(30,9,3,"unrelated_waiting")
+
++	before = _state(invalid)
+
++	var result: Dictionary = invalid.try_swap(0,1)
+
++	_check(not result.valid and before == _state(invalid), "Invalid ordinary swap rolls back without touching an unrelated waiting token")
+
++	for pair in [[0,2],[0,8],[-1,0],[6,7]]:
+
++		before = _state(invalid)
+
++		result = invalid.try_swap(pair[0],pair[1])
+
++		_check(not result.valid and before == _state(invalid), "Non-adjacent/diagonal/wrapped invalid swap leaves all state intact %s" % str(pair))
+
++	var used = core_script.new()
+
++	used.setup_lab("cascade_four",42)
+
++	used.cascade_wave_limit = 0
+
++	used.try_swap(used.fixture_pair[0],used.fixture_pair[1])
+
++	var untouched := false
+
++	var evidence_exists: bool = not used._paid_instances.is_empty() and not used._paid_components.is_empty() and not used.recovery_observations.is_empty()
+
++	for index in range(used.grid.size()):
+
++		if untouched: break
+
++		for neighbour in [index + 1,index + used.cols]:
+
++			if not used._can_swap(index,neighbour) or not used._is_ordinary(used.grid[index]) or not used._is_ordinary(used.grid[neighbour]) or used.grid[index] == used.grid[neighbour]:
+
++				continue
+
++			var proposed: Array[int] = used._material_snapshot(used.grid,used._reward_snapshot())
+
++			var old_value := proposed[index]
+
++			proposed[index] = proposed[neighbour]
+
++			proposed[neighbour] = old_value
+
++			if not used._initial_material_matches(proposed,index,neighbour).is_empty():
+
++				continue
+
++			before = _state(used)
+
++			var pending_rewards: Dictionary = used._pending_before_rewards.duplicate(true)
+
++			var pending_instances: Array = used._pending_before_instances.duplicate()
+
++			result = used.try_swap(index,neighbour)
+
++			untouched = not result.valid and before == _state(used) and pending_rewards == used._pending_before_rewards and pending_instances == used._pending_before_instances
+
++			break
+
++	_check(evidence_exists and untouched, "Invalid ordinary swap after genuine guarded turn preserves paid ledgers and recovery evidence, as well as RNG/tokens")
+
++
+
++func _solve_mask(core) -> Dictionary:
+
++	var events: Array = []
+
++	core._resolve_cascades(events)
+
++	return {"valid":true,"events":events}
+
++
+
++func _test_cascade_masks() -> void:
+
++	var recipes := [
+
++		["four", [[1,4],[2,4],[3,4],[4,4]],8],
+
++		["five", [[0,4],[1,4],[2,4],[3,4],[4,4]],9],
+
++		["T", [[1,3],[2,3],[3,3],[2,4],[2,5]],6],
+
++		["L", [[1,3],[2,3],[3,3],[1,4],[1,5]],10],
+
++	]
+
++	for recipe in recipes:
+
++		var core = _new_core()
+
++		_mask(core,recipe[1])
+
++		var before := _state(core)
+
++		var result := _solve_mask(core)
+
++		var awards := _awards(result)
+
++		var receipt := _replay_and_ledger(core,before,result)
+
++		_check(not awards.is_empty() and awards[0].kind == recipe[2] and _effects(result).is_empty() and receipt.replay and receipt.ledger and core.get_matches().is_empty(), "Post-fall solver mask births inert %s and settles" % recipe[0], {"awards":awards,"receipt":receipt})
+
++	var multiple = _new_core()
+
++	for y in [1,3,5]:
+
++		_mask(multiple,[[1,y],[2,y],[3,y],[4,y]])
+
++	var before := _state(multiple)
+
++	var result := _solve_mask(multiple)
+
++	var births := _events(result,"reward_birth")
+
++	var first: Array = births[0].get("awards",[]) if not births.is_empty() else []
+
++	var ids := {}
+
++	for award in first:
+
++		ids[award.get("token_id",-1)] = true
+
++	var receipt := _replay_and_ledger(multiple,before,result)
+
++	_check(first.size() == 3 and ids.size() == 3 and _effects(result).is_empty() and receipt.replay and receipt.ledger, "Three independent ordinary fours in ONE cascade wave produce three different waiting tokens", {"first":first,"receipt":receipt})
+
++	var barrier = _new_core()
+
++	barrier.grid[22] = 0
+
++	barrier.grid[24] = 0
+
++	barrier.place_material_reward(23,8,0,"barrier")
+
++	var old: Dictionary = barrier.reward_at(23)
+
++	before = _state(barrier)
+
++	result = _solve_mask(barrier)
+
++	_check(barrier.grid == before.grid and _all_rewards(barrier) == before.rewards and _effects(result).is_empty() and _awards(result).is_empty() and barrier.collected == 0, "Automatic R/power_R/R is a barrier and does not clear, fire or mint")
+
++	# A different, real player move elsewhere must not age or consume that power.
+
++	_mask(barrier,[[0,6],[1,6],[2,6]])
+
++	barrier.grid[43] = 4
+
++	barrier.grid[36] = 0
+
++	barrier.refresh_material_instances()
+
++	old = barrier.reward_at(23)
+
++	before = _state(barrier)
+
++	result = barrier.try_swap(36,43)
+
++	var retained := _find_token(barrier,int(old.token_id))
+
++	_check(result.valid and not retained.is_empty() and retained.reward == old and _effects(result).is_empty(), "Waiting catalyst survives a later unrelated real player turn until explicit use", retained)
+
++	# Same coordinates, fresh ordinary population: pay new identity, not remembered cells.
+
++	var reused = _new_core()
+
++	var cells := [[1,4],[2,4],[3,4],[4,4]]
+
++	_mask(reused,cells)
+
++	result = _solve_mask(reused)
+
++	var first_awards := _awards(result)
+
++	var first_id: int = int(first_awards[0].token_id) if not first_awards.is_empty() else -1
+
++	# Remove the first token explicitly from this mask fixture, then install NEW gems.
+
++	for index in range(reused.grid.size()):
+
++		if not reused.reward_at(index).is_empty():
+
++			reused.grid[index] = 1
+
++			reused._rewards.erase(index)
+
++			reused._material_ids[index] = reused._new_material_id()
+
++	# Do NOT call refresh_material_instances here: it intentionally resets the
+
++	# authoring ledger. This assertion must keep the SAME TURN's paid-component
+
++	# ledger and replace only these four actual ordinary instances.
+
++	var paid_before: Dictionary = reused._paid_components.duplicate(true)
+
++	for point in cells:
+
++		var index := int(point[1]) * 7 + int(point[0])
+
++		reused.grid[index] = 0
+
++		reused._material_ids[index] = reused._new_material_id()
+
++	result = _solve_mask(reused)
+
++	var second_awards := _awards(result)
+
++	_check(first_id > 0 and not paid_before.is_empty() and reused._paid_components.size() > paid_before.size() and not second_awards.is_empty() and int(second_awards[0].token_id) != first_id and second_awards[0].kind == 8, "Fresh ordinary instances at reused coordinates earn a NEW token within SAME turn ledger", second_awards)
+
++	before = _state(reused)
+
++	result = _solve_mask(reused)
+
++	_check(_awards(result).is_empty() and _effects(result).is_empty() and _state(reused) == before, "Rescanning unchanged settled instances does not pay again")
+
++
+
++func _test_native_fixtures() -> void:
+
++	for scenario in ["catalyst_four","catalyst_five","moved_volcano_four","moved_volcano_five","cascade_four","cascade_five","cascade_three_births","waiting_between","black_hole_swallow"]:
+
++		var core = core_script.new()
+
++		core.setup_lab(scenario,42)
+
++		var before := _state(core)
+
++		var clean: bool = core.get_matches().is_empty()
+
++		var pair: Array = core.fixture_pair
+
++		var different: bool = core.grid[pair[0]] != core.grid[pair[1]]
+
++		var result: Dictionary = core.try_swap(pair[0],pair[1])
+
++		var awards := _awards(result)
+
++		var effects := _effects(result)
+
++		var receipt := _replay_and_ledger(core,before,result)
+
++		var advertised := true
+
++		if scenario.begins_with("cascade_"):
+
++			advertised = effects.is_empty() and not awards.is_empty()
+
++			for event in _events(result,"reward_birth"):
+
++				advertised = advertised and not event.get("initial_player_wave",true)
+
++			if scenario == "cascade_three_births":
+
++				var largest_wave := 0
+
++				for event in _events(result,"reward_birth"):
+
++					largest_wave = maxi(largest_wave,event.get("awards",[]).size())
+
++				advertised = advertised and largest_wave >= 3
+
++		elif scenario.begins_with("catalyst_"):
+
++			advertised = effects.is_empty() and not awards.is_empty()
+
++		elif scenario.begins_with("moved_"):
+
++			advertised = effects.size() == 1 and not awards.is_empty()
+
++		elif scenario == "waiting_between":
+
++			advertised = effects.is_empty() and _all_rewards(core).size() == before.rewards.size()
+
++		elif scenario == "black_hole_swallow":
+
++			advertised = effects.size() == 1 and effects[0].get("power","") == "black_hole" and effects[0].get("inert_swallowed",[]).size() == 2
+
++		_check(clean and different and result.valid and core.moves_left == before.moves - 1 and advertised and receipt.replay and receipt.ledger, "Interactive fixture is honest BEFORE-swap and produces its advertised behaviour: " + scenario, {"clean":clean,"different":different,"awards":awards,"effects":effects,"receipt":receipt})
+
++
+
++func _test_pair_precedence() -> void:
+
++	for pair in [[8,8],[8,6],[6,8],[6,6],[9,9],[10,13],[9,6]]:
+
++		var core = _new_core(713)
+
++		core.place_material_reward(24,pair[0],0,"pair_a")
+
++		core.place_material_reward(25,pair[1],0,"pair_b")
+
++		core.grid[22] = 0
+
++		core.grid[23] = 0
+
++		core.grid[26] = 0
+
++		var before := _state(core)
+
++		var result: Dictionary = core.try_swap(24,25)
+
++		var effects := _events(result,"natural_power")
+
++		var expected := "black_hole" if pair[0] != 8 and pair[1] != 8 else "power_combo"
+
++		var receipt := _replay_and_ledger(core,before,result)
+
++		var initial_colour_birth := false
+
++		for event in result.events:
+
++			if event.get("type","") == "natural_power":
+
++				break
+
++			if event.get("type","") in ["material_turn","reward_birth"]:
+
++				initial_colour_birth = true
+
++		_check(result.valid and core.moves_left == 29 and effects.size() == 1 and effects[0].power == expected and not initial_colour_birth and receipt.replay and receipt.ledger, "Direct registered %s pair takes precedence over its colour line" % str(pair), {"effects":effects,"receipt":receipt})
+
++	var hole = _new_core()
+
++	hole.place_material_reward(24,6,0,"bh_a")
+
++	hole.place_material_reward(25,9,0,"bh_b")
+
++	hole.place_material_reward(1,8,0,"waiting_volcano")
+
++	hole.place_material_reward(5,10,0,"waiting_landslide")
+
++	var extra_ids := [int(hole.reward_at(1).token_id),int(hole.reward_at(5).token_id)]
+
++	hole.grid[7] = -3
+
++	hole.runes[7] = 2
+
++	for index in range(hole.floor.size()):
+
++		hole.floor[index] = 1
+
++	hole.refresh_material_instances()
+
++	var before := _state(hole)
+
++	var result: Dictionary = hole.try_swap(24,25)
+
++	var effects := _events(result,"natural_power")
+
++	var direct: Dictionary = effects[0] if not effects.is_empty() else {}
+
++	var receipt := _replay_and_ledger(hole,before,result)
+
++	_check(effects.size() == 1 and direct.get("power","") == "black_hole" and direct.get("floor_after",[]) == direct.get("floor_before",[]) and direct.get("runes_after",[]) == direct.get("runes_before",[]) and _find_token(hole,extra_ids[0]).is_empty() and _find_token(hole,extra_ids[1]).is_empty() and receipt.ledger and receipt.replay, "Black Hole inertly swallows waiting extras once, counts actual material once and preserves DIRECT terrain", {"direct":direct,"receipt":receipt})
+
++
+
++func _test_guard() -> void:
+
++	for seed_value in [42,713]:
+
++		# Independent two-wave post-fall construction: an ordinary bottom triple
+
++		# clears first, then two descending kind-1 gems join two settled kind-1 gems
+
++		# as a NEW four. This deterministically reaches guard=1 and earns a reward
+
++		# during no-spawn draining, without relying on random refill luck.
+
++		var chain = _new_core(seed_value)
+
++		chain.cascade_wave_limit = 1
+
++		for index in [49,50,51]:
+
++			chain.grid[index] = 0
+
++		for index in [43,44,52,53]:
+
++			chain.grid[index] = 1
+
++		chain.grid[42] = 2
+
++		chain.grid[45] = 3 # Avoid accidentally pre-matching the upper donor row.
+
++		chain.refresh_material_instances()
+
++		var chain_before := _state(chain)
+
++		var chain_result := _solve_mask(chain)
+
++		var chain_recovery := _events(chain_result,"cascade_recovery")
+
++		var drain_birth := false
+
++		var after_marker := false
+
++		var no_spawn_honest := true
+
++		for event in chain_result.events:
+
++			if event.get("type","") == "cascade_recovery":
+
++				after_marker = true
+
++			if after_marker and event.get("type","") == "reward_birth":
+
++				drain_birth = drain_birth or not event.get("awards",[]).is_empty()
+
++			if event.get("type","") == "fall" and event.get("no_spawn",false):
+
++				for fall in event.get("falls",[]):
+
++					no_spawn_honest = no_spawn_honest and int(fall.get("from",-999)) >= 0
+
++		var chain_receipt := _replay_and_ledger(chain,chain_before,chain_result)
+
++		_check(not chain_recovery.is_empty() and drain_birth and no_spawn_honest and chain.get_matches().is_empty() and chain_receipt.replay and chain_receipt.ledger, "Forced guard1 processes deterministic SECOND-wave reward with real no-spawn drain seed%d" % seed_value, {"markers":chain_recovery,"awards":_awards(chain_result),"receipt":chain_receipt})
+
++		for limit in [0,1]:
+
++			var one = _new_core(seed_value)
+
++			var two = _new_core(seed_value)
+
++			for core in [one,two]:
+
++				core.cascade_wave_limit = limit
+
++				core.place_material_reward(24,6,4,"guard_source")
+
++				core.place_material_reward(3,9,2,"guard_survivor")
+
++				# Deliberately injected post-fall stressor, NOT a stable player fixture.
+
++				_mask(core,[[0,7],[1,7],[2,7],[3,7]])
+
++				core.grid[35] = -2
+
++				core.grid[36] = -3
+
++				core.runes[36] = 1
+
++				core.grid[37] = -3
+
++				core.runes[37] = 2
+
++				core.floor[49] = 1
+
++				core.refresh_material_instances()
+
++			var survivor: Dictionary = one.reward_at(3)
+
++			var before := _state(one)
+
++			var result_a: Dictionary = one.try_swap(24,25)
+
++			var result_b: Dictionary = two.try_swap(24,25)
+
++			var recoveries := _events(result_a,"cascade_recovery")
+
++			var receipt := _replay_and_ledger(one,before,result_a)
+
++			var found := _find_token(one,int(survivor.token_id))
+
++			var legal := true
+
++			for value in one.grid:
+
++				legal = legal and (value in [-2,-3] or value >= 0 and value <= 13)
+
++			var valid: bool = result_a.valid and one.moves_left == 29 and one.get_matches().is_empty() and not found.is_empty() and found.reward == survivor and (not recoveries.is_empty() or limit == 1) and not _awards(result_a).is_empty() and legal and one.grid[35] == -2 and one.grid[37] == -3 and one.runes[37] >= 1
+
++			_check(valid and result_a == result_b and _state(one) == _state(two) and receipt.replay and receipt.ledger, "Forced guard%d drains births, preserves survivor/holes/closed runes, safe-fills deterministically seed%d" % [limit,seed_value], {"markers":recoveries,"awards":_awards(result_a),"survivor":found,"receipt":receipt})
+
++
+
++func _test_safe_fill_windows() -> void:
+
++	# Exercise ALL three windows through an empty cell on each axis. A fill
+
++	# checking only earlier/left/up neighbours misses the right/middle cases.
+
++	for pair in [[22,23],[23,25],[25,26],[10,17],[17,31],[31,38]]:
+
++		var core = _new_core()
+
++		core.grid.fill(-2)
+
++		core.grid[24] = -1
+
++		for index in pair:
+
++			core.grid[index] = 2
+
++		core.refresh_material_instances()
+
++		var choices: Array = core._safe_fill_choices(24)
+
++		_check(not choices.has(2) and choices.size() == 5, "Safe fill rejects forbidden material in window %s" % str(pair), choices)
+
++	var cross = _new_core()
+
++	cross.grid.fill(-2)
+
++	cross.grid[24] = -1
+
++	for pair in [[22,23,0],[25,26,1],[10,17,2],[31,38,3]]:
+
++		cross.grid[pair[0]] = pair[2]
+
++		cross.grid[pair[1]] = pair[2]
+
++	cross.refresh_material_instances()
+
++	var choices: Array = cross._safe_fill_choices(24)
+
++	_check(choices == [4,5] and cross.GEM_KINDS == 6, "Four independent axis exclusions leave exactly two valid kinds in the SIX-kind lab", choices)
+
++	var sparse = _new_core(713)
+
++	for index in [0,2,5,10,17,24,31,38,45,52]:
+
++		sparse.grid[index] = -1
+
++	sparse.grid[7] = -2
+
++	sparse.grid[36] = -3
+
++	sparse.runes[36] = 2
+
++	sparse.place_material_reward(4,10,5,"safe_fill_survivor")
+
++	sparse.refresh_material_instances()
+
++	var before := _state(sparse)
+
++	var events: Array = []
+
++	sparse._safe_fill(events)
+
++	var preserved := true
+
++	for index in range(sparse.grid.size()):
+
++		if before.grid[index] != -1:
+
++			preserved = preserved and sparse.grid[index] == before.grid[index]
+
++		else:
+
++			preserved = preserved and sparse.grid[index] >= 0 and sparse.grid[index] < 6
+
++	var receipt := _replay_and_ledger(sparse,before,{"events":events})
+
++	_check(preserved and _all_rewards(sparse) == before.rewards and sparse.runes == before.runes and sparse.get_matches().is_empty() and receipt.replay and receipt.ledger, "Safe fill changes only empty cells, preserves tokens/obstacles/runes and leaves no automatic triple", receipt)
+
++
+
++func _finish() -> void:
+
++	var report := {"status":"PASS" if failures == 0 else "FAIL", "checks":checks, "failures":failures, "cases":cases, "scope":"Independent Core-only R3 contracts; no native/UI/human/Android acceptance"}
+
++	var path := "res://verification/material_core_results.json"
+
++	for argument in OS.get_cmdline_user_args():
+
++		if argument.begins_with("--report-path="):
+
++			path = argument.trim_prefix("--report-path=")
+
++	var output := FileAccess.open(path,FileAccess.WRITE)
+
++	if output:
+
++		output.store_string(JSON.stringify(report,"\t") + "\n")
+
++	print("MATERIAL_CORE_CONTRACT: %d checks; %d failures" % [checks,failures])
+
++	quit(1 if failures else 0)
+
+
+
+--- /dev/null
+
++++ b/tests/test_material_presentation.gd
+
+@@ -0,0 +1,199 @@
+
++extends SceneTree
+
++## Real Lab/Core/Board/audio integration; scripted headless, not human acceptance.
+
++var app
+
++var failures: Array[String] = []
+
++var checks := 0
+
++var power_names: Array = []
+
++var births: Array = []
+
++var goals := 0
+
++var observations: Array = []
+
++var finished := false
+
++var cancel_mode := ""
+
++var cancel_scheduled := false
+
++
+
++func _initialize() -> void:
+
++	call_deferred("run")
+
++
+
++func check(value: bool, label: String, detail: Variant = null) -> void:
+
++	checks += 1
+
++	if not value: failures.append(label)
+
++	print(("PASS: " if value else "FAIL: ") + label + (" | " + JSON.stringify(detail) if detail != null else ""))
+
++
+
++func snapshot(core) -> String:
+
++	var rewards := {}
+
++	for index in core.grid.size():
+
++		var reward: Dictionary = core.reward_at(index)
+
++		if not reward.is_empty(): rewards[index] = reward
+
++	return JSON.stringify({"grid":core.grid,"floor":core.floor,"runes":core.runes,"moves":core.moves_left,
+
++		"collected":core.collected,"rewards":rewards,"rng":str(core._rng.state)},"",true)
+
++
+
++func clear_observations() -> void:
+
++	power_names.clear();births.clear();goals=0;finished=false
+
++	cancel_mode="";cancel_scheduled=false
+
++	for bank in [app.volcano_audio,app.tornado_audio,app.storm_audio,app.element_audio]: bank.cue_log.clear()
+
++
+
++func on_power(power: String, _targets: Array) -> void:
+
++	power_names.append(power)
+
++	if not cancel_mode.is_empty() and not cancel_scheduled:
+
++		cancel_scheduled=true
+
++		cancel_soon()
+
++
+
++func cancel_soon() -> void:
+
++	await create_timer(0.10).timeout
+
++	if cancel_mode=="skip":app.skip_effect()
+
++	else:app.reset_scenario("moved_volcano_five")
+
++
+
++func invoke(a: int,b: int) -> void:
+
++	await app._on_swap(a,b)
+
++	finished=true
+
++
+
++func settled() -> bool:
+
++	return not app._resolving and not app.board.busy and app.board._power_event.is_empty() \
+
++		and app.board._birth_event.is_empty() and app.board._combo_parent.is_empty() \
+
++		and app.board._hidden.is_empty() and app.board._moving.is_empty()
+
++
+
++func displays_actual_core() -> bool:
+
++	return app.board._display_grid==app.core.grid and app.board._display_floor==app.core.floor \
+
++		and app.board._display_runes==app.core.runes
+
++
+
++func reward_token(core, token_id: int) -> Dictionary:
+
++	for index in core.grid.size():
+
++		var reward: Dictionary=core.reward_at(index)
+
++		if int(reward.get("token_id",-1))==token_id:
+
++			reward["index"]=index
+
++			return reward
+
++	return {}
+
++
+
++func play(scenario: String,reduced: bool=false,manual_pair: Array=[]) -> Dictionary:
+
++	if manual_pair.is_empty():
+
++		app.reduced.button_pressed=reduced
+
++		app.reset_scenario(scenario)
+
++	clear_observations()
+
++	var pair: Array=app.core.fixture_pair.duplicate() if manual_pair.is_empty() else manual_pair.duplicate()
+
++	var start_moves: int=app.core.moves_left
+
++	var start_goals: int=app.core.collected
+
++	invoke(int(pair[0]),int(pair[1]))
+
++	var resolved:=snapshot(app.core)
+
++	var stable:=true
+
++	var deadline:=Time.get_ticks_msec()+28000
+
++	while app._resolving and Time.get_ticks_msec()<deadline:
+
++		await process_frame
+
++		if snapshot(app.core)!=resolved:stable=false
+
++	var result: Dictionary=app.last_result.duplicate(true)
+
++	var label:=scenario+(" reduced" if reduced else " normal")+(" second manual use" if not manual_pair.is_empty() else "")
+
++	check(bool(result.get("valid",false)) and app.core.moves_left==start_moves-1,label+" resolves one actual valid move")
+
++	check(stable and finished and settled() and displays_actual_core(),label+" presentation preserves resolved Core/RNG and exact final display")
+
++	check(goals==app.core.collected-start_goals,label+" emits actual removed goal material exactly once",[goals,app.core.collected-start_goals])
+
++	observations.append({"scenario":scenario,"reduced":reduced,"second_manual_use":not manual_pair.is_empty(),
+
++		"powers":power_names.duplicate(),"birth_events":births.duplicate(true),"goals":goals,"immutable_core":stable})
+
++	return result
+
++
+
++func normal_cases() -> void:
+
++	for scenario in ["moved_volcano_four","moved_volcano_five"]:
+
++		await play(scenario)
+
++		check(power_names==["volcano"],scenario+" fires only the moved old Volcano",power_names)
+
++		var expected:=8 if scenario=="moved_volcano_four" else 9
+
++		var found:=false
+
++		for group in births:
+
++			for award in group:
+
++				if int(award.get("kind",-1))==expected and int(award.get("mineral_kind",-1))==2:found=true
+
++		check(found,scenario+" reveals the real ore-material child without activating it")
+
++		check(app.volcano_audio.cue_log.size()==1 and app.storm_audio.cue_log.is_empty(),scenario+" uses one real eruption cue, no newborn Storm attack")
+
++	for scenario in ["catalyst_four","catalyst_five"]:
+
++		await play(scenario)
+
++		check(power_names.is_empty(),scenario+" keeps the unmoved catalyst silent",power_names)
+
++		check(not births.is_empty(),scenario+" shows the earned reward using an ordinary anchor")
+
++		check(app.volcano_audio.cue_log.is_empty() and app.storm_audio.cue_log.is_empty(),scenario+" does not schedule catalyst attack audio")
+
++	for scenario in ["cascade_four","cascade_five"]:
+
++		await play(scenario)
+
++		check(power_names.is_empty() and not births.is_empty(),scenario+" births a power after falling without any automatic attack",power_names)
+
++		var token_id: int=-1
+
++		var expected:=8 if scenario=="cascade_four" else 9
+
++		for group in births:
+
++			for award in group:
+
++				if int(award.get("kind",-1))==expected:
+
++					token_id=int(award.get("token_id",award.get("id",-1)))
+
++		var token:=reward_token(app.core,token_id)
+
++		check(token_id>0 and not token.is_empty(),scenario+" waiting token survives the whole first resolution")
+
++		var before_wait:=snapshot(app.core)
+
++		var before_powers:=power_names.duplicate()
+
++		await create_timer(0.25).timeout
+
++		check(snapshot(app.core)==before_wait and power_names==before_powers,scenario+" waiting never expires or auto-activates with time")
+
++		if token.is_empty():continue
+
++		var source_index:=int(token.index)
+
++		var neighbor: int=-1
+
++		for candidate in app.core._neighbors(source_index):
+
++			if app.core.grid[int(candidate)]>=0 and app.core.grid[int(candidate)]<6:neighbor=int(candidate);break
+
++		check(neighbor>=0,scenario+" waiting token has a real ordinary neighbor for deliberate use")
+
++		if neighbor<0:continue
+
++		await play(scenario,false,[source_index,neighbor])
+
++		var expected_power: String="volcano" if expected==8 else "lightning_storm"
+
++		check(power_names==[expected_power] and reward_token(app.core,token_id).is_empty(),scenario+" deliberate later movement consumes and activates exactly that power",power_names)
+
++	await play("black_hole_swallow")
+
++	check(power_names==["black_hole"],"Black Hole swallows other waiting powers with no individual attack signals",power_names)
+
++	check(app.volcano_audio.cue_log.is_empty() and app.tornado_audio.cue_log.is_empty() and app.storm_audio.cue_log.is_empty(),"Swallowed waiting powers do not enqueue their audio")
+
++	var fusion_cues:=0
+
++	for cue in app.element_audio.cue_log:
+
++		if cue.get("power","")=="black_hole":fusion_cues+=1
+
++	check(fusion_cues==1,"Direct 5+5 plays exactly one actual source-pair fusion cue")
+
++
+
++func reduced_cases() -> void:
+
++	for scenario in ["moved_volcano_five","cascade_three_births","black_hole_swallow"]:
+
++		await play(scenario,true)
+
++		check(app.board.reduced_motion,scenario+" uses actual reduced-motion board")
+
++		if scenario=="cascade_three_births":
+
++			var count:=0
+
++			for group in births:count+=group.size()
+
++			check(count>=3 and power_names.is_empty(),"Three or more real cascade births remain waiting under reduced motion",count)
+
++
+
++func cancellation(mode: String) -> void:
+
++	app.reduced.button_pressed=false
+
++	app.reset_scenario("moved_volcano_five")
+
++	clear_observations()
+
++	cancel_mode=mode
+
++	var old_core=app.core
+
++	var pair: Array=old_core.fixture_pair.duplicate()
+
++	invoke(int(pair[0]),int(pair[1]))
+
++	var old_resolved:=snapshot(old_core)
+
++	var deadline:=Time.get_ticks_msec()+5000
+
++	while (not cancel_scheduled or app._resolving) and Time.get_ticks_msec()<deadline:await process_frame
+
++	var cues:=[]
+
++	for bank in [app.volcano_audio,app.tornado_audio,app.storm_audio,app.element_audio]:cues.append(bank.cue_log.size())
+
++	await create_timer(3.2).timeout
+
++	var stopped:=true
+
++	for bank in [app.volcano_audio,app.tornado_audio,app.storm_audio,app.element_audio]:
+
++		if bank.event_active:stopped=false
+
++		for voice in bank.players:
+
++			if voice.playing:stopped=false
+
++	check(cancel_scheduled and snapshot(old_core)==old_resolved and settled() and displays_actual_core(),mode+" does not alter old resolved data or leave stale render state")
+
++	var after_cues:=[]
+
++	for bank in [app.volcano_audio,app.tornado_audio,app.storm_audio,app.element_audio]:after_cues.append(bank.cue_log.size())
+
++	check(stopped and cues==after_cues,mode+" stops power audio and prevents later queued attack/birth cues")
+
++	if mode=="reset":check(app.core!=old_core and app.scenario=="moved_volcano_five","Reset installs a genuinely fresh requested material fixture")
+
++
+
++func run() -> void:
+
++	var script=load("res://scripts/lab/material_power_lab.gd")
+
++	if script==null:check(false,"New playable lab script loads");quit(1);return
+
++	root.content_scale_size=Vector2i(432,960);root.size=Vector2i(432,960)
+
++	app=script.new();root.add_child(app)
+
++	app.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+
++	await process_frame;await process_frame
+
++	app.board.power_started.connect(on_power)
+
++	app.board.reward_born.connect(func(awards: Array) -> void:births.append(awards.duplicate(true)))
+
++	app.board.goal_piece_cleared.connect(func(_point: Vector2) -> void:goals+=1)
+
++	check(app.scenario=="moved_volcano_four","Default actual UI demonstrates the user's moved Volcano plus new four")
+
++	var view:=Rect2(Vector2.ZERO,Vector2(432,960))
+
++	check(view.encloses(app.board.get_global_rect()) and view.encloses(app.reduced.get_global_rect()),"Actual board and controls fit 432x960 portrait")
+
++	await normal_cases()
+
++	await reduced_cases()
+
++	await cancellation("skip")
+
++	await cancellation("reset")
+
++	app.queue_free();await process_frame;await create_timer(0.20).timeout
+
++	var summary: Dictionary={"status":"PASS" if failures.is_empty() else "FAIL","checks":checks,"failures":failures,"observations":observations,"acceptance":"HEADLESS_REAL_PRESENTATION_INTEGRATION_ONLY"}
+
++	var path: String="res://verification/material_presentation_results.json"
+
++	for arg in OS.get_cmdline_user_args():
+
++		if arg.begins_with("--report-path="):path=arg.trim_prefix("--report-path=")
+
++	var file:=FileAccess.open(path,FileAccess.WRITE)
+
++	file.store_string(JSON.stringify(summary,"\t")+"\n");file.close()
+
++	print("MATERIAL_PRESENTATION_SUMMARY="+JSON.stringify({"checks":checks,"failures":failures,"status":summary.status}))
+
++	quit(0 if failures.is_empty() else 1)
+
+
+
+--- /dev/null
+
++++ b/tests/capture_material_rewards.gd
+
+@@ -0,0 +1,188 @@
+
++extends SceneTree
+
++## Real graphical driver and actual mouse events; scripted, not a human test.
+
++const Lab = preload("res://scripts/lab/material_power_lab.gd")
+
++var app
+
++var scenario := ""
+
++var output := ""
+
++var start_frame := 0
+
++var failures: Array[String] = []
+
++var observations: Array = []
+
++var frozen := ""
+
++var invariant_samples := 0
+
++var moves_before := 0
+
++var transaction := ""
+
++var shots: Dictionary = {}
+
++var powers: Array = []
+
++var births: Array = []
+
++var collected_signals := 0
+
++var transactions: Array = []
+
++
+
++func _initialize() -> void:
+
++	call_deferred("run")
+
++
+
++func check(value: bool, message: String) -> void:
+
++	if not value and not failures.has(message):
+
++		failures.append(message)
+
++		push_error(message)
+
++
+
++func state() -> Dictionary:
+
++	var rewards: Dictionary = {}
+
++	for index in app.core.grid.size():
+
++		var item: Dictionary = app.core.reward_at(index)
+
++		if not item.is_empty(): rewards[index] = item
+
++	return {"grid":app.core.grid.duplicate(), "floor":app.core.floor.duplicate(), "runes":app.core.runes.duplicate(), "moves":app.core.moves_left, "collected":app.core.collected, "rewards":rewards, "material_ids":app.core._material_ids.duplicate(), "rng":str(app.core._rng.state)}
+
++
+
++func canonical(value: Variant) -> String:
+
++	return JSON.stringify(value,"",true)
+
++
+
++func write(name: String, value: Variant) -> void:
+
++	var p := output+"/"+name+".json"
+
++	var bytes := (JSON.stringify(value,"\t",true)+"\n").to_utf8_buffer()
+
++	var f := FileAccess.open(p,FileAccess.WRITE)
+
++	f.store_buffer(bytes); f.close()
+
++	check(FileAccess.get_file_as_bytes(p)==bytes,"JSON readback "+name)
+
++
+
++func next_frame() -> void:
+
++	await process_frame
+
++	if not transaction.is_empty() and frozen.is_empty() and app.core.moves_left < moves_before:
+
++		frozen = canonical(state())
+
++		write(transaction+"_RESULT",app.last_result)
+
++		write(transaction+"_RESOLVED_STATE",state())
+
++	if not frozen.is_empty():
+
++		invariant_samples += 1
+
++		check(canonical(state())==frozen,"Presentation changed resolved state/RNG")
+
++	if not app.board._power_event.is_empty():
+
++		var power := String(app.board._power_event.get("power",""))
+
++		var t := float(app.board._power_t)
+
++		if t>=0.28 and not shots.has(transaction+"_"+power+"_materials"):
+
++			await shot(transaction+"_"+power+"_materials")
+
++		if power=="black_hole" and t>=0.65 and not shots.has(transaction+"_black_hole_pull"):
+
++			await shot(transaction+"_black_hole_pull")
+
++	if not app.board._birth_event.is_empty() and not shots.has(transaction+"_reward_birth"):
+
++		await shot(transaction+"_reward_birth")
+
++
+
++func shot(name: String) -> void:
+
++	shots[name]=true
+
++	await RenderingServer.frame_post_draw
+
++	var image := root.get_texture().get_image()
+
++	check(image.get_size()==Vector2i(432,960),"432x960 capture "+name)
+
++	check(image.save_png(output+"/"+name+".png")==OK,"Save screenshot "+name)
+
++	var info := {"phase":name,"frame":Engine.get_process_frames()-start_frame,"power":app.board._power_event.duplicate(true),"power_t":app.board._power_t,"birth":app.board._birth_event.duplicate(true),"material_draw_samples":app.board.material_draw_samples()}
+
++	if not app.board._power_event.is_empty() and String(app.board._power_event.get("power",""))=="black_hole":
+
++		info["sources"]=app.board.fusion_sources()
+
++		info["materials"]=app.board.source_material_particles(app.board._cell_size())
+
++		info["painted_hole"]=app.board.painted_hole_status()
+
++	observations.append(info)
+
++
+
++func native_move(a: int, b: int) -> void:
+
++	var first: Vector2=app.board.get_global_transform()*app.board._center(a)
+
++	var last: Vector2=app.board.get_global_transform()*app.board._center(b)
+
++	var down:=InputEventMouseButton.new()
+
++	down.button_index=MOUSE_BUTTON_LEFT; down.pressed=true; down.position=first; down.global_position=first
+
++	Input.parse_input_event(down)
+
++	await next_frame()
+
++	for n in range(1,6):
+
++		var motion:=InputEventMouseMotion.new()
+
++		motion.position=first.lerp(last,float(n)/5.0); motion.global_position=motion.position
+
++		motion.button_mask=MOUSE_BUTTON_MASK_LEFT
+
++		Input.parse_input_event(motion)
+
++		await next_frame()
+
++	var up:=InputEventMouseButton.new()
+
++	up.button_index=MOUSE_BUTTON_LEFT; up.pressed=false; up.position=last; up.global_position=last
+
++	Input.parse_input_event(up)
+
++	await next_frame()
+
++
+
++func perform(pair: Array, label: String) -> void:
+
++	check(pair.size()==2,"Native pair supplies two cells")
+
++	if pair.size()!=2:return
+
++	transaction=label
+
++	frozen=""
+
++	moves_before=app.core.moves_left
+
++	var before_collected: int=app.core.collected
+
++	var previous_signals:=collected_signals
+
++	var previous_powers:=powers.size()
+
++	var before:=state()
+
++	var deadline:=Engine.get_process_frames()+250
+
++	await native_move(int(pair[0]),int(pair[1]))
+
++	while (app._resolving or app.board.busy or app.core.moves_left==moves_before) and Engine.get_process_frames()<deadline:
+
++		await next_frame()
+
++	check(app.core.moves_left==moves_before-1,"Exactly one move spent "+label)
+
++	check(not app.last_result.is_empty() and bool(app.last_result.get("valid",false)),"Actual valid native move "+label)
+
++	check(not app._resolving and not app.board.busy,"Animation completes "+label)
+
++	check(app.board._display_grid==app.core.grid and app.board._display_floor==app.core.floor and app.board._display_runes==app.core.runes,"Display equals actual Core "+label)
+
++	check(app.board._power_event.is_empty() and app.board._birth_event.is_empty() and app.board._combo_parent.is_empty(),"No stale VFX "+label)
+
++	check(collected_signals-previous_signals==app.core.collected-before_collected,"Goal signals agree exactly once "+label)
+
++	transactions.append({"label":label,"pair":pair,"before":before,"after":state(),"result":app.last_result.duplicate(true),"power_signals":powers.slice(previous_powers),"goal_signals":collected_signals-previous_signals})
+
++	await shot(label+"_settled")
+
++
+
++func find_token(token_id: int) -> int:
+
++	for i in app.core.grid.size():
+
++		if int(app.core.reward_at(i).get("token_id",-1))==token_id:return i
+
++	return -1
+
++
+
++func manual_pair(index: int) -> Array:
+
++	for other in app.core._neighbors(index):
+
++		if app.core._is_ordinary(app.core.grid[int(other)]):
+
++			return [index,other]
+
++	return []
+
++
+
++func run() -> void:
+
++	start_frame=Engine.get_process_frames()
+
++	var args:=OS.get_cmdline_user_args()
+
++	if args.size()<1 or args.size()>2:push_error("Pass material scenario and optional take suffix");quit(1);return
+
++	scenario=String(args[0])
+
++	var take_suffix: String="_"+String(args[1]) if args.size()==2 else ""
+
++	output=ProjectSettings.globalize_path("res://outputs/native_material_rewards/"+scenario+take_suffix)
+
++	if DirAccess.dir_exists_absolute(output):push_error("Refusing to overwrite native evidence");quit(1);return
+
++	DirAccess.make_dir_recursive_absolute(output)
+
++	if DisplayServer.get_name()=="headless":push_error("Graphical driver required");quit(1);return
+
++	root.content_scale_size=Vector2i(432,960);root.size=Vector2i(432,960)
+
++	DisplayServer.window_set_current_screen(0)
+
++	app=Lab.new();root.add_child(app);app.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+
++	await process_frame;await process_frame
+
++	app.reset_scenario(scenario)
+
++	await process_frame;await process_frame
+
++	app.board.power_started.connect(func(power: String, _targets: Array) -> void: powers.append(power))
+
++	app.board.reward_born.connect(func(awards: Array) -> void: births.append_array(awards.duplicate(true)))
+
++	app.board.goal_piece_cleared.connect(func(_point: Vector2) -> void: collected_signals+=1)
+
++	check(app.core.get_matches().is_empty(),"Honest fixture without initial ordinary matches")
+
++	var initial:=state()
+
++	write("INITIAL_STATE",initial)
+
++	var view:=Rect2(Vector2.ZERO,Vector2(432,960))
+
++	check(view.encloses(app.board.get_global_rect()),"Board fits portrait")
+
++	check(view.encloses(app.helper.get_global_rect()) and view.encloses(app.reduced.get_global_rect()),"Instructions/controls fit portrait")
+
++	write("GEOMETRY",{"screen":DisplayServer.window_get_current_screen(),"root_size":[root.size.x,root.size.y],"board_rect":str(app.board.get_global_rect()),"helper_rect":str(app.helper.get_global_rect()),"scenario":scenario})
+
++	while Engine.get_process_frames()-start_frame<25:await next_frame()
+
++	await shot("00_ready")
+
++	await perform(app.core.fixture_pair.duplicate(),"one")
+
++	if scenario in ["moved_volcano_four","moved_volcano_five"]:
+
++		check(powers==["volcano"],"Only the deliberately moved old Volcano fires")
+
++		check(births.size()==1,"One new protected reward")
+
++	elif scenario.begins_with("catalyst"):
+
++		check(powers.is_empty() and births.size()==1,"Stationary catalyst does not activate; a new power waits")
+
++	elif scenario.begins_with("cascade"):
+
++		check(powers.is_empty() and births.size()>=1,"Cascade birth never activates itself")
+
++		var token_id:=int(births[0].get("token_id",-1)) if not births.is_empty() else -1
+
++		var expected:=state()
+
++		for n in 18:await next_frame()
+
++		check(state()==expected and powers.is_empty(),"Waiting power does not expire or fire with time")
+
++		await shot("02_waiting_for_player")
+
++		var index:=find_token(token_id)
+
++		check(index>=0,"Actual born token remains available")
+
++		if index>=0:await perform(manual_pair(index),"two_manual_use")
+
++		check(powers==["lightning_storm"] if scenario=="cascade_five" else powers==["volcano"],"Only the player's second deliberate move activates that reward")
+
++		check(find_token(token_id)==-1,"Manual activation consumes exactly the original waiting token")
+
++	elif scenario=="black_hole_swallow":
+
++		check(powers==["black_hole"],"Black Hole swallows other powers without native attacks")
+
++		check(app.volcano_audio.cue_log.is_empty() and app.tornado_audio.cue_log.is_empty() and app.storm_audio.cue_log.is_empty(),"No swallowed-power attack audio")
+
++		check(shots.has("one_black_hole_materials") and shots.has("one_black_hole_pull"),"Real fusion and pull captured")
+
++	await shot("99_final")
+
++	write("FINAL_STATE",state())
+
++	write("TRANSACTIONS",transactions)
+
++	write("AUDIO_CUES",{"element":app.element_audio.cue_log,"volcano":app.volcano_audio.cue_log,"tornado":app.tornado_audio.cue_log,"storm":app.storm_audio.cue_log})
+
++	var minimum_frames:=450 if scenario.begins_with("cascade") else 270
+
++	while Engine.get_process_frames()-start_frame<minimum_frames-1:await next_frame()
+
++	var report:={"status":"PASS" if failures.is_empty() else "FAIL","failures":failures,"scenario":scenario,"viewport":[432,960],"screen":DisplayServer.window_get_current_screen(),"fixed_fps":30,"elapsed_intervals":Engine.get_process_frames()-start_frame,"encoded_frames_expected":minimum_frames,"immutable_resolved_state_samples":invariant_samples,"powers":powers,"births":births,"observations":observations,"proof":"Scripted actual graphical Godot Input.parse_input_event press/motion/release and rendered audio. Not a human/Android/performance test."}
+
++	write("REPORT",report)
+
++	print("MATERIAL_NATIVE "+JSON.stringify({"status":report.status,"failures":failures,"scenario":scenario,"powers":powers,"samples":invariant_samples}))
+
++	quit(0 if failures.is_empty() else 1)
+
+
+
+--- /dev/null
+
++++ b/verification/material_marker_probe.gd
+
+@@ -0,0 +1,61 @@
+
++extends SceneTree
+
++const Core=preload("res://scripts/lab/material_power_core.gd")
+
++const Board=preload("res://scripts/lab/material_power_board.gd")
+
++var checks:=0
+
++var failures:Array=[]
+
++func check(value:bool,label:String)->void:
+
++	checks+=1
+
++	if not value:failures.append(label)
+
++	print(("PASS " if value else "FAIL ")+label)
+
++func _initialize()->void:call_deferred("run")
+
++func run()->void:
+
++	var core=Core.new()
+
++	core.setup_lab("create_four",42)
+
++	core.place_material_reward(23,8,0,"probe_ruby_volcano")
+
++	core.place_material_reward(24,8,2,"probe_ore_volcano")
+
++	var a:Dictionary=core.reward_at(23)
+
++	var b:Dictionary=core.reward_at(24)
+
++	var board=Board.new()
+
++	board.polished_art=true
+
++	root.add_child(board)
+
++	board.size=Vector2(412,550)
+
++	await process_frame
+
++	board.setup(core)
+
++	var cases:Array=[]
+
++	var static_samples:Array=board.material_draw_samples()
+
++	for sample in static_samples:
+
++		if sample.index==23:check(sample.mineral_kind==0 and sample.token_id==a.token_id,"Static ruby Volcano keeps its true material/ID")
+
++		if sample.index==24:check(sample.mineral_kind==2 and sample.token_id==b.token_id,"Static ore Volcano keeps its true material/ID")
+
++	board._press(board._center(23),-1)
+
++	board._move_pointer(board._center(23)+Vector2.RIGHT*board._cell_size()*0.6)
+
++	cases.append({"phase":"drag","samples":board.material_draw_samples()})
+
++	var matched:=0
+
++	for sample in board.material_draw_samples():
+
++		if sample.phase=="drag":check(sample.token_id==a.token_id and sample.mineral_kind==0,"Held ruby Volcano keeps material after crossing cell midpoint");matched+=1
+
++		if sample.phase=="drag_partner":check(sample.token_id==b.token_id and sample.mineral_kind==2,"Displaced ore partner keeps material after crossing midpoint");matched+=1
+
++	check(matched==2,"Both pointer sprites expose independent material identity")
+
++	board.cancel_pointer()
+
++	board._moving=[{"from":23,"to":24,"kind":8},{"from":24,"to":23,"kind":8}]
+
++	board._hidden={23:true,24:true}
+
++	board._motion_t=0.5
+
++	board._falling=false
+
++	cases.append({"phase":"swap","samples":board.material_draw_samples()})
+
++	var swap_samples:Array=[]
+
++	for sample in board.material_draw_samples():
+
++		if sample.phase=="swap":swap_samples.append(sample)
+
++	check(swap_samples.size()==2,"Same-kind swap exposes both token contexts")
+
++	if swap_samples.size()==2:
+
++		check(swap_samples[0].position==swap_samples[1].position,"Probe places both same-family pieces at exactly the same midpoint")
+
++		check(swap_samples[0].token_id==a.token_id and swap_samples[0].mineral_kind==0 and swap_samples[1].token_id==b.token_id and swap_samples[1].mineral_kind==2,"Midpoint overlap cannot swap or guess the two material contexts")
+
++	board._moving=[{"from":23,"to":37,"kind":8},{"from":24,"to":38,"kind":8}]
+
++	board._falling=true
+
++	cases.append({"phase":"fall","samples":board.material_draw_samples()})
+
++	for sample in board.material_draw_samples():
+
++		if sample.phase=="fall" and sample.index==23:check(sample.token_id==a.token_id and sample.mineral_kind==0,"Falling ruby Volcano uses its source snapshot identity")
+
++		if sample.phase=="fall" and sample.index==24:check(sample.token_id==b.token_id and sample.mineral_kind==2,"Falling ore Volcano uses its source snapshot identity")
+
++	board.queue_free();await process_frame
+
++	var file=FileAccess.open("res://verification/material_marker_probe.json",FileAccess.WRITE)
+
++	file.store_string(JSON.stringify({"checks":checks,"failures":failures,"cases":cases,"acceptance":"SYNTHETIC_REAL_RENDERER_METADATA_PROBE_NOT_NATIVE_INPUT_OR_VISUAL_ACCEPTANCE"},"\t")+"\n")
+
++	file.close()
+
++	print("MARKER_PROBE_SUMMARY="+JSON.stringify({"checks":checks,"failures":failures}))
+
++	quit(0 if failures.is_empty() else 1)
+
+

@@ -1,0 +1,134 @@
+{
+  "status": "PASS",
+  "recorded_utc": "2026-10-18T22:52:41.435652+00:00",
+  "client_date": "2026-10-19",
+  "local_path": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\MegaVolcano_2026-10-19",
+  "scope": "Isolated approved Mega Volcano 4+4 only; human artistic acceptance pending",
+  "predecessor_files_unchanged": 351,
+  "fresh_existing_delta": [
+    "project.godot"
+  ],
+  "new_text_source": {
+    "project.godot": {
+      "bytes": 963,
+      "sha256": "1b4da0399db93c26656bd3d7b199e53c3b9f133b66b062a541b067f162ed0c94"
+    },
+    "scripts/lab/mega_volcano_core.gd": {
+      "bytes": 1899,
+      "sha256": "98197cc636ca126a12f6a7dc2a977e3b39bc20e42776fd5acdaded54e34adece"
+    },
+    "scripts/lab/mega_volcano_board.gd": {
+      "bytes": 10143,
+      "sha256": "a1777cd8d34beb983e561d358c90542591f159a0c378360d8d8280e1903cc9ba"
+    },
+    "scripts/lab/mega_volcano_lab.gd": {
+      "bytes": 21451,
+      "sha256": "425212a5e36656a86a3ec6ef8e5eca6143a48fb3ce81258e6cf8f0452d511467"
+    },
+    "scripts/lab/mega_volcano_audio.gd": {
+      "bytes": 2317,
+      "sha256": "05e345bfc9c8105bbbb03cc41f8218b8d2cc461b13cb24c8413e98031524c544"
+    },
+    "mega_volcano.tscn": {
+      "bytes": 311,
+      "sha256": "ad1466dd7ea12612d069f5ce0e09445b27313b2f11c79d9d0dc910c95ba8be3b"
+    },
+    "PLAY_MEGA_VOLCANO.cmd": {
+      "bytes": 137,
+      "sha256": "5c70a0531cf816d084cc8ee43200c8d062bdf72cda53831d5559ebd2126153ad"
+    },
+    "tests/test_mega_volcano.gd": {
+      "bytes": 12760,
+      "sha256": "ac9f2d6347c6e1506878fcddead33a36ee3e254aa6e39e239ac4d6f189e8abf6"
+    },
+    "tests/test_mega_presentation.gd": {
+      "bytes": 7343,
+      "sha256": "e8f79f4fc6f4f3a5401faa27ecc69de55057dd598b23836e757f928cbd5ff467"
+    },
+    "tests/capture_mega_volcano.gd": {
+      "bytes": 13370,
+      "sha256": "076faff1708de7a3e8c7d7aa070362697a2782037d7d462cbb4b0cd9beaa11bc"
+    },
+    "README_MEGA_VOLCANO.txt": {
+      "bytes": 3669,
+      "sha256": "d49dd56ce265aaf22da458f7f672662d4e85d7d5463bf70a90baaa26685bf44d"
+    }
+  },
+  "Core_contracts": 76,
+  "board_audio_cancel_checks": 29,
+  "actual_native": {
+    "movie": "outputs/Mega-Volcano-4-Plus-4-Final2.avi",
+    "viewport": [
+      432,
+      960
+    ],
+    "fps": 30,
+    "frames": 270,
+    "duration_seconds": 9,
+    "identity": {
+      "bytes": 31962452,
+      "sha256": "deb994c2208ab2f3f7c3bded55ff5792ab97ad6e4029ae4dbfece5f2bf4cc9e6"
+    },
+    "power_signals": [
+      "mega_volcano"
+    ],
+    "immutable_state_samples": 237
+  },
+  "captured_PCM": {
+    "statistics": {
+      "sample_count": 864000,
+      "nonzero_samples": 433544,
+      "clipped_samples": 0,
+      "peak_integer": 7304,
+      "peak_normalized": 0.222900390625,
+      "rms_normalized": 0.022422644264788582,
+      "rms_dbfs": -32.98626346203779,
+      "mean_normalized": -2.6250556663230615e-05,
+      "per_channel": [
+        {
+          "sample_count": 432000,
+          "nonzero_samples": 216772,
+          "clipped_samples": 0,
+          "peak_integer": 7304,
+          "peak_normalized": 0.222900390625,
+          "rms_normalized": 0.022422644264788582,
+          "rms_dbfs": -32.98626346203779,
+          "mean_normalized": -2.6250556663230615e-05
+        },
+        {
+          "sample_count": 432000,
+          "nonzero_samples": 216772,
+          "clipped_samples": 0,
+          "peak_integer": 7304,
+          "peak_normalized": 0.222900390625,
+          "rms_normalized": 0.022422644264788582,
+          "rms_dbfs": -32.98626346203779,
+          "mean_normalized": -2.6250556663230615e-05
+        }
+      ]
+    },
+    "pcm_sha256": "6864278b9fcc4c46115b7185cfba4b88f61c0f2fb943624028d57429849bcb6f",
+    "container_warnings": [
+      "Outer RIFF size ends 70 bytes before EOF inside a complete final idx1; index ignored, media boundaries validated"
+    ]
+  },
+  "rules": {
+    "effect": "one Mega eruption",
+    "budgets": "three independent3..5 rolls",
+    "targets": "unique ordinary9..15,capped eligible",
+    "single_and45_and55": "exact predecessor comparison PASS",
+    "new_persistent_reward": false
+  },
+  "visual_review": "actual merge/eruption/impact/burn stills inspected; human judgment pending",
+  "history": [
+    "Initial import preceded creation of main scene; final import/graphical run supersedes it.",
+    "Initial12-voice native bank stole eruption channel; new24-voice bank and actual cue protection assertion pass.",
+    "Headless voice test did not reproduce native voice stealing; do not describe it as an observed RED.",
+    "One native tail received extra gesture after recorded final state; capture-only GUI tail guard added, playable UI unchanged.",
+    "One typed-variable error in added test was corrected; failed log preserved."
+  ],
+  "new_art_assets": [],
+  "new_audio_assets": [],
+  "Android_human_performance_acceptance": "NOT_MEASURED",
+  "merge": false
+}

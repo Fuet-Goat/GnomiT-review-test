@@ -1,3 +1,61 @@
+АКТУАЛНО — MEGA VOLCANO4+4 / РАБОТЕЩА PC ПРОБА /19.10.2026
+
+След уточнение от човека: старото4+4 задействане РАБОТИ. Новата задача е
+по-добра комбинирана анимация: ЕДИН голям вулкан вместо две отделни изригвания,
+със силата на ТРИ обикновени. Това е внедрено само в нов локален MegaVolcano
+lab върху MaterialRewards. Всички351 предходни source/asset файла са запазени.
+Единствената промяна в съществуващ файл на копието е project.godot.
+
+Двата source икона се сливат; една2.4s анимация изстрелва по-големи горящи
+магмени късове и показва попадение/счупване/догаряне. Три истински3..5 бюджета
+дават9..15различни ordinary цели, capped според наличните. Seed42 дава13.
+Единичният Volcano,4+5и5+5 са с exact predecessor events/state/RNG в проверките.
+Няма нов постоянен Mega tile; няма нов арт/звуков файл. Един съществуващ
+eruption clip + тихи синхронни полети/удари;24voices пазят дългия eruption.
+
+76Core +29реални board/audio/cancel проверки PASS. Актуален9s native Godot
+запис432×960/30fps PASS; един actual mouse swap/една сила; ненулев48kHzPCM
+без digital clipping. Stills merge/eruption/impact/burn са видени. Това НЕ е
+човешко художествено/звуково приемане, Android или performance тест.
+
+Виж builds/MEGA_VOLCANO_PASS_2026-10-19.txt и буквалния
+builds/MEGA_VOLCANO_REVIEW_PATCH_2026-10-19.txt. Те стъпват върху предходния
+MATERIAL_REWARDS_REVIEW_PATCH, също публикуван като текст. Git има само
+собствени отчетни документи/patch; без native code/binary upload,main илиmerge.
+Другите усилени комбинации и Landslide polish чакат; първо човешки преглед
+на този вулкан. Препоръка: GPT-6.1 Sol / High; Grok Build.
+
+GPT/Grok: Прочети main AGENTS/grant. Само собствен task-001 REPORT.
+Прегледай новия MEGA receipt+literal patch и необходимия Material predecessor
+patch на точния Codex commit. До3конкретни static дефекта/контрапримера или
+„няма намерен static blocker“. Не твърди че си видял/чул локални binaries от
+текстов receipt. Без game edits/tests/imports/merge. Запази историята.
+
+--- HISTORY ---
+
+ОБЩ ПРОМПТ ЗА GPT И GROK — MATERIAL REWARDS РАБОТЕЩА ПРОБА
+
+Repo https://github.com/Fuet-Goat/GnomiT-review-test
+Прочети AGENTS.md и собствения task-001 grant от main. Само собствен REPORT
+на codex/<bot>/task-001; без game edits, изпълнение, тестове, grant или merge.
+Вземи точния нов Codex commit и прочети PROJECT_HUB/builds/
+MATERIAL_REWARDS_PASS_2026-10-19.txt и MATERIAL_REWARDS_REVIEW_PATCH_2026-10-19.txt
+под discussions/codex/task-001/. Това е literal source patch за изолирана PC
+проба. Бинарните записи са локални; не твърди, че си видял кадри/чул звук от
+текстов receipt. Провери реалния код, не само отчетения брой тестове.
+
+Дай един кратък peer review: до3 конкретни дефекта/контрапримера с функция и
+ред от patch. При липса кажи „няма намерен static blocker“, без автоматично
+художествено или Android одобрение. Особено: преместена стара сила + нов anchor;
+stationary catalyst; каскадна награда чака manual swap; immutable IDs/goal once;
+5+5 поглъща другите сили inert; no-spawn drain/safe-fill; ray stop при anchor.
+Публикувай в собствения REPORT, запази историята и дай immutable commit линк.
+Не чакайте един друг и не пускайте празни статус commits. При липса на Git
+достъп кажи ограничението. GPT: GPT-6.1 Sol / High. Grok: Build.
+
+
+--- HISTORY ---
+
 ОБЩ КРАТЪК ПРОМПТ ЗА GPT И GROK — MATERIAL POWER R3 ЗАТВАРЯНЕ
 
 Repo: https://github.com/Fuet-Goat/GnomiT-review-test
