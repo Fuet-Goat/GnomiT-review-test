@@ -429,3 +429,81 @@ Picture lock for this clip, icon unchanged:
 The current visual length is 1.04s. This sound's body lasts about 1.20s. I am not changing Core, targets, or the icon from here. The local lab still needs to play this exact file.
 
 No game edit, no new animation frames, no merge.
+
+---
+
+REWARD_COMBINATIONS_R2_2026-10-18 / INDEPENDENT_RESPONSE
+BOT=grok
+MODEL=Grok Build
+STATUS=DESIGN_ONLY / NOT_IMPLEMENTED / NO_CONSENSUS
+INPUT_COMMIT=fa624824f545884d863e8ee7ae1bbf932df4ae5d
+R2_BLOB=d89ee50440e79d9947f4eccf451ccb78b806ad94
+BH_V2_BLOB=c0a63945b6d17551e9f0a697a0d2a8872c7933f1
+GRANT=tasks/grok/task-001.json on main bd2dfe7fddd300bd8425cd1c5b0846fe50c4f3d2, REPORTS_ONLY
+Read AGENTS.md, discussions/grok/task-001/AGENTS.md, the R2 brief and BLACK_HOLE_MATERIAL_V2_PASS. I did not watch the 9s capture, did not run Godot, and did not treat the old Tornado+Volcano fixture as the new rule. Creation from 4/5 is not implemented.
+
+HUMAN RULE, NOT REOPENED
+Two already created adjacent bonuses, each born from a five-cell match, swapped with each other, make a Black Hole. Two identical five-powers count. 4+4 and 4+5 do not. This replaces Tornado+Volcano.
+
+1. TABLE
+
+| Pattern | Result | Tier |
+| 3 in a line | ordinary clear, no bonus | — |
+| 4 in a line | Volcano | 4 |
+| 5 in a straight line | Lightning Storm | 5 |
+| T of 5, or a plus of 5 | Tornado | 5 |
+| L of 5 | Landslide | 5 |
+| one special swapped with an ordinary neighbor | that special fires alone | its own |
+| 4+4 | two Volcano hits, different targets, no Black Hole | — |
+| 4+5 | the five-power, then Volcano on cells it did not take; no refill between; no Black Hole | — |
+| 5+5, including two of the same power | Black Hole replaces both attacks | — |
+
+One accepted swap spends one move. A rejected swap spends none. No 2x2 match.
+
+2. THREE CORRECTIONS
+
+1. Birth tier is stored on the piece. It is not guessed from the icon name. Storm, Tornado and Landslide are all tier 5, so two Storms are a Black Hole. Volcano is tier 4 only. Reason: after a fall, the player must see which pair can make the hole.
+2. On 4+5, resolve the tier-5 effect first on the snapshot. Volcano then picks only ordinary cells outside that target set. A cell is hit at most once. Reason: "both effects" without an order can strike the same gem twice.
+3. The first implementation does not let cascades create bonuses. Only the player's swap does. Reason: a cascade must not mint a new tier-5 beside an existing one and skip the deliberate swap. Ordinary clears still run.
+
+3. OVERLAP, SIX OR MORE, CROSSES, CASCADES
+
+One same-color orthogonal group that the swap actually matched is one component. One component gives one reward. The same five stones never pay two bonuses.
+
+Test in this order:
+- Exactly five cells and a plus (one cell with four neighbors in the group): Tornado at that center.
+- Exactly five cells and a T (the shared cell is the middle of one run of three and the end of the other): Tornado at the junction.
+- Exactly five cells and an L (two runs of three share only an endpoint): Landslide at the corner.
+- Longest straight run is 5 or more, including a line of 6+ and a cross bigger than five cells: one Lightning Storm. The extra cells are cleared and do not create a second piece.
+- Longest run is exactly 4, even with a small branch: one Volcano. The branch does not add a reward.
+- Otherwise the match is ordinary.
+
+The reward replaces the swapped cell when that cell is in the component. Otherwise it replaces the junction, corner, or the lower index of the run's center. The other matched cells clear normally.
+
+If the two swapped cells are different colors and each completes its own component, the swap may create two rewards. That is not two rewards from the same stones. Those new pieces do not become a Black Hole in the same move. A later swap is required.
+
+Cascades clear and fall only. They do not birth Volcano, Storm, Tornado, Landslide or a Black Hole. A power's own destruction is not a match and does not birth a bonus.
+
+4. HOW A FIVE-POWER STAYS RECOGNIZABLE
+
+Keep the existing icon. Add five small pale ticks under a tier-5 piece. A Volcano has no ticks. The ticks move with the piece through swap, fall and shuffle. No new HUD panel. The bit travels in the piece data, not in the cell coordinate.
+
+5. FUSION OF THE ACTUAL TWO POWERS
+
+Do not play their attacks, and do not reuse fire-plus-wind unless those are the two real pieces.
+- 0.00–0.20s: both icons stay readable. Each sends a short filament in its own color: ore orange, teal wind, violet storm edge, or ochre rock.
+- 0.20–0.70s: those two materials orbit and mix. The dark painted hole grows between them.
+- Then ordinary gems spiral in. Holes, floor and runes stay on the direct snapshot. Other specials are swallowed inert. Later ordinary cascades may still affect floor and runes. I have not seen the V2 clip; this is a board plan for whatever the two tier-5 icons actually are.
+
+6. ONE BLACK HOLE PER ATTEMPT
+
+Not as a campaign rule. Five-plus-five is already a deliberate swap, and this pass does not let cascades or the hole itself create another pair. The old once-flag can stay inside the current lab fixture so that demo does not loop. It should not be copied in as the new rule.
+
+7. FOUR CHECKS
+
+1. Correct refusal: Volcano at (2,3) and Storm at (3,3). The swap runs Storm, then Volcano on other cells. It does not open a Black Hole.
+2. Correct hole: Landslide at (4,2) and Landslide at (4,3). The swap consumes both and opens a Black Hole. Neither ray fires.
+3. Correct memory: a Storm created at (1,1) falls to (1,5) and still shows five ticks. Swapped later with an adjacent ticked Tornado, it opens a Black Hole. A Volcano beside it does not.
+4. Correct single pay: one straight line of six is one Storm, not a Storm plus a second bonus from an L inside those cells. Two tier-5 pieces on opposite sides of the board also do nothing until they are swapped as neighbors. Two Volcanoes swapped together erupt twice and do not open a hole.
+
+Direct powers still hit soil only under ordinary cells they actually clear, and they do not break a rune by themselves. The Black Hole does not damage floor or runes directly. No game edit, art, grant change or merge. GPT had no R2 section at 4f5b5f6fc6b4c24bde37970f71ee27063e173f47 when this was written.
