@@ -1,0 +1,418 @@
+GNOMIT — BLACK HOLE MATERIAL V2 / BLENDER — 2026-10-18
+LOCAL_IMPLEMENTED / SCRIPTED_NATIVE_CAPTURE_PASS / HUMAN_REVIEW_PENDING
+
+Real painted mineral fragments and multi-filament wind orbit between the two
+actual fixture sources; a generated transparent painted Black Hole grows into
+view; ordinary board minerals stay grounded until the hole is nearly formed,
+then spiral inward. Painted ring has a dark opaque throat underlay. Seven rocks,
+five air elements, actual event targets, no invented target/RNG/gameplay changes.
+Normal2.60s; reduced0.13s quiet/static cue. One original2.80s stone/wind/pressure
+WAV, normal pitch, natural short tail. Skip/Reset/exit cleanup verified.
+
+User has NOW fixed a NEW GAMEPLAY RULE: two rewards made from FIVE-TILE matches
+combine into Black Hole. This supersedes the old T+V design. The included V2
+capture still uses the earlier preplaced T+V fixture to demonstrate animation;
+automatic match creation/tier provenance/new eligibility are NOT implemented.
+Do not mistake animation footage for the new rule being enforced.
+
+Focused72checks PASS; priorfusion/quake290 PASS; ten existing regression scripts
+checked. Legacy Volcano fire test first failed2assertions; a control with exact
+pre-V2 renderer reproduces the same failure. Test sampled before the existing
+MP3 launch point. Only sample/expected time corrected; assertions unchanged;
+fresh22/0PASS. Both failure/control and final success retained. No Volcano code
+or audio changes. Read-only independent helper reviewed this maintenance.
+
+Real Godot native-input recording432x960,screen0,30fps,270encodedframes/9s.
+51ordinarytargets,53removals incl2sources; Core/RNG/result frozen while drawing.
+Event/result/final-state byte-identical to predecessor capture. Original runtime
+AVI PCM extracted,nonzero,0clippedsamples; GIF is a silent derivative. Root
+inspected orbit/birth/pull screenshots and running lab; helper read-only visual
+review found no scoped functional finding. Human/Android/performance pending.
+
+Blender5.2.2LTS installed from official publisher ZIP into per-user Programs;
+publisherSHA256,Valid BlenderFoundation signature,version and isolated offline
+factory-startup Python verified. StartMenu shortcut created. No paid software,
+admin,globalPATH/associations,or personal preferences changed. This animation
+was made in GODOT using the generated bitmap, NOT authored/rendered in Blender.
+
+Delivery stays the separate local MagicAnimations lab and one native delta ZIP.
+Governed public Git receives own text receipts and literal patch proposal only.
+No private game/save/campaign/grant/main changes or merge. New4/5 combinations
+are a separate design discussion,with the human two-fives rule fixed.
+Recommended model/effort: GPT-6.1 Sol / High.
+
+MEASURED FACTS
+{
+  "status": "LOCAL_IMPLEMENTED / SCRIPTED_NATIVE_CAPTURE_PASS / HUMAN_REVIEW_PENDING",
+  "predecessor_commit": "f737f4ce914220e80ffd43fa7ca4c2f9b6a7044f",
+  "source_delta": {
+    "scripts/lab/natural_power_board.gd": {
+      "bytes": 11579,
+      "sha256": "59b1f5b5444903e3f5bbe0d5b2fb69adb9aa535e8dc3673c162b62d5999f311c"
+    },
+    "scripts/lab/natural_power_lab.gd": {
+      "bytes": 15556,
+      "sha256": "67b059e0fc13c5684e57c410a3b299612f74f755488f8432eb5e79de40c8d9ef"
+    },
+    "scripts/lab/element_audio.gd": {
+      "bytes": 1796,
+      "sha256": "1a50e1d87ed4118e6754deee71b9c26be7bc325b2771a69aa2fd26bf79ab5b16"
+    },
+    "tests/test_fusion_earthquake.gd": {
+      "bytes": 23720,
+      "sha256": "f001a01caa5a580f3ed018e366df693828240740248f1eda0b39f38231288af4"
+    },
+    "tests/test_volcano_fire.gd": {
+      "bytes": 10307,
+      "sha256": "a48f03d1aef318e61cfb5dee51b70fb2eb867f2a572a33705fea99614402206a"
+    },
+    "README_MAGIC_ANIMATIONS.txt": {
+      "bytes": 10199,
+      "sha256": "60ff7c1be9846e0b4875bef7ff1b2b7b31d03f65fb342e2e367b68e2b030e669"
+    },
+    "scripts/lab/magic_black_hole_material_board.gd": {
+      "bytes": 11327,
+      "sha256": "a67fb3ec112927bcfa89f0e0885bb6459d80b2e0264eecaf8cff2407f387e901"
+    },
+    "tests/test_black_hole_material_v2.gd": {
+      "bytes": 16931,
+      "sha256": "2b38ae5d5c84c76c13be1f379aae71a550b3b389ea90403a38de2cf702459a1b"
+    },
+    "tests/capture_black_hole_material_v2.gd": {
+      "bytes": 23917,
+      "sha256": "fdc1af7e05977a3e8270a0f9e162167d3e7296393e2f510bb86c832185fd5e50"
+    },
+    "tools/build_black_hole_material_audio_v2.py": {
+      "bytes": 2408,
+      "sha256": "e5da1e3cc4ce4ce6acde4b525558125a51e8642a2aed931f0d3dd02f3bd25cfe"
+    },
+    "assets/vfx/black_hole/black_hole_core_v2.png": {
+      "bytes": 1910081,
+      "sha256": "035c8650327cae9c84b8e8b611ce18f6e3b88fedbb46e24de951c218b0b9d6ce"
+    },
+    "assets/vfx/black_hole/GENERATION_PROMPT_V2.txt": {
+      "bytes": 1921,
+      "sha256": "46feae0b14df03ad906c2a6a357939b520f9aef9772a85e938bb6c12a9049d6e"
+    },
+    "assets/vfx/black_hole/MATERIAL_V2_METADATA.json": {
+      "bytes": 682,
+      "sha256": "73b82dbcd8be6439cd0a4fc2af2f841de2be6b26ba1d34948ebb48f4a1301e09"
+    },
+    "assets/sfx/elements/fusion_material_v2.wav": {
+      "bytes": 247004,
+      "sha256": "42eca2b5f8769d5ff67db83f2f41d6ef41e91876c0a31ff2c3084551f368ad69"
+    }
+  },
+  "preserved_sources": {
+    "tests/test_lightning_storm.gd": {
+      "bytes": 12118,
+      "sha256": "94018c3677e4dc4c1c17a898676975612702fd15e79452063950bf03b7826678"
+    },
+    "tests/test_lightning_audio.gd": {
+      "bytes": 6549,
+      "sha256": "3f012f766d26cbee512b8f9b0254272d2f96ca54622f3aec41bb315363c99241"
+    },
+    "assets/sfx/lightning/storm_cartoon_v1.wav": {
+      "bytes": 282284,
+      "sha256": "6d231b86864c703e417282b9379698adc3577ef47eb1a4903f36577b9fd2a8c7"
+    },
+    "assets/sfx/lightning/storm_short_v1.wav": {
+      "bytes": 15920,
+      "sha256": "4ef3ab02c180016bc205f659b4155c62c052a8e4df317f84c8a39e39689badd5"
+    },
+    "scripts/board_view.gd": {
+      "bytes": 33490,
+      "sha256": "c0f68b6a37805278db1684200e7d5c6bc3672bfdc04fb5d6b9b908d177a44781"
+    },
+    "scripts/match_core.gd": {
+      "bytes": 10023,
+      "sha256": "12f1d987e5a5ab194cfc1ea555a5905922290a23e67f370b9f3a4813d42166bb"
+    },
+    "scripts/main.gd": {
+      "bytes": 24717,
+      "sha256": "6f8bc515339735b907fb94e3c0b621def3f9e6e75591e849bde73b2be91e5737"
+    },
+    "scripts/progress.gd": {
+      "bytes": 4151,
+      "sha256": "2d7dce425fb70fe47d07bd14777a957ac2d7e08929a43ef56216b13fba22e501"
+    },
+    "scripts/rock_audio.gd": {
+      "bytes": 1784,
+      "sha256": "24fac13dc7093ac423121b6862b123ba32359c0b10d439d0e3f286c45093112d"
+    },
+    "scripts/lab/volcano_audio.gd": {
+      "bytes": 5591,
+      "sha256": "9f42169292b7d6c8ca7a3e7d79c553c8b29cb58c193005a2a01fb0a9787d0247"
+    },
+    "assets/sfx/volcano/gnomit_volcano_cartoon_eruption.mp3": {
+      "bytes": 16724,
+      "sha256": "165bba4707d48883e96d1c7626400e36a454e206469d58b3b21ec9c536fda27c"
+    },
+    "tests/capture_painted_volcano.gd": {
+      "bytes": 20850,
+      "sha256": "ad2755062dc4f25dd1fb3e9f6e19973fcfb0e69c6b75039e2e76a054b1d1b1e7"
+    },
+    "scripts/lab/tornado_audio.gd": {
+      "bytes": 2866,
+      "sha256": "f762aaf1e89d6148907b30cf50a71bdec5decd9e8baee5511dae9fc4e00eeaad"
+    },
+    "assets/sfx/tornado/tornado_cartoon_magic_v1.wav": {
+      "bytes": 250532,
+      "sha256": "c599537fb85b98f7bb11432eda5b4657915150b327f70b19dd2233fc9711fa53"
+    },
+    "assets/sfx/tornado/tornado_soft_short_v1.wav": {
+      "bytes": 19448,
+      "sha256": "55a20721ee57df1b8a39b93995281792c812bba5e1587b55272188f2b112e193"
+    },
+    "scripts/lab/magic_volcano_board.gd": {
+      "bytes": 33413,
+      "sha256": "ed552847329150210101846182f7486da9b5135a9428386814973f02e2868ed1"
+    },
+    "scripts/lab/lightning_audio.gd": {
+      "bytes": 1694,
+      "sha256": "eeaf09e6cf1cd0a49decd4c12c0b8b748126e0e88b14030ebbeac3ab622c4899"
+    },
+    "tools/build_lightning_audio.py": {
+      "bytes": 2986,
+      "sha256": "eca3e9276668d32fb748e22c1a541014801611836407a7d9ba37773b9454b51c"
+    },
+    "tests/capture_lightning_storm.gd": {
+      "bytes": 21753,
+      "sha256": "de0da39d62891a4a6624982fdabb207ca51903d0c4d3a3acc368db5df21db247"
+    },
+    "tests/test_dark_storm.gd": {
+      "bytes": 9755,
+      "sha256": "d3c20d467dd994bc89f420e5b0e0060ca104405960af7fa7843311a1f8c7cf6f"
+    },
+    "assets/sfx/lightning/storm_cartoon_v2.wav": {
+      "bytes": 282284,
+      "sha256": "bd3ecf606774106f0426800e475c33e97b2d15d6b16433bed306b5da23ee3ddc"
+    },
+    "scripts/lab/natural_power_core.gd": {
+      "bytes": 10548,
+      "sha256": "d6219ab8d92d32cd7b65661105b81e16389002d4e2ce9406ee19e877db7e5a05"
+    },
+    "scripts/lab/magic_earthquake_board.gd": {
+      "bytes": 11132,
+      "sha256": "80a23b5045267721e54bb3b4da93e5f9f1ed3a3014be4b1355985d9c021ee3b8"
+    },
+    "scripts/lab/magic_fusion_board.gd": {
+      "bytes": 6499,
+      "sha256": "d0df31cabceb72daa137777a4055ccef731474e5b59bea4e02b858ffe1bfd71a"
+    },
+    "tools/build_fusion_earthquake_audio.py": {
+      "bytes": 3077,
+      "sha256": "6515fdcc5e1cceb6e238eb5186fc48528890e1fb22fb33ef1fb75ba040a6158e"
+    },
+    "tests/capture_fusion_earthquake.gd": {
+      "bytes": 23336,
+      "sha256": "fe175768422dc747ffa9d53abc3f2ddea35859d7818c9e68585163e552092fe6"
+    },
+    "assets/sfx/elements/fusion_gravity_v1.wav": {
+      "bytes": 163214,
+      "sha256": "7c643a4bef093f491d6cdc6d56d0c4be4f486d6dcdc07207d96142dd0ab1302d"
+    },
+    "assets/sfx/elements/earthquake_stones_v1.wav": {
+      "bytes": 127934,
+      "sha256": "590a68abb33743b1ea6d5c86f85dd6cc331cbf915fb9f36e61580d1b8e099071"
+    },
+    "assets/sfx/elements/elements_quiet_short_v1.wav": {
+      "bytes": 15920,
+      "sha256": "af248c4586538890719119c5fea51e0ce9e246cf719011b1fd932b3eb31da786"
+    }
+  },
+  "before_delta": {
+    "scripts/lab/natural_power_board.gd": {
+      "bytes": 11579,
+      "sha256": "fcf843cd647493e22f32e6f9caa7770b39b2519ba91c8463dab7cdb1cf9060d1"
+    },
+    "scripts/lab/natural_power_lab.gd": {
+      "bytes": 15538,
+      "sha256": "7307af52df9da130b42048f589c754a1ad4e5c4007c44597eb59d575ef2b923f"
+    },
+    "scripts/lab/element_audio.gd": {
+      "bytes": 1795,
+      "sha256": "3519c2a47b0986fe13fe2c941ec4699820a325f637ccde49abcfd75df4be1003"
+    },
+    "tests/test_fusion_earthquake.gd": {
+      "bytes": 23720,
+      "sha256": "294ae9ec8398fef0c95a2155c9305ee6f9c05e9f5647fab189e19c4476c61f89"
+    },
+    "tests/test_volcano_fire.gd": {
+      "bytes": 10077,
+      "sha256": "36c648f731a00513744eed77c82b39bfdbf299d6cc2c3a1ab9a5edfe103cc7d8"
+    },
+    "README_MAGIC_ANIMATIONS.txt": {
+      "bytes": 8808,
+      "sha256": "1c198e445b74dbe60529f9038488f4f715efd8de65d6aeccda7ca8a466f80beb"
+    }
+  },
+  "checks": {
+    "material_v2": 72,
+    "fusion_earthquake": 290,
+    "existing_regression_scripts": 10,
+    "legacy_fire_after_test_only_timing_fix": 22
+  },
+  "retained_initial_failure": "Legacy Volcano fire test sampled0.3536s before existing0.36s launch. Baseline control reproduces same2failures. Assertions/thresholds retained; sample corrected to0.4576s and independently reviewed. Initial failure retained, not reported as original pass.",
+  "native_movie": {
+    "status": "PASS",
+    "method": "Independent RIFF AVI main and stream headers parsed from recorded bytes",
+    "movie_path": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\MagicAnimations_2026-10-17\\outputs\\black_hole_material_v2_2026-10-18\\black_hole.avi",
+    "bytes": 29743506,
+    "sha256": "fec948c1a54b9caa820d2ee01b4eb5dd340907adb22b54c5aaa087bc40373d4f",
+    "encoded_frames": 270,
+    "width": 432,
+    "height": 960,
+    "microseconds_per_frame": 33333,
+    "streams": [
+      {
+        "type": "vids",
+        "handler": "MJPG",
+        "scale": 1,
+        "rate": 30,
+        "length": 270,
+        "duration_seconds": 9.0
+      },
+      {
+        "type": "auds",
+        "handler": "\u0000\u0000\u0000\u0000",
+        "scale": 4,
+        "rate": 192000,
+        "length": 432000,
+        "duration_seconds": 9.0
+      }
+    ]
+  },
+  "runtime_audio": {
+    "source_avi": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\MagicAnimations_2026-10-17\\outputs\\black_hole_material_v2_2026-10-18\\black_hole.avi",
+    "output_wav": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\MagicAnimations_2026-10-17\\outputs\\black_hole_material_v2_2026-10-18\\runtime_audio.wav",
+    "source_bytes": 29743506,
+    "riff_segments": [
+      "AVI"
+    ],
+    "container_warnings": [
+      "Outer RIFF size ends 70 bytes before EOF inside a complete final idx1; index ignored, media boundaries validated"
+    ],
+    "audio_streams": [
+      {
+        "index": 1,
+        "scale": 4,
+        "rate": 192000,
+        "start": 0,
+        "length": 432000,
+        "sample_size": 4,
+        "format_tag": 1,
+        "channels": 2,
+        "sample_rate": 48000,
+        "byte_rate": 192000,
+        "block_align": 4,
+        "bits_per_sample": 16
+      }
+    ],
+    "selected_stream": 1,
+    "source_format": {
+      "channels": 2,
+      "sample_rate": 48000,
+      "sample_width": 2,
+      "bits_per_sample": 16,
+      "valid_bits_per_sample": 16,
+      "block_align": 4,
+      "channel_mask": null
+    },
+    "wav_encoding": "integer PCM; original sample bytes; conventional PCM header",
+    "audio_chunk_count": 270,
+    "pcm_bytes": 1728000,
+    "sample_frames": 432000,
+    "duration_seconds": 9.0,
+    "pcm_sha256": "4208e41cab5a0720f83b1bb3e101eabbccf82f282ceac3b1242cdb05390d4f83",
+    "wav_sha256": "78b2038e39f288b5dd338d87c7ba749bf319ac70e41f6955f9a0419ae93ca50c",
+    "wav_bytes": 1728044,
+    "statistics": {
+      "sample_count": 864000,
+      "nonzero_samples": 459836,
+      "clipped_samples": 0,
+      "peak_integer": 6229,
+      "peak_normalized": 0.190093994140625,
+      "rms_normalized": 0.01897234729279305,
+      "rms_dbfs": -34.43757868191802,
+      "mean_normalized": -1.3813513296621817e-05,
+      "per_channel": [
+        {
+          "sample_count": 432000,
+          "nonzero_samples": 229918,
+          "clipped_samples": 0,
+          "peak_integer": 6229,
+          "peak_normalized": 0.190093994140625,
+          "rms_normalized": 0.01897234729279305,
+          "rms_dbfs": -34.43757868191802,
+          "mean_normalized": -1.3813513296621817e-05
+        },
+        {
+          "sample_count": 432000,
+          "nonzero_samples": 229918,
+          "clipped_samples": 0,
+          "peak_integer": 6229,
+          "peak_normalized": 0.190093994140625,
+          "rms_normalized": 0.01897234729279305,
+          "rms_dbfs": -34.43757868191802,
+          "mean_normalized": -1.3813513296621817e-05
+        }
+      ]
+    }
+  },
+  "original_event_result_state_byte_identical": {
+    "black_hole_EVENT.json": {
+      "bytes": 2133,
+      "sha256": "1893d56fc8d8ba7262de0f70a6161ff233bfcd812e3bf1570787282a58975459"
+    },
+    "black_hole_RESULT.json": {
+      "bytes": 8391,
+      "sha256": "d46f7c97c06040b75c456a75cbac887579a8c6a2d576d39b36303410c546fd3a"
+    },
+    "black_hole_FINAL_STATE.json": {
+      "bytes": 979,
+      "sha256": "338da22eb0f1f4f96876369128f91729862fdf8f9162425a847096277f8e4bba"
+    }
+  },
+  "visual_duration_seconds": 2.6,
+  "audio_asset": {
+    "method": "original deterministic local NumPy synthesis; no external sample",
+    "seed": 1810202602,
+    "human_listening": "PENDING",
+    "visual_seconds": 2.6,
+    "files": [
+      {
+        "path": "assets/sfx/elements/fusion_material_v2.wav",
+        "bytes": 247004,
+        "sha256": "42eca2b5f8769d5ff67db83f2f41d6ef41e91876c0a31ff2c3084551f368ad69",
+        "seconds": 2.8,
+        "sample_rate": 44100,
+        "channels": 1,
+        "peak": 0.5999755859375
+      }
+    ]
+  },
+  "art": {
+    "method": "image_gen transparent-background generation, original bytes copied unchanged",
+    "asset": {
+      "bytes": 1910081,
+      "sha256": "035c8650327cae9c84b8e8b611ce18f6e3b88fedbb46e24de951c218b0b9d6ce"
+    },
+    "prompt": "assets/vfx/black_hole/GENERATION_PROMPT_V2.txt"
+  },
+  "blender": {
+    "installed": "C:\\Users\\fruch\\AppData\\Local\\Programs\\Blender\\5.2.2\\blender.exe",
+    "executable": {
+      "bytes": 113022936,
+      "sha256": "c9f9c33e538dd3e195ccb8dcc5986721f49df795e91288d4f6e82295a028e1c1"
+    },
+    "publisher_zip": {
+      "bytes": 404453484,
+      "sha256": "3849d17a682cba006075aaa3f3597ecb5c9c30ec31035b2e092c53e40679b535"
+    },
+    "verification": "Official checksum match; Valid Authenticode Blender Foundation; version5.2.2LTS; isolated offline factory-startup Python succeeds. Portable installation and Start Menu shortcut, no admin or global configuration changes.",
+    "used_for_this_animation": false
+  },
+  "new_human_reward_rule": "Two adjacent special rewards CREATED FROM FIVE-TILE matches will combine into Black Hole. Fixed by human after this VFX capture. The captured legacy Tornado+Volcano fixture demonstrates VFX only, not the new trigger. Automatic match rewards/pair provenance not implemented.",
+  "human_android_performance_acceptance": "PENDING"
+}

@@ -986,3 +986,47 @@ Backup directory retains its initially assigned2026-10-17name; this finished
 pass and all new evidence are dated2026-10-18 after the environment date rollover.
 
 Recommended model/effort: GPT-6.1 Sol / High.
+
+
+GNOMIT — BLACK HOLE MATERIAL V2 / BLENDER — 2026-10-18
+LOCAL_IMPLEMENTED / SCRIPTED_NATIVE_CAPTURE_PASS / HUMAN_REVIEW_PENDING
+
+Real painted mineral fragments and multi-filament wind orbit between the two
+actual fixture sources; a generated transparent painted Black Hole grows into
+view; ordinary board minerals stay grounded until the hole is nearly formed,
+then spiral inward. Painted ring has a dark opaque throat underlay. Seven rocks,
+five air elements, actual event targets, no invented target/RNG/gameplay changes.
+Normal2.60s; reduced0.13s quiet/static cue. One original2.80s stone/wind/pressure
+WAV, normal pitch, natural short tail. Skip/Reset/exit cleanup verified.
+
+User has NOW fixed a NEW GAMEPLAY RULE: two rewards made from FIVE-TILE matches
+combine into Black Hole. This supersedes the old T+V design. The included V2
+capture still uses the earlier preplaced T+V fixture to demonstrate animation;
+automatic match creation/tier provenance/new eligibility are NOT implemented.
+Do not mistake animation footage for the new rule being enforced.
+
+Focused72checks PASS; priorfusion/quake290 PASS; ten existing regression scripts
+checked. Legacy Volcano fire test first failed2assertions; a control with exact
+pre-V2 renderer reproduces the same failure. Test sampled before the existing
+MP3 launch point. Only sample/expected time corrected; assertions unchanged;
+fresh22/0PASS. Both failure/control and final success retained. No Volcano code
+or audio changes. Read-only independent helper reviewed this maintenance.
+
+Real Godot native-input recording432x960,screen0,30fps,270encodedframes/9s.
+51ordinarytargets,53removals incl2sources; Core/RNG/result frozen while drawing.
+Event/result/final-state byte-identical to predecessor capture. Original runtime
+AVI PCM extracted,nonzero,0clippedsamples; GIF is a silent derivative. Root
+inspected orbit/birth/pull screenshots and running lab; helper read-only visual
+review found no scoped functional finding. Human/Android/performance pending.
+
+Blender5.2.2LTS installed from official publisher ZIP into per-user Programs;
+publisherSHA256,Valid BlenderFoundation signature,version and isolated offline
+factory-startup Python verified. StartMenu shortcut created. No paid software,
+admin,globalPATH/associations,or personal preferences changed. This animation
+was made in GODOT using the generated bitmap, NOT authored/rendered in Blender.
+
+Delivery stays the separate local MagicAnimations lab and one native delta ZIP.
+Governed public Git receives own text receipts and literal patch proposal only.
+No private game/save/campaign/grant/main changes or merge. New4/5 combinations
+are a separate design discussion,with the human two-fives rule fixed.
+Recommended model/effort: GPT-6.1 Sol / High.
