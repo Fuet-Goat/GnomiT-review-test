@@ -1915,3 +1915,271 @@ MATERIAL R1 са запазени byte-for-byte;
 Grok не е съгласил настоящата моя версия;
 консенсус НЕ се заявява.
 ==============================================================================
+
+
+==============================================================================
+MATERIAL_POWER_MATCHING_R2_2026-10-19 / R2_RESPONSE
+BOT=gpt | ACTUAL_MODEL=GPT-6 | STATUS=INDEPENDENT ACK + DESIGN / NOT IMPLEMENTED
+INPUT_CODEX_BRANCH_COMMIT=596564086044df419a0a93e72ed00f98ac0b1996
+SOURCE_R2_BLOB=27d7846085d4261646e0ba7438917b3d11a9b03e
+GPT_PREVIOUS_R1_COMMIT=ec779c93e7cdf8775b3e0a2fba707c857fe1e793
+GROK_PREVIOUS_R1_COMMIT=9a4146fa4cfa65965bdf5ba2584098b4921aa4b8
+OWN_GRANT=tasks/gpt/task-001.json from main, status REPORTS_ONLY
+OWN_BRANCH=codex/gpt/task-001
+AUTHORIZED_PATH=discussions/gpt/task-001/REPORT.txt
+EVIDENCE=read-only Git documents; NO GAME RUN / NO CODE / NO TESTS / NO ART
+
+1. EXPLICIT ACK — THE HUMAN CORRECTION REPLACES THE OLD CASCADE RULE
+
+ACCEPT / HUMAN-AUTHORITATIVE: after player breaking, gravity and refill,
+FOUR ordinary same-mineral gems aligned in a valid straight match CREATE a
+Volcano; FIVE in a straight line CREATE a Storm. A cascade may create
+multiple rewards. They remain on the board and NEVER self-erupt/strike
+on birth, gravity, neighbouring colour match, incidental adjacency or
+elapsed turns. Only a LATER DELIBERATE ADJACENT PLAYER SWAP OF THAT
+POWER can activate it (or participate as a source in a registered pair).
+The player may make other moves for any number of turns first.
+This is PERSISTENT WAITING, NOT one-turn newborn immunity.
+No direct pair Black Hole from two five-born powers landing adjacent.
+Only their direct deliberate adjacent swap does 5+5 -> ONE Black Hole,
+same types allowed, regardless of mineral.
+4+4 and 4+5 retain their separate combos. No colour-line auto fusion.
+One accepted player move costs 1 move; all cascades of that
+transaction do not cost another move. The user-confirmed correction
+OVERRIDES both earlier R1 "cascade never births" positions, and the
+earlier automatic-cascade-activation misunderstanding.
+RewardRecipes remain straight4=Volcano, straight5+=Lightning Storm,
+T/plus=Tornado, L=Landslide, using current limited lab geometric
+priority without claiming final agreement on shape edge cases.
+Family, mineral, birth_tier and immutable token identity are separate.
+
+2. ONE COMPATIBLE RULE FOR A STATIONARY WAITING POWER IN A LATER MATCH
+
+PROPOSAL: "stationary power = persistent mineral catalyst, not spent source".
+The same token has a real mineral_kind and MAY contribute one cell to
+the material 3/4/5/T/L geometry when a PLAYER swap elsewhere makes a
+same-mineral match touching the swapped endpoint. But a stationary
+waiting power neither fires nor disappears. Actual ordinary matching
+tokens are consumed, except a reserved ORDINARY anchor for an earned
+new reward. If a power did not deliberately move, its cell CANNOT be
+chosen as the newborn anchor. A match has at most one new reward per
+connected same-mineral component and at most one accounting entry per
+material token. The waiting power's token_id/birth_tier/mineral_kind stay
+unchanged through future player turns, falls and shuffles.
+No "born_this_turn == false" test may trigger its ability.
+
+Example: the player swaps an ORDINARY R and forms [R,R,V_R,R],
+where V_R was stationary and waits. It is FOUR ruby-material units,
+so a NEW ruby Volcano may be born at ONE of the THREE ordinary cells.
+Of the original four material units TWO ordinary R actually disappear:
+one ordinary R is retained inside new reward, V_R stays waiting.
+Result: TWO waiting Volcano tokens of separate IDs, no eruption and
++2 Ruby collected at most (if Ruby is the goal), not +4.
+For [R,V_R,R], the two ordinary R can clear normally as material match;
+V_R remains waiting, and no tier4/5 reward is earned.
+An entirely waiting-special-only line, or a material component with
+no eligible ordinary anchor and no consumable ordinary token, is
+inert for resolution: no invisible clear, no bonus, no repeated loop.
+This catalyst rule is a PROPOSAL, not a new human-approved matcher.
+
+Exception for deliberate use: if the player moves the actual old
+power via an allowed special+ordinary swap, it becomes an EXPLICIT
+ACTIVATED source. One direct activation occurs at most once; when the
+same accepted swap also makes a colour recipe, the old power may
+retire and a different-ID newborn may occupy that source coordinate
+using the transferred existing material (details below). Direct
+special+ordinary without material match still activates without
+birth. Direct pair combinations have FIRST precedence over a colour
+match, preventing a duplicate Black Hole or bonus reward.
+
+3. ACCOUNTING — MATERIAL SURVIVAL, OLD ABILITY RETIREMENT, TERRAIN
+
+One consistent, proposed material-unit principle:
+  * A material token actually REMOVED from the board may contribute
+    ONE to the matching collect goal, independent of whether it was
+    an ordinary gem or a spent power with explicit mineral_kind.
+  * Retiring an OLD ABILITY / changing token_id does NOT mean the
+    material unit is removed. If its mineral is transferred into a
+    NEW power anchor, the material unit survives: ZERO collection
+    at that anchor, even though the old ability fired.
+  * Birth at an ordinary gem anchor converts and retains that ONE
+    material unit: ZERO collection for that gem.
+  * Every other actually consumed material unit counts at most once,
+    with deduplication by pre-event material/token identity, not
+    coordinates alone. A 4-unit match with ONE material retained
+    at a new anchor contributes AT MOST THREE units; if a second
+    stationary power ALSO survives as a catalyst, fewer than three
+    can be collected, as in the example in section 2.
+  * This chooses a more consistent "real removed unit" interpretation
+    over my R1 restriction "direct used power never collects". It is
+    a Codex-supported DISCUSSION ALTERNATIVE, not a human-approved
+    economy change. Unknown legacy mineral_kind cannot grant collection
+    by visual guessing. A special deliberately removed with no
+    conversion may count as one unit of its true stored material,
+    subject to future human acceptance of collect-goal economy.
+
+Old-source/new-anchor at SAME coordinate:
+Before the swap take immutable material snapshots. Example
+[R,R,V_R,R], player DELIBERATELY moves/activates V_R, and its
+post-swap position is the selected reward anchor. Old ability
+token_id=41 fires ONCE and is retired; its ONE Ruby material unit
+is TRANSFERRED into newborn Volcano token_id=42 at the same cell.
+That cell contributes ZERO collected Ruby and suffers no implied
+soil/rune clear merely from an identity change. The other THREE
+ordinary Ruby tokens are removed and can collect +3 total.
+Reserve the anchor BEFORE computing old Volcano targets, exclude
+it from old attack footprints and deduplicate damages. In the
+stationary catalyst case old V_R never retires, so choose an
+ordinary anchor instead and preserve BOTH tokens independently.
+
+Terrain ledger: one cell's soil receives at most one DIRECT hit
+per accepted initial resolve when an actual material unit is
+removed by the relevant regular-match or direct-power rule;
+retained anchor gets no soil hit. Real matching clears, not
+mere ability retirement, can damage ORTHOGONALLY adjacent rune:
+one rune hit per initial match wave even if several matched cells
+border the same rune. Subsequent distinct refill match waves
+may make their own ordinary rune hit, once per wave. Pure
+direct power effects never acquire fictional adjacent-rune
+hits merely because their targets carry material metadata.
+Existing direct Black Hole sweep leaves floor/runes intact;
+later real 3+ cascades may legitimately affect them. If a
+future Black Hole consumes OTHER waiting specials inertly per
+the older lab contract, that loss must be visibly signalled
+and separately accepted against the new player's "choose when
+to use the power" expectation; NO silently lost token.
+
+4. FINITE CASCADE BIRTHS / NO HIDDEN LOSS / NO DOUBLE PAY
+
+Use ONE deterministic same-material classifier for eligible
+ordinary and initial matches, including authored T/L/straight
+priority, but separate eligibility from effects:
+- Start from a frozen snapshot of each resolution wave, group
+  maximal matched same-material components, calculate ONE
+  reward per component, assign an eligible ordinary anchor,
+  create unique new token_id with mineral_kind from component.
+- Cascade births allowed at ANY ordinary 4/5 matching wave,
+  including three separate ordinary fours in ONE wave. Each
+  new reward token is PERSISTENT WAITING immediately.
+- Reserve all newborn anchors and existing waiting power
+  token IDs before effects. Remove only eligible ordinary
+  matched tokens (outside anchors). A waiting special does not
+  activate, vanish, or lose metadata because nearby gems clear.
+  Direct power targets cannot silently erase a reserved newborn.
+- Record resolved matched-component signature (wave epoch,
+  physical token IDs/material identities, participating cell
+  positions). Never grant a second reward from the identical
+  unchanged component. It can be reconsidered only after
+  a genuine later player action or changed-token board state.
+- Every cascade wave must either remove at least one eligible
+  ordinary material token, or is declared INERT and does not
+  repeat. Birth/relocation alone does not itself count as
+  "ability use" or as a fresh move.
+- Refill may make new valid ordinary fours and fives and
+  thereby more waiting bonuses in the SAME player turn.
+  No arbitrary "max two newborns" cap from GPT R1 remains.
+  A bounded maximum cascade wave guard remains a technical
+  safety limit, not a reward cap. When reaching the guard,
+  DO NOT silently delete/reroll waiting rewards, grant a
+  repeated bonus or leave an invisible unresolved match.
+  Publish a diagnostic and run a separately designed
+  deterministic safe-settling/recovery state preserving every
+  unique power identity; acceptance depends on a future test
+  of this exact recovery rather than an invented PASS.
+- Direct 5+5 pair swap always requires deliberate action.
+  Two five-born tokens adjacent after gravity simply WAIT;
+  no auto-BH, even when equal types and same material.
+- Collect, soil and rune calculations follow one unified
+  consumption ledger across initial component, old attack and
+  same-wave duplicate hit; separate later cascade waves have
+  separate true hit records, not duplicate rewards.
+- Presentation consumes Core events only; never rerolls
+  gameplay RNG or performs creation/activation inside VFX.
+  For 432x960 retain family icon, material chip/rim and
+  five-tick birth-tier marker as distinct visual facts.
+
+5. MASKS A-F (DESIGN PREDICTIONS ONLY; NO TEST EXECUTED)
+
+A. Four ORDINARY gold ores align only AFTER breaking/refill:
+   create exactly ONE gold-material tier4 Volcano. One ore
+   anchor survives, three others can count as collected.
+   No eruption at birth; token waits through later actions.
+   The player later intentionally swaps THAT Volcano with
+   a neighbor: THEN one eruption; not during gravity.
+
+B. Five ORDINARY rubies after refill:
+   create exactly ONE ruby tier5 Lightning Storm, NOT a
+   Volcano from its contained sub-four. One ruby anchor
+   remains, four ordinary Rubies removed (if relevant).
+   No lightning until a subsequent intentional player swap.
+
+C. Three INDEPENDENT ordinary straight fours in a SINGLE
+   cascade wave: three distinct tier4 Volcano token IDs,
+   each with the material of its component and waiting status.
+   May remain on the board across further turns. No global
+   two-newborn cap, no self-eruption or auto-combo, no
+   duplicate birth from the same unchanged matched cells.
+
+D. Waiting ruby Volcano falls between two rubies, either
+   during its birth turn or in a future turn, without the
+   player moving THAT Volcano: never auto-erupts, never
+   silently disappears or loses its ID. If [R,V_R,R] is
+   a valid material component touched by a DIFFERENT
+   player-made swap, V_R remains as colour catalyst,
+   the ordinary R can clear; no 4+ bonus from only three.
+   During automatic cascade settling the ordinary-only
+   match detector can clear an actual ordinary component,
+   while a mixed power-containing run is deferred as inert
+   unless it has an explicit consumable ordinary subset
+   scheduled by the new deterministic catalyst matcher.
+   Any such subset clear retains V_R. No indefinitely
+   replayed static [R,V_R,R] match.
+
+E. Two waiting FIVE-BORN powers land orthogonally adjacent:
+   both persist; no Black Hole from falling, proximity or
+   colour match. On a LATER deliberate adjacent swap
+   of those exact TWO tokens: one Black Hole replaces
+   their individual attacks, same kinds allowed; 1 move.
+
+F. FOUR ruby-material units form a new power at the
+   coordinate of an OLD SOURCE that is deliberately
+   activated in the same initiating swap. Transfer that
+   source cell's ONE Ruby material unit to newborn token,
+   with new token_id; retire old ABILITY, fire old power
+   ONCE, never auto-fire newborn. Only the other three
+   materially removed units can count for the Ruby goal.
+   Soil/rune at retained anchor take ZERO normal-clear
+   damage from identity replacement. Reserve new anchor
+   against old attack and all later same-transaction
+   incidental consumption. Contrast: if old source is
+   stationary, it is NOT consumed/retired and cannot be
+   overwritten as anchor; choose ordinary anchor so both
+   waiting powers persist and real removed-unit count
+   is lower.
+
+6. AT MOST THREE DESIGN DIFFERENCES / REQUIRED FUTURE DECISIONS
+
+(1) Stationary waiting power in colour match: this GPT
+    proposes persistent CATALYST (counts material but is
+    not auto-fired/consumed) with ordinary-anchor birth
+    and progress guard. Human confirmed waiting, but has
+    NOT explicitly selected catalyst/partial clear semantics.
+(2) Collect: I recommend counting real removed material
+    units once, including a deliberately spent old power
+    when its material is actually gone; NEVER collect
+    transferred/reward anchor material. This is not a
+    human-approved collection rule.
+(3) Power-loss and bounded settlement: how pre-existing
+    Black Hole inert consumption of other waiting tokens
+    coexists with manually controlled rewards, and what
+    exact safe recovery applies after cascade-wave cap,
+    still need specific approval plus future gameplay tests.
+
+SOURCES / HONESTY:
+The R2 brief explicitly supersedes both prior R1
+"no cascade bonus birth" positions. Those older reports
+are retained verbatim for project history; they are not
+current authority. No code, Godot, tests, art, audio,
+grants, private repository, other bot's report or main
+branch was changed. No final three-bot consensus claimed.
+==============================================================================
