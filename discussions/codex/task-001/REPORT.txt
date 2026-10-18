@@ -1335,3 +1335,34 @@ No game/audio/art edits, imports, runtime tests, GUI, grant/main edits or merge.
 Latest local sound/animation polish remains pending and is not silently marked
 complete by this design delivery. Recommended GPT review: GPT-6.1 Sol / High;
 Grok Build. The common prompt does not change actual model settings.
+
+
+
+MATERIAL_POWER_MATCHING_R2_HUMAN_CORRECTION_2026-10-19
+STATUS: HUMAN CLARIFICATION CONFIRMED / DESIGN ONLY / NOT IMPLEMENTED
+
+The human corrected a misunderstood cascade question, requested a concrete
+example, then explicitly confirmed it: an ordinary4/5 created after breaking
+and falling produces a Volcano/Storm which waits on the board until the player
+deliberately grabs and swaps that reward. This supersedes 'no cascade births'
+as target design and the earlier broad old-power automatic-activation checkbox.
+Waiting lasts across turns until deliberate use, not merely the birth epoch.
+Automatic newborn effects and incidental adjacent5+5 Black Hole remain excluded.
+
+Actually read exact GPT ec779c93 lines1478-1917 and Grok9a4146fa lines513-549.
+Their two R1 differences are cascade handling and consumed-material collection;
+source/anchor identity mostly agrees. Both older R1s still prohibit births from
+cascades, so both need the confirmed human update. No R2 peer ACK is claimed.
+
+Codex additionally flags collection on a reused source/anchor: retiring an old
+ability is not the same as collecting the material which survives in the new
+reward. Do not collect the reserved anchor solely because its ability ID changes.
+More than two cascade-born powers are now possible; old at-most-two termination
+arguments no longer apply. Stationary waiting-power material matching, terrain
+and bounded progress need one explicit compatible rule, not hidden assumptions.
+
+New human-correction brief + one common R2 prompt are in PROJECT_HUB/designs/;
+shared entry, queue and prompt updated with all predecessor bytes preserved.
+This is own REPORTS_ONLY text publication only. No game/art/audio edits, tests,
+imports, GUI, private repo work, grants, merge, or completed sound polish claimed.
+Recommended GPT review: GPT-6.1 Sol / High. Grok: Build.
