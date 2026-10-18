@@ -547,3 +547,44 @@ G. A new ruby power falls between two rubies in the same turn: it stays. No acti
 H. [R,R,V_R,R] appears only after refill: no new Volcano is created and the old one does not erupt. The line remains for a later player swap. Cascades still do not create powers.
 
 No game edit, test, image, sound, grant change or merge. GPT had no section on this question at ecfce495ccd4e2d7b2a9737fa08ef1a72fc1cd44.
+
+---
+
+MATERIAL_POWER_MATCHING_R2_2026-10-19 / R2_RESPONSE
+BOT=grok
+MODEL=Grok Build
+STATUS=DESIGN_ACK / NOT_IMPLEMENTED / NO_CONSENSUS
+INPUT_COMMIT=596564086044df419a0a93e72ed00f98ac0b1996
+R2_BLOB=27d7846085d4261646e0ba7438917b3d11a9b03e
+R1_READ=GPT ec779c93e7cdf8775b3e0a2fba707c857fe1e793; Grok 9a4146fa4cfa65965bdf5ba2584098b4921aa4b8
+GRANT=tasks/grok/task-001.json on main bd2dfe7fddd300bd8425cd1c5b0846fe50c4f3d2, REPORTS_ONLY
+This text is not a gameplay test and does not change the lab. The current lab still does not birth rewards from cascades. My R1 rule that cascades never create bonuses is superseded here. I do not restore it.
+
+1. ACK
+A cascade may create a reward from the same table: straight 4 Volcano, straight 5+ Storm, T or plus Tornado, L Landslide. The new token stays on the board and does not use itself. Birth, falling, later turns, a neighbouring match and merely landing beside another power do not activate it. The player activates it later by grabbing that token and swapping it with an adjacent piece. Two waiting tier-5 powers that land together are not a Black Hole. A later direct swap of those two still is, and their own attacks do not play. The mineral stays separate from family and tier.
+
+2. STATIONARY WAITING POWER
+It counts as its mineral only in the match created by the player's own swap, and only when that match touches a swapped cell. It is not fired and its cell is not cleared. The new reward, if the shape earns one, is anchored on an ordinary cell in that component, never on the waiting token. The other ordinary cells clear once. Gravity and later cascade waves do not use a waiting power as material, so falling between two of its colour neither erupts nor deletes it.
+
+Example, not a test: a waiting ruby Volcano is at (2,3). The player swaps ordinary rubies (2,0) and (2,1) and the row becomes [R, R, V, R]. V does not erupt and stays at (2,3). One new ruby Volcano is born at (2,1). (2,0) and the other ordinary ruby clear once.
+
+3. COLLECTION, SOIL, RUNES
+The material kept inside the new anchor is not collected, does not clear floor and does not hit a rune. That is separate from retiring an old ability. If the old ability and the new reward share one coordinate, the old token id is spent, the new token id occupies that cell, and the cell adds zero goal units. A four therefore collects at most the three ordinary cells that were actually removed. An old ability removed at a different cell adds at most one goal unit of its mineral, never the four or five that originally created it, and it does not add a second soil or rune hit. Ordinary removed cells still collect once when they are the goal, clear their own floor once, and take one layer from each neighboring rune once.
+
+4. MORE THAN TWO BIRTHS
+There is no cap of two newborns. One wave may birth every eligible component, including three or more, and every new token waits. A match is awarded once: the set of its ordinary cells is remembered for the turn and cannot pay again. Tokens born during this turn are excluded from the following waves, so a newborn cannot complete another line before the player acts. Waiting tokens from earlier turns stay on the board and are not rerolled or deleted to make room. The existing cascade-wave limit still stops the loop. If it stops with an ordinary line left over, the waiting tokens remain; I am not inventing a new numeric cap because I did not re-measure that constant in this pass.
+
+MASKS, EXAMPLES ONLY
+A. Four ordinary gold ores align after a fall: one ore Volcano waits. No eruption. A later deliberate swap of that Volcano erupts it.
+B. Five ordinary rubies align after a fall: one ruby Storm waits. No lightning and no extra Volcano from a four inside those five.
+C. Three separate ordinary fours in one wave: three waiting Volcanoes. None fires.
+D. A waiting ruby Volcano falls between two rubies, this turn or later, without the player moving it: no eruption and the Volcano remains. The two rubies are not cleared by gravity.
+E. Two waiting tier-5 powers land adjacent: no Black Hole. A later deliberate swap of those two makes one Black Hole and neither source attack plays.
+F. Four ruby-material units birth at the old ability's cell: the ability is retired, the new token keeps that cell, and the cell is not collected. The other three removed units are the only collection from the match.
+
+REMAINING DIFFERENCES
+- A stationary waiting power helps a later player match, but I do not let it clear neighbours merely by falling.
+- Newborns skip the rest of the birth turn's matcher. Older waiting powers do not, except that only the player's swap may include them.
+- A retired ability that is not the new anchor counts as one goal unit. That is still an accounting proposal, not a human ruling.
+
+No code, Godot, test, art, sound, grant change or merge. GPT had no R2 section at ec779c93e7cdf8775b3e0a2fba707c857fe1e793 when this was written.
