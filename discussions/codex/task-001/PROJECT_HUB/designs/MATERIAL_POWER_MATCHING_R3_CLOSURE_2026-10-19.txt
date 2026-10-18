@@ -1,0 +1,177 @@
+GNOMIT — MATERIAL_POWER_MATCHING_R3_CLOSURE_2026-10-19
+DATE: 2026-10-19 (Europe/Sofia)
+STATUS: HUMAN BLACK-HOLE RULING + CODEX FIRST-SLICE CONTRACT / NOT IMPLEMENTED
+Technical closure below is a Codex proposal, not claimed external R3 agreement.
+
+NEW EXPLICIT HUMAN DECISION
+Question asked: when Black Hole is used, what happens to other waiting bonuses
+besides the TWO sources creating it?
+Human chose: 'Поглъща ги, без да задейства отделните им ефекти'.
+Therefore Black Hole swallows other waiting powers INERTLY. No eruptions,
+storms, tornadoes, landslides or further Black Holes are queued from that loss.
+This is the explicit exception to normal waiting-token preservation. It does
+not change the trigger: deliberate adjacent swap of TWO existing five-born
+powers, including same families, creates ONE Black Hole.
+
+R2 REPORTS ACTUALLY READ IN FULL
+GPT0efb297694a53b805ccacc762d0a89ff8808102a,lines1921-2315:
+independent R2 + its real peer response to Grok2d66127.
+Grok2d66127c5391de1ef2d872062648db3fa4743a7a,lines553-590.
+No gameplay/code/art/audio change or test is claimed by either report.
+
+DO NOT REOPEN A DIFFERENCE WHICH GPT ALREADY CLOSED
+GPT's independent R2 considered clearing ordinary neighbours around a newborn.
+Its LATER peer response2247-2260 explicitly recommends Grok's simpler rule for
+the first slice: waiting powers count as material ONLY in initial player-made
+matched components, not automatic cascade matching. Grok567/575/581 says the
+same. This is now a common first-slice DESIGN recommendation, not a continuing
+three-way disagreement. Preserve the earlier text as history.
+
+COMMON FIRST-SLICE CONTRACT / CODEX ADOPTS THE PEER RECOMMENDATION
+1. Keep straight4->Volcano;straight5+->Storm;T/plus->Tornado;L->Landslide.
+   Keep mineral, power family, birth tier and immutable token ID separate.
+   Existing shape priority remains the current prototype choice.
+2. ALL-ORDINARY cascade matches may create rewards with the same recipe
+   classifier. One reward per connected matched component, not per sub-window.
+   Multiple independent components can create more than two rewards per turn.
+3. Every created power waits across turns for deliberate adjacent player
+   movement of THAT power. Birth, gravity, elapsed turns, nearby colour lines,
+   and incidental adjacency never activate or auto-fuse it.
+4. Initial PLAYER-made material matches can use a stationary waiting power as
+   a mineral catalyst. It stays with the same ID, never fires or clears. New
+   reward uses an ordinary matched anchor; do not overwrite the stationary power.
+   For [R,R,V_R,R] formed by moving an ORDINARY ruby: keep V_R, retain one
+   ordinary anchor as new Volcano, remove two ordinary rubies, no eruption.
+5. During AUTOMATIC falling/refill matching, waiting powers are barriers to
+   ordinary runs; [R,V_R,R] leaves all three pieces. No clearing neighbours
+   around a protected power, including later turns. Material meaning is phase-
+   specific and must be explained visually rather than sold as passive matching.
+6. Deliberately swapping an actual power with an ordinary neighbour still
+   activates it. If that same move creates a qualifying initial material match,
+   resolve the old effect and one new reward atomically from the post-swap
+   snapshot; a reserved new anchor survives and receives a DIFFERENT ability ID.
+   If the moved power is not inside the material component, it still fires ONCE;
+   do not suppress deliberate use merely because the OTHER endpoint made a match.
+7. Direct registered power-pair swaps have precedence:4+4/4+5 keep their own
+   combined effects;5+5->one Black Hole. Do not add a second colour reward to
+   the same direct pair swap. Incidental same-material membership is not fusion.
+8. Ordinary individual power attacks retain ordinary-only target eligibility;
+   don't broaden is_ordinary just to implement mineral matching. Black Hole is
+   the human-approved inert-swallow exception for other waiting powers.
+
+MATERIAL ACCOUNTING — COMMON PEER PROPOSAL, NOT AN EXTRA HUMAN RULING
+One materially removed token can count at most ONE stored mineral unit toward
+the matching goal. A power never represents the original4/5 pieces as collectible
+units. Stationary catalyst contributes ZERO because it survives. A retained
+ordinary/new-power anchor contributes ZERO. If an old ABILITY retires at the new
+anchor, its one material unit transfers to the new token: ZERO anchor collection,
+even though the old effect fired. Elsewhere a genuinely removed old power may
+contribute one stored material unit, never a guessed material or double award.
+Codex applies this proposal uniformly to direct use and inert Black Hole removal,
+including the two consumed sources; an unknown legacy material gives no fake goal.
+This is stated explicitly for review, not attributed to the human's swallow answer.
+One removed material instance, one goal signal; overlap with an attack never
+counts twice. Matching clears use existing floor/rune rules once per wave;
+retained anchors/catalysts take no fictitious terrain damage. Direct Black Hole
+still preserves soil/runes; subsequent real ordinary cascades may affect them.
+
+DEDUPLICATION MUST TRACK INSTANCES, NOT COORDINATES
+Grok575 'set of ordinary cells remembered for the turn' needs this qualification:
+freshly refilled tokens can legitimately form another four at the SAME indices.
+Use actual participating material-instance IDs / wave occurrence plus a consumed
+ledger. An unchanged already-resolved component cannot pay twice; genuinely new
+tokens at reused coordinates CAN earn a new reward. A wave number alone cannot
+turn an unchanged component into a new payment. Anchor conversion and clears
+must commit once before the next scan, so the old ordinary shape ceases to exist.
+
+CONCRETE TECHNICAL GUARD RECOVERY — CODEX PROPOSAL
+Current code facts, not a new measured gameplay result:
+match_core.gd:4 GEM_KINDS=6;:5 MAX_CASCADE_WAVES=32.
+natural_power_core.gd:193-205 normally falls/refills, clears up to the guard,
+then may call _make_playable; current _fall_segment always refills.
+Keeping powers while leaving an ordinary four unresolved is not an accepted
+settled result. Blind reshuffle could discard an earned-but-unresolved recipe.
+
+Proposed bounded alternative when the NORMAL guard is reached:
+A. Emit a recovery marker; preserve every surviving power ID/material/tier.
+B. Drain all real remaining ordinary match waves using the same births/goals/
+   terrain policy, but gravity compacts WITHOUT generating any new minerals.
+   Holes/runes split gravity as now; powers FALL with metadata, while blocking
+   only automatic ordinary matching. Recompute segments after rune openings.
+C. Each productive wave reduces ordinary-token count by at least3: consumed
+   gems disappear and an ordinary anchor converted to power also leaves that
+   count. No refill means gravity cannot increase it. With N ordinary tokens
+   on drain entry, at most floor(N/3) productive drain waves plus a final scan.
+   Process every legitimate4/5 reward during this drain; don't silently cap it.
+D. Once the partial board has no ordinary3+ matches, fill only genuinely empty
+   playable cells in a recorded deterministic order. Choose a normal mineral
+   that creates no ordinary triple in ANY of the three windows per axis through
+   that cell, checking [_,A,A], [A,_,A] and [A,A,_]. Left/up-only is insufficient.
+   On one axis these overlapping windows forbid at most TWO distinct colours;
+   both axes forbid at most FOUR. With the current SIX ordinary kinds, at least
+   TWO valid choices remain. Choose deterministically / record exact RNG use.
+   Keep existing settled gems and waiting powers unchanged; no retry loop or
+   whole-board reroll is needed for colour safety. Do not move pieces again
+   after this safe fill. Powers/holes/runes break ordinary match windows.
+E. Final invariant: no ordinary automatic matches, all earned waiting power
+   identities preserved, each legitimate recipe/goal paid once, one player move.
+   A separate genuine no-move check may use the existing bounded ordinary-only
+   shuffle policy, preserving powers; reaching the cascade guard alone must not
+   invoke it again. Record recovery as real Core events for normal/skip/reduced.
+The refill proof requires at least FIVE available ordinary kinds. It is valid
+for this six-kind lab; don't silently reuse it for a future restricted palette.
+This is static reasoning corroborated by an internal read-only check, NOT an
+implemented fallback or a passed runtime test. New no-spawn gravity is required.
+
+FINITE ACCEPTANCE CASES FOR FUTURE IMPLEMENTATION — NOT RUN NOW
+- Real ordinary cascade4 and cascade5 create waiting Volcano/Storm; three
+  independent fours in one wave create three separate waiting IDs, no auto-use.
+- Stationary player-match catalyst survives; birth anchor is ordinary and not
+  collected. Later automatic [R,power,R] clears nothing merely from gravity.
+- Actual old-power movement + a new4/5 keeps one source effect and the new
+  reward. Same source/anchor conversion gives no phantom collection.
+- Direct5+5 Black Hole swallows other waiting powers without ANY of their native
+  effects or recursive Black Holes. Direct sweep preserves soil/runes.
+- Fresh refills at the same four coordinates may pay a new legitimate recipe;
+  replaying the same old material instances cannot pay again.
+- Force the normal guard boundary and verify drain, safe fill, power IDs, exact
+  event replay and normal/skip/reduced final-state equality. No dropped reward,
+  unresolved ordinary match, unbounded loop, duplicate goal or invisible reroll.
+- Author a valid different-material pre-swap fixture for the catalyst case.
+  Grok569's two-ruby swap cannot create a new arrangement and its coordinate
+  prose differs from its drawn row; it is an illustration, not a valid test.
+
+NEXT STEP / AUTHORITY
+GPT/Grok give one short ACK or a precise counterexample to this bounded contract,
+especially recovery/instance dedupe. No new broad independent plan, waiting loop,
+or re-vote on the human cascade/manual-use/Black-Hole-swallow decisions.
+Own REPORTS_ONLY text only. No game edits/tests/assets/audio, grants, main, private
+game work or merge. A future implemented slice needs appropriate separate scope.
+The current lab remains unchanged; this is a concrete design proposal.
+Do not call peer R2 convergence, internal review or human swallow preference
+proof that this unimplemented R3 contract is already accepted by all three.
+Recommended GPT review: GPT-6.1 Sol / High. Grok: Build.
+
+EXACT R2 INPUTS
+{
+  "gpt": {
+    "commit": "0efb297694a53b805ccacc762d0a89ff8808102a",
+    "path": "discussions/gpt/task-001/REPORT.txt",
+    "lines": [
+      1921,
+      2315
+    ],
+    "bytes": 158176,
+    "sha256": "7fda0dbfd8fcaec8f85c82517769e1fcbaebeed87eefbcf309f7bee9a6553f2e"
+  },
+  "grok": {
+    "commit": "2d66127c5391de1ef2d872062648db3fa4743a7a",
+    "path": "discussions/grok/task-001/REPORT.txt",
+    "lines": [
+      553,
+      590
+    ],
+    "bytes": 57676,
+    "sha256": "50cce211f21d606b499b080fd3ee26fb7e6c169eaf776472011d13eea84046db"
+  }
+}

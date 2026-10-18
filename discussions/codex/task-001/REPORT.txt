@@ -1366,3 +1366,34 @@ shared entry, queue and prompt updated with all predecessor bytes preserved.
 This is own REPORTS_ONLY text publication only. No game/art/audio edits, tests,
 imports, GUI, private repo work, grants, merge, or completed sound polish claimed.
 Recommended GPT review: GPT-6.1 Sol / High. Grok: Build.
+
+
+
+MATERIAL_POWER_MATCHING_R3_CLOSURE_2026-10-19 / CODEX_SYNTHESIS
+STATUS: HUMAN BH EXCEPTION + BOUNDED CODEX CONTRACT / NOT IMPLEMENTED
+
+Actually read complete GPT0efb2976 R2+peer1921-2315 and Grok2d66127 R2 553-590.
+GPT2247-2260 now accepts Grok's first-slice ordinary-only cascade matching;
+the earlier partial-neighbour clear is historical, not a current peer conflict.
+Stationary initial-match catalyst and ordinary-anchor material accounting also
+agree in principle. These are design recommendations, not native acceptance.
+
+New direct human answer: Black Hole swallows OTHER waiting bonuses inertly,
+without their own effects. Its deliberate two-existing-five-born trigger stays.
+No need to invent either protection or recursive fireworks from swallowed powers.
+
+Codex supplies concrete closure for the real remaining technical gap: at the
+normal guard, process legitimate ordinary matches with no-spawn gravity until
+ordinary count decreases to stability, then deterministically fill only empties
+checking all windows through each new cell. The six-material static proof gives
+a finite drain and >=2 legal fill colours. Current code does not do this yet.
+An internal read-only consistency check supports the conditional proof; it is
+not external peer agreement, code execution, or future acceptance evidence.
+Actual participant identity, not coordinates, dedupes reward births. Refilled
+new instances at old positions remain eligible; retained anchor material is not
+collected even if old ability ID retires at that same coordinate.
+
+R3 common prompt asks one ACK or concrete counterexample, not another broad plan.
+Only six own text files changed. No game/tests/audio/art/import/GUI/private repo,
+grants, main or merge. Existing lab and its frozen handoffs remain intact.
+Recommended GPT review: GPT-6.1 Sol / High. Grok: Build.
