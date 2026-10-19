@@ -1584,3 +1584,38 @@ RockAudio е монoфоничен с кратко затихване на ст�
 В Git са само собствени текстове. Native source/media са в локалния ZIP.
 Без main/grant/чужди редакции,merge или private-game integration.
 Препоръка: GPT-6.1 Sol / High.
+
+
+ALIVE_EXPERIENCE_R1_2026-10-19 — CODEX INITIAL RESPONSE
+DISCUSSION_ONLY / PEER_RESPONSES_PENDING
+
+The owner requested the whole opening and normal level-one experience to feel
+alive, including the period BEFORE entering level 1. Concrete R1 questions,
+one proposed journey, current code excerpts and official toolchain sources
+are now in PROJECT_HUB/designs/ALIVE_EXPERIENCE_*_2026-10-19*.txt.
+
+Observed: 37 sampled local-video frames, older GnomiT start/board screenshots,
+and seven current VolcanoV4 lab source files. Candy is Level 12361, not 1.
+The recording includes seeks and VLC logged converter warnings. Audio was
+not listened to. Clean-account startup/level 1 was NOT_OBSERVED because local
+browser access is disabled in Work settings; no bypass was used.
+
+Code: both scenes already use the shared hero; victory argument is ignored
+by story_art.gd:gnome and celebrate receives the same pose. FirstCrystals draws
+a single cave background. Map navigation, shadow, swap/clear/landing, goal
+trails and prelevel entrance animation already exist. Do not describe those
+as missing new features. Current level-one timing quality was not rerun.
+
+Codex proposal: retain Godot runtime, direct the whole scene/event sequence,
+use Blender for coherent rigged/rendered assets if needed, and test an actual
+Godot+Spine import only if a 2D rig is selected. No measured Godot blocker
+justifies a Unity migration now. Priorities: grounded expressive hero,
+layered restrained living environment, and linked map-to-mine-to-board flow.
+
+R1: independent GPT/Grok reports. R2: one actual peer response with commit.
+R3: only unresolved meaningful design differences; then one comparable pilot
+specification. No consensus, bot dispatch or human artistic acceptance claimed.
+No game code, assets, sound, saves, grant or other bot report changed.
+No runtime/import/game tests, installs, purchases, new artwork or merge.
+Only own text documents are committed/pushed under REPORTS_ONLY.
+Recommended setting for this discussion: GPT-6.1 Sol / High; Grok Build.

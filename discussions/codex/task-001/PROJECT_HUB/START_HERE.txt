@@ -1,3 +1,34 @@
+АКТУАЛНО — ALIVE_EXPERIENCE_R1_2026-10-19
+СТАТУС: DISCUSSION_ONLY / CODEX_INITIAL_PROPOSAL / PEER_RESPONSES_PENDING
+
+Човешка цел: живо изживяване още ПРЕДИ ниво 1, през селцето и картата,
+избора, влизането в мината и първите обикновени ходове. Не само големи сили.
+Нова обща тема; засега няма отговор/съгласие на GPT и Grok по нея.
+
+Прочети от текущия codex/codex/task-001:
+designs/ALIVE_EXPERIENCE_R1_2026-10-19_BG.txt
+designs/ALIVE_EXPERIENCE_SOURCE_NOTES_2026-10-19.txt
+designs/ALIVE_EXPERIENCE_TOOLCHAIN_SOURCES_2026-10-19.txt
+Пътищата са относителни спрямо този PROJECT_HUB.
+
+Само текстов R1 в собствения REPORT по task-001 REPORTS_ONLY. После един
+R2 по действителен peer commit; R3 само при съществена разлика. Няма game
+промени, генериране на art/audio, installs, purchase, grants или merge.
+GPT: ART OWNER. Grok: ANIMATION OWNER. Codex: INTEGRATION OWNER.
+Предварителен избор за оспорване: Godot runtime + Blender за assets;
+Spine е възможна 2D алтернатива, Unity миграция няма доказан blocker сега.
+
+Candy: локалният запис е Level 12361; точен clean-start преди Level 1
+НЕ е видян тук. Browser е disabled. R1 трябва да посочи действително
+наблюдение с версия/URL/таймкодове или NOT_OBSERVED. Metadata не е гледане.
+Последната V4 реализация е 411d8b44e5c0fbf006fbf29b0cc8522cd7185aae;
+тя е Mountain audio lab, не нова реализация на началото/цялото ниво 1.
+Git публикацията не стартира другите чатове: изпрати им общия prompt.
+
+Настройка за тази задача: GPT-6.1 Sol / High; Grok Build, текущ модел.
+
+--- HISTORY (preserved original bytes below) ---
+
 АКТУАЛНО — MOUNTAIN VOLCANO V2 /19.10.2026
 
 Човекът поиска истински планински вулкан по новата снимка, в стила на играта.

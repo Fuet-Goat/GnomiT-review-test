@@ -1,0 +1,49 @@
+PRIMARY SOFTWARE SOURCES — CHECKED19OCTOBER2026
+Product descriptions/prices below are not a purchase, regional quote or proof of runtime compatibility.
+
+Godot animation:
+https://docs.godotengine.org/en/stable/tutorials/animation/introduction.html
+AnimationPlayer can animate node properties, transforms, UI, materials and
+particles and coordinate tracks. Current project is Godot 4.7.2. This supports
+the feasibility of improving the runtime in place; no new prototype or mobile
+performance improvement was measured in this discussion.
+
+Blender:
+https://www.blender.org/features/
+https://www.blender.org/about/
+https://www.blender.org/about/license/
+Official features include modelling, rigging, animation, simulation/rendering and
+Python scripting. Blender is free software and can be used commercially.
+Artwork licensing is distinct from the application licence; outside assets
+still require their own origin/terms. Main features page returned an open error
+on a later fetch; official indexed results and About/licence texts were available.
+No Blender installation/version was confirmed or changed here.
+
+Unity:
+https://unity.com/products/unity-personal
+Official page describes Unity Personal as free for eligible individuals/small
+organizations below USD200K revenue/funding in the last12months. That is an
+eligibility rule, not evidence that GnomiT needs Unity or qualifies under every
+deployment. No Unity migration, installation, performance or paid quote measured.
+
+Spine:
+https://esotericsoftware.com/spine-purchase
+https://esotericsoftware.com/spine-godot
+Official purchase page displayed Essential USD69(discounted from99) and
+Professional USD379(discounted from449). Named-user and higher-revenue enterprise
+rules apply; trial/export/runtime conditions require the applicable licence.
+Official spine-godot docs describe module/GDExtension integration and platform
+builds including Android. Actual compatibility with our Godot 4.7.2 renderer/
+toolchain was NOT tested. A vendor runtime existing is not a verified import.
+No installation or purchase. Prefer a bounded artistic comparison before spend.
+
+CANDY SOURCES / OBSERVATION LIMITS
+https://www.youtube.com/watch?v=-BSnEI1atpg
+Search result labels this Level 1 to 10 Walkthrough Gameplay2026. Metadata only;
+not visually observed here. No gameplay claim is derived from its title.
+https://www.candycrushsaga.com/ and https://www.king.com/game/candycrush
+redirected to candycrush.com without readable page content in web text tool.
+Browser tool reported disabled in Work settings; no settings were changed.
+User-supplied local video was sampled using existing VLC CLI instead. Its
+visible level is12361. It is useful for prelevel visual states, not clean Level 1.
+No King artwork/audio extracted for use as game assets or uploaded to public Git.

@@ -1,0 +1,345 @@
+SOURCE NOTES — ALIVE_EXPERIENCE_R1_2026-10-19
+
+Repo main pin: bd2dfe7fddd300bd8425cd1c5b0846fe50c4f3d2
+Refs: {"HEAD": "411d8b44e5c0fbf006fbf29b0cc8522cd7185aae", "origin/codex/gpt/task-001": "68ce091eb3929aea96e458a60b7b6c9ccad87cdb", "origin/codex/grok/task-001": "92b61cb5cabc14c87b588ec25b243405c93bed78"}
+
+Latest local source: C:\Users\fruch\Documents\Codex\GnomiT_Playtests\VolcanoV4_2026-10-19
+No game source was edited/run for this discussion. Local file excerpts are authoritative only for their SHA below.
+
+GnomiT media/current/01_START.png and05_EXISTING_BOARD.png were visually inspected; they are the older first-bend presentation, not a fresh current campaign run. LatestV4 is an isolated Mountain lab, not a new level1 presentation.
+
+Candy reference: user Recording2026-10-14 001742.mp4; SHA ac1a7f196d90005837770ee9c5f0410ccc4a566a4722bf24a2c033f162099566. 36.2s,1634x860,30fps.37sampled frames inspected. Screenrecord shows YouTube title Candy Crush Saga|Level12361-12370 and prelevel panel Level12361. It contains seeks. It is NOT proof of level1/current clean-account startup. No audio listening or easing/duration measurements were performed.
+
+Browser access returned Local browser use is disabled in Work settings. No browser workaround was used. Existing VLC CLI decoded local frames; converter warnings remain in vlc_decode.log.37valid distinct PNGs do not prove a pristine full decode. Original source remains unchanged.
+
+Web candidate https://www.youtube.com/watch?v=-BSnEI1atpg is labelled Level1to10 Gameplay2026; metadata found only, video not watched here. Official candycrush.com returned no readable content. Ask an independently capable reviewer to inspect a true clean-start reference and cite timestamps/version.
+
+
+FILE scripts/main.gd {"bytes": 24717, "sha256": "6f8bc515339735b907fb94e3c0b621def3f9e6e75591e849bde73b2be91e5737"}
+
+8: const World = preload("res://scripts/world_view.gd")
+9: const Art=preload("res://scripts/story_art.gd")
+10: const StoryChamber=preload("res://scripts/story_chamber_view.gd")
+11: var chamber_view
+12: const StoryMap=preload("res://scripts/slice_map_view.gd")
+13: var map_view
+14: const PreLevel=preload("res://scripts/pre_level_view.gd")
+15: var pre_level_view
+16: var _slice_session: Dictionary={}
+
+214: func show_map() -> void:
+215: 	_new_screen("map")
+216: 	box.hide();world.hide()
+217: 	map_view=StoryMap.new()
+218: 	map_view.session_state=_slice_session.duplicate(true)
+219: 	map_view.configure(progress,Levels.ordinary(),_next_level(),progress.option("reduced_motion"),_return_from_id,_saved_map_scroll,_saved_map_offset)
+220: 	_return_from_id=""
+221: 	stage.add_child(map_view)
+222: 	map_view.level_chosen.connect(start_level);map_view.boss_requested.connect(show_chamber);map_view.settings_requested.connect(show_options)
+223: 	map_view.arrived_at_level.connect(show_level_preview)
+224: 	map_buttons=map_view.buttons;map_area=map_view.canvas;companion=map_view.gnome
+225: 	_resize_stage();map_view.layout()
+
+281: func show_level_preview(id: String) -> void:
+282: 	if current_screen not in ["map","chamber"]:return
+283: 	var data: Dictionary=Levels.get_level(id)
+284: 	if data.is_empty():return
+285: 	_close_modal()
+286: 	_modal_return_focus=get_viewport().gui_get_focus_owner()
+287: 	_set_navigation_interaction(false)
+288: 	pre_level_view=PreLevel.new()
+289: 	pre_level_view.configure(data,progress.best_stars(id),progress.is_unlocked(id),_unlock_reason(id),progress.option("reduced_motion"))
+290: 	pre_level_view.reward_available=id not in progress.data.claimed
+291: 	modal=pre_level_view;add_child(modal)
+292: 	pre_level_view.closed.connect(_close_modal)
+293: 	pre_level_view.play_requested.connect(func(chosen: String) -> void:
+294: 		if not is_instance_valid(pre_level_view) or chosen!=pre_level_view.level_id or not progress.is_unlocked(chosen):return
+295: 		if is_instance_valid(map_view) and map_view.slice_enabled:
+296: 			if map_view.selected_level!=chosen or absf(map_view.avatar_s-map_view.route.dock_s(chosen))>0.01:return
+297: 		_close_modal();start_level(chosen)
+298: 	)
+299: 
+300: func _unlock_reason(id: String) -> String:
+
+315: func start_level(id: String) -> void:
+316: 	if not progress.is_unlocked(id): return
+317: 	_map_focus_before_play=_next_level()
+318: 	_new_screen("play")
+319: 	current_level = Levels.get_level(id)
+320: 	if current_level.is_empty(): show_map(); return
+321: 	seed_counter += 1
+322: 	core = Core.new()
+323: 	core.setup(current_level,int(Time.get_ticks_msec()) + seed_counter*7919)
+324: 	world.guardian_light = 0.0
+325: 	if not current_level.is_empty():
+326: 		box.hide();world.hide()
+327: 		first_scene=FirstCrystals.new();stage.add_child(first_scene)
+328: 		first_scene.reduced_motion=progress.option("reduced_motion")
+329: 		board=first_scene.board;moves_label=first_scene.moves_label;goal_label=first_scene.goal_label;status_label=first_scene.status_label;lantern_bar=first_scene.lantern_bar
+330: 		board.setup(core,progress.option("reduced_motion"));first_scene.configure(current_level,core);board.swap_requested.connect(_on_swap);board.foley_requested.connect(_play_foley)
+331: 		first_scene.pause_requested.connect(show_pause);first_scene.hint_requested.connect(_hint);first_scene.exit_requested.connect(_exit_level)
+332: 		action_buttons.assign([first_scene.pause_button,first_scene.hint_button,first_scene.exit_button])
+333: 		_resize_stage();first_scene.layout();_update_hud();return
+334: func _remaining(values: Array) -> int:
+
+
+FILE scripts/slice_map_view.gd {"bytes": 13031, "sha256": "c3d01308cd7b2bcb1909abc6dc3cc41a28503fbf71d616e5f55c1a75395640c0"}
+
+1: extends "res://scripts/story_map_view.gd"
+2: signal arrived_at_level(id: String)
+3: const Route=preload("res://scripts/slice_route.gd")
+4: const WALK_ATLAS=preload("res://assets/shared_v2/walk_sheet.png")
+5: const IDLE_MASTER=preload("res://assets/shared_v2/hero_master.png")
+6: const IDLE_GROUND=Vector2(256.0,467.0)
+7: # Visual registration markers measured from FINAL PNG alpha>=128, rows80..299.
+8: # These are image-space markers, not anatomy or planted-foot claims.
+9: const IDLE_REFERENCE=Vector2(258.96113175779726,206.42697575098043)
+10: const WALK_REFERENCES=[
+11:  Vector2(209.13257463789535,206.30165533550104),
+12:  Vector2(208.7968720597152,206.21272502979488),
+13:  Vector2(208.7968720597152,206.21272502979488),
+14:  Vector2(209.39845801308064,207.13355134386785),
+
+112: func _frame_texture(index: int) -> AtlasTexture:
+113:  var texture=AtlasTexture.new();texture.atlas=WALK_ATLAS
+114:  texture.region=Rect2(Vector2((index%3)*512,int(index/3)*512),Vector2(512,512))
+115:  texture.filter_clip=true
+116:  return texture
+117: func _render_avatar() -> void:
+118:  if not slice_ready:return
+119:  var walking: bool=journey_active and not reduced_motion
+120:  var step: int=[0,1,2,1][int(walk_distance/12.0)%4] if walking else 0
+121:  var frame: int=step+(3 if facing_back else 0)
+122:  var sprite_id: int=frame if walking else -2
+123:  if sprite_id!=_last_sprite_frame:
+124:   gnome.texture=_frame_texture(frame) if walking else IDLE_MASTER
+125:   _last_sprite_frame=sprite_id
+126:  # Retain the existing horizontal-facing behavior for this two-view playtest.
+127:  # This mirror fallback is a known limitation, not four newly drawn directions.
+128:  gnome.flip_h=facing_left
+129:  var anchor: Vector2=IDLE_GROUND
+130:  if walking:anchor+=WALK_REFERENCES[frame]-IDLE_REFERENCE
+131:  if facing_left:anchor.x=512.0-anchor.x
+132:  # One image-space correction only; metadata residuals are NOT applied again.
+133:  gnome.position=avatar_foot()-gnome.size*anchor/512.0
+134:  shadow.size=gnome.size
+135:  shadow.position=avatar_foot()-shadow.size*IDLE_GROUND/512.0
+136: 
+137: func _sync_controls() -> void:
+138:  if not slice_ready:return
+139:  var arrived: bool=not journey_active and not journey_paused and not selected_level.is_empty() and absf(avatar_s-route.dock_s(selected_level))<0.01 and model.is_unlocked(selected_level)
+
+243: func _process(delta: float) -> void:
+244:  if not slice_enabled:
+245:   super._process(delta);return
+246:  _walking=false
+247:  super._process(delta)
+248:  if journey_active and interaction_enabled and not _pointer_active:
+249:   var old: float=avatar_s
+250:   var speed: float=100.0 # Original-art pixels/second; proportional to world scale.
+251:   avatar_s=move_toward(avatar_s,target_s,speed*minf(delta,0.05))
+252:   var movement: Vector2=route.point(avatar_s)-route.point(old)
+253:   if movement.length_squared()>0.001:
+254:    facing_back=movement.y<0
+255:    if absf(movement.x)>0.1:facing_left=movement.x<0
+256:   walk_distance+=absf(avatar_s-old)
+257:   _render_avatar();_focus_avatar(false,delta)
+258:   if absf(target_s-avatar_s)<0.01:_arrive()
+259:  elif slice_ready:
+260:   _render_avatar()
+
+
+FILE scripts/first_crystals_view.gd {"bytes": 11003, "sha256": "a2366cd2e2f48be93935648a5e8ad9521e51dc7f7fbb804e2e4372298933fda6"}
+
+1: extends Control
+2: signal pause_requested
+3: signal hint_requested
+4: signal exit_requested
+5: const Board=preload("res://scripts/board_view.gd")
+6: const Trails=preload("res://scripts/goal_trails.gd")
+7: const Art=preload("res://scripts/story_art.gd")
+8: const BACKGROUND=preload("res://assets/first_crystals/cave_background_v1.png")
+
+60: 	pause_button=button("Ⅱ",func() -> void:pause_requested.emit())
+61: 	hint_button=button("✦  Hint",func() -> void:hint_requested.emit())
+62: 	exit_button.tooltip_text="Back to the map";pause_button.tooltip_text="Pause"
+63: 	gnome=texture(Art.gnome())
+64: 	guardian=texture(Art.material(3));guardian.hide()
+65: 	helper=label("Light the way!",24)
+66: 	trails=Trails.new();add_child(trails);trails.z_index=20;trails.arrived.connect(on_arrived)
+67: 	layout()
+68: func texture(image: Texture2D) -> TextureRect:
+69: 	var t=TextureRect.new();t.texture=image;t.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;t.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED;t.mouse_filter=Control.MOUSE_FILTER_IGNORE;add_child(t);return t
+
+159: 		secondary_goal_label.text="FREE RUNES   %d / %d"%[shown_runes,_level.rune_cells.size()]
+160: func on_arrived(amount: int) -> void:
+161: 	# The core owns counts. Late flights may never inflate the displayed objective.
+162: 	shown_collected=mini(objective_done(),shown_collected+amount)
+163: 	goal_label.text="%d / %d"%[shown_collected,target];lantern_bar.value=shown_collected
+164: 	if reduced_motion:return
+165: 	if _pulse!=null and _pulse.is_valid():_pulse.kill()
+166: 	goal_icon.pivot_offset=goal_icon.size*0.5
+167: 	_pulse=create_tween();_pulse.tween_property(goal_icon,"scale",Vector2.ONE*1.13,0.07);_pulse.tween_property(goal_icon,"scale",Vector2.ONE,0.12)
+168: func celebrate() -> void:
+169: 	gnome.texture=Art.gnome(true)
+170: 	helper.text="Passage open!"
+171: 	if reduced_motion:return
+172: 	gnome.pivot_offset=gnome.size*Vector2(0.5,1.0)
+173: 	var tw=create_tween();tw.tween_property(gnome,"scale",Vector2.ONE*1.06,0.16).set_trans(Tween.TRANS_SINE);tw.tween_property(gnome,"scale",Vector2.ONE,0.16)
+174: func _draw() -> void:
+175: 	if size.x<=0:return
+176: 	draw_texture_rect(BACKGROUND,Rect2(Vector2.ZERO,size),false)
+177: 	if not hud_rects.has("moves"):return
+178: 	Art.panel().draw(get_canvas_item(),hud_rects.moves)
+179: 	Art.panel().draw(get_canvas_item(),hud_rects.goal)
+180: 	Art.panel(Color(0.65,0.77,0.72,0.9)).draw(get_canvas_item(),hud_rects.helper)
+
+
+FILE scripts/story_art.gd {"bytes": 2458, "sha256": "a047857f713c08bfc528bf7d10c37da2ac778298b46c235873dd81d8d7961bd2"}
+
+1: extends RefCounted
+2: const TREASURES=preload("res://assets/storybook/treasures_v4.png")
+3: const MATERIALS=preload("res://assets/storybook/ui_materials_v1.png")
+4: const MAP=preload("res://assets/storybook/descending_world_v2.png")
+5: const GNOMES=preload("res://assets/shared_v2/hero_master.png")
+6: const WALK=preload("res://assets/storybook/gnome_walk_atlas_v1.png")
+7: const SIDE_GNOMES=preload("res://assets/storybook/side_gnomes_v1.png")
+
+21: 	if index<3:t.region.size.y=448
+22: 	return t
+23: static func gnome(_victory: bool=false) -> AtlasTexture:return region(GNOMES,0,1,1)
+24: static func hero_walk_frame(index: int) -> AtlasTexture:return region(WALK,index%4,2,2)
+25: static func side_gnome(index: int) -> AtlasTexture:return region(SIDE_GNOMES,index%2,2,1)
+
+
+FILE scripts/pre_level_view.gd {"bytes": 11364, "sha256": "2859df1429d2720ea67afcbc1c3346c107f71e9668dfc0b30b493e178f18767f"}
+
+72: 		var caption=Label.new();caption.name="Caption";caption.text="SOIL" if data.type=="floor" else ("RUNES" if data.type=="rune" else ("LANTERN" if data.type=="lantern" else "COLLECT"))
+73: 		caption.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER;caption.mouse_filter=Control.MOUSE_FILTER_IGNORE;caption.add_theme_font_override("font",Art.font());caption.add_theme_color_override("font_color",Color("fff1c4"));card.add_child(caption)
+74: 	play_button=Button.new();play_button.text="PLAY" if unlocked else "LOCKED";play_button.disabled=not unlocked;play_button.pressed.connect(request_play)
+75: 	play_button.add_theme_font_override("font",Art.font());play_button.add_theme_color_override("font_color",Color("fff9d7"));play_button.add_theme_color_override("font_outline_color",Color("284c23"));play_button.add_theme_constant_override("outline_size",3)
+76: 	for state in ["normal","hover","pressed","disabled"]:
+77: 		var skin=StyleBoxFlat.new();skin.bg_color=Color("479938") if state=="normal" else (Color("62b447") if state=="hover" else (Color("32772c") if state=="pressed" else Color("5d626a")))
+78: 		skin.border_color=Color("ffd472") if state!="disabled" else Color("b7a786");skin.set_border_width_all(4);skin.set_corner_radius_all(30);skin.shadow_color=Color(0.1,0.04,0.01,0.6);skin.shadow_size=5;skin.shadow_offset=Vector2(0,5);play_button.add_theme_stylebox_override(state,skin)
+79: 	panel.add_child(play_button)
+80: 	close_button=Button.new();close_button.text="×";close_button.pressed.connect(func() -> void:closed.emit());close_button.add_theme_stylebox_override("normal",Art.round_button());close_button.add_theme_stylebox_override("hover",Art.round_button());panel.add_child(close_button)
+81: 	layout()
+82: 	if not reduced_motion:
+83: 		panel.scale=Vector2.ONE*0.94;panel.modulate.a=0.0
+84: 		var tween=create_tween().set_parallel(true);tween.tween_property(panel,"scale",Vector2.ONE,0.18).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT);tween.tween_property(panel,"modulate:a",1.0,0.14)
+85: 	if unlocked:play_button.grab_focus()
+
+
+FILE scripts/board_view.gd {"bytes": 33490, "sha256": "c0f68b6a37805278db1684200e7d5c6bc3672bfdc04fb5d6b9b908d177a44781"}
+
+410: func _animate_swap(event: Dictionary, epoch: int) -> void:
+411: 	var a := int(event.get("a", -1))
+412: 	var b := int(event.get("b", -1))
+413: 	if not _is_gem(a) or not _is_gem(b):
+414: 		await _wait(0.05)
+415: 		return
+416: 	_moving = [{"from": a, "to": b, "kind": int(_display_grid[a])}, {"from": b, "to": a, "kind": int(_display_grid[b])}]
+417: 	if not _drop_preview.is_empty() and int(_drop_preview.from) == a and int(_drop_preview.to) == b:
+418: 		_moving[0]["start_position"] = Vector2(_drop_preview.position)
+419: 		_moving[0]["start_scale"] = 1.08
+420: 		var partner: Dictionary = _drop_preview.get("partner", {})
+421: 		if not partner.is_empty() and int(partner.index) == b:
+422: 			_moving[1]["start_position"] = Vector2(partner.position)
+423: 		_drop_preview.clear()
+424: 	_hidden = {a: true, b: true}
+425: 	_motion_t = 0.0
+426: 	_falling = false
+427: 	_tween = create_tween()
+428: 	_tween.tween_property(self, "_motion_t", 1.0, 0.17).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT if _moving[0].has("start_position") else Tween.EASE_IN_OUT)
+429: 	queue_redraw()
+430: 	await _wait(0.18)
+431: 	if epoch == _epoch:
+432: 		_motion_t = 1.0
+
+436: func _prepare_clear(event: Dictionary) -> void:
+437: 	var cleared: Array=event.get("indices",event.get("matched",[]))
+438: 	if not cleared.is_empty():foley_requested.emit("break",clampf(0.7+cleared.size()*0.035,0.8,1.15))
+439: 	_clearing.clear()
+440: 	_releases.clear()
+441: 	for raw_index in event.get("indices", event.get("matched", [])):
+442: 		var index := int(raw_index)
+443: 		_clearing[index] = true
+444: 		if polished_art and _is_gem(index) and _core.collect_goal>0 and int(_display_grid[index])==_core.collect_kind:
+445: 			goal_piece_cleared.emit(get_global_transform()*_center(index))
+446: 		if _is_gem(index) and not reduced_motion:
+
+464: func _animate_clear(event: Dictionary, epoch: int) -> void:
+465: 	_prepare_clear(event)
+466: 	_effect_t = 0.0
+467: 	_tween = create_tween()
+468: 	_tween.tween_property(self, "_effect_t", 1.0, 0.23).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+469: 	queue_redraw()
+470: 	await _wait(0.24)
+471: 	if epoch == _epoch:
+472: 		_effect_t = 1.0
+473: 
+474: func _animate_fall(event: Dictionary, epoch: int) -> void:
+475: 	_moving.clear()
+476: 	_hidden.clear()
+477: 	var spawn_counts: Dictionary = {}
+478: 	var longest := 1.0
+
+500: 			longest = maxf(longest, float(target / _cols - source / _cols))
+501: 		_hidden[target] = true
+502: 		_moving.append(motion)
+503: 	_motion_t = 0.0
+504: 	_landing_t = 0.0
+505: 	_falling = true
+506: 	var duration := clampf(0.16 + longest * 0.025, 0.20, 0.42)
+507: 	_tween = create_tween()
+508: 	_tween.tween_property(self, "_motion_t", 1.0, duration).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+509: 	_tween.tween_property(self, "_landing_t", 1.0, 0.10).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+510: 	queue_redraw()
+511: 	await _wait(duration + 0.11)
+512: 	if epoch == _epoch:
+513: 		_motion_t = 1.0
+514: 		_landing_t = 1.0
+515: 		_moving.clear()
+
+
+FILE scripts/goal_trails.gd {"bytes": 1780, "sha256": "c16c29810c294cbf6b0d16b1e4033acd5e4796f31786e0081775f60662bb12ee"}
+
+1: extends Control
+2: signal arrived(amount: int)
+3: var reduced_motion := false
+4: var orbs: Array = []
+5: var token_texture: Texture2D
+6: var tint: Color=Color("91e9ff")
+7: func _ready() -> void:
+8: 	mouse_filter=Control.MOUSE_FILTER_IGNORE
+9: 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+10: func launch(from_global: Vector2, to_global: Vector2, amount: int=1) -> void:
+11: 	if reduced_motion:
+12: 		arrived.emit(amount);return
+13: 	var inverse: Transform2D=get_global_transform().affine_inverse()
+14: 	var start: Vector2=inverse*from_global
+15: 	var finish: Vector2=inverse*to_global
+16: 	orbs.append({"from":start,"to":finish,"bend":start.lerp(finish,0.5)+Vector2(-70,-100),"age":0.0,"life":0.38,"amount":amount,"texture":token_texture,"tint":tint})
+17: 	while orbs.size()>64:
+18: 		arrived.emit(int(orbs[0].amount));orbs.pop_front()
+19: func point(orb: Dictionary, t: float) -> Vector2:
+20: 	return Vector2(orb.from).lerp(orb.bend,t).lerp(Vector2(orb.bend).lerp(orb.to,t),t)
+21: func _process(delta: float) -> void:
+22: 	for i in range(orbs.size()-1,-1,-1):
+23: 		orbs[i].age+=delta
+24: 		if orbs[i].age>=orbs[i].life:
+25: 			arrived.emit(int(orbs[i].amount));orbs.remove_at(i)
+26: 	queue_redraw()
+27: func _draw() -> void:
+28: 	for orb in orbs:
+29: 		var t: float=clampf(float(orb.age)/float(orb.life),0,1)
+30: 		var p: Vector2=point(orb,t)
+31: 		for trail in range(7,0,-1):
+32: 			var behind: float=maxf(0,t-float(trail)*0.025)
+33: 			draw_circle(point(orb,behind),maxf(1,5-float(trail)*0.5),Color(0.28,0.84,1.0,0.07+0.04*float(8-trail)),true,-1,true)
+34: 		draw_circle(p,12,Color(0.22,0.72,1.0,0.12),true,-1,true)
+35: 		if orb.texture!=null:
+36: 			var extent:=Vector2.ONE*44.0*(1.0-t*0.25)
+37: 			draw_texture_rect(orb.texture,Rect2(p-extent*0.5,extent),false)
+38: 		else:draw_circle(p,7,orb.tint,true,-1,true)
+39: 		draw_circle(p,2.2,Color("fffbdc"),true,-1,true)

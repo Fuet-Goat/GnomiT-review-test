@@ -1,3 +1,73 @@
+АКТУАЛНО — ALIVE_EXPERIENCE_R1_2026-10-19
+СТАТУС: DISCUSSION_ONLY / CODEX_INITIAL_PROPOSAL / PEER_RESPONSES_PENDING
+
+Човешка цел: живо изживяване още ПРЕДИ ниво 1, през селцето и картата,
+избора, влизането в мината и първите обикновени ходове. Не само големи сили.
+Нова обща тема; засега няма отговор/съгласие на GPT и Grok по нея.
+
+Прочети от текущия codex/codex/task-001:
+designs/ALIVE_EXPERIENCE_R1_2026-10-19_BG.txt
+designs/ALIVE_EXPERIENCE_SOURCE_NOTES_2026-10-19.txt
+designs/ALIVE_EXPERIENCE_TOOLCHAIN_SOURCES_2026-10-19.txt
+Пътищата са относителни спрямо този PROJECT_HUB.
+
+Само текстов R1 в собствения REPORT по task-001 REPORTS_ONLY. После един
+R2 по действителен peer commit; R3 само при съществена разлика. Няма game
+промени, генериране на art/audio, installs, purchase, grants или merge.
+GPT: ART OWNER. Grok: ANIMATION OWNER. Codex: INTEGRATION OWNER.
+Предварителен избор за оспорване: Godot runtime + Blender за assets;
+Spine е възможна 2D алтернатива, Unity миграция няма доказан blocker сега.
+
+Candy: локалният запис е Level 12361; точен clean-start преди Level 1
+НЕ е видян тук. Browser е disabled. R1 трябва да посочи действително
+наблюдение с версия/URL/таймкодове или NOT_OBSERVED. Metadata не е гледане.
+Последната V4 реализация е 411d8b44e5c0fbf006fbf29b0cc8522cd7185aae;
+тя е Mountain audio lab, не нова реализация на началото/цялото ниво 1.
+Git публикацията не стартира другите чатове: изпрати им общия prompt.
+
+Настройка за тази задача: GPT-6.1 Sol / High; Grok Build, текущ модел.
+
+ОБЩ ПРОМПТ ЗА GPT И GROK — ALIVE_EXPERIENCE_R1_2026-10-19
+
+Работим по ЕДИН GnomiT проект. Целта е живот още преди ниво 1 и в нормалните
+ходове, не още един отделен голям ефект. Запази своята GPT ART OWNER или
+Grok ANIMATION OWNER роля; ако самоличността ти е неясна, не пиши чужд REPORT.
+
+Repo: https://github.com/Fuet-Goat/GnomiT-review-test
+1. Прочети AGENTS.md и tasks/<bot>/task-001.json от актуалния main.
+   Активният scope е REPORTS_ONLY. Не чакай APPROVED implementation grant.
+2. От codex/codex/task-001 вземи актуалния commit и запиши точния SHA.
+   Прочети discussions/codex/task-001/PROJECT_HUB/designs/
+   ALIVE_EXPERIENCE_R1_2026-10-19_BG.txt,
+   ALIVE_EXPERIENCE_SOURCE_NOTES_2026-10-19.txt и
+   ALIVE_EXPERIENCE_TOOLCHAIN_SOURCES_2026-10-19.txt.
+3. Изпълни R1: отговори на седемте въпроса и предложи ЕДИН собствен вариант
+   за начало->жива карта->избор->влизане->първи ход->победа. Включи периода
+   ПРЕДИ ниво 1. Оцени Godot-only/Blender/Spine/Unity с конкретна полза.
+4. Ако можеш, действително прегледай clean-start Candy Crush до първите ходове
+   вLevel 1; запиши URL/платформа/версия/таймкодове и какво си видял.
+   Предоставеният стар запис показваLevel 12361. Не го наричайLevel 1.
+   Ако нямаш визуален достъп, посочи NOT_OBSERVED и работи по наличния код/
+   материал. Не представяй metadata, реклама, хешове или чуждо описание за гледане.
+5. Публикувай R1 като НОВ раздел с темата в собствения
+   discussions/<bot>/task-001/REPORT.txt, без да триеш историята.
+   Commit и push само в codex/<bot>/task-001; провери remote readback.
+6. След своя R1 прочети последния действителен R1 на другия bot. Ако е наличен,
+   добави ЕДИН R2 peer response с точния peer commit: приемам/оспорвам/какво
+   ще реши разликата. Ако липсва, завърши без празен status commit/polling loop.
+   Следващото човешко съобщение може да поднови R2. Няма автоматичен консенсус.
+
+Сега НЕ генерирай art/audio/анимации, НЕ пускай Godot/тестове/генератори,
+НЕ променяй game/grants/main/чужди папки, НЕ инсталирай/купувай софтуер и
+НЕ прави merge. Това е дизайн/преглед; реална сравнима проба е отделна задача.
+Върни: роля, тема, реално видени източници, до 3 приоритета, избран pipeline,
+реални разлики, commit/REPORT линк. Не твърди, че чакащ човек или друг bot
+вече е одобрил предложението. Не е нужно един и същ отговор в нов документ.
+
+Препоръка за GPT/Codex: GPT-6.1 Sol / High. Grok: Build, текущ модел.
+
+--- HISTORY (preserved original bytes below) ---
+
 АКТУАЛНО — MOUNTAIN VOLCANO V2 /19.10.2026
 
 Човекът поиска истински планински вулкан по новата снимка, в стила на играта.
