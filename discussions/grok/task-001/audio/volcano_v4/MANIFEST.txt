@@ -1,0 +1,8 @@
+MANIFEST: volcano_eruption_v4_3s (GnomiT, Grok, task-001)
+Format: name | bytes | SHA-256
+
+volcano_eruption_v4_3s.wav | 297644 | e14235fd8ae7af0f3ec0565053fa1c21885e7fd4f057a7f2a91c43dcb25ada4d | NOT committed (REPORTS_ONLY)
+PROVENANCE_volcano_eruption_v4_3s.md | 3216 | a35c2e91fa25def10a851a8ec999111936c96acd341674fd24c78df1f82b055d
+generate_volcano_eruption_v4_3s.py.txt | 1910 | fa9c6ecc795024a66d75398e3e514c36c67e7039be4b99cfce8f846202615797
+
+MANIFEST.txt itself is not listed (cannot contain its own hash).

@@ -1,0 +1,36 @@
+# Recipe for volcano_eruption_v4_3s.wav (GnomiT). Procedural numpy synthesis, no samples.
+# Usage: python generate_volcano_eruption_v4_3s.py [output.wav]
+import sys, numpy as np, wave
+outp=sys.argv[1] if len(sys.argv)>1 else 'volcano_eruption_v4_3s_rebuild.wav'
+sr=48000; rng=np.random.default_rng(91); D=3.1; n=int(D*sr); t=np.arange(n)/sr
+def bp(x,lo,hi):
+    X=np.fft.rfft(x); f=np.fft.rfftfreq(len(x),1/sr); X[(f<lo)|(f>hi)]=0; return np.fft.irfft(X,len(x))
+def nrm(x): return x/np.max(abs(x))
+h=0.6
+rum=nrm(bp(rng.standard_normal(n),20,120))
+rum*=np.where(t<h,(t/h)**1.5,np.exp(-(t-h)/1.2))*0.6
+rum*=1+0.5*nrm(bp(rng.standard_normal(n),3,12)); out=rum
+tb=np.clip(t-h,0,None); f=38+150*np.exp(-tb/0.07)
+out+=np.sin(2*np.pi*np.cumsum(f)/sr)*(t>=h)*(1-np.exp(-tb/0.004))*np.exp(-tb/0.4)
+out+=nrm(bp(rng.standard_normal(n),60,1800))*(t>=h)*np.exp(-tb/0.22)*0.6
+roar=nrm(bp(rng.standard_normal(n),60,500))
+roar*=1+0.6*nrm(bp(rng.standard_normal(n),2,8))
+roar=np.tanh(2*roar)*(t>=h)*(1-np.exp(-tb/0.15))*np.exp(-tb/1.1)*0.35
+hiss=nrm(bp(rng.standard_normal(n),2500,7000))*(t>=h)*np.exp(-tb/0.7)*0.04
+cr=np.zeros(n); big=np.zeros(n)
+for _ in range(380):
+    s=h+0.03+rng.exponential(0.8); i=int(s*sr)
+    if i>n-1500: continue
+    L=int(sr*rng.uniform(0.002,0.012)); g=rng.standard_normal(L)*np.exp(-np.linspace(0,6,L))
+    cr[i:i+L]+=g*np.exp(-(s-h)/1.2)*rng.uniform(0.1,1)**1.5
+for _ in range(45):
+    s=h+0.15+rng.uniform(0,2.0); i=int(s*sr)
+    L=int(sr*rng.uniform(0.01,0.03))
+    if i+L>n: continue
+    g=rng.standard_normal(L)*np.exp(-np.linspace(0,5,L))
+    big[i:i+L]+=g*np.exp(-(s-h)/1.3)*rng.uniform(0.3,1)
+debris=bp(cr,500,6000)*0.9+bp(big,150,1500)*0.8
+out=out+roar+hiss+debris
+out*=10**(-1.5/20)/np.max(abs(out))
+m=int(0.4*sr); out[-m:]*=np.linspace(1,0,m)**2
+with wave.open(outp,'wb') as o: o.setnchannels(1);o.setsampwidth(2);o.setframerate(sr);o.writeframes((out*32767).astype('<i2').tobytes())
