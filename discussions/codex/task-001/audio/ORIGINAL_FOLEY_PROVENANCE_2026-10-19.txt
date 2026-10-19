@@ -1,0 +1,142 @@
+{
+  "schema": 1,
+  "status": "LISTENING_PREVIEW_NOT_INTEGRATED",
+  "method": "Original procedural noise/oscillators/envelopes; no sample recordings, no network inputs",
+  "sample_dependencies": [],
+  "generator_seed": 2026101901,
+  "numpy_version": "2.3.5",
+  "human_listening_acceptance": "PENDING",
+  "game_modified": false,
+  "audacity_processing": "NOT_USED; standard PCM WAVs ready to import for listening/editing",
+  "files": [
+    {
+      "path": "01_stone_move_original_v1.wav",
+      "bytes": 23084,
+      "sha256": "8b429bed1f0033f48e53d33b2bae65a3bb72adbb15c76d17e82e103e5a0d8685",
+      "pcm_sha256": "753b4ac1854b2adee45e31366c808eed0e094fca3e4b02bfeab7a90fc5fb4341",
+      "sample_rate": 48000,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frames": 11520,
+      "seconds": 0.24,
+      "key": "MOVE",
+      "seed": 2026101901,
+      "event_timing": {
+        "main_contact_seconds": 0.01,
+        "final_fade_seconds": 0.055
+      },
+      "mastering": {
+        "peak_ceiling_dbfs": -7.5,
+        "rms_ceiling_dbfs": -23
+      },
+      "external_sample_dependencies": [],
+      "method": "Original deterministic NumPy synthesis"
+    },
+    {
+      "path": "02_stone_break_original_v1.wav",
+      "bytes": 74924,
+      "sha256": "4461a63c7928ce5b52fdaf17b819579718fd2cf8d2d57ad345a2527508e48892",
+      "pcm_sha256": "59ae8814ae9c821ac23f5b40113631b775f0d7860ad49b8c0d0009260c1f4fd5",
+      "sample_rate": 48000,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frames": 37440,
+      "seconds": 0.78,
+      "key": "BREAK",
+      "seed": 2026101902,
+      "event_timing": {
+        "main_fracture_seconds": 0.006,
+        "fragment_contacts_seconds": [
+          0.043,
+          0.091,
+          0.157,
+          0.229,
+          0.315,
+          0.412,
+          0.505
+        ],
+        "final_fade_seconds": 0.1
+      },
+      "mastering": {
+        "peak_ceiling_dbfs": -4.5,
+        "rms_ceiling_dbfs": -20
+      },
+      "external_sample_dependencies": [],
+      "method": "Original deterministic NumPy synthesis"
+    },
+    {
+      "path": "03_volcano_original_v1.wav",
+      "bytes": 155564,
+      "sha256": "845927dd721ff9b71491bf9adafb64ccede944327f9529f733e4e54eb598ed9b",
+      "pcm_sha256": "ccf99e2c643017e454c5c9934978122f8cb219a06e0b2740ad1fec15fd389dbc",
+      "sample_rate": 48000,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frames": 77760,
+      "seconds": 1.62,
+      "key": "VOLCANO",
+      "seed": 2026101903,
+      "event_timing": {
+        "eruption_seconds": 0.36,
+        "magic_notes_seconds": [
+          0.97,
+          1.095,
+          1.225
+        ],
+        "magic_notes_hz": [
+          523.25,
+          659.25,
+          783.99
+        ],
+        "final_fade_seconds": 0.105
+      },
+      "mastering": {
+        "peak_ceiling_dbfs": -4.0,
+        "rms_ceiling_dbfs": -19
+      },
+      "external_sample_dependencies": [],
+      "method": "Original deterministic NumPy synthesis"
+    },
+    {
+      "path": "04_lava_impact_original_v1.wav",
+      "bytes": 73004,
+      "sha256": "7340943196e05e7f45286ee8382595adf8296d1dc8844686f9e93cef725cf2fb",
+      "pcm_sha256": "9247e6daf1613a210b165cad054c31b9c4fcddb9368a5ea4a1445b1b5c4273e9",
+      "sample_rate": 48000,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frames": 36480,
+      "seconds": 0.76,
+      "key": "LAVA_IMPACT",
+      "seed": 2026101904,
+      "event_timing": {
+        "main_impact_seconds": 0.005,
+        "burn_start_seconds": 0.04,
+        "fragment_contacts_seconds": [
+          0.048,
+          0.109,
+          0.181,
+          0.263
+        ],
+        "final_fade_seconds": 0.115
+      },
+      "mastering": {
+        "peak_ceiling_dbfs": -5.0,
+        "rms_ceiling_dbfs": -21
+      },
+      "external_sample_dependencies": [],
+      "method": "Original deterministic NumPy synthesis"
+    }
+  ],
+  "comparison": {
+    "path": "05_all_four_listening_strip.wav",
+    "bytes": 698924,
+    "sha256": "85ae2edf59bd07bc1480c360aaca6621703a9dd910d1634ddee948268dbd3c16",
+    "pcm_sha256": "95a54b35c52b8d880ed3b6a9ad11dafcaf0c8f9e94ce03a994b0e9808922cef7",
+    "sample_rate": 48000,
+    "channels": 1,
+    "sample_width_bytes": 2,
+    "frames": 349440,
+    "seconds": 7.28
+  }
+}
