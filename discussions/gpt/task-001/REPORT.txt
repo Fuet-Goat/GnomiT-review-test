@@ -2523,3 +2523,91 @@ game edits/Godot, audio rendering, tests,
 changes in grant/main/other report или merge.
 Оригиналният REPORT е запазен byte-for-byte.
 ==============================================================================
+
+
+==============================================================================
+MATERIAL_FOLEY_R1_2026-10-19 / PEER_RESPONSE
+BOT=gpt | STATUS=ONE REAL GROK PEER REVIEW / DISCUSSION_ONLY
+OWN_INDEPENDENT_R1_COMMIT=86c213e38f4456cd9b430c18301fdd0a6151087b
+GROK_R1_EXACT_COMMIT=5a5b68edb8df2eeb3039e0791377483862a06d66
+GROK_REPORT_BLOB=83ec1651855b378914aeedd4c83500e09a6fc44b
+INPUT_PROMPT_COMMIT=d4eddc63aa7b8db71e82c00d021fb833510137af
+GROK_SECTION_READ=MATERIAL_FOLEY_R1_2026-10-19 / INDEPENDENT_RESPONSE
+REPORTS_ONLY=YES | WRITE_PATH=discussions/gpt/task-001/REPORT.txt
+
+1. РЕАЛНО СЪГЛАСИЕ С GROK R1
+
+След прочит от ТОЧНИЯ Grok commit потвърждавам, че
+трите lightweight MOVE семейства CRYSTAL / ORE /
+SMOOTH са и неговият, и моят независим първи избор.
+Те са 3 ТЕКСТУРИ в един стил, не 7 pitch нотки;
+Shell е бъдеща идея, не сегашен седми материал.
+ONE MOVE per initiating grabbed material/token на
+действително swap действие; coloured power използва
+stored mineral, а не icon family; explosion/storm
+остава на действително power activation event.
+Невалидна размяна: най-много един тих MOVE, НУЛА
+MATCH, НУЛА MOVE за swap-back. Cascade: MATCH за
+nonempty clear event, НУЛА автоматични MOVE.
+Сегашното source clock е визуален .17s tween/
+.18s wait, не разрешение за цял V4 .58s при MOVE.
+Никой не е чул V4 в този кръг: AUDIO_NOT_AVAILABLE.
+Grok изрично посочва това също. Всяка бъдеща
+публикация иска clean provenance/license.
+Роли: Grok създава нови кандидати при нов approved
+task, GPT преглежда материала и completeness,
+Codex валидира event clock/микс/clip, човекът
+избира по слух. Равен sound volume не е гарантиран
+само от peak метриката.
+
+2. НЮАНС И ОСТАВАЩИ ИЗМЕРИМИ ВЪПРОСИ
+
+Grok предлага 0.16–0.28s ВКЛЮЧИТЕЛНО кратък tail,
+аз отделям полезната контактна енергия ~0.17–0.24s
+и допустим tail до ~0.26–0.32s. Това са припокриващи
+се НАЧАЛНИ диапазони, не доказани оптимални
+настройки и не сериозно творческо несъгласие.
+Предлагам за първия еднакъв A/B ориентир total
+duration <=0.28s, после човекът може да избере
+малко по-дълъг мек край само ако не маскира MATCH.
+
+Уточнение към фразата на Grok "second lobe is a
+later contact": сигналният отчет доказва СИЛЕН
+20ms RMS прозорец при .34s, но НЕ доказва
+семантично какъв обект се е ударил или дали е
+MOVE, MATCH, reverberation/secondary stone tap.
+Без WAV/стемове/слушане го описваме като
+"later energy accent", без да го именуваме
+като авторски отделен контакт. В4 остава
+reference-only, не production-approved.
+
+Качеството при бърза каскада и при 8-voice
+pool все още е отворено: новата обективна проба
+трябва да измери headroom, voice stealing,
+MATCH masking, invalid/rollback once,
+reduced_motion и sound-off epoch cancel.
+Това не е спор с Grok, а acceptance gap,
+който не се затваря от обща текстова препоръка.
+
+3. ЕДИН СЪГЛАСУВАН КАНДИДАТ ЗА БЪДЕЩ ПАКЕТ
+(НЕ Е ЧОВЕШКО ОДОБРЕНИЕ И НЕ Е ИЗПЪЛНЕН)
+
+При ново изрично разрешение: 3 newly authored
+material MOVE + 1 generic MATCH/BREAK, 1 baseline
+control, A/B strip с един success, един rejected
+swap и cascade; source recipe/stems/generator
+и лиценз за всяко съдържание; master/checksums,
+event map, измерен duration/loudness/clipping,
+реален кратък Godot mix clip от Codex.
+Окончателно приемане само след човешко слушане.
+НЕ е изготвен ZIP, WAV, OGG, нов audio shader
+или patch в този REPORTS_ONLY кръг.
+
+Съгласието по посока за A–E НЕ е тристранен
+consensus, не е одобрение за интеграция,
+не е реален аудио тест и не докладва
+преглеждане на липсващ V4 WAV. Първият GPT
+INDEPENDENT_RESPONSE остава byte-for-byte горе.
+Няма чужд REPORT edit, Godot, генерация,
+grants/main/merge или повторен polling.
+==============================================================================
