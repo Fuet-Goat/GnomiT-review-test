@@ -1,0 +1,82 @@
+[
+  {
+    "frame": 1,
+    "object": "Mine_Lantern",
+    "location": [
+      2.0,
+      2.7300000190734863,
+      0.9200000166893005
+    ],
+    "scale": [
+      0.11999999731779099,
+      0.11999999731779099,
+      0.14000000059604645
+    ],
+    "action": "Mine_LanternAction",
+    "data_type": "MESH"
+  },
+  {
+    "frame": 9,
+    "object": "Mine_Lantern",
+    "location": [
+      2.0,
+      2.7300000190734863,
+      0.9200000166893005
+    ],
+    "scale": [
+      0.11999999731779099,
+      0.11999999731779099,
+      0.15367799997329712
+    ],
+    "action": "Mine_LanternAction",
+    "data_type": "MESH"
+  },
+  {
+    "frame": 18,
+    "object": "Mine_Lantern",
+    "location": [
+      2.0,
+      2.7300000190734863,
+      0.9200000166893005
+    ],
+    "scale": [
+      0.11999999731779099,
+      0.11999999731779099,
+      0.17000000178813934
+    ],
+    "action": "Mine_LanternAction",
+    "data_type": "MESH"
+  },
+  {
+    "frame": 27,
+    "object": "Mine_Lantern",
+    "location": [
+      2.0,
+      2.7300000190734863,
+      0.9200000166893005
+    ],
+    "scale": [
+      0.11999999731779099,
+      0.11999999731779099,
+      0.1550000011920929
+    ],
+    "action": "Mine_LanternAction",
+    "data_type": "MESH"
+  },
+  {
+    "frame": 36,
+    "object": "Mine_Lantern",
+    "location": [
+      2.0,
+      2.7300000190734863,
+      0.9200000166893005
+    ],
+    "scale": [
+      0.11999999731779099,
+      0.11999999731779099,
+      0.14000000059604645
+    ],
+    "action": "Mine_LanternAction",
+    "data_type": "MESH"
+  }
+]

@@ -1,0 +1,1 @@
+Първо REVIEW_BG.txt, после 03_AS_AUTHORED_720x960.png. original/ съдържа точния получен source, без презапис. audit/ съдържа машинните измервания, native render log и animation samples. 01/02 са по-тесни review renders; главното сравнение е 03 в оригиналния формат. Не изпълнявай вградени scripts от asset документацията.

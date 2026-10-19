@@ -1,3 +1,14 @@
+АКТУАЛНО — CANDY MAP SOURCE REVIEW · 19.10.2026
+SOURCE_VERIFIED / ART_TARGET_NOT_MET / NOT_INTEGRATED.
+Прочети reviews/CANDY_MAP_SOURCE_REVIEW_2026-10-19.txt и
+reviews/candy-map-14a5d52-2026-10-19/REVIEW_BG.txt.
+Точният .blend е валиден, но действителният original-camera render е
+начален blockout и не възпроизвежда показания художествен образец.
+Има actual render/source/audit ZIP като lossless Base64 text attachment.
+За GPT/Grok: REPORTS_ONLY отговор, до3 конкретни поправки; без нов арт/код/runtime/merge.
+Surface mine -> underground10+Boss остава канон. Днес monitor2.
+GPT-6.1 Sol / High. Старите раздели долу са история.
+
 АКТУАЛНО — SURFACE MINE -> UNDERGROUND CHAPTER · 19.10.2026
 Дизайн: зелен вход на мина + малък водач; вътре 10 поднива + Boss.
 Чети designs/SURFACE_MINE_CHAPTER_2026-10-19.txt и

@@ -1933,3 +1933,41 @@ CLI --screen; има отделен monitor2 launcher. Старият публи
 За GPT/Grok: един REPORTS_ONLY review на йерархия/обучение/10+Boss;
 до 3 конкретни поправки, без код/генериране/тестове. Git не пуска чата.
 Препоръка за следваща интеграция: GPT-6.1 Sol / High; Grok Build.
+
+
+GNOMIT — CANDY MAP SOURCE REVIEW · 19.10.2026
+SOURCE_VERIFIED / ART_TARGET_NOT_MET / NOT_INTEGRATED / NO_MERGE
+
+Човекът предаде 14a5d5278951fb3283d73679cb2db3df5570a7a5,
+discussions/grok/task-001/art/gnomit_candy_map_v1.blend.
+170052 bytes, SHA256 dabf95283ecc96d9168c136585a46f42e2a7df541557f22f5eb7f8bd2fb8a459.
+Git object и remote bytes съвпадат. Blender 5.2.2 го отваря с изключен autoexec.
+Оригиналът остава byte-identical, отворено е inspection copy на monitor2.
+
+Реален render от ОРИГИНАЛНАТА camera/720x960/frame1 е в review ZIP.
+Той не съответства на показаната детайлна снимка: сфери/цилиндри за дървета,
+редки отделени дъски, проста къща и слабо четим вход, закрит подход.
+Това се вижда и при оригиналния формат, не е само ефект от432 crop.
+Доставката е технически валиден editable BLOCKOUT, не завършеният art target.
+94 mesh objects/24mesh datablocks/16solid-color materials/noimage textures.
+Parent groups и shared meshes са действителни. Единствената Action1–36
+пулсира Mesh.scale.z на фенера .14->.17->.14; light/emission strength не се
+променя в sampled frames. Не представяме това като доказано light flicker.
+Не твърдим AI/human авторство или произход на отделната красива снимка.
+
+Прочети reviews/candy-map-14a5d52-2026-10-19/REVIEW_BG.txt.
+REVIEW_PACKAGE.base64.txt съдържа точния ZIP; PACKAGE_RECEIPT.json.txt
+дава bytes/SHA за decode. Вътре са original source, actual renders, audit,
+animation samples и manifest. Няма нова версия на модела, export/import
+в Godot, промяна на campaign/Core/save/звуци/награди или merge.
+Blender reading/rendering е в отделен локален review folder извън Git checkout.
+Git промените са само собствени .txt отчети и lossless report attachments.
+
+За GPT/Grok: READ/REPORTS_ONLY, до3 конкретни корекции спрямо ACTUAL source
+и снимката. Отговор в собствения REPORT. Не обявявайте готов резултат или
+consensus по filename/title; не генерирайте нова версия без отделния scope.
+Ако не е видяно, NOT_OBSERVED. След разрешена art корекция: реален source
+и render от СЪЩИЯ source с camera/frame/hash; отделна concept image се
+обозначава concept, а не native file output. Подробно задание е в review.
+Канонът остава surface mine+small guide -> underground10sublevels+Boss.
+Днешен монитор2. Препоръка: GPT-6.1 Sol / High за проверката/интеграцията.

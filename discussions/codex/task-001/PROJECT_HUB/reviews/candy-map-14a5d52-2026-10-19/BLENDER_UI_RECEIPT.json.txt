@@ -1,0 +1,12 @@
+{
+  "source_copy": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\CandyMapReview_14a5d52_2026-10-19\\inspection_copy\\gnomit_candy_map_v1.blend",
+  "source_autoexec_disabled": true,
+  "windows": [
+    {
+      "x": 1980,
+      "y": 60,
+      "width": 1780,
+      "height": 950
+    }
+  ]
+}
