@@ -1,0 +1,46 @@
+{
+  "topic": "MATERIAL_FOLEY_R1_2026-10-19",
+  "peers": {
+    "gpt": {
+      "commit": "68ce091eb3929aea96e458a60b7b6c9ccad87cdb",
+      "report_path": "discussions/gpt/task-001/REPORT.txt",
+      "report_blob": "580315ce49e7b39430f53283f04540c17728bd3a",
+      "report_identity": {
+        "bytes": 176420,
+        "sha256": "0df280fa2e92da985ceed66beac7683ca08ee2fcb2b2b88df52cabd74ec5edfa"
+      },
+      "section_identity": {
+        "bytes": 18163,
+        "sha256": "1812420b1b45298064988502c070d46f418f799fd9ed44b195caacb8ca72204b"
+      },
+      "section_start_line": 2319,
+      "changed_files": [
+        "discussions/gpt/task-001/REPORT.txt"
+      ],
+      "audio_status": "AUDIO_NOT_AVAILABLE",
+      "peer_response_present": true,
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/blob/68ce091eb3929aea96e458a60b7b6c9ccad87cdb/discussions/gpt/task-001/REPORT.txt"
+    },
+    "grok": {
+      "commit": "5a5b68edb8df2eeb3039e0791377483862a06d66",
+      "report_path": "discussions/grok/task-001/REPORT.txt",
+      "report_blob": "83ec1651855b378914aeedd4c83500e09a6fc44b",
+      "report_identity": {
+        "bytes": 61007,
+        "sha256": "4ed5630302f968ca74b538999ae32d99d5dcec715ef9ca4faf777c317251c0af"
+      },
+      "section_identity": {
+        "bytes": 3325,
+        "sha256": "9d0ef5aab388b0435644a3343cb04c4a9879e1eaa5bd670b092fa9e0100b8cc5"
+      },
+      "section_start_line": 594,
+      "changed_files": [
+        "discussions/grok/task-001/REPORT.txt"
+      ],
+      "audio_status": "AUDIO_NOT_AVAILABLE",
+      "peer_response_present": false,
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/blob/5a5b68edb8df2eeb3039e0791377483862a06d66/discussions/grok/task-001/REPORT.txt"
+    }
+  },
+  "gpt_independent_r1_commit": "86c213e38f4456cd9b430c18301fdd0a6151087b"
+}

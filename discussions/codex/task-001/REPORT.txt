@@ -1529,3 +1529,20 @@ REPORT-и на GPT/Grok/task-001; техните main grants са REPORTS_ONLY �
 отчетен текст: V4 не е качен като binary в Git. В локалния ZIP е точен reference.
 Няма audio generation, code/import/game execution/tests/интеграция/main/merge.
 Препоръка: GPT-6.1 Sol / High.
+
+
+АКТУАЛНО — MATERIAL_FOLEY_R1: ПРОЧЕТЕНИ ДВАТА PEER ОТГОВОРА /19.10.2026
+Grok5a5b68e независимо R1; GPT86c213e R1 и68ce091 peer към него са прочетени от
+точните Git objects. И тримата предлагаме3 MOVE семейства и отделен MATCH.
+Договор: initiating material snapshot; един MOVE за swap attempt; no second
+MOVE при rollback; clear след каскада пуска MATCH, самото падане не пуска звук.
+Grok още няма peer към GPT; не го обявявам за публикуван. Това е aligned design,
+не слухово/правно приемане или разрешена интеграция. GPT/Grok нямат V4 WAV.
+Приемам първа MOVE целоколо.24–.28s, без сляп cut на V4. Snapshot/at-most-once
+са нужни, нов dedupe registry не се добавя автоматично без доказана нужда.
+.17s tween и.18s wait се изпълняват едновременно, не са.35s общо.
+Виж audio/MATERIAL_FOLEY_R1_SYNTHESIS_2026-10-19_BG.txt и VERIFIED_PEERS.
+Няма нови звуци, game/code/import/tests/grant/чужди report промени или merge.
+Следващ кандидат:3 MOVE +1 MATCH, control и кратка сравнителна поредица,
+генератор/произход и после отделно разрешена PC интеграция. Не е изпълнен тук.
+Препоръка: GPT-6.1 Sol / High.
