@@ -1511,3 +1511,21 @@ Font identity/embedded OFL са проверени директно от SFNT. �
 Audacity не е използван за обработката; WAV са import-ready. Не обявяваме
 интеграция: всички399 game файла са непроменени. Без main/merge или чужди edits.
 Препоръка: GPT-6.1 Sol / High.
+
+
+АКТУАЛНО — MATERIAL_FOLEY_R1_2026-10-19
+
+Човекът одобри обсъждане с GPT/Grok за материалното плъзгане. Codex R1:3 леки
+MOVE семейства (Crystal/Ore/Smooth), един MOVE на логическа размяна според
+хванатия материал, отделен MATCH за реално clear събитие. Неуспешен ход няма
+MATCH; каскада не добавя MOVE. V4 .579979s с късен силен акцент е кандидат за
+общ MOVE→MATCH, не доказателство, че двете действия са авторирани отделно.
+Точният V4/измервания и статичният current code са описани в audio/MATERIAL_FOLEY_R1_2026-10-19_BG.txt.
+Един общ prompt за двамата: audio/COMMON_PROMPT_MATERIAL_FOLEY_R1_2026-10-19_BG.txt. Отговорите са в СОБСТВЕНИТЕ
+REPORT-и на GPT/Grok/task-001; техните main grants са REPORTS_ONLY и не е нужен
+нов task grant за този текстов кръг. Първо независимо R1, после peer response.
+При проверката още няма peer отговор по точната тема. Няма consensus или
+твърдение, че GPT/Grok са стартирани автоматично. Сегашният grant допуска само
+отчетен текст: V4 не е качен като binary в Git. В локалния ZIP е точен reference.
+Няма audio generation, code/import/game execution/tests/интеграция/main/merge.
+Препоръка: GPT-6.1 Sol / High.
