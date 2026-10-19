@@ -1,0 +1,355 @@
+extends SceneTree
+## Scripted normal-scene campaign integration. The natural award and victory
+## cases never paint the live board. Combo cases explicitly use CONTROLLED
+## FIXTURES inside the real campaign controller, preserving its level definition.
+## These checks are not human, Android, visual-quality, or performance acceptance.
+
+const Levels = preload("res://scripts/levels.gd")
+const PowerCore = preload("res://scripts/lab/mega_volcano_core.gd")
+const MainScene = preload("res://main.tscn")
+var checks := 0
+var failures: Array[String] = []
+var observations: Array = []
+var saves: Array[String] = []
+var run_tag := str(Time.get_ticks_usec())
+
+func _initialize() -> void:
+	create_timer(110.0).timeout.connect(func() -> void:
+		push_error("Campaign integration exceeded 110 seconds")
+		_cleanup_saves()
+		quit(99))
+	call_deferred("run")
+
+func check(ok: bool, message: String, detail: Variant = "") -> void:
+	checks += 1
+	if not ok:
+		failures.append(message)
+		print("FAIL: " + message + " | " + str(detail))
+
+func settle() -> void:
+	await process_frame
+	await process_frame
+
+func make_app(seed_value: int, suffix: String):
+	var save := "user://campaign_power_test_" + run_tag + "_" + suffix + ".json"
+	check(not FileAccess.file_exists(save), "Fresh isolated save before app ready: " + suffix)
+	if FileAccess.file_exists(save): return null
+	saves.append(save)
+	var app = MainScene.instantiate()
+	# Overrides are set BEFORE adding the normal scene: never read a personal save.
+	app.save_path_override = save
+	app.pilot_seed_override = seed_value
+	app.alive_enabled = false
+	root.add_child(app)
+	app.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	await settle()
+	app.progress.set_option("sound", false)
+	app.progress.set_option("reduced_motion", true)
+	check(app.current_screen == "map" and is_instance_valid(app.map_view), "Normal main scene opens campaign map: " + suffix)
+	check(app.core == null and app.seed_counter == 0, "Map boot does not load a laboratory scenario: " + suffix)
+	return app
+
+func enter_from_preview(app) -> bool:
+	app.show_level_preview("entry")
+	await settle()
+	check(is_instance_valid(app.pre_level_view), "Normal map opens existing pre-level preview")
+	if not is_instance_valid(app.pre_level_view): return false
+	app.pre_level_view.play_requested.emit("entry")
+	await settle()
+	check(app.current_screen == "play" and app.current_level.id == "entry", "Existing preview Play enters real First Crystals")
+	if app.current_screen != "play": return false
+	check(app.core.has_method("reward_at") and app.board.has_signal("reward_born"), "Campaign constructs reward-aware solver and renderer")
+	check(app.board._core == app.core and app.board.swap_requested.is_connected(app._on_swap), "Displayed board is wired to the campaign's live Core and swap controller")
+	check(app.board.has_method("mountain_asset_status") and app.board.mountain_asset_status().ready, "Normal campaign renderer has the current mountain-volcano asset")
+	return true
+
+func rewards(core) -> Dictionary:
+	var result := {}
+	for index in core.grid.size():
+		var reward: Dictionary = core.reward_at(index)
+		if not reward.is_empty(): result[index] = reward
+	return result
+
+func semantic(core) -> Dictionary:
+	return {"grid":core.grid.duplicate(), "floor":core.floor.duplicate(), "runes":core.runes.duplicate(),
+		"moves":core.moves_left, "collected":core.collected, "won":core.won, "lost":core.lost,
+		"rewards":rewards(core), "rng":str(core._rng.state)}
+
+func find_token(core, token: int) -> int:
+	for index in core.grid.size():
+		if int(core.reward_at(index).get("token_id", -1)) == token: return index
+	return -1
+
+func events_of(result: Dictionary, kind: String) -> Array:
+	var found: Array = []
+	for event in result.get("events", []):
+		if event.get("type", "") == kind: found.append(event)
+	return found
+
+func await_board(app, limit: float = 12.0) -> bool:
+	var start := Time.get_ticks_msec()
+	while is_instance_valid(app.board) and app.board.busy and float(Time.get_ticks_msec() - start) < limit * 1000.0:
+		await process_frame
+	await settle()
+	var ready: bool = is_instance_valid(app.board) and not app.board.busy
+	check(ready, "Campaign presentation completes within bounded wait")
+	return ready
+
+func assert_mask(core, level: Dictionary, label: String) -> void:
+	var intact := true
+	for index in core.grid.size():
+		var is_hole: bool = String(level.mask[index / core.cols]).substr(index % core.cols, 1) == "."
+		if is_hole != (int(core.grid[index]) == -2): intact = false
+		if int(core.runes[index]) > 0 and int(core.grid[index]) != -3: intact = false
+	check(intact, "Campaign holes and remaining rune barriers preserved: " + label)
+
+func natural_four() -> Dictionary:
+	# Find an ordinary generated campaign board; this is deterministic seed
+	# selection, not setup_lab, grid painting, or a level/move-budget modification.
+	var level: Dictionary = Levels.get_level("entry")
+	for seed_value in range(1, 201):
+		var reference = PowerCore.new()
+		reference.setup(level, seed_value)
+		for a in reference.grid.size():
+			if reference.grid[a] < 0: continue
+			for b in reference._neighbors(a):
+				if b <= a or reference.grid[b] < 0: continue
+				var awards: Array = reference.preview_rewards(a, b)
+				if awards.size() != 1 or int(awards[0].kind) != 8: continue
+				var probe = PowerCore.new()
+				probe.setup(level, seed_value)
+				var result: Dictionary = probe.try_swap(a, b)
+				var births := events_of(result, "reward_birth")
+				if not result.valid or probe.won or births.is_empty(): continue
+				for award in births[0].get("awards", []):
+					if int(award.kind) == 8 and find_token(probe, int(award.token_id)) >= 0:
+						return {"seed":seed_value, "a":a, "b":b, "reference":probe, "result":result, "token":int(award.token_id)}
+	return {}
+
+func test_natural_reward() -> void:
+	var chosen := natural_four()
+	check(not chosen.is_empty(), "A natural ordinary campaign seed offers a real four-match")
+	if chosen.is_empty(): return
+	var app = await make_app(int(chosen.seed), "natural")
+	if app == null: return
+	if not await enter_from_preview(app):
+		app.queue_free()
+		await settle()
+		return
+	var powers: Array = []
+	var births: Array = []
+	app.board.power_started.connect(func(power: String, _targets: Array) -> void: powers.append(power))
+	app.board.reward_born.connect(func(awards: Array) -> void: births.append_array(awards))
+	var progress_before: Dictionary = app.progress.data.duplicate(true)
+	var moves: int = app.core.moves_left
+	app.board.swap_requested.emit(int(chosen.a), int(chosen.b))
+	await await_board(app)
+	check(semantic(app.core) == semantic(chosen.reference), "Normal controller resolves the naturally generated four exactly once")
+	check(app.core.moves_left == moves - 1 and app.moves_label.text == str(app.core.moves_left), "Natural creation consumes one move and synchronizes campaign HUD")
+	check(not births.is_empty() and powers.is_empty(), "Natural match births a visible waiting reward without automatic activation")
+	var index := find_token(app.core, int(chosen.token))
+	check(index >= 0 and app.board.material_visual(index).token_id == int(chosen.token), "Earned Volcano remains in the real campaign board snapshot")
+	var waiting := semantic(app.core)
+	await create_timer(0.20).timeout
+	check(waiting == semantic(app.core) and powers.is_empty(), "Idle time cannot consume or fire a waiting reward")
+	check(app.progress.data == progress_before, "Creating a non-winning reward does not invent progression or Light")
+	if index >= 0:
+		var neighbor := -1
+		for candidate in app.core._neighbors(index):
+			if app.core.grid[candidate] >= 0 and app.core.grid[candidate] < 6:
+				neighbor = candidate
+				break
+		check(neighbor >= 0, "Natural earned reward has a reachable adjacent activation swap")
+		if neighbor >= 0:
+			var expected: Dictionary = chosen.reference.try_swap(index, neighbor)
+			check(expected.valid, "Reference accepts deliberate movement of the naturally earned reward")
+			app.board.swap_requested.emit(index, neighbor)
+			await await_board(app)
+			check(semantic(app.core) == semantic(chosen.reference), "Deliberate campaign reward activation preserves solver and collection accounting")
+			check("volcano" in powers and find_token(app.core, int(chosen.token)) < 0, "Normal campaign presents Volcano and consumes its old token once")
+	assert_mask(app.core, app.current_level, "natural creation and activation")
+	observations.append({"case":"NATURAL_CAMPAIGN_MATCH4", "seed":chosen.seed, "swap":[chosen.a,chosen.b], "powers":powers, "birth_count":births.size(), "moves_left":app.core.moves_left})
+	app.queue_free()
+	await settle()
+
+func configure_combo_fixture(core, kinds: Array[int]) -> Array[int]:
+	# CONTROLLED COMBO FIXTURE: ordinary colors only are repainted; level shape,
+	# runes, soil, move budget, goal and the normal app/controller remain intact.
+	for index in core.grid.size():
+		if core.grid[index] >= 0: core.grid[index] = 1 + ((index % core.cols) + 2 * (index / core.cols)) % 5
+	core.refresh_material_instances()
+	var pair: Array[int] = []
+	for index in core.grid.size():
+		if core.grid[index] < 0: continue
+		for neighbor in core._neighbors(index):
+			if neighbor > index and core.grid[neighbor] >= 0:
+				pair.assign([index, neighbor])
+				break
+		if not pair.is_empty(): break
+	if pair.is_empty(): return pair
+	core.place_material_reward(pair[0], kinds[0], 0, "CONTROLLED_CAMPAIGN_COMBO_FIXTURE")
+	core.place_material_reward(pair[1], kinds[1], 0, "CONTROLLED_CAMPAIGN_COMBO_FIXTURE")
+	if kinds.size() > 2:
+		for index in core.grid.size():
+			if core.grid[index] >= 0 and not index in pair:
+				core.place_material_reward(index, kinds[2], 0, "CONTROLLED_INERT_SWALLOW_FIXTURE")
+				break
+	return pair
+
+func unlock_fixture(app, id: String) -> void:
+	# Unlock-only fixture in this invocation's fresh save, not a claimed gameplay win.
+	if id == "entry": return
+	for ordinary in Levels.ordinary():
+		app.progress.record_win(ordinary, 1)
+		if ordinary == "entry" and id == "hollow": return
+
+func test_combo(id: String, kinds: Array[int], expected_power: String) -> void:
+	var app = await make_app(713, expected_power)
+	if app == null: return
+	unlock_fixture(app, id)
+	app.start_level(id)
+	await settle()
+	check(app.current_screen == "play" and app.core.has_method("place_material_reward"), "Controlled combo fixture uses actual campaign level " + id)
+	if app.current_screen != "play" or not app.core.has_method("place_material_reward"):
+		app.queue_free()
+		await settle()
+		return
+	var pair := configure_combo_fixture(app.core, kinds)
+	app.board.setup(app.core, true)
+	var reference = PowerCore.new()
+	reference.setup(Levels.get_level(id), 713)
+	configure_combo_fixture(reference, kinds)
+	var expected: Dictionary = reference.try_swap(pair[0], pair[1])
+	var power_events := events_of(expected, "natural_power")
+	check(expected.valid and not power_events.is_empty() and power_events[0].power == expected_power, "Controlled reference resolves the requested " + expected_power)
+	var powers: Array = []
+	app.board.power_started.connect(func(power: String, _targets: Array) -> void: powers.append(power))
+	var moves: int = app.core.moves_left
+	app.board.swap_requested.emit(pair[0], pair[1])
+	await await_board(app)
+	check(semantic(app.core) == semantic(reference) and app.core.moves_left == moves - 1, "Real campaign controller executes one " + expected_power + " transaction and one move")
+	check(powers.count(expected_power) == 1, "Campaign renders exactly one " + expected_power + " animation", powers)
+	check(app.board._display_grid == Array(app.core.grid), "Campaign displayed board settles to solved combo state: " + expected_power)
+	if expected_power == "mega_volcano":
+		check(power_events[0].get("strength_multiplier", 0) == 3 and power_events[0].get("eruption_count", 0) == 1, "4+4 is one mountain eruption with three-volcano strength")
+	elif expected_power == "black_hole":
+		check(power_events[0].floor_before == power_events[0].floor_after and power_events[0].runes_before == power_events[0].runes_after, "5+5 direct sweep preserves real campaign soil and runes before refill cascades")
+		check(power_events[0].get("inert_swallowed", []).size() == 1 and powers.size() == 1, "Black Hole swallows the other waiting bonus without chaining its effect")
+	assert_mask(app.core, app.current_level, expected_power)
+	observations.append({"case":"CONTROLLED_CAMPAIGN_COMBO_FIXTURE", "level":id, "kinds":kinds, "swap":pair, "powers":powers, "goal":app.current_level.goal, "moves_left":app.core.moves_left})
+	app.queue_free()
+	await settle()
+
+func find_victory() -> Dictionary:
+	var level: Dictionary = Levels.get_level("entry")
+	for seed_value in range(1, 41):
+		var reference = PowerCore.new()
+		reference.setup(level, seed_value)
+		var path: Array = []
+		while not reference.won and not reference.lost and path.size() < int(level.moves):
+			var pair: Array = reference.hint_move()
+			if pair.size() != 2: break
+			var result: Dictionary = reference.try_swap(pair[0], pair[1])
+			if not result.valid: break
+			path.append(pair.duplicate())
+		if reference.won: return {"seed":seed_value, "path":path, "reference":reference}
+	return {}
+
+func test_victory_save_and_pause() -> void:
+	var chosen := find_victory()
+	check(not chosen.is_empty(), "Unchanged First Crystals is winnable with deterministic ordinary legal moves")
+	if chosen.is_empty(): return
+	var app = await make_app(int(chosen.seed), "victory")
+	if app == null: return
+	if not await enter_from_preview(app):
+		app.queue_free()
+		await settle()
+		return
+	var initial := semantic(app.core)
+	app.show_pause()
+	check(app._paused and is_instance_valid(app.modal), "Campaign pause still opens with the new reward board")
+	app.board.swap_requested.emit(chosen.path[0][0], chosen.path[0][1])
+	await settle()
+	check(initial == semantic(app.core), "Pause blocks real board swap signals without consuming a move")
+	app._close_modal()
+	for pair in chosen.path:
+		app.board.swap_requested.emit(pair[0], pair[1])
+		if not await await_board(app): break
+	check(app.core.won and semantic(app.core) == semantic(chosen.reference), "Normal campaign wins through genuine generated-board legal moves")
+	check(app.progress.best_stars("entry") == Levels.stars_for(app.core.moves_left, app.core.initial_moves) and app.progress.data.light == 10, "True campaign victory writes stars and exactly one first-win Light reward")
+	check(app.progress.is_unlocked("hollow") and is_instance_valid(app.modal), "True victory unlocks existing level two and existing result modal")
+	var stored = load("res://scripts/progress.gd").new()
+	stored.load_progress(app.save_path_override)
+	check(stored.data == app.progress.data and stored.data.version == 2, "Reward-capable campaign preserves the existing v2 save schema")
+	app._continue_after_win()
+	await settle()
+	check(app.current_screen == "map" and app.progress.data.light == 10, "Continue returns to the real campaign map without issuing another reward")
+	observations.append({"case":"NATURAL_CAMPAIGN_VICTORY", "seed":chosen.seed, "path":chosen.path, "stars":app.progress.best_stars("entry"), "light":app.progress.data.light})
+	app.queue_free()
+	await settle()
+
+func test_cancel_during_power() -> void:
+	var app = await make_app(713, "cancellation")
+	if app == null: return
+	app.start_level("entry")
+	await settle()
+	if not app.core.has_method("place_material_reward"):
+		check(false, "Cancellation case requires reward-aware campaign Core")
+		app.queue_free()
+		await settle()
+		return
+	var pair := configure_combo_fixture(app.core, [8,8])
+	app.board.setup(app.core, false)
+	var before_progress: Dictionary = app.progress.data.duplicate(true)
+	app.board.swap_requested.emit(pair[0], pair[1])
+	check(app.board.busy, "Live campaign combo enters its animation lifecycle")
+	app.show_map()
+	await settle()
+	var generation: int = app.play_generation
+	await create_timer(0.50).timeout
+	check(app.current_screen == "map" and app.board == null and app.play_generation == generation, "Back-to-map invalidates the old board and late power callback")
+	check(app.progress.data == before_progress, "Canceled non-winning controlled power cannot invent progression")
+	app.start_level("entry")
+	await settle()
+	check(app.current_screen == "play" and not app.board.busy and app.core.moves_left == app.core.initial_moves, "A fresh normal level starts cleanly after canceled power presentation")
+	app.queue_free()
+	await settle()
+
+func test_all_level_contracts() -> void:
+	var app = await make_app(12345, "level_contracts")
+	if app == null: return
+	# CONTROLLED prerequisites only: every actual level is still loaded by its
+	# unchanged production ID, with its original mask, goal and move budget.
+	for id in ["entry","hollow","seam","pearl","goldore","terraces","bridge","rune","lantern","guardian"]:
+		if not app.progress.is_unlocked(id):
+			check(false, "Contract fixture prerequisites unlock " + id)
+			break
+		app.start_level(id)
+		await settle()
+		var level: Dictionary = Levels.get_level(id)
+		check(app.current_level == level and app.core.initial_moves == int(level.moves) and app.core.moves_left == int(level.moves), "Actual campaign keeps original level definition and initial move budget: " + id)
+		check(app.core.collect_goal == int(level.collect_goal) and app.core.collect_kind == int(level.collect_kind), "Actual campaign retains collection targets: " + id)
+		check(app.core.has_method("reward_at") and app.board.has_method("mountain_asset_status"), "Actual campaign power integration reaches level " + id)
+		assert_mask(app.core, level, id)
+		app.show_map()
+		await settle()
+		app.progress.record_win(id, 1)
+	app.queue_free()
+	await settle()
+
+func _cleanup_saves() -> void:
+	for save in saves:
+		for exact in [save, save + ".tmp"]:
+			if FileAccess.file_exists(exact): DirAccess.remove_absolute(ProjectSettings.globalize_path(exact))
+
+func run() -> void:
+	root.size = Vector2i(432,960)
+	await test_natural_reward()
+	await test_combo("hollow", [8,8], "mega_volcano")
+	await test_combo("rune", [9,6,8], "black_hole")
+	await test_victory_save_and_pause()
+	await test_cancel_during_power()
+	await test_all_level_contracts()
+	_cleanup_saves()
+	print("CAMPAIGN_POWER_INTEGRATION " + JSON.stringify({"checks":checks, "failures":failures, "observations":observations, "status":"PASS" if failures.is_empty() else "FAIL", "proof":"Scripted actual main.tscn/controller/Core/Board integration. Natural match4 and victory use unpainted generated campaign boards; combo/mask cases explicitly identify controlled fixtures. No human, Android, visual-quality or performance acceptance."}))
+	quit(0 if failures.is_empty() else 1)

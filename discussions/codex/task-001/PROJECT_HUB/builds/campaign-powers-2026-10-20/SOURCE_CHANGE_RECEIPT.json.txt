@@ -1,0 +1,25 @@
+{
+  "original_project_files_rechecked": 426,
+  "original_project_unchanged": true,
+  "asset_bytes_changed": false,
+  "existing_files_changed_in_new_copy": [
+    "PLAY_ALIVE_EXPERIENCE.cmd",
+    "PLAY_GNOMIT.cmd",
+    "PLAY_MAGIC_ANIMATIONS.cmd",
+    "PLAY_MATERIAL_REWARDS.cmd",
+    "PLAY_MEGA_VOLCANO.cmd",
+    "PLAY_MOUNTAIN_VOLCANO.cmd",
+    "PLAY_NATURAL_POWERS.cmd",
+    "PLAY_REWARD_RULES.cmd",
+    "PLAY_SINGLE_STONE_CUE.cmd",
+    "PLAY_STONES.cmd",
+    "PLAY_VOLCANO_V4.cmd",
+    "PLAY_WORLD_SCENE.cmd",
+    "project.godot",
+    "scripts/first_crystals_view.gd",
+    "scripts/main.gd"
+  ],
+  "level_catalog_changed": false,
+  "progress_schema_changed": false,
+  "lab_core_and_effect_sources_changed": false
+}

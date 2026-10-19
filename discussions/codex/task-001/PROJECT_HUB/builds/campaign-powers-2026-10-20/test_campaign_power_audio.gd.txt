@@ -1,0 +1,113 @@
+extends SceneTree
+## Coordinator lifecycle regression, real banks with a minimal presentation sender.
+## Does not load campaign/main or access progress/save data.
+const Coordinator = preload("res://scripts/campaign/power_audio.gd")
+
+class AudioBoard extends Node:
+	signal power_started(power: String, targets: Array)
+	signal reward_born(awards: Array)
+	var reduced_motion := false
+	var painted_volcano := true
+	var _power_event: Dictionary = {}
+	var _power_epoch := -1
+	var _epoch := 1
+	var _power_t := 0.0
+	func begin_power(kind: String) -> void:
+		_power_event = {"power": kind}
+		_power_epoch = _epoch
+		_power_t = 0.0
+		power_started.emit(kind, [1, 2, 3])
+	func fusion_sources() -> Array:
+		return [{"kind": 6}, {"kind": 9}]
+	func clear_event() -> void:
+		_power_event.clear()
+		_power_epoch = -1
+
+var checks := 0
+var failures: Array[String] = []
+
+func _initialize() -> void:
+	call_deferred("run")
+
+func check(value: bool, label: String) -> void:
+	checks += 1
+	if not value:
+		failures.append(label)
+		print("FAIL: " + label)
+
+func playing(bank) -> int:
+	var result := 0
+	for voice in bank.players:
+		if voice.playing: result += 1
+	return result
+
+func run() -> void:
+	var audio = Coordinator.new()
+	root.add_child(audio)
+	var first := AudioBoard.new()
+	root.add_child(first)
+	audio.attach_board(first)
+	check(audio.stone_audio.players.size() == 1, "One ordinary stone voice is owned by the coordinator")
+	check(audio.play_foley("move") and playing(audio.stone_audio) == 1, "One MOVE starts the ordinary stone voice")
+	check(not audio.play_foley("victory"), "Other existing campaign cues stay with main")
+	audio.stop_all()
+	for entry in [["volcano", "volcano_audio"], ["mega_volcano", "mega_audio"], ["tornado_h", "tornado_audio"], ["tornado_v", "tornado_audio"], ["lightning_storm", "storm_audio"], ["earthquake", "element_audio"], ["black_hole", "element_audio"]]:
+		audio.stop_all()
+		first.begin_power(entry[0])
+		var bank = audio.get(entry[1])
+		check(bank.event_active, String(entry[0]) + " selects its established bank")
+		audio.play_foley("break")
+		check(playing(audio.stone_audio) == 0, String(entry[0]) + " prevents ordinary BREAK stacking while active")
+		first.clear_event()
+		audio._process(0.0)
+		check(not bank.event_active, String(entry[0]) + " ends its schedule when the matching event ends")
+		audio.play_foley("break")
+		check(playing(audio.stone_audio) == 1, String(entry[0]) + " does not suppress the next ordinary clear")
+	audio.stop_all()
+	first.reduced_motion = true
+	first.begin_power("lightning_storm")
+	check(audio.storm_audio.cue_log[-1].kind == "reduced", "Reduced motion selects the existing short Storm recording")
+	audio.set_enabled(false)
+	for bank in audio._banks(): check(not bank.event_active if bank != audio.stone_audio else playing(bank) == 0, "Mute cancels the active audio schedule")
+	check(playing(audio.storm_audio) == 0, "Mute stops the currently playing Storm voice")
+	var previous_cues: int = audio.storm_audio.cue_log.size()
+	first.begin_power("lightning_storm")
+	audio.play_foley("move")
+	check(audio.storm_audio.cue_log.size() == previous_cues and playing(audio.stone_audio) == 0, "Muted signals cannot start special or ordinary audio")
+	audio.set_enabled(true)
+	audio._process(0.0)
+	check(not audio.storm_audio.event_active and playing(audio.storm_audio) == 0, "Unmuting does not replay the stopped old effect")
+	var second := AudioBoard.new()
+	root.add_child(second)
+	audio.attach_board(second)
+	second.begin_power("lightning_storm")
+	previous_cues = audio.storm_audio.cue_log.size()
+	first.begin_power("earthquake")
+	first.queue_free()
+	await process_frame
+	check(audio.storm_audio.event_active and audio.storm_audio.cue_log.size() == previous_cues, "An old board signal and exit cannot stop or replace the new board's effect")
+	check(not audio.element_audio.event_active, "The detached board cannot start another element effect")
+	audio.attach_board(second)
+	check(not audio.storm_audio.event_active and playing(audio.storm_audio) == 0, "Reattachment disposes the previous event immediately")
+	var births: int = audio.element_audio.cue_log.size()
+	second.reward_born.emit([{"birth_tier": 4}, {"birth_tier": 5}])
+	check(audio.element_audio.cue_log.size() == births + 1, "One grouped birth emits one birth cue")
+	audio.stop_all()
+	second.begin_power("mega_volcano")
+	second._power_t = 0.6
+	audio._process(0.0)
+	check(not audio.mega_audio.cue_log.is_empty(), "Mega Volcano uses the existing normalized progress clock")
+	audio.stop_all()
+	var mega_cues: int = audio.mega_audio.cue_log.size()
+	second._power_t = 1.0
+	audio._process(0.0)
+	check(audio.mega_audio.cue_log.size() == mega_cues and playing(audio.mega_audio) == 0, "A stopped eruption cannot schedule late projectiles")
+	second.queue_free()
+	await process_frame
+	check(audio._board == null, "Board destruction detaches the coordinator")
+	audio.queue_free()
+	await process_frame
+	# Give the mixer one buffer cycle to release stopped playback instances.
+	await create_timer(0.12).timeout
+	print("CAMPAIGN_POWER_AUDIO " + JSON.stringify({"status": "PASS" if failures.is_empty() else "FAIL", "checks": checks, "failures": failures}))
+	quit(0 if failures.is_empty() else 1)

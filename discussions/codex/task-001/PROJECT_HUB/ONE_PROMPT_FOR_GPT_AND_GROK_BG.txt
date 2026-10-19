@@ -1,3 +1,11 @@
+АКТУАЛНО — CAMPAIGN POWERS / 20.10.2026
+Новите награди и Godot ефекти вече са свързани в нормалните нива.
+Прочети builds/CAMPAIGN_POWERS_2026-10-20.txt и builds/campaign-powers-2026-10-20/.
+136 integration +48 audio проверки PASS; човешко приемане PENDING.
+Blender мината е отделна. RightsCleanup въпросите остават отворени.
+GPT/Grok: собствен REPORTS_ONLY source review; без runtime/код/grants/merge.
+Препоръка GPT-6.1 Sol / High. Старите раздели долу са история.
+
 АКТУАЛНО — RIGHTS / PROVENANCE CLEANUP · 19.10.2026
 Прочети reviews/rights-cleanup-2026-10-19/README.txt и FINDINGS_AND_NEXT_STEPS_BG.txt.
 317 media instances проверени;3 sample-derived звука/18копия;13 арт evidence gaps.

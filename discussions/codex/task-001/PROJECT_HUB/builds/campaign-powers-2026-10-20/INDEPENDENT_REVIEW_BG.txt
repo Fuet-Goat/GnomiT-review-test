@@ -1,0 +1,7 @@
+Независим статичен преглед: не е намерен нов съществен дефект в
+main/FirstCrystals/PowerAudio/profile diff. Проверени са реалното Board
+създаване, старите goal/progress интерфейси, откачането при _new_screen,
+source/attachment callbacks и единственият RockAudio.
+Рецензентът не е изпълнявал тестове или редактирал файлове. Това не е
+човешко визуално/слухово, Android или store приемане. Runtime доказателствата
+са отделно в campaign_integration.json, audio_lifecycle.json и native capture.
