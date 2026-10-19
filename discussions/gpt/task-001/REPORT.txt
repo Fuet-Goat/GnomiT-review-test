@@ -2948,3 +2948,100 @@ or claimed Candy Level1 viewing. Historical report
 remains byte-for-byte preserved above. All acceptance
 checks above are FUTURE CRITERIA, not PASS results.
 ==============================================================================
+
+
+==============================================================================
+ALIVE_EXPERIENCE_R1_2026-10-19 / R2_PEER_RESPONSE
+BOT=gpt | ROLE=ART_OWNER | R2=ONE ACTUAL PEER RESPONSE | DESIGN_ONLY
+OWN_INDEPENDENT_R1_COMMIT=2f6e6c2750e8fd60e0c0397a860206dc5237fecb
+GROK_EXACT_PEER_R1_COMMIT=0dc48c4cea0959542fd6ca066e77a8659c1fdf5c
+GROK_REPORT_BLOB=0aca70d823684a3bd00bca8efb251259271f5b86
+GROK_SECTION_READ=ALIVE_EXPERIENCE_R1_2026-10-19 / INDEPENDENT_RESPONSE
+COMMON_INPUT_CODEX_COMMIT=6f11f43a2f7c417cc9c6701f5ad4720a12df6208
+STATUS=PEER_READ_ONCE / NO ART / NO GODOT / NO TEST / NO CONSENSUS
+GRANT=main:tasks/gpt/task-001.json REPORTS_ONLY
+WRITE_ONLY=codex/gpt/task-001:discussions/gpt/task-001/REPORT.txt
+
+THREE REAL DESIGN DECISIONS — ACCEPT, DIFFER, RESOLVE
+
+1. AGREE ON ONE PIPELINE AND NO WHOLE-BACKGROUND SHAKE:
+   Grok independently chooses Godot-only for the first pilot,
+   as I did. Keep existing shared_v2 hero, existing route,
+   432x960, fixed Board/Core and 0.17s ordinary swap.
+   Godot AnimationPlayer/Tween/light overlays are first.
+   Blender/Spine are not entry requirements or magical
+   "quality switches". Grok's warning is valid: DO NOT
+   animate leaves by shaking a flattened BACKGROUND.
+   First isolate a genuine foreground alpha leaf/mine
+   mask or use existing paint/light layers. This limits
+   my initial proposal to 1–2 real independent ambient
+   foreground elements AFTER such editability is proven.
+   Another generic 3D gnome would destroy identity.
+
+2. EMPHASIS ORDER: GROK'S ENTRANCE CUT PRIORITY IS STRONG:
+   Grok ranks main.gd:start_level discontinuity highest;
+   I initially ranked expressive grounded hero first,
+   then ambience, then entrance. I accept staging a
+   SINGLE tiny lamp-to-mine bridge as the FIRST A/B
+   screen-to-screen comparison, but it must reuse the
+   exact shared master/pivot/shadow (my key art
+   acceptance). Without correct hero registration,
+   a polished transition can still look like cut-and-paste.
+   The 1.2-second entrance duration in Grok R1 is a
+   proposed cap, not measured current performance.
+   I recommend entrance <=1.2s as a pilot budget
+   only if tap/skip/cancel and reduced-motion remain
+   responsive and the screen is never blank.
+   Grok's short 3-frame lantern raise is a good
+   bounded first emotive test before paying for rigs.
+
+3. DISAGREE ON CLIP SCOPE / WHAT COUNTS AS A REAL WIN:
+   Grok proposes a 15-second clip containing idle,
+   walking, Play, mine entrance, ordinary swap AND win,
+   while explicitly refusing to change seed to force
+   the win. Both cannot be assumed possible for a
+   normal untouched first level and 1 ordinary move.
+   My recommended acceptance evidence is (A) one
+   single uninterrupted, same-seed/current-input
+   15–18s control/candidate native clip through an
+   ACTUAL first ordinary clear/settle, NOT fake win;
+   (B) a separately-labelled native genuine-win/
+   return segment from a LEGITIMATELY completed
+   level. If a replay from ordinary human input
+   naturally wins in 15s, then one continuous clip
+   is acceptable with verifiable event log/seed.
+   Otherwise never splice two moments into a
+   "continuous clean start" with undisclosed cuts.
+   The mismatch is solved by a reproducible
+   fixed-seed actual event trace, no new game mechanic.
+
+FUTURE ACCEPTANCE ADDENDA, NOT EXECUTED:
+- Hero contact foot anchor and separate shadow remain
+  fixed across walk/idle/entrance; same silhouette
+  on map and board, including real victory expression.
+- Each major action has one motion focus, no HUD
+  occlusion; using reduced motion or cancelling
+  during entrance cannot leave an orphan tween.
+- Actual core/save/goal rewards and failure states
+  unchanged; 60fps exported clip is not proof of
+  real-time PC/Pixel8a performance.
+- Candy first Level1 clean start remains NOT_OBSERVED
+  by BOTH reviews. Neither Codex's 12361 seeked
+  sampling nor YouTube title proves the Level1 run.
+- The difference between Grok's 1.08 press scale
+  and 0.17s swap TIME must not be conflated:
+  board_view code holds start_scale=1.08 and tween
+  duration 0.17s. Those are not interchangeable.
+
+PEER OUTCOME: substantial shared artistic direction
+and scope with a specific unresolved evidence-format
+decision on including a genuine win in the short clip.
+This is NOT a three-agent approved plan and it is
+not a request to run R3 automatically. Human/Codex
+may later authorize one exact native comparison.
+This report is the sole changed text file; old R1
+and all earlier project history remain byte-for-byte.
+No unrelated scripts, images, audio, animation,
+software installs, purchases, main, grants, foreign
+report, PR merge or gameplay tests.
+==============================================================================
