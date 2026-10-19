@@ -2611,3 +2611,340 @@ INDEPENDENT_RESPONSE остава byte-for-byte горе.
 Няма чужд REPORT edit, Godot, генерация,
 grants/main/merge или повторен polling.
 ==============================================================================
+
+
+==============================================================================
+ALIVE_EXPERIENCE_R1_2026-10-19 / INDEPENDENT_RESPONSE
+BOT=gpt | ART_OWNER | DESIGN_ONLY | INDEPENDENT R1 | NO IMPLEMENTATION
+EXACT_INPUT_CODEX_COMMIT=6f11f43a2f7c417cc9c6701f5ad4720a12df6208
+BRIEF=discussions/codex/task-001/PROJECT_HUB/designs/ALIVE_EXPERIENCE_R1_2026-10-19_BG.txt
+BRIEF_BLOB=e2f66580c03529d0002783b0f2054f823dda0d22
+SOURCE_NOTES_BLOB=02d1727d37d7a7eab977c250560eb7a1d4a8f473
+TOOLCHAIN_SOURCES_BLOB=09e11d595137950af40edd9207e216ddcb423320
+GRANT=main:tasks/gpt/task-001.json, REPORTS_ONLY, blob da5ba6b4aaef745140398d46dc3809540f30c9a8
+WRITE_ONLY=codex/gpt/task-001:discussions/gpt/task-001/REPORT.txt
+BASELINE_MAIN_PIN=bd2dfe7fddd300bd8425cd1c5b0846fe50c4f3d2
+LATEST_CODEX_LOCAL_V4_HEAD_IN_NOTES=411d8b44e5c0fbf006fbf29b0cc8522cd7185aae
+STATUS=PROPOSAL_ONLY / NO HUMAN APPROVAL / NO PEER CONSENSUS
+
+SOURCE PROVENANCE AND OBSERVATION BOUNDARY
+
+I read all three current Codex texts at the EXACT branch input commit,
+AGENTS.md and tasks/gpt/task-001.json at main, and own GPT REPORT at
+codex/gpt/task-001. I directly examined the existing remote PNG images
+media/current/01_START.png (Git blob 4cad71f5c8575088dfd04cb5eb3f7d659fe7776d)
+and media/current/05_EXISTING_BOARD.png (Git blob
+77145b5a92ea88d434bab44965916fea346236d5). These are still
+pictures of the OLD first-bend scene, not an up-to-date runtime/video
+of the complete beginning or Level 1. The code excerpts here come
+from SOURCE_NOTES for the specified exact file SHA-256s; I did not
+run them, inspect a private workstation or repeat Codex tests.
+Source excerpts: main.gd SHA256
+6f8bc515339735b907fb94e3c0b621def3f9e6e75591e849bde73b2be91e5737;
+slice_map_view.gd c3d01308cd7b2bcb1909abc6dc3cc41a28503fbf71d616e5f55c1a75395640c0;
+first_crystals_view.gd a2366cd2e2f48be93935648a5e8ad9521e51dc7f7fbb804e2e4372298933fda6;
+story_art.gd a047857f713c08bfc528bf7d10c37da2ac778298b46c235873dd81d8d7961bd2;
+pre_level_view.gd 2859df1429d2720ea67afcbc1c3346c107f71e9668dfc0b30b493e178f18767f;
+board_view.gd c0f68b6a37805278db1684200e7d5c6bc3672bfdc04fb5d6b9b908d177a44781.
+
+R1 QUESTION 1 — CANDY CLEAN START (STRICT EVIDENCE)
+
+CANDY_LEVEL_1_CLEAN_START=NOT_OBSERVED.
+No actual uninterrupted first-install -> pre-Level-1 -> first moves
+Candy recording was watched by me, therefore NO platform/version,
+URL+timestamp or personally observed timings can honestly be cited.
+The externally reported 36.2s local Recording2026-10-14 001742.mp4
+was sampled by Codex and shows Level 12361 with YouTube seeks.
+I read Codex's note but DID NOT watch that video; it is not Level 1.
+The YouTube candidate https://www.youtube.com/watch?v=-BSnEI1atpg
+is a metadata-only reference, NOT watched video. No visual claim
+about its game engine, scripted onboarding, first touch/animations,
+interaction lengths or real Level-1 polish. We are using Candy only
+as a broad quality aspiration, not importing its assets/UX verbatim.
+Future reviewer with true video access must report platform, build,
+URL and absolute timestamps before cross-game timing comparisons.
+
+R1 QUESTION 2 — THREE PRIORITY GAPS VS FEATURES ALREADY PRESENT
+
+VISIBLE FACTS in media/current/01_START.png: vertical 432x960
+bright painted village/mine-mouth/wooden winding road, readable
+green Level 1 and locked later nodes, gnome on the wooden path
+holding a warm lantern, another small character at lower left,
+upper progress HUD, Find Gnome control. The scene is visually rich
+but its STILL image proves no independent breathing/blinking,
+parallax, lantern light response or stable foot contact in MOTION.
+It also contains many high-saturation leaves near the route:
+readability must be protected, not simply add more particles.
+
+VISIBLE FACTS in media/current/05_EXISTING_BOARD.png: cave art
+framing a central gem grid, blue crystals, goal 0/12, moves
+26, green/ruby/diamond/amethyst/pearl/ore art, a helper gnome
+with lantern beside bottom "Light the way!" panel. These are
+coherent painted materials but the still is not timing, touch,
+sound or actual celebration evidence.
+
+THREE GAPS, in descending player-visible priority:
+1) HERO PERFORMANCE / FOOT CONTACT: existing shared hero master
+   and six walk frames in slice_map_view.gd::_render_avatar
+   (117–135), step and image-space registered offsets. Mirroring
+   is a known fallback (126–128), not four independent directions.
+   The avatar is currently advanced along the real route in
+   _process (243–260), so DON'T reimplement navigation. Instead
+   improve readable idle blink/breath/look, planted boots/soft
+   anchored shadow, two-facing walk contact and victory gesture.
+   The source celebrates by Art.gnome(true) but story_art.gd:gnome
+   (23) ignores _victory, so first_crystals_view.gd:celebrate
+   (168–173) currently has the same image plus a scale tween:
+   clear SPECIFIC candidate for an expressive new pose.
+2) ENVIRONMENT ACTIVITY WITH SHARED DEPTH: FirstCrystals:_draw
+   (174–180) paints ONE cave BACKGROUND texture; no independent
+   controllable depth/foliage/light layers are defined in the
+   inspected view. Map art is sumptuous but static image !=
+   moving fairy tale. Create tiny local leaves, miner's-lamp
+   light/shadow and atmospheric layers with editable masks;
+   avoid rocking the whole baked background or changing hitboxes.
+3) CONTINUITY/SMALL ACTION REWARD: main.gd:show_map (214–225)
+   already builds slice map; show_level_preview (281–298)
+   gates Play after correct arrival; start_level (315–333)
+   creates a separate FirstCrystals view with no visibly described
+   common avatar-to-mine entrance transition in inspected path.
+   Add a short visually connected lantern/light bridge, plus
+   a small first-gem/goal/hero reaction synchronized to existing
+   events. Board ALREADY has reciprocal .17s swap, .23s clear,
+   ~.20–.42s fall and .38s goal trail (board_view and
+   goal_trails excerpts). We need coherent art direction, not
+   the false premise "ordinary moves have no animation."
+
+R1 QUESTION 3 — ONE PERSONAL A->F ART DIRECTION: "THE LANTERN LEADS"
+
+One continuous visual language: SAME existing GPT shared_v2
+hero, hand-painted red hat/white beard/teal coat/worn leather,
+warm amber lamp against teal/cool blue cave crystals, matte
+wood/stone, restrained movement. The player is led by LIGHT,
+not by added popups or new screen modes. Keep present level
+nodes, route, matched materials, English UI and original
+rewards/save/game rules.
+
+A. FIRST VISIBLE MOMENT, BEFORE LEVEL 1:
+   village already on-screen, one short lantern "wake",
+   one blink, still boots. Wind touches only 1–2 foreground
+   leaf clusters; mine entrance shows subtle slow inner light.
+   Focus remains obvious on hero + accessible first route.
+   No forced cinematic, no overlay blocking the first tap.
+
+B. ALIVE VILLAGE / ROUTE:
+   a quiet idle every few seconds (no constant bouncing);
+   small eye direction toward walkable path. On tap the
+   gnome follows EXISTING route, feet keep contact on the
+   plank path; separate shadow stays grounded. Foreground
+   twig/leaf occults correctly near the trail; any NPC
+   activity is a subtle non-interactive ambient loop,
+   not a competing second protagonist.
+
+C. CHOICE:
+   drag pans the map, not the gnome; interruption keeps
+   his real route coordinate. Arrival has one foot-settle
+   and lamp dip to level medallion. The existing unlocked
+   level preview shows goal/reward and a single PLAY;
+   stars, padlocks, progress and selected button remain
+   legible. No pre-Play free booster or extra modal.
+
+D. ENTER MINE:
+   PLAY causes a brief amber light moving from hero's
+   lantern toward actual mine doorway, short cover by
+   existing painted rocks, then a cool cavern glow
+   reveals the SAME hero/lantern and same world material
+   palette by the board. This can be a composited
+   transition overlay, not a new 3D world or story cutscene.
+   Never introduce a blank frame, a different gnome,
+   new reward state or a new navigation step.
+
+E. FIRST ORDINARY SWAP:
+   old reciprocal swap still quick. Local facet highlight
+   at grip, then once actual valid gem clear arrives:
+   tiny crack/grit, two restrained landing particles,
+   goal trail to the existing counter and a subtle hero
+   look/lantern response. The stone foley remains separate
+   MOVE and MATCH events; an invalid swap produces no
+   break effect. One normal swap should feel satisfying
+   WITHOUT unleashing a special power or particles covering
+   the board. No double collection, score or rune hit
+   from picture-only motion.
+
+F. FIRST REAL WIN / RETURN:
+   when the real Core signals completion (not before),
+   the SAME gnome has a genuine eye/smile/lantern-up
+   victory pose, not only scale up. A little warm light
+   travels back along the correct path and next available
+   level glows, preserving stars and light from Progress.
+   No invented reward or auto-opening locked nodes.
+   Reduced-motion offers light/pose change without flyby.
+
+R1 QUESTION 4 — PIPELINE AND TECHNICAL BASIS
+
+CHOOSE GODOT-ONLY FOR THE FIRST STRICTLY COMPARABLE
+18-SECOND PILOT. Existing 2D hero and current map/board
+already exist and Codex has an isolated working Godot
+renderer. The first observable bottleneck is DESIGN/
+LAYER EDITABILITY and character pose clarity, not a
+proven lack of engine animation facilities. Godot's
+official AnimationPlayer documentation says it can
+animate transforms, textures, UI, materials, particles,
+visibility and custom properties:
+https://docs.godotengine.org/en/stable/tutorials/animation/introduction.html
+Use its AnimationPlayer/Tween/CanvasItem overlays in a
+future approved copy. Source assets STILL need editable
+separations; Godot cannot turn a flattened PNG into
+naturally independently swaying leaves on its own.
+
+BLENDER AS OFFLINE ASSET TOOL, NOT FIRST PILOT DEPENDENCY:
+supports 3D rigging, rendering and scripting; it is
+free to use commercially per official Blender FAQ
+https://www.blender.org/support/faq/
+A later Blender .blend model MAY help with coherent
+walk turnarounds or repeatable lighting/reflection,
+pre-rendered to RGBA sprite frames so phones are not
+asked to render a complex new 3D hero. But no matching
+3D master/rig of the EXISTING hand-painted gnome has
+been established. A newly modelled character would
+risk breaking identity. Upgrade only if one side-by-side
+same-character same-pivot test proves cleaner contact/
+emotion than inexpensive Godot 2D cutout animation.
+
+SPINE: possible 2D skeletal animation if artist
+supplies separately painted interchangeable face,
+arms, hat, lantern and body with correct occlusions.
+Official spine-godot doc:
+https://esotericsoftware.com/spine-godot
+It offers GDExtension/custom-module routes, BUT exact
+compatibility of GnomiT Godot 4.7.2/Windows/Android
+and the desired renderer has NOT been run/validated.
+No licence purchase based on "runtime exists".
+No source cutout means paid rig software cannot invent
+anatomically consistent rear poses.
+
+UNITY: another full runtime, not a sprite animation
+filter; no reproduced missing Godot capability.
+Porting input, route, match Core, UI, save, audio,
+build and event semantics adds regression risk without
+demonstrated upside. The official Unity Personal page
+https://unity.com/products/unity-personal defines plan
+terms but FREE availability is not an argument to port.
+Evidence needed to reverse choice: one controlled
+native sample in alternate pipeline showing superior
+look and equivalent input/state at comparable complexity,
+plus concrete Godot blocker. No such evidence today.
+Candy's engine cannot be inferred from screenshot style.
+
+R1 QUESTION 5 — MINIMUM EDITABLE HANDOFF / SAME-SEED PILOT
+
+ONE minimal candidate set, not a new full art campaign:
+- existing hero_master.png as immutable identity reference;
+  original editable body/face separations IF THEY EXIST,
+  otherwise a human-reviewed mask/face/arm/lamp separation
+  from THAT source, not regenerated unrelated gnome;
+- 2 blink positions, 2 breath variants and ONE expressive
+  smile/lamp-raise pose + explicit per-frame grounded foot
+  pivot and same-size RGBA alpha bounds;
+- ONE independently animated lamp glow/cast mask and
+  ONE separate soft contact shadow, registered to avatar_foot;
+- just 2–3 foreground/occlusion leaves/wood and one
+  mine entrance light/occlusion matte, not moving full BG;
+- one restrained reusable gem fracture/dust sprite or
+  CanvasItem effect for ordinary actual clear;
+- editable artist source (layered raster/vector OR
+  Godot AnimationLibrary source, NOT only flat GIF),
+  list of PNG frames/pivots, frame order, palette,
+  copyright provenance, alpha samples, SHA256 and
+  original scene registration coordinates in metadata.
+  No new music or licensed Candy graphics.
+
+FUTURE 18s NATIVE PILOT (not produced or approved):
+0–2s first-opening map, blink/lamp/one leaf layer;
+2–6s one fixed tap and actual route walk with contact;
+6–9s arrived preview and a single Play, no extra step;
+9–11s mine light/scene transition, no blank screen;
+11–14s first ordinary valid swap from same 432x960
+board snapshot, seed and player input as control;
+14–18s actual clear/settle/goal-counter/hero micro-reaction.
+Control and candidate share SAME actual valid recorded
+inputs, seed, progress and original art scale. Do not
+force victory in 18 seconds or alter seed/Core to make
+an advertising clip: F victory requires a SEPARATE
+honestly labelled capture after a REAL winning game,
+same level/save rules, never mislabelled as continuous
+clean-start. Only count what was natively measured.
+The ordinary pilot is NOT 18 seconds of invented
+Core scripted states or pre-recorded marketing footage.
+
+R1 QUESTION 6 — ACCEPTANCE (VISUAL + NATIVE, NOT RUN)
+
+(1) READABILITY/CONTACT: at 432x960 route node,
+    reward/goal text and PLAY always clear; avatar
+    planted foot stays on the painted path as
+    shadows/turns/blink proceed; no sticker edges,
+    off-path mirroring or visible foot teleportation.
+    Check per-frame world anchor and hitbox overlay.
+(2) CONTINUITY/FOCUS/TEMPO: one hero identity,
+    continuous lamp-to-mine cue without blank frame
+    or extra modal; first ordinary move responsive
+    with break/landing counter and calm reaction,
+    no camera shake/flash or competing NPC attention.
+    Keep existing basic swap/clear speed, only
+    compare artistic curve/focus on matched input.
+(3) INPUT/STATE/PERFORMANCE BOUNDARY:
+    Tap vs drag during walk, cancel/re-enter,
+    optional back/pause, reduced-motion and
+    animation skip preserve EXACT Core, RNG,
+    moves, goal, progress, reward and rendered
+    end-state. Runtime recording plus engine
+    measurements of frame-time, dropped frames,
+    peak particles/memory on actual PC at 432x960.
+    Later Pixel 8a mobile touch/performance validation
+    requires a separate authorized test. Exported
+    60fps video is NOT proof the app rendered at
+    real-time 60fps on mobile or PC.
+
+R1 QUESTION 7 — SPEND / COMMERCIAL DECISION
+
+ZERO software purchase for this R1 or first native
+pilot. Already-installed tools and existing art
+come first. Blender is officially free; buy neither
+Unity migration nor Spine licence in advance.
+If the future baseline-vs-candidate still looks
+static because the ORIGINAL editable layers are
+missing, a fixed-scope experienced 2D animator/
+illustrator commission for SAME GNOME separated
+face/hat/arms/lamp + grounded front/rear poses
+can be evaluated based on a sample, source files,
+commercial rights, completion criteria and actual
+budget approved by human. A tool subscription
+or higher reasoning effort does not guarantee
+more expressive character art.
+
+THREE PRIORITIES FOR CODEX/GROK R2 DISCUSSION:
+P1 single persistent expressive hero with planted
+feet and independent lamp/shadow, before Level 1;
+P2 layered but low-intensity map/cave environmental
+life, preserving legibility at 432 width;
+P3 lantern-linked arrival/Play/ordinary gem/real-win
+presentation with existing input/Core correctness.
+
+CROSS-ROLE CONTRACT (NOT ASSIGNING NEW WORK):
+GPT = ART_OWNER: silhouette, palettes, readable
+layers, editability and metadata criteria;
+Grok = ANIMATION_OWNER: actual poses, anticipation,
+settle/secondary motion and timing comparison;
+Codex = INTEGRATION_OWNER: exact event clocks,
+input/cancel/reduced, unbiased native A/B video
+and unchanged game state. Other tools can only
+be introduced under a new approved implementation
+scope; nothing was built in this discussion.
+
+No Godot launch/tests, image/audio generation, asset
+download/creation, software install/buy, file changes
+outside own REPORT, grants, PR merge, gameplay changes
+or claimed Candy Level1 viewing. Historical report
+remains byte-for-byte preserved above. All acceptance
+checks above are FUTURE CRITERIA, not PASS results.
+==============================================================================
