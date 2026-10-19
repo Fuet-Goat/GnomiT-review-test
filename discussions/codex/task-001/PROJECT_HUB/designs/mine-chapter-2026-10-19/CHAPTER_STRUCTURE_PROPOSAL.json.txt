@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "status": "DESIGN_ONLY_NOT_IMPLEMENTED",
+  "date": "2026-10-19",
+  "human_direction": {
+    "surface": "green mine entrance with small replaceable guide",
+    "journey": "descend underground",
+    "chapter_one_numbered_sublevels": 10,
+    "chapter_one_boss_boards": 1,
+    "interpreted_total_boards": 11
+  },
+  "flow": [
+    "surface_gateway",
+    "mine_entry_transition",
+    "underground_chapter_map",
+    "level_preview",
+    "explicit_play",
+    "match3",
+    "result",
+    "underground_chapter_map"
+  ],
+  "first_visit": {
+    "after_mine_entry": "automatically show Level 1 preview over chapter map",
+    "auto_start_match3": false
+  },
+  "repeat_visit": {
+    "resume": "current unlocked underground node",
+    "replay_intro_every_win": false
+  },
+  "guide": {
+    "replaceable": true,
+    "role": "intro and lesson presenter plus small progress marker",
+    "free_roam_rpg": false
+  },
+  "proposed_teaching": {
+    "status": "PROPOSAL_NOT_APPROVED",
+    "every_level_new_power": false,
+    "initial_powers": [
+      "Volcano",
+      "Storm"
+    ],
+    "interleave_practice": true,
+    "later": [
+      "Tornado",
+      "Landslide",
+      "Black Hole",
+      "possible Tsunami"
+    ],
+    "demo_mutates_live_core": false
+  },
+  "future_depth_order": [
+    "surface",
+    "soil_roots_shallow_mine",
+    "deeper_crust_caves",
+    "mantle_later",
+    "fantasy_hollow_earth_later"
+  ],
+  "verified_current_campaign": {
+    "source": "AliveExperience_2026-10-19/scripts/levels.gd",
+    "ordinary": 7,
+    "preparations": 2,
+    "boss": 1,
+    "total": 10,
+    "save_schema": 2,
+    "natural_power_core_integrated": false
+  },
+  "next_slice": "polished mine exterior -> one entrance interaction -> underground establishing map -> existing first level goals/PLAY",
+  "excluded_now": [
+    "whole 11-board implementation",
+    "save migration",
+    "new power-rule rewrite",
+    "new audio",
+    "Unity migration",
+    "private repository edits",
+    "merge"
+  ],
+  "display_override": {
+    "date": "2026-10-19",
+    "monitor": 2,
+    "godot_screen_index": 1,
+    "scope": "project windows today, supersedes monitor 1"
+  }
+}

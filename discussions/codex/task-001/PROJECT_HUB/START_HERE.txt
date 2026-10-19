@@ -1,3 +1,15 @@
+АКТУАЛНО — SURFACE MINE -> UNDERGROUND CHAPTER · 19.10.2026
+Дизайн: зелен вход на мина + малък водач; вътре 10 поднива + Boss.
+Чети designs/SURFACE_MINE_CHAPTER_2026-10-19.txt и
+designs/mine-chapter-2026-10-19/MINE_CHAPTER_PLAN_BG.txt.
+Статус DESIGN_ONLY; първо вход -> подземна карта -> ниво1 цели/PLAY.
+Няма нова готова глава, tutorial система или интегриран campaign power Core.
+Предложеният график на уроците не е човешки одобрен.
+За GPT/Grok: един REPORTS_ONLY design review, до 3 приоритета; без runtime/код/merge.
+Днешен display override: monitor2 / Godot screen1, заменя monitor1.
+Blender+Godot остават; art proof е предишно доказателство, не новата игрова карта.
+GPT-6.1 Sol / High; Grok Build. Старите раздели долу са история.
+
 АКТУАЛНО — BLENDER / GODOT ART PROOF · 19.10.2026
 Първа 3D проба на обем/материали; човешко художествено приемане PENDING.
 Прочети builds/BLENDER_ART_PROOF_2026-10-19.txt и

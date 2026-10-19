@@ -1,0 +1,177 @@
+GNOMIT — SURFACE MINE / UNDERGROUND CHAPTER 1
+19 October 2026 · DESIGN RECORD · NOT IMPLEMENTED
+
+1. HUMAN DIRECTION RECORDED
+The adventure descends into the earth. The opening shows a mine entrance
+surrounded by a green surface world, vegetation and a small replaceable guide.
+The guide initially points out where to go, explains play and introduces
+new concepts with short cards and mini animations. Enter the mine to reach
+the first underground chapter. The latest requested count is interpreted as
+TEN playable sublevels PLUS a separate Boss: eleven boards in Chapter 1.
+These are destinations within a chapter, not eleven surface buildings.
+
+The user asked whether every level should introduce a new bonus. That is
+an open design question, not an instruction already accepted as a rule.
+Recommendation: one new idea at a time; alternate introductions with practice.
+The concrete lesson schedule below is a proposal, not human-approved content.
+
+2. SPATIAL HIERARCHY
+Surface gateway -> Mine entrance -> Underground chapter map -> Level preview
+-> explicit PLAY -> existing match3 board -> result -> underground chapter map.
+
+The outdoor scene establishes the mine and story. Its visual focus is the
+entrance, with foliage, rocks, timber, warm lamp and a small guide. It does
+not contain the chapter's ten numbered nodes winding across the green lawn.
+The current Blender diorama is an asset/pipeline proof, not the canonical
+final layout. Reuse suitable mine/vegetation/rock assets; do not adopt its
+entire outdoor boardwalk as the underground level journey.
+
+The chapter map starts just below the entrance with daylight receding above,
+exposed roots, soil and shallow stone, then becomes darker as the player
+descends. A shared authored route defines the visible road and marker motion.
+Playable mineral cells remain readable; world depth never darkens the board.
+
+Longer story order: surface -> soil/roots and shallow mine -> deeper rocky
+caves in the crust -> mantle much later. The mantle lies beneath the crust.
+The fantasy Hollow Earth belongs to a later story arc, not this first slice.
+These are game regions, not a claim that the first ten short puzzles span
+the actual planet's geological thickness. No fixed metres-per-level yet.
+
+3. FIRST VISIT
+A. Establish the mine in a calm living surface shot at 432x960.
+B. Small guide points to the entrance; one short English line:
+   "Follow my lantern. Tap the mine entrance."
+C. Tap the entrance -> short authored walk into the opening -> brief camera/
+   lighting transition into the underground chapter. No walking through rock.
+D. On the FIRST visit only, show Level 1's goals and PLAY over the chapter
+   map automatically, saving an unnecessary second selection step.
+E. PLAY starts the real existing board. No automatic match3 start, cost,
+   reward, move or power just from touching/entering the mine.
+F. A real win returns to the underground route, unlocks the next board and
+   moves the small marker a short distance. Tap an unlocked node -> goals/
+   PLAY immediately; later level selection never waits for avatar walking.
+
+The guide walks as a short entrance introduction, not a new free-roam RPG.
+His portrait, dialogue and animation references are swappable presentation
+data, not part of Core, material recipes or completion prerequisites.
+
+Returning players use Continue to resume their current underground node.
+Do not replay the entrance walk/tutorial on every launch or after every win.
+The surface stays accessible deliberately. Re-entering it is not required
+between the chapter's levels. One-finger vertical map dragging remains.
+
+4. TUTORIAL CARDS / MINI ANIMATIONS — PROPOSED BEHAVIOR
+Each card teaches one idea with a tiny board example, a short line and a
+visible Continue/Replay demo action. Illustrate both the creation pattern
+and how the player deliberately swaps the resulting bonus to activate it.
+Do not depend on the player reading a long paragraph while action continues.
+
+Cards are presentation: pause live board input/resolution and movement time;
+use a separate demo model so there is no live RNG, score, inventory, power,
+reward or progress mutation. A preview animation is not a player-earned use.
+Persist seen lesson IDs separately from wins and rewards. Replay explanation
+remains available; returning players do not see already-seen cards forced
+again. Persisting/renaming any such IDs needs defined save compatibility.
+
+Reduced Motion: still before/after diagrams or instant steps, no forced
+camera travel, looping sway or rapid flashes. Sound respects the game's
+existing sound option. No modal nesting that strands the player or hides PLAY.
+Demo completion alone never marks a level won. Boss contains learned ideas;
+it does not introduce an unexplained power or require a rare Black Hole.
+
+5. PROPOSED CHAPTER 1 LESSON PACING — NOT FINAL LEVEL DATA
+01  Basic adjacent drag/swap and a match of three; a simple collection goal.
+02  Practice matching/collection with fewer hints; no new power.
+03  Introduce Volcano creation from four in a line, then deliberate use.
+04  Practice Volcano; new power waits for the player's intentional swap.
+05  Soil/gravity or another already-supported obstacle, with clear feedback.
+06  Introduce Storm from five in a line; show outer-edge targets in the demo.
+07  Practice Storm and the familiar objective; no additional power recipe.
+08  Apply familiar skills without a forced tutorial interruption.
+09  Prepare the runes using the known adjacent-match rule.
+10  Charge the lantern / rehearse the learned Boss goals.
+BOSS Crystal Guardian: combine learned collection/rune/light goals.
+
+This schedule deliberately proposes only TWO new powers for the opening
+chapter. Tornado, Landslide, Black Hole and a possible water/Tsunami lesson
+can be introduced in later chapters, interleaved with practice. Existing
+assets/rules are retained; delaying their lesson does not discard the work.
+If the owner instead wants all powers in Chapter 1, treat that as a content
+pacing change, not as something already decided by the two other bots.
+
+Recipes remain material-independent: material/colour is separate from power
+type; 4-line -> Volcano, 5-line -> Storm, T-five -> Tornado, L-five -> Landslide.
+Black Hole stays a deliberate direct swap of two existing five-tier powers;
+it is not triggered by adjacency, entry, a demonstration or an automatic fall.
+Keep the latest human-approved cascade/waiting-power behavior when selecting
+the real integration predecessor. Do not substitute older demo rules.
+
+6. VERIFIED CURRENT STATE / WHAT IS NOT YET BUILT
+Read local AliveExperience_2026-10-19/scripts/levels.gd and progress.gd:
+seven ordinary boards entry,hollow,seam,pearl,goldore,terraces,bridge;
+two preparation boards rune,lantern in either order; one guardian Boss.
+That is TEN TOTAL today, not ten plus Boss. Both preparations require bridge;
+Guardian requires both preparations. The chapter field is a display label,
+not a structural chapter definition. Current save schema is v2 with a whitelist
+of these ten IDs; impossible prerequisite chains are removed while loading.
+
+main.gd uses base match_core.gd. The campaign Core does not yet incorporate
+the separate natural-power rules. Existing reward labs demonstrate powers,
+but are not proof of campaign unlock/tutorial/save integration. The old
+first-two-node arrival/preview slice does not provide preview for every node.
+The old MineEntry overlay is created after the play screen/Core is built;
+it is not a separate surface -> underground chapter state.
+
+The Blender scene is a stand-alone 3D art viewer. It has no campaign, tutorial
+cards, guide rig or playable mine-entry flow. None is claimed implemented here.
+No game/source/save edits or runtime tests were performed for this plan.
+
+7. IMPLEMENTATION BOUNDARY AND NEXT CONCRETE SLICE
+FIRST: one polished surface mine shot with vegetation, small guide and one
+working entrance target. Connect it to an underground establishing shot and
+Level 1 goals/PLAY using the existing real board. At most the first matching
+lesson is needed for that first flow. Verify actual first launch/entry/PLAY,
+cancel/Back/reduced motion and return without fake progress.
+
+THEN: explicit ChapterDefinition data for ten numbered sublevels plus one
+Boss, authored underground route, unlocks and a save-compatible mapping of
+existing stable IDs. One extra playable definition is required if reusing
+the current nine pre-Boss boards. Do not silently renumber IDs, erase saves,
+or lock previously earned wins. Preparation order is an implementation
+decision to preserve or migrate explicitly, not automatically made here.
+
+Select the latest agreed power-rule lab, port/verify the first teachable power,
+then add a separate tutorial demonstration and real first-use puzzle. Any
+authored tutorial start state must be explicit before play, never a hidden
+mid-game Core reset, forced win or artificial replay result.
+
+Under unchanged per-board reward rules, eleven boards would imply 33 maximum
+stars and 110 first-win Light. This arithmetic is NOT authorization to change
+the economy/HUD. Keep reward totals derived from explicit content and decide
+Boss reward participation when building the chapter. Replays grant no duplicate
+first-win reward. Do not test a new chapter with personal save files.
+
+8. ACCEPTANCE FOR THE FIRST FLOW (432x960 PC; Android LATER)
+- First image clearly presents an entrance into earth, surrounded by green life.
+- The guide is smaller than the entrance and leaves the target/controls readable.
+- Entrance tap does one transition; drag/duplicate input never triggers two starts.
+- The player reaches an underground destination, not another stretch of green lawn.
+- First-visit Level 1 goals/PLAY are explicit; PLAY creates the board once.
+- Demo cards never consume moves/change live state; explanations are replayable.
+- After a real win, next node unlocks; Continue does not replay the whole intro.
+- Existing earned stars/claimed/Light stay intact; no silent save replacement.
+- Separate editable objects and local animation; not an all-in-one replacement image.
+- Screenshots/recordings are labelled scripted versus human; new features must not
+  be claimed built merely because this document or a preview exists.
+
+9. COMMON GPT / GROK REVIEW REQUEST
+Read this design and the actual previous Blender/Godot art proof. REPORTS_ONLY:
+one short independent review in your own REPORT, up to three concrete issues
+covering spatial hierarchy, guide/tutorial pacing and the 10+Boss count. Do not
+edit code/assets/grants, run the project or claim consensus. Tell us which
+single first-flow slice to implement and how it proves descent into the mine.
+If media was not observed, say NOT_OBSERVED. The latest surface/underground
+hierarchy takes precedence over earlier outdoor long-road art prompts.
+Git publication does not start your chat automatically.
+
+Integration setting recommendation: GPT-6.1 Sol / High.
