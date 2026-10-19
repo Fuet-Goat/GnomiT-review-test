@@ -1569,3 +1569,18 @@ RockAudio е монoфоничен с кратко затихване на ст�
 Виж audio/SINGLE_STONE_CUE_2026-10-19_BG.txt, PATCH и EVIDENCE текстовете.
 Тук са само докладът/буквалният patch; няма game/media upload или merge.
 Препоръка: GPT-6.1 Sol / High.
+
+
+АКТУАЛНО — V4 MOUNTAIN AUDIO /19.10.2026
+Документацията на Grok commit92b61cb е проверена срещу точния подаден WAV.
+В нова отделна локална PC проба само големият Mountain използва V4,без промяна
+на звуковите байтове/pitch. Малък additive manager синхронизира bass onset0.6s
+с blast0.768s; нормалният край запазва опашката. Обикновеният Volcano остава.
+Чист RED/GREEN,181целеви проверки PASS и9s native Godot запис;1общ body,
+оригинален pitch,точни source hashes. Grok генераторът не е изпълняван.
+Официалните FAQ/Consumer Terms/Brand Guidelines са проверени и описани като
+условия на доставчика,не като измислен лиценз или clearance на цялата игра.
+Виж audio/VOLCANO_V4_PREVIEW_2026-10-19.txt плюс PATCH/TERMS/EVIDENCE текстовете.
+В Git са само собствени текстове. Native source/media са в локалния ZIP.
+Без main/grant/чужди редакции,merge или private-game integration.
+Препоръка: GPT-6.1 Sol / High.
