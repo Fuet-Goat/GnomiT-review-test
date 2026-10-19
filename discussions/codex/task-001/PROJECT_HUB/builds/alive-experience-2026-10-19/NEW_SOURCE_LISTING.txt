@@ -1,0 +1,895 @@
+FILE scripts/alive/alive_hero.gd | bytes=6684 | SHA256=baa510d3fbb4337caf94525ba9b35ffc10d42ab40bad9410df793cb8e998f543
+extends Control
+## An expression layer for the existing TextureRect hero. The parent retains
+## its route position, walking atlas, facing and separate ground shadow.
+
+const EXPRESSION_SHEET = preload("res://assets/alive/hero_expressions_v1.png")
+const METADATA_PATH := "res://assets/alive/hero_expressions_v1.json"
+const CANONICAL_SIZE := 512.0
+const CANONICAL_FOOT := Vector2(256.0, 467.0)
+const BLINK_DELAYS := [3.2, 4.1, 2.8, 3.7]
+
+var reduced_motion: bool = false
+var suspended: bool = false
+var enabled: bool = true
+## 0 idle, 1 actual closed-eye frame, 2 match reaction, 3 raised-lantern victory.
+var pose_index: int = 0
+
+var _sprite: TextureRect
+var _original_self_modulate := Color.WHITE
+var _frames: Array = []
+var _walking: bool = false
+var _state: String = "idle"
+var _state_time: float = 0.0
+var _clock: float = 0.0
+var _blink_index: int = 0
+var _until_blink: float = 1.35
+var _previous_pose: int = 0
+var _blend: float = 1.0
+var _blend_duration: float = 0.08
+
+func _ready() -> void:
+	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
+	_sprite = get_parent() as TextureRect
+	if _sprite == null:
+		push_error("AliveHero must be a child of the existing hero TextureRect.")
+		set_process(false)
+		return
+	_original_self_modulate = _sprite.self_modulate
+	if not enabled:
+		visible = false
+		set_process(false)
+		return
+	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(METADATA_PATH))
+	if not parsed is Dictionary:
+		push_error("AliveHero metadata is unavailable; retaining the original hero.")
+		set_process(false)
+		return
+	_frames = parsed.get("frames", [])
+	if _frames.size() != 4:
+		_frames.clear()
+		push_error("AliveHero needs four expression regions; retaining the original hero.")
+		set_process(false)
+		return
+	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_sprite.resized.connect(_on_parent_resized)
+	_apply_visibility()
+	queue_redraw()
+
+func _exit_tree() -> void:
+	if is_instance_valid(_sprite):
+		_sprite.self_modulate = _original_self_modulate
+
+func _on_parent_resized() -> void:
+	queue_redraw()
+
+## The ground point is in this Control's local coordinates. No parent movement.
+func ground_point() -> Vector2:
+	var extent: float = minf(size.x, size.y)
+	var letterbox_origin: Vector2 = (size - Vector2.ONE * extent) * 0.5
+	return letterbox_origin + CANONICAL_FOOT / CANONICAL_SIZE * extent
+
+func set_walking(walking: bool) -> void:
+	if _walking == walking:
+		return
+	_walking = walking
+	_state = "idle"
+	_state_time = 0.0
+	pose_index = 0
+	_previous_pose = 0
+	_blend = 1.0
+	_until_blink = 2.8
+	_apply_visibility()
+	queue_redraw()
+
+func react() -> void:
+	if not enabled or _walking or suspended or _state == "victory":
+		return
+	_state = "reaction"
+	_state_time = 0.62
+	_set_pose(2, 0.09)
+
+func celebrate() -> void:
+	if not enabled or _walking or suspended:
+		return
+	_state = "victory"
+	# Keep the real raised-lantern pose throughout the victory modal.
+	_state_time = -1.0
+	_set_pose(3, 0.12)
+
+func _set_pose(index: int, duration: float) -> void:
+	if pose_index == index:
+		return
+	_previous_pose = pose_index
+	pose_index = index
+	_blend_duration = maxf(duration, 0.001)
+	_blend = 1.0 if reduced_motion else 0.0
+	queue_redraw()
+
+func _apply_visibility() -> void:
+	if not enabled or not is_instance_valid(_sprite) or _frames.is_empty():
+		return
+	var color: Color = _original_self_modulate
+	color.a = _original_self_modulate.a if _walking else 0.0
+	# self_modulate applies only to the original TextureRect, not this child.
+	_sprite.self_modulate = color
+	visible = not _walking
+
+func _process(delta: float) -> void:
+	if not enabled or _walking or suspended or _frames.is_empty():
+		return
+	if reduced_motion:
+		# Events still show a real pose; idle has no periodic blinking or breathing.
+		_blend = 1.0
+		if _state == "blink":
+			_state = "idle"
+			_set_pose(0, 0.0)
+		elif _state == "reaction":
+			_state_time -= delta
+			if _state_time <= 0.0:
+				_state = "idle"
+				_set_pose(0, 0.0)
+		queue_redraw()
+		return
+	_clock += delta
+	if _blend < 1.0:
+		_blend = minf(1.0, _blend + delta / _blend_duration)
+	if _state == "victory":
+		pass
+	elif _state != "idle":
+		_state_time -= delta
+		if _state_time <= 0.0:
+			_state = "idle"
+			_set_pose(0, 0.08)
+			_until_blink = float(BLINK_DELAYS[_blink_index % BLINK_DELAYS.size()])
+			_blink_index += 1
+	else:
+		_until_blink -= delta
+		if _until_blink <= 0.0:
+			_state = "blink"
+			_state_time = 0.14
+			_set_pose(1, 0.035)
+	queue_redraw()
+
+func _draw() -> void:
+	if not enabled or _frames.is_empty() or _walking:
+		return
+	var mirror: float = -1.0 if is_instance_valid(_sprite) and _sprite.flip_h else 1.0
+	draw_set_transform(ground_point(), 0.0, Vector2(mirror, 1.0))
+	if _blend < 1.0:
+		_draw_pose(_previous_pose, 1.0 - _blend)
+	_draw_pose(pose_index, _blend)
+	draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+
+func _draw_pose(index: int, opacity: float) -> void:
+	if opacity <= 0.0:
+		return
+	var frame: Dictionary = _frames[index]
+	var r: Array = frame["rect"]
+	var p: Array = frame["foot_pivot"]
+	var region := Rect2(float(r[0]), float(r[1]), float(r[2]), float(r[3]))
+	var pivot := Vector2(float(p[0]), float(p[1]))
+	var extent: float = minf(size.x, size.y)
+	var pixel_scale: Vector2 = Vector2.ONE * extent / CANONICAL_SIZE * float(frame["canonical_scale"])
+	var body_height: float = float(frame["reference_height"])
+	var breath: float = 0.0
+	if not reduced_motion and not suspended and _state == "idle":
+		breath = 0.004 * sin(_clock * TAU / 3.6)
+	if absf(breath) < 0.00001:
+		var destination := Rect2(-pivot * pixel_scale, region.size * pixel_scale)
+		draw_texture_rect_region(EXPRESSION_SHEET, destination, region, Color(1.0, 1.0, 1.0, opacity))
+		return
+	# Adjacent source strips keep y fixed. Only chest-width changes, with exactly
+	# zero deformation below the coat. Shoes never move with the breathing cycle.
+	var strip_y: float = 0.0
+	while strip_y < region.size.y:
+		var strip_height: float = minf(8.0, region.size.y - strip_y)
+		var relative_height: float = (pivot.y - strip_y - strip_height * 0.5) / body_height
+		var weight: float = 0.0
+		if relative_height > 0.20 and relative_height < 0.59:
+			weight = sin((relative_height - 0.20) / 0.39 * PI)
+		var chest_width: float = 1.0 + breath * weight
+		var destination := Rect2(
+			Vector2(-pivot.x * pixel_scale.x * chest_width, (strip_y - pivot.y) * pixel_scale.y),
+			Vector2(region.size.x * pixel_scale.x * chest_width, strip_height * pixel_scale.y)
+		)
+		var source := Rect2(region.position + Vector2(0.0, strip_y), Vector2(region.size.x, strip_height))
+		draw_texture_rect_region(EXPRESSION_SHEET, destination, source, Color(1.0, 1.0, 1.0, opacity))
+		strip_y += strip_height
+
+
+FILE scripts/alive/ambient_light.gd | bytes=1557 | SHA256=2b5e9e87e40b507733d14d510d6d389ff7f033f3a5c429e46eec39f5783017f0
+extends Control
+## Local light over existing painted lamps; never moves the flattened background.
+var mode: String="map"
+var reduced_motion:=false
+var suspended:=false
+var clock:=0.0
+
+func _ready() -> void:
+	mouse_filter=Control.MOUSE_FILTER_IGNORE
+	resized.connect(queue_redraw)
+
+func _process(delta: float) -> void:
+	if suspended:return
+	if not reduced_motion:clock+=minf(delta,0.05)
+	queue_redraw()
+
+func _glow(center: Vector2,radius: float,tint: Color,energy: float) -> void:
+	for layer in range(12,0,-1):
+		var f: float=layer/12.0
+		draw_circle(center,radius*f,Color(tint,energy*(1.0-f)*0.12),true,-1,true)
+
+func _draw() -> void:
+	if size.x<=0:return
+	var pulse: float=0.65 if reduced_motion else 0.65+0.10*sin(clock*2.3)+0.045*sin(clock*6.1)
+	if mode=="map":
+		for p in [Vector2(355,359),Vector2(574,383),Vector2(95,1409),Vector2(600,1580),Vector2(116,1950)]:
+			_glow(p/Vector2(774,2032)*size,36.0*size.x/774.0,Color("ffc36d"),pulse)
+	else:
+		for p in [Vector2(0.104,0.143),Vector2(0.932,0.145)]:
+			_glow(p*size,size.x*0.082,Color("ffc16a"),pulse*0.65)
+		for p in [Vector2(0.055,0.33),Vector2(0.94,0.35),Vector2(0.25,0.80)]:
+			_glow(p*size,size.x*0.07,Color("4ae0f4"),pulse*0.25)
+		# A low-opacity shaft is a separate overlay, not an animated cave texture.
+		var sway: float=0.0 if reduced_motion else sin(clock*0.26)*size.x*0.012
+		var points:=PackedVector2Array([Vector2(size.x*0.43,0),Vector2(size.x*0.49,0),Vector2(size.x*0.76+sway,size.y*0.91),Vector2(size.x*0.48+sway,size.y*0.91)])
+		draw_colored_polygon(points,Color(0.20,0.68,0.83,0.018))
+
+
+FILE scripts/alive/mine_entry.gd | bytes=3193 | SHA256=d887b793a5bbfe4554b95903bda21e512b4a9151c83309ea956b7b23ca9e9f06
+extends Control
+## Presentation only. Core already exists; no gameplay or RNG is accessed here.
+signal finished
+const MAP=preload("res://assets/storybook/descending_world_v2.png")
+const Hero=preload("res://scripts/alive/alive_hero.gd")
+const DURATION:=1.08
+var active:=true
+var elapsed:=0.0
+var map_rect:=Rect2()
+var hero_foot:=Vector2.ZERO
+var hero_extent:=Vector2(220,220)
+var door:=Vector2.ZERO
+var reference_size:=Vector2(720,1600)
+var hero
+var carrier: TextureRect
+
+func _ready() -> void:
+	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	mouse_filter=Control.MOUSE_FILTER_STOP
+	focus_mode=Control.FOCUS_ALL
+	grab_focus()
+	carrier=TextureRect.new();carrier.mouse_filter=Control.MOUSE_FILTER_IGNORE;add_child(carrier)
+	hero=Hero.new();carrier.add_child(hero);hero.react()
+	resized.connect(queue_redraw)
+	_update_hero()
+
+func _smooth(a: float,b: float,value: float) -> float:
+	var f: float=clampf((value-a)/maxf(0.001,b-a),0,1)
+	return f*f*(3.0-2.0*f)
+
+func _update_hero() -> void:
+	if not is_instance_valid(hero):return
+	var ratio: Vector2=size/reference_size
+	carrier.size=hero_extent*ratio
+	carrier.position=hero_foot*ratio-hero.ground_point()
+	carrier.modulate.a=1.0-_smooth(0.36,0.70,elapsed/DURATION)
+
+func _process(delta: float) -> void:
+	if not active:return
+	elapsed+=maxf(0.0,delta)
+	_update_hero();queue_redraw()
+	if elapsed>=DURATION:complete()
+
+func _input(event: InputEvent) -> void:
+	if not active:return
+	if event is InputEventMouseButton or event is InputEventScreenTouch:
+		get_viewport().set_input_as_handled()
+		if not event.pressed and elapsed>0.12:complete()
+	elif event is InputEventMouseMotion or event is InputEventScreenDrag:
+		get_viewport().set_input_as_handled()
+
+func complete() -> void:
+	if not active:return
+	active=false
+	finished.emit()
+	queue_free()
+
+func cancel() -> void:
+	active=false
+	queue_free()
+
+func _draw() -> void:
+	if reference_size.x<=0 or size.x<=0:return
+	var t: float=clampf(elapsed/DURATION,0,1)
+	var ratio: Vector2=size/reference_size
+	var alpha: float=1.0-_smooth(0.46,1.0,t)
+	var rect:=Rect2(map_rect.position*ratio,map_rect.size*ratio)
+	draw_texture_rect(MAP,rect,false,Color(1,1,1,alpha))
+	var target: Vector2=door*ratio
+	var source: Vector2=(hero_foot+Vector2(hero_extent.x*0.24,-hero_extent.y*0.30))*ratio
+	var flight: float=_smooth(0.05,0.54,t)
+	var control: Vector2=(source+target)*0.5+Vector2(20,-90)*ratio
+	var previous: Vector2=source
+	for i in range(1,25):
+		var q: float=flight*i/24.0
+		var p: Vector2=(1-q)*(1-q)*source+2*(1-q)*q*control+q*q*target
+		draw_line(previous,p,Color(1,0.69,0.20,0.46*alpha),2.0*ratio.x,true)
+		previous=p
+	var orb: Vector2=(1-flight)*(1-flight)*source+2*(1-flight)*flight*control+flight*flight*target
+	for layer in range(10,0,-1):
+		draw_circle(orb,(3.0+layer*1.6)*ratio.x,Color(1,0.63,0.16,0.018*alpha),true,-1,true)
+	draw_circle(orb,3.2*ratio.x,Color(1,0.91,0.56,alpha),true,-1,true)
+	var warm: float=_smooth(0.26,0.50,t)*(1.0-_smooth(0.62,1.0,t))
+	for layer in range(18,0,-1):
+		var f: float=layer/18.0
+		draw_circle(target,(18+size.x*0.40*f)*warm,Color(1,0.70,0.29,0.008*warm*(1-f)),true,-1,true)
+
+
+FILE tests/test_alive_experience.gd | bytes=9342 | SHA256=5c94dd01b7956b3ddc03fa98a9045489e7056c3465f6b8e0fd1a15b5987465fb
+extends SceneTree
+## Integration checks for the presentation pilot, using untouched gameplay rules.
+## Scripted checks are not human, touch-device, visual, or performance acceptance.
+var checks := 0
+var failures: Array[String] = []
+var save_files: Array[String] = []
+var run_tag := str(Time.get_ticks_usec())
+var observations: Array = []
+
+func _initialize() -> void:
+	create_timer(55.0).timeout.connect(func() -> void:
+		push_error("Alive integration test exceeded its 55 second bound")
+		quit(99))
+	call_deferred("run")
+
+func check(ok: bool, message: String) -> void:
+	checks += 1
+	if not ok:
+		failures.append(message)
+		print("FAIL: " + message)
+
+func settle() -> void:
+	await process_frame
+	await process_frame
+
+func make_app(enabled: bool, seed_value: int, suffix: String):
+	var path := "user://alive_integration_" + run_tag + "_" + suffix + ".json"
+	check(not FileAccess.file_exists(path), "Fresh isolated save: " + suffix)
+	if FileAccess.file_exists(path): return null
+	save_files.append(path)
+	var instance = load("res://scripts/main.gd").new()
+	instance.alive_enabled = enabled
+	instance.pilot_seed_override = seed_value
+	instance.save_path_override = path
+	root.add_child(instance)
+	instance.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	await settle()
+	instance.progress.set_option("sound", false)
+	return instance
+
+func state(app) -> Dictionary:
+	return {
+		"grid":app.core.grid.duplicate(), "floor":app.core.floor.duplicate(),
+		"runes":app.core.runes.duplicate(), "moves_left":app.core.moves_left,
+		"initial_moves":app.core.initial_moves, "collected":app.core.collected,
+		"collect_goal":app.core.collect_goal, "collect_kind":app.core.collect_kind,
+		"won":app.core.won, "lost":app.core.lost,
+		"rng_state":str(app.core._rng.state),
+		"stars":app.progress.data.stars.duplicate(true),
+		"claimed":app.progress.data.claimed.duplicate(), "light":app.progress.data.light}
+
+func invalid_pair(seed_value: int) -> Array:
+	# A separate reference Core is used only to find a rejected pair. The live
+	# application's Core is never re-setup, patched, or replaced by this test.
+	var reference = load("res://scripts/match_core.gd").new()
+	var level: Dictionary = load("res://scripts/levels.gd").get_level("entry")
+	reference.setup(level, seed_value)
+	for a in range(reference.grid.size()):
+		for b in reference._neighbors(a):
+			if reference.grid[a] < 0 or reference.grid[b] < 0: continue
+			var probe = load("res://scripts/match_core.gd").new()
+			probe.setup(level, seed_value)
+			if not probe.try_swap(a, b).valid: return [a, b]
+	return []
+
+func equivalence(enabled: bool, suffix: String) -> Array:
+	var app = await make_app(enabled, 42, suffix)
+	if app == null: return []
+	app.progress.set_option("reduced_motion", true)
+	app.start_level("entry")
+	await settle()
+	check(not app.entry_active(), suffix + " reduced motion does not retain entry animation")
+	check(app.seed_counter == 1, suffix + " creates the seeded Core exactly once")
+	var identity: int = app.core.get_instance_id()
+	var states: Array = [state(app)]
+	var invalid := invalid_pair(42)
+	check(invalid.size() == 2, "Reference seed has a rejected neighboring swap")
+	if invalid.size() == 2:
+		var before := state(app)
+		await app._on_swap(invalid[0], invalid[1])
+		check(state(app) == before, suffix + " rejected swap preserves semantic state")
+		states.append(state(app))
+	for pair in [[10, 11], [29, 36], [39, 40]]:
+		var moves: int = app.core.moves_left
+		await app._on_swap(pair[0], pair[1])
+		check(app.core.moves_left == moves - 1, suffix + " genuine path consumes one legal move")
+		check(app.core.get_instance_id() == identity, suffix + " keeps the original live Core")
+		states.append(state(app))
+	check(app.core.won and not app.core.lost, suffix + " original seed42 path wins legitimately")
+	check(app.progress.best_stars("entry") == 3 and app.progress.data.light == 10,
+		suffix + " normal victory writes three stars and one Light reward")
+	check(is_instance_valid(app.modal), suffix + " result follows completed board animation")
+	if enabled:
+		check(is_instance_valid(app.first_scene.alive_hero), "Alive board has the shared character actor")
+		if is_instance_valid(app.first_scene.alive_hero):
+			check(app.first_scene.alive_hero.pose_index != 0, "True victory selects a non-idle character pose")
+		app._notification(Control.NOTIFICATION_WM_WINDOW_FOCUS_OUT)
+		await settle()
+		check(app.first_scene.alive_hero.suspended, "Focus loss freezes even the victorious board actor")
+		var result_actor=app.modal.find_child("AliveHero",true,false)
+		check(is_instance_valid(result_actor) and result_actor.suspended, "Focus loss also freezes the visible result actor")
+		app._notification(Control.NOTIFICATION_WM_WINDOW_FOCUS_IN)
+		await settle()
+	var terminal := state(app)
+	await app._on_swap(10, 11)
+	check(state(app) == terminal, suffix + " terminal input cannot change result or reward")
+	# Replaying retains progress; it must not reissue the +10 Light reward.
+	app.start_level("entry")
+	await settle()
+	for pair in [[10, 11], [29, 36], [39, 40]]:
+		await app._on_swap(pair[0], pair[1])
+	check(app.core.won and app.progress.data.light == 10 and app.progress.data.claimed.size() == 1,
+		suffix + " genuine replay cannot duplicate the first-win reward")
+	var reloaded = load("res://scripts/progress.gd").new()
+	reloaded.load_progress(app.save_path_override)
+	check(reloaded.data == app.progress.data, suffix + " ordinary save schema round-trips")
+	observations.append({"variant":suffix, "states":states, "replayed_light":app.progress.data.light})
+	app.queue_free()
+	await settle()
+	return states
+
+func lifecycle() -> void:
+	var app = await make_app(true, 42031, "lifecycle")
+	if app == null: return
+	check(is_instance_valid(app.map_view.alive_hero), "Opening map owns the shared actor")
+	var initial_progress: Dictionary = app.progress.data.duplicate(true)
+	app.start_level("entry")
+	await settle()
+	check(app.entry_active(), "Normal Play starts the lamp-to-mine entry overlay")
+	var identity: int = app.core.get_instance_id()
+	var before := state(app)
+	app.start_level("entry")
+	check(app.seed_counter == 1 and app.core.get_instance_id() == identity,
+		"Repeated Play during entry cannot construct another Core")
+	await app._on_swap(10, 11)
+	check(state(app) == before, "Entry gate rejects board actions")
+	# Layout/Settings can neither advance gameplay nor issue any reward.
+	root.size = Vector2i(460, 990)
+	await settle()
+	app.show_options()
+	await settle()
+	check(state(app) == before, "Resize and Settings during entry preserve Core and progression")
+	if is_instance_valid(app.modal): app._close_modal()
+	if app.entry_active():
+		await app._on_swap(10, 11)
+		check(state(app) == before, "Closing Settings cannot bypass a still-active entry gate")
+	root.size = Vector2i(432, 960)
+	app.cancel_entry(true)
+	await settle()
+	check(app.current_screen == "map" and not app.entry_active(), "Cancel-to-map removes the overlay")
+	await create_timer(1.35).timeout
+	check(app.current_screen == "map" and not app.entry_active(), "Stale entry completion cannot reopen the level")
+	check(app.progress.data == initial_progress, "Canceled entry has no progression side effects")
+	# A new entry must survive an older canceled transition and close on Escape.
+	app.start_level("entry")
+	await settle()
+	var escape := InputEventKey.new()
+	escape.keycode = KEY_ESCAPE
+	escape.pressed = true
+	app._unhandled_key_input(escape)
+	await settle()
+	check(app.current_screen == "map" and not app.entry_active(), "Escape during entry safely returns to map")
+	app.start_level("entry")
+	await settle()
+	var focus_state := state(app)
+	app._notification(MainLoop.NOTIFICATION_APPLICATION_FOCUS_OUT)
+	app._notification(Control.NOTIFICATION_WM_WINDOW_FOCUS_OUT)
+	await settle()
+	check(not app.entry_active() and state(app) == focus_state, "Focus loss cancels presentation without gameplay mutation")
+	app.show_map()
+	await settle()
+	app.progress.set_option("reduced_motion", true)
+	app.start_level("entry")
+	await settle()
+	check(not app.entry_active(), "Saved reduced-motion preference bypasses entry movement")
+	check(app.core.moves_left == app.core.initial_moves, "Entry tests never consume a gameplay move")
+	app.show_pause()
+	await settle()
+	check(app._paused and is_instance_valid(app.modal), "Pause remains available after entry cancellation")
+	app._close_modal()
+	check(not app._paused, "Closing pause restores the ordinary play lifecycle")
+	app.queue_free()
+	await settle()
+
+func run() -> void:
+	root.size = Vector2i(432, 960)
+	var control: Array = await equivalence(false, "control")
+	var alive: Array = await equivalence(true, "alive")
+	check(not control.is_empty() and control == alive,
+		"Same seed and legal/rejected swaps have identical state in control and Alive variants")
+	await lifecycle()
+	for path in save_files:
+		# Only exact fresh filenames owned by this invocation are removed.
+		if FileAccess.file_exists(path):
+			DirAccess.remove_absolute(ProjectSettings.globalize_path(path))
+	var report := {"checks":checks, "failures":failures,
+		"status":"PASS" if failures.is_empty() else "FAIL", "observations":observations,
+		"proof":"Scripted live-app integration, semantic same-seed comparison, and real ordinary swaps. No human/Android/visual/performance acceptance."}
+	print("ALIVE_EXPERIENCE_TEST " + JSON.stringify(report))
+	quit(0 if failures.is_empty() else 1)
+
+
+FILE tests/capture_alive_experience.gd | bytes=8734 | SHA256=e5f862ee419ea1e4d44b77880ecb563a168d0529a6dced58dbeb54fe5b13db88
+extends SceneTree
+## Continuous native Godot replay. This script never replaces or re-sets Core.
+## Use --fixed-fps 30 and --write-movie <external AVI path> for comparable clips.
+const FPS := 30
+var app
+var output := ""
+var control := false
+var win_run := false
+var failures: Array[String] = []
+var trace: Array = []
+var snapshots: Array = []
+var cues: Array = []
+var initial_state: Dictionary = {}
+var start_frame := 0
+
+func _initialize() -> void:
+	for argument in OS.get_cmdline_user_args():
+		if argument == "--alive-control": control = true
+		elif argument == "--alive-win": win_run = true
+		elif argument.begins_with("--alive-output="): output = argument.trim_prefix("--alive-output=")
+	create_timer(55.0).timeout.connect(func() -> void:
+		push_error("Alive native replay exceeded 55 seconds")
+		quit(99))
+	call_deferred("run")
+
+func check(ok: bool, message: String) -> void:
+	if not ok:
+		failures.append(message)
+		push_error(message)
+
+func wait_frames(count: int) -> void:
+	for i in range(maxi(0, count)): await process_frame
+
+func wait_seconds(seconds: float) -> void:
+	await wait_frames(int(ceil(seconds * FPS)))
+
+func record(action: String, detail: Dictionary = {}) -> void:
+	trace.append({"action":action,"frame":Engine.get_process_frames()-start_frame,
+		"nominal_seconds":float(Engine.get_process_frames()-start_frame)/FPS,
+		"screen":app.current_screen,"detail":detail})
+
+func state() -> Dictionary:
+	if app.core == null: return {}
+	return {"grid":app.core.grid.duplicate(),"floor":app.core.floor.duplicate(),
+		"runes":app.core.runes.duplicate(),"moves_left":app.core.moves_left,
+		"collected":app.core.collected,"won":app.core.won,"lost":app.core.lost,
+		"rng_state":str(app.core._rng.state),"seed_counter":app.seed_counter,
+		"stars":app.progress.data.stars.duplicate(true),"claimed":app.progress.data.claimed.duplicate(),
+		"light":app.progress.data.light}
+
+func shot(name: String) -> void:
+	await RenderingServer.frame_post_draw
+	var image: Image = root.get_texture().get_image()
+	check(image.get_size() == Vector2i(432,960), "Native frame must be 432x960")
+	check(image.save_png(output.path_join(name + ".png")) == OK, "Native frame must save")
+	snapshots.append({"name":name,"frame":Engine.get_process_frames()-start_frame,
+		"state":state(),"entry_active":app.entry_active()})
+
+func touch(position: Vector2, pressed: bool) -> void:
+	var event := InputEventScreenTouch.new()
+	event.index = 0
+	event.position = root.get_final_transform() * position
+	event.pressed = pressed
+	Input.parse_input_event(event)
+
+func tap(position: Vector2) -> void:
+	touch(position, true)
+	await wait_frames(3)
+	touch(position, false)
+	await wait_frames(2)
+
+func swap(a: int, b: int) -> void:
+	var from: Vector2 = app.board.get_global_transform() * app.board._center(a)
+	var to: Vector2 = app.board.get_global_transform() * app.board._center(b)
+	record("neighbor_drag", {"a":a,"b":b,"before":state()})
+	touch(from, true)
+	await wait_frames(2)
+	for i in range(1,7):
+		var event := InputEventScreenDrag.new()
+		event.index = 0
+		event.position = root.get_final_transform() * from.lerp(to, float(i)/6.0)
+		event.relative = root.get_final_transform().basis_xform((to-from)/6.0)
+		Input.parse_input_event(event)
+		await wait_frames(1)
+	touch(to, false)
+	await wait_frames(2)
+	for i in range(450):
+		if not app.board.busy: break
+		await process_frame
+	check(not app.board.busy, "Native legal drag must finish resolving")
+	record("neighbor_drag_finished", {"a":a,"b":b,"after":state()})
+
+func run() -> void:
+	if DisplayServer.get_name() == "headless":
+		push_error("Alive capture requires a native graphical renderer")
+		quit(1)
+		return
+	if output.is_empty():
+		output = ProjectSettings.globalize_path("res://outputs/alive_native_" + str(Time.get_ticks_usec()))
+	else: output = ProjectSettings.globalize_path(output)
+	if DirAccess.dir_exists_absolute(output):
+		push_error("Refusing to overwrite native evidence: " + output)
+		quit(1)
+		return
+	check(DirAccess.make_dir_recursive_absolute(output) == OK, "Create fresh native evidence directory")
+	root.size = Vector2i(432,960)
+	app = load("res://scripts/main.gd").new()
+	app.alive_enabled = not control
+	app.pilot_seed_override = 42
+	app.save_path_override = output.path_join("isolated_progress.json")
+	root.add_child(app)
+	app.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	start_frame = Engine.get_process_frames()
+	record("launch", {"variant":"control" if control else "alive","seed":42})
+	var recorder := AudioEffectRecord.new()
+	recorder.format = AudioStreamWAV.FORMAT_16_BITS
+	var effect_index: int = AudioServer.get_bus_effect_count(0)
+	AudioServer.add_bus_effect(0,recorder)
+	recorder.set_recording_active(true)
+	await wait_seconds(2.0)
+	await shot("01_OPENING_VILLAGE")
+	var original_progress: Dictionary = app.progress.data.duplicate(true)
+	record("tap_entry_badge")
+	await tap(app.map_view.buttons.entry.get_global_rect().get_center())
+	for i in range(120):
+		if is_instance_valid(app.pre_level_view): break
+		await process_frame
+	check(is_instance_valid(app.pre_level_view), "Actual arrival must expose the pre-level panel")
+	if not is_instance_valid(app.pre_level_view):
+		quit(2)
+		return
+	check(app.current_screen == "map", "Arrival is not auto-start")
+	check(app.progress.data == original_progress, "Opening navigation must not grant progress")
+	await wait_seconds(0.7)
+	await shot("02_ARRIVAL_PANEL")
+	record("tap_play")
+	var play_frame: int=Engine.get_process_frames()
+	await tap(app.pre_level_view.play_button.get_global_rect().get_center())
+	await wait_seconds(0.28)
+	await shot("03_LAMP_TO_MINE")
+	for i in range(120):
+		if not app.entry_active(): break
+		await process_frame
+	# Both variants receive later inputs on the same frame schedule. The control
+	# holds its already-visible board while the candidate uses its entry bridge.
+	while Engine.get_process_frames()-play_frame<42:await process_frame
+	check(app.current_screen == "play" and not app.entry_active(), "Entry must finish in the real board")
+	check(app.seed_counter == 1, "Capture constructs the original seeded Core exactly once")
+	var core_identity: int = app.core.get_instance_id()
+	initial_state = state()
+	app.board.foley_requested.connect(func(kind: String, strength: float) -> void:
+		cues.append({"kind":kind,"strength":strength,"frame":Engine.get_process_frames()-start_frame}))
+	await wait_seconds(0.8)
+	await shot("04_FIRST_BOARD")
+	await swap(10,11)
+	check(app.core.moves_left == app.core.initial_moves - 1, "First native drag performs a legal ordinary move")
+	await wait_seconds(0.7)
+	await shot("05_FIRST_MATCH")
+	if win_run:
+		await swap(29,36)
+		await wait_seconds(0.4)
+		await swap(39,40)
+		check(app.core.won and app.progress.best_stars("entry") == 3,
+			"Separate win clip reaches an actual victory through three ordinary swaps")
+		check(app.progress.data.light == 10, "Actual victory awards the ordinary one-time reward")
+		await wait_seconds(1.2)
+		await shot("06_ACTUAL_VICTORY")
+	check(app.core.get_instance_id() == core_identity and app.seed_counter == 1,
+		"Capture never replaces, re-seeds, or resets its live Core")
+	var target_frames: int = (18 if win_run else 16) * FPS
+	while Engine.get_process_frames() - start_frame < target_frames: await process_frame
+	await shot("07_FINAL_HOLD")
+	recorder.set_recording_active(false)
+	var mixed := recorder.get_recording()
+	check(mixed != null and mixed.save_to_wav(output.path_join("native_mix.wav")) == OK,
+		"Actual native mixer audio must save")
+	AudioServer.remove_bus_effect(0,effect_index)
+	check(DisplayServer.window_get_current_screen() == 0, "Use monitor 1 / Godot screen 0")
+	var report := {"status":"PASS" if failures.is_empty() else "FAIL","failures":failures,
+		"proof":"Continuous scripted native touchscreen replay and actual Godot rendering/mixer output. Not human/Android acceptance or a measured native performance result.",
+		"variant":"control" if control else "alive","win_run":win_run,"seed":42,
+		"requested_fixed_fps":FPS,"viewport":[root.size.x,root.size.y],
+		"screen_index":DisplayServer.window_get_current_screen(),"trace":trace,
+		"initial_state":initial_state,"final_state":state(),"snapshots":snapshots,"cues":cues,
+		"frames_since_launch":Engine.get_process_frames()-start_frame,
+		"source_core_setup":"Only application start_level; no post-start setup or fixture injection"}
+	var file := FileAccess.open(output.path_join("NATIVE_RECEIPT.json"),FileAccess.WRITE)
+	file.store_string(JSON.stringify(report,"\t") + "\n")
+	file.close()
+	print("ALIVE_NATIVE " + JSON.stringify({"status":report.status,"variant":report.variant,
+		"win_run":win_run,"failures":failures,"output":output,"frames":report.frames_since_launch}))
+	app.queue_free()
+	await wait_frames(2)
+	quit(0 if failures.is_empty() else 1)
+
+
+FILE assets/alive/hero_expressions_v1.json | bytes=2567 | SHA256=2eadbdd6f3a67d2dc57b7cb6b4678a654083dbbd0944107e2dd235554272e676
+{
+  "tool": "built-in image_gen",
+  "mode": "edit identity-preserve",
+  "image": "C:\\Users\\fruch\\.codex\\generated_images\\01a11973-52a1-7a10-b9c3-69a7fee84ca5\\exec-b26d1cde-8376-44d4-8474-d870622cb779.png",
+  "reference": "assets/shared_v2/hero_master.png",
+  "asset": "assets/alive/hero_expressions_v1.png",
+  "bytes": 1557601,
+  "sha256": "3bee14309112a98c7decf3535c00ba0661c3c1dec0b82f9ffc8581ef47143339",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode_actual": "RGBA",
+  "corners_alpha": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "frames": [
+    {
+      "index": 0,
+      "name": "idle",
+      "rect": [
+        174,
+        24,
+        419,
+        572
+      ],
+      "solid_bbox": [
+        6,
+        6,
+        413,
+        566
+      ],
+      "foot_pivot": [
+        197.5,
+        566
+      ],
+      "reference_height": 560,
+      "canonical_scale": 0.7857142857142857
+    },
+    {
+      "index": 1,
+      "name": "blink",
+      "rect": [
+        739,
+        23,
+        422,
+        573
+      ],
+      "solid_bbox": [
+        6,
+        6,
+        416,
+        567
+      ],
+      "foot_pivot": [
+        196.5,
+        567
+      ],
+      "reference_height": 561,
+      "canonical_scale": 0.7843137254901961
+    },
+    {
+      "index": 2,
+      "name": "reaction",
+      "rect": [
+        141,
+        620,
+        467,
+        587
+      ],
+      "solid_bbox": [
+        6,
+        6,
+        461,
+        581
+      ],
+      "foot_pivot": [
+        210,
+        581
+      ],
+      "reference_height": 575,
+      "canonical_scale": 0.7652173913043478
+    },
+    {
+      "index": 3,
+      "name": "victory_lantern_raised",
+      "rect": [
+        737,
+        624,
+        464,
+        583
+      ],
+      "solid_bbox": [
+        6,
+        6,
+        458,
+        577
+      ],
+      "foot_pivot": [
+        212.5,
+        577
+      ],
+      "reference_height": 571,
+      "canonical_scale": 0.7705779334500875
+    }
+  ],
+  "notes": "PIL used only for measurement; PNG bytes unchanged. Arbitrary nonoverlapping atlas regions follow measured alpha gaps, not the inaccurate 627px grid. Solid boxes region-local at alpha>=128. Foot x is midpoint of last80 solid shoe rows, y is exclusive solid bottom. Canonical scale maps solid silhouette height to original master440px. Artistic consistency and runtime acceptance remain separate.",
+  "alpha_threshold": 128,
+  "canonical_foot_pivot": [
+    256,
+    467
+  ],
+  "canonical_silhouette_height": 440
+}
+
+
+FILE README_ALIVE_EXPERIENCE.txt | bytes=2600 | SHA256=2fb7c34151998f6a1a79a9b54c1576416d79c2931e5f8e87b8be3549552ee017
+GNOMIT — ALIVE EXPERIENCE / FIRST PC PILOT / 2026-10-19
+
+Run PLAY_ALIVE_EXPERIENCE.cmd on this Windows PC. It uses the existing
+Godot 4.7.2 installation and requests monitor 1 (Godot screen 0), 432x960.
+It imports resources first, so the extracted ZIP needs no .godot cache.
+Other machines can open project.godot in a compatible Godot installation.
+
+Start on the village map. Drag to explore; tap level 1 to walk there.
+Arrival opens the existing level goal panel. PLAY gives a short lantern-to-
+mine transition and the existing match-3 board. Drag a stone one neighboring
+cell to swap. Escape during entry returns to the map; a short tap release
+can skip entry. Settings includes the existing Reduced Motion option.
+
+New: same-hero blink/quiet upper-body breath; material expressions; local
+painted-lamp light overlays; a 1.08s entry bridge; one reaction per actual
+clear wave; real raised-lantern victory on board and result panel.
+The new poses are an imagegen edit of the original shared_v2/hero_master.
+Original master/walk/terrain/audio/Core/progress/ten level definitions remain.
+The background remains the original painting; foliage has not been separated.
+Walking still uses the existing six-frame front/rear atlas and mirror fallback.
+
+This is the campaign presentation pilot. The inherited Volcano/Tornado/etc
+lab scenes remain in the folder unchanged; this task does not integrate their
+separate reward-rule Core into the campaign's original match_core.gd.
+Main scene here is main.tscn. Use the Alive launcher, not old default-scene
+launchers, when reviewing this pilot.
+
+Fresh isolated user data directory:
+GnomiT-AliveExperience-Lab-2026-10-19
+Save schema stays v2; previous project saves are not reset or imported.
+Normal interactive play retains the original time-based seed. Only test/
+capture harnesses set pilot_seed_override BEFORE the original Core setup.
+
+54 scripted integration checks passed. Native control and candidate use
+the same seed42 and same input frame schedule, with identical board/RNG/
+counts/progress end state. A separate genuine-win capture uses three real
+ordinary swaps and earns three stars and the normal one-time +10 Light.
+Captures are scripted native PC replays, not human or Android acceptance.
+Exported 30fps does not establish interactive device performance.
+
+Direct human authorization: "imate suglasie ? davai po plan ako ima".
+Implementation is in this isolated copy only. The predecessor lab and Cradle
+were not edited. Review Git remains REPORTS_ONLY: text report/patch and
+lossless encoded delivery attachments only; no grant edits or merge.
+

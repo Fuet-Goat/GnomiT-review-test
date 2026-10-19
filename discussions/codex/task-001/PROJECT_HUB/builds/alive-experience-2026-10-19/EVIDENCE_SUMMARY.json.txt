@@ -1,0 +1,132 @@
+{
+  "status": "PASS",
+  "checks": 54,
+  "baseline_source_files": 398,
+  "original_source_unchanged": true,
+  "copied_files_byte_identical": 394,
+  "changed_original_files": [
+    "project.godot",
+    "scripts/first_crystals_view.gd",
+    "scripts/main.gd",
+    "scripts/slice_map_view.gd"
+  ],
+  "critical_sources_unchanged": [
+    "scripts/match_core.gd",
+    "scripts/progress.gd",
+    "scripts/levels.gd",
+    "scripts/board_view.gd",
+    "scripts/rock_audio.gd"
+  ],
+  "control_candidate_initial_and_final_states_identical": true,
+  "control_candidate_input_frame_schedule_identical": true,
+  "input_schedule": [
+    [
+      "launch",
+      0
+    ],
+    [
+      "tap_entry_badge",
+      59
+    ],
+    [
+      "tap_play",
+      103
+    ],
+    [
+      "neighbor_drag",
+      169
+    ],
+    [
+      "neighbor_drag_finished",
+      243
+    ]
+  ],
+  "movies": [
+    {
+      "name": "ALIVE_OPENING_FINAL.avi",
+      "bytes": 54145128,
+      "sha256": "22cade8acf1431ac7c4e0961ce94405c96a41efa7c8912dd9cd7275fda4dc864",
+      "frames": 483,
+      "fps": 30,
+      "nominal_duration_s": 16.1,
+      "viewport": [
+        432,
+        960
+      ],
+      "source": "Native Godot Movie Maker MJPEG, not AI video"
+    },
+    {
+      "name": "CONTROL_OPENING.avi",
+      "bytes": 54353978,
+      "sha256": "f279868a66159b2166204ebe89140abdc4f87d981f87ffebb98c8f2c83fb1330",
+      "frames": 483,
+      "fps": 30,
+      "nominal_duration_s": 16.1,
+      "viewport": [
+        432,
+        960
+      ],
+      "source": "Native Godot Movie Maker MJPEG, not AI video"
+    },
+    {
+      "name": "ALIVE_GENUINE_WIN.avi",
+      "bytes": 55809758,
+      "sha256": "4e297f26d43f739c6e415e9ace735eee26878f115a99ae08b4700e62dc8d66c8",
+      "frames": 543,
+      "fps": 30,
+      "nominal_duration_s": 18.1,
+      "viewport": [
+        432,
+        960
+      ],
+      "source": "Native Godot Movie Maker MJPEG, not AI video"
+    }
+  ],
+  "audio": {
+    "alive_opening_final": {
+      "sample_rate": 48000,
+      "channels": 2,
+      "seconds": 16.0,
+      "peak": 5542,
+      "rms": 413.23655119494157,
+      "clipped_samples": 0,
+      "bytes": 3072044,
+      "sha256": "b4baa5bb466be7dc58f3bf7e56bcf554fa67adf8b29e64eb45ef9d1193ef79e2"
+    },
+    "control_opening": {
+      "sample_rate": 48000,
+      "channels": 2,
+      "seconds": 16.0,
+      "peak": 5552,
+      "rms": 405.31819504158807,
+      "clipped_samples": 0,
+      "bytes": 3072044,
+      "sha256": "1b1aa70ac10f5fe812efd337c21988b51f90c33c5b728d584adf6c47879d58f0"
+    },
+    "alive_win": {
+      "sample_rate": 48000,
+      "channels": 2,
+      "seconds": 18.005333333333333,
+      "peak": 5552,
+      "rms": 702.5924186931991,
+      "clipped_samples": 0,
+      "bytes": 3457068,
+      "sha256": "6614a4834fb2776fd4d169fa52ef50d238f4b5409ec498ef97d858bb3f110cb8"
+    }
+  },
+  "actual_win": {
+    "moves": 3,
+    "moves_left": 23,
+    "diamonds": 12,
+    "stars": 3,
+    "light": 10
+  },
+  "acceptance_pending": [
+    "human artistic judgement",
+    "human usability",
+    "Android/Pixel8a",
+    "interactive performance"
+  ],
+  "candy_clean_start": "NOT_OBSERVED",
+  "capture_kind": "Scripted native touchscreen replay; fixedseed42 set before normalCore setup; no post-start reseeding or fake victory"
+}

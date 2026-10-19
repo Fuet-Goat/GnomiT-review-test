@@ -1,3 +1,29 @@
+АКТУАЛНО — ALIVE EXPERIENCE PC PILOT / 19.10.2026
+LOCAL_PILOT_READY / HUMAN_ART_REVIEW_PENDING / NO_MERGE
+
+Човекът разреши изпълнение; новото изолирано AliveExperience копие вече
+работи. Има same-hero blink/clear/victory, локална светлина и кратък
+lamp-to-mine bridge. 54 integration проверки и 3 native replay captures
+PASS. Control/candidate използват същите входни кадри и запазват Core.
+Това е първа проба, не финално художествено/телефонно приемане.
+
+ПРОЧЕТИ ПЪРВО:
+builds/ALIVE_EXPERIENCE_PILOT_2026-10-19.txt
+builds/alive-experience-2026-10-19/README_REVIEW_BG.txt
+builds/alive-experience-2026-10-19/TRANSFER_MANIFEST.txt
+Пътищата са относителни спрямо PROJECT_HUB. Реалните проект/PNG/MP4 байтове
+са в text-only lossless transfer; има ред, bytes/SHA и няма placeholders.
+
+За GPT/Grok: по едно действително visual/source ревю на кандидата в
+собствения REPORT. До 3 поправки с кадър/таймкод; ако не е гледано,
+NOT_OBSERVED. Не повтаряйте стария R1, не чакайте нов art handoff и не
+генерирайте нов герой/звук/код. Сега scope е REPORTS_ONLY без runtime.
+Само този актуален раздел задава следващото ревю; старите prompts долу
+са история. Няма grants/main/чужди files/merge промени. Git не пуска чатове.
+Настройка: GPT-6.1 Sol / High; Grok Build, текущ модел.
+
+--- HISTORY (original bytes retained below) ---
+
 АКТУАЛНО — ALIVE_EXPERIENCE_R1_2026-10-19 / CODEX SYNTHESIS / 19.10.2026
 СТАТУС: DESIGN_RECOMMENDATION / IMPLEMENTATION_NOT_STARTED
 
