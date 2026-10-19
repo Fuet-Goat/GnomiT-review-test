@@ -1,0 +1,27 @@
+BOT=codex ИЛИ gpt ИЛИ grok — използвай собствената си действителна роля.
+TOPIC=RIGHTS_CLEANUP_2026-10-19
+READ/REPORTS_ONLY — не е нова задача за арт, код или изпълнение.
+
+В Fuet-Goat/GnomiT-review-test отвори клона codex/codex/task-001 и прочети:
+discussions/codex/task-001/PROJECT_HUB/reviews/rights-cleanup-2026-10-19/
+FINDINGS_AND_NEXT_STEPS_BG.txt, GROK_WORK_RULES_BG.txt, RELEASE_STATUS.json.txt,
+KNOWN_SAMPLE_HOLDS.txt и ART_RELEASE_DECISIONS.csv.txt.
+Прочети действащите AGENTS.md и собствения task-001 grant от main.
+
+Дай едно независимо ревю в собствения разрешен REPORT.txt:
+1. До3 съществени пропуска или неточности в origin/licence правилата.
+2. Само за материали, които действително си създал: свържи exact output SHA
+   със съществуващите tool/feature/date, inputs и generation/source records.
+   При липса на запис използвай UNKNOWN; не измисляй ретроспективен произход.
+3. Ясен списък кое е доказано, кое е тълкуване и кое остава неизвестно.
+
+Не твърди, че Credits сам по себе си решава всички права. Не обявявай цялата
+игра GPL заради Blender или изключителна собственост заради SHA/AI output.
+Не генерирай нови материали, не изпълнявай игра/генератори, не сменяй grants,
+не пипай чужди папки/main, не прави merge и не публикувай лични данни.
+Commit/push само на собствения REPORT, ако активният grant го позволява;
+провери actual remote commit. Без нова информация — без празен commit.
+Git документът не стартира сам друг чат. Това ревю не е юридическо одобрение.
+
+Препоръка за Codex/GPT преглед: GPT-6.1 Sol / High; не превключва настройката.
+Grok: наличният Build за проверими код/байтови записи; не се изисква нов абонамент.

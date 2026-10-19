@@ -1,0 +1,84 @@
+{
+  "checked_on": "2026-10-19",
+  "notes_are_not_legal_advice": true,
+  "sources": [
+    {
+      "id": "openai_eu",
+      "url": "https://openai.com/policies/eu-terms-of-use/",
+      "page_date": "2026-01-16",
+      "observation": "Content: ownership between parties, input rights, similar outputs; no exclusive-rights guarantee."
+    },
+    {
+      "id": "openai_service",
+      "url": "https://openai.com/policies/service-terms/",
+      "page_date": "2026-10-16",
+      "observation": "Codex third-party licences and distinct Voice Conversations restrictions; exact feature matters."
+    },
+    {
+      "id": "grok_faq",
+      "url": "https://x.ai/legal/faq",
+      "page_date": "2025-05-12",
+      "observation": "Commercial output permission subject to applicable terms."
+    },
+    {
+      "id": "grok_terms",
+      "url": "https://x.ai/legal/terms-of-service",
+      "page_date": "2026-10-12",
+      "observation": "Section4 permission/attribution and rights; current SuperGrok screenshot does not prove past feature contracts."
+    },
+    {
+      "id": "grok_brand",
+      "url": "https://x.ai/legal/brand-guidelines",
+      "page_date": "2025-02-14",
+      "observation": "Noticeable text/image attribution; code-to-model/audio/Credits sufficiency unresolved here."
+    },
+    {
+      "id": "grok_aup",
+      "url": "https://x.ai/legal/acceptable-use-policy",
+      "page_date": "2026-08-14",
+      "observation": "Anti-abuse resale wording must be reconciled with FAQ, not treated as blanket game ban."
+    },
+    {
+      "id": "grok_build",
+      "url": "https://x.ai/news/grok-build-for-everyone",
+      "page_date": "2026-08-19",
+      "observation": "Later announcement broadens availability after earlier beta. Product news is not contractual clearance."
+    },
+    {
+      "id": "blender",
+      "url": "https://www.blender.org/about/license/",
+      "page_date": "page-undated",
+      "observation": "Commercial artwork/output distinguished from published bpy/API scripts; read through direct HTTP after web failure."
+    },
+    {
+      "id": "godot",
+      "url": "https://godotengine.org/license/",
+      "page_date": "page-undated",
+      "observation": "MIT engine and notices; game content separate."
+    },
+    {
+      "id": "godot_notices",
+      "url": "https://docs.godotengine.org/en/stable/about/complying_with_licenses.html",
+      "page_date": "page-undated",
+      "observation": "Include engine/third-party notices; source files alone do not verify export."
+    },
+    {
+      "id": "play_dda",
+      "url": "https://play.google/developer-distribution-agreement.html",
+      "page_date": "see-current-page",
+      "observation": "Ownership retained subject to licences granted; third-party distribution rights required, including free products."
+    },
+    {
+      "id": "play_privacy",
+      "url": "https://support.google.com/googleplay/android-developer/answer/10144311?hl=en",
+      "page_date": "see-current-page",
+      "observation": "Privacy policy and Data safety requirements include apps without personal/sensitive data access."
+    },
+    {
+      "id": "wipo",
+      "url": "https://www.wipo.int/en/web/copyright/faq-copyright",
+      "page_date": "page-undated",
+      "observation": "Ideas/methods versus expression; software copyright and licences; no full-project clearance."
+    }
+  ]
+}

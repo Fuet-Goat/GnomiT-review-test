@@ -2096,3 +2096,15 @@ for boards, guidewave/groundcontact, letteringreadability and newartbrief.
 State actual observed media/source; NOT_OBSERVED where unavailable. No new
 art variant, engine run withoutgrant, grant edits, gameintegration or merge.
 Recommend GPT-6.1 Sol / High for code/review. No claimed effort switch.
+
+
+RIGHTS_CLEANUP_2026-10-19 — BOUNDED_AUDIT_AND_PREPARATION
+Technical reports and future intake policies published in PROJECT_HUB/reviews/rights-cleanup-2026-10-19/.
+119 art +198 audio occurrences;317 source hashes rechecked unchanged. Three known sample-derived groups,18copies.
+Three scratch candidate WAVs/recipe/verification, an unapplied source patch and real notices are prepared locally.
+Original projects read only. Audit scripts, isolated empty Godot notice probe and new audio generation did execute outside this checkout.
+Nunito OFL is present. Desktop notices are not Android export verification.13 inherited art evidence gaps remain.
+Current plan SuperGrok confirmed without publishing account details; historical feature/attribution and published bpy questions remain.
+No selected final Android baseline/AAB. NOT_READY, not legal sign-off or exclusive-ownership assurance.
+No game/private source/grant/main changes or merge. Git frontdoor requests one own REPORTS_ONLY review, not implementation.
+Recommended review model GPT-6.1 Sol / High. Exact current model/effort not verified.

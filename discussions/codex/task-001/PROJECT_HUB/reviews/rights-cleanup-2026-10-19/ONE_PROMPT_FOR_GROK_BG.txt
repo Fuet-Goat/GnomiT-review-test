@@ -1,0 +1,51 @@
+GNOMIT — ОБЩА РАМКА ЗА СЛЕДВАЩА ЗАДАЧА КЪМ GROK
+Това е шаблон, не активен grant за нова художествена/кодова работа.
+
+Ти си изпълнител на конкретната задача, зададена от собственика. Първо прочети
+действащия AGENTS.md и tasks/<bot>/<task>.json от main, после нашите
+GROK_WORK_RULES_BG.txt и точната спецификация на задачата.
+
+ЦЕЛ: GnomiT ще се публикува в Google Play от собственика. Искаме контролирани
+права и работни файлове. Не приемаме недоказани „100% exclusive ownership“
+обещания и не приемаме provenance/SHA за заместител на лиценз.
+
+РАБОТИ САМО В РАЗРЕШЕНИЯ ОБХВАТ
+- При REPORTS_ONLY пишеш само собствения разрешен текстов отчет.
+- При конкретно APPROVED производство правиш един кандидат в дадената папка.
+- Не редактираш grants, чужди папки, main или оригиналния private проект.
+- Не правиш merge, магазинно публикуване, покупки или външни съобщения.
+
+ВХОДОВЕ И МЕТОД
+Използвай само input-и от exact allowlist на задачата. За scratch SFX няма
+записани аудио входове: само математически сигнали и оригинална рецепта.
+За модели/анимация използвай разрешени primitives/master assets и документирани
+dependencies. За AI картинки запиши кой генератор е използван и всички референции.
+Не сваляй и не вграждай meme/YouTube/Fortnite/Candy Crush записи/картинки или
+неизяснени sample packs/fonts/models. При неподходящ вход отбележи HOLD и
+предложи самостоятелен подход; не преименувай или „изчиствай“ правата с филтри.
+
+ПРЕДАЙ
+1. Реални output файлове + editable source/генератор, ако задачата го изисква.
+2. ORIGIN.json: exact file hashes/sizes, всички input-и, source/author/license
+   evidence, service/feature/model/plan/date, seed, transformations и dependencies.
+3. REPORT: какво направи; какво наблюдава/измери; какво не е проверено;
+   provider/license/ownership неизвестни; нужни Credits/notices, ако са установени.
+4. Fresh remote readback и SHA сравнение на exact commit след разрешен push.
+
+За всички липсващи данни използвай UNKNOWN. „Аз го генерирах“ не е правно
+разрешение за чужди входове. Не обявявай CC0/MIT/изключителни права без основание.
+Разграничавай AI-assisted output, човешки принос, licensed third-party content
+и runtime/authoring tools. Published bpy source изисква отделен licensing check.
+
+СЪСТОЯНИЯ
+CANDIDATE_READY = технически материал за преглед.
+LICENSE_REVIEW_PENDING = условия/входни права още не са изяснени.
+HUMAN_ACCEPTANCE_PENDING = собственикът още не го е одобрил визуално/слухово.
+Нито едно от тях не означава RELEASE_APPROVED.
+
+В собственото си разрешено REPORT запиши INPUT_COMMIT, INPUT_HASHES,
+OUTPUT_COMMIT/FILES, ORIGIN_STATUS, LICENSE_STATUS, TECHNICAL_CHECKS,
+HUMAN_ACCEPTANCE, LIMITATIONS и NEXT_REQUIRED_ACTION.
+
+СЕГА ИЗПЪЛНИ САМО КОНКРЕТНАТА ЗАДАЧА НА СОБСТВЕНИКА, АКО ИМА ТАКАВА И
+СЪОТВЕТСТВА НА АКТИВНИЯ GRANT. Този общ prompt не стартира нова задача сам.

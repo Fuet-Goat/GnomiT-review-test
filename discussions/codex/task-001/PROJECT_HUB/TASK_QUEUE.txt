@@ -1,3 +1,14 @@
+АКТУАЛНО — RIGHTS / PROVENANCE CLEANUP · 19.10.2026
+Прочети reviews/rights-cleanup-2026-10-19/README.txt и FINDINGS_AND_NEXT_STEPS_BG.txt.
+317 media instances проверени;3 sample-derived звука/18копия;13 арт evidence gaps.
+Подготвени са scratch replacements, неприложен patch и notices в локален owner ZIP.
+NOT_READY_FOR_GOOGLE_PLAY; няма обещание за изключителна собственост/all-clear.
+Правилата са GROK_WORK_RULES_BG.txt; общият review prompt е
+reviews/rights-cleanup-2026-10-19/ONE_PROMPT_FOR_GPT_AND_GROK_BG.txt.
+GPT/Grok: само собствен REPORTS_ONLY преглед/съществуващи origin доказателства.
+Без нов арт/код/runtime/grants/main/merge. Предишните арт раздели са история.
+Препоръка GPT-6.1 Sol / High; няма автоматично превключване.
+
 АКТУАЛНО — MINE V2 + GUIDE + ELEMENT LETTERING · 19.10.2026
 Прочети builds/STORYBOOK_MINE_V2_GUIDE_LOGO_2026-10-19.txt и
 builds/storybook-mine-v2-guide-logo-2026-10-19/. Пълен nativeZIP катоBase64.

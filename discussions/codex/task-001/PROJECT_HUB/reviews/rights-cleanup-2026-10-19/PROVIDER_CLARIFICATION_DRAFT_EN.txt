@@ -1,0 +1,36 @@
+DRAFT ONLY — NOT SENT — NO ACCOUNT IDENTIFIERS INCLUDED
+Subject: SuperGrok outputs embedded in an independently distributed Android game
+
+Hello,
+
+I use SuperGrok and am developing an original Android game for Google Play.
+Grok has produced (a) Python scripts using Blender's bpy API to generate 3D
+models and animations, and (b) Python/NumPy scripts synthesizing sound effects
+from noise and sine waves without third-party recorded samples.
+
+I would like to embed the exported models, rendered artwork and WAV files in
+the game. This is distribution of a finished game, not resale of access to Grok.
+The game may be free to download; monetization is not yet decided.
+
+Could you please clarify:
+1. Whether the Consumer Terms and my SuperGrok plan permit this use, and
+   whether the permission language in section 4 requires an individual
+   approval or is satisfied by a general permission elsewhere in the terms.
+2. Whether a legible, readily accessible Credits screen in the game's main
+   menu stating 'Created with Grok' and identifying the affected assets is
+   sufficient attribution for these code-to-model and code-to-audio outputs.
+3. Whether attribution is also required beside store screenshots, trailers,
+   source handoffs or asset files, and the appropriate wording in each case.
+4. Whether the AUP resale language affects embedding such outputs in a
+   finished game, and whether additional fees/revenue royalties apply.
+5. Whether any additional terms for the specific Build/other feature used
+   alter the above. I can supply generation dates and feature details.
+
+I understand that third-party input rights and Blender/software licenses are
+separate matters. I am asking about the applicable Grok contractual conditions.
+
+Please identify the applicable terms/version and any additional requirements.
+Thank you.
+
+Owner may add their name and send to the official contact after checking it:
+https://x.ai/legal/brand-guidelines (legal contact displayed there).
