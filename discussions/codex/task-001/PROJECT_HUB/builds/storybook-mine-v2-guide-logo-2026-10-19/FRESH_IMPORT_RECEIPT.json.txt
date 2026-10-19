@@ -1,0 +1,363 @@
+{
+	"android_acceptance": "NOT_MEASURED",
+	"animated_lamp_energies_changed": 1,
+	"animated_object_transforms_changed": 30,
+	"animation_players": 1,
+	"animation_source_clips": [
+		"Guide_BreathingTorsoAction",
+		"Guide_ElbowWaveAction",
+		"Guide_HandWaveAction",
+		"Guide_ShoulderWaveAction",
+		"Meadow flower cluster 00 Flower stems pivotAction",
+		"Meadow flower cluster 01 Flower stems pivotAction",
+		"Meadow flower cluster 02 Flower stems pivotAction",
+		"Meadow flower cluster 03 Flower stems pivotAction",
+		"Meadow flower cluster 04 Flower stems pivotAction",
+		"Meadow flower cluster 05 Flower stems pivotAction",
+		"Meadow flower cluster 06 Flower stems pivotAction",
+		"Meadow flower cluster 07 Flower stems pivotAction",
+		"Meadow flower cluster 08 Flower stems pivotAction",
+		"Meadow flower cluster 09 Flower stems pivotAction",
+		"Meadow flower cluster 10 Flower stems pivotAction",
+		"Meadow flower cluster 11 Flower stems pivotAction",
+		"Meadow flower cluster 12 Flower stems pivotAction",
+		"Meadow flower cluster 13 Flower stems pivotAction",
+		"Meadow shrub 00 Leaf cluster pivotAction",
+		"Meadow shrub 01 Leaf cluster pivotAction",
+		"Meadow shrub 02 Leaf cluster pivotAction",
+		"Meadow shrub 03 Leaf cluster pivotAction",
+		"Meadow shrub 04 Leaf cluster pivotAction",
+		"Meadow shrub 05 Leaf cluster pivotAction",
+		"Meadow shrub 06 Leaf cluster pivotAction",
+		"Meadow shrub 07 Leaf cluster pivotAction",
+		"Meadow tree 0 Attached canopy pivotAction",
+		"Meadow tree 1 Attached canopy pivotAction",
+		"Meadow tree 2 Attached canopy pivotAction",
+		"Meadow tree 3 Attached canopy pivotAction"
+	],
+	"animation_transform_tracks": 30,
+	"asset_inventory": {
+		"material_names": [
+			"Boardwalk Oak Support",
+			"Boardwalk Oak Honey",
+			"Boardwalk Oak Light",
+			"Boardwalk flush bronze pin",
+			"Boardwalk Oak Endgrain",
+			"SB cottage brass",
+			"SB cottage plaster cream",
+			"SB cottage vanilla plaster",
+			"SB cottage door seams",
+			"SB warm daisy petal",
+			"SB mushroom coral red",
+			"SB mushroom underside apricot",
+			"SB leaf sunlit lime",
+			"SB leaf apple",
+			"SB cottage door honey",
+			"SB cottage frame golden",
+			"SB cottage warm glass",
+			"SB cottage chimney terracotta",
+			"Cloud ivory",
+			"Pebble cream",
+			"Pebble cool",
+			"Pebble sunlit",
+			"Leaf_Green",
+			"Leaf_Light",
+			"Guide leather belt",
+			"Guide beard shaded ivory",
+			"Guide cap soft vermilion",
+			"Guide brass fittings",
+			"Guide cap folded rim",
+			"Guide teal raised seams",
+			"Guide eye catchlight",
+			"Guide teal irises",
+			"Guide deep pupils",
+			"Guide eye whites",
+			"Guide warm peach skin",
+			"Guide beard warm ivory",
+			"Guide teal cloth",
+			"Guide lantern golden glass",
+			"Guide cheek warmth",
+			"Guide smile recess",
+			"Guide leather sole",
+			"Guide leather chestnut",
+			"Guide ochre trousers",
+			"Meadow jade",
+			"SB flower golden heart",
+			"SB white daisy petal",
+			"SB leaf grass green",
+			"SB flower rosy highlight",
+			"SB flower coral pink",
+			"SB leaf jade shadow",
+			"Moss living cap",
+			"SB leaf fresh tip",
+			"SB warm orange bark",
+			"SB honey bark ridges",
+			"Mine / warm limestone",
+			"Mine / sunlit limestone",
+			"Mine / soft grey limestone",
+			"Mine / Groove",
+			"Mine / golden cut oak",
+			"Mine / amber flame",
+			"Mine / warm forged iron",
+			"Mine / tunnel earth",
+			"Mine / small flame heart",
+			"Mine / rock between stones",
+			"Mine / tunnel umber",
+			"Mine / deep tunnel",
+			"Mine / wood in tunnel",
+			"Mine / polished brass corners",
+			"Mine / amber lantern glass",
+			"Mine / aged golden brass",
+			"Mine / charred wick",
+			"Mine / honey oak",
+			"Mine / lit timber edges",
+			"Mine / moss shadow",
+			"Mine / cushion moss",
+			"Mine / rounded spring leaves",
+			"Mine / fresh moss tips",
+			"Earth warm cut",
+			"Earth lower band"
+		],
+		"material_texture_references": 20,
+		"mesh_instances": 1082,
+		"mesh_surfaces": 1086,
+		"shader_materials_not_texture_inspected": 0,
+		"texture_paths": [
+			"res://assets/storybook_mine_Authored_Oak_Colour.png",
+			"res://assets/storybook_mine_Authored_Oak_Normal.png",
+			"res://assets/storybook_mine_Authored_Oak_Endgrain.png",
+			"res://assets/storybook_mine_Authored_Oak_Shadow.png"
+		],
+		"unique_material_textures": 4,
+		"unique_materials": 79
+	},
+	"branding": {
+		"asset": "res://assets/branding/gnomit_element_wordmark_v1.png",
+		"display_bounds": [
+			24.0,
+			55.0,
+			384.0,
+			100.0
+		],
+		"fits_header": true,
+		"original_alpha_bounds": [
+			0,
+			23,
+			1955,
+			770
+		],
+		"ready": true,
+		"scope": "Illustrated transparent 2D wordmark; separate from native Blender geometry",
+		"sha256": "90a07215598d9d3cb95741dc417e96d14aec5e03fea1b0875c40b7f52dabe262"
+	},
+	"capture_errors": [],
+	"captures": [
+		{
+			"actual_animation_age_seconds": 1.01115751515152,
+			"file": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\StorybookMine_V2_2026-10-19\\renders\\fresh_import/GODOT_STORYBOOK_1S.png",
+			"image_size": [
+				432,
+				960
+			],
+			"requested_animation_age_seconds": 1.0,
+			"save_error": 0,
+			"sha256": "43e13576cc0430a3999284d24533b2a4d513d6a9317b9d669e0161baa0f756cc"
+		},
+		{
+			"actual_animation_age_seconds": 3.02221033333334,
+			"file": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\StorybookMine_V2_2026-10-19\\renders\\fresh_import/GODOT_STORYBOOK_3S.png",
+			"image_size": [
+				432,
+				960
+			],
+			"requested_animation_age_seconds": 3.0,
+			"save_error": 0,
+			"sha256": "0582c0db01fc81b9d24ce1bab6329653718b5130c62eb82b73c3a80cc597945d"
+		},
+		{
+			"actual_animation_age_seconds": 3.558884,
+			"file": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\StorybookMine_V2_2026-10-19\\renders\\fresh_import/GODOT_LEVEL_1_INTRO.png",
+			"image_size": [
+				432,
+				960
+			],
+			"requested_animation_age_seconds": 3.558884,
+			"save_error": 0,
+			"sha256": "b37c3bac16bcdbbeafdce85ec3f8641b6b52e2ecbf2fb8fc06e4f1e7cdd12379"
+		},
+		{
+			"actual_animation_age_seconds": 3.69466433333334,
+			"file": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\StorybookMine_V2_2026-10-19\\renders\\fresh_import/GODOT_LEVEL_2_INTRO.png",
+			"image_size": [
+				432,
+				960
+			],
+			"requested_animation_age_seconds": 3.69466433333334,
+			"save_error": 0,
+			"sha256": "1945245f63e76169f25bc65438afc242cef9781c77bd431edffa936e3e5bb2b1"
+		}
+	],
+	"changed_transform_paths": [
+		"/root/GnomiTStorybookMine/storybook_mine/Guide_Root/Guide_BreathingTorso",
+		"/root/GnomiTStorybookMine/storybook_mine/Guide_Root/Guide_BreathingTorso/Guide_ShoulderWave",
+		"/root/GnomiTStorybookMine/storybook_mine/Guide_Root/Guide_BreathingTorso/Guide_ShoulderWave/Guide_ElbowWave",
+		"/root/GnomiTStorybookMine/storybook_mine/Guide_Root/Guide_BreathingTorso/Guide_ShoulderWave/Guide_ElbowWave/Guide_HandWave",
+		"/root/GnomiTStorybookMine/storybook_mine/Meadow flower cluster 00/Meadow flower cluster 00 Flower stems pivot",
+		"/root/GnomiTStorybookMine/storybook_mine/Meadow flower cluster 01/Meadow flower cluster 01 Flower stems pivot",
+		"/root/GnomiTStorybookMine/storybook_mine/Meadow flower cluster 02/Meadow flower cluster 02 Flower stems pivot",
+		"/root/GnomiTStorybookMine/storybook_mine/Meadow flower cluster 03/Meadow flower cluster 03 Flower stems pivot",
+		"/root/GnomiTStorybookMine/storybook_mine/Meadow flower cluster 04/Meadow flower cluster 04 Flower stems pivot",
+		"/root/GnomiTStorybookMine/storybook_mine/Meadow flower cluster 05/Meadow flower cluster 05 Flower stems pivot",
+		"/root/GnomiTStorybookMine/storybook_mine/Meadow flower cluster 06/Meadow flower cluster 06 Flower stems pivot",
+		"/root/GnomiTStorybookMine/storybook_mine/Meadow flower cluster 07/Meadow flower cluster 07 Flower stems pivot",
+		"/root/GnomiTStorybookMine/storybook_mine/Meadow flower cluster 08/Meadow flower cluster 08 Flower stems pivot",
+		"/root/GnomiTStorybookMine/storybook_mine/Meadow flower cluster 09/Meadow flower cluster 09 Flower stems pivot",
+		"/root/GnomiTStorybookMine/storybook_mine/Meadow flower cluster 10/Meadow flower cluster 10 Flower stems pivot",
+		"/root/GnomiTStorybookMine/storybook_mine/Meadow flower cluster 11/Meadow flower cluster 11 Flower stems pivot",
+		"/root/GnomiTStorybookMine/storybook_mine/Meadow flower cluster 12/Meadow flower cluster 12 Flower stems pivot",
+		"/root/GnomiTStorybookMine/storybook_mine/Meadow flower cluster 13/Meadow flower cluster 13 Flower stems pivot",
+		"/root/GnomiTStorybookMine/storybook_mine/Meadow shrub 00/Meadow shrub 00 Leaf cluster pivot",
+		"/root/GnomiTStorybookMine/storybook_mine/Meadow shrub 01/Meadow shrub 01 Leaf cluster pivot",
+		"/root/GnomiTStorybookMine/storybook_mine/Meadow shrub 02/Meadow shrub 02 Leaf cluster pivot",
+		"/root/GnomiTStorybookMine/storybook_mine/Meadow shrub 03/Meadow shrub 03 Leaf cluster pivot",
+		"/root/GnomiTStorybookMine/storybook_mine/Meadow shrub 04/Meadow shrub 04 Leaf cluster pivot",
+		"/root/GnomiTStorybookMine/storybook_mine/Meadow shrub 05/Meadow shrub 05 Leaf cluster pivot",
+		"/root/GnomiTStorybookMine/storybook_mine/Meadow shrub 06/Meadow shrub 06 Leaf cluster pivot",
+		"/root/GnomiTStorybookMine/storybook_mine/Meadow shrub 07/Meadow shrub 07 Leaf cluster pivot",
+		"/root/GnomiTStorybookMine/storybook_mine/Meadow tree 0/Meadow tree 0 Attached canopy pivot",
+		"/root/GnomiTStorybookMine/storybook_mine/Meadow tree 1/Meadow tree 1 Attached canopy pivot",
+		"/root/GnomiTStorybookMine/storybook_mine/Meadow tree 2/Meadow tree 2 Attached canopy pivot",
+		"/root/GnomiTStorybookMine/storybook_mine/Meadow tree 3/Meadow tree 3 Attached canopy pivot"
+	],
+	"display_driver": "Windows",
+	"frames_at_receipt": 437,
+	"guide_changed_transform_paths": [
+		"/root/GnomiTStorybookMine/storybook_mine/Guide_Root/Guide_BreathingTorso",
+		"/root/GnomiTStorybookMine/storybook_mine/Guide_Root/Guide_BreathingTorso/Guide_ShoulderWave",
+		"/root/GnomiTStorybookMine/storybook_mine/Guide_Root/Guide_BreathingTorso/Guide_ShoulderWave/Guide_ElbowWave",
+		"/root/GnomiTStorybookMine/storybook_mine/Guide_Root/Guide_BreathingTorso/Guide_ShoulderWave/Guide_ElbowWave/Guide_HandWave"
+	],
+	"guide_transforms_changed": 4,
+	"hidden_imported_lights": 0,
+	"human_art_acceptance": "PENDING",
+	"introduction_checks": {
+		"cards": {
+			"1": {
+				"action": "Got it",
+				"body": "Match three minerals. I will show you the way to the mine.",
+				"level": 1,
+				"passed": true,
+				"scope": "Introduction preview; no campaign or match-3 launch",
+				"title": "Welcome, explorer!",
+				"visible": true
+			},
+			"2": {
+				"action": "Got it",
+				"body": "Our journey continues underground.",
+				"level": 2,
+				"passed": true,
+				"scope": "Introduction preview; no campaign or match-3 launch",
+				"title": "The mine entrance",
+				"visible": true
+			}
+		},
+		"drag_returns_to_start_does_not_open": true,
+		"method": "Scripted direct calls to preview pointer handlers; no human or Android input acceptance claimed",
+		"passed": true
+	},
+	"lamp_energies_at_1s": {
+		"/root/GnomiTStorybookMine/storybook_mine/Mine/Mine | animated lantern point light": 1.06246447563171
+	},
+	"lamp_energies_at_3s": {
+		"/root/GnomiTStorybookMine/storybook_mine/Mine/Mine | animated lantern point light": 1.029057264328
+	},
+	"lamp_energy_source": "Blender 24fps keys at frames 1,25,49,73,97,121,145 normalized by 24 W; smoothstep easing approximates AUTO_CLAMPED",
+	"level_markers": {
+		"1": {
+			"anchor_name": "Level_1_Anchor",
+			"inside_visible_map": true,
+			"label": "1",
+			"screen_bounds": [
+				196.077423095703,
+				573.804382324219,
+				248.077423095703,
+				625.804382324219
+			],
+			"screen_center": [
+				222.077423095703,
+				599.804382324219
+			],
+			"size": [
+				52.0,
+				52.0
+			],
+			"visible": true,
+			"world_position": [
+				0.358121156692505,
+				0.373648285865784,
+				2.47000002861023
+			]
+		},
+		"2": {
+			"anchor_name": "Level_2_Anchor",
+			"inside_visible_map": true,
+			"label": "2",
+			"screen_bounds": [
+				240.790557861328,
+				384.113067626953,
+				292.790557861328,
+				436.113067626953
+			],
+			"screen_center": [
+				266.790557861328,
+				410.113067626953
+			],
+			"size": [
+				52.0,
+				52.0
+			],
+			"visible": true,
+			"world_position": [
+				0.59763777256012,
+				0.406680941581726,
+				-1.37374997138977
+			]
+		}
+	},
+	"marker_count": 2,
+	"markers_inside_visible_map": true,
+	"missing_native_marker_anchors": [],
+	"model_path": "res://assets/storybook_mine.glb",
+	"model_sha256": "842322fc7cd4688d0f197dfcc45cd248d6d02a338fafc92b102dbcbcc7b33718",
+	"motion_off": {
+		"animation_age_delta": 0.0,
+		"lamp_energy_changes": 0,
+		"passed": true,
+		"requested_seconds": 0.5,
+		"transform_changes": 0,
+		"wall_seconds_measured": 0.520351
+	},
+	"motion_restored": {
+		"lamp_energy_changes": 1,
+		"passed": true,
+		"transform_changes": 30
+	},
+	"performance_acceptance": "NOT_MEASURED",
+	"renderer_actual": "forward_plus",
+	"renderer_requested": "forward_plus",
+	"sampled_animation_ages_seconds": [
+		1.01115751515152,
+		3.02221033333334
+	],
+	"scope": "Native Godot art preview rendered from imported GLB",
+	"screen_count": 2,
+	"screen_index": 1,
+	"status": "PASS",
+	"video_adapter": "NVIDIA GeForce RTX 5070 Ti",
+	"video_api": "1.4.351",
+	"viewport": [
+		432,
+		960
+	],
+	"wall_seconds_at_receipt": 5.110662
+}

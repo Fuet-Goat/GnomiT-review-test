@@ -1,0 +1,628 @@
+extends Node3D
+## Native asset viewer. The surface mine is an art preview, not campaign gameplay.
+
+const MODEL_PATH := "res://assets/storybook_mine.glb"
+const WORDMARK_PATH := "res://assets/branding/gnomit_element_wordmark_v1.png"
+const MERGED_ANIMATION := "preview/living_world"
+const LANTERN_WATTS := [24.0, 25.5, 23.2, 24.7, 22.9, 25.1, 24.0]
+const TRANSFORM_TYPES := [Animation.TYPE_POSITION_3D, Animation.TYPE_ROTATION_3D, Animation.TYPE_SCALE_3D]
+const TAP_DISTANCE := 12.0
+const MARKER_SIZE := Vector2(52.0, 52.0)
+const LEVEL_COPY := {
+	1: ["Welcome, explorer!", "Match three minerals. I will show you the way to the mine."],
+	2: ["The mine entrance", "Our journey continues underground."]
+}
+
+var model: Node3D
+var camera: Camera3D
+var players: Array[AnimationPlayer] = []
+var lanterns: Array[Light3D] = []
+var motion := true
+var age := 0.0
+var orbit := 0.0
+var model_ready := false
+var source_camera_transform: Transform3D
+var orbit_target := Vector3.ZERO
+var motion_button: Button
+var animation_source_clips: Array[String] = []
+var merged_transform_tracks := 0
+var hidden_imported_lights := 0
+var wordmark_ready := false
+var wordmark: TextureRect
+var wordmark_used_rect := Rect2i()
+var controls_layer: CanvasLayer
+var level_markers: Dictionary = {}
+var marker_anchors: Dictionary = {}
+var missing_anchors: Array[String] = []
+var intro_panel: PanelContainer
+var intro_title: Label
+var intro_body: Label
+var intro_level := 0
+var pointer_active := false
+var pointer_touch_index := -1
+var pointer_origin := Vector2.ZERO
+var pointer_max_distance := 0.0
+var pressed_level := 0
+
+
+func _ready() -> void:
+	# Project default is screen 1 (monitor 2). Godot's --screen overrides it.
+	DisplayServer.window_set_title("GnomiT · Mine V2 · levels 1–2 and waving guide")
+	_build_lighting()
+	_build_controls()
+	var packed := load(MODEL_PATH) as PackedScene
+	if packed == null:
+		push_error("Native storybook model could not be loaded: " + MODEL_PATH)
+		return
+	model = packed.instantiate() as Node3D
+	if model == null:
+		push_error("The storybook model root must be Node3D.")
+		return
+	add_child(model)
+	_configure_imported_lights()
+	_configure_camera()
+	_merge_transform_animations()
+	_build_level_markers()
+	_update_level_markers()
+	_update_lantern_energy()
+	model_ready = true
+	print("GNOMIT_PREVIEW_READY " + JSON.stringify({
+		"screen_index": DisplayServer.window_get_current_screen(),
+		"screen_count": DisplayServer.get_screen_count(),
+		"transform_tracks": merged_transform_tracks,
+		"lanterns": lanterns.size(),
+		"scope": "ART PREVIEW",
+		"level_markers": level_markers.size(),
+		"missing_anchors": missing_anchors
+	}))
+
+
+func _configure_imported_lights() -> void:
+	for candidate in model.find_children("*", "Light3D", true, false):
+		var lamp := candidate as Light3D
+		var light_name := String(lamp.name).to_lower()
+		# Blender area/sun lights are not suitable real-time intensity defaults.
+		var is_lantern := lamp is OmniLight3D and ("lantern" in light_name or "lamp" in light_name)
+		lamp.visible = is_lantern
+		if not is_lantern:
+			hidden_imported_lights += 1
+			continue
+		lamp.light_color = Color(1.0, 0.57, 0.20)
+		lamp.light_energy = 1.0
+		lamp.shadow_enabled = true
+		lamp.shadow_bias = 0.04
+		var point := lamp as OmniLight3D
+		point.omni_range = 3.4
+		point.omni_attenuation = 1.25
+		point.light_size = 0.16
+		lanterns.append(lamp)
+
+
+func _configure_camera() -> void:
+	for candidate in model.find_children("*", "Camera3D", true, false):
+		camera = candidate as Camera3D
+		break
+	if camera == null:
+		camera = Camera3D.new()
+		camera.name = "Fallback camera"
+		add_child(camera)
+		camera.position = Vector3(8.0, 17.0, 15.0)
+		camera.look_at(Vector3(0.0, 0.7, 0.0))
+		camera.projection = Camera3D.PROJECTION_ORTHOGONAL
+		camera.size = 15.0
+		push_warning("Imported camera absent; fallback framing requires visual review.")
+	camera.make_current()
+	source_camera_transform = camera.global_transform
+	var bounds := _model_bounds()
+	var focus_distance := maxf(1.0, source_camera_transform.origin.distance_to(bounds.get_center()))
+	# Keep the imported view axis. Orbit does not re-aim or zoom the scene.
+	orbit_target = source_camera_transform.origin - source_camera_transform.basis.z * focus_distance
+
+
+func _model_bounds() -> AABB:
+	var bounds := AABB()
+	var has_bounds := false
+	for candidate in model.find_children("*", "MeshInstance3D", true, false):
+		var instance := candidate as MeshInstance3D
+		if instance.mesh == null:
+			continue
+		var world_bounds: AABB = instance.global_transform * instance.get_aabb()
+		bounds = bounds.merge(world_bounds) if has_bounds else world_bounds
+		has_bounds = true
+	return bounds
+
+
+func _track_changes(animation: Animation, track: int) -> bool:
+	if animation.track_get_key_count(track) < 2:
+		return false
+	var first: Variant = animation.track_get_key_value(track, 0)
+	for key in range(1, animation.track_get_key_count(track)):
+		var value: Variant = animation.track_get_key_value(track, key)
+		if first is Vector3 and value is Vector3:
+			if not first.is_equal_approx(value):
+				return true
+		elif first is Quaternion and value is Quaternion:
+			if not first.is_equal_approx(value):
+				return true
+		elif first != value:
+			return true
+	return false
+
+
+func _merge_transform_animations() -> void:
+	for candidate in model.find_children("*", "AnimationPlayer", true, false):
+		var player := candidate as AnimationPlayer
+		var combined := Animation.new()
+		combined.length = 6.0
+		combined.loop_mode = Animation.LOOP_LINEAR
+		var paths_seen: Dictionary = {}
+		for source_name in player.get_animation_list():
+			if String(source_name).get_file().to_upper() == "RESET":
+				continue
+			var source := player.get_animation(source_name)
+			animation_source_clips.append(String(source_name))
+			combined.length = maxf(combined.length, source.length)
+			for track in range(source.get_track_count()):
+				if not source.track_is_enabled(track) or source.track_get_type(track) not in TRANSFORM_TYPES:
+					continue
+				if not _track_changes(source, track):
+					continue
+				var identity := "%s|%d" % [source.track_get_path(track), source.track_get_type(track)]
+				if paths_seen.has(identity):
+					continue
+				paths_seen[identity] = true
+				source.copy_track(track, combined)
+		if combined.get_track_count() == 0:
+			player.stop()
+			continue
+		var library := AnimationLibrary.new()
+		library.add_animation("living_world", combined)
+		player.add_animation_library("preview", library)
+		player.callback_mode_process = AnimationMixer.ANIMATION_CALLBACK_MODE_PROCESS_MANUAL
+		player.play(MERGED_ANIMATION)
+		player.advance(0.0)
+		players.append(player)
+		merged_transform_tracks += combined.get_track_count()
+
+
+func _build_lighting() -> void:
+	var daylight := DirectionalLight3D.new()
+	daylight.name = "Soft warm daylight"
+	daylight.rotation_degrees = Vector3(-51.0, -32.0, 0.0)
+	daylight.light_color = Color("fff0d6")
+	daylight.light_energy = 0.76
+	daylight.light_angular_distance = 10.0
+	daylight.shadow_enabled = true
+	daylight.shadow_opacity = 0.68
+	daylight.directional_shadow_max_distance = 45.0
+	daylight.shadow_bias = 0.035
+	add_child(daylight)
+	var fill := DirectionalLight3D.new()
+	fill.name = "Cool soft fill"
+	fill.rotation_degrees = Vector3(-45.0, 125.0, 0.0)
+	fill.light_color = Color("d2e6f5")
+	fill.light_energy = 0.24
+	fill.shadow_enabled = false
+	add_child(fill)
+	var world := WorldEnvironment.new()
+	world.name = "Storybook daylight and cool ambient"
+	var environment := Environment.new()
+	environment.background_mode = Environment.BG_COLOR
+	environment.background_color = Color("b4dcea")
+	environment.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
+	environment.ambient_light_color = Color("c3dcea")
+	environment.ambient_light_energy = 0.38
+	environment.tonemap_mode = Environment.TONE_MAPPER_FILMIC
+	environment.tonemap_exposure = 0.95
+	environment.ssao_enabled = true
+	environment.ssao_radius = 0.42
+	environment.ssao_intensity = 1.15
+	environment.ssao_light_affect = 0.25
+	environment.glow_enabled = true
+	environment.glow_intensity = 0.18
+	environment.glow_strength = 0.6
+	environment.glow_hdr_threshold = 1.45
+	world.environment = environment
+	add_child(world)
+
+
+func _button_style(color: Color) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = color
+	style.corner_radius_top_left = 9
+	style.corner_radius_top_right = 9
+	style.corner_radius_bottom_left = 9
+	style.corner_radius_bottom_right = 9
+	style.border_color = Color(1.0, 0.96, 0.83, 0.35)
+	style.set_border_width_all(1)
+	return style
+
+
+func _build_controls() -> void:
+	var layer := CanvasLayer.new()
+	layer.name = "Preview controls"
+	add_child(layer)
+	controls_layer = layer
+	var label := Label.new()
+	label.text = "ART PREVIEW"
+	label.position = Vector2(18.0, 18.0)
+	label.add_theme_font_size_override("font_size", 13)
+	label.add_theme_color_override("font_color", Color("fff8dd"))
+	label.add_theme_color_override("font_outline_color", Color("354f39"))
+	label.add_theme_constant_override("outline_size", 3)
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	layer.add_child(label)
+	motion_button = Button.new()
+	motion_button.name = "Motion"
+	motion_button.position = Vector2(18.0, 905.0)
+	motion_button.size = Vector2(166.0, 42.0)
+	motion_button.text = "Motion: ON"
+	motion_button.pressed.connect(_toggle_motion)
+	_style_button(motion_button)
+	layer.add_child(motion_button)
+	var reset_button := Button.new()
+	reset_button.name = "Reset view"
+	reset_button.position = Vector2(267.0, 905.0)
+	reset_button.size = Vector2(147.0, 42.0)
+	reset_button.text = "Reset view"
+	reset_button.pressed.connect(reset_view)
+	_style_button(reset_button)
+	layer.add_child(reset_button)
+	_build_intro_card()
+	_build_wordmark()
+
+
+func _build_wordmark() -> void:
+	if not ResourceLoader.exists(WORDMARK_PATH):
+		push_error("Element wordmark asset missing: " + WORDMARK_PATH)
+		return
+	var texture := load(WORDMARK_PATH) as Texture2D
+	if texture == null:
+		return
+	var pixels := texture.get_image()
+	if pixels == null:
+		return
+	wordmark_used_rect = pixels.get_used_rect()
+	if wordmark_used_rect.size.x == 0 or wordmark_used_rect.size.y == 0:
+		push_error("Element wordmark has empty alpha.")
+		return
+	# Trim only transparent padding through a texture region. Original image
+	# bytes stay unchanged; this is ordinary UI framing, not a bitmap edit.
+	var framed := AtlasTexture.new()
+	framed.atlas = texture
+	framed.region = Rect2(wordmark_used_rect)
+	wordmark = TextureRect.new()
+	wordmark.name = "GnomiT elemental lettering"
+	wordmark.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	wordmark.texture = framed
+	wordmark.position = Vector2(24,55)
+	wordmark.size = Vector2(384,100)
+	wordmark.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	wordmark.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	controls_layer.add_child(wordmark)
+	wordmark_ready = true
+
+
+func get_branding_snapshot() -> Dictionary:
+	var rectangle := wordmark.get_rect() if wordmark != null else Rect2()
+	return {"ready": wordmark_ready, "asset": WORDMARK_PATH,
+		"sha256": FileAccess.get_sha256(WORDMARK_PATH),
+		"original_alpha_bounds": [wordmark_used_rect.position.x, wordmark_used_rect.position.y, wordmark_used_rect.size.x, wordmark_used_rect.size.y],
+		"display_bounds": [rectangle.position.x,rectangle.position.y,rectangle.size.x,rectangle.size.y],
+		"fits_header": wordmark_ready and rectangle.size.x <= 384.0 and rectangle.size.y <= 100.0,
+		"scope": "Illustrated transparent 2D wordmark; separate from native Blender geometry"}
+
+
+func _marker_style(color: Color, border: Color) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = color
+	style.set_corner_radius_all(26)
+	style.set_border_width_all(5)
+	style.border_color = border
+	style.shadow_color = Color(0.10, 0.16, 0.10, 0.42)
+	style.shadow_size = 3
+	style.shadow_offset = Vector2(0.0, 3.0)
+	return style
+
+
+func _find_anchor(expected_name: String) -> Node3D:
+	for candidate in model.find_children("*", "Node3D", true, false):
+		var candidate_name := String(candidate.name).replace("_", "").to_lower()
+		if candidate_name == expected_name.replace("_", "").to_lower():
+			return candidate as Node3D
+	return null
+
+
+func _build_level_markers() -> void:
+	for number: int in [1, 2]:
+		var anchor_name := "Level_%d_Anchor" % number
+		var anchor := _find_anchor(anchor_name)
+		if anchor == null:
+			missing_anchors.append(anchor_name)
+			push_error("Numbered art-preview marker has no native GLB anchor: " + anchor_name)
+			continue
+		marker_anchors[number] = anchor
+		var button := Button.new()
+		button.name = "Level %d preview marker" % number
+		button.text = str(number)
+		button.size = MARKER_SIZE
+		button.custom_minimum_size = MARKER_SIZE
+		button.focus_mode = Control.FOCUS_NONE
+		# The map owns the complete press/drag/release gesture. These visual buttons
+		# cannot swallow a drag that starts on a number and accidentally open it.
+		button.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		button.add_theme_font_size_override("font_size", 29)
+		button.add_theme_color_override("font_color", Color("fff8de"))
+		button.add_theme_color_override("font_outline_color", Color("4c492a"))
+		button.add_theme_constant_override("outline_size", 2)
+		var fill := Color("568c35") if number == 1 else Color("527e91")
+		button.add_theme_stylebox_override("normal", _marker_style(fill, Color("e9b551")))
+		controls_layer.add_child(button)
+		level_markers[number] = button
+
+
+func _update_level_markers() -> void:
+	if camera == null:
+		return
+	for number: int in level_markers:
+		var anchor: Node3D = marker_anchors[number]
+		var button: Button = level_markers[number]
+		button.visible = not camera.is_position_behind(anchor.global_position)
+		# Anchors are explicitly authored beside the arrival points in Blender;
+		# preserving their projection keeps numbers on the road during orbit.
+		button.position = camera.unproject_position(anchor.global_position) - MARKER_SIZE * 0.5
+
+
+func _build_intro_card() -> void:
+	intro_panel = PanelContainer.new()
+	intro_panel.name = "Guide introduction art-preview card"
+	intro_panel.position = Vector2(18.0, 733.0)
+	intro_panel.size = Vector2(396.0, 155.0)
+	intro_panel.mouse_filter = Control.MOUSE_FILTER_STOP
+	var style := _button_style(Color(0.11, 0.21, 0.17, 0.96))
+	style.border_color = Color("d7af59")
+	style.set_border_width_all(2)
+	style.content_margin_left = 14.0
+	style.content_margin_right = 14.0
+	style.content_margin_top = 10.0
+	style.content_margin_bottom = 10.0
+	intro_panel.add_theme_stylebox_override("panel", style)
+	var content := VBoxContainer.new()
+	content.add_theme_constant_override("separation", 5)
+	intro_panel.add_child(content)
+	intro_title = Label.new()
+	intro_title.add_theme_font_size_override("font_size", 20)
+	intro_title.add_theme_color_override("font_color", Color("fff2c5"))
+	intro_title.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	content.add_child(intro_title)
+	intro_body = Label.new()
+	intro_body.custom_minimum_size = Vector2(350.0, 44.0)
+	intro_body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	intro_body.add_theme_font_size_override("font_size", 15)
+	intro_body.add_theme_color_override("font_color", Color("fff9e9"))
+	intro_body.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	content.add_child(intro_body)
+	var dismiss := Button.new()
+	dismiss.name = "Dismiss introduction"
+	dismiss.text = "Got it"
+	dismiss.custom_minimum_size = Vector2(0.0, 30.0)
+	_style_button(dismiss)
+	dismiss.pressed.connect(dismiss_intro)
+	content.add_child(dismiss)
+	controls_layer.add_child(intro_panel)
+	intro_panel.hide()
+
+
+func show_level_intro(number: int) -> bool:
+	if not LEVEL_COPY.has(number) or not level_markers.has(number):
+		return false
+	intro_level = number
+	intro_title.text = String(LEVEL_COPY[number][0])
+	intro_body.text = String(LEVEL_COPY[number][1])
+	intro_panel.show()
+	pointer_active = false
+	return true
+
+
+func dismiss_intro() -> void:
+	intro_panel.hide()
+	intro_level = 0
+	pointer_active = false
+
+
+func get_marker_snapshot() -> Dictionary:
+	var result: Dictionary = {}
+	for number: int in level_markers:
+		var marker: Button = level_markers[number]
+		var anchor: Node3D = marker_anchors[number]
+		result[str(number)] = {
+			"anchor_name": String(anchor.name),
+			"world_position": [anchor.global_position.x, anchor.global_position.y, anchor.global_position.z],
+			"screen_center": [marker.position.x + MARKER_SIZE.x * 0.5, marker.position.y + MARKER_SIZE.y * 0.5],
+			"size": [MARKER_SIZE.x, MARKER_SIZE.y],
+			"visible": marker.visible,
+			"label": marker.text
+		}
+	return result
+
+
+func get_intro_snapshot() -> Dictionary:
+	return {
+		"visible": intro_panel.visible,
+		"level": intro_level,
+		"title": intro_title.text,
+		"body": intro_body.text,
+		"action": "Got it",
+		"scope": "Introduction preview; no campaign or match-3 launch"
+	}
+
+
+func _style_button(button: Button) -> void:
+	button.add_theme_font_size_override("font_size", 16)
+	button.add_theme_color_override("font_color", Color("fff8e6"))
+	button.add_theme_stylebox_override("normal", _button_style(Color(0.16, 0.26, 0.20, 0.84)))
+	button.add_theme_stylebox_override("hover", _button_style(Color(0.23, 0.36, 0.24, 0.94)))
+	button.add_theme_stylebox_override("pressed", _button_style(Color(0.12, 0.20, 0.15, 0.95)))
+
+
+func _toggle_motion() -> void:
+	set_motion(not motion)
+
+
+func set_motion(enabled: bool) -> void:
+	motion = enabled
+	if motion_button != null:
+		motion_button.text = "Motion: ON" if motion else "Motion: OFF"
+
+
+func reset_view() -> void:
+	orbit = 0.0
+	pointer_active = false
+	if camera != null:
+		camera.global_transform = source_camera_transform
+	_update_level_markers()
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if camera == null:
+		return
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		if event.pressed:
+			_begin_pointer(event.position, -1)
+		elif pointer_touch_index == -1:
+			_end_pointer(event.position)
+	elif event is InputEventMouseMotion and pointer_active and pointer_touch_index == -1:
+		_move_pointer(event.position, event.relative)
+	elif event is InputEventScreenTouch:
+		if event.pressed and not pointer_active:
+			_begin_pointer(event.position, event.index)
+		elif not event.pressed and event.index == pointer_touch_index:
+			_end_pointer(event.position)
+	elif event is InputEventScreenDrag and pointer_active and event.index == pointer_touch_index:
+		_move_pointer(event.position, event.relative)
+
+
+func _marker_at(point: Vector2) -> int:
+	for number: int in level_markers:
+		var marker: Button = level_markers[number]
+		var center := marker.position + MARKER_SIZE * 0.5
+		if marker.visible and point.distance_to(center) <= MARKER_SIZE.x * 0.5:
+			return number
+	return 0
+
+
+func _begin_pointer(point: Vector2, touch_index: int) -> void:
+	if point.y < 65.0 or point.y > 895.0:
+		return
+	pointer_active = true
+	pointer_touch_index = touch_index
+	pointer_origin = point
+	pointer_max_distance = 0.0
+	pressed_level = _marker_at(point)
+
+
+func _move_pointer(point: Vector2, relative: Vector2) -> void:
+	pointer_max_distance = maxf(pointer_max_distance, pointer_origin.distance_to(point))
+	if pointer_max_distance < TAP_DISTANCE:
+		return
+	orbit = clampf(orbit + relative.x * 0.0015, -0.12, 0.12)
+	var rotation := Basis(Vector3.UP, orbit)
+	var view := source_camera_transform
+	view.origin = orbit_target + rotation * (source_camera_transform.origin - orbit_target)
+	view.basis = rotation * source_camera_transform.basis
+	camera.global_transform = view
+	_update_level_markers()
+
+
+func _end_pointer(point: Vector2) -> void:
+	if not pointer_active:
+		return
+	pointer_max_distance = maxf(pointer_max_distance, pointer_origin.distance_to(point))
+	var selected := pressed_level
+	var is_short_press := pointer_max_distance < TAP_DISTANCE
+	pointer_active = false
+	pointer_touch_index = -1
+	pressed_level = 0
+	if is_short_press and selected != 0 and selected == _marker_at(point):
+		show_level_intro(selected)
+
+
+func _process(delta: float) -> void:
+	if not model_ready:
+		return
+	_update_level_markers()
+	if not motion:
+		return
+	age += delta
+	for player in players:
+		player.advance(delta)
+	_update_lantern_energy()
+
+
+func _update_lantern_energy() -> void:
+	# glTF omits Blender light-DATA F-curves. Preserve its six-second energy keys,
+	# normalized around 1.0; smoothstep approximates the source AUTO_CLAMPED easing.
+	var loop_time := fposmod(age, 6.0)
+	var key := mini(int(floor(loop_time)), 5)
+	var blend := smoothstep(0.0, 1.0, loop_time - float(key))
+	var energy := lerpf(LANTERN_WATTS[key], LANTERN_WATTS[key + 1], blend) / 24.0
+	for lamp in lanterns:
+		lamp.light_energy = energy
+
+
+func get_transform_snapshot() -> Dictionary:
+	var result: Dictionary = {}
+	if model == null:
+		return result
+	result[String(model.get_path())] = model.transform
+	for candidate in model.find_children("*", "Node3D", true, false):
+		var node := candidate as Node3D
+		result[String(node.get_path())] = node.transform
+	return result
+
+
+func get_lamp_snapshot() -> Dictionary:
+	var result: Dictionary = {}
+	for lamp in lanterns:
+		result[String(lamp.get_path())] = lamp.light_energy
+	return result
+
+
+func get_asset_inventory() -> Dictionary:
+	var materials: Dictionary = {}
+	var textures: Dictionary = {}
+	var mesh_count := 0
+	var surface_count := 0
+	var texture_references := 0
+	var shader_materials := 0
+	if model == null:
+		return {}
+	for candidate in model.find_children("*", "MeshInstance3D", true, false):
+		var instance := candidate as MeshInstance3D
+		if instance.mesh == null:
+			continue
+		mesh_count += 1
+		for surface in range(instance.mesh.get_surface_count()):
+			surface_count += 1
+			var material := instance.get_active_material(surface)
+			if material == null or materials.has(material.get_instance_id()):
+				continue
+			materials[material.get_instance_id()] = String(material.resource_name)
+			if material is BaseMaterial3D:
+				for slot in range(BaseMaterial3D.TEXTURE_MAX):
+					var texture: Texture2D = material.get_texture(slot)
+					if texture != null:
+						textures[texture.get_instance_id()] = String(texture.resource_path)
+						texture_references += 1
+			elif material is ShaderMaterial:
+				shader_materials += 1
+	return {
+		"mesh_instances": mesh_count,
+		"mesh_surfaces": surface_count,
+		"unique_materials": materials.size(),
+		"unique_material_textures": textures.size(),
+		"material_texture_references": texture_references,
+		"shader_materials_not_texture_inspected": shader_materials,
+		"texture_paths": textures.values(),
+		"material_names": materials.values()
+	}

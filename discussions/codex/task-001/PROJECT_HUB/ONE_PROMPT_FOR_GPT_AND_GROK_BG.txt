@@ -1,3 +1,13 @@
+АКТУАЛНО — MINE V2 + GUIDE + ELEMENT LETTERING · 19.10.2026
+Прочети builds/STORYBOOK_MINE_V2_GUIDE_LOGO_2026-10-19.txt и
+builds/storybook-mine-v2-guide-logo-2026-10-19/. Пълен nativeZIP катоBase64.
+Има32равнидъски,малъкмахаштгном,1подход/2вход,въведения и новоGnomiTлого.
+i=факла,T=кирка. Новият човешки артbrief е вART_DIRECTION_BG.txt.
+HUMAN_ART_PENDING; няма match3launch/saveintegration илиmerge.
+GPT/Grok: само собствен REPORTS_ONLY преглед,до3конкретнивидимикорекции.
+TOPIC=STORYBOOK_MINE_V2_GUIDE_LOGO_2026-10-19. Безновивариантибезобхват.
+Препоръка GPT-6.1 Sol / High. Старите раздели долу остават история.
+
 АКТУАЛНО — STORYBOOK MINE NATIVE V1 · 19.10.2026
 Реален Blender->GLB->Godot кандидат. ART_TARGET_PARTIAL; човешко приемане PENDING.
 Прочети builds/STORYBOOK_MINE_NATIVE_V1_2026-10-19.txt и папката

@@ -1,0 +1,23 @@
+GNOMIT MINE V2 — GEOMETRY, ANIMATION AND LETTERING ORIGIN
+
+Native geometry/materials: code-authored Blender5.2.2 LTS scene derived from
+the preserved V1 native scene. New boardwalk and guide were created with bpy;
+root assembled and verified in Godot4.7.2 Forward+. No external model pack.
+Four native512px oak maps are deterministic mathematical textures from
+scene_api.py, packed in .blend and embedded in GLB. Other native surfaces are PBR.
+
+Branding is different media: one built-in imagegen-generated transparent PNG.
+User asked specifically for torch i, pickaxe T and slightly elemental cute letters.
+No API/CLI fallback or externally paid service. PNG copied unchanged, alpha kept.
+Exact generation prompt and source path are in assets/branding/
+gnomit_element_wordmark_v1_provenance.txt. Original file1983x793,
+1485630bytes, SHA25690a07215598d9d3cb95741dc417e96d14aec5e03fea1b0875c40b7f52dabe262.
+The Godot AtlasTexture region only frames transparent padding for display; it
+does not rewrite source pixels or turn this illustration into native3D geometry.
+Motifs are pronounced; o reads as a watery vortex. This is a first logo concept.
+
+Video is an actual native241-frame@30fps Godot MovieMaker asset preview,
+transcoded by existing VLC to H264. It is silent, no SFX/music change. The wave
+pose contact sheet samples actual native frames, cropped/enlarged for QA only.
+No campaign state or victory was simulated. None of these are human playtests.
+No claims of hand-painted human authorship or finished production art.

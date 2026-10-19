@@ -1,0 +1,29 @@
+V2 — INDEPENDENT READ-ONLY REVIEW SUMMARY
+19 OCTOBER 2026 · HUMAN PREVIEW ONLY
+
+Separate reviewer inspected native images and changed code. No subagents,
+writes or engine reruns were performed by the reviewer. Runtime receipts were
+independently read and their hashes checked against current files.
+
+Visual judgment: regular rectangular planks read as a built boardwalk;
+nodes1/2 are separated and placed at approach/entrance; the small guide is
+recognizable and the two cards fit without clipping. Final wordmark GnomiT
+reads at screen size, with torch i/pickaxe T and no scene/card overlap.
+The moved stone clears the boards. No confirmed critical/important/minor issue.
+
+An initial static GUI-release hypothesis was withdrawn after a native routed
+Input.parse_input_event probe contradicted it. The original press/release case
+left no stale pointer and no unheld orbit. No speculative viewer rewrite.
+
+Root reproduced a separate real logo minimum-size bug: the TextureRect measured
+1955x770 despite a requested384x100. Measurement-based gate failed before fix.
+Setting EXPAND_IGNORE_SIZE before the texture/size assignment fixed the issue.
+Reviewer verified that order in code and final/fresh-import measured384x100.
+
+Final inspection: GLB, logo PNG and all four capture hashes match receipts.
+Four guide pivots change; native audit checks unchanged boot matrices and loop.
+The eight-second native clip/contact sheet is supplied for human gesture review.
+
+Verdict: READY FOR HUMAN PREVIEW. This is neither final art approval nor merge
+approval. Human art, actual Android input and performance acceptance are pending.
+No campaign launch, save or Core integration is part of this bounded preview.

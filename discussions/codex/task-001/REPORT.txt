@@ -2029,3 +2029,70 @@ Do not generate another hero/whole map, change grants, edit the other bot's
 files, integrate campaign, run prohibited tests, push implementation or merge.
 Prior reviews remain history, not approval for a next art pass.
 Recommended next integration/review model: GPT-6.1 Sol / High.
+
+
+GNOMIT MINE V2 · 19.10.2026
+NATIVE_ART_INTRO_PREVIEW_READY / HUMAN_ART_PENDING / NO_MERGE
+
+Human changes: regular road boards; display1 on approach,2 atmine entrance;
+one small native gnome waves and introduces matching. Then GnomiT lettering
+with torch i, pickaxe T and cute elemental letter shapes. Latest human adopts
+the pasted polished casual3D Blender brief as the art direction.
+
+V2 is a separate external playtest folder; V1 GLB remains hash-identical.
+No private project/Cradle/Core/progress/save/sound/reward or campaign rewrite.
+
+Implemented32 equal rectangular transverse1.68m boards on a gentler S, low
+support/stringers, subdued pins and a clear walk surface. One intruding rock
+and one buried flower group moved offroad. Real native guide1.22m/73objects,
+with a six-second articulated shoulder/elbow/hand greeting, quiet breathing,
+lantern and stationary boot matrices. Loop closes and1s/3s hand poses differ.
+Two52px goldrim markers are projected from native GLB empty anchors. Tap1/2
+opens English introduction cards;>=12px drag does not activate a number.
+These are intro markers, NOT connected playable campaign levels or save unlocks.
+
+Newlogo:1983x793 transparentPNG,1485630bytes,sha256
+90a07215598d9d3cb95741dc417e96d14aec5e03fea1b0875c40b7f52dabe262.
+One built-in imagegen call; exactprompt/provenance, originalalpha preserved.
+Torch i/pickaxe T, greenstone G/teal n/vortex o/volcanic m. o is more watery
+than an airborne tornado; art approval pending. Logo is separate2D canvas,
+not native Blender geometry. Actual measured UIbounds24,55,384,100.
+
+FinalGLB12236056bytes,sha256
+842322fc7cd4688d0f197dfcc45cd248d6d02a338fafc92b102dbcbcc7b33718.
+Native1070meshes/454540triangles; unoptimized artproof, no mobileperformanceclaim.
+Four embedded native oak maps and30 native transformclips. Actual runtime
+30 changed pivots including4 guide pivots, marker/cards checks, MotionOFF
+freezes geometry+lamp and resumes. Native432x960,Forward+,screen1=monitor2.
+New-directory GLB+viewer+logo import passed without source/.blend or cache.
+Native241frame@30fps silent recording; suppliedH264 is VLC transcode.
+
+Independent read-only review: ready for human preview; no confirmed blockers.
+Initial GUI-release static hypothesis was contradicted by actual routed
+Input.parse_input_event probe and withdrawn. No speculative input rewrite.
+A real logo minimum-size issue was reproduced1955x770, then fixed by setting
+TextureRect EXPAND_IGNORE_SIZE beforetexture/size; final+fresh384x100 pass.
+Runtime PASS is separate from human art, Android input or performance approval.
+
+ART_DIRECTION_BG.txt records human-adopted casual candy-like toy-diorama
+target: thickroundedforms, caramelwood, cleanfreshcolors, softspecular,
+friendlylightstones, softsun/fill/rim, warm local lamp, better mineheroframing,
+and restrained details. Exact pasted source preserved,sha256
+8dcce399ac8da3e7ceaa8714e169a3d0e71b175b7b816b0f98cece811d7d624d.
+We keep Blender->GLB->Godot and check realtime appearance throughout eachpass.
+This V2 has NOT completed the full future shape/material/light polish pass.
+No Maya/Unity migration, installation or software purchase authorized here.
+
+Canonical delivery: NATIVE_PROJECT_PACKAGE.base64.txt is the lossless fullZIP
+with native sources,.blend,.glb,logo,exactprompt,actualPNG/video,brief,manifest.
+PACKAGE_RECEIPT.json.txt supplies bytes/SHA. Decode bytes, independently hash,
+unzip and readREADME. Do not judge onlythe text report/filename or concept art.
+Display1/2 is the requested scene layout, not renumbering the old campaign.
+Surface mine remains gateway toward future underground10sublevels+Boss.
+
+GPT/Grok: READ/REPORTS_ONLY response in your own task-001 REPORT under
+TOPIC=STORYBOOK_MINE_V2_GUIDE_LOGO_2026-10-19. Give up to3 visible corrections
+for boards, guidewave/groundcontact, letteringreadability and newartbrief.
+State actual observed media/source; NOT_OBSERVED where unavailable. No new
+art variant, engine run withoutgrant, grant edits, gameintegration or merge.
+Recommend GPT-6.1 Sol / High for code/review. No claimed effort switch.

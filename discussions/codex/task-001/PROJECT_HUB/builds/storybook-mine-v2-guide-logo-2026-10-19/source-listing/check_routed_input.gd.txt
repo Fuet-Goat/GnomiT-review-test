@@ -1,0 +1,42 @@
+extends SceneTree
+## Regression uses Godot's real GUI routing, not direct pointer-handler calls.
+func _initialize() -> void:
+	call_deferred("run")
+func button(position: Vector2, down: bool) -> void:
+	var event := InputEventMouseButton.new()
+	event.button_index = MOUSE_BUTTON_LEFT
+	event.pressed = down
+	event.position = position
+	event.global_position = position
+	event.button_mask = MOUSE_BUTTON_MASK_LEFT if down else 0
+	Input.parse_input_event(event)
+func move(position: Vector2, relative: Vector2, held: bool) -> void:
+	var event := InputEventMouseMotion.new()
+	event.position = position
+	event.global_position = position
+	event.relative = relative
+	event.button_mask = MOUSE_BUTTON_MASK_LEFT if held else 0
+	Input.parse_input_event(event)
+func run() -> void:
+	root.size = Vector2i(432,960)
+	var app = load("res://preview.tscn").instantiate()
+	root.add_child(app)
+	await create_timer(.3).timeout
+	app.show_level_intro(1)
+	await process_frame
+	button(Vector2(350,680),true)
+	await process_frame
+	var began: bool = app.pointer_active
+	move(Vector2(100,775),Vector2(-250,95),true)
+	await process_frame
+	button(Vector2(100,775),false)
+	await process_frame
+	await process_frame
+	var stale: bool = app.pointer_active
+	var orbit_before: float = app.orbit
+	move(Vector2(140,700),Vector2(40,-75),false)
+	await process_frame
+	var orbit_after: float = app.orbit
+	var passed: bool = began and not stale and is_equal_approx(orbit_before,orbit_after)
+	print("ROUTED_RELEASE "+JSON.stringify({"passed":passed,"began":began,"stale_after_GUI_release":stale,"orbit_before_unheld_motion":orbit_before,"orbit_after_unheld_motion":orbit_after,"method":"Input.parse_input_event through actual GUI STOP panel"}))
+	quit(0 if passed else 3)
