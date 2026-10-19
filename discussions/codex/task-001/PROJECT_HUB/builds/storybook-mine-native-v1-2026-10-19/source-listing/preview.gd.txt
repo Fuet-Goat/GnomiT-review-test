@@ -1,0 +1,357 @@
+extends Node3D
+## Native asset viewer. The surface mine is an art preview, not campaign gameplay.
+
+const MODEL_PATH := "res://assets/storybook_mine.glb"
+const MERGED_ANIMATION := "preview/living_world"
+const LANTERN_WATTS := [24.0, 25.5, 23.2, 24.7, 22.9, 25.1, 24.0]
+const TRANSFORM_TYPES := [Animation.TYPE_POSITION_3D, Animation.TYPE_ROTATION_3D, Animation.TYPE_SCALE_3D]
+
+var model: Node3D
+var camera: Camera3D
+var players: Array[AnimationPlayer] = []
+var lanterns: Array[Light3D] = []
+var motion := true
+var age := 0.0
+var orbit := 0.0
+var model_ready := false
+var source_camera_transform: Transform3D
+var orbit_target := Vector3.ZERO
+var motion_button: Button
+var animation_source_clips: Array[String] = []
+var merged_transform_tracks := 0
+var hidden_imported_lights := 0
+
+
+func _ready() -> void:
+	# Project default is screen 1 (monitor 2). Godot's --screen overrides it.
+	DisplayServer.window_set_title("GnomiT · Storybook mine · art preview")
+	_build_lighting()
+	_build_controls()
+	var packed := load(MODEL_PATH) as PackedScene
+	if packed == null:
+		push_error("Native storybook model could not be loaded: " + MODEL_PATH)
+		return
+	model = packed.instantiate() as Node3D
+	if model == null:
+		push_error("The storybook model root must be Node3D.")
+		return
+	add_child(model)
+	_configure_imported_lights()
+	_configure_camera()
+	_merge_transform_animations()
+	_update_lantern_energy()
+	model_ready = true
+	print("GNOMIT_PREVIEW_READY " + JSON.stringify({
+		"screen_index": DisplayServer.window_get_current_screen(),
+		"screen_count": DisplayServer.get_screen_count(),
+		"transform_tracks": merged_transform_tracks,
+		"lanterns": lanterns.size(),
+		"scope": "ART PREVIEW"
+	}))
+
+
+func _configure_imported_lights() -> void:
+	for candidate in model.find_children("*", "Light3D", true, false):
+		var lamp := candidate as Light3D
+		var light_name := String(lamp.name).to_lower()
+		# Blender area/sun lights are not suitable real-time intensity defaults.
+		var is_lantern := lamp is OmniLight3D and ("lantern" in light_name or "lamp" in light_name)
+		lamp.visible = is_lantern
+		if not is_lantern:
+			hidden_imported_lights += 1
+			continue
+		lamp.light_color = Color(1.0, 0.57, 0.20)
+		lamp.light_energy = 1.0
+		lamp.shadow_enabled = true
+		lamp.shadow_bias = 0.04
+		var point := lamp as OmniLight3D
+		point.omni_range = 3.4
+		point.omni_attenuation = 1.25
+		point.light_size = 0.16
+		lanterns.append(lamp)
+
+
+func _configure_camera() -> void:
+	for candidate in model.find_children("*", "Camera3D", true, false):
+		camera = candidate as Camera3D
+		break
+	if camera == null:
+		camera = Camera3D.new()
+		camera.name = "Fallback camera"
+		add_child(camera)
+		camera.position = Vector3(8.0, 17.0, 15.0)
+		camera.look_at(Vector3(0.0, 0.7, 0.0))
+		camera.projection = Camera3D.PROJECTION_ORTHOGONAL
+		camera.size = 15.0
+		push_warning("Imported camera absent; fallback framing requires visual review.")
+	camera.make_current()
+	source_camera_transform = camera.global_transform
+	var bounds := _model_bounds()
+	var focus_distance := maxf(1.0, source_camera_transform.origin.distance_to(bounds.get_center()))
+	# Keep the imported view axis. Orbit does not re-aim or zoom the scene.
+	orbit_target = source_camera_transform.origin - source_camera_transform.basis.z * focus_distance
+
+
+func _model_bounds() -> AABB:
+	var bounds := AABB()
+	var has_bounds := false
+	for candidate in model.find_children("*", "MeshInstance3D", true, false):
+		var instance := candidate as MeshInstance3D
+		if instance.mesh == null:
+			continue
+		var world_bounds: AABB = instance.global_transform * instance.get_aabb()
+		bounds = bounds.merge(world_bounds) if has_bounds else world_bounds
+		has_bounds = true
+	return bounds
+
+
+func _track_changes(animation: Animation, track: int) -> bool:
+	if animation.track_get_key_count(track) < 2:
+		return false
+	var first: Variant = animation.track_get_key_value(track, 0)
+	for key in range(1, animation.track_get_key_count(track)):
+		var value: Variant = animation.track_get_key_value(track, key)
+		if first is Vector3 and value is Vector3:
+			if not first.is_equal_approx(value):
+				return true
+		elif first is Quaternion and value is Quaternion:
+			if not first.is_equal_approx(value):
+				return true
+		elif first != value:
+			return true
+	return false
+
+
+func _merge_transform_animations() -> void:
+	for candidate in model.find_children("*", "AnimationPlayer", true, false):
+		var player := candidate as AnimationPlayer
+		var combined := Animation.new()
+		combined.length = 6.0
+		combined.loop_mode = Animation.LOOP_LINEAR
+		var paths_seen: Dictionary = {}
+		for source_name in player.get_animation_list():
+			if String(source_name).get_file().to_upper() == "RESET":
+				continue
+			var source := player.get_animation(source_name)
+			animation_source_clips.append(String(source_name))
+			combined.length = maxf(combined.length, source.length)
+			for track in range(source.get_track_count()):
+				if not source.track_is_enabled(track) or source.track_get_type(track) not in TRANSFORM_TYPES:
+					continue
+				if not _track_changes(source, track):
+					continue
+				var identity := "%s|%d" % [source.track_get_path(track), source.track_get_type(track)]
+				if paths_seen.has(identity):
+					continue
+				paths_seen[identity] = true
+				source.copy_track(track, combined)
+		if combined.get_track_count() == 0:
+			player.stop()
+			continue
+		var library := AnimationLibrary.new()
+		library.add_animation("living_world", combined)
+		player.add_animation_library("preview", library)
+		player.callback_mode_process = AnimationMixer.ANIMATION_CALLBACK_MODE_PROCESS_MANUAL
+		player.play(MERGED_ANIMATION)
+		player.advance(0.0)
+		players.append(player)
+		merged_transform_tracks += combined.get_track_count()
+
+
+func _build_lighting() -> void:
+	var daylight := DirectionalLight3D.new()
+	daylight.name = "Soft warm daylight"
+	daylight.rotation_degrees = Vector3(-51.0, -32.0, 0.0)
+	daylight.light_color = Color("fff0d6")
+	daylight.light_energy = 0.76
+	daylight.light_angular_distance = 10.0
+	daylight.shadow_enabled = true
+	daylight.shadow_opacity = 0.68
+	daylight.directional_shadow_max_distance = 45.0
+	daylight.shadow_bias = 0.035
+	add_child(daylight)
+	var fill := DirectionalLight3D.new()
+	fill.name = "Cool soft fill"
+	fill.rotation_degrees = Vector3(-45.0, 125.0, 0.0)
+	fill.light_color = Color("d2e6f5")
+	fill.light_energy = 0.24
+	fill.shadow_enabled = false
+	add_child(fill)
+	var world := WorldEnvironment.new()
+	world.name = "Storybook daylight and cool ambient"
+	var environment := Environment.new()
+	environment.background_mode = Environment.BG_COLOR
+	environment.background_color = Color("b4dcea")
+	environment.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
+	environment.ambient_light_color = Color("c3dcea")
+	environment.ambient_light_energy = 0.38
+	environment.tonemap_mode = Environment.TONE_MAPPER_FILMIC
+	environment.tonemap_exposure = 0.95
+	environment.ssao_enabled = true
+	environment.ssao_radius = 0.42
+	environment.ssao_intensity = 1.15
+	environment.ssao_light_affect = 0.25
+	environment.glow_enabled = true
+	environment.glow_intensity = 0.18
+	environment.glow_strength = 0.6
+	environment.glow_hdr_threshold = 1.45
+	world.environment = environment
+	add_child(world)
+
+
+func _button_style(color: Color) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = color
+	style.corner_radius_top_left = 9
+	style.corner_radius_top_right = 9
+	style.corner_radius_bottom_left = 9
+	style.corner_radius_bottom_right = 9
+	style.border_color = Color(1.0, 0.96, 0.83, 0.35)
+	style.set_border_width_all(1)
+	return style
+
+
+func _build_controls() -> void:
+	var layer := CanvasLayer.new()
+	layer.name = "Preview controls"
+	add_child(layer)
+	var label := Label.new()
+	label.text = "ART PREVIEW"
+	label.position = Vector2(18.0, 18.0)
+	label.add_theme_font_size_override("font_size", 13)
+	label.add_theme_color_override("font_color", Color("fff8dd"))
+	label.add_theme_color_override("font_outline_color", Color("354f39"))
+	label.add_theme_constant_override("outline_size", 3)
+	layer.add_child(label)
+	motion_button = Button.new()
+	motion_button.name = "Motion"
+	motion_button.position = Vector2(18.0, 905.0)
+	motion_button.size = Vector2(166.0, 42.0)
+	motion_button.text = "Motion: ON"
+	motion_button.pressed.connect(_toggle_motion)
+	_style_button(motion_button)
+	layer.add_child(motion_button)
+	var reset_button := Button.new()
+	reset_button.name = "Reset view"
+	reset_button.position = Vector2(267.0, 905.0)
+	reset_button.size = Vector2(147.0, 42.0)
+	reset_button.text = "Reset view"
+	reset_button.pressed.connect(reset_view)
+	_style_button(reset_button)
+	layer.add_child(reset_button)
+
+
+func _style_button(button: Button) -> void:
+	button.add_theme_font_size_override("font_size", 16)
+	button.add_theme_color_override("font_color", Color("fff8e6"))
+	button.add_theme_stylebox_override("normal", _button_style(Color(0.16, 0.26, 0.20, 0.84)))
+	button.add_theme_stylebox_override("hover", _button_style(Color(0.23, 0.36, 0.24, 0.94)))
+	button.add_theme_stylebox_override("pressed", _button_style(Color(0.12, 0.20, 0.15, 0.95)))
+
+
+func _toggle_motion() -> void:
+	set_motion(not motion)
+
+
+func set_motion(enabled: bool) -> void:
+	motion = enabled
+	if motion_button != null:
+		motion_button.text = "Motion: ON" if motion else "Motion: OFF"
+
+
+func reset_view() -> void:
+	orbit = 0.0
+	if camera != null:
+		camera.global_transform = source_camera_transform
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if camera == null:
+		return
+	if event is InputEventMouseMotion and event.button_mask & MOUSE_BUTTON_MASK_LEFT:
+		if event.position.y < 65.0 or event.position.y > 880.0:
+			return
+		orbit = clampf(orbit + event.relative.x * 0.0015, -0.12, 0.12)
+		var rotation := Basis(Vector3.UP, orbit)
+		var view := source_camera_transform
+		view.origin = orbit_target + rotation * (source_camera_transform.origin - orbit_target)
+		view.basis = rotation * source_camera_transform.basis
+		camera.global_transform = view
+
+
+func _process(delta: float) -> void:
+	if not model_ready or not motion:
+		return
+	age += delta
+	for player in players:
+		player.advance(delta)
+	_update_lantern_energy()
+
+
+func _update_lantern_energy() -> void:
+	# glTF omits Blender light-DATA F-curves. Preserve its six-second energy keys,
+	# normalized around 1.0; smoothstep approximates the source AUTO_CLAMPED easing.
+	var loop_time := fposmod(age, 6.0)
+	var key := mini(int(floor(loop_time)), 5)
+	var blend := smoothstep(0.0, 1.0, loop_time - float(key))
+	var energy := lerpf(LANTERN_WATTS[key], LANTERN_WATTS[key + 1], blend) / 24.0
+	for lamp in lanterns:
+		lamp.light_energy = energy
+
+
+func get_transform_snapshot() -> Dictionary:
+	var result: Dictionary = {}
+	if model == null:
+		return result
+	result[String(model.get_path())] = model.transform
+	for candidate in model.find_children("*", "Node3D", true, false):
+		var node := candidate as Node3D
+		result[String(node.get_path())] = node.transform
+	return result
+
+
+func get_lamp_snapshot() -> Dictionary:
+	var result: Dictionary = {}
+	for lamp in lanterns:
+		result[String(lamp.get_path())] = lamp.light_energy
+	return result
+
+
+func get_asset_inventory() -> Dictionary:
+	var materials: Dictionary = {}
+	var textures: Dictionary = {}
+	var mesh_count := 0
+	var surface_count := 0
+	var texture_references := 0
+	var shader_materials := 0
+	if model == null:
+		return {}
+	for candidate in model.find_children("*", "MeshInstance3D", true, false):
+		var instance := candidate as MeshInstance3D
+		if instance.mesh == null:
+			continue
+		mesh_count += 1
+		for surface in range(instance.mesh.get_surface_count()):
+			surface_count += 1
+			var material := instance.get_active_material(surface)
+			if material == null or materials.has(material.get_instance_id()):
+				continue
+			materials[material.get_instance_id()] = String(material.resource_name)
+			if material is BaseMaterial3D:
+				for slot in range(BaseMaterial3D.TEXTURE_MAX):
+					var texture: Texture2D = material.get_texture(slot)
+					if texture != null:
+						textures[texture.get_instance_id()] = String(texture.resource_path)
+						texture_references += 1
+			elif material is ShaderMaterial:
+				shader_materials += 1
+	return {
+		"mesh_instances": mesh_count,
+		"mesh_surfaces": surface_count,
+		"unique_materials": materials.size(),
+		"unique_material_textures": textures.size(),
+		"material_texture_references": texture_references,
+		"shader_materials_not_texture_inspected": shader_materials,
+		"texture_paths": textures.values(),
+		"material_names": materials.values()
+	}

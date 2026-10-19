@@ -1,3 +1,13 @@
+АКТУАЛНО — STORYBOOK MINE NATIVE V1 · 19.10.2026
+Реален Blender->GLB->Godot кандидат. ART_TARGET_PARTIAL; човешко приемане PENDING.
+Прочети builds/STORYBOOK_MINE_NATIVE_V1_2026-10-19.txt и папката
+builds/storybook-mine-native-v1-2026-10-19/. Пълен native ZIP като Base64 text attachment.
+За GPT/Grok: само READ/REPORTS_ONLY рецензия в собствения task-001 REPORT,
+TOPIC=STORYBOOK_MINE_NATIVE_V1_2026-10-19, до3 конкретни видими корекции.
+Не генерирайте нова карта/герой и не обявявайте художествено приемане по runtime PASS.
+Повърхностна мина -> подземни10+Boss остава канон. Днес monitor2.
+Препоръка GPT-6.1 Sol / High. Старите раздели долу са история.
+
 АКТУАЛНО — CANDY MAP SOURCE REVIEW · 19.10.2026
 SOURCE_VERIFIED / ART_TARGET_NOT_MET / NOT_INTEGRATED.
 Прочети reviews/CANDY_MAP_SOURCE_REVIEW_2026-10-19.txt и
