@@ -1,0 +1,49 @@
+GNOMIT — ONE STONE SOUND PER CLEAR /19 OCTOBER2026
+
+HUMAN DECISION
+The latest human instruction supersedes the proposed three material MOVE banks.
+Use the existing common stone clips. Each actual clear animation plays BREAK
+once, regardless of the number of cells or simultaneous match groups. A new
+clear after falling plays once again. Falling alone emits no BREAK or MOVE.
+Do not suppress a new real clear while an earlier clip is still playing.
+
+CHANGE, LOCAL PC COPY ONLY
+Fresh isolated copy: SingleStoneCue_2026-10-19. Predecessor Mountain lab intact.
+BoardView already emits one BREAK per nonempty clear; it was not changed.
+RockAudio previously allowed eight concurrent copies. It now has one shared
+stone voice. A new cue briefly fades the old tail (12ms requested tween time,
+frame scheduled), stops it, then starts the new clip. There is no delayed queue
+or per-cell/per-material bank. Requests arriving within the tiny replacement
+window supersede that pending request; actual board waves are spaced by their
+existing animations. Mute/stop/reset/tree exit cancel the pending replacement.
+Selected audio bytes and existing pitch/gain behavior are preserved.
+Magic-power sound banks and matching/reward/save rules were not changed.
+
+LOCAL TEST SETUP
+Own user:// profile: GnomiT-SingleStoneCue-Lab-2026-10-19. Monitor1/screen0.
+432x960 PC window. Default fixture: Three falling fours -> three rewards.
+The fixture and window title are presentation/test setup, not new mechanics.
+The cancellation regression was updated from the superseded eight-voice
+precondition to active scrape plus pending fracture replacement.
+
+FRESH VERIFICATION
+Initial cold import: exit0. New focused test RED reproduced overlapping audio;
+the same test GREEN:12checks. Six targeted existing suites:261checks, all pass
+(rock audio13, cancellation15, mountain33, material presentation72, drag39,
+material Core89). Total273checks. This is the named targeted set, not a claim
+that every historical suite or Android/performance testing was run.
+Scripted actual native Godot input, screen0,432x960: clear sizes3,12,3;
+one MOVE then three BREAK cues, max ONE active stone voice. The actual mixer
+recording is3.072s PCM16 stereo48k, no clipped samples. PNGs were inspected.
+This was not a human listening or phone test. Existing birth/magic sounds
+remain in the recorded full mix; they are separate from the stone voice cap.
+All399 durable predecessor files rehashed unchanged; all selected audio bytes
+in the new copy match the predecessor. Original private game/Cradle untouched.
+
+GIT SCOPE
+REPORTS_ONLY: own report, literal review patch and evidence summary as text.
+Native game/media are local and in the verified handoff ZIP. No main/grant
+changes, other bot edits, merge, or private-game integration.
+
+RECOMMENDED SETTING
+GPT-6.1 Sol / High. Recommendation only; no model switch is claimed.

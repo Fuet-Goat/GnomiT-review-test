@@ -1557,3 +1557,15 @@ MOVE по2пъти,после MATCH. Всички5 WAV са пресъздаде
 Виж audio/MATERIAL_FOLEY_PLAY_PREVIEW_V1_2026-10-19_BG.txt и съответните recipe/
 provenance текстове. Играта и предишните звуци са непроменени; без merge.
 Препоръка: GPT-6.1 Sol / High.
+
+
+АКТУАЛНО — SINGLE STONE CUE /19.10.2026
+Човекът избра общ звук: едно реално разбиване = един BREAK независимо от
+броя плочки; следваща каскадна комбинация = нов BREAK. Трите материални
+банки остават само стара listening проба. В нова отделна локална PC игра
+RockAudio е монoфоничен с кратко затихване на старата опашка. Няма опашка
+от чакащи звуци. Board/Core/selected audio bytes са запазени. RED/GREEN,
+273целеви проверки и native432x960:3/12/3плочки ->3BREAK, максимум1stonevoice.
+Виж audio/SINGLE_STONE_CUE_2026-10-19_BG.txt, PATCH и EVIDENCE текстовете.
+Тук са само докладът/буквалният patch; няма game/media upload или merge.
+Препоръка: GPT-6.1 Sol / High.

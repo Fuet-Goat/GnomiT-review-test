@@ -1,0 +1,350 @@
+--- a/project.godot
++++ b/project.godot
+@@ -2,9 +2,9 @@
+ config_version=5
+ 
+ [application]
+-config/name="GnomiT Mountain Volcano V2"
++config/name="GnomiT Single Stone Cue"
+ config/use_custom_user_dir=true
+-config/custom_user_dir_name="GnomiT-MountainVolcano-Lab-2026-10-19"
++config/custom_user_dir_name="GnomiT-SingleStoneCue-Lab-2026-10-19"
+ config/version="0.1.0-local-frankenstein-r1"
+ run/main_scene="res://mountain_volcano.tscn"
+ config/features=PackedStringArray("4.7", "GL Compatibility")
+--- a/scripts/rock_audio.gd
++++ b/scripts/rock_audio.gd
+@@ -1,12 +1,13 @@
+ extends Node
+-## Small independent voice pool: presentation pitch never touches the match RNG.
++## One stone cue at a time. A new real clear replaces the old tail; it is never queued.
++## Presentation pitch never touches the match RNG.
+ const MOVE=preload("res://assets/sfx/stone_move_cartoon_selected_v1.ogg")
+ const BREAK=preload("res://assets/sfx/stone_break_full_v1.wav")
+-const VOICES:=8
++const RESTART_FADE_SECONDS := 0.012
+ const BUS_NAME: String="GnomiT Stone Foley"
+ var players: Array[AudioStreamPlayer]=[]
+ var enabled:=true
+-var _next:=0
++var _restart: Tween
+ var _variation:=RandomNumberGenerator.new()
+ func _ready() -> void:
+ 	_variation.randomize()
+@@ -15,25 +16,33 @@
+ 		AudioServer.set_bus_name(index,BUS_NAME)
+ 		var limiter=AudioEffectHardLimiter.new();limiter.ceiling_db=-3.0
+ 		AudioServer.add_bus_effect(index,limiter)
+-	for i in VOICES:
+-		var player=AudioStreamPlayer.new();player.bus=BUS_NAME;add_child(player);players.append(player)
++	var player=AudioStreamPlayer.new();player.bus=BUS_NAME;add_child(player);players.append(player)
+ func set_enabled(value: bool) -> void:
+ 	enabled=value
+ 	if not enabled:stop_all()
+ func stop_all() -> void:
++	_cancel_restart()
+ 	for player in players:player.stop()
++func _exit_tree() -> void:
++	stop_all()
++func _cancel_restart() -> void:
++	if _restart != null and _restart.is_valid():_restart.kill()
++	_restart=null
+ func play_cue(kind: String, strength: float=1.0) -> void:
+-	if not enabled or players.is_empty() or kind not in ["move","break"]:return
+-	var slot: int=_next
+-	# Reuse a finished effect before cutting an active scrape during rapid cascades.
+-	for offset in range(players.size()):
+-		var candidate: int=(_next+offset)%players.size()
+-		if not players[candidate].playing:
+-			slot=candidate;break
+-	var player: AudioStreamPlayer=players[slot]
+-	_next=(slot+1)%players.size()
++	if not enabled or not is_inside_tree() or players.is_empty() or kind not in ["move","break"]:return
++	_cancel_restart()
++	var player: AudioStreamPlayer=players[0]
++	if player.playing:
++		_restart=create_tween()
++		_restart.tween_property(player,"volume_db",-70.0,RESTART_FADE_SECONDS)
++		_restart.tween_callback(_start_cue.bind(kind,strength))
++	else:_start_cue(kind,strength)
++func _start_cue(kind: String, strength: float) -> void:
++	if not enabled or not is_inside_tree() or players.is_empty():return
++	_restart=null
++	var player: AudioStreamPlayer=players[0]
+ 	player.stop();player.stream=MOVE if kind=="move" else BREAK
+ 	player.pitch_scale=_variation.randf_range(0.96,1.04)
+-	# Leave mix headroom for overlapping stone contacts and the separate victory chime.
++	# Preserve the selected clips and mix headroom for the separate victory chime.
+ 	player.volume_db=(-10.0 if kind=="move" else -9.0)+linear_to_db(clampf(strength,0.7,1.15))
+ 	player.play()
+--- a/scripts/lab/mountain_volcano_lab.gd
++++ b/scripts/lab/mountain_volcano_lab.gd
+@@ -55,7 +55,7 @@
+ var storm_audio
+ var element_audio
+ var last_result: Dictionary = {}
+-var scenario := "pair44"
++var scenario := "cascade_three_births"
+ var seed_value := 42
+ var _generation := 0
+ var _resolving := false
+@@ -74,7 +74,7 @@
+ 
+ func _ready() -> void:
+ 	get_window().content_scale_size = Vector2i(432, 960)
+-	DisplayServer.window_set_title("GnomiT — Mountain Volcano V2 · PLAYABLE LAB")
++	DisplayServer.window_set_title("GnomiT — Single Stone Cue · PLAYABLE LAB")
+ 	if DisplayServer.get_name() != "headless": DisplayServer.window_set_current_screen(0)
+ 	var lab_theme := Theme.new()
+ 	lab_theme.default_font = Art.font(750.0)
+--- a/tests/test_reward_stone_cancellation.gd
++++ b/tests/test_reward_stone_cancellation.gd
+@@ -1,5 +1,5 @@
+ extends SceneTree
+-## Real Lab lifecycle and real stone voice pool, using the headless audio driver.
++## Real Lab lifecycle and real single stone voice, using the headless audio driver.
+ ## This proves cancellation contracts, not human listening or acoustic quality.
+ 
+ const LAB = preload("res://scripts/lab/reward_rules_lab.gd")
+@@ -48,13 +48,11 @@
+ 	_check(app._resolving and app.last_result.get("valid",false),mode+" starts during a real valid move presentation")
+ 	_start_real_stone_voices()
+ 	var before := _playing(app.stone_audio)
+-	var has_break := false
+ 	var has_move := false
+ 	for voice in app.stone_audio.players:
+ 		if voice.playing:
+-			if voice.stream == app.stone_audio.BREAK: has_break = true
+ 			if voice.stream == app.stone_audio.MOVE: has_move = true
+-	_check(before >= 2 and has_break and has_move,mode+" has both actual scrape and break streams actively playing",before)
++	_check(before == 1 and has_move,mode+" has an active scrape with a requested fracture replacement",before)
+ 	# No await separates this precondition from cancellation: the regression
+ 	# cannot pass merely because the very short scrape has finished naturally.
+ 	if mode == "Skip": app.skip_effect()
+@@ -68,7 +66,7 @@
+ 		_check(app.scenario == "create_five" and app.core != old_core and app.core.moves_left == 12,
+ 			"Reset installs its requested fresh fixture without reusing the interrupted Core")
+ 	observations.append({"action":mode,"voices_before":before,"voices_after":_playing(app.stone_audio),
+-		"scrape_active_before":has_move,"break_active_before":has_break,"old_swap_returned":swap_finished,
++		"scrape_active_before":has_move,"fracture_replacement_requested":true,"old_swap_returned":swap_finished,
+ 		"old_core_stable":_core_state(old_core)==resolved})
+ 
+ func _run() -> void:
+@@ -76,12 +74,11 @@
+ 	root.add_child(app)
+ 	app.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+ 	await process_frame
+-	_check(app.stone_audio.players.size() == 8,"Real Lab creates the eight-voice stone pool")
+ 	await _cancel_case("Skip")
+ 	await _cancel_case("Reset")
+ 	_start_real_stone_voices()
+ 	var exit_before := _playing(app.stone_audio)
+-	_check(exit_before >= 2,"Exit begins with actual overlapping stone voices",exit_before)
++	_check(exit_before == 1,"Exit begins with one active stone voice and a pending replacement",exit_before)
+ 	var stone_manager = app.stone_audio
+ 	root.remove_child(app)
+ 	_check(not app.is_inside_tree() and _playing(stone_manager) == 0,
+--- /dev/null
++++ b/tests/test_single_stone_cue.gd
+@@ -0,0 +1,93 @@
++extends SceneTree
++## Real selected streams and board events. No mocked playing flags or audio bank.
++const RockAudio = preload("res://scripts/rock_audio.gd")
++var checks := 0
++var failures: Array[String] = []
++var cues: Array[String] = []
++
++func _initialize() -> void:
++	call_deferred("run")
++
++func check(ok: bool, message: String) -> void:
++	checks += 1
++	if not ok: failures.append(message)
++	print(("PASS: " if ok else "FAIL: ") + message)
++
++func playing(bank) -> int:
++	var count := 0
++	for voice in bank.players:
++		if voice.playing: count += 1
++	return count
++
++func newest_position(bank) -> float:
++	var position := 100.0
++	for voice in bank.players:
++		if voice.playing: position = minf(position, voice.get_playback_position())
++	return position
++
++func observe(kind: String, _strength: float) -> void:
++	cues.append(kind)
++
++func run() -> void:
++	var bank = RockAudio.new()
++	root.add_child(bank)
++	bank.play_cue("break")
++	await create_timer(0.16).timeout
++	check(playing(bank) == 1 and newest_position(bank) > 0.07, "First clear starts one real decoded fracture")
++	bank.play_cue("break")
++	await create_timer(0.05).timeout
++	check(playing(bank) == 1, "Second clear replaces the tail instead of stacking another fracture")
++	check(newest_position(bank) < 0.10, "Second real combination restarts promptly instead of being suppressed")
++	var bounded := true
++	var restarted := true
++	for wave in range(4):
++		await create_timer(0.12).timeout
++		bank.play_cue("break")
++		for frame in range(5):
++			await process_frame
++			bounded = bounded and playing(bank) <= 1
++		await create_timer(0.04).timeout
++		restarted = restarted and playing(bank) == 1 and newest_position(bank) < 0.13
++	check(bounded, "Rapid legitimate cascade waves never accumulate stone voices")
++	check(restarted, "Each subsequent real wave is audible without waiting for the previous full clip")
++	bank.stop_all()
++	bank.play_cue("move")
++	bank.play_cue("break")
++	bank.set_enabled(false)
++	await create_timer(0.08).timeout
++	check(playing(bank) == 0, "Muting cancels both active stone audio and a pending replacement")
++	bank.set_enabled(true)
++	bank.play_cue("break")
++	await create_timer(0.05).timeout
++	check(playing(bank) == 1, "Playback works again after unmuting")
++	bank.play_cue("move")
++	bank.stop_all()
++	await create_timer(0.08).timeout
++	check(playing(bank) == 0, "Skip or reset cannot resurrect a delayed cue")
++	bank.play_cue("break")
++	bank.play_cue("move")
++	root.remove_child(bank)
++	await create_timer(0.08).timeout
++	check(playing(bank) == 0, "Leaving the tree cancels active and pending stone audio")
++	bank.free()
++
++	var core = load("res://scripts/match_core.gd").new()
++	core.setup(load("res://scripts/levels.gd").get_level("entry"), 42)
++	var board = load("res://scripts/board_view.gd").new()
++	root.add_child(board)
++	board.size = Vector2(688, 1000)
++	board.setup(core, true)
++	board.foley_requested.connect(observe)
++	var twenty: Array = []
++	for i in range(20): twenty.append(i)
++	board._prepare_clear({"indices":twenty})
++	check(cues == ["break"], "Twenty destroyed cells in one animation emit exactly one BREAK cue")
++	board._prepare_clear({"indices":[21, 22, 23]})
++	check(cues == ["break", "break"], "A new three-cell clear emits one new BREAK cue")
++	board._prepare_clear({"indices":[]})
++	check(cues == ["break", "break"], "An empty clear emits no sound")
++	board.queue_free()
++	await process_frame
++	await create_timer(0.10).timeout
++	print("SINGLE_STONE_CUE " + JSON.stringify({"checks":checks,"failures":failures,"scope":"real engine playback lifecycle; not human listening","status":"PASS" if failures.is_empty() else "FAIL"}))
++	quit(0 if failures.is_empty() else 1)
+--- /dev/null
++++ b/tests/capture_single_stone_cue.gd
+@@ -0,0 +1,100 @@
++extends SceneTree
++## Scripted native input and actual mixer output. Not a human listening test.
++var app
++var cues: Array = []
++var max_voices := 0
++var failures: Array[String] = []
++var out := "res://outputs/single_stone_cue/"
++
++func _initialize() -> void:
++	call_deferred("run")
++
++func voices() -> int:
++	var count := 0
++	for voice in app.stone_audio.players:
++		if voice.playing: count += 1
++	return count
++
++func cue(kind: String, strength: float) -> void:
++	cues.append({"kind":kind,"strength":strength,"milliseconds":Time.get_ticks_msec()})
++
++func next_frame() -> void:
++	await process_frame
++	max_voices = maxi(max_voices, voices())
++
++func shot(name: String) -> void:
++	await RenderingServer.frame_post_draw
++	var image := root.get_texture().get_image()
++	if image.get_size() != Vector2i(432, 960) or image.save_png(out + name + ".png") != OK:
++		failures.append("Native screenshot must save at 432x960")
++
++func run() -> void:
++	if DisplayServer.get_name() == "headless":
++		push_error("Native graphical driver required"); quit(1); return
++	if DirAccess.dir_exists_absolute(ProjectSettings.globalize_path(out)):
++		push_error("Refusing to overwrite native evidence"); quit(1); return
++	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(out))
++	root.content_scale_size = Vector2i(432,960)
++	root.size = Vector2i(432,960)
++	app = load("res://scripts/lab/mountain_volcano_lab.gd").new()
++	root.add_child(app)
++	app.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
++	await process_frame; await process_frame
++	app.board.foley_requested.connect(cue)
++	var recorder := AudioEffectRecord.new()
++	recorder.format = AudioStreamWAV.FORMAT_16_BITS
++	var effect_index := AudioServer.get_bus_effect_count(0)
++	AudioServer.add_bus_effect(0, recorder)
++	recorder.set_recording_active(true)
++	await create_timer(0.3).timeout
++	await shot("01_ready")
++	var pair: Array = app.core.fixture_pair.duplicate()
++	var from: Vector2 = app.board.get_global_transform() * app.board._center(int(pair[0]))
++	var to: Vector2 = app.board.get_global_transform() * app.board._center(int(pair[1]))
++	var press := InputEventMouseButton.new()
++	press.button_index=MOUSE_BUTTON_LEFT; press.pressed=true; press.position=from; press.global_position=from
++	Input.parse_input_event(press)
++	await next_frame()
++	for i in range(1,6):
++		var drag := InputEventMouseMotion.new()
++		drag.position=from.lerp(to,float(i)/5.0); drag.global_position=drag.position; drag.button_mask=MOUSE_BUTTON_MASK_LEFT
++		Input.parse_input_event(drag)
++		await next_frame()
++	var release := InputEventMouseButton.new()
++	release.button_index=MOUSE_BUTTON_LEFT; release.pressed=false; release.position=to; release.global_position=to
++	Input.parse_input_event(release)
++	await next_frame()
++	var deadline := Time.get_ticks_msec()+15000
++	while (app._resolving or app.board.busy) and Time.get_ticks_msec()<deadline:
++		await next_frame()
++	await create_timer(0.3).timeout
++	await shot("02_settled")
++	recorder.set_recording_active(false)
++	var recorded := recorder.get_recording()
++	if recorded == null or recorded.save_to_wav(out+"native_mix.wav") != OK:
++		failures.append("Save actual recorded mixer audio")
++	AudioServer.remove_bus_effect(0,effect_index)
++	var expected: Array[String] = ["move"]
++	var clear_sizes: Array[int] = []
++	for event in app.last_result.get("events",[]):
++		if String(event.get("type",""))=="clear" and not event.get("indices",event.get("matched",[])).is_empty():
++			expected.append("break")
++			clear_sizes.append(event.get("indices",event.get("matched",[])).size())
++	var actual: Array[String] = []
++	for item in cues: actual.append(item.kind)
++	if not app.last_result.get("valid",false) or app._resolving or app.board.busy: failures.append("Native gesture must complete a real valid match")
++	if actual != expected: failures.append("One MOVE and exactly one BREAK per nonempty real clear")
++	if clear_sizes.size()<2: failures.append("Capture must include a new cascade clear after the first")
++	if max_voices!=1: failures.append("Stone voices must stay at one during actual native playback")
++	if DisplayServer.window_get_current_screen()!=0: failures.append("Use monitor 1, Godot screen 0")
++	var report := {"status":"PASS" if failures.is_empty() else "FAIL","failures":failures,
++		"proof":"Scripted native Godot mouse input and actual mixer WAV. Not human listening/Android acceptance.",
++		"screen":DisplayServer.window_get_current_screen(),"viewport":[root.size.x,root.size.y],
++		"scenario":app.scenario,"clear_cell_counts":clear_sizes,"expected_cues":expected,"actual_cues":cues,
++		"max_active_stone_voices":max_voices,"result":app.last_result}
++	var file := FileAccess.open(out+"NATIVE_RECEIPT.json",FileAccess.WRITE)
++	file.store_string(JSON.stringify(report,"  ")+"\n"); file.close()
++	print("SINGLE_STONE_NATIVE "+JSON.stringify({"status":report.status,"failures":failures,"clear_sizes":clear_sizes,"cues":actual,"max_active_stone_voices":max_voices}))
++	app._stop_audio()
++	app.queue_free(); await process_frame; await process_frame
++	quit(0 if failures.is_empty() else 1)
+--- /dev/null
++++ b/PLAY_SINGLE_STONE_CUE.cmd
+@@ -0,0 +1,2 @@
++@echo off
++"C:\Tools\Godot\4.7.2\engine\Godot_v4.7.2-stable_win64.exe" --path "%~dp0." --screen 0 --position 80,65 --resolution 432x960
