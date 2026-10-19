@@ -1546,3 +1546,14 @@ Grok още няма peer към GPT; не го обявявам за публи
 Следващ кандидат:3 MOVE +1 MATCH, control и кратка сравнителна поредица,
 генератор/произход и после отделно разрешена PC интеграция. Не е изпълнен тук.
 Препоръка: GPT-6.1 Sol / High.
+
+
+АКТУАЛНО — MATERIAL FOLEY: ПЪРВА PLAY ПРОБА /19.10.2026
+Човекът поиска да чуе пробата с Play. Има3 нови Codex procedural MOVE по.26s
+(Crystal/Ore/Smooth), без GrokV4 samples, плюс точния GrokV1 BREAK №2 като
+съществуваща reference, не нов Codex MATCH. Общата7.41s поредица повтаря всеки
+MOVE по2пъти,после MATCH. Всички5 WAV са пресъздадени точно и без clipping.
+Това е локален listening preview, не Godot recording/интеграция/одобрение.
+Виж audio/MATERIAL_FOLEY_PLAY_PREVIEW_V1_2026-10-19_BG.txt и съответните recipe/
+provenance текстове. Играта и предишните звуци са непроменени; без merge.
+Препоръка: GPT-6.1 Sol / High.

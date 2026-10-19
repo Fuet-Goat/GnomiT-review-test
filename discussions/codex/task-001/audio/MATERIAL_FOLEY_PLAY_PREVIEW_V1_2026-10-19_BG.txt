@@ -1,0 +1,35 @@
+GNOMIT — MATERIAL FOLEY PLAY PREVIEW V1 /19.10.2026
+Статус: LOCAL_LISTENING_PREVIEW / NOT_INTEGRATED / HUMAN_CHOICE_PENDING
+
+Човекът одобри да види/чуе пробата с Play. Изготвени са3 нови оригинални
+MOVE кандидата от Codex чрез процедурен синтез: Crystal/Ore/Smooth, всеки .26s.
+Те не са обработка на Grok V4 или на старите чужди референции. Различават се
+по филтрирания granular texture и кратки inharmonic contact modes. Няма мелодии.
+
+MATCH тук е точно съществуващият Grok V1 №2 от предоставения ZIP, който човекът
+посочи като интересен: действителната дължина е1.60s. Точният файл е
+копиран без редакция/нормализиране и е ясно означен като REFERENCE, не като нов
+звук от Codex и не като окончателно приет/лицензно изчистен production asset.
+Source SHA256 37143853739ff7891a7990095624c4d701472daa4a9ca58f2466281dc9de9d1e.
+Grok archive scripts не са изпълнявани; прочетени са само точните WAV байтове.
+
+AUDIO/01_move_crystal_preview_v1.wav — кристални материали.
+AUDIO/02_move_ore_preview_v1.wav — руда.
+AUDIO/03_move_smooth_preview_v1.wav — перла; мидичката е бъдещ материал.
+AUDIO/04_match_grok_v1_reference.wav — посоченият Grok break кандидат.
+AUDIO/05_play_material_comparison_v1.wav — два пъти всеки MOVE по горния ред,
+после един MATCH, с паузи. Общо7.41s. Това е offline listening strip, не Godot.
+
+WAV PCM16 mono48k. MOVE peak около-8.88/-8.00/-8.00dBFS; активният0–200ms RMS
+около-22.00/-22.40/-23.75dBFS. Нивата са контролирани, но не се твърди еднаква
+възприемана loudness. MATCH peak-1.50dBFS. Всички5 WAV са декодирани/проверени,
+няма clipped samples, краищата са нулеви. Пресъздадени са точно в нова временна
+папка. Самите нови MOVE са от оригинален синтез без външни audio inputs.
+
+Това изпълнява само първата listening проба, не бъдещото Godot event mapping,
+voice overlap/cancel проверки или финално материално/художествено приемане.
+Оригиналният V4 остава непроменен; показва се отделно като референция с Play.
+Играта/сейвовете/началният audit не са променени. Всички399 трайни lab файла
+съвпадат с измерения baseline. Няма Godot/import/export/game tests/merge.
+Git съдържа само собствен отчет/буквална рецепта като.txt/metadata; native WAV
+са локални и в проверения handoff ZIP. Препоръка: GPT-6.1 Sol / High.
