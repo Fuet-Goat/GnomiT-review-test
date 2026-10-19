@@ -16,10 +16,12 @@
     "PLAY_VOLCANO_V4.cmd",
     "PLAY_WORLD_SCENE.cmd",
     "project.godot",
+    "README.txt",
     "scripts/first_crystals_view.gd",
     "scripts/main.gd"
   ],
   "level_catalog_changed": false,
   "progress_schema_changed": false,
-  "lab_core_and_effect_sources_changed": false
+  "lab_core_and_effect_sources_changed": false,
+  "final_readback_includes_current_readme": true
 }
