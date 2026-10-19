@@ -1479,3 +1479,24 @@ builds/MOUNTAIN_VOLCANO_REVIEW_PATCH_2026-10-19.txt. Те са само text в 
 PNG/AVI са в локалния ZIP. Не твърдете визуален преглед по хешове/receipt.
 Без нов grant,main,merge,промяна на campaign/save или чужди REPORT-и.
 Препоръка: GPT-6.1 Sol / High; Grok Build.
+
+
+АКТУАЛНО — НАЧАЛЕН ASSET LICENSE AUDIT /19.10.2026
+
+Човекът одобри проверка сега и регистър за новите/променените материали.
+Проверен е само изолираният MegaVolcanoMountain lab: 63 assets файла, от които
+31 audio/25 image/1 font/6 support docs. Не е пълна campaign/code/export проверка.
+17 WAV са пресъздадени точно в audit папката, 16 от чист собствен синтез; един
+влага stone_break_full_v1.wav и наследява неясните му права. Избраният move е
+byte-identical с редакцията на user-supplied Moving Stone MP3; лицензът на
+оригиналния запис не е документиран. Break и Grok/user eruption MP3 също нямат
+достатъчно доказателство за източник/права. Не обявяваме проекта за cleared.
+Font identity/embedded OFL са проверени директно от SFNT. Шест VFX PNG съвпадат
+с imagegen оригиналите; правата на входните референции са отделен въпрос.
+Всичките 399 трайни lab файла са непроменени. Няма Godot/import/export/tests,
+освен проверка на read-only audit checker върху отделен disposable fixture.
+Пълен доклад: licenses/INITIAL_ASSET_AUDIT_2026-10-19_BG.txt.
+Регистър с hashes/статуси: licenses/ASSET_REGISTER_2026-10-19.txt.
+Не заменяйте звук/арт само по този доклад; това е завършена начална проверка,
+не изпълнена замяна или правно удостоверение. Няма main/merge/чужди промени.
+Препоръка за следващата ограничена задача: GPT-6.1 Sol / High.
