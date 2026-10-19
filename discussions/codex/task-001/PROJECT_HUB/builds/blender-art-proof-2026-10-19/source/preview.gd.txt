@@ -1,0 +1,58 @@
+extends Node3D
+## Small visual proof. Navigation and match3 remain in the separate campaign.
+var model
+var camera: Camera3D
+var players: Array[AnimationPlayer]=[]
+var motion:=true
+var age:=0.0
+var orbit:=0.0
+var lanterns: Array[Light3D]=[]
+var source_camera_transform: Transform3D
+
+func _ready() -> void:
+	DisplayServer.window_set_current_screen(0)
+	DisplayServer.window_set_title("GnomiT · 3D art proof · monitor 1")
+	model=load("res://assets/village_art_proof.glb").instantiate();add_child(model)
+	for candidate in model.find_children("*","Camera3D",true,false):
+		camera=candidate;break
+	if camera==null:
+		camera=Camera3D.new();add_child(camera);camera.position=Vector3(8,20,17);camera.look_at(Vector3(0,0,-1.1));camera.projection=Camera3D.PROJECTION_ORTHOGONAL;camera.size=22
+	camera.make_current();source_camera_transform=camera.transform
+	for player in model.find_children("*","AnimationPlayer",true,false):
+		var combined:=Animation.new();combined.length=6.0;combined.loop_mode=Animation.LOOP_LINEAR
+		for animation_name in player.get_animation_list():
+			if animation_name=="RESET":continue
+			var anim: Animation=player.get_animation(animation_name)
+			for track in range(anim.get_track_count()):anim.copy_track(track,combined)
+		var library:=AnimationLibrary.new();library.add_animation("living_world",combined)
+		player.add_animation_library("preview",library);player.play("preview/living_world");players.append(player)
+	for imported_light in model.find_children("*","Light3D",true,false):
+		imported_light.visible="lantern" in imported_light.name.to_lower()
+	# The broad Blender area lights are recreated for a real-time renderer.
+	var sun:=DirectionalLight3D.new();sun.name="Warm daylight";sun.rotation_degrees=Vector3(-55,-30,0);sun.light_color=Color("ffe4bc");sun.light_energy=0.85;sun.light_angular_distance=1.3;sun.shadow_enabled=true;sun.directional_shadow_max_distance=50;add_child(sun)
+	var env:=WorldEnvironment.new();env.environment=Environment.new();env.environment.background_mode=Environment.BG_COLOR;env.environment.background_color=Color("aac4b2")
+	env.environment.ambient_light_source=Environment.AMBIENT_SOURCE_COLOR;env.environment.ambient_light_color=Color("b5cbd1");env.environment.ambient_light_energy=0.4
+	env.environment.tonemap_mode=Environment.TONE_MAPPER_FILMIC
+	env.environment.ssao_enabled=true;env.environment.ssao_radius=0.55;env.environment.ssao_intensity=1.6;add_child(env)
+	var layer:=CanvasLayer.new();add_child(layer)
+	var label:=Label.new();label.text="GnomiT · 3D ART PROOF";label.position=Vector2(18,18);label.add_theme_font_size_override("font_size",18);label.add_theme_color_override("font_color",Color("fff2d4"));label.add_theme_color_override("font_outline_color",Color("344d40"));label.add_theme_constant_override("outline_size",4);layer.add_child(label)
+	var motion_button:=Button.new();motion_button.text="Motion: ON";motion_button.position=Vector2(18,905);motion_button.size=Vector2(155,42)
+	motion_button.pressed.connect(func() -> void:
+		motion=not motion;motion_button.text="Motion: ON" if motion else "Motion: OFF"
+		for player in players:player.speed_scale=1 if motion else 0)
+	layer.add_child(motion_button)
+	var reset:=Button.new();reset.text="Reset view";reset.position=Vector2(273,905);reset.size=Vector2(140,42);reset.pressed.connect(func() -> void:camera.transform=source_camera_transform;orbit=0);layer.add_child(reset)
+	for lamp in model.find_children("*","Light3D",true,false):
+		if "lantern" in lamp.name.to_lower():lanterns.append(lamp)
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseMotion and event.button_mask&MOUSE_BUTTON_MASK_LEFT and event.position.y>70 and event.position.y<880:
+		orbit=clampf(orbit+event.relative.x*.002,-.10,.10)
+		camera.transform=source_camera_transform
+		camera.position=camera.position.rotated(Vector3.UP,orbit);camera.look_at(Vector3(0,0,-1.1))
+
+func _process(delta: float) -> void:
+	if not motion:return
+	age+=delta
+	# Individual gentle changes, never wobbling the entire world image.
+	for lamp in lanterns:lamp.light_energy=1.2+sin(age*3.1)*0.12

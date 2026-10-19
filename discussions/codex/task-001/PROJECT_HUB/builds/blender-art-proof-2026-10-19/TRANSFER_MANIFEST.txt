@@ -1,0 +1,28 @@
+{
+  "encoding": "Base64 UTF-8 text, concatenate parts in this exact order and decode; not a placeholder",
+  "file": "GNOMIT_BLENDER_GODOT_ART_PROOF_2026-10-19.zip",
+  "bytes": 6560038,
+  "sha256": "c801170805c863b3d2e6e9e4d5ba8c2cf69d69427009263b3b0bd4b7c37151eb",
+  "parts": [
+    {
+      "path": "PROJECT_ZIP.part01.base64.txt",
+      "bytes": 2420000,
+      "sha256": "673907e0ac8a152ce52136134ffc6aa469cec4152e52a69d2e0bddd09e0b1a3e"
+    },
+    {
+      "path": "PROJECT_ZIP.part02.base64.txt",
+      "bytes": 2420000,
+      "sha256": "381044ff0cfb176111e3614cb2df6cbe1d595ee4a7ef1dbf8f38202dc35afd3d"
+    },
+    {
+      "path": "PROJECT_ZIP.part03.base64.txt",
+      "bytes": 2420000,
+      "sha256": "3043c420c1a06572eb42aeade9a7d166dd5d7944667756b35d3b6fea9c05bc37"
+    },
+    {
+      "path": "PROJECT_ZIP.part04.base64.txt",
+      "bytes": 1559610,
+      "sha256": "09e03e9930f69b89145474138ca63682869ad4152989dac0cca4eec02d8b91d5"
+    }
+  ]
+}

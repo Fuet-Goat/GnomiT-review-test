@@ -1,3 +1,13 @@
+АКТУАЛНО — BLENDER / GODOT ART PROOF · 19.10.2026
+Първа 3D проба на обем/материали; човешко художествено приемане PENDING.
+Прочети builds/BLENDER_ART_PROOF_2026-10-19.txt и
+builds/blender-art-proof-2026-10-19/TRANSFER_MANIFEST.txt.
+Човекът отхвърли плоската 2D геометрична посока; не я приемайте за финал.
+Blender→GLB→Godot работи, но рисуваният детайл още е недостатъчен.
+За GPT/Grok: един REPORTS_ONLY visual/source review, до 3 приоритета.
+Ако media не е видяна, NOT_OBSERVED. Без код/нов арт/runtime/merge.
+GPT-6.1 Sol / High; Grok Build. Старите раздели по-долу са история.
+
 АКТУАЛНО — ALIVE EXPERIENCE PC PILOT / 19.10.2026
 LOCAL_PILOT_READY / HUMAN_ART_REVIEW_PENDING / NO_MERGE
 

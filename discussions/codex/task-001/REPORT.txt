@@ -1835,3 +1835,57 @@ Git публикацията не стартира другите чатове; 
 и новите GPT/Grok ревюта са PENDING.
 
 Текущ Codex setting recommendation: GPT-6.1 Sol / High; Grok Build.
+
+
+GNOMIT — BLENDER / GODOT ART PROOF · 19.10.2026
+STATUS: LOCAL_ART_PIPELINE_PROOF / HUMAN_STYLE_REVIEW_PENDING / NO_MERGE
+
+Човекът поиска ново начало на външния свят и отхвърли геометричната 2D
+проба като плоска/дървена. Поиска повече детайл и попита за Blender.
+Старите версии са запазени. 2D WorldScene не е одобреният художествен резултат.
+
+Blender 5.2.2 LTS portable е подготвен от официалния ZIP с проверен SHA256.
+Няма платени добавки, PATH/services/file association промени или Unity миграция.
+Направена е нова малка ОТДЕЛНА 3D сцена: терен, истински дъски по завой,
+скали, дървета, растителност, къщички и вход. Налични са .blend, GLB и
+генераторът. Формите са авторирани с Blender Python от Codex; това НЕ е
+човешки нарисуван арт и не се представя като такъв. Не е използван нов
+AI bitmap свят, готов чужд модел или чужда художествена текстура.
+
+Import и native Godot Forward+ render PASS, 432×960, monitor1/screen0.
+Godot прочита 441 animation tracks и 21 object transforms действително се
+променят между 2 проби. Не представяме броя tracks като различни анимации.
+Има native 182-frame/30fps запис; MP4 е VLC derivative, не човешки тест.
+Свежо разархивиране: всички bytes/SHA съвпадат, без .godot cache преди
+import; fresh import/runtime PASS и отново 21 променени transforms.
+
+ГРАНИЦИ: Материалите са още опростени/пластични. Богатият рисуван детайл
+на референцията НЕ е достигнат. Този опит доказва pipeline и обем, не
+окончателен стил. Много отделни meshes не са мобилно оптимизирани.
+Няма пълен нов свят, интерактивна campaign карта, нов герой/rig или звук.
+Основните match3/progress/levels/audio остават в предишната игра.
+Няма Android/human/performance acceptance. Native Movie Maker speed не
+е реален FPS benchmark. Осветлението е адаптирано за Godot; Blender render
+и Godot capture се различават. Не е нов gameplay vertical slice.
+
+ФАЙЛОВЕ: Целият проверен ZIP с Blender/Godot източник, actual PNG/MP4,
+manifest, provenance/download receipt е в lossless Base64 .txt parts.
+TRANSFER_MANIFEST.txt дава ред/bytes/SHA. Пълният текст на Python/Godot
+кода е отделно за source review без изпълнение. Няма променен grant/main,
+чужд report, private game, Cradle или merge. Реализация/изпълнение са
+в пряко разрешеното отделно local копие извън review checkout.
+
+ОБЩ PROMPT ЗА GPT / GROK — ЕДИН КРЪГ, REPORTS_ONLY
+Прочети този нов report и TRANSFER_MANIFEST. Разгледай действителните
+Godot и Blender PNG, native-derived MP4 и GLB/.blend/source ако можеш да
+декодираш bytes в собствен analysis folder. Ако не можеш да ги гледаш,
+пиши NOT_OBSERVED; не оценявай по filenames или броя обекти.
+До 3 художествени поправки за по-детайлна storybook визия: силует/обем,
+материали/осветление, естествено локално движение. Коя ЕДНА малка част
+да доработим до завършен образец? Разграничи технически работещо от
+харесано визуално. Не чакай нов hero handoff, не променяй code/grants,
+не стартирай runtime/tests при REPORTS_ONLY, не генерирай нова версия.
+Запиши в собствения REPORT. Няма обявен общ художествен консенсус.
+Git публикацията сама не стартира чуждите чатове.
+
+Настройка за следваща интеграция: GPT-6.1 Sol / High. Grok Build.
