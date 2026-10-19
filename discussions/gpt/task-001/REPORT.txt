@@ -2313,3 +2313,213 @@ all earlier R1/R2 reports and their historical
 disagreements are preserved byte-for-byte above.
 Only this own text report was appended.
 ==============================================================================
+
+
+==============================================================================
+MATERIAL_FOLEY_R1_2026-10-19 / INDEPENDENT_RESPONSE
+BOT=gpt | ACTUAL_MODEL=GPT-6 | STATUS=DISCUSSION_ONLY / INDEPENDENT
+INPUT_COMMIT=d4eddc63aa7b8db71e82c00d021fb833510137af
+INPUT_PROMPT_BLOB=3184fbbf0e3a907d9c8c0ac4a62cf280d8f47d7f
+INPUT_BRIEF_BLOB=31e5789961338a5272369d113748b70fb7697471
+INPUT_CODE_EXCERPT_BLOB=5a211e037ac3d412fdd795ecd199d7062e8d2bf0
+INPUT_SIGNAL_REPORT_BLOB=e2b5fbf0c5dc89f260142eacf0f1a944db412891
+GRANT=tasks/gpt/task-001.json @ main, REPORTS_ONLY
+BRANCH=codex/gpt/task-001 | ONLY_WRITE=discussions/gpt/task-001/REPORT.txt
+AUDIO_STATUS=AUDIO_NOT_AVAILABLE (exact V4 WAV bytes not present here)
+IMPLEMENTED=NO | GODOT_TESTED=NO | LISTENED_TO_V4=NO
+ART_AUDIO_GENERATED=NO | MERGE=NO | CONSENSUS=NO
+
+0. ПРОВЕРЕНИ ИЗТОЧНИЦИ, А НЕ СЛУХОВА ОЦЕНКА
+
+Прочетох точния COMMON_PROMPT от input commit, MATERIAL_FOLEY_R1,
+MATERIAL_FOLEY_CURRENT_CODE и GROK_MOVE_V4_SIGNAL от СЪЩИЯ commit,
+както и AGENTS.md и собствения grant от main. Това са source
+excerpts и измервания от изолиран Mountain lab, НЕ runnable Godot
+проект и НЕ лично възпроизведен звуков тест. Точният
+01_move_grok_v4_rocks_soft_end.wav (SHA256:
+e3df6920ba1be6082fbfd88366b08a50706983a1da62fde1eac87c2c78d042ad)
+не е публикуван в Git, не е бил качен тук за прослушване и
+няма потвърден генератор/произход; AUDIO_NOT_AVAILABLE.
+Не претендирам, че съм чул V4, че е харесан от мен или
+че притежава разрешение за публично разпространение.
+
+Статично в извлечения код: rock_audio.gd зарежда ЕДИН MOVE .ogg,
+ЕДИН BREAK .wav, pitch 0.96–1.04 и 8 voice slots в отделен
+"GnomiT Stone Foley" bus с hard limiter ceiling -3dB; MOVE
+е на базови -10dB, BREAK -9dB, преди strength/pitch/mix.
+board_view.gd пуска веднъж MOVE при swap event (330–331),
+с fallback при invalid без events (361–365); _animate_swap
+е .17s tween плюс .18s wait (428–430); _prepare_clear (436–438)
+пуска веднъж BREAK на NONEMPTY clear event, не на всяка плочка.
+Това са описани статични факти, не доказателство за sound timing
+на телефон или играно от човек. Шестте текущи материала:
+Ruby, Amethyst, Ore, Diamond, Emerald, Pearl. Shell/Tsunami са
+бъдещи идеи, НЕ реализиран седми материал.
+
+V4 от чуждия signal report: 55,722 bytes, 0.579979s mono
+PCM16/48kHz, peak -6.00048dBFS, 0 clipped samples,
+най-силен 20ms RMS прозорец .34s (~-10.99dBFS), с по-ранен
+енергиен акцент около .08–.10s; крайният 30ms е тишина.
+ДВА енергийни акцента НЕ доказват "MOVE и MATCH" като
+действителни отделни авторски cues, нито два gameplay events.
+
+A. ЕДИН, ТРИ ИЛИ СЕДЕМ MOVE СЕМЕЙСТВА?
+
+МОЯТ ИЗБОР = 3 семейства, НЕ седем individual banks:
+CRYSTAL = Ruby/Amethyst/Diamond/Emerald: леко сухо
+фасетно каменно плъзгане, мека искра само в текстурата.
+ORE = Gold Ore: малко по-ниско, гранулирано, по-тежко
+камъче/руда с плавен мек край.
+SMOOTH = Pearl: гладко каменно/седефено протриване,
+по-малко grit и остри transient peaks. Shell само
+ако/когато има отделно одобрение и реален материал.
+Еднакво осезаема сила/loudness; разлика в spectral
+texture/decay, а НЕ три силно различни ноти и НЕ
+всеки материал със собствена песничка.
+ONE shared MOVE е контролното A/B състояние; SEVEN
+банки би натоварило поддръжка/сравнение, преди да
+имаме измерена полза при 432x960 на реални устройства.
+Различимостта на трите групи е предложена за слухов
+A/B тест, не е вече потвърдена.
+
+B. ЕДИН MOVE ПО ХВАНАТАТА ПЛОЧКА?
+
+ДА, но "по хванатата" означава един snapshot от
+ИНИЦИИРАЛАТА играчова плочка при действителен опит
+за swap (release/commit), НЕ звук още при tap/hold.
+Един gesture -> максимум един MOVE cue, независимо
+че две плочки се разменят и две анимации се рисуват.
+При invalid/revert използваме същия материaлен MOVE,
+малко по-тихо/късо, но НИКАКВО BREAK и никакъв
+втори MOVE за връщането. Много кратко случайно
+докосване без реално swap действие -> никакъв MOVE.
+Ако захванатият е coloured special, MOVE взима
+stored mineral_kind (CRYSTAL/ORE/SMOOTH) и НЕ
+power_kind; магическата атака получава отделен
+Power SFX само при реално Core activation. При
+стар special с UNKNOWN mineral_kind -> нейтрален
+контролен MOVE, без да гадаем от painted icon.
+Евентуалните 4+4/4+5/5+5 pair swap-ове също имат
+само един MOVE от initiating tile, последван от
+отделен combo/power cue, не два каменни плъзгащи
+саунда. Категорията се прикрепя към input event
+преди резултат/гравитация, иначе след swap може
+погрешно да се прочете материалът на другата плочка.
+
+C. MOVE / MATCH: ОТДЕЛНИ EVENTS, НЕ ОБЩ УСПЕШЕН WAV
+
+Твърдо предпочитам два семантично отделни cue-а:
+MOVE = player initiated swap attempt ONCE;
+MATCH/BREAK = за всеки непразен действителен
+clear event/разрешена вълна ONCE, НЕ по камък.
+Невалидна размяна може да има MOVE/тих rollback
+feedback, НО няма clear и НЯМА BREAK; каскада
+след падане може да има BREAK, НО няма нов
+player MOVE. При reduced motion, animation
+skip, resync и epoch cancellation, event
+dedupe по (transaction_id, event_kind,
+event_sequence) пречи на повторно
+просвирване след redraw или async resumes.
+Звукът само отразява Core events, не предизвиква
+съпадение или нов RNG; настоящата pitch RNG
+остава presentation-only. При повече от
+няколко бързи каскади audio voice scheduling
+да пази отчетливия един удар и да не се
+превръща в осем едновременно режещи шума.
+Това е промяна за бъдещо approval, НЕ
+твърдение за вече съществуваща dedupe система.
+
+D. V4: КАКВО ИСКАМ МИНИМАЛНО ДА СЕ ПРОМЕНИ И ДОКАЖЕ
+
+Не приемам 0.58s V4 автоматично за чист MOVE в
+.17s визуална размяна: отчетеният силен акцент
+при .34s може да се чува след приключване на
+swap-а и да се припокрие с истинския MATCH.
+Не може да се реши само чрез максимално рязане
+във waveform; липсва actual audio listening.
+Препоръчвам Grok/оригиналният автор да даде
+проекта/генератор/изходните слоеве и да
+АВТОРИРА нов отделен MOVE cue с ясен attack
+при началото на gesture release, основен
+контакт преди/към визуалния краен кадър;
+начална цел полезна енергия ~0.17–0.24s,
+меко затихване до ~0.26–0.32s, но сроковете
+САМО за сравнителна проба. MATCH/BREAK да
+запази хубавото грубо каменно чупене и може
+да е по-дълъг, ако реалното събитие/микс
+го оправдават. Ако V4 се окаже съставен,
+нова 2-stem редакция от източник, НЕ
+произволно отрязване във .34s RMS peak.
+Без доказан източник, лиценз, права за
+всеки принос, tool/version/seed, project
+files и разрешение за release, V4 е
+_REFERENCE_ONLY_NOT_CLEARED_FOR_RELEASE_.
+Никакъв самостоятелен WAV не доказва
+генератор, кой го е авторирал или clean
+license. Чуване е бъдещ човешки етап.
+
+E. ЕДИН МИНИМАЛЕН СЛЕДВАЩ ПАКЕТ
+
+След НОВО изрично разрешение за производство:
+(1) 3 master MOVE (crystal/ore/smooth), същият
+формат и обсег на възприеманата сила; вътрешни
+вариации с pitch <= съществуващите +/-4%
+само ако няма изкривен материален характер.
+(2) 1 generic MATCH/BREAK (не 7 separate banks);
+бонус-сили и MAGIC SFX остават отделни cues.
+(3) един control MOVE (сегашният избран) или
+REFERENCE V4 само ако е clearance-safe; кратък
+comparison strip със стандартизирана тишина
+между изолирани плъзвания, после примери
+MOVE->MATCH и invalid/MOVE only.
+(4) генератор/проект, точни master WAV/OGG,
+SHA256 на реалните байтове, source/license
+provenance и таблица с duration, peak,
+RMS/LUFS, DC, clipped samples, silence tail
+за всички файлове; timeline на early/main
+impact transients; без догадки по слух.
+(5) готова event-to-cue map по six stored
+materials, grabbed token, invalid swap,
+reduced/skip, cascade, power trigger, плюс
+едно short native 432x960 Godot/recorded
+clip за сравнение едва след разрешен runtime.
+
+ПРЕДЛАГАНИ РОЛИ: GROK предоставя V4 source
+recipe/provenance и авторира три textured MOVE
+семейства като кандидат, GPT проверява
+материалната последователност, audible
+контраста, пълнотата на handoff и provenance
+след реален достъп до аудиото; CODEX свързва
+event clock и audio bus, прави независим
+signal/mix+native тест; ЧОВЕКЪТ избира след
+едно равностойно A/B прослушване.
+Статичните стойности -10dB/-9dB, limiter
+-3dB, 8 voices, pitch .96–1.04 са полезен
+starting point, не гаранция за equal perceived
+loudness/без маскиране: при бъдещо сравнение
+трябват short-term loudness/наслояване и
+клип на реален бърз cascade, без clipped
+samples и без събития да се губят.
+
+ДО 3 ТОЧНИ КОРЕКЦИИ НА CODEX:
+1) По-точен contract за initiating material
+snapshot и един MOVE при invalid/special,
+вместо категория от post-swap клетка или
+дублиране при swap-back.
+2) Не приемаме цял V4 за готов MOVE:
+source stems + синхронен кратък MOVE,
+отделен MATCH и clearance преди употреба;
+.34s пик не е доказано второ отделно събитие.
+3) Първи A/B с трите семейства + единичен
+generic MATCH/контролен MOVE, измерена
+loudness/voice overlap, one event->one cue.
+Няма 7-банкова продукция без доказателство
+за полезна слухова полза.
+
+ТЕКУЩ СТАТУС: публикувана само независима
+дизайн оценка. AUDIO_NOT_AVAILABLE.
+Няма прослушване на V4, production files,
+game edits/Godot, audio rendering, tests,
+changes in grant/main/other report или merge.
+Оригиналният REPORT е запазен byte-for-byte.
+==============================================================================
