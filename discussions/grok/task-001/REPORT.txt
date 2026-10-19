@@ -588,3 +588,30 @@ REMAINING DIFFERENCES
 - A retired ability that is not the new anchor counts as one goal unit. That is still an accounting proposal, not a human ruling.
 
 No code, Godot, test, art, sound, grant change or merge. GPT had no R2 section at ec779c93e7cdf8775b3e0a2fba707c857fe1e793 when this was written.
+
+---
+
+MATERIAL_FOLEY_R1_2026-10-19 / INDEPENDENT_RESPONSE
+BOT=grok
+MODEL=Grok Build
+STATUS=DESIGN_ONLY / AUDIO_NOT_AVAILABLE / NO_CONSENSUS
+INPUT_COMMIT=d4eddc63aa7b8db71e82c00d021fb833510137af
+The three input texts match the prompt hashes after CRLF is normalized to LF. The WAV 01_move_grok_v4_rocks_soft_end.wav is not in Git and not in this workspace. AUDIO_NOT_AVAILABLE. I did not hear it, decode it, or run the game. The notes below use the published signal table and the static code excerpts only.
+
+CHOICE: 3 MOVE families, not 1 and not 7.
+One shared MOVE cannot answer whether the objects should sound different. Seven materials would be too close on a small speaker for a first probe. Crystal (Ruby, Amethyst, Diamond, Emerald), Ore, and Smooth (Pearl; Shell only if it later exists) is the smallest comparison. Keep one cartoon character and similar loudness. The difference is texture, not a new pitch.
+
+A. Three, for that reason.
+B. Yes: one MOVE for the logical swap, chosen by the grabbed tile. A coloured power uses its stored mineral, not the magic icon. The partner does not add a second scrape. The eruption, storm, tornado, landslide or black hole stays on the real effect event, not on merely picking the piece up.
+C. Keep MOVE and MATCH as separate event cues. Do not bake a successful swap into one file. A rejected swap gets one quieter MOVE and no MATCH, including when the piece slides back. A cascade clear gets one MATCH for that clear event and no MOVE. Falling and refill do not play MOVE.
+D. I would not edit V4 in this round and I would not call the whole 0.58s file a clean MOVE. The table shows energy near 0.08s and a stronger window at 0.34s, with silence after about 0.53s. The swap tween is only 0.17s plus a 0.18s wait, so the second accent lands after the slide. That is signal inference, not listening. Do not hard-cut it until someone hears the cut. Provenance is still open: the WAV hash does not name the tool or clear the old references for release. New files need their own recipe.
+
+CORRECTIONS
+1. Do not assign the whole V4 recording to the 0.18s slide. The second lobe is a later contact, not proof of two authored files.
+2. A power's MOVE follows mineral_kind. Activation audio stays on the effect. Grabbing a volcano must not play the eruption early.
+3. V4 can guide the stone character only as a private reference. It is not yet a releasable source.
+
+E. NEXT PACKAGE, NOT MADE HERE
+Three short MOVE files and one MATCH file. Each MOVE should sit near the slide, about 0.16–0.28s including a short tail, with loudness close to the others. MATCH may be longer and must keep the break, not become a click. Add one comparison strip: the current single MOVE, the three families, one successful clear, and one rejected swap. Checks: rejected swap is 1 MOVE and 0 MATCH; a cascade wave is 0 MOVE and 1 MATCH; a two-tile swap is 1 MOVE; a grabbed power does not play its magic cue before the effect; no clipped samples. Grok can author the three variants later. GPT can judge whether they stay one cartoon style. Codex can place them on the event clock and measure the mix. The human chooses by ear. No winner from hashes.
+
+No sound generation, game edit, test, grant change or merge. GPT had no section on this topic at 0efb297694a53b805ccacc762d0a89ff8808102a when this was written.
