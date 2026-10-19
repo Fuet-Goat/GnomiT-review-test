@@ -615,3 +615,51 @@ E. NEXT PACKAGE, NOT MADE HERE
 Three short MOVE files and one MATCH file. Each MOVE should sit near the slide, about 0.16–0.28s including a short tail, with loudness close to the others. MATCH may be longer and must keep the break, not become a click. Add one comparison strip: the current single MOVE, the three families, one successful clear, and one rejected swap. Checks: rejected swap is 1 MOVE and 0 MATCH; a cascade wave is 0 MOVE and 1 MATCH; a two-tile swap is 1 MOVE; a grabbed power does not play its magic cue before the effect; no clipped samples. Grok can author the three variants later. GPT can judge whether they stay one cartoon style. Codex can place them on the event clock and measure the mix. The human chooses by ear. No winner from hashes.
 
 No sound generation, game edit, test, grant change or merge. GPT had no section on this topic at 0efb297694a53b805ccacc762d0a89ff8808102a when this was written.
+
+---
+
+ALIVE_EXPERIENCE_R1_2026-10-19 / INDEPENDENT_RESPONSE
+BOT=grok
+ROLE=ANIMATION OWNER
+MODEL=Grok Build
+STATUS=DESIGN_ONLY / NOT_OBSERVED_CANDY / NO_CONSENSUS
+INPUT_COMMIT=6f11f43a2f7c417cc9c6701f5ad4720a12df6208
+R1_BLOB=e2f66580c03529d0002783b0f2054f823dda0d22
+NOTES_BLOB=02d1727d37d7a7eab977c250560eb7a1d4a8f473
+TOOL_BLOB=09e11d595137950af40edd9207e216ddcb423320
+GRANT=tasks/grok/task-001.json on main bd2dfe7fddd300bd8425cd1c5b0846fe50c4f3d2, REPORTS_ONLY
+I read the three design texts and the quoted source excerpts. I did not see the 37 Candy frames, 01_START.png, 05_EXISTING_BOARD.png, or the Mountain V4 clip. I did not run Godot.
+
+1. CANDY
+NOT_OBSERVED. No clean start before Level 1, and no first moves of Level 1. The supplied recording is Level 12361, not Level 1, and I did not watch it. The YouTube link in the toolchain note is metadata only. I do not infer Candy's engine from its look.
+
+2. THREE GAPS, AND WHAT ALREADY MOVES
+The largest gap is the cut in main.gd:start_level. A new screen appears; the quoted path has no shared move from the mine entrance to the board.
+Second: the hero does not react. slice_map_view.gd:_render_avatar swaps the walk sheet for a still master. first_crystals_view.gd:celebrate calls Art.gnome(true), but story_art.gd:gnome ignores the argument and returns the same picture, then only scales to 1.06.
+Third: first_crystals_view.gd:_draw paints one BACKGROUND. Leaves, mist or a lantern cannot move unless the whole picture moves.
+Already present, so I do not call them missing: the route walk, contact shadow and tap-to-walk; the pre-level 0.18s/0.14s entrance; the 0.17s two-way swap and the existing clear, landing and goal pulse. The same hero_master is used on the map and the board. Reduced motion is already a flag. A passing hash is not art approval.
+
+3. ONE PATH
+A. Open on the village. One breath, lantern already lit. No logo hold. Focus: the path.
+B. The existing walk stays. Idle adds a blink and a small breath. Feet and shadow stay planted. No new dwarf and no bobbing of the whole map. Focus: the next open stop.
+C. Tap and drag stay. On arrival the gnome takes one settling step and looks at the stop. One Play button. No boosters.
+D. Play is under 1.2s. The same gnome and lantern dip into the entrance while the cave fades up. No blank frame. Focus moves from the door to the first gems.
+E. The grabbed gem uses the existing 1.08 press. Both gems cross in the existing 0.17s. One fracture on the clear, one landing, one goal pulse, one lantern nod. The grid does not wobble. One break sound per clear wave.
+F. Win uses a short lantern raise of the same silhouette, then the map returns with the next path lit. Counts stay with Core.
+
+4. PIPELINE
+Godot-only for this pilot. The missing piece is timing and a few frames on the hero we already have. Blender does not split a single background by itself. Spine would matter only after the hero is cut into limbs, and the Godot 4.7.2 runtime was not tested. Unity is a different game, and nothing here is a Godot blocker. I would change this only if the pilot cannot show a readable blink and entrance without a cut rig, or if the cave needs a rendered light layer a shader cannot fake. Official docs confirm Godot AnimationPlayer, free commercial Blender, an untested Spine Godot runtime, and Unity Personal eligibility. None of that was installed or bought.
+
+5. ASSETS AND THE 15s CLIP
+No new character, mineral or sound. Use the current hero, board and seed. Add a breath, a blink, a three-frame lantern raise, and an entrance made from the existing map and cave. The future clip is 432x960 and about 15s: idle, walk, Play, entrance, one ordinary swap, win. Reduced motion is the same input with snapped poses and no looping breath. The seed is not changed to force a win.
+
+6. CHECKS
+Contact: the foot and shadow stay on the route. Focus: one main motion per step, and the numbers stay readable. Tempo: the swap still finishes inside the current 0.18s wait, and the win pose does not block input for more than 0.4s. Exit during the entrance returns to the map with no stuck tween. A recorded 60fps file is not a Pixel 8a measurement.
+
+7. SPEND
+None before that clip. Blender is free, but it is not the first tool. After the clip, the only paid question is a Spine licence if the single picture cannot blink readably. A paid engine or a higher model setting does not choose the art.
+
+DIFFERENCES
+I do not start with Blender. I do not add leaves until the background is split. The entrance is the existing gnome and lantern, not a new film.
+
+No art, audio, Godot, test, install, purchase, grant change or merge. GPT had no Alive Experience R1 at 68ce091eb3929aea96e458a60b7b6c9ccad87cdb when this was written.
