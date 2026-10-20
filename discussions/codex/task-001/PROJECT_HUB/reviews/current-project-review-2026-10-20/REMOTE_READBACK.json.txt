@@ -1,0 +1,29 @@
+{
+  "review_commit": "841af2855d91f170700382d4b0c29c2e32dfa548",
+  "review_sha256": "9d17a5a61be7361bb34b111c700d722f083073c1a95d60f8f66da235f30035ba",
+  "verified_review_entries": 300,
+  "game_included": true,
+  "no_game_or_capture_scripts_executed": true,
+  "status": "PASS",
+  "verified_payloads": [
+    {
+      "package": "review",
+      "verified_entries": 300,
+      "manifest_sha256": "b943630c0051127e8d56253c40240e0421f9f8e2902cd529607438b5463fb462"
+    },
+    {
+      "package": "game",
+      "verified_entries": 438,
+      "manifest_sha256": "1c8b7e174c9cf21e7acb1f2f36029538ce6aacb8c5a121d2dcb1a872a713bf3f"
+    }
+  ],
+  "review_zip_bytes": 48659183,
+  "game_sha256": "3853c032565c3d4d2c087dd6f50eb76ab8c12e4f2b95b01904042f9e7e260e28",
+  "screenshots": 70,
+  "native_videos": 2,
+  "audio_sources": 29,
+  "method": "Download reviewed helper itself from exact public Git commit; execute downloaded identical helper against fresh destination with --with-game; verify decoded ZIP identities/CRC/all files; independently rehash extracted manifest payloads.",
+  "unmodified_main": "bd2dfe7fddd300bd8425cd1c5b0846fe50c4f3d2",
+  "scope": "Own REPORTS_ONLY text attachments only; no game/private/grant/main/merge changes",
+  "acceptance": "Integrity and documented evidence only; Human/Android/art/listening/performance acceptance not claimed"
+}

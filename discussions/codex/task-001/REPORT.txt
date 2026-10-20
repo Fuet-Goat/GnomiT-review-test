@@ -2332,3 +2332,16 @@ No direct binary asset, game/private/main/grant edit or merge. No new playable
 version/desktop shortcut is warranted by a review-only data package.
 Remote publication/readback remains to be recorded separately after push.
 Recommendation: GPT-6.1 Sol / High for this source/visual review.
+
+
+CURRENT REVIEW REMOTE READBACK / 2026-10-20
+Published841af2855d91f170700382d4b0c29c2e32dfa548. Own scope32 text files PASS.
+Freshly fetched identical decoder source from that exact public Git commit.
+Downloaded review and immutable game attachments with --with-game into a NEW
+folder.300 review entries and438 game entries verified by CRC and every payload
+bytes/SHA; separately rehashed extracted files against both remote manifests.
+Review SHA2569d17a5a61be7361bb34b111c700d722f083073c1a95d60f8f66da235f30035ba.
+Independent package QA PASS/no blocking findings; exact receipt and findings are
+in reviews/current-project-review-2026-10-20/REMOTE_READBACK.json.txt and
+INDEPENDENT_PACKAGE_REVIEW.txt. No runtime scripts executed by the downloader.
+Main remains bd2dfe7fddd300bd8425cd1c5b0846fe50c4f3d2. No merge. No game edits.

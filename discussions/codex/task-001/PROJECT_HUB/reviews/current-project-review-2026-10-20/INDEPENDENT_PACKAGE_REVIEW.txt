@@ -1,0 +1,16 @@
+INDEPENDENT READ-ONLY PACKAGE QA / R3 / 2026-10-20
+Reviewer: separate Codex git_media_audit agent, findings-only, no engine run.
+Verdict: PASS; no blocking findings.
+48,659,183 bytes;300 exact ZIP entries;299 manifest payloads independently verified.
+SHA256:9d17a5a61be7361bb34b111c700d722f083073c1a95d60f8f66da235f30035ba.
+Manifest SHA256:b943630c0051127e8d56253c40240e0421f9f8e2902cd529607438b5463fb462.
+70 screenshot identities/dimensions/labels match capture receipts:
+15 scripted actual campaign;55 controlled power fixtures. Representative images
+were visually inspected against captions. No account screenshots or personal saves.
+190 runtime/asset bindings match current files and the published438-entry game ZIP.
+Filled REPORT/PROVENANCE/ASSET_METADATA/manifest cover source/settings/tools,
+origin/rebuild/hash/tests and inherited unresolved licence lineage. CLI examples fixed.
+No raw AVI/failed-take media/caches in review payload. No game edits.
+QA accepts package integrity/documentation coverage only. Human art/play/listening,
+Android and mobile performance acceptance remain unmeasured. This agent did not
+check Git publication; see REMOTE_READBACK.json.txt for the root's later fresh check.
