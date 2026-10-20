@@ -2291,3 +2291,44 @@ and writes versions.json; registering the same project again keeps its number.
 Local workflow is also in GnomiT_Playtests/AGENTS.md.
 This applies to Codex on the owner Windows host; cloud bots do not create
 substitute shortcuts in their containers. Existing Git report scopes remain.
+
+
+CURRENT PROJECT REVIEW / MEDIA + CONTRIBUTION DOCUMENTATION - 2026-10-20
+
+Human request: upload missing useful current work and screenshots for another
+bot to review, and require documentation for future reusable contributions.
+Existing v001 game/assets/editable Blender were already published; unchanged.
+Input commit: f9864651015b5b57f94c439d311f03408fab4446.
+New handoff: PROJECT_HUB/reviews/current-project-review-2026-10-20/.
+
+Added70 original432x960 Godot PNG:15 actual-campaign scripted captures and55
+controlled power-fixture images.2 silent native MP4;29 byte-copied audio cues;
+source snapshot, current desktop workflow, gallery, filled contribution
+provenance/metadata and reusable report/origin/asset/manifest templates.
+Read README and ONE_PROMPT_FOR_GPT_AND_GROK_BG. Decoder source is provided as
+DOWNLOAD_REVIEW.py.txt. It downloads pinned data into a NEW evidence directory,
+verifies ZIP identity/CRC/all payload hashes, and does not launch game code.
+--with-game also fetches the already published immutable v001 game package.
+
+Review archive bytes:48659183.
+Review archive SHA256:9d17a5a61be7361bb34b111c700d722f083073c1a95d60f8f66da235f30035ba.
+300 ZIP entries. Local CRC/full-manifest PASS. Final capture receipts PASS.
+All190 frozen source/resource binding entries match the published game ZIP.
+Campaign: generated seed1,25 legal moves, actual victory, return to same map,
+unlocked mine2, actual Root Passage. Power demo boards are fixtures, not new
+campaign progression. Captures are scripted, not human/Android/acceptance tests.
+Raw AVI, incomplete first take, logs/caches and personal saves are excluded;
+AVI identity is retained and original PNG plus encoded MP4 are supplied.
+
+Future contributions need filled REPORT+PROVENANCE+ASSET_METADATA+MANIFEST,
+editable source/generator/settings, terms/attribution evidence or UNKNOWN,
+rebuild/export instructions, measured identity and actual tests/limitations.
+No documentation creates IP rights or resolves the previous lineage gaps.
+Bots should review and propose one bounded task in their own report; no new
+implementation by this shared prompt. Existing task/grant authority remains.
+
+The repo attachment is lossless Base64 text under own REPORTS_ONLY directory.
+No direct binary asset, game/private/main/grant edit or merge. No new playable
+version/desktop shortcut is warranted by a review-only data package.
+Remote publication/readback remains to be recorded separately after push.
+Recommendation: GPT-6.1 Sol / High for this source/visual review.

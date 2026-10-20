@@ -1,0 +1,102 @@
+extends SceneTree
+## Current v001, isolated save, scripted touch and ordinary generated-board win.
+const Main=preload("res://main.tscn")
+const OUTPUT="C:/Users/fruch/Documents/Codex/GnomiT_Playtests/ReviewHandoff_2026-10-20/media/campaign_take2"
+const PATH=[[4,5],[4,5],[4,5],[4,11],[25,32],[3,4],[14,15],[11,18],[15,16],[18,19],[11,18],[11,18],[3,10],[10,17],[1,2],[16,17],[19,20],[18,19],[17,24],[10,11],[17,18],[9,10],[19,26],[3,4],[12,19]]
+var app
+var failures: Array[String]=[]
+var shots: Array=[]
+var save:=OUTPUT+"/isolated_capture_save.json"
+class CaptureInputGuard:
+	extends Node
+	var blocked_events:=0
+	func _input(event: InputEvent) -> void:
+		if event.device!=1987:
+			blocked_events+=1
+			get_viewport().set_input_as_handled()
+var input_guard
+
+func _initialize() -> void:
+	create_timer(60).timeout.connect(func() -> void:quit(99))
+	call_deferred("run")
+func check(ok: bool, label: String) -> void:
+	if not ok:failures.append(label);push_error(label)
+func frames(n: int) -> void:
+	for ignored in n:await process_frame
+func tap(p: Vector2) -> void:
+	for down in [true,false]:
+		var e:=InputEventScreenTouch.new()
+		e.device=1987;e.index=0;e.position=root.get_final_transform()*p;e.pressed=down
+		Input.parse_input_event(e);await frames(2)
+func snapshot() -> Dictionary:
+	if app.core==null:return {}
+	return {"moves":app.core.moves_left,"grid":app.core.grid.duplicate(),"collected":app.core.collected,"won":app.core.won,"rng":str(app.core._rng.state),"stars":app.progress.data.stars.duplicate(true),"light":app.progress.data.light}
+func shot(name: String, note: String) -> void:
+	await RenderingServer.frame_post_draw
+	var image:=root.get_texture().get_image()
+	check(image.get_size()==Vector2i(432,960),"Native portrait "+name)
+	var path:=OUTPUT+"/"+name+".png"
+	check(image.save_png(path)==OK,"Saved "+name)
+	shots.append({"file":path,"sha256":FileAccess.get_sha256(path),"note":note,"kind":"SCRIPTED_ACTUAL_CAMPAIGN","state":snapshot()})
+func run() -> void:
+	check(not DirAccess.dir_exists_absolute(OUTPUT),"Fresh evidence folder")
+	if not failures.is_empty():quit(2);return
+	DirAccess.make_dir_recursive_absolute(OUTPUT)
+	root.size=Vector2i(432,960)
+	app=Main.instantiate();app.save_path_override=save;app.pilot_seed_override=1
+	root.add_child(app);app.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	input_guard=CaptureInputGuard.new();root.add_child(input_guard)
+	app.progress.data.options.sound=false;app.power_audio.set_enabled(false)
+	await frames(40)
+	await shot("01_WORLD_1_PATH_2_LOCKED_MINE","Actual Blender V3 map, existing path1 and locked mine2")
+	await tap(app.map_view.marker_center("entry"));await frames(4)
+	check(is_instance_valid(app.pre_level_view),"Native touch1 opens preview")
+	if not is_instance_valid(app.pre_level_view):quit(3);return
+	await shot("02_LEVEL1_PREVIEW","Actual pre-level card over native map")
+	await tap(app.pre_level_view.play_button.get_global_rect().get_center());await frames(12)
+	check(is_instance_valid(app.power_tutorial_view),"Two-page Volcano lesson exists")
+	if not is_instance_valid(app.power_tutorial_view):quit(3);return
+	var initial:=snapshot()
+	await shot("03_LESSON1_ADJACENT_SWAP","Creation page, real teaching illustration before four-match")
+	await frames(54)
+	await shot("04_LESSON1_FOUR_MATCH","Four matching minerals in the illustration")
+	await frames(40)
+	await shot("05_LESSON1_VOLCANO_CREATED","Illustrated waiting Volcano; actual game board remains unchanged")
+	app.power_tutorial_view.next_page();await frames(44)
+	await shot("06_LESSON2_ACTIVATION","Using the waiting Volcano")
+	await frames(34)
+	await shot("07_LESSON2_BURNING_PROJECTILES","Illustrated burning projectiles, sample of three real3-5 targets")
+	await frames(38)
+	await shot("08_LESSON2_CLEARED_MINERALS","Illustration after impacts; modal still blocks actual board")
+	check(snapshot()==initial,"All tutorial pages preserve real board")
+	app.power_tutorial_view.finish();await frames(3)
+	await shot("09_LEVEL1_BOARD_READY","Unchanged generated First Crystals after lesson")
+	app.show_pause();await frames(3)
+	await shot("10_PAUSE_AND_GUIDE_REOPEN","Actual pause menu includes Volcano Guide")
+	app.show_options();await frames(3)
+	await shot("11_SETTINGS","Actual settings modal")
+	app._close_modal()
+	# Only the replay speed changes; the Core receives the ordinary legal path.
+	app.progress.data.options.reduced_motion=true;app.board.reduced_motion=true
+	for pair in PATH:
+		app.board.swap_requested.emit(pair[0],pair[1])
+		while app.board.busy:await process_frame
+		await frames(2)
+	check(app.core.won,"Actual ordinary generated-board victory")
+	await shot("12_REAL_LEVEL1_VICTORY","Real seed1 victory,25legalmoves, no injected progress")
+	app.progress.data.options.reduced_motion=false
+	app._continue_after_win();await frames(20)
+	check(not app.map_view.buttons.hollow.disabled,"Victory visibly unlocks mine2")
+	await shot("13_SAME_WORLD_MINE2_UNLOCKED","Same native world after real victory/save")
+	await tap(app.map_view.marker_center("hollow"));await frames(4)
+	await shot("14_MINE2_PREVIEW","Actual mine2 opens unchanged Root Passage preview")
+	await tap(app.pre_level_view.play_button.get_global_rect().get_center());await frames(8)
+	check(app.current_level.id=="hollow" and not is_instance_valid(app.power_tutorial_view),"Mine2 starts existing level without repeating lesson")
+	await shot("15_LEVEL2_ROOT_PASSAGE","Actual Root Passage; intro is assigned only to level1")
+	var receipt:={"status":"PASS" if failures.is_empty() else "FAIL","failures":failures,"shots":shots,"method":"Actual current main.tscn, scripted native touch, isolated seed1/save, legal ordinary moves. Reduced motion enabled only for the25-move progression replay.","physical_input_blocked_in_capture_process":true,"blocked_input_events":input_guard.blocked_events,"board_fixtures":false,"human_test":false,"screen_count":DisplayServer.get_screen_count(),"screen_index":DisplayServer.window_get_current_screen(),"game_source_modified":false}
+	var file:=FileAccess.open(OUTPUT+"/CAPTURE_RECEIPT.json",FileAccess.WRITE);file.store_string(JSON.stringify(receipt,"\t"));file.close()
+	app.queue_free();await frames(2)
+	for p in [save,save+".tmp"]:
+		if FileAccess.file_exists(p):DirAccess.remove_absolute(p)
+	print("CAMPAIGN_REVIEW_CAPTURE "+JSON.stringify({"status":receipt.status,"shots":shots.size(),"failures":failures}))
+	quit(0 if failures.is_empty() else 1)

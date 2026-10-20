@@ -1,0 +1,75 @@
+"""Fetch and verify the public Git review; never launches Godot or project code.
+
+python DOWNLOAD_REVIEW.py --output NEW_FOLDER [--with-game]
+Only the explicitly new destination directory is written.
+"""
+import argparse
+import base64
+import hashlib
+import io
+import json
+from pathlib import Path, PurePosixPath
+import stat
+import urllib.request
+import zipfile
+
+REPO='Fuet-Goat/GnomiT-review-test'
+BRANCH='codex/codex/task-001'
+PREFIX='discussions/codex/task-001/PROJECT_HUB/reviews/current-project-review-2026-10-20/'
+
+def get(url):
+    req=urllib.request.Request(url,headers={'User-Agent':'GnomiT-read-only-review'})
+    with urllib.request.urlopen(req,timeout=90) as response:return response.read()
+
+def raw(commit,path):
+    return get('https://raw.githubusercontent.com/'+REPO+'/'+commit+'/'+path)
+
+def checked_zip(encoded,receipt):
+    data=base64.b64decode(encoded)
+    if len(data)!=receipt['bytes'] or hashlib.sha256(data).hexdigest()!=receipt['sha256']:
+        raise ValueError('Package identity mismatch')
+    package=zipfile.ZipFile(io.BytesIO(data))
+    if package.testzip() is not None:raise ValueError('ZIP CRC failure')
+    manifest=json.loads(package.read('MANIFEST.json'))
+    if len(package.namelist())!=len(manifest['files'])+1:raise ValueError('Unexpected ZIP entries')
+    for row in manifest['files']:
+        payload=package.read(row['path'])
+        if len(payload)!=row['bytes'] or hashlib.sha256(payload).hexdigest()!=row['sha256']:
+            raise ValueError('Payload mismatch: '+row['path'])
+    return package
+
+def extract(package,destination):
+    for item in package.infolist():
+        name=PurePosixPath(item.filename)
+        if name.is_absolute() or '..' in name.parts or '\\' in item.filename or ':' in item.filename:
+            raise ValueError('Unsafe ZIP entry')
+        if stat.S_ISLNK(item.external_attr>>16):raise ValueError('Symlink ZIP entry')
+        target=(destination/item.filename).resolve()
+        if not target.is_relative_to(destination.resolve()):raise ValueError('Escaping ZIP entry')
+    package.extractall(destination)
+
+def main():
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--output',type=Path,required=True)
+    parser.add_argument('--with-game',action='store_true')
+    args=parser.parse_args()
+    destination=args.output.resolve()
+    if destination.exists():raise ValueError('Choose a NEW output directory; existing files are preserved')
+    ref=json.loads(get('https://api.github.com/repos/'+REPO+'/git/ref/heads/'+BRANCH))
+    commit=ref['object']['sha']
+    receipt=json.loads(raw(commit,PREFIX+'PACKAGE_RECEIPT.json.txt'))
+    package=checked_zip(raw(commit,PREFIX+'REVIEW_PACKAGE.base64.txt'),receipt)
+    game=None
+    if args.with_game:
+        reference=json.loads(package.read('GAME_REFERENCE.json'))
+        game=checked_zip(raw(reference['commit'],reference['package_path']),reference)
+    destination.mkdir(parents=True,exist_ok=False)
+    extract(package,destination)
+    if game is not None:extract(game,destination/'playable')
+    proof={'review_commit':commit,'review_sha256':receipt['sha256'],'verified_review_entries':len(package.namelist()),
+           'game_included':game is not None,'no_game_or_capture_scripts_executed':True}
+    (destination/'DOWNLOAD_VERIFIED.json').write_text(json.dumps(proof,indent=2),encoding='utf-8')
+    print(json.dumps(proof,indent=2))
+    print('Open '+str(destination/'GALLERY.html'))
+
+if __name__=='__main__':main()

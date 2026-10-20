@@ -1,3 +1,20 @@
+АКТУАЛНО — ГАЛЕРИЯ + ОБЩА ЗАДАЧА ЗА ПРЕГЛЕД · 20.10.2026
+Прочети reviews/current-project-review-2026-10-20/README.txt и общия prompt там.
+70 оригинални PNG:15 actual-campaign scripted и55 controlled power fixtures.
+2 native MP4 без звук;29 оригинални audio cues; текущ source и metadata.
+Пълната runnable v001 + editable Blender вече са в pinned GAME_REFERENCE.
+DOWNLOAD_REVIEW.py.txt сваля/декодира и проверява точните bytes/SHA/manifest;
+--with-game включва и вече публикувания game пакет. Не пуска игра/скриптове.
+GPT/Grok: собствен REPORTS_ONLY преглед + ЕДНО конкретно предложение и STOP.
+Без нова реализация или арт вариант преди човешко задание/приложим grant.
+За разрешени бъдещи добавки са нужни попълнени REPORT/PROVENANCE/
+ASSET_METADATA/MANIFEST: произход, source/генератор, настройки, условия,
+възпроизвеждане, хешове, проверки и ограничения. UNKNOWN вместо измислени права.
+Документацията не създава ownership/лиценз. RightsCleanup остава отворен.
+Текущата игра не е променена; няма нов v002, private/main/grant edit или merge.
+Препоръка за този преглед: GPT-6.1 Sol / High.
+Старите раздели долу са запазена история.
+
 АКТУАЛНО — BLENDER СВЯТ 1/2 + ПЪРВИ VOLCANO · 20.10.2026
 Новият Blender свят вече е началният екран на реалната кампания.
 1пътека -> First Crystals +2 tutorial страници; победа ->2вход ->Root Passage.

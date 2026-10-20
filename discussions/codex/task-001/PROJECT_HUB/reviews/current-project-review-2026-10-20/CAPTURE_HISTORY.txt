@@ -1,0 +1,1 @@
+First campaign take was incomplete: tutorial reference became Nil before closing, no final receipt. It is excluded. Input-isolated take2 PASS includes15 images and blocked8 non-script events. No game source fix was made; only the capture driver was isolated.

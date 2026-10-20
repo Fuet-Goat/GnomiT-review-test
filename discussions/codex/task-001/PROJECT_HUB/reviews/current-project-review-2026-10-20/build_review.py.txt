@@ -1,0 +1,226 @@
+"""Curate current review evidence and documentation, without editing the game."""
+import base64, hashlib, html, io, json, shutil, subprocess, zipfile, wave, platform
+from pathlib import Path
+from PIL import Image, ImageDraw, ImageFont
+
+root=Path(__file__).resolve().parent
+game=root.with_name('CampaignTutorial_Volcano_2026-10-20')
+project_root=root.parent
+zip_path=root.with_name('GNOMIT_CURRENT_REVIEW_MEDIA_DOCS_2026-10-20_R3.zip')
+def sha(data):return hashlib.sha256(data).hexdigest()
+def write(name,data):
+    path=root/name;path.parent.mkdir(parents=True,exist_ok=True)
+    path.write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+
+game_reference={'commit':'f9864651015b5b57f94c439d311f03408fab4446',
+ 'package_path':'discussions/codex/task-001/PROJECT_HUB/builds/native-mine-campaign-tutorial-2026-10-20/NATIVE_PROJECT_PACKAGE.base64.txt',
+ 'bytes':59743347,'sha256':'3853c032565c3d4d2c087dd6f50eb76ab8c12e4f2b95b01904042f9e7e260e28',
+ 'verified_entries':438,'contents':'Runnable current v001, assets/audio, editable native Blender source and original provenance'}
+write('GAME_REFERENCE.json',game_reference)
+
+# Confirm that screenshots use the same frozen runtime/source as the published game.
+with zipfile.ZipFile(project_root/'GNOMIT_MINE_WORLD_VOLCANO_TUTORIAL_2026-10-20.zip') as archive:
+    game_manifest=json.loads(archive.read('MANIFEST.json'))
+    checked=[]
+    for row in game_manifest['files']:
+        if row['path'].startswith(('game/scripts/','game/assets/')) or row['path'] in ['game/main.tscn','game/project.godot']:
+            path=game/row['path'][5:]
+            assert len(path.read_bytes())==row['bytes'] and sha(path.read_bytes())==row['sha256'],row['path']
+            checked.append(row)
+write('CURRENT_RUNTIME_BINDING.json',{'status':'PASS','input_commit':game_reference['commit'],'game_package_sha256':game_reference['sha256'],
+ 'runtime_and_asset_files_rehashed':len(checked),'capture_game_source_changes':False,'files':checked})
+
+for category in ['scripts','tests','tools','docs']:
+    for path in sorted((game/category).rglob('*')):
+        if not path.is_file() or '__pycache__' in path.parts or path.suffix not in ['.gd','.py','.ps1','.cmd','.txt','.md','.json']:continue
+        dest=root/'source_current'/path.relative_to(game)
+        dest.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(path,dest)
+for name in ['project.godot','main.tscn']:
+    shutil.copy2(game/name,root/'source_current'/name)
+for path in sorted((game/'assets/sfx').rglob('*')):
+    if path.suffix not in ['.wav','.mp3','.ogg']:continue
+    dest=root/'audio'/path.relative_to(game/'assets/sfx')
+    dest.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(path,dest)
+for name in ['AGENTS.md','CURRENT_GNOMIT.json','shortcut_tools/Register-GnomiTSample.ps1','shortcut_tools/SHORTCUT_VERIFICATION.json']:
+    dest=root/'owner_workflow'/name;dest.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(project_root/name,dest)
+shutil.copy2(Path('C:/Users/fruch/Desktop/GnomiT Samples/versions.json'),root/'owner_workflow/desktop_versions.json')
+
+screens=[]
+for group in ['campaign_take2','powers']:
+    receipt=json.loads((root/'media'/group/'CAPTURE_RECEIPT.json').read_text(encoding='utf-8'))
+    assert receipt['status']=='PASS',group
+    for shot in receipt['shots']:
+        path=Path(shot['file']);data=path.read_bytes()
+        assert sha(data)==shot['sha256']
+        with Image.open(path) as im:assert im.size==(432,960);im.verify()
+        screens.append({'path':path.relative_to(root).as_posix(),'kind':shot['kind'],
+                       'scenario':shot.get('scenario','campaign'),'caption':shot.get('note',path.stem),
+                       'bytes':len(data),'sha256':sha(data),'width':432,'height':960})
+assert len(screens)==70
+write('SCREENSHOTS.json',{'count':len(screens),'campaign':15,'controlled_power_fixtures':55,'screenshots':screens})
+
+ffmpeg=Path('C:/Users/fruch/Documents/Codex/GnomiT/work/vertical_slice_1/tools/media_runtime/imageio_ffmpeg/binaries/ffmpeg-win-x86_64-v7.1.exe')
+videos=[]
+for path in sorted((root/'media').glob('*.mp4')):
+    result=subprocess.run([str(ffmpeg),'-v','error','-i',str(path),'-f','null','-'],capture_output=True)
+    assert result.returncode==0,result.stderr
+    videos.append({'path':path.relative_to(root).as_posix(),'bytes':path.stat().st_size,'sha256':sha(path.read_bytes()),'decode_exit':0,'audio':'muted/silent review capture; use audio/ for source cues'})
+write('VIDEOS.json',{'videos':videos,'raw_local_recordings':[{'file':p.name,'bytes':p.stat().st_size,'sha256':sha(p.read_bytes()),'included_in_review_zip':False} for p in [root/'CAMPAIGN_REVIEW_NATIVE_TAKE2.avi',root/'POWERS_REVIEW_NATIVE.avi']]})
+audio=[{'path':p.relative_to(root).as_posix(),'bytes':p.stat().st_size,'sha256':sha(p.read_bytes())} for p in sorted((root/'audio').rglob('*')) if p.is_file()]
+write('AUDIO_INDEX.json',{'files':audio,'count':len(audio),'status':'Original source cue bytes from current assets/sfx; not all legacy clips are wired. Inspect source_current/scripts/campaign/power_audio.gd and its banks for usage. No listening or rights-clearance claim.'})
+asset_meta=[]
+for row in screens:
+    with Image.open(root/row['path']) as image:
+        asset_meta.append({'path':row['path'],'type':'screenshot','width':image.width,'height':image.height,
+                           'pixel_mode':image.mode,'format':image.format,'capture_kind':row['kind'],
+                           'bytes':row['bytes'],'sha256':row['sha256'],'source':'Godot viewport image save_png; original pixels retained'})
+for row in audio:
+    item={**row,'type':'copied_source_audio','original_origin_and_licence':'INHERITED_NOT_REASSESSED',
+          'new_processing':'None; byte-for-byte copy from current assets/sfx','usage':'Consult actual audio banks; legacy alternatives are also supplied'}
+    if row['path'].endswith('.wav'):
+        try:
+            with wave.open(str(root/row['path']),'rb') as sound:
+                item.update(sample_rate=sound.getframerate(),channels=sound.getnchannels(),sample_width_bytes=sound.getsampwidth(),frames=sound.getnframes())
+        except wave.Error:item['audio_parameters']='UNKNOWN; WAV encoding not supported by stdlib wave'
+    else:item['audio_parameters']='NOT_MEASURED for OGG/MP3 in this handoff'
+    asset_meta.append(item)
+write('ASSET_METADATA.json',{'document_type':'ACTUAL_REVIEW_ASSET_METADATA','template':False,'assets':asset_meta,'videos':videos,
+ 'pivot_and_game_animation_fps':'NOT_APPLICABLE to viewport screenshots; editable native game sources are in the pinned game package',
+ 'performance_acceptance':'NOT_MEASURED'})
+write('PROVENANCE.json',{'document_type':'ACTUAL_REVIEW_PROVENANCE','template':False,'task_date':'2026-10-20 Europe/Sofia',
+ 'contribution':'Review capture and documentation, no game code/art/sound edits','input_commit':game_reference['commit'],
+ 'source_game_package':game_reference,'assistant':'Codex; exact model/effort NOT_MEASURED',
+ 'new_screenshots':{'creation':'Native Godot4.7.2 viewport renders of existing game','scripts':['capture_campaign_review.gd','capture_power_review.gd'],
+   'script_sha256':{p.name:sha(p.read_bytes()) for p in [root/'capture_campaign_review.gd',root/'capture_power_review.gd']},
+   'campaign_seed':1,'power_fixture_seed':42,'human_playtest':False,'image_generation_tool_used':False,
+   'material_origin':'Existing pinned game assets; this capture does not change their original provenance or terms'},
+ 'videos':{'creation':'Actual Godot MovieMaker AVI, existing FFmpeg H264 transcode','fps':30,'audio':'silent/muted','raw_identity':'VIDEOS.json'},
+ 'overview':{'creation':'Pillow resize/layout of twelve original screenshots for navigation only','originals_kept':True},
+ 'copied_audio_and_source':{'creation':'Byte copies from current game','inherited_origin_documents':'source_current/docs plus game package authoring/PROVENANCE.txt',
+   'licence_and_attribution_verification':'NOT_REASSESSED; unresolved original-asset lineage/licence evidence must not be replaced by this handoff'},
+ 'rebuild_review':['Use existing Godot4.7.2 with the pinned project --path and external capture scripts. Each expects a new evidence directory.',
+   'Run with --resolution 432x960 --fixed-fps 30 --write-movie NEW.avi. Campaign capture uses an isolated save and deletes it on completion.',
+   'Transcode native AVI with existing FFmpeg: -an -c:v libx264 -crf 20 -pix_fmt yuv420p -movflags +faststart.',
+   'build_review.py uses Python/Pillow for gallery/catalog/package; DOWNLOAD_REVIEW.py only requires Python standard library and never runs game code.'],
+ 'rebuild_example':'Godot --path PINNED_GAME --script ABSOLUTE_CAPTURE_SCRIPT.gd --resolution 432x960 --fixed-fps 30 --write-movie NEW.avi',
+ 'rebuild_example_note':'The capture scripts are bound to their original evidence directories; use a new directory when reproducing.',
+ 'tools':{'python':platform.python_version(),'Godot':'4.7.2 stable','FFmpeg':'existing v7.1 binary','Pillow':Image.__version__},
+ 'copyright_or_exclusive_ownership_guarantee':False,'new_third_party_content_imported_into_game':False})
+(root/'CONTRIBUTION_REPORT.txt').write_text('ACTUAL HANDOFF CONTRIBUTION / 20.10.2026\n\nUser request: publish remaining current project materials and screenshots to Git for peer review; require documented provenance and reproduction for future reusable contributions.\n\nChanges: added external capture drivers,70 original PNG,2 encoded native videos, source snapshot,29 byte-copied source sounds, gallery, metadata and contribution templates. Game source/assets remain unchanged against the pinned59,743,347-byte v001 package. No private-game/grant/main/merge changes.\n\nVerified locally: both final capture receipts PASS; all70 PNG identities/dimensions; both MP4 full-decode PASS; actual campaign seed1 victory and native-map2 unlock. Every power-demo board is labelled CONTROLLED_LAB_FIXTURE. No Human/Android/performance/listening acceptance. ZIP CRC and all included bytes/SHA are checked after packaging. Git publication requires separate remote receipt.\n\nKnown limits: larger underground map and later introduction levels remain future work; native world is an unoptimized art prototype; original-asset licence/lineage gaps are inherited and not resolved by taking screenshots. Source provenance evidence must be checked before reuse/release.\n',encoding='utf-8')
+
+title='GnomiT — current visual review / 20 October 2026'
+cards=[]
+for row in screens:
+    badge='ACTUAL CAMPAIGN · SCRIPTED' if row['kind']=='SCRIPTED_ACTUAL_CAMPAIGN' else 'CONTROLLED POWER FIXTURE'
+    cards.append('<article data-kind="'+('campaign' if row['scenario']=='campaign' else 'powers')+'"><div class="badge">'+badge+'</div><a href="'+row['path']+'" target="_blank"><img loading="lazy" src="'+row['path']+'" alt="'+html.escape(row['caption'])+'"></a><h3>'+html.escape(Path(row['path']).stem)+'</h3><p>'+html.escape(row['caption'])+'</p></article>')
+gallery='''<!doctype html><html lang="bg"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'''+title+'''</title><style>
+body{margin:0;background:#101e22;color:#f5e8cb;font:16px system-ui}header{padding:24px;position:sticky;top:0;background:#15292df5;z-index:2;border-bottom:1px solid #ac8b50}h1{font-size:24px}button{padding:12px;margin:4px;background:#355946;color:#fff2cd;border:1px solid #bc9a57;border-radius:8px;cursor:pointer}main{padding:20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}article{padding:12px;background:#1d3337;border:1px solid #55716c;border-radius:12px}img{width:100%;max-height:650px;object-fit:contain}h3{font-size:15px;overflow-wrap:anywhere}p{line-height:1.5}.badge{font-size:12px;color:#efc681;margin:4px 0 12px}video{max-width:420px;width:100%;margin:10px}details{padding:20px}a{color:#c8edcf}</style>
+<header><h1>'''+title+'''</h1><p>70 оригинални Godot screenshots при 432×960:15 от текущата кампания и55 ясно означени демонстрации на силите. Това са scripted captures; няма Human/Android/performance приемане.</p><button onclick="filter('all')">Всичко</button><button onclick="filter('campaign')">Кампания и прозорци</button><button onclick="filter('powers')">Сили и комбинации</button><a href="README.txt">README</a> · <a href="documentation/COMMON_GPT_GROK_PROMPT_BG.txt">Общ prompt и документация</a></header>
+<details><summary>Двата native видеозаписа</summary><video controls preload="metadata" src="media/CAMPAIGN_REVIEW_NATIVE.mp4"></video><video controls preload="metadata" src="media/POWERS_REVIEW_NATIVE.mp4"></video></details><main>'''+''.join(cards)+'''</main><script>function filter(k){document.querySelectorAll('article').forEach(x=>x.hidden=k!=='all'&&x.dataset.kind!==k)}</script></html>'''
+(root/'GALLERY.html').write_text(gallery,encoding='utf-8')
+
+selected=[screens[0],screens[4],screens[6],screens[8],screens[11],screens[12]]
+for case in ['volcano','tornado_h','lightning_storm','earthquake','pair44','black_hole']:
+    selected.append(next(x for x in screens if x['scenario']==case and '_57.png' in x['path']))
+sheet=Image.new('RGB',(4*240,3*570),'#15292d');draw=ImageDraw.Draw(sheet)
+font=ImageFont.truetype('C:/Windows/Fonts/arial.ttf',14)
+for index,row in enumerate(selected):
+    col=index%4;line=index//4
+    with Image.open(root/row['path']) as im:sheet.paste(im.resize((216,480)),(col*240+12,line*570+40))
+    label=Path(row['path']).stem
+    draw.text((col*240+12,line*570+8),label[:28],font=font,fill='#f6e6bf')
+    draw.text((col*240+12,line*570+527),'SCRIPTED' if row['scenario']=='campaign' else 'CONTROLLED FIXTURE',font=font,fill='#efc681')
+sheet.save(root/'OVERVIEW.png')
+
+readme='''GNOMIT — АКТУАЛЕН ПАКЕТ ЗА ПРЕГЛЕД · 20.10.2026
+
+Първо отвори GALLERY.html. Оригиналните PNG са в media/, а SCREENSHOTS.json
+съдържа вида/произхода и точните хешове. Overview е само монтаж за ориентация;
+всички70 оригинални432×960 изображения са запазени без промяна.
+
+Текущата v001: Blender свят;1на пътеката до гномчето;2на входа на мината.
+1→First Crystals→две анимирани страници за Volcano→дъска. Реална победа→същия
+свят и отключен2→съществуващото Root Passage. Само Volcano има intro на1.
+Останалите intro нива още не са зададени. Наличността/рецептите на силите не
+са ограничени от intro. Голямата подземна карта още не е построена.
+
+Текущи правила:4линия→Volcano;5линия→Storm;T/plus→Tornado;L→Landslide.
+4+4→едно Megaизригване с тройна сила;4+5→комбинирани ефекти;пряка5+5→Black Hole.
+Waiting бонусите чакат умишлено действие; ръчно минерално съвпадение може да
+задейства Volcano. Black Hole поглъща други чакащи бонуси без отделни вериги.
+15кадъра са от нормалната кампания.55са от контролирани power fixtures на
+същите текущи Core/Board източници; те не доказват нормален campaign unlock.
+
+Кампанията е записана с изолиран seed1/save.25легални хода спечелват ниво1;
+reduced motion е включен само за ускоряване на тази scripted последователност.
+Това не е човешки тест. Android, мобилна производителност и художествено
+приемане остават непроверени. CURRENT_RUNTIME_BINDING.json свързва ресурсите
+с вече публикувания immutable v001 ZIP. Играта не е редактирана за снимките.
+
+source_current/ съдържа текущите скриптове, тестове, инструменти и документация.
+audio/ съдържа29 оригинални аудио файла; не всички legacy clips се използват.
+Използването се вижда в campaign/power_audio.gd и съответните banks. Видеото
+е без звук/заглушено за визуален преглед, не е listening test.
+owner_workflow/ съдържа текущите launcher/shortcut правила и registry.
+Пълната игра, assets и редактиращият Blender source вече са в Git — точният
+пакет е посочен в GAME_REFERENCE.json. Не дублираме тези59.7MB във всеки review.
+
+За пълния runnable пакет: прегледай DOWNLOAD_REVIEW.py и изпълни:
+python DOWNLOAD_REVIEW.py --output NEW_FOLDER --with-game
+Без --with-game сваля само този review. Helper не пуска игра, не инсталира
+нищо и не презаписва съществуваща папка. Валидира ZIP/bytes/SHA преди extract.
+В Git ZIP-ът е lossless Base64 text attachment в REPORTS_ONLY папката.
+Няма native inline PNG preview в GitHub; след decode оригиналите са налични.
+
+Другият бот трябва да прочете documentation/COMMON_GPT_GROK_PROMPT_BG.txt,
+да разгледа реалните изображения и да предложи една конкретна помощ.
+Всяка разрешена нова добавка трябва да има REPORT+PROVENANCE+ASSET_METADATA+
+MANIFEST:източник,редактируем файл/генератор,условия/лиценз и атрибуция,
+настройки,възпроизводимост,хешове,реални проверки и ограничения.
+При липсващи доказателства:UNKNOWN, а не обещание за права/ownership.
+Документацията подпомага оценката за употреба;не създава сама права.
+Чужд bot няма право сам да си разширява grant или да прави merge.
+
+Предложени теми за помощ:по-естествено стъпване/мащаб на гнома;по-четим
+пещерен вход и релси;по-малко повторение на мъха;по-голяма miniилюстрация;
+по-единен cartoon/material стил на VFX;план за следващите intro нива.
+Пази харесаните Volcano/Tornado иконки.Не започвай нови варианти без задание.
+
+Техническите caches,лични saves/account screens и повредения първи take са
+изключени. Native AVI оригиналите остават локално; bytes/SHA са във VIDEOS.json.
+MP4 и всички оригинални PNG са в този пакет. Няма merge или private-game edit.
+Препоръка за code/review:GPT-6.1 Sol / High.
+'''
+(root/'README.txt').write_text(readme,encoding='utf-8')
+(root/'START_HERE.txt').write_text('Първо README.txt, после GALLERY.html, CURRENT_RUNTIME_BINDING.json и documentation/COMMON_GPT_GROK_PROMPT_BG.txt. Пълната игра е GAME_REFERENCE.json; downloader опцията --with-game я извлича.\n',encoding='utf-8')
+(root/'TASK_QUEUE.txt').write_text('CURRENT TASK: READ/REPORTS_ONLY преглед на текущата v001 и визуалните доказателства. В собствения REPORT запиши действително видяното и предложи ЕДНА ограничена задача, с файлове/критерии/нужна документация. Реализацията следва конкретно човешко разрешение и приложим grant.\n',encoding='utf-8')
+shutil.copy2(root/'documentation/COMMON_GPT_GROK_PROMPT_BG.txt',root/'ONE_PROMPT_FOR_GPT_AND_GROK_BG.txt')
+(root/'FINAL_RESPONSE.txt').write_text('Подготвени са70 оригинални screenshots,2 MP4,29 аудио източника, текущ source snapshot и общ prompt+шаблони за всеки бъдещ принос. Native кампанията и controlled power fixtures са ясно разграничени. Отвори GALLERY.html. Публикуването и remote readback се удостоверяват отделно.\n',encoding='utf-8')
+(root/'CAPTURE_HISTORY.txt').write_text('First campaign take was incomplete: tutorial reference became Nil before closing, no final receipt. It is excluded. Input-isolated take2 PASS includes15 images and blocked8 non-script events. No game source fix was made; only the capture driver was isolated.\n',encoding='utf-8')
+
+excluded={'media/campaign','PACKAGE_RECEIPT.json','MANIFEST.json','VERIFY_REMOTE_RECEIPT.json'}
+payload=[]
+for path in sorted(root.rglob('*')):
+    if not path.is_file() or '__pycache__' in path.parts or path.suffix in ['.avi','.log']:continue
+    rel=path.relative_to(root).as_posix()
+    if rel.startswith('media/campaign/') or rel in excluded:continue
+    payload.append((rel,path.read_bytes()))
+manifest={'schema':1,'scope':'Current v001 review data and reusable contribution documentation; no new game version',
+ 'excludes':'failed take, raw AVI, logs, caches, personal saves; raw AVI identities retained in VIDEOS.json',
+ 'files':[{'path':name,'bytes':len(data),'sha256':sha(data)} for name,data in payload]}
+manifest_data=(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n').encode('utf-8')
+(root/'MANIFEST.json').write_bytes(manifest_data)
+assert not zip_path.exists(),'Do not overwrite delivered package'
+with zipfile.ZipFile(zip_path,'w',zipfile.ZIP_DEFLATED,compresslevel=6) as archive:
+    for name,data in payload:archive.writestr(name,data)
+    archive.writestr('MANIFEST.json',manifest_data)
+with zipfile.ZipFile(zip_path) as archive:
+    assert archive.testzip() is None
+    for row in manifest['files']:
+        data=archive.read(row['path'])
+        assert len(data)==row['bytes'] and sha(data)==row['sha256']
+receipt={'status':'PASS','zip':str(zip_path),'bytes':zip_path.stat().st_size,'sha256':sha(zip_path.read_bytes()),
+ 'verified_entries':len(payload)+1,'screenshots':70,'videos':len(videos),'audio_sources':len(audio),
+ 'input_commit':game_reference['commit'],'manifest_sha256':sha(manifest_data)}
+write('PACKAGE_RECEIPT.json',receipt)
+print(json.dumps(receipt,indent=2))
