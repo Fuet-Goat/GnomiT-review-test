@@ -1,0 +1,15 @@
+{
+	"audio": "silent; no game sound changes",
+	"final_animation": "candidate/idle",
+	"final_greeting_active": false,
+	"fps": 30,
+	"frames_requested": 250,
+	"glb_sha256": "6598473c272d8773b654effb1807f4cc170f346db5ad5bc73a601885e553aaf0",
+	"human_test": false,
+	"method": "Godot MovieMaker; isolated character inspection with the exact live preview playback function",
+	"status": "PASS",
+	"viewport": [
+		432,
+		960
+	]
+}

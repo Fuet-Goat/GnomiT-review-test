@@ -1,0 +1,147 @@
+{
+  "type": "ACTUAL_ASSET_METADATA",
+  "model": {
+    "path": "assets/native_mine/storybook_mine.glb",
+    "bytes": 13656288,
+    "sha256": "6598473c272d8773b654effb1807f4cc170f346db5ad5bc73a601885e553aaf0",
+    "guide_height_source_units": 1.22,
+    "frame_range": [
+      1,
+      145
+    ],
+    "source_fps": 24,
+    "godot_import_fps": 24,
+    "greeting_seconds": 6.0,
+    "greeting_loop": false,
+    "idle_loop_seconds": 6.0,
+    "foot_pivot": "Guide_Root; boots/root not animated"
+  },
+  "images": [
+    {
+      "path": "renders/AFTER_DETAIL_BLINK.png",
+      "width": 432,
+      "height": 960,
+      "mode": "RGB",
+      "bytes": 292298,
+      "sha256": "171a0a52ee42f7f097c54c69578982be5ba8f84f6a3a86e409a3525cee963e21",
+      "kind": "Original native Godot viewport"
+    },
+    {
+      "path": "renders/AFTER_DETAIL_REST.png",
+      "width": 432,
+      "height": 960,
+      "mode": "RGB",
+      "bytes": 294342,
+      "sha256": "6ec2389a90ba309d8f29e847c25e2a874bc719b7d5452d4f9a7533e54ff988b9",
+      "kind": "Original native Godot viewport"
+    },
+    {
+      "path": "renders/AFTER_DETAIL_SETTLED.png",
+      "width": 432,
+      "height": 960,
+      "mode": "RGB",
+      "bytes": 292345,
+      "sha256": "770917819f6e3ad5dc070366515b97cf9f9b8d944469e72f30e9f64c11a90c7f",
+      "kind": "Original native Godot viewport"
+    },
+    {
+      "path": "renders/AFTER_DETAIL_WAVE.png",
+      "width": 432,
+      "height": 960,
+      "mode": "RGB",
+      "bytes": 308274,
+      "sha256": "dc0887e473c57a66bf3c161879f88db3fc675b89454895a4e6130195fb100fa3",
+      "kind": "Original native Godot viewport"
+    },
+    {
+      "path": "renders/AFTER_WORLD_REST.png",
+      "width": 432,
+      "height": 960,
+      "mode": "RGB",
+      "bytes": 431717,
+      "sha256": "58bb35231e049de289d00d38b2d7176e4d2d3dfec51ba2c31e0b898d4b9f0a14",
+      "kind": "Original native Godot viewport"
+    },
+    {
+      "path": "renders/AFTER_WORLD_WAVE.png",
+      "width": 432,
+      "height": 960,
+      "mode": "RGB",
+      "bytes": 431573,
+      "sha256": "51ac1e5f80045317a6ee3a361dcd56349e8e8e88a964e997c4e1a5a21d1412af",
+      "kind": "Original native Godot viewport"
+    },
+    {
+      "path": "renders/BEFORE_AFTER.png",
+      "width": 864,
+      "height": 1006,
+      "mode": "RGB",
+      "bytes": 534913,
+      "sha256": "2b4bb4f3f9477e804ed3d242e8f708dd182bf1b4fdde7931ae04482e13dc915e",
+      "kind": "Comparison layout of original native viewports"
+    },
+    {
+      "path": "renders/BEFORE_DETAIL_REST.png",
+      "width": 432,
+      "height": 960,
+      "mode": "RGB",
+      "bytes": 293104,
+      "sha256": "2102f929337f8644f57d373b77a3650f866357146a332f50773eef485a899b3e",
+      "kind": "Original native Godot viewport"
+    },
+    {
+      "path": "renders/BEFORE_DETAIL_WAVE.png",
+      "width": 432,
+      "height": 960,
+      "mode": "RGB",
+      "bytes": 306484,
+      "sha256": "ad7550cf685841fa9fe416d160e94310f0318ddda8e32a83861731f70c1724aa",
+      "kind": "Original native Godot viewport"
+    },
+    {
+      "path": "renders/BEFORE_WORLD_REST.png",
+      "width": 432,
+      "height": 960,
+      "mode": "RGB",
+      "bytes": 429995,
+      "sha256": "54b18815cbe547c265f0165b469fbbd9c10d1ec73204cf9a746092c7bf8371fc",
+      "kind": "Original native Godot viewport"
+    },
+    {
+      "path": "renders/BEFORE_WORLD_WAVE.png",
+      "width": 432,
+      "height": 960,
+      "mode": "RGB",
+      "bytes": 429979,
+      "sha256": "6ba93233126c5e746e543426e99bef5008153de2d175e88864f3d7e71f45fcd2",
+      "kind": "Original native Godot viewport"
+    },
+    {
+      "path": "renders/WORLD_BEFORE_AFTER.png",
+      "width": 864,
+      "height": 1006,
+      "mode": "RGB",
+      "bytes": 637199,
+      "sha256": "e74b0aed3e4f036b958dadafcbbd7e0a04ee0f720d402a3d047d3077206690db",
+      "kind": "Comparison layout of original native viewports"
+    }
+  ],
+  "movie": {
+    "status": "PASS",
+    "frames": 250,
+    "fps": 30,
+    "duration_seconds": 8.333333333333334,
+    "viewport": [
+      432,
+      960
+    ],
+    "mp4_bytes": 868679,
+    "mp4_sha256": "f578087c83fda2d201e3453e4f2dbcc6d95d0a9b249b1cd3e99e7614dde8cedf",
+    "avi_bytes": 12163416,
+    "avi_sha256": "c8f70af549196af019fd759bab1bd1dfd360739e385d7ce7793d472c0c70f6e1",
+    "raw_avi_in_zip": false,
+    "full_mp4_decode_exit": 0,
+    "method": "Actual native Godot MovieMaker, silent H264 transcode, full decode"
+  },
+  "contact_shadow": "Preview-only two soft radial planes under fixed soles; no bitmap input"
+}

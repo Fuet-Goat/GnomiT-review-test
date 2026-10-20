@@ -2367,3 +2367,19 @@ Followup and full evidence: reviews/gpt-gnome-task003-active-2026-10-20/.
 Only separate GPT gnome candidate is authorized; original v001, game/audio/progress
 and Grok grants unchanged. No artwork was created or merged by this administration.
 The GPT candidate itself must return via Draft PR for separate visual acceptance.
+
+
+CODEX LOCAL GNOME CANDIDATE v002 / 2026-10-20
+Human says 'davai', then 'go on'. Produced separate local Codex candidate;
+not writing in GPT branch or claiming external GPT task003. Full frozen
+world/camera/1290non-guide objects preserved; improved face/readable smile,
+finite greeting->idle, phased joints, independent lantern lag and contacts.
+Whole-scene comparison fixed; detail is explicitly isolated inspection.
+Actual50runtime checks PASS, native250frames30fps silentMP4/full decode PASS,
+6source/190campaign bindings unchanged. Fresh package import/start PASS.
+Desktopv002 shortcut readback;00Latest/current pointer stillcampaignv001.
+Complete editable source/export/doc/PNG/MP4 package:105entries,25471400bytes,
+SHA2562425e36a03eecd567aa16837e5643fb5c2d13ac2aabf4bda8c3b92ec41cae4df.
+Own REPORTS_ONLY lossless attachment at builds/codex-gnome-greeting-v002-2026-10-20/.
+No art merge/game/save/audio changes or rights-clearance claim. Human/Android/
+performance acceptance pending. Remote readback to be recorded after push.

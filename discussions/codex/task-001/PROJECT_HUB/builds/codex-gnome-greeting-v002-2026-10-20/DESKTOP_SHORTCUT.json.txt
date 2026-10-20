@@ -1,0 +1,10 @@
+{
+  "version": "v002",
+  "target": "C:\\Tools\\Godot\\4.7.2\\engine\\Godot_v4.7.2-stable_win64.exe",
+  "arguments": "--path \"C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\GnomeGreeting_Codex_2026-10-20\" --resolution 432x960",
+  "working_directory": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\GnomeGreeting_Codex_2026-10-20",
+  "latest_target": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\PLAY_CURRENT_GNOMIT.cmd",
+  "latest_arguments": "",
+  "target_exists": true,
+  "project_exists": true
+}

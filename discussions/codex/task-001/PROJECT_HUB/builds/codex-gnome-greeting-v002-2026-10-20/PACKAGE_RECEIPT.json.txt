@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "zip": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\GNOMIT_CODEX_GNOME_GREETING_V002_2026-10-20.zip",
+  "bytes": 25471400,
+  "sha256": "2425e36a03eecd567aa16837e5643fb5c2d13ac2aabf4bda8c3b92ec41cae4df",
+  "entries": 105,
+  "manifest_sha256": "b1fc7cf5f5c357b0ad178b5a5780013575cc1c3b3f9c56f6264cad7159d0bebf"
+}

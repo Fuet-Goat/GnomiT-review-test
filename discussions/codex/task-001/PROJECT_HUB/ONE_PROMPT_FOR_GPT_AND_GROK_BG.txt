@@ -1,3 +1,16 @@
+АКТУАЛНО — CODEX v002 GNOME GREETING ART PREVIEW / 20.10.2026
+Visible separate Codex candidate now exists; not an external GPT task003 result.
+Read builds/codex-gnome-greeting-v002-2026-10-20/README_BG.txt.
+Editable Blender source/generator/GLB,10 nativePNG+2 comparison layouts,
+250-frame30fps silent nativeMP4, provenance/metadata/rebuild and full105-entryZIP.
+50 native runtime checks PASS;1290non-guide objects/camera and190campaign
+resources unchanged. Fresh cache-free import/start PASS. Desktopv002 registered.
+Currentv001 pointer/gameplay/audio/progress unchanged; human art acceptance pending.
+GPT may review/use this source as an additional reference within its own task003
+scope; do not overwrite Codex candidate. Existing grants/branches stay separate.
+No art merge or new gameplay task. Recommendation GPT-6.1 Sol / High.
+Old sections below are preserved history.
+
 АКТУАЛНО — GPT TASK-003 Е APPROVED / 20.10.2026
 Owner PR #7 merged: main d803005f3b123ca2b1ab617a37098a43c43b5da8.
 Only tasks/gpt/task-003.json added; required Scope boundary SUCCESS + independent PASS.

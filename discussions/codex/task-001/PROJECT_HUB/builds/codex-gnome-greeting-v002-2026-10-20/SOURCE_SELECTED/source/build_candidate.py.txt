@@ -1,0 +1,57 @@
+"""Derive only the guide from the preserved editable world; never edits inputs."""
+import hashlib,json,sys
+from pathlib import Path
+import bpy
+
+HERE=Path(__file__).resolve().parent
+ROOT=HERE.parent
+sys.path.insert(0,str(HERE))
+from scene_api import get_api
+from guide_v4 import build_guide
+
+def digest_world():
+    result={}
+    for obj in bpy.context.scene.objects:
+        if obj.name.startswith('Guide_'): continue
+        row={'type':obj.type,'matrix':[list(v) for v in obj.matrix_world]}
+        if obj.type=='MESH':
+            payload={'vertices':[list(v.co) for v in obj.data.vertices],
+                     'faces':[list(p.vertices) for p in obj.data.polygons],
+                     'materials':[m.name for m in obj.data.materials]}
+            row['mesh_sha256']=hashlib.sha256(json.dumps(payload,sort_keys=True).encode()).hexdigest()
+        result[obj.name]=row
+    return result
+
+bpy.ops.wm.open_mainfile(filepath=str(HERE/'predecessor_world.blend'))
+scene=bpy.context.scene;scene.frame_set(1)
+before=digest_world()
+old=bpy.data.objects['Guide_Root']
+position=tuple(old.location);scale=old.scale.x
+camera_before=[list(v) for v in scene.camera.matrix_world]
+for obj in list(bpy.data.objects):
+    if obj.name.startswith('Guide_'):bpy.data.objects.remove(obj,do_unlink=True)
+for action in list(bpy.data.actions):
+    if action.users==0:bpy.data.actions.remove(action)
+for material in list(bpy.data.materials):
+    if material.name.startswith('Guide ') and material.users==0:
+        bpy.data.materials.remove(material)
+guide=build_guide(get_api(),position,scale)
+scene.frame_start=1;scene.frame_end=145;scene.render.fps=24
+scene.frame_set(1);bpy.context.view_layer.update()
+after=digest_world()
+assert before==after,'Non-guide geometry or world transforms changed'
+assert camera_before==[list(v) for v in scene.camera.matrix_world]
+blend=HERE/'gnome_greeting_candidate.blend'
+bpy.ops.wm.save_as_mainfile(filepath=str(blend))
+bpy.ops.export_scene.gltf(filepath=str(ROOT/'assets/native_mine/storybook_mine.glb'),
+    export_format='GLB',export_cameras=True,export_lights=True,export_animations=True,
+    export_animation_mode='ACTIONS',export_apply=True,export_anim_slide_to_zero=True)
+receipt={'status':'PASS','non_guide_objects_unchanged':len(before),
+ 'non_guide_world_signature_sha256':hashlib.sha256(json.dumps(before,sort_keys=True).encode()).hexdigest(),
+ 'source_camera_unchanged':True,'guide':{k:v for k,v in guide.items() if k not in ['root','animated_nodes']},
+ 'blend_sha256':hashlib.sha256(blend.read_bytes()).hexdigest(),
+ 'glb_sha256':hashlib.sha256((ROOT/'assets/native_mine/storybook_mine.glb').read_bytes()).hexdigest(),
+ 'origin':'Procedural derivative of fixed V3 Blender source; no downloaded model or new generated bitmap',
+ 'human_art_acceptance':'PENDING'}
+(ROOT/'verification/BLENDER_BUILD.json').write_bytes((json.dumps(receipt,indent=2)+'\n').encode())
+print('GNOME_CANDIDATE_BUILD '+json.dumps(receipt))
