@@ -1,5 +1,5 @@
 {
-  "status": "INCREMENTAL_PASS_CUMULATIVE_TWO_TREE_BLOCKED",
+  "status": "PASS_INCREMENTAL_AND_THREE_DOT_PATH_CHECKS",
   "trusted_main": "bd2dfe7fddd300bd8425cd1c5b0846fe50c4f3d2",
   "parent_commit": "d243c0a59cf34c34f8d0a85eada44ce915fb948c",
   "trusted_scope_script_sha256": "f48220a7f5fd61da42bf31223e9eec4b204fbb09b6b2e212759b99da35c7915c",
@@ -8,13 +8,6 @@
   "incremental_file_count": 27,
   "incremental_scope": "PASS",
   "incremental_errors": [],
-  "cumulative_two_tree_scope": "BLOCKED_PREEXISTING_GRANT_DIFFERENCES",
-  "cumulative_two_tree_errors": [
-    "Out-of-scope path: tasks/gpt/task-002.json",
-    "REPORTS_ONLY permits text/Markdown documents only: tasks/gpt/task-002.json",
-    "Out-of-scope path: tasks/grok/task-002.json",
-    "REPORTS_ONLY permits text/Markdown documents only: tasks/grok/task-002.json"
-  ],
   "preexisting_grant_files_changed_by_this_task": false,
   "three_dot_proposal_scope": "PASS_LOCAL_PATH_EVALUATION_ONLY",
   "three_dot_errors": [],
@@ -28,5 +21,17 @@
   "decoded_zip_bytes": 15166131,
   "decoded_zip_sha256": "44ac253a25c41adb213c0cf75467c1361822e41659dff32626d2ef8b849146bf",
   "game_execution_in_repository": false,
-  "merge": false
+  "merge": false,
+  "publication_authority": "ACTIVE_REPORTS_ONLY",
+  "two_tree_comparison": "TWO_TREE_DIFFERENCE_NEWER_MAIN_GRANT_ADDITIONS",
+  "initial_two_tree_path_evaluator": {
+    "result": "REJECTED_RAW_TWO_TREE_FILE_SET",
+    "errors": [
+      "Out-of-scope path: tasks/gpt/task-002.json",
+      "REPORTS_ONLY permits text/Markdown documents only: tasks/gpt/task-002.json",
+      "Out-of-scope path: tasks/grok/task-002.json",
+      "REPORTS_ONLY permits text/Markdown documents only: tasks/grok/task-002.json"
+    ],
+    "interpretation": "Not proposed changes; newer-main additions absent from older report branch. Not an authorization blocker."
+  }
 }

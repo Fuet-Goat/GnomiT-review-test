@@ -67,9 +67,11 @@ Recommend GPT-6.1 Sol / High for code/source review; this does not switch settin
 PUBLICATION SCOPE RESULT — NO APPROVAL GATE ADVANCED
 All 27 newly staged V3 report-document paths pass the trusted main REPORTS_ONLY
 scope check. Exact parent is d243c0a59cf34c34f8d0a85eada44ce915fb948c.
-A two-tree cumulative comparison against origin/main is BLOCKED by pre-existing
-differences at tasks/gpt/task-002.json and tasks/grok/task-002.json; those files
-are present on newer main and absent on the older report branch. This report
+A raw two-tree comparison against origin/main reports TWO_TREE_DIFFERENCE:
+tasks/gpt/task-002.json and tasks/grok/task-002.json are additions on newer main
+absent on the older report branch. An initial local path-evaluator rejection
+of that raw two-tree file set is preserved below as method history; it is not
+an authorization blocker or a change proposed by these report commits. This report
 publication does not edit or repair either grant, main or historical commits.
 The PR-style three-dot comparison from merge base 5add419dfc7fd73bd6d9ee837b2ba620ee5e8b81
 contains no tasks/ changes and passes the same path evaluator with the proposed
