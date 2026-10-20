@@ -1,0 +1,18 @@
+{
+  "status": "PASS",
+  "source_commit": "b2c72e76c228ee4adfd11cb9ea4e2fe1f9817177",
+  "zip_sha256": "2425e36a03eecd567aa16837e5643fb5c2d13ac2aabf4bda8c3b92ec41cae4df",
+  "entries": 105,
+  "no_engine_or_project_code_executed": true,
+  "verified_payloads": 104,
+  "package_bytes": 25471400,
+  "independently_rehashed_extracted_payloads": true,
+  "desktop_version": "v002",
+  "game_current_version": "v001",
+  "source_candidate_role": "Local Codex candidate; not external GPT task003 output",
+  "art_acceptance": "PENDING",
+  "no_art_merge": true,
+  "initial_launcher_process_id": 30304,
+  "interactive_exec_session": 52149,
+  "interactive_launch_note": "Initial Start-Process exited; relaunched as a persistent foreground native Godot exec session52149 and observed running beyond10s. Original art sources and package unchanged."
+}

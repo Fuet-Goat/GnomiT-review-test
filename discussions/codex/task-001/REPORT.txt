@@ -2383,3 +2383,15 @@ SHA2562425e36a03eecd567aa16837e5643fb5c2d13ac2aabf4bda8c3b92ec41cae4df.
 Own REPORTS_ONLY lossless attachment at builds/codex-gnome-greeting-v002-2026-10-20/.
 No art merge/game/save/audio changes or rights-clearance claim. Human/Android/
 performance acceptance pending. Remote readback to be recorded after push.
+
+
+CODEX v002 REMOTE READBACK / 2026-10-20
+Publishedb2c72e76c228ee4adfd11cb9ea4e2fe1f9817177. Downloaded decoder itself
+from that exact Git commit; identical to reviewed local text. Downloaded/decode
+full native preview into a new evidence folder; ZIP identity/CRC/all105entries
+verified, then independently rehashed104extracted manifest payloads.
+PackageSHA2562425e36a03eecd567aa16837e5643fb5c2d13ac2aabf4bda8c3b92ec41cae4df.
+Opened interactiveGodot v002 for human viewing, process30304; engine reports
+one available screen/index0 fallback. Existingv001 current game pointer kept.
+Human art acceptance remains pending. No art merge.
+Interactive launcher followup: initial Start-Process exited; relaunched native Godot in persistent foreground exec session52149, observed running beyond10s. No source change.
