@@ -1,3 +1,12 @@
+АКТУАЛНО — BLENDER СВЯТ 1/2 + ПЪРВИ VOLCANO · 20.10.2026
+Новият Blender свят вече е началният екран на реалната кампания.
+1пътека -> First Crystals +2 tutorial страници; победа ->2вход ->Root Passage.
+Прочети builds/NATIVE_MINE_CAMPAIGN_TUTORIAL_2026-10-20.txt и съответната папка.
+45tutorial+18real-win-flow+185manualVolcano проверки PASS; human PENDING.
+Стара карта не се показва при новия нормален старт. V3 standalone е история.
+GPT/Grok: само собствен REPORTS_ONLY преглед; без runtime/код/grants/merge.
+Модел/effort: GPT-6.1 Sol / High. Старите статуси долу са история.
+
 АКТУАЛНО — STORYBOOK MINE V3 WORLD / GUIDE · 20.10.2026
 TOPIC=STORYBOOK_MINE_V3_WORLD_GUIDE_2026-10-20
 Прочети builds/STORYBOOK_MINE_V3_WORLD_GUIDE_2026-10-20.txt и

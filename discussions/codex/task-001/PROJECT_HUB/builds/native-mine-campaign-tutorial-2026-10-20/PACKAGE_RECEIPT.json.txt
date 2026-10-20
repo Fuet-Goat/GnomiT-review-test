@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "zip": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\GNOMIT_MINE_WORLD_VOLCANO_TUTORIAL_2026-10-20.zip",
+  "bytes": 59743347,
+  "sha256": "3853c032565c3d4d2c087dd6f50eb76ab8c12e4f2b95b01904042f9e7e260e28",
+  "verified_entries": 438,
+  "manifest_sha256": "1c8b7e174c9cf21e7acb1f2f36029538ce6aacb8c5a121d2dcb1a872a713bf3f",
+  "checks": {
+    "tutorial": 45,
+    "native_flow_actual_victory": 18,
+    "manual_volcano": 185
+  },
+  "scripted_capture": "verification/native_mine_tutorial_final/CAPTURE_RECEIPT.json"
+}

@@ -1,0 +1,6 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+GNOMIT_PREVIEW_READY {"lanterns":1,"level_markers":2,"missing_anchors":[],"scope":"ART PREVIEW","screen_count":0,"screen_index":-1,"transform_tracks":36}
+GNOMIT_PREVIEW_READY {"lanterns":1,"level_markers":2,"missing_anchors":[],"scope":"ART PREVIEW","screen_count":0,"screen_index":-1,"transform_tracks":36}
+GNOMIT_PREVIEW_READY {"lanterns":1,"level_markers":2,"missing_anchors":[],"scope":"ART PREVIEW","screen_count":0,"screen_index":-1,"transform_tracks":36}
+POWER_TUTORIAL {"checks":45,"failures":[],"proof":"Scripted real main.tscn/controller/modal checks, synthetic viewport pointer, isolated saves. Transition and level-2 prerequisite fixtures are controlled, not a natural victory. No human, Android or visual-quality acceptance.","status":"PASS"}
