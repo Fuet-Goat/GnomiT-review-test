@@ -1,0 +1,116 @@
+{
+  "status": "UNAPPLIED_TEXT_SOURCE_PROPOSAL",
+  "authoring": {
+    "role": "GPT ART/TECHNICAL PROPOSAL AUTHOR",
+    "model": "GPT-6 Astra Pro",
+    "effort": "UNKNOWN; not changed by prompt",
+    "date": "2026-10-21",
+    "human_role": "Provided target panel, density correction, contract and examples",
+    "ai_role": "Authored new source text, new parameter layout and documentation",
+    "services_invoked_for_art_or_3d": "NONE"
+  },
+  "input_commit": "3928d49c29698672cd87585531479dfd113f80a2",
+  "input_zip": {
+    "name": "GNOMIT_NEW_ISLAND_GENERATOR_HANDOFF_V2_2026-10-21.zip",
+    "bytes": 4643799,
+    "sha256": "a69318529b44e78a9912c95253bd38c9f03ff0779ca544cf71163ae8a5be0f47",
+    "verification": "CRC and all 18 manifest payloads checked"
+  },
+  "references_and_examples": [
+    {
+      "path": "PRIMARY_TARGET_COMPARISON.png",
+      "source_filename": "codex-clipboard-1e0fdc2d-bbbc-4d27-99b8-f217ea2d9591.png",
+      "bytes": 2634535,
+      "sha256": "a7d9b4f82fe73a2e5ab641261b9cbc14765e6360c9c108ab7ee9a51b0bc84add",
+      "role": "Authoritative style AND composition: middle panel only, latest human confirmation",
+      "modified": false,
+      "dimensions": [
+        1448,
+        1086
+      ]
+    },
+    {
+      "path": "SECONDARY_ISLAND_REFERENCE.png",
+      "source_filename": "GnomiT Island_ Cozy Mine Adventure.png",
+      "bytes": 2054056,
+      "sha256": "0431ca1845913d568430590fba9af71df4274fb0ff2a434130b66256885192b6",
+      "role": "Secondary detail reference only; no text/buttons; middle panel takes precedence",
+      "modified": false,
+      "dimensions": [
+        941,
+        1672
+      ]
+    },
+    {
+      "path": "EXAMPLES_ONLY/scene_api.py.txt",
+      "source_filename": "scene_api.py",
+      "bytes": 8691,
+      "sha256": "e84bbb623575532af2b3249ec40fccbf9117337e50077a697388de561d1ae824",
+      "role": "Technical example: native primitives, UV/material/packed mathematical texture helpers; adapt paths, not a drop-in new generator",
+      "modified": false
+    },
+    {
+      "path": "EXAMPLES_ONLY/boardwalk_asset.py.txt",
+      "source_filename": "boardwalk_asset.py",
+      "bytes": 6659,
+      "sha256": "e5a1a03d21e9a605fb4d313d6702c665187c9f797bfd730e86bb1fc99f486048",
+      "role": "Technical example: arc resampling, separate boards and support; old route/layout explicitly forbidden as new output",
+      "modified": false
+    },
+    {
+      "path": "EXAMPLES_ONLY/reexport_scene.py.txt",
+      "source_filename": "reexport_scene.py",
+      "bytes": 506,
+      "sha256": "6e2567a3d3a546addf7382370545350dc312a904738f8a7b4a89579b77113a18",
+      "role": "Technical example of actual prior GLB export settings; old filepath assertions do not apply to new output",
+      "modified": false
+    },
+    {
+      "path": "EXAMPLES_ONLY/V3_PROVENANCE.txt",
+      "source_filename": "PROVENANCE.txt",
+      "bytes": 3639,
+      "sha256": "d5e852be0206eb017e339a03a155ff7137fe07b1cb007ddab75aa737cda38c62",
+      "role": "Prior source provenance context only; wordmark/old assets not included or reused",
+      "modified": false
+    }
+  ],
+  "reuse_policy": {
+    "primary": "Middle panel only for layout and style; image not loaded by generator",
+    "secondary": "Detail reference only; not composition authority",
+    "examples": "Reviewed UV, packed texture, native primitive, arclength, underdeck and GLB patterns. Newly authored modules have no dependency on the example files. Their numpy/bmesh dependencies, old _xy route and old camera were not copied. No old model/GLB/wordmark imported."
+  },
+  "dependencies": [
+    "bpy (Blender bundled)",
+    "mathutils (Blender bundled)",
+    "Python standard library: argparse,array,ast not runtime-needed,bisect,hashlib,json,math,pathlib,random,shutil,struct,sys,traceback"
+  ],
+  "target_tool_version": "Blender 5.2.2 LTS reported by input handoff; not inspected or executed here",
+  "proposal_seed": 402121,
+  "code_and_geometry_rights": {
+    "reference_original_tool_model_prompt_licence": "UNKNOWN per supplied provenance",
+    "examples_licence_grant": "UNKNOWN; no standalone licence evidence in packet",
+    "new_text": "AI-assisted source proposal written in this task; no exclusive ownership or third-party clearance assertion",
+    "new_geometry": "Proposed mathematical/native mesh construction, NOT BUILT",
+    "new_texture": "Proposed analytic UV maps from source, NOT GENERATED",
+    "attribution": "Retain user-provided reference/example hashes and this provenance. Legal sufficiency is not asserted."
+  },
+  "not_executed": [
+    "Blender",
+    "bpy imports",
+    "source modules",
+    "GLB exporter",
+    "renderer",
+    "Godot",
+    "mobile",
+    "geometry simulation"
+  ],
+  "actual_operations": [
+    "Read Git brief and grants",
+    "Read/CRC/hash input ZIP",
+    "Inspect two reference PNGs",
+    "Write text proposal",
+    "Parse Python AST/JSON without imports or execution",
+    "Calculate actual text manifest"
+  ],
+  "rebuild": "See README_BG.txt and REVIEW_PLAN.txt; later Codex review and explicit local execution scope required."
+}

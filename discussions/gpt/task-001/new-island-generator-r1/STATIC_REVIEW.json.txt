@@ -1,0 +1,132 @@
+{
+  "status": "STATIC_TEXT_CHECKS_ONLY",
+  "analyzer_python": "3.13.5",
+  "input_files_verified": 18,
+  "python_documents_parsed": 7,
+  "configuration_json_parsed": true,
+  "all_local_import_documents_present": true,
+  "no_extra_runtime_dependencies": true,
+  "no_source_module_imported_or_executed": true,
+  "no_blender_search_install_or_run": true,
+  "no_geometry_render_or_image_generated": true,
+  "checks": [
+    {
+      "file": "SOURCE/boardwalk.py.txt",
+      "ast_parse": "PASS",
+      "bytes": 8414,
+      "sha256": "1821342922a5c9c91a6fda0dfe2efa2f1b015654bfe3b2f6226a716eb3b04430",
+      "imports": [
+        "__future__",
+        "bisect",
+        "json",
+        "math",
+        "bpy",
+        "mathutils",
+        "geometry"
+      ]
+    },
+    {
+      "file": "SOURCE/build_scene.py.txt",
+      "ast_parse": "PASS",
+      "bytes": 10355,
+      "sha256": "134b5377c430c59573b5df4fa268242f1f9f95c86917cdc39d460d7d6551a583",
+      "imports": [
+        "__future__",
+        "argparse",
+        "hashlib",
+        "json",
+        "pathlib",
+        "random",
+        "shutil",
+        "sys",
+        "traceback",
+        "bpy",
+        "geometry",
+        "materials",
+        "environment",
+        "boardwalk",
+        "mine",
+        "presentation"
+      ]
+    },
+    {
+      "file": "SOURCE/environment.py.txt",
+      "ast_parse": "PASS",
+      "bytes": 10889,
+      "sha256": "fd87659523f84add81e962dbb6d1099606e4f6d73e3796a9fcc6c9031896fd8d",
+      "imports": [
+        "__future__",
+        "math",
+        "random",
+        "mathutils",
+        "geometry"
+      ]
+    },
+    {
+      "file": "SOURCE/geometry.py.txt",
+      "ast_parse": "PASS",
+      "bytes": 7449,
+      "sha256": "5b4ed5846a26fc46062d8b1c158130625b4eb5d5a2ae8691e9c6f61e9837b130",
+      "imports": [
+        "__future__",
+        "math",
+        "bpy",
+        "mathutils"
+      ]
+    },
+    {
+      "file": "SOURCE/materials.py.txt",
+      "ast_parse": "PASS",
+      "bytes": 3846,
+      "sha256": "5d56f408bc7ff7522fb54d96ee76bdc57be3a00fdeab37ad35b0e3d944ca8c66",
+      "imports": [
+        "__future__",
+        "math",
+        "array",
+        "bpy"
+      ]
+    },
+    {
+      "file": "SOURCE/mine.py.txt",
+      "ast_parse": "PASS",
+      "bytes": 6287,
+      "sha256": "7913e84f442879d44777030a5d78fda8310b0beb05b6281e3583604ddfb9065c",
+      "imports": [
+        "__future__",
+        "math",
+        "bpy",
+        "mathutils",
+        "geometry"
+      ]
+    },
+    {
+      "file": "SOURCE/presentation.py.txt",
+      "ast_parse": "PASS",
+      "bytes": 8719,
+      "sha256": "510354e0d6918a50830bafde12d86ddf597283c96a696f296d6930e4dfdaa7f2",
+      "imports": [
+        "__future__",
+        "json",
+        "math",
+        "struct",
+        "bpy",
+        "mathutils",
+        "materials"
+      ]
+    }
+  ],
+  "api_compatibility": "NOT_RUN_IN_BLENDER",
+  "unit_tests": "NOT_RUN; execution outside Stage A scope",
+  "manual_source_review": [
+    "New geometry no legacy scene loads",
+    "New absolute output and factory/background guard",
+    "All outputs under chosen new root",
+    "Independent random streams",
+    "Camera bounds include crowns",
+    "Rectangular planks and continuous deck",
+    "Anchor data separate from gameplay",
+    "No scene/image substitute",
+    "GLB lighting differences disclosed"
+  ],
+  "remaining_validation": "Blender API, topology after modifiers, output rendering, visual match, reimport, performance all unverified."
+}

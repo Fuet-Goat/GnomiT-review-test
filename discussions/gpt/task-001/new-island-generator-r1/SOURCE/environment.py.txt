@@ -1,0 +1,201 @@
+"""NOT_APPLIED: new elongated grass island, sculptural trees, mushroom cottage.
+The handoff PNGs are visual references only; this module never loads an image.
+"""
+from __future__ import annotations
+import math
+import random
+from mathutils import Vector
+from geometry import mesh_object, empty, ellipsoid, tube, leaf, lathe, box, cylinder
+
+
+class Ground:
+    def __init__(self,cfg): self.cfg=cfg
+
+    def outline(self,theta,scale=1.0):
+        c=self.cfg; exponent=2/c['exponent']
+        co,si=math.cos(theta),math.sin(theta)
+        organic=1+0.017*math.sin(3*theta+0.4)+0.012*math.sin(7*theta-0.2)
+        return (scale*c['half_width']*math.copysign(abs(co)**exponent,co)*organic,
+                scale*c['half_length']*math.copysign(abs(si)**exponent,si)*organic)
+
+    def height(self,x,y):
+        return self.cfg['top_z']+0.050*math.cos(0.45*y)+0.022*math.sin(0.7*x+0.2*y)
+
+    def inside(self,x,y,margin=0.0):
+        c=self.cfg; n=c['exponent']
+        return (abs(x)/(c['half_width']-margin))**n+(abs(y)/(c['half_length']-margin))**n<0.95
+
+
+def terrain(cols,root,mats,cfg):
+    g=Ground(cfg); n=cfg['segments']; rings=cfg['radial_rings']
+    verts=[(0,0,g.height(0,0))]
+    for j in range(1,rings+1):
+        r=j/rings
+        for i in range(n):
+            x,y=g.outline(math.tau*i/n,r)
+            verts.append((x,y,g.height(x,y)))
+    faces=[(0,1+i,1+(i+1)%n) for i in range(n)]
+    for j in range(rings-1):
+        for i in range(n):
+            a=1+j*n+i; b=1+j*n+(i+1)%n
+            faces.append((a,a+n,b+n,b))
+    # Rounded turf lip joins the real top, not a hovering green plate.
+    last=1+(rings-1)*n
+    for scale,dz in ((1.007,-0.044),(0.993,-0.15),(0.977,-0.205)):
+        start=len(verts)
+        for i in range(n):
+            x,y=g.outline(math.tau*i/n,scale)
+            verts.append((x,y,g.height(x,y)+dz))
+        for i in range(n): faces.append((last+i,start+i,start+(i+1)%n,last+(i+1)%n))
+        last=start
+    faces.append(tuple(reversed([last+i for i in range(n)])))
+    turf=mesh_object('Island_Grass_Cap',verts,faces,cols['TERRAIN'],mats['grass'],smooth=True,parent=root)
+    turf.data.materials.append(mats['grass_shadow'])
+    for p in turf.data.polygons[-(3*n+1):]: p.material_index=1
+    # Earth cut has a closed base and broad layers, not pebbles filling the lawn.
+    profiles=[(0.979,-0.16),(0.992,-0.33),(0.970,-0.62),(0.908,-1.04),(0.83,-cfg['earth_depth'])]
+    verts=[]
+    for scale,dz in profiles:
+        for i in range(n):
+            x,y=g.outline(math.tau*i/n,scale)
+            verts.append((x,y,g.height(x,y)+dz))
+    faces=[tuple(range(n))]
+    for j in range(len(profiles)-1):
+        for i in range(n):
+            a=j*n+i; b=j*n+(i+1)%n
+            faces.append((a,a+n,b+n,b))
+    faces.append(tuple(reversed([(len(profiles)-1)*n+i for i in range(n)])))
+    earth=mesh_object('Island_Warm_Earth_Cut',verts,faces,cols['TERRAIN'],mats['soil'],smooth=True,parent=root)
+    earth.data.materials.append(mats['soil_dark']); earth.data.materials.append(mats['soil_light'])
+    for p in earth.data.polygons:
+        if 0<p.index<=n: p.material_index=2
+        elif p.index>n*3: p.material_index=1
+    return g
+
+
+def flower(name,loc,scale,collection,mats,parent,pink=False):
+    center=Vector(loc)
+    tube(name+'_Stem',[tuple(center),tuple(center+Vector((0,0,0.10*scale)))],
+         [0.012*scale,0.009*scale],collection,mats['leaf_shadow'],parent=parent,sides=8)
+    center.z+=0.10*scale
+    for i in range(5):
+        a=math.tau*i/5
+        petal=ellipsoid(name+'_Petal_%d'%i,tuple(center+Vector((math.cos(a),math.sin(a),0))*0.075*scale),
+                        (0.077*scale,0.043*scale,0.024*scale),collection,
+                        mats['pink' if pink else 'white'],irregularity=0.015,parent=parent,segments=14,rings=10)
+        petal.rotation_euler.z=a
+    ellipsoid(name+'_Centre',tuple(center+Vector((0,0,0.014*scale))),
+              (0.045*scale,0.045*scale,0.027*scale),collection,mats['yellow'],
+              irregularity=0,parent=parent,segments=14,rings=10)
+
+
+def tree(spec,cols,root,mats,g,rng):
+    x,y,s=spec['x'],spec['y'],spec['scale']
+    group=empty('Tree_'+spec['name'],cols['TREES'],(x,y,g.height(x,y)-0.025),root)
+    group.scale=(s,s,s); group['role']='Rich rounded canopy; separate trunk and crown lobes'
+    phase=rng.uniform(-0.25,0.25)
+    trunk=[(0,0,0),(0.03,-0.01,0.32),(-0.10,0.06,0.91),(0.04,0.06,1.43),(0.02,0.0,1.95)]
+    tube(spec['name']+'_Sculpted_Trunk',trunk,[0.31,0.23,0.18,0.14,0.10],cols['TREES'],mats['bark'],parent=group,sides=18)
+    for i in range(5):
+        a=math.tau*i/5+phase
+        tube(spec['name']+'_Root_%d'%i,[(0,0,0.28),(0.28*math.cos(a),0.28*math.sin(a),0.07),
+                                      (0.49*math.cos(a),0.49*math.sin(a),0.018)],
+             [0.11,0.085,0.025],cols['TREES'],mats['bark'],parent=group)
+    for i,(dx,dy,dz) in enumerate([(-0.55,0.00,1.93),(0.49,0.18,2.04),(0.0,0.52,2.23)]):
+        tube(spec['name']+'_Branch_%d'%i,[(0,0,1.05),(dx*0.55,dy*0.55,1.61),(dx,dy,dz)],
+             [0.16,0.115,0.052],cols['TREES'],mats['bark'],parent=group)
+    lobes=[(-0.56,-0.02,2.01,0.76,0.66,0.58,'leaf'),
+           (0.49,0.10,2.14,0.81,0.72,0.62,'leaf_shadow'),
+           (0.03,0.47,2.45,0.88,0.73,0.68,'leaf'),
+           (0.00,-0.45,2.04,0.75,0.65,0.54,'leaf_light'),
+           (-0.28,0.12,2.60,0.69,0.62,0.60,'leaf_light')]
+    for i,(cx,cy,cz,rx,ry,rz,key) in enumerate(lobes):
+        ellipsoid(spec['name']+'_Crown_%02d'%i,(cx,cy,cz),(rx,ry,rz),cols['TREES'],mats[key],
+                  phase=phase+i*0.9,irregularity=0.07,parent=group)
+    # Few large readable leaves, rather than a noisy coat of tiny spheres.
+    for i in range(7):
+        a=math.tau*i/7+phase
+        start=(0.48*math.cos(a),0.44*math.sin(a),2.68+0.18*math.sin(a))
+        end=(0.76*math.cos(a),0.71*math.sin(a),3.02+0.13*math.cos(a))
+        leaf(spec['name']+'_Tip_Leaf_%d'%i,start,end,0.12,cols['TREES'],
+             mats['leaf_light' if i%2 else 'leaf'],parent=group)
+    for i,(fx,fy,fz) in enumerate([(-0.55,-0.52,2.31),(0.37,-0.47,2.47)]):
+        flower(spec['name']+'_Canopy_Daisy_%d'%i,(fx,fy,fz),0.75,cols['TREES'],mats,group)
+    return group
+
+
+def cottage(spec,cols,root,mats,g):
+    x,y,s=spec['x'],spec['y'],spec['scale']
+    group=empty('Mushroom_Cottage',cols['PLANTS'],(x,y,g.height(x,y)),root)
+    group.scale=(s,s,s)
+    stem=lathe('Cottage_Cream_Wall',[(0.49,0.0),(0.60,0.12),(0.58,0.62),(0.46,0.93)],cols['PLANTS'],mats['cream'],group)
+    cap=lathe('Cottage_Red_Domed_Cap',[(0.76,0.87),(1.04,0.91),(1.08,1.01),(0.96,1.27),
+                                    (0.72,1.54),(0.40,1.76),(0.045,1.84)],cols['PLANTS'],mats['red'],group,64)
+    lathe('Cottage_Cap_Lip',[(0.68,0.845),(0.98,0.878),(1.06,0.92),(0.97,0.95)],cols['PLANTS'],mats['cream'],group)
+    # Spots are actual thin geometry on the dome, not a screenshot texture.
+    for i,(angle,r) in enumerate([(0.3,0.44),(1.9,0.56),(3.2,0.68),(4.3,0.59),(5.7,0.77),(4.7,0.22)]):
+        profile=[(0.045,1.84),(0.40,1.76),(0.72,1.54),(0.96,1.27),(1.08,1.01)]
+        lo,hi=next((a,b) for a,b in zip(profile,profile[1:]) if a[0]<=r<=b[0])
+        slope=(hi[1]-lo[1])/(hi[0]-lo[0])
+        z=lo[1]+(r-lo[0])*slope
+        normal=Vector((-slope*math.cos(angle),-slope*math.sin(angle),1)).normalized()
+        spot=ellipsoid('Cottage_White_Spot_%d'%i,tuple(Vector((r*math.cos(angle),r*math.sin(angle),z))+normal*0.006),
+                        (0.125,0.105,0.013),cols['PLANTS'],mats['white'],irregularity=0.035,parent=group)
+        spot.rotation_euler=normal.to_track_quat('Z','Y').to_euler()
+    box('Cottage_Door',(0,-0.578,0.35),(0.34,0.075,0.63),cols['PLANTS'],mats['wood'],0.11,group)
+    knob=ellipsoid('Cottage_Door_Knob',(0.10,-0.628,0.34),(0.033,0.025,0.033),cols['PLANTS'],mats['brass'],parent=group)
+    window=cylinder('Cottage_Round_Window',(-0.34,-0.49,0.68),0.10,0.035,cols['PLANTS'],mats['lamp'],group,0.01)
+    window.rotation_euler.x=math.pi/2
+    return group
+
+
+def in_meadow(x,y,settings):
+    return any(((x-cx)/rx)**2+((y-cy)/ry)**2<1 for cx,cy,rx,ry in settings['quiet_meadows'])
+
+
+def occupied(x,y,config):
+    if any(math.hypot(x-t['x'],y-t['y'])<0.58*t['scale'] for t in config['trees']): return True
+    cottage_cfg=config['cottage']
+    if math.hypot(x-cottage_cfg['x'],y-cottage_cfg['y'])<1.05*cottage_cfg['scale']: return True
+    m=config['mine']
+    return abs(x-m['x'])<1.85 and m['y']-0.45<y<m['y']+m['depth']+0.5
+
+
+def decorate(cols,root,mats,config,g,route,rng,warnings):
+    cfg=config['decoration']; count=0; attempts=0; centres=[]
+    while count<cfg['small_rock_count'] and attempts<cfg['scatter_attempt_limit']:
+        attempts+=1
+        x=rng.uniform(-0.895,0.895)*g.cfg['half_width']; y=rng.uniform(-0.90,0.88)*g.cfg['half_length']
+        d=route.distance_xy(x,y)
+        if not g.inside(x,y,0.12) or not config['road']['half_width']+0.30<d<1.18: continue
+        if occupied(x,y,config) or in_meadow(x,y,cfg): continue
+        if any(math.hypot(x-a,y-b)<0.48 for a,b in centres): continue
+        r=rng.uniform(0.14,0.28); centres.append((x,y))
+        ellipsoid('Meadow_Stone_%02d'%count,(x,y,g.height(x,y)+r*0.36),(r,r*0.83,r*0.57),
+                  cols['ROCKS'],mats['stone_light' if count%3 else 'stone'],phase=rng.random()*6,
+                  irregularity=0.10,parent=root)
+        count+=1
+    if count!=cfg['small_rock_count']:
+        warnings.append('Scatter retained %d/%d stones after bounded rejection; never filled quiet lawns.'%(count,cfg['small_rock_count']))
+    flowers=0
+    for j,(cx,cy) in enumerate(cfg['flower_clusters']):
+        for i in range(cfg['flowers_per_cluster']):
+            a=i*2.4; x=cx+0.12*math.cos(a);y=cy+0.13*math.sin(a)
+            if not g.inside(x,y,0.06) or route.distance_xy(x,y)<config['road']['half_width']+0.16 or occupied(x,y,config): continue
+            flower('Meadow_Flower_%02d_%d'%(j,i),(x,y,g.height(x,y)+0.005),
+                   0.78 if i else 1.16,cols['PLANTS'],mats,root,pink=(j%2==0))
+            flowers+=1
+    tufts=0
+    for attempt in range(cfg['scatter_attempt_limit']):
+        if tufts>=cfg['tuft_count']:break
+        x=rng.uniform(-0.88,0.88)*g.cfg['half_width'];y=rng.uniform(-0.88,0.88)*g.cfg['half_length']
+        if not g.inside(x,y,0.15) or occupied(x,y,config) or in_meadow(x,y,cfg):continue
+        if route.distance_xy(x,y)<config['road']['half_width']+0.25:continue
+        z=g.height(x,y)
+        for k in range(3):
+            a=k*2.1+attempt*0.27
+            leaf('Grass_Tuft_%02d_%d'%(tufts,k),(x,y,z),(x+0.16*math.cos(a),y+0.16*math.sin(a),z+0.12),
+                 0.042,cols['PLANTS'],mats['grass_light'],root)
+        tufts+=1
+    return {'small_stones_created':count,'ground_flowers_created':flowers,'grass_tufts_created':tufts,
+            'quiet_meadows':cfg['quiet_meadows'],'density_note':'Artistic spacing; not a measured one-third reduction against an image.'}

@@ -1,0 +1,173 @@
+"""NOT_APPLIED: a new four-segment S route, uniform-width RECTANGULAR planks.
+
+Arc-length sampling + conservative 2D rectangle separation avoids wedge planks.
+Narrow seams reveal a continuous timber underdeck, never a hole into the grass.
+The route/control points are new inputs, not the legacy boardwalk _xy formula.
+"""
+from __future__ import annotations
+import bisect
+import json
+import math
+import bpy
+from mathutils import Vector
+from geometry import box, cylinder, tube, mesh_object, empty
+
+
+def bezier(control, t):
+    a,b,c,d=[Vector((p[0],p[1],0)) for p in control]
+    q=1-t
+    return q*q*q*a+3*q*q*t*b+3*q*t*t*c+t*t*t*d
+
+
+class Route:
+    def __init__(self, settings, height):
+        segments=settings['bezier_segments']
+        if not segments or any(len(c)!=4 for c in segments):
+            raise ValueError('Four control points required per Bezier segment')
+        for left,right in zip(segments,segments[1:]):
+            if (Vector(left[-1])-Vector(right[0])).length>1e-7:
+                raise ValueError('Disconnected road control points')
+        self.dense=[]
+        for j,control in enumerate(segments):
+            for i in range(161):
+                if j and i==0: continue
+                p=bezier(control,i/160)
+                p.z=height(p.x,p.y)+settings['deck_clearance']
+                self.dense.append(p)
+        self.lengths=[0.0]
+        for a,b in zip(self.dense,self.dense[1:]):
+            ds=Vector((b.x-a.x,b.y-a.y)).length
+            if ds<1e-9: raise ValueError('Degenerate road interval')
+            self.lengths.append(self.lengths[-1]+ds)
+        self.length=self.lengths[-1]
+
+    def at(self, fraction):
+        s=max(0,min(1,fraction))*self.length
+        i=max(0,min(len(self.dense)-2,bisect.bisect_right(self.lengths,s)-1))
+        a,b=self.lengths[i:i+2]
+        return self.dense[i].lerp(self.dense[i+1],(s-a)/(b-a))
+
+    def frame(self,fraction):
+        p=self.at(fraction)
+        delta=self.at(min(1,fraction+0.001))-self.at(max(0,fraction-0.001))
+        delta.z=0; delta.normalize()
+        return p,delta,Vector((-delta.y,delta.x,0))
+
+    def distance_xy(self,x,y):
+        point=Vector((x,y))
+        best=float('inf')
+        for a,b in zip(self.dense[:-1:4],self.dense[4::4]):
+            aa=Vector((a.x,a.y)); d=Vector((b.x-a.x,b.y-a.y))
+            t=max(0,min(1,(point-aa).dot(d)/d.length_squared))
+            best=min(best,(point-aa-d*t).length)
+        return best
+
+
+def rectangles_overlap(a,b,width,da,db,padding):
+    """SAT in XY. Frames store centre, longitudinal axis, transverse axis."""
+    ca,ta,na=a; cb,tb,nb=b; offset=cb-ca
+    for axis in (ta,na,tb,nb):
+        ra=abs(axis.dot(na))*width+abs(axis.dot(ta))*da/2
+        rb=abs(axis.dot(nb))*width+abs(axis.dot(tb))*db/2
+        if abs(offset.dot(axis))>=ra+rb+padding: return False
+    return True
+
+
+def plank_plan(route, settings):
+    count=max(12,round(route.length/settings['target_spacing']))
+    step=route.length/count
+    fractions=[(i+0.5)/count for i in range(count)]
+    frames=[route.frame(t) for t in fractions]
+    depths=[step-settings['gap']]*count
+    # SAT examines all pairs: no hidden cross-turn rectangle intersections.
+    for iteration in range(70):
+        collisions=[]
+        for i in range(count):
+            for j in range(i+1,count):
+                if (frames[i][0]-frames[j][0]).length>2*settings['half_width']+step:
+                    continue
+                if rectangles_overlap(frames[i],frames[j],settings['half_width'],
+                                      depths[i],depths[j],settings['gap']*0.3):
+                    collisions.append((i,j))
+        if not collisions: break
+        affected=set(v for pair in collisions for v in pair)
+        for i in affected:
+            depths[i]*=0.96
+            if depths[i]<settings['min_plank_depth']:
+                raise ValueError('Road curvature too tight for safe rectangular boards')
+    else:
+        raise ValueError('Plank separation did not converge; revise control points')
+    max_seam=0.0
+    for i in range(count-1):
+        p,t,n=frames[i]; q,u,v=frames[i+1]
+        for side in (-1,1):
+            e=p+t*depths[i]/2+n*settings['half_width']*side
+            f=q-u*depths[i+1]/2+v*settings['half_width']*side
+            max_seam=max(max_seam,(e-f).length)
+    return fractions,frames,depths,max_seam
+
+
+def build(scene, cols, root, mats, config, height, warnings):
+    cfg=config['road']; route=Route(cfg,height); half=cfg['half_width']
+    fractions,frames,depths,max_seam=plank_plan(route,cfg)
+    if max_seam>cfg['max_plank_gap_warning']:
+        warnings.append('Plank outer seam exceeds draft target: %.4fm; inspect bends' % max_seam)
+    if max_seam>0.46:
+        raise ValueError('Excessive visible plank gap: widen curve radius before build')
+    group=empty('Boardwalk_Root',cols['BOARDWALK'],parent=root)
+    samples=[route.frame(i/320) for i in range(321)]
+    verts=[]
+    for p,t,n in samples:
+        for dz in (-cfg['plank_thickness']-0.035,-cfg['underdeck_recess']):
+            for side in (-1,1):
+                verts.append(tuple(p+n*(half+0.008)*side+Vector((0,0,dz))))
+    faces=[]
+    for i in range(len(samples)-1):
+        a=i*4; b=a+4
+        faces += [(a+2,a+3,b+3,b+2),(a,b,b+1,a+1),
+                  (a,a+2,b+2,b),(a+1,b+1,b+3,a+3)]
+    faces += [(0,1,3,2),(len(verts)-4,len(verts)-2,len(verts)-1,len(verts)-3)]
+    mesh_object('Continuous_Timber_Underdeck',verts,faces,cols['BOARDWALK'],
+                mats['wood_dark'],bevel=0.005,parent=group)
+    for i,(f,frame,depth) in enumerate(zip(fractions,frames,depths)):
+        p,t,n=frame
+        obj=box('Plank_%03d'%i,tuple(p-Vector((0,0,cfg['plank_thickness']/2))),
+                (2*half,depth,cfg['plank_thickness']),cols['BOARDWALK'],
+                mats['wood_light'] if i%6==2 else mats['wood'],
+                bevel=min(0.018,depth*0.18),parent=group)
+        obj.rotation_euler.z=math.atan2(t.y,t.x)-math.pi/2
+        obj['route_fraction']=f; obj['top_shape']='four-corner rectangle, not wedge'
+        if i%5==1:
+            for side in (-1,1):
+                cylinder('Plank_Pin_%03d_%s'%(i,side),
+                         tuple(p+n*half*0.78*side+Vector((0,0,0.001))),
+                         0.012,0.006,cols['BOARDWALK'],mats['brass'],parent=group,bevel=0.001)
+    for side in (-1,1):
+        pts=[tuple(p+n*half*side-Vector((0,0,0.04))) for p,t,n in samples[::3]]
+        tube('Rounded_Edge_Rail_%s'%side,pts,[0.037]*len(pts),
+             cols['BOARDWALK'],mats['wood'],parent=group,sides=10)
+        for i,f in enumerate(cfg['post_fractions']):
+            # Keep a quiet, unblocked zone around future Level 1 marker.
+            if abs(f-cfg['level1_fraction'])<0.055: continue
+            p,t,n=route.frame(f); p+=n*(half+0.045)*side
+            cylinder('Post_%s_%02d'%(side,i),tuple(p+Vector((0,0,0.20))),
+                     0.096,0.43,cols['BOARDWALK'],mats['wood'],parent=group,bevel=0.022)
+            cylinder('Post_Cap_%s_%02d'%(side,i),tuple(p+Vector((0,0,0.428))),
+                     0.108,0.05,cols['BOARDWALK'],mats['endgrain'],parent=group,bevel=0.012)
+    centre=empty('Road_Centerline',cols['ANCHORS'],parent=root)
+    poly=[list(route.at(i/160)) for i in range(161)]
+    centre['coordinate_space']='Blender Z-up metres; glTF exporter changes basis'
+    centre['sample_points_json']=json.dumps(poly,separators=(',',':'))
+    c=bpy.data.curves.new('Road_Centerline_Edit_Curve','CURVE'); c.dimensions='3D'
+    spline=c.splines.new('POLY'); spline.points.add(len(poly)-1)
+    for v,p in zip(spline.points,poly): v.co=(*p,1.0)
+    curve=bpy.data.objects.new('Road_Centerline_Editable',c)
+    cols['ANCHORS'].objects.link(curve); curve.parent=centre
+    curve.hide_render=True; curve['exclude_from_glb']=True
+    for name,f in [('Level_1_Anchor',cfg['level1_fraction']),('Level_2_Anchor',cfg['level2_fraction'])]:
+        anchor=empty(name,cols['ANCHORS'],tuple(route.at(f)+Vector((0,0,0.012))),parent=root)
+        anchor['route_fraction']=f; anchor['purpose']='Placement only; no gameplay or displayed number'
+    return route, {'length_m':route.length,'plank_count':len(frames),
+                   'minimum_plank_depth_m':min(depths),'maximum_outer_seam_m':max_seam,
+                   'overlapping_rectangles':0,'route_points_blender_z_up':poly,
+                   'note':'Calculated geometry is not visual acceptance; inspect curved seams in render.'}
