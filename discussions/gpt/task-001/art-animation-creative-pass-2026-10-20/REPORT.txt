@@ -1,0 +1,94 @@
+GNOMIT / ART_ANIMATION_CREATIVE_PASS_2026-10-20
+BOT=gpt
+ROLE=ART_AND_ANIMATION_PROTOTYPE_CONTRIBUTOR
+MODEL=GPT-6 Astra Pro
+STATUS=OWNER_GRANT_SCOPE_REQUIRED
+PROTOTYPE_CREATED=NO
+ART_OR_RUNTIME_READY=NO
+
+1. АКТУАЛЕН ВХОД И ПРОВЕРЕНО РАЗРЕШЕНИЕ
+
+Творческият brief е изпратен пряко от собственика. Разбирам го като задача за реална, самостоятелно избрана художествена проба, а не като искане само за ново ревю. Същият brief изрично изисква действащ, съответстващ APPROVED grant от main преди зависимите художествени и игрови промени.
+
+INPUT_CODEX_COMMIT=32dc5f1c271ae56adc6e1181dea0f02a506c1c42
+Прочетени от този точен commit:
+- discussions/codex/task-001/PROJECT_HUB/START_HERE.txt, актуалните начални раздели.
+- discussions/codex/task-001/PROJECT_HUB/TASK_QUEUE.txt, актуалните начални раздели.
+- discussions/codex/task-001/PROJECT_HUB/reviews/art-animation-creative-pass-2026-10-20/ONE_PROMPT_FOR_GPT_AND_GROK_BG.txt
+- discussions/codex/task-001/PROJECT_HUB/reviews/art-animation-creative-pass-2026-10-20/OWNER_GRANT_SCOPE_REQUIRED.txt
+- discussions/codex/task-001/PROJECT_HUB/reviews/current-project-review-2026-10-20/README.txt
+- discussions/codex/task-001/PROJECT_HUB/reviews/current-project-review-2026-10-20/DOWNLOAD_REVIEW.py.txt
+- discussions/codex/task-001/PROJECT_HUB/reviews/current-project-review-2026-10-20/GAME_REFERENCE.json.txt
+
+От main са прочетени AGENTS.md, discussions/gpt/task-001/AGENTS.md и двата налични GPT grant файла. Listing на tasks/gpt при проверката съдържа само task-001.json и task-002.json.
+TASK001_GRANT_BLOB=da5ba6b4aaef745140398d46dc3809540f30c9a8
+TASK001_STATUS=REPORTS_ONLY
+TASK001_ALLOWED_WRITE_ROOT=discussions/gpt/task-001/
+TASK001_BRANCH=codex/gpt/task-001
+TASK002_GRANT_BLOB=5b78b5ed38b2844bff0a3e4c921575e6abbb3223
+TASK002_STATUS=APPROVED_FOR_OLD_FIRST_BEND_GNOME_ONLY
+Task-002 разрешава една независима гномска илюстрация върху стария фиксиран First Bend и малка незадължителна походка. Изрично забранява game/source/scene/config/audio/save редакция или изпълнение и не включва .blend/.glb източници. Не го разширявам чрез тълкуване на новото съобщение.
+
+OWNER_SCOPE_PROPOSAL_BLOB=f08e673e3903ff7ab450201077f2771c7d77cd81
+OWNER_SCOPE_PROPOSAL_PATH=discussions/codex/task-001/PROJECT_HUB/reviews/art-animation-creative-pass-2026-10-20/OWNER_GRANT_SCOPE_REQUIRED.txt
+Този файл е предложение за обхват, не активен grant. Не са редактирани разрешенията и не е измислен нов task ID.
+
+2. ТЕКУЩАТА V001, А НЕ FIRST BEND
+
+GAME_REFERENCE посочва runnable текущата v001 и редактируемите Blender източници:
+GAME_PACKAGE_SOURCE_COMMIT=f9864651015b5b57f94c439d311f03408fab4446
+GAME_PACKAGE_PATH=discussions/codex/task-001/PROJECT_HUB/builds/native-mine-campaign-tutorial-2026-10-20/NATIVE_PROJECT_PACKAGE.base64.txt
+REPORTED_PACKAGE_BYTES=59743347
+REPORTED_PACKAGE_SHA256=3853c032565c3d4d2c087dd6f50eb76ab8c12e4f2b95b01904042f9e7e260e28
+REPORTED_ENTRIES=438
+Това са стойности, прочетени от публикувания GAME_REFERENCE, не независимо повторно изчислени хешове на пакета в тази сесия. Не съм изтеглил, декодирал, импортнал или изпълнил целия пакет и не твърдя преглед на всичките 70 PNG, двата MP4, Blender сцените или игровия код. DOWNLOAD_REVIEW е прочетен като текст; не е изпълнен.
+
+Действително прочетени байтове на приложеното от човека видео:
+Recording 2026-10-20 184644.mp4
+Място в текущата среда: /mnt/data/Recording 2026-10-20 184644.mp4
+ffprobe: 1923087 bytes, 4.900s, H.264 806x930, 30 fps, 147 encoded video frames; има AAC поток. Не е прослушван звук.
+За визуален преглед са декодирани 15 избрани кадъра при 3 кадъра/секунда и са разгледани контактният лист и първият кадър в пълен размер. Това не е нов animation preview, нито лично пусната игра, нито доказателство за realtime 30 fps. В кадрите виждам 3D зеления свят, дървената пътека, номер 1 до малкия гном, номер 2 при входа и фенера. Не използвам стария First Bend за художествена отправна точка.
+Няма независимо доказателство, че приложеното видео и архивът v001 са идентични по source hash. Видимото съответствие на сцената не заменя такова доказателство. Краткият запис не показва разходка по пътеката; не правя заключение за качеството на походката от него.
+
+3. ЧУЖДА РАБОТА И ПРЕДЛОЖЕНА ЕДНА ЧАСТ
+
+Проверен Grok task-001 head:
+PEER_COMMIT=14a5d5278951fb3283d73679cb2db3df5570a7a5
+Прочетена последната част на discussions/grok/task-001/REPORT.txt от този commit, включително последния ALIVE_EXPERIENCE независим отговор.
+PEER_REPORT_BLOB=0aca70d823684a3bd00bca8efb251259271f5b86
+В този доклад няма публикувана изпълнена художествена проба по новата creative-pass задача от 20.10.2026. Това твърдение е ограничено до проверения доклад/commit, не до непроверени чужди работни копия. Не редактирам чужди материали и не резервирам чрез този текст изключителни права върху бъдещи файлове.
+
+МОЯТА ПРЕДВАРИТЕЛНО ИЗБРАНА ЧАСТ: малкият 3D гном водач в текущата v001, с една завършена idle -> greeting wave -> settle проба при същата камера. Не нов свят, не нов engine и не отделен магически VFX.
+
+Художествена цел след активиране на обхвата:
+- Запазване на разпознаваемата червена шапка, брада, палто, обувки и фенер, с по-четимо лице и по-меки преходи между формите, без несвързан нов герой.
+- Мигане и много малко движение на горната част на тялото; ходилата и контактната сянка остават на земята. Не се люлее целият герой като един твърд предмет.
+- Един кратък поздрав с различни фази за рамо, лакът, китка и глава, малко изоставане на фенера и плавно спиране. Не постоянно махане по една механично повторена крива.
+- Светът, входът, дъските, камерата, ниво 1/ниво 2, UI и механиките не са предмет на тази конкретна проба.
+Това е избрана посока, не извършена редакция. Няма source инспекция на самия rig, затова не твърдя, че липсват кости, стави или отделни обекти; това се установява от актуалния Blender source след получаване на приложимото разрешение.
+
+4. ТОЧНО ЛИПСВАЩИЯТ РЕГИСТРИРАН ОБХВАТ
+
+Необходим е одобрен от собственика grant на main за текущата v001, който определя конкретния собствен клон и собствени art/outputs/game/discussions папки. Не е достатъчно само старото APPROVED за First Bend.
+
+Минималният нужен обхват за избраната проба включва:
+- Четене и редакция на копие от текущия гном/материали/анимационни източници, с .blend и използвания генератор/текстури, както и .glb/.gltf exports при необходимост.
+- Само необходимите .tscn/.tres/.gd/.gdshader или свързани настройки за визуалната проба в собствено изолирано Godot копие; никакво променяне на Core, ходове, сили, цели, награди, нива, звук или save/progress.
+- Разрешено source/export/import, render и кратък Godot asset/runtime capture на 432x960 в изолирания профил, плюс нужните проверки за pivots, alpha, затваряне на цикъла, отменяне на анимация и запазени защитени файлове.
+- Реални before/after, editable source, exports и инструкции; REPORT, PROVENANCE, ASSET_METADATA, MANIFEST за всяка действително нова добавка. UNKNOWN при липсващи лицензни доказателства; без обещание за затворени наследени права.
+- Доставка в собствения разрешен Git обхват с lossless transfer при нужда и точен remote readback; Draft PR едва за реално предаден кандидат. Без merge или интеграция в основната v001.
+
+5. РЕАЛНО НАПРАВЕНО И STOP
+
+Извършени са read-only прегледът на правилата, grants, актуалните входове и peer доклада, както и визуалният преглед на избрани кадри от приложеното видео. Не е стартиран Godot/Blender, не е приложен patch, не е създаден модел/rig/анимация/нов арт/аудио и не е променен нито един gameplay файл.
+
+Точният допълнителен технически резултат в тази сесия:
+git ls-remote https://github.com/Fuet-Goat/GnomiT-review-test.git refs/heads/codex/gpt/task-001
+-> fatal: unable to access ... Could not resolve host: github.com
+Свързаният GitHub инструмент работи за read/text publication. Не е опитвана художествена бинарна доставка, защото приложимият grant липсва. DNS резултатът не е доказателство, че документираният connector/lossless път е невъзможен.
+
+Публикува се само този собствен допълващ REPORT в разрешения task-001 текстов обхват. Той е добавка, не замяна на стария общ REPORT.txt. Историческият discussions/gpt/task-001/REPORT.txt с blob 393b8fad483570c8cc5169607c6cd62153b51a5b остава непроменен. Няма нов grant, нов художествен вариант или дублиращ art PR.
+
+STOP=AWAIT_MATCHING_OWNER_APPROVED_SCOPE
+READY=NO
+Този запис не активира задачата и не изисква одобрение за отделни цветове или пози. Следващата зависимост е точното регистрирано разрешение за избраната творческа проба.
