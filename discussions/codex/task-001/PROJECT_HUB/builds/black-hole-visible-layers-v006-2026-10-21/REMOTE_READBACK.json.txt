@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "source_commit": "b91ad6c568e6648de42c9af6099353441b2e0142",
+  "base_commit": "ef419de05d05b01be507c769c681c94fbf0fda28",
+  "base_sha256": "62cae5621af122dc3efa52c447e3b3cd7ca27bf39895e899071ef38b61c40c3a",
+  "delta_sha256": "299292618cc25c2c64327b52cffb580538054d7d30b20897dc6d388c391e1d7e",
+  "verified_project_files": 239,
+  "no_engine_or_project_code_executed": true,
+  "all_local_files_equal": true,
+  "decoder_sha256": "9af3df9b149393a6bac36954ea0004acb95851e78332223db8efc1e8be242ae4",
+  "base_archive_used": "Previously published v005, rehashed against pinned identity"
+}
