@@ -1,0 +1,8 @@
+{
+  "zip": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\GNOMIT_CODEX_VOLUMETRIC_GNOME_V004_2026-10-20.zip",
+  "bytes": 28970836,
+  "sha256": "4ffb280f898ebd50ffe7beae408db2ec5c4a115d757f6bb962efe81c88b5a1b5",
+  "entries": 95,
+  "status": "LOCAL_PACKAGE_VERIFIED",
+  "human_art_acceptance": "PENDING"
+}

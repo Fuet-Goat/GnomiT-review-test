@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "frames": 250,
+  "fps": 30,
+  "duration_seconds": 8.333333333333334,
+  "viewport": [
+    432,
+    960
+  ],
+  "audio": "silent",
+  "sha256": "ba1925987d75fc094cac96ad49f2740682852c61ddff4328f53ab4e801bbc467",
+  "method": "Full ffmpeg decode plus Godot MovieMaker receipt"
+}

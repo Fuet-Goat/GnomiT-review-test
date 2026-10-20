@@ -1,0 +1,151 @@
+"""Authored continuous guide meshes. Coordinates match the preserved guide rig.
+
+All forms are procedural geometry, without downloaded meshes or image textures.
+Z up, front -Y. Helpers deliberately retain scene_api.parent_keep_world behavior.
+"""
+import math
+import bpy
+from mathutils import Vector
+from scene_api import linear
+
+def build_forms(api, owner, objects):
+    def mesh(name, vertices, faces, material, parent=None, subdiv=1):
+        data=bpy.data.meshes.new('Guide_'+name+'Mesh')
+        data.from_pydata(vertices,[],faces);data.update()
+        obj=bpy.data.objects.new('Guide_'+name,data)
+        bpy.context.collection.objects.link(obj)
+        api['finish'](obj,obj.name,material,0,True)
+        if subdiv:
+            modifier=obj.modifiers.new('Broad continuous surface','SUBSURF')
+            modifier.levels=subdiv;modifier.render_levels=subdiv
+        api['parent_keep_world'](obj,parent or owner);objects.append(obj)
+        return obj
+
+    def ring_mesh(name,rings,material,parent=None,deform=None,count=48,subdiv=1):
+        vertices=[]
+        for k,ring in enumerate(rings):
+            z,rx,ry,cy=ring
+            for i in range(count):
+                a=math.tau*i/count
+                v=Vector((rx*math.cos(a),cy+ry*math.sin(a),z))
+                if deform:v=Vector(deform(v,a,k))
+                vertices.append(tuple(v))
+        faces=[]
+        for k in range(len(rings)-1):
+            for i in range(count):
+                j=(i+1)%count;lo=k*count;hi=(k+1)*count
+                faces.append((lo+i,lo+j,hi+j,hi+i))
+        faces.extend([tuple(reversed(range(count))),tuple((len(rings)-1)*count+i for i in range(count))])
+        if rings[-1][0] < rings[0][0]:
+            faces=[tuple(reversed(face)) for face in faces]
+        return mesh(name,vertices,faces,material,parent,subdiv)
+
+    def sweep(name,points,radii,material,parent=None,count=16,depth=1):
+        pts=[Vector(p) for p in points];vertices=[]
+        for k,p in enumerate(pts):
+            tangent=(pts[min(k+1,len(pts)-1)]-pts[max(0,k-1)]).normalized()
+            n=tangent.cross(Vector((0,-1,0)))
+            if n.length<.01:n=tangent.cross(Vector((1,0,0)))
+            n.normalize();b=tangent.cross(n).normalized()
+            for i in range(count):
+                a=math.tau*i/count
+                vertices.append(tuple(p+radii[k]*(math.cos(a)*n+math.sin(a)*b*depth)))
+        faces=[]
+        for k in range(len(pts)-1):
+            for i in range(count):
+                j=(i+1)%count;lo=k*count;hi=lo+count
+                faces.append((lo+i,lo+j,hi+j,hi+i))
+        faces.extend([tuple(reversed(range(count))),tuple((len(pts)-1)*count+i for i in range(count))])
+        return mesh(name,vertices,faces,material,parent,2)
+
+    def ribbon(name,points,widths,material,parent=None):
+        vertices=[]
+        for k,p in enumerate(points):
+            for side in [-1,1]:vertices.append((p[0]+side*widths[k],p[1],p[2]))
+        faces=[(k*2+2,k*2+3,k*2+1,k*2) for k in range(len(points)-1)]
+        obj=mesh(name,vertices,faces,material,parent,2)
+        solid=obj.modifiers.new('Cloth thickness','SOLIDIFY');solid.thickness=.006
+        return obj
+
+    return ring_mesh,sweep,ribbon
+
+def coat(api,owner,objects,cloth,trim):
+    ring_mesh,sweep,ribbon=build_forms(api,owner,objects)
+    rings=[(.225,.170,.120,.015),(.239,.194,.137,.014),(.266,.206,.145,.012),
+           (.300,.199,.139,.010),(.335,.179,.126,.010),(.380,.190,.132,.012),
+           (.432,.205,.143,.018),(.486,.200,.140,.021),(.535,.186,.128,.022),
+           (.565,.154,.112,.020),(.594,.110,.086,.016),(.622,.078,.066,.010)]
+    def folds(v,a,k):
+        front=max(0,-math.sin(a))**4
+        # Two broad diagonal cloth folds are part of the shared coat surface.
+        x=abs(v.x);t=max(0,min(1,(v.z-.335)/.20))
+        ridge=math.exp(-((x-(.070+.090*t))/.035)**2)
+        valley=math.exp(-((x-(.035+.090*t))/.025)**2)
+        envelope=math.sin(math.pi*max(0,min(1,(v.z-.30)/.28)))**2
+        v.y-=front*envelope*(.014*ridge-.005*valley)
+        v.y-=front*.008*math.exp(-((v.x-.013)/.024)**2)
+        if k<3:v.z+=front*.007*math.sin(a*2+.3)
+        return v
+    obj=ring_mesh('tailored coat continuous shell',rings,cloth,deform=folds,subdiv=2)
+    # Wide lapels and opening, rather than a raised sausage-like seam.
+    for side in [-1,1]:
+        ribbon('folded collar lapel',[(side*.060,-.047,.610),(side*.105,-.082,.568),
+                (side*.104,-.114,.524),(side*.060,-.138,.477)], [.025,.036,.030,.006],trim)
+    ribbon('overlapping coat front',[(.016,-.126,.528),(.013,-.139,.475),
+            (.010,-.126,.398),(.007,-.124,.343),(.015,-.137,.278)], [.014,.016,.014,.012,.011],trim)
+    return obj
+
+def face(api,owner,objects,skin):
+    ring_mesh,sweep,ribbon=build_forms(api,owner,objects)
+    face_mat=api['mat']('Guide sculpted peach vertex face','#EDB38E',.56)
+    rings=[(.628,.072,.066,.008),(.643,.108,.090,.008),(.666,.142,.114,.004),
+           (.704,.168,.132,.001),(.745,.178,.143,-.002),(.784,.178,.145,-.001),
+           (.824,.173,.140,.000),(.861,.160,.129,.004),(.891,.135,.109,.009),
+           (.914,.090,.075,.012),(.922,.030,.027,.014)]
+    def anatomy(v,a,k):
+        front=max(0,-math.sin(a))**3
+        cheek=math.exp(-((abs(v.x)-.106)/.049)**2-((v.z-.747)/.041)**2)
+        socket=math.exp(-((abs(v.x)-.071)/.040)**2-((v.z-.810)/.035)**2)
+        brow=math.exp(-((abs(v.x)-.076)/.068)**2-((v.z-.848)/.024)**2)
+        v.y+=front*(-.025*cheek+.012*socket-.009*brow)
+        return v
+    obj=ring_mesh('integrated sculpted face',rings,face_mat,owner,anatomy,64,2)
+    # Constant skin PBR exports identically to GLB/Godot. The discarded first
+    # probe used a vertex-color node unsupported by that exported material.
+    return obj
+
+def beard(api,owner,objects,cream,shadow):
+    ring_mesh,sweep,ribbon=build_forms(api,owner,objects)
+    rings=[(.723,.157,.108,.000),(.704,.175,.126,-.003),(.677,.179,.144,-.010),
+           (.642,.176,.151,-.013),(.602,.159,.143,-.017),(.568,.135,.119,-.019),
+           (.542,.096,.083,-.018),(.526,.046,.043,-.015),(.525,.009,.009,-.012)]
+    def locks(v,a,k):
+        front=max(0,-math.sin(a))
+        # Higher sideburn/back edge; low front chin. One watertight shared mesh.
+        v.z+=(.015+.065*k/(len(rings)-1))*(1-front)
+        # The same surface rises into sideburns and the hair at the back of
+        # the head; its upper edge is not a horizontal helmet seam.
+        upper=max(0,1-k/3.0)
+        v.z+=upper*(.145*max(0,math.sin(a))+.075*abs(math.cos(a))**3)
+        envelope=math.sin(math.pi*k/(len(rings)-1))
+        valleys=math.exp(-((v.x-.054)/.017)**2)+math.exp(-((v.x+.054)/.017)**2)
+        v.y+=.027*front**3*envelope*valleys
+        if k>=5:v.z-=.009*front**3*math.exp(-(v.x/.036)**2)
+        return v
+    obj=ring_mesh('continuous jaw wrapping beard',rings,cream,owner,locks,64,2)
+    for side in [-1,1]:
+        sweep('flowing moustache',[(side*.010,-.178,.735),(side*.037,-.184,.734),
+              (side*.077,-.181,.720),(side*.112,-.158,.730),(side*.125,-.144,.743)],
+              [.012,.024,.021,.011,.002],cream,owner,16,.68)
+    return obj
+
+def eyelid(api,owner,objects,side,skin):
+    ring_mesh,sweep,ribbon=build_forms(api,owner,objects)
+    x=side*.071
+    # Broad upper/lower lid rims meet the facial surface around shallow whites.
+    sweep('upper sculpted eyelid',[(x-.032,-.143,.805),(x-.023,-.158,.828),
+          (x,-.162,.836),(x+.023,-.158,.828),(x+.032,-.143,.805)],
+          [.004,.007,.009,.007,.004],skin,owner,12,.60)
+    sweep('lower sculpted eyelid',[(x-.032,-.143,.805),(x-.021,-.155,.785),
+          (x,-.159,.779),(x+.021,-.155,.785),(x+.032,-.143,.805)],
+          [.003,.004,.005,.004,.003],skin,owner,12,.60)

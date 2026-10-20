@@ -1,0 +1,142 @@
+{
+	"android_performance": "NOT_MEASURED",
+	"candidate_glb_sha256": "0ad5ea6aa849a371c627d23c13212559e3d4dc50fcd25015c69c34bceda992c9",
+	"checks": 50,
+	"failures": [],
+	"human_art_acceptance": "PENDING",
+	"method": "Actual native Godot import and explicit pose/continuous-state checks; not a human playtest",
+	"screen_count": 1,
+	"screen_index": 0,
+	"shots": [
+		{
+			"before": false,
+			"detail": false,
+			"kind": "SCRIPTED_NATIVE_ART_PREVIEW",
+			"path": "res://renders/AFTER_WORLD_REST.png",
+			"seconds": 0.0,
+			"sha256": "78b7a470265ceb1b5ded27446190b026a7fceb58187cb4a3ae834c3590140663"
+		},
+		{
+			"before": false,
+			"detail": false,
+			"kind": "SCRIPTED_NATIVE_ART_PREVIEW",
+			"path": "res://renders/AFTER_WORLD_WAVE.png",
+			"seconds": 1.75,
+			"sha256": "20166bece53735c3e1c22afb90a652145d3dfb02f02f2477d9c4cb2868a59594"
+		},
+		{
+			"before": false,
+			"detail": true,
+			"kind": "SCRIPTED_NATIVE_ART_PREVIEW",
+			"path": "res://renders/AFTER_DETAIL_REST.png",
+			"seconds": 0.0,
+			"sha256": "bf536929465e08b43dd8d0a3ccb9a3f0e24d138236309dd90755abf080ae9488"
+		},
+		{
+			"before": false,
+			"detail": true,
+			"kind": "SCRIPTED_NATIVE_ART_PREVIEW",
+			"path": "res://renders/AFTER_DETAIL_WAVE.png",
+			"seconds": 2.125,
+			"sha256": "b34f59fed314921b254bb8fb7b5141622ec9dcbcbb2d71fc4b11b30391245b83"
+		},
+		{
+			"before": false,
+			"detail": true,
+			"kind": "SCRIPTED_NATIVE_ART_PREVIEW",
+			"path": "res://renders/AFTER_DETAIL_BLINK.png",
+			"seconds": 0.625,
+			"sha256": "2b23afa2b67dc3d514fa9bf5446c7628f36cdd219713c26ef1a04f1b6b5ba3c4"
+		},
+		{
+			"before": false,
+			"detail": true,
+			"kind": "SCRIPTED_NATIVE_ART_PREVIEW",
+			"path": "res://renders/AFTER_DETAIL_SETTLED.png",
+			"seconds": 6.0,
+			"sha256": "5fc33a1bd9b8ba3c50677092da0df32b5359c6c2576f148d65723e69c0dd1a5e"
+		},
+		{
+			"before": false,
+			"detail": true,
+			"kind": "SCRIPTED_NATIVE_ART_PREVIEW",
+			"path": "res://renders/AFTER_FRONT.png",
+			"seconds": 0.0,
+			"sha256": "119748be07144a83d5d9ffad8da15a41d405f6dc8e394620e7c628f6c73d87f1"
+		},
+		{
+			"before": false,
+			"detail": true,
+			"kind": "SCRIPTED_NATIVE_ART_PREVIEW",
+			"path": "res://renders/AFTER_THREE_QUARTER.png",
+			"seconds": 0.0,
+			"sha256": "bf536929465e08b43dd8d0a3ccb9a3f0e24d138236309dd90755abf080ae9488"
+		},
+		{
+			"before": false,
+			"detail": true,
+			"kind": "SCRIPTED_NATIVE_ART_PREVIEW",
+			"path": "res://renders/AFTER_PROFILE.png",
+			"seconds": 0.0,
+			"sha256": "115d13439e959e3284ed10d57b6e2d4150ad4a08d8da78f401addf5bbfb76d95"
+		},
+		{
+			"before": true,
+			"detail": false,
+			"kind": "SCRIPTED_NATIVE_ART_PREVIEW",
+			"path": "res://renders/BEFORE_WORLD_REST.png",
+			"seconds": 0.0,
+			"sha256": "2addc426212a3f524021628da9bd608ef3d5300f0a1674fe8b8fbff1523412a1"
+		},
+		{
+			"before": true,
+			"detail": false,
+			"kind": "SCRIPTED_NATIVE_ART_PREVIEW",
+			"path": "res://renders/BEFORE_WORLD_WAVE.png",
+			"seconds": 1.75,
+			"sha256": "a33d8595aa370e0ff11761fd7493d1485be966a04a4f782bddedb4e73077e003"
+		},
+		{
+			"before": true,
+			"detail": true,
+			"kind": "SCRIPTED_NATIVE_ART_PREVIEW",
+			"path": "res://renders/BEFORE_DETAIL_REST.png",
+			"seconds": 0.0,
+			"sha256": "1ed27d2a6d55aedf4101810276373c97f098bd5dde83a430286a28d078fb2ef2"
+		},
+		{
+			"before": true,
+			"detail": true,
+			"kind": "SCRIPTED_NATIVE_ART_PREVIEW",
+			"path": "res://renders/BEFORE_DETAIL_WAVE.png",
+			"seconds": 2.125,
+			"sha256": "9eb6f856d502a21ae27dd0da71aea21d0b0dc08a6defac68cd9fc74440c51aa7"
+		},
+		{
+			"before": true,
+			"detail": true,
+			"kind": "SCRIPTED_NATIVE_ART_PREVIEW",
+			"path": "res://renders/BEFORE_FRONT.png",
+			"seconds": 0.0,
+			"sha256": "227125898ca8cfba070ff6a18e6dbcbfc9e7461065ca99c5cf5eb6b656d378c2"
+		},
+		{
+			"before": true,
+			"detail": true,
+			"kind": "SCRIPTED_NATIVE_ART_PREVIEW",
+			"path": "res://renders/BEFORE_THREE_QUARTER.png",
+			"seconds": 0.0,
+			"sha256": "71df410c2e357239983dd554bc82d8a45bd171c9b9f6280b700355900817fc3c"
+		},
+		{
+			"before": true,
+			"detail": true,
+			"kind": "SCRIPTED_NATIVE_ART_PREVIEW",
+			"path": "res://renders/BEFORE_PROFILE.png",
+			"seconds": 0.0,
+			"sha256": "1ed27d2a6d55aedf4101810276373c97f098bd5dde83a430286a28d078fb2ef2"
+		}
+	],
+	"source_glb_sha256": "6598473c272d8773b654effb1807f4cc170f346db5ad5bc73a601885e553aaf0",
+	"status": "PASS"
+}
