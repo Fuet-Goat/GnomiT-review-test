@@ -1,0 +1,9 @@
+Two Codex subagents performed source-only review before the first build:
+gpt_island_execution_audit and gpt_island_geometry_audit. Both read all seven
+modules/settings; neither executed or edited the proposal. Both identified
+inward underdeck normals and found no static blocker for the isolated trial.
+The root performed actual native execution and measured that defect, then
+created and verified one minimal derivative. Geometry reviewer subsequently
+viewed the actual render and middle reference panel and confirmed the three
+art priorities in REPORT. These are internal read-only reviews, not independent
+human acceptance or a new GPT/Grok external consensus.

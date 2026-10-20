@@ -1,0 +1,8 @@
+{
+  "zip": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\GNOMIT_AIRY_ISLAND_NATIVE_REVIEW_2026-10-21.zip",
+  "bytes": 13445640,
+  "sha256": "ea0d100aa44ed88cfb6759e82d05f69c3fe70574712ec41583beed3c5e5aaaa0",
+  "entries": 82,
+  "status": "LOCAL_ARCHIVE_VERIFIED",
+  "kind": "ACTUAL_NATIVE_REVIEW_NOT_FINAL_ART"
+}

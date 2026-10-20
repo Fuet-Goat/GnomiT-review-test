@@ -1,0 +1,6 @@
+Local static-art shortcut was created and read back:
+C:/Users/fruch/Desktop/GnomiT Samples/Art Previews/Airy Island GPT v001 - Normals Fixed.lnk
+Target C:/Tools/Blender/blender-5.2.2-windows-x64/blender.exe
+Arguments --disable-autoexec followed by the absolute corrected .blend path.
+It is a Blender art preview, not a playable Godot sample. The campaign/Latest
+launcher and all previous game version shortcuts were left unchanged.

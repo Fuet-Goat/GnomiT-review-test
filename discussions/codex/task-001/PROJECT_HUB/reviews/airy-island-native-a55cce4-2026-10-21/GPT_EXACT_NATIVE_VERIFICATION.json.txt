@@ -1,0 +1,117 @@
+{
+  "status": "NATIVE_REOPEN_AND_GLB_REIMPORT_PASS_WITH_NORMALS_FINDING",
+  "blender_version": "5.2.2 LTS",
+  "source_commit": "a55cce4a0f0ba879615e6661f861159c7edfa785",
+  "input_sha256": {
+    "gnomit_airy_island_v001.blend": "107d8da18d9162255332fa8a3db3d72854fb2cd47ff946907385d1ed77f79b78",
+    "EXPORT\\gnomit_airy_island_v001.glb": "41bf6f3a57aa21f4124c5f8e04520f8d22d46da0425ed33983e9e8fd5b59289c"
+  },
+  "blend_reopen": {
+    "status": "PASS",
+    "packed_generated_images": [
+      "Airy_bark",
+      "Airy_endgrain",
+      "Airy_wood",
+      "Airy_wood_dark",
+      "Airy_wood_light"
+    ],
+    "geometry": {
+      "mesh_objects": 552,
+      "evaluated_triangles": 218098,
+      "bounds_min": [
+        -3.817415237426758,
+        -9.570149421691895,
+        -0.7278950810432434
+      ],
+      "bounds_max": [
+        3.8604719638824463,
+        9.060330390930176,
+        3.8464581966400146
+      ],
+      "underdeck_signed_volume_local_m3": {
+        "Continuous_Timber_Underdeck": -2.828529381870276
+      }
+    },
+    "actual_camera_bounds": [
+      0.05500001832842827,
+      0.062495939433574677,
+      0.9449999928474426,
+      0.9375041723251343
+    ]
+  },
+  "glb_reimport": {
+    "status": "PASS",
+    "geometry": {
+      "mesh_objects": 552,
+      "evaluated_triangles": 218098,
+      "bounds_min": [
+        -3.817415237426758,
+        -9.570149421691895,
+        -0.7278950810432434
+      ],
+      "bounds_max": [
+        3.8604719638824463,
+        9.060330390930176,
+        3.8464581966400146
+      ],
+      "underdeck_signed_volume_local_m3": {
+        "Continuous_Timber_Underdeck": -2.828529381870276
+      }
+    },
+    "bounds_max_error_m": 0.0,
+    "images": [
+      {
+        "name": "Airy_bark",
+        "size": [
+          256,
+          256
+        ],
+        "packed": true
+      },
+      {
+        "name": "Airy_endgrain",
+        "size": [
+          256,
+          256
+        ],
+        "packed": true
+      },
+      {
+        "name": "Airy_wood",
+        "size": [
+          256,
+          256
+        ],
+        "packed": true
+      },
+      {
+        "name": "Airy_wood_dark",
+        "size": [
+          256,
+          256
+        ],
+        "packed": true
+      },
+      {
+        "name": "Airy_wood_light",
+        "size": [
+          256,
+          256
+        ],
+        "packed": true
+      }
+    ],
+    "required_nodes": [
+      "Level_1_Anchor",
+      "Level_2_Anchor",
+      "Portrait_Camera",
+      "Road_Centerline"
+    ]
+  },
+  "runtime_seconds": 7.664184808731079,
+  "scene_inputs_unchanged": true,
+  "finding": "Underdeck has inward normals / negative signed volume; correct before runtime use",
+  "godot": "NOT_RUN",
+  "android": "NOT_RUN",
+  "human_visual_acceptance": "PENDING"
+}

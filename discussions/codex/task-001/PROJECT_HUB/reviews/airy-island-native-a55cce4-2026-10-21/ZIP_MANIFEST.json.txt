@@ -1,0 +1,409 @@
+{
+  "files": [
+    {
+      "path": "01_GPT_EXACT/BUILD_RECEIPT.json",
+      "bytes": 4128,
+      "sha256": "f247df86ee7b5c43d8ee30e4386590d7a4d5d2892467de7d7a8c1b1eb831ffc8"
+    },
+    {
+      "path": "01_GPT_EXACT/EXPORT/gnomit_airy_island_v001.glb",
+      "bytes": 7579700,
+      "sha256": "41bf6f3a57aa21f4124c5f8e04520f8d22d46da0425ed33983e9e8fd5b59289c"
+    },
+    {
+      "path": "01_GPT_EXACT/gnomit_airy_island_v001.blend",
+      "bytes": 1741015,
+      "sha256": "107d8da18d9162255332fa8a3db3d72854fb2cd47ff946907385d1ed77f79b78"
+    },
+    {
+      "path": "01_GPT_EXACT/OUTPUT_MANIFEST.json",
+      "bytes": 3150,
+      "sha256": "6de3557054ad66de2dd02c32eb28f32a6719527fd61ac11a2615375b0b845655"
+    },
+    {
+      "path": "01_GPT_EXACT/PROVENANCE.json",
+      "bytes": 1962,
+      "sha256": "cc4ed67f1de0ff155d9b1810af98baff7016cb5ef78a7c7538b556a5cbd6d266"
+    },
+    {
+      "path": "01_GPT_EXACT/README_BG.txt",
+      "bytes": 364,
+      "sha256": "850f51c0d66ab4e50e9df53c498b3d518423d4b5e645f15265142afbf56be25e"
+    },
+    {
+      "path": "01_GPT_EXACT/RENDERS/01_BEAUTY_432x960.png",
+      "bytes": 581728,
+      "sha256": "af02372b64e444e863448696ec3b80e72c94c626144da7832795c0e33e6859ed"
+    },
+    {
+      "path": "01_GPT_EXACT/SCENE_METADATA.json",
+      "bytes": 20202,
+      "sha256": "577b93f07726aa1237a87a61402c546fd7ad35f1490014bf5bb40d23d1728125"
+    },
+    {
+      "path": "01_GPT_EXACT/SETTINGS_USED.json",
+      "bytes": 4489,
+      "sha256": "f99067d6338fddcf7013af4cb5cf089209c847f0dd0622a5f3b6006f20aa5f3d"
+    },
+    {
+      "path": "01_GPT_EXACT/SOURCE/boardwalk.py",
+      "bytes": 8414,
+      "sha256": "1821342922a5c9c91a6fda0dfe2efa2f1b015654bfe3b2f6226a716eb3b04430"
+    },
+    {
+      "path": "01_GPT_EXACT/SOURCE/build_scene.py",
+      "bytes": 10355,
+      "sha256": "134b5377c430c59573b5df4fa268242f1f9f95c86917cdc39d460d7d6551a583"
+    },
+    {
+      "path": "01_GPT_EXACT/SOURCE/environment.py",
+      "bytes": 10889,
+      "sha256": "fd87659523f84add81e962dbb6d1099606e4f6d73e3796a9fcc6c9031896fd8d"
+    },
+    {
+      "path": "01_GPT_EXACT/SOURCE/geometry.py",
+      "bytes": 7449,
+      "sha256": "5b4ed5846a26fc46062d8b1c158130625b4eb5d5a2ae8691e9c6f61e9837b130"
+    },
+    {
+      "path": "01_GPT_EXACT/SOURCE/materials.py",
+      "bytes": 3846,
+      "sha256": "5d56f408bc7ff7522fb54d96ee76bdc57be3a00fdeab37ad35b0e3d944ca8c66"
+    },
+    {
+      "path": "01_GPT_EXACT/SOURCE/mine.py",
+      "bytes": 6287,
+      "sha256": "7913e84f442879d44777030a5d78fda8310b0beb05b6281e3583604ddfb9065c"
+    },
+    {
+      "path": "01_GPT_EXACT/SOURCE/presentation.py",
+      "bytes": 8719,
+      "sha256": "510354e0d6918a50830bafde12d86ddf597283c96a696f296d6930e4dfdaa7f2"
+    },
+    {
+      "path": "01_GPT_EXACT/SOURCE/scene_settings.json",
+      "bytes": 4233,
+      "sha256": "2d3d2cfb230af5254e4c0f23844ab15bd88cdfe6376ab1c16a08f903d8207036"
+    },
+    {
+      "path": "01_GPT_EXACT/TEXTURES/Airy_bark.png",
+      "bytes": 27525,
+      "sha256": "bd7b322939aa38d768dd97dd962f047ce3a6e68efff9c2d751f31338980692ab"
+    },
+    {
+      "path": "01_GPT_EXACT/TEXTURES/Airy_endgrain.png",
+      "bytes": 66667,
+      "sha256": "cc993b5360a53e49883c78e5da19b596498082970d43744b83e2f15c1d30ff49"
+    },
+    {
+      "path": "01_GPT_EXACT/TEXTURES/Airy_wood.png",
+      "bytes": 37367,
+      "sha256": "35639a8a269b6b630beb23b8cefd6f00bc777657633cdc47167ae2cdf8cef7c3"
+    },
+    {
+      "path": "01_GPT_EXACT/TEXTURES/Airy_wood_dark.png",
+      "bytes": 24825,
+      "sha256": "1fc069389202c4bdc6c9067155d19a5a6ebc2d9f4806a813061dfc672e053939"
+    },
+    {
+      "path": "01_GPT_EXACT/TEXTURES/Airy_wood_light.png",
+      "bytes": 42585,
+      "sha256": "7f452ca0906aa935964ce93d7c1a95a5cbcd40c301f2944c3b9dc45e72765d06"
+    },
+    {
+      "path": "02_CODEX_NORMALS_FIX/BUILD_RECEIPT.json",
+      "bytes": 4138,
+      "sha256": "8b7ae10ad9e263844d13c726e120cdabebc86f4aa15688732c0e86439eb35ee1"
+    },
+    {
+      "path": "02_CODEX_NORMALS_FIX/EXPORT/gnomit_airy_island_v001.glb",
+      "bytes": 7579700,
+      "sha256": "923820958522ffa1e89f75b5ce106fd2c3c3e6e89afde4548aff2a5de1f185ee"
+    },
+    {
+      "path": "02_CODEX_NORMALS_FIX/gnomit_airy_island_v001.blend",
+      "bytes": 1741405,
+      "sha256": "151692114e11bace59bc9a0a82746feecc1674cdc8a29c8a5c361ad2e85c3852"
+    },
+    {
+      "path": "02_CODEX_NORMALS_FIX/OUTPUT_MANIFEST.json",
+      "bytes": 3150,
+      "sha256": "fa97ae610f59bc065341c93002db53f60740bc0d24f957bbf2ab06ec66cdb1d5"
+    },
+    {
+      "path": "02_CODEX_NORMALS_FIX/PROVENANCE.json",
+      "bytes": 1962,
+      "sha256": "0219792fb2380e49adfbadd8743c9a13af37424c6eb7d50f16aedf5fc7b30b1e"
+    },
+    {
+      "path": "02_CODEX_NORMALS_FIX/README_BG.txt",
+      "bytes": 364,
+      "sha256": "850f51c0d66ab4e50e9df53c498b3d518423d4b5e645f15265142afbf56be25e"
+    },
+    {
+      "path": "02_CODEX_NORMALS_FIX/RENDERS/01_BEAUTY_432x960.png",
+      "bytes": 581587,
+      "sha256": "672a796fc03fc9d03e8188c5dfc975e9458189ca461d6a71ee4e056dba711ee7"
+    },
+    {
+      "path": "02_CODEX_NORMALS_FIX/SCENE_METADATA.json",
+      "bytes": 20202,
+      "sha256": "577b93f07726aa1237a87a61402c546fd7ad35f1490014bf5bb40d23d1728125"
+    },
+    {
+      "path": "02_CODEX_NORMALS_FIX/SETTINGS_USED.json",
+      "bytes": 4489,
+      "sha256": "f99067d6338fddcf7013af4cb5cf089209c847f0dd0622a5f3b6006f20aa5f3d"
+    },
+    {
+      "path": "02_CODEX_NORMALS_FIX/SOURCE/boardwalk.py",
+      "bytes": 8614,
+      "sha256": "2c4030e61efa3117e88efa494353fdfae47f13ebc32f3eb0d23934b8243157c6"
+    },
+    {
+      "path": "02_CODEX_NORMALS_FIX/SOURCE/build_scene.py",
+      "bytes": 10355,
+      "sha256": "134b5377c430c59573b5df4fa268242f1f9f95c86917cdc39d460d7d6551a583"
+    },
+    {
+      "path": "02_CODEX_NORMALS_FIX/SOURCE/environment.py",
+      "bytes": 10889,
+      "sha256": "fd87659523f84add81e962dbb6d1099606e4f6d73e3796a9fcc6c9031896fd8d"
+    },
+    {
+      "path": "02_CODEX_NORMALS_FIX/SOURCE/geometry.py",
+      "bytes": 7449,
+      "sha256": "5b4ed5846a26fc46062d8b1c158130625b4eb5d5a2ae8691e9c6f61e9837b130"
+    },
+    {
+      "path": "02_CODEX_NORMALS_FIX/SOURCE/materials.py",
+      "bytes": 3846,
+      "sha256": "5d56f408bc7ff7522fb54d96ee76bdc57be3a00fdeab37ad35b0e3d944ca8c66"
+    },
+    {
+      "path": "02_CODEX_NORMALS_FIX/SOURCE/mine.py",
+      "bytes": 6287,
+      "sha256": "7913e84f442879d44777030a5d78fda8310b0beb05b6281e3583604ddfb9065c"
+    },
+    {
+      "path": "02_CODEX_NORMALS_FIX/SOURCE/presentation.py",
+      "bytes": 8719,
+      "sha256": "510354e0d6918a50830bafde12d86ddf597283c96a696f296d6930e4dfdaa7f2"
+    },
+    {
+      "path": "02_CODEX_NORMALS_FIX/SOURCE/scene_settings.json",
+      "bytes": 4233,
+      "sha256": "2d3d2cfb230af5254e4c0f23844ab15bd88cdfe6376ab1c16a08f903d8207036"
+    },
+    {
+      "path": "02_CODEX_NORMALS_FIX/TEXTURES/Airy_bark.png",
+      "bytes": 27525,
+      "sha256": "bd7b322939aa38d768dd97dd962f047ce3a6e68efff9c2d751f31338980692ab"
+    },
+    {
+      "path": "02_CODEX_NORMALS_FIX/TEXTURES/Airy_endgrain.png",
+      "bytes": 66667,
+      "sha256": "cc993b5360a53e49883c78e5da19b596498082970d43744b83e2f15c1d30ff49"
+    },
+    {
+      "path": "02_CODEX_NORMALS_FIX/TEXTURES/Airy_wood.png",
+      "bytes": 37367,
+      "sha256": "35639a8a269b6b630beb23b8cefd6f00bc777657633cdc47167ae2cdf8cef7c3"
+    },
+    {
+      "path": "02_CODEX_NORMALS_FIX/TEXTURES/Airy_wood_dark.png",
+      "bytes": 24825,
+      "sha256": "1fc069389202c4bdc6c9067155d19a5a6ebc2d9f4806a813061dfc672e053939"
+    },
+    {
+      "path": "02_CODEX_NORMALS_FIX/TEXTURES/Airy_wood_light.png",
+      "bytes": 42585,
+      "sha256": "7f452ca0906aa935964ce93d7c1a95a5cbcd40c301f2944c3b9dc45e72765d06"
+    },
+    {
+      "path": "FINAL_RESPONSE.txt",
+      "bytes": 935,
+      "sha256": "b1f68bd52fd4957889049918a1b6d647d624be4e31c8e46b914acf2321d0c392"
+    },
+    {
+      "path": "PROMPT_FOR_GPT_R2_BG.txt",
+      "bytes": 4999,
+      "sha256": "e6c3a449b395c386baaf42c756e82f13c510fb40865175347f3dad2125b0d3c9"
+    },
+    {
+      "path": "PROVENANCE.json",
+      "bytes": 1438,
+      "sha256": "be8b9f478ae9de1082626d9e57742390ce40c982d80e2b4095a132305e4e24da"
+    },
+    {
+      "path": "README.txt",
+      "bytes": 1525,
+      "sha256": "693e2fa2e88bf715d318b02ebe76ca5be458ed16211729f57b824b76e6899a86"
+    },
+    {
+      "path": "REFERENCE/PRIMARY_TARGET_COMPARISON.png",
+      "bytes": 2634535,
+      "sha256": "a7d9b4f82fe73a2e5ab641261b9cbc14765e6360c9c108ab7ee9a51b0bc84add"
+    },
+    {
+      "path": "REPORT.txt",
+      "bytes": 5127,
+      "sha256": "0e4db17decc4c6b0f6fee06550e86f44697bdf60b3b5e77468a5dabb8a38d960"
+    },
+    {
+      "path": "REVIEW/EXACT_CANDIDATE_RUN.log",
+      "bytes": 58280,
+      "sha256": "6e8f1bc8eb70e9ea60cc78ef2c9924a928fe597e66b08bc76427be9d25032be9"
+    },
+    {
+      "path": "REVIEW/IMAGE_DECODE_CHECK.json",
+      "bytes": 729,
+      "sha256": "3018024503ec92c84c847e5fc70bdc4fb6f564f4fafda45b9c6b0fba8a4ae3df"
+    },
+    {
+      "path": "REVIEW/NATIVE_VERIFICATION/BLEND_REOPEN_432x960.png",
+      "bytes": 581689,
+      "sha256": "ca04ddb294a0beee09f37f58e4e237059a4f52baf18a8434970402d7c05f8678"
+    },
+    {
+      "path": "REVIEW/NATIVE_VERIFICATION/NATIVE_VERIFICATION.json",
+      "bytes": 2856,
+      "sha256": "363d736c376217c5a2a22c8a870bfd7c79a86c395d6b36cb2ac79358d319275d"
+    },
+    {
+      "path": "REVIEW/NATIVE_VERIFICATION_RUN.log",
+      "bytes": 37573,
+      "sha256": "83de785d97ba0d6d63b40cf70aa86f1d7735e7a5bea869f06a782f31472412ae"
+    },
+    {
+      "path": "REVIEW/NORMALS_FIX.patch",
+      "bytes": 691,
+      "sha256": "576305d8138a11cb7b4a7a5882cfac28311e9c78cfe6a59685d46e700514fe59"
+    },
+    {
+      "path": "REVIEW/NORMALS_FIX_RECEIPT.json",
+      "bytes": 846,
+      "sha256": "c88441fe084f362ec327e63ff39d902e76a69841bc7380f8516f69f1d12d25d1"
+    },
+    {
+      "path": "REVIEW/NORMALS_FIXED_CANDIDATE_RUN.log",
+      "bytes": 58302,
+      "sha256": "803ce9cc139de7d92ec9b7562bf0aa6c4da5e7c2a391ac9d8bd06e17b53096e3"
+    },
+    {
+      "path": "REVIEW/NORMALS_FIXED_VERIFICATION/BLEND_REOPEN_432x960.png",
+      "bytes": 581637,
+      "sha256": "fd218a64605fbdbc10447ea3e1788a1f74ece216290f5a76fe87973079e245f5"
+    },
+    {
+      "path": "REVIEW/NORMALS_FIXED_VERIFICATION/NATIVE_VERIFICATION.json",
+      "bytes": 2825,
+      "sha256": "ccca7021447e9dbade7ee476905be2aee94deda3ea5d28fa6a84a60e0bb9a774"
+    },
+    {
+      "path": "REVIEW/NORMALS_FIXED_VERIFICATION_RUN.log",
+      "bytes": 37639,
+      "sha256": "eea4f7f4ab6ad63995abe34f7824553bcb29ca1fa659d6124317e8349f50daa1"
+    },
+    {
+      "path": "REVIEW/SOURCE_RECEIPT.json",
+      "bytes": 2492,
+      "sha256": "33f5bfa37788572fd5c95d3f4db7a3561f9ed670fa80a8b2af461ad7dd1e04ef"
+    },
+    {
+      "path": "REVIEW/TOOLS/derive_gpt_island_normals_fix.py",
+      "bytes": 1807,
+      "sha256": "fe7538800cab7adc4a58415fdb47a53114ec7f8b3fa35774d55483cd67ef94bf"
+    },
+    {
+      "path": "REVIEW/TOOLS/materialize_gpt_island_proposal.py",
+      "bytes": 2360,
+      "sha256": "d2d0d87af7c995b8eb0c399e51b6552f338b06a1114ed1bbd5cd6769fb22ebc1"
+    },
+    {
+      "path": "REVIEW/TOOLS/package_native_island_review.py",
+      "bytes": 17870,
+      "sha256": "54cdefc25aeff31b7cdb131688de2cd37394a6e0933e0c5fd100a946c0c13355"
+    },
+    {
+      "path": "REVIEW/TOOLS/verify_gpt_island_candidate.py",
+      "bytes": 6042,
+      "sha256": "02d5326c929204a885ec334c5ff8ac1e8d9ab974bc5eb98bf4b307563390bd9e"
+    },
+    {
+      "path": "SOURCE_PROPOSAL/DELIVERY_MANIFEST.json.txt",
+      "bytes": 3114,
+      "sha256": "3b8b65aae8173f47e34a733b2637818c20f8fc6a0bd5ce43ea28f9a01320fbd4"
+    },
+    {
+      "path": "SOURCE_PROPOSAL/PROVENANCE.json.txt",
+      "bytes": 5063,
+      "sha256": "152f1a1b56835661180b741d67c7d1f8f31ac686476ea9a8caface345ff506c9"
+    },
+    {
+      "path": "SOURCE_PROPOSAL/README_BG.txt",
+      "bytes": 3251,
+      "sha256": "70e11972cdb47b598e63f765d6ded0cd198d888dd00a28639113bc45cdd5b640"
+    },
+    {
+      "path": "SOURCE_PROPOSAL/REMOTE_READBACK.json.txt",
+      "bytes": 3122,
+      "sha256": "3c78827d439c4f150346c9e314a2302998a8910650d41a82659e969b956c6969"
+    },
+    {
+      "path": "SOURCE_PROPOSAL/REPORT.txt",
+      "bytes": 8663,
+      "sha256": "82e9806ab661d753274dcd3f96dc2ab0a06e9b60d318a7f5db14df0c93c8dfa6"
+    },
+    {
+      "path": "SOURCE_PROPOSAL/REVIEW_PLAN.txt",
+      "bytes": 3622,
+      "sha256": "f27df302c63c1a28328ae7f2c045f6bff68e3a7e3cb80ec3a43ba9d4776cf932"
+    },
+    {
+      "path": "SOURCE_PROPOSAL/SOURCE/boardwalk.py.txt",
+      "bytes": 8414,
+      "sha256": "1821342922a5c9c91a6fda0dfe2efa2f1b015654bfe3b2f6226a716eb3b04430"
+    },
+    {
+      "path": "SOURCE_PROPOSAL/SOURCE/build_scene.py.txt",
+      "bytes": 10355,
+      "sha256": "134b5377c430c59573b5df4fa268242f1f9f95c86917cdc39d460d7d6551a583"
+    },
+    {
+      "path": "SOURCE_PROPOSAL/SOURCE/environment.py.txt",
+      "bytes": 10889,
+      "sha256": "fd87659523f84add81e962dbb6d1099606e4f6d73e3796a9fcc6c9031896fd8d"
+    },
+    {
+      "path": "SOURCE_PROPOSAL/SOURCE/geometry.py.txt",
+      "bytes": 7449,
+      "sha256": "5b4ed5846a26fc46062d8b1c158130625b4eb5d5a2ae8691e9c6f61e9837b130"
+    },
+    {
+      "path": "SOURCE_PROPOSAL/SOURCE/materials.py.txt",
+      "bytes": 3846,
+      "sha256": "5d56f408bc7ff7522fb54d96ee76bdc57be3a00fdeab37ad35b0e3d944ca8c66"
+    },
+    {
+      "path": "SOURCE_PROPOSAL/SOURCE/mine.py.txt",
+      "bytes": 6287,
+      "sha256": "7913e84f442879d44777030a5d78fda8310b0beb05b6281e3583604ddfb9065c"
+    },
+    {
+      "path": "SOURCE_PROPOSAL/SOURCE/presentation.py.txt",
+      "bytes": 8719,
+      "sha256": "510354e0d6918a50830bafde12d86ddf597283c96a696f296d6930e4dfdaa7f2"
+    },
+    {
+      "path": "SOURCE_PROPOSAL/SOURCE/scene_settings.json.txt",
+      "bytes": 4233,
+      "sha256": "2d3d2cfb230af5254e4c0f23844ab15bd88cdfe6376ab1c16a08f903d8207036"
+    },
+    {
+      "path": "SOURCE_PROPOSAL/STATIC_REVIEW.json.txt",
+      "bytes": 3453,
+      "sha256": "838ab2e55d69ae4f057871a46c89200d7afc71a375de8a1cfcbbaa9875944493"
+    }
+  ]
+}

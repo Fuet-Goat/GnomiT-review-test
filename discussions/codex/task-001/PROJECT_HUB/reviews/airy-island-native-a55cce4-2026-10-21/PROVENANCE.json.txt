@@ -1,0 +1,15 @@
+{
+  "kind": "ACTUAL_LOCAL_BLENDER_REVIEW_AND_ONE_TECHNICAL_DERIVATIVE",
+  "date": "2026-10-21 Europe/Sofia",
+  "source_repository": "Fuet-Goat/GnomiT-review-test",
+  "source_commit": "a55cce4a0f0ba879615e6661f861159c7edfa785",
+  "source_origin": "GPT source handoff. Specific authoring model in original PROVENANCE is self-reported, not independently established here.",
+  "codex_contribution": "Identity/static audits, local native execution, outward-underdeck winding correction in separate source, reopen/GLB reimport, evidence/docs/packaging.",
+  "tools": "Blender5.2.2 LTS d13f752e3b9c / bpy / bundled Cycles CPU / glTF exporter-importer; Python stdlib + PIL for PNG decoding only.",
+  "geometry_textures": "Generated from included Python; no old world .blend or external texture loaded.",
+  "reference": "User-provided primary image copied unchanged for comparison; generation/source/right facts UNKNOWN. Not included as in-game art.",
+  "legal_clearance": "NOT_ASSERTED; existing dependency/tool and service terms still apply. This task performs no new legal determination.",
+  "preservation": "Exact source/output retained, derivative separate; game/campaign/save/main/grants untouched.",
+  "asset_parameters": "432x960 RGBA8 PNG, static frame1/24fps timeline, metres BlenderZ-up, GLB Y-up conversion, five packed256x256 maps, no animation.",
+  "visual_status": "ART_REVISION_REQUIRED / HUMAN_ACCEPTANCE_PENDING"
+}

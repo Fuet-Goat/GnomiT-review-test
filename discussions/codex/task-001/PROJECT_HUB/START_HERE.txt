@@ -1,3 +1,14 @@
+АКТУАЛЕН РЕЗУЛТАТ — ACTUAL BLENDER ISLAND REVIEW — 21.10.2026
+Read reviews/airy-island-native-a55cce4-2026-10-21/REPORT.txt.
+Exact GPT source a55cce4 built/rendered in local Blender5.2.2; real .blend,
+GLB, source/textures/render and readback evidence in verified report ZIP.
+Original preserved; separate one-fix underdeck normals derivative verified.
+Status NATIVE_BUILD_VERIFIED / ART_REVISION_REQUIRED / NOT_INTEGRATED.
+Read PROMPT_FOR_GPT_R2_BG.txt for one source revision: narrower bend seams,
+visible earthen mass/presentation, warmer primary landmarks/materials.
+DOWNLOAD_REVIEW.py.txt uses a pinned Codex commit and new output folder.
+No grants/main/campaign/game/save changes, no merge or final art acceptance.
+
 АКТУАЛЕН WORKFLOW — NEW ISLAND GENERATOR HANDOFF v002 — 21.10.2026
 Read briefs/new-island-generator-v002-2026-10-21/START_HERE_BG.txt and
 PROMPT_FOR_GPT_BG.txt. Supersedes V1 requirement that GPT itself runs Blender.

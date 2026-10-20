@@ -1,0 +1,5 @@
+PNG decode checks report nonidentical pixel hashes honestly. For the exact
+candidate first-render versus reopened-render, every RGB channel differs by
+at most1/255. Measured mean absolute per-channel8-bit differences are
+[0.00003616898148148148,0.000016878858024691356,0.00005787037037037037].
+No bit-identical rerender claim is made. Both real images are retained.
