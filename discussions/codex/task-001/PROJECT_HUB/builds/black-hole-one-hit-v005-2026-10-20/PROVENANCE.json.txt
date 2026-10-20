@@ -1,0 +1,22 @@
+{
+  "contribution": "Black Hole one-hit-per-real-cell rule, one-layer terrain/rune damage, goal completion for positive HP, one presentation pulse, authored developer fixture",
+  "human_instruction": "Черната дупка да разбива всяко квадратче по един път; многократните препятствия губят един удар/слой.",
+  "source_base": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\CampaignTutorial_Volcano_2026-10-20",
+  "base_identity": "source/BASE_INPUTS.json records every inherited file bytes/SHA-256",
+  "editable_source": [
+    "scripts/lab/material_power_core.gd",
+    "scripts/lab/material_power_board.gd",
+    "black_hole_one_hit.gd",
+    "scripts/black_hole_one_hit_fixture.gd"
+  ],
+  "tools": {
+    "Godot": "4.7.2 stable",
+    "implementation": "Codex authored GDScript",
+    "packaging": "Python standard library"
+  },
+  "media": "No new artwork/audio; all inherited asset bytes verified unchanged. Prior provenance/terms continue to apply; exclusive ownership not established by this record.",
+  "save": "No schema or progress code change; normal campaign keeps existing v001 save profile. Test controller uses fresh temporary save overrides and cleans them; lab never saves.",
+  "checks": "135 Core assertions,23 actual campaign controller assertions, scripted native capture",
+  "human_acceptance": "PENDING",
+  "android_performance": "NOT_MEASURED"
+}

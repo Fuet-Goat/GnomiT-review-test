@@ -1,0 +1,22 @@
+V005 - IMPLEMENTED LOCALLY / SCRIPTED VERIFICATION PASS / HUMAN ACCEPTANCE PENDING
+
+Current campaign's actual MegaCore inherits changed material_power_core. Black Hole
+walks real cells once, decrements floor/rune HP from the frozen pre-hit snapshot,
+releases only exhausted runes and preserves existing one-time material accounting.
+It never calls adjacency damage. hit_indices/damaged_floor/damaged_runes/broken_runes
+describe the single direct effect; surviving runes are not included in swallowed sprites.
+One existing fusion sound; new visual feedback is a presentation-only pulse/-1 label.
+Positive-HP objectives now prevent premature completion while HP2/3 remains.
+
+Actual results:135 Core checks;23 real main.tscn/controller/Core/Board checks; native
+fixture before/impact/after at432x960. All PASS. Additional 4+4 regression passed.
+Independent read-only source/evidence review found no correctness blocker.
+Normal main scene and v001 save namespace/schema preserved. Latest launcher and JSON
+now point at this v005 directory; previous pointer/launcher are in verification.
+All inherited art/audio bytes and predecessor resource hashes remain unchanged.
+No source world/camera/level definitions or gnome asset change in this task.
+
+Earlier lab/historical tests saying soil/runes are untouched describe the old rule.
+Current direct-hit contract is in tests/test_black_hole_one_hit.gd; campaign test
+assertion was updated to the new human instruction. Subsequent cascades remain separate.
+No Android/performance/human acceptance or Git merge is claimed.

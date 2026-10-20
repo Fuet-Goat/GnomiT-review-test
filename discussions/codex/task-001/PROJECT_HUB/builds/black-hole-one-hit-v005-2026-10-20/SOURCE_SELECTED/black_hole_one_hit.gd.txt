@@ -1,0 +1,42 @@
+extends "res://scripts/lab/mountain_volcano_lab.gd"
+const OneHitFixture = preload("res://scripts/black_hole_one_hit_fixture.gd")
+
+func _init() -> void:
+	scenario = "black_hole_swallow"
+
+func _ready() -> void:
+	super._ready()
+	DisplayServer.window_set_title("GnomiT - Black Hole - One Hit v005")
+	for label in find_children("*","Label",true,false):
+		if label.text=="MOUNTAIN VOLCANO":label.text="BLACK HOLE · ONE HIT"
+	if DisplayServer.get_name() != "headless":
+		DisplayServer.window_set_current_screen(1 if DisplayServer.get_screen_count()>1 else 0)
+	print("BLACK_HOLE_ONE_HIT_READY")
+
+func _on_power_started(power: String,targets: Array) -> void:
+	super._on_power_started(power,targets)
+	if power=="black_hole":
+		effect_label.text="BLACK HOLE · ONE HIT"
+		helper.text="Every real cell is hit once. Each remaining obstacle loses one layer. Other powers are swallowed without chaining."
+
+func reset_scenario(value: String) -> void:
+	super.reset_scenario(value)
+	if value == "black_hole_swallow":
+		OneHitFixture.configure(core)
+		board.setup(core,reduced.button_pressed)
+		board.show_hint(core.fixture_pair)
+		_update_stats()
+		effect_label.text = "BLACK HOLE · ONE HIT"
+		helper.text = "Top runes: 3 / 2 / 1 layers. Soil: 3 / 2 / 1. Drag Storm onto Tornado. Every real cell takes one hit."
+
+func _update_stats() -> void:
+	super._update_stats()
+	soil_label.text = "SOIL " + str(core.floor.filter(func(hp: int) -> bool: return hp>0).size())
+	rune_label.text = "RUNES " + str(core.runes.filter(func(hp: int) -> bool: return hp>0).size())
+
+func _on_swap(a: int,b: int) -> void:
+	await super._on_swap(a,b)
+	for event in last_result.get("events",[]):
+		if event.get("power","") == "black_hole":
+			helper.text = "Direct hit: runes 3→2, 2→1, 1→0. Refill cascades are separate hits. Reset to repeat."
+			return

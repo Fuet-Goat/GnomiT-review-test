@@ -1,0 +1,760 @@
+extends "res://scripts/lab/reward_rules_core.gd"
+## Material matching: a player-made colour match can use a waiting Volcano.
+## Automatic cascades never activate waiting powers; newborns wait for a player.
+## Ordinary-only cascades can earn powers. Ability identity is not material identity.
+
+var cascade_wave_limit := MAX_CASCADE_WAVES
+var recovery_observations: Array = []
+var _material_ids: Array[int] = []
+var _next_material_id := 1
+var _pending_before_instances: Array[int] = []
+var _paid_instances: Dictionary = {}
+var _paid_components: Dictionary = {}
+var _no_spawn := false
+
+func _goal_complete() -> bool:
+	# A remaining two/three-layer obstacle is not a completed objective.
+	match _goal:
+		"floor": return not floor.any(func(hp: int) -> bool: return hp > 0)
+		"rune": return not runes.any(func(hp: int) -> bool: return hp > 0)
+		"boss": return not runes.any(func(hp: int) -> bool: return hp > 0) and collected >= collect_goal
+		_: return collected >= collect_goal
+
+func setup(level: Dictionary, seed_value: int = 1) -> void:
+	_material_ids.clear()
+	_pending_before_instances.clear()
+	_next_material_id = 1
+	_paid_instances.clear()
+	_paid_components.clear()
+	recovery_observations.clear()
+	_no_spawn = false
+	super.setup(level, seed_value)
+	_ensure_instances()
+
+func setup_lab(scenario: String, seed_value: int = 42) -> void:
+	preload("res://scripts/lab/material_power_fixtures.gd").configure(self, scenario, seed_value)
+
+func place_reward(index: int, kind: int, recipe: String = "fixture") -> void:
+	var material := grid[index] if index >= 0 and index < grid.size() and _is_ordinary(grid[index]) else -1
+	place_material_reward(index, kind, material, recipe)
+
+func place_material_reward(index: int, kind: int, mineral_kind: int, recipe: String = "fixture") -> void:
+	if index < 0 or index >= grid.size() or grid[index] < 0 or not _is_special(kind):
+		return
+	_ensure_instances()
+	super.place_reward(index, kind, recipe)
+	_rewards[index]["mineral_kind"] = mineral_kind if _is_ordinary(mineral_kind) else -1
+	_rewards[index]["material_instance_id"] = _material_ids[index]
+
+func refresh_material_instances() -> void:
+	# Authoring helper only: direct fixture masks must describe fresh real instances.
+	_material_ids.resize(grid.size())
+	for index in range(grid.size()):
+		_material_ids[index] = _new_material_id() if grid[index] >= 0 else 0
+		if _rewards.has(index):
+			_rewards[index]["material_instance_id"] = _material_ids[index]
+	_paid_instances.clear()
+	_paid_components.clear()
+
+func _new_material_id() -> int:
+	var value := _next_material_id
+	_next_material_id += 1
+	return value
+
+func _ensure_instances() -> void:
+	if _material_ids.size() != grid.size():
+		_material_ids.resize(grid.size())
+	for index in range(grid.size()):
+		if grid[index] < 0:
+			_material_ids[index] = 0
+		elif _material_ids[index] <= 0:
+			_material_ids[index] = _new_material_id()
+		if _rewards.has(index):
+			_rewards[index]["material_instance_id"] = _material_ids[index]
+
+func _material_snapshot(snapshot: Array[int], rewards: Dictionary) -> Array[int]:
+	var material: Array[int] = snapshot.duplicate()
+	for index in range(snapshot.size()):
+		if _is_special(snapshot[index]):
+			var token: Dictionary = rewards.get(index, {})
+			material[index] = int(token.get("mineral_kind", -1)) if int(token.get("kind", -1)) == snapshot[index] else -1
+	return material
+
+func material_at(index: int) -> int:
+	if index < 0 or index >= grid.size():
+		return -1
+	if _is_ordinary(grid[index]):
+		return grid[index]
+	return int(reward_at(index).get("mineral_kind", -1))
+
+func _material_components(snapshot: Array[int]) -> Array:
+	var matched: Dictionary = {}
+	for run in _ordinary_runs(snapshot):
+		for index in run["cells"]:
+			matched[int(index)] = true
+	var ordered: Array = matched.keys()
+	ordered.sort()
+	var visited: Dictionary = {}
+	var components: Array = []
+	for start in ordered:
+		if visited.has(start):
+			continue
+		var cells: Array[int] = []
+		var pending: Array[int] = [int(start)]
+		visited[start] = true
+		while not pending.is_empty():
+			var current: int = pending.pop_back()
+			cells.append(current)
+			for neighbor in _neighbors(current):
+				if matched.has(neighbor) and not visited.has(neighbor) and snapshot[neighbor] == snapshot[current]:
+					visited[neighbor] = true
+					pending.append(neighbor)
+		cells.sort()
+		components.append(cells)
+	return components
+
+func _initial_material_matches(snapshot: Array[int], a: int, b: int) -> Array[int]:
+	var matches: Array[int] = []
+	for component in _material_components(snapshot):
+		if component.has(a) or component.has(b):
+			for index in component:
+				matches.append(int(index))
+	matches.sort()
+	return matches
+
+func _awards_for(snapshot: Array[int], a: int, b: int, initial: bool, moved_origin: int = -1) -> Array:
+	var awards: Array = []
+	for component in _material_components(snapshot):
+		if initial and not component.has(a) and not component.has(b):
+			continue
+		var candidates: Array = super._detect_on(snapshot, int(component[0]), int(component[0]))
+		if candidates.is_empty():
+			continue
+		var award: Dictionary = candidates[0].duplicate(true)
+		var ordinary_anchors: Array[int] = []
+		for endpoint in [a, b]:
+			if component.has(endpoint) and _is_ordinary(grid[endpoint]) and not ordinary_anchors.has(endpoint):
+				ordinary_anchors.append(endpoint)
+		ordinary_anchors.sort()
+		for index in component:
+			if _is_ordinary(grid[index]) and not ordinary_anchors.has(index):
+				ordinary_anchors.append(index)
+		var anchor := moved_origin if component.has(moved_origin) else -1
+		if anchor < 0:
+			if ordinary_anchors.is_empty():
+				continue # Never replace a stationary waiting ability.
+			anchor = ordinary_anchors[0]
+		award["index"] = anchor
+		award["anchor"] = anchor
+		award["mineral_kind"] = snapshot[int(component[0])]
+		award["component_indices"] = component.duplicate()
+		award["matched"] = component.duplicate()
+		awards.append(award)
+	awards.sort_custom(func(left: Dictionary, right: Dictionary) -> bool: return int(left["index"]) < int(right["index"]))
+	return awards
+
+func preview_rewards(a: int, b: int) -> Array:
+	if not _can_swap(a, b):
+		return []
+	if not _is_special(grid[a]) and not _is_special(grid[b]) and grid[a] == grid[b]:
+		return []
+	if _is_special(grid[a]) and _is_special(grid[b]):
+		return [] # A deliberate pair has priority over material recipes.
+	var snapshot: Array[int] = grid.duplicate()
+	var rewards := _reward_snapshot()
+	var old := snapshot[a]
+	snapshot[a] = snapshot[b]
+	snapshot[b] = old
+	var first: Dictionary = rewards.get(a, {}).duplicate(true)
+	var second: Dictionary = rewards.get(b, {}).duplicate(true)
+	rewards.erase(a)
+	rewards.erase(b)
+	if not second.is_empty(): rewards[a] = second
+	if not first.is_empty(): rewards[b] = first
+	var moved := b if _is_special(grid[a]) else a if _is_special(grid[b]) else -1
+	# _awards_for uses grid to choose eligible anchors; do not touch live state.
+	return _preview_awards(snapshot, rewards, a, b, moved)
+
+func _preview_awards(snapshot: Array[int], rewards: Dictionary, a: int, b: int, moved: int) -> Array:
+	var material := _material_snapshot(snapshot, rewards)
+	var result: Array = []
+	for component in _material_components(material):
+		if not component.has(a) and not component.has(b): continue
+		var found: Array = super._detect_on(material, int(component[0]), int(component[0]))
+		if found.is_empty(): continue
+		var anchors: Array[int] = []
+		for endpoint in [a, b]:
+			if component.has(endpoint) and _is_ordinary(snapshot[endpoint]) and not anchors.has(endpoint): anchors.append(endpoint)
+		anchors.sort()
+		for index in component:
+			if _is_ordinary(snapshot[index]) and not anchors.has(index): anchors.append(index)
+		var anchor := moved if component.has(moved) else -1
+		if anchor < 0:
+			if anchors.is_empty(): continue
+			anchor = anchors[0]
+		var award: Dictionary = found[0].duplicate(true)
+		award["index"] = anchor
+		award["anchor"] = anchor
+		award["mineral_kind"] = material[int(component[0])]
+		result.append(award)
+	result.sort_custom(func(left: Dictionary, right: Dictionary) -> bool: return int(left["index"]) < int(right["index"]))
+	return result
+
+func detect_rewards(a: int, b: int) -> Array:
+	var moved := a if _is_special(grid[a]) else b if _is_special(grid[b]) else -1
+	return _awards_for(_material_snapshot(grid, _reward_snapshot()), a, b, true, moved)
+
+func try_swap(a: int, b: int) -> Dictionary:
+	if won or lost or not _can_swap(a, b):
+		return _result(false, [])
+	var first_special := _is_special(grid[a])
+	var second_special := _is_special(grid[b])
+	if (first_special and reward_at(a).is_empty()) or (second_special and reward_at(b).is_empty()):
+		return _result(false, [])
+	if first_special and second_special and not _registered_pair(a, b):
+		return _result(false, [])
+	if not first_special and not second_special and grid[a] == grid[b]:
+		return _result(false, [])
+	_ensure_instances()
+	var events: Array = []
+	var previous_pending_rewards := _pending_before_rewards.duplicate(true)
+	var previous_pending_instances := _pending_before_instances.duplicate()
+	var before: Array[int] = grid.duplicate()
+	_exchange(a, b)
+	events.append(_event("swap", before, {"a": a, "b": b}))
+	var material := _material_snapshot(grid, _reward_snapshot())
+	var matches := _initial_material_matches(material, a, b)
+	if not first_special and not second_special and matches.is_empty():
+		before = grid.duplicate()
+		_exchange(a, b)
+		events.append(_event("swap", before, {"a": a, "b": b}))
+		_pending_before_rewards = previous_pending_rewards
+		_pending_before_instances = previous_pending_instances
+		return _result(false, events)
+	_paid_instances.clear()
+	_paid_components.clear()
+	recovery_observations.clear()
+	moves_left -= 1
+	var sources: Array = []
+	for index in [a, b]:
+		if _is_special(grid[index]):
+			var source := reward_at(index)
+			source["index"] = index
+			sources.append(source)
+	if sources.size() == 2:
+		if int(sources[0]["birth_tier"]) == 5 and int(sources[1]["birth_tier"]) == 5:
+			black_hole_used = true
+			_apply_atomic_power("black_hole", sources, [], events)
+		else:
+			var ordered: Array = sources.duplicate(true)
+			if int(ordered[0]["birth_tier"]) == 4 and int(ordered[1]["birth_tier"]) == 5: ordered.reverse()
+			var components: Array = []
+			var excluded: Array[int] = []
+			for source in ordered:
+				var component := _power_component(int(source["index"]), int(source["kind"]), excluded)
+				components.append(component)
+				for index in component["targets"]:
+					if not excluded.has(index): excluded.append(index)
+			var tiers: Array[int] = [int(sources[0]["birth_tier"]), int(sources[1]["birth_tier"])]
+			tiers.sort()
+			_apply_atomic_power("power_combo", sources, components, events, {"combo_tiers": tiers})
+	else:
+		# Direct endpoint pairs above retain exclusive ownership of Mega/Black
+		# Hole recipes. Matching several powers by colour is NOT a direct pair.
+		var match_sources: Array = sources.duplicate(true)
+		var source_indices: Array[int] = []
+		for source in match_sources: source_indices.append(int(source["index"]))
+		for index in matches:
+			if grid[index] != VOLCANO or source_indices.has(index): continue
+			var volcano := reward_at(index)
+			if volcano.is_empty(): continue
+			volcano["index"] = index
+			match_sources.append(volcano)
+			source_indices.append(index)
+		# A stationary source must not become the reserved reward anchor. Only
+		# a power deliberately moved by this gesture may reuse its old material.
+		var moved_origin := int(sources[0]["index"]) if sources.size() == 1 else -1
+		var awards := _awards_for(material, a, b, true, moved_origin)
+		if match_sources.is_empty():
+			_resolve_match_wave(matches, awards, events, true)
+		elif matches.is_empty():
+			var source: Dictionary = match_sources[0]
+			var component := _power_component(int(source["index"]), int(source["kind"]), [])
+			_apply_atomic_power(String(component["power"]), match_sources, [component], events)
+		else:
+			_apply_material_sources(matches, awards, match_sources, events)
+	_resolve_after_power(events)
+	return _result(true, events)
+
+func _capture_begin() -> void:
+	_pending_before_rewards = _reward_snapshot()
+	_pending_before_instances = _material_ids.duplicate()
+
+func _component_key(award: Dictionary) -> String:
+	var instances: Array[int] = []
+	for index in award["component_indices"]:
+		instances.append(_material_ids[int(index)])
+	instances.sort()
+	return str(instances)
+
+func _fresh_awards(awards: Array) -> Array:
+	var fresh: Array = []
+	for award in awards:
+		var key := _component_key(award)
+		if _paid_components.has(key): continue
+		_paid_components[key] = true
+		fresh.append(award)
+	return fresh
+
+func _collect_removed(indices: Array[int]) -> Dictionary:
+	var materials: Dictionary = {}
+	for index in indices:
+		var material := material_at(index)
+		var instance := _material_ids[index]
+		if _is_ordinary(material) and not _paid_instances.has(instance):
+			materials[index] = material
+			_paid_instances[instance] = true
+			if material == collect_kind: collected += 1
+	return materials
+
+func _goal_indices(materials: Dictionary) -> Array[int]:
+	var result: Array[int] = []
+	for index in materials:
+		if int(materials[index]) == collect_kind: result.append(int(index))
+	result.sort()
+	return result
+
+func _erase_material(index: int) -> void:
+	grid[index] = -1
+	_rewards.erase(index)
+	_material_ids[index] = 0
+
+func _apply_match_terrain(indices: Array[int]) -> Array[int]:
+	var adjacent: Dictionary = {}
+	for index in indices:
+		floor[index] = 0
+		for neighbor in _neighbors(index):
+			if runes[neighbor] > 0: adjacent[neighbor] = true
+	var broken: Array[int] = []
+	for index in adjacent:
+		runes[index] = maxi(0, runes[index] - 1)
+		if runes[index] == 0:
+			_erase_material(int(index))
+			broken.append(int(index))
+	broken.sort()
+	return broken
+
+func _commit_awards(awards: Array) -> void:
+	for award in awards:
+		var index := int(award["index"])
+		place_material_reward(index, int(award["kind"]), int(award["mineral_kind"]), String(award["recipe"]))
+		award["token_id"] = reward_at(index)["token_id"]
+		award["id"] = award["token_id"]
+		award["material_instance_id"] = _material_ids[index]
+
+func _birth_event(awards: Array, events: Array, initial: bool, state_before: Array[int] = []) -> void:
+	if awards.is_empty(): return
+	if state_before.is_empty():
+		state_before = grid.duplicate()
+		_capture_begin()
+	events.append(_event("reward_birth", state_before, {
+		"awards": awards.duplicate(true), "indices": [], "matched": [], "broken_runes": [],
+		"initial_player_wave": initial, "waiting_for_player": true,
+		"floor_before": floor.duplicate(), "floor_after": floor.duplicate(),
+		"runes_before": runes.duplicate(), "runes_after": runes.duplicate(),
+		"removed_materials": {}, "collected_indices": [],
+	}))
+
+func _resolve_match_wave(matches: Array[int], raw_awards: Array, events: Array, initial: bool = false) -> void:
+	var awards := _fresh_awards(raw_awards)
+	var anchors: Array[int] = []
+	for award in awards: anchors.append(int(award["index"]))
+	var removed: Array[int] = []
+	for index in matches:
+		# A stationary catalyst contributes a colour, never a removed material unit.
+		if _is_ordinary(grid[index]) and not anchors.has(index): removed.append(index)
+	var before: Array[int] = grid.duplicate()
+	_capture_begin()
+	var floor_before := floor.duplicate()
+	var runes_before := runes.duplicate()
+	var materials := _collect_removed(removed)
+	var broken := _apply_match_terrain(removed)
+	for index in removed: _erase_material(index)
+	events.append(_event("clear", before, {
+		"indices": removed.duplicate(), "matched": matches.duplicate(), "broken_runes": broken,
+		"reserved_anchors": anchors, "initial_player_wave": initial,
+		"removed_materials": materials, "collected_indices": _goal_indices(materials),
+		"floor_before": floor_before, "floor_after": floor.duplicate(),
+		"runes_before": runes_before, "runes_after": runes.duplicate(),
+	}))
+	if not awards.is_empty():
+		before = grid.duplicate()
+		_capture_begin()
+		_commit_awards(awards)
+		_birth_event(awards, events, initial, before)
+
+func _apply_material_turn(matches: Array[int], raw_awards: Array, source: Dictionary, events: Array) -> void:
+	_apply_material_sources(matches, raw_awards, [source], events)
+
+func _apply_material_sources(matches: Array[int], raw_awards: Array, sources: Array, events: Array) -> void:
+	var awards := _fresh_awards(raw_awards)
+	var anchors: Array[int] = []
+	for award in awards: anchors.append(int(award["index"]))
+	# Each eruption reads the same pre-clear board. Earlier targets and every
+	# newborn anchor are excluded, so collection and terrain are paid once.
+	var components: Array = []
+	var targets: Array[int] = []
+	var excluded: Array[int] = anchors.duplicate()
+	for source in sources:
+		var component := _power_component(int(source["index"]), int(source["kind"]), excluded)
+		components.append(component)
+		for index in component["targets"]:
+			if not targets.has(index): targets.append(int(index))
+			if not excluded.has(index): excluded.append(int(index))
+	targets.sort()
+	var removed: Array[int] = []
+	for index in matches:
+		if _is_ordinary(grid[index]) and not anchors.has(index): removed.append(index)
+	for index in targets:
+		if not removed.has(index): removed.append(index)
+	for source in sources:
+		var origin := int(source["index"])
+		if not anchors.has(origin) and not removed.has(origin): removed.append(origin)
+	removed.sort()
+	var before: Array[int] = grid.duplicate()
+	_capture_begin()
+	var floor_before := floor.duplicate()
+	var runes_before := runes.duplicate()
+	var materials := _collect_removed(removed)
+	var actual_matches: Array[int] = []
+	for index in matches:
+		if removed.has(index): actual_matches.append(index)
+	var broken := _apply_match_terrain(actual_matches)
+	# Hits overlapping a colour clear do not damage floor a second time.
+	for index in removed:
+		if not actual_matches.has(index) and _is_ordinary(grid[index]): floor[index] = maxi(0, floor[index] - 1)
+	for index in removed: _erase_material(index)
+	# A moved source reused as anchor retires its old ABILITY but keeps material.
+	_commit_awards(awards)
+	for component in components:
+		component["before"] = before.duplicate()
+		component["after"] = grid.duplicate()
+		component["floor_before"] = floor_before.duplicate()
+		component["floor_after"] = floor.duplicate()
+		component["runes_before"] = runes_before.duplicate()
+		component["runes_after"] = runes.duplicate()
+		var component_indices: Array[int] = []
+		for index in component["indices"]:
+			if not anchors.has(index): component_indices.append(int(index))
+		component["indices"] = component_indices
+	var first_source: Dictionary = sources[0]
+	var first_component: Dictionary = components[0]
+	events.append(_event("material_turn", before, {
+		"power": String(first_component["power"]), "origin": int(first_source["index"]), "kind": int(first_source["kind"]),
+		"fusion_sources": sources.duplicate(true), "components": components,
+		"activation_reason": "manual_material_match",
+		"matched_indices": matches.duplicate(), "indices": removed, "targets": targets,
+		"reserved_anchors": anchors, "awards": awards.duplicate(true), "broken_runes": broken,
+		"removed_materials": materials, "collected_indices": _goal_indices(materials),
+		"floor_before": floor_before, "floor_after": floor.duplicate(),
+		"runes_before": runes_before, "runes_after": runes.duplicate(),
+	}))
+	_birth_event(awards, events, true)
+
+func _power_component(origin: int, kind: int, excluded: Array) -> Dictionary:
+	# A reserved new reward is also a ray barrier. Core and the inherited
+	# quake_paths renderer must stop together instead of clearing past a gap.
+	var component := super._power_component(origin, kind, excluded)
+	var targets: Array[int] = []
+	if kind >= EARTHQUAKE and kind <= EARTHQUAKE_NE:
+		var rays: Array = []
+		for raw_ray in component["rays"]:
+			var ray: Array[int] = []
+			for index in raw_ray:
+				if excluded.has(index): break
+				ray.append(int(index))
+				if _is_ordinary(grid[index]) and not targets.has(index): targets.append(int(index))
+			rays.append(ray)
+		component["rays"] = rays
+	else:
+		for index in component["targets"]:
+			if _is_ordinary(grid[index]) and not excluded.has(index): targets.append(int(index))
+	targets.sort()
+	component["targets"] = targets
+	var indices: Array[int] = targets.duplicate()
+	if not excluded.has(origin): indices.append(origin)
+	indices.sort()
+	component["indices"] = indices
+	return component
+
+func _apply_atomic_power(power: String, sources: Array, components: Array, events: Array, extra: Dictionary = {}) -> void:
+	var before: Array[int] = grid.duplicate()
+	_capture_begin()
+	var floor_before := floor.duplicate()
+	var runes_before := runes.duplicate()
+	var targets: Array[int] = []
+	var removed: Array[int] = []
+	var hit_indices: Array[int] = []
+	var damaged_floor: Array[int] = []
+	var damaged_runes: Array[int] = []
+	var broken_runes: Array[int] = []
+	if power == "black_hole":
+		for index in range(grid.size()):
+			if before[index] == -2: continue # Actual gaps are not board cells.
+			hit_indices.append(index)
+			# One direct hit per cell/layer. Do not reuse match adjacency damage.
+			if floor_before[index] > 0:
+				floor[index] = maxi(0, floor_before[index] - 1)
+				damaged_floor.append(index)
+			if runes_before[index] > 0:
+				runes[index] = maxi(0, runes_before[index] - 1)
+				damaged_runes.append(index)
+				if runes[index] == 0:
+					_erase_material(index)
+					broken_runes.append(index)
+			if _is_ordinary(grid[index]): targets.append(index)
+			if grid[index] >= 0: removed.append(index)
+	else:
+		for component in components:
+			for index in component["targets"]:
+				if not targets.has(index): targets.append(int(index))
+		removed.assign(targets)
+		for source in sources:
+			if not removed.has(int(source["index"])): removed.append(int(source["index"]))
+	targets.sort()
+	removed.sort()
+	var materials := _collect_removed(removed)
+	for index in removed:
+		if power != "black_hole" and _is_ordinary(grid[index]): floor[index] = maxi(0, floor[index] - 1)
+		_erase_material(index)
+	for component in components:
+		component["before"] = before.duplicate()
+		component["after"] = grid.duplicate()
+		component["floor_before"] = floor_before.duplicate()
+		component["floor_after"] = floor.duplicate()
+		component["runes_before"] = runes_before.duplicate()
+		component["runes_after"] = runes.duplicate()
+	var details := {
+		"power": power, "origin": int(sources[0]["index"]), "kind": int(sources[0]["kind"]),
+		"fusion_sources": sources.duplicate(true), "targets": targets, "indices": removed,
+		"removed_materials": materials, "collected_indices": _goal_indices(materials),
+		"floor_before": floor_before, "floor_after": floor.duplicate(),
+		"runes_before": runes_before, "runes_after": runes.duplicate(),
+	}
+	if power == "power_combo": details["components"] = components.duplicate(true)
+	elif components.size() == 1:
+		for key in ["orientation", "directions", "rays", "budget"]:
+			if components[0].has(key): details[key] = components[0][key]
+	if power == "black_hole":
+		details["hit_indices"] = hit_indices
+		details["hit_damage"] = 1
+		details["damaged_floor"] = damaged_floor
+		details["damaged_runes"] = damaged_runes
+		details["broken_runes"] = broken_runes
+		var swallowed: Array[int] = []
+		for index in removed:
+			if _is_special(before[index]):
+				var is_source := false
+				for source in sources:
+					if int(source["index"]) == index: is_source = true
+				if not is_source: swallowed.append(index)
+		details["inert_swallowed"] = swallowed
+	details.merge(extra)
+	events.append(_event("natural_power", before, details))
+
+func _resolve_after_power(events: Array) -> void:
+	_fall(events)
+	_resolve_cascades(events)
+
+func _resolve_cascades(events: Array) -> void:
+	var matches := get_matches()
+	var wave := 0
+	while not matches.is_empty() and wave < maxi(0, cascade_wave_limit):
+		_resolve_match_wave(matches, _awards_for(grid, -1, -1, false), events)
+		_fall(events)
+		matches = get_matches()
+		wave += 1
+	if not matches.is_empty(): _recover_cascade(events)
+	# This is only a genuine no-move fallback, never an unresolved-match repair.
+	if _find_move().is_empty():
+		var before: Array[int] = grid.duplicate()
+		_capture_begin()
+		var playable := _make_playable()
+		events.append(_event("shuffle", before, {"reason": "genuine_no_move"}))
+		if not playable: lost = true
+	won = _goal_complete()
+	lost = not won and (lost or moves_left <= 0)
+
+func _ordinary_count() -> int:
+	var count := 0
+	for kind in grid:
+		if _is_ordinary(kind): count += 1
+	return count
+
+func _recovery_marker(phase: String, events: Array, extra: Dictionary = {}) -> void:
+	_capture_begin()
+	var details := {"phase": phase, "ordinary_count": _ordinary_count()}
+	details.merge(extra)
+	recovery_observations.append(details.duplicate(true))
+	events.append(_event("cascade_recovery", grid.duplicate(), details))
+
+func _recover_cascade(events: Array) -> void:
+	var entry_count := _ordinary_count()
+	_recovery_marker("drain_begin", events, {"entry_ordinary_count": entry_count, "wave_limit": cascade_wave_limit})
+	_no_spawn = true
+	var matches := get_matches()
+	var drain_wave := 0
+	while not matches.is_empty():
+		var previous := _ordinary_count()
+		_resolve_match_wave(matches, _awards_for(grid, -1, -1, false), events)
+		_fall(events)
+		drain_wave += 1
+		var current := _ordinary_count()
+		assert(current <= previous - 3, "No-spawn drain must remove at least three ordinary instances")
+		assert(drain_wave <= int(entry_count / 3), "Finite drain bound exceeded")
+		_recovery_marker("drain_wave", events, {"wave": drain_wave, "before_ordinary_count": previous, "after_ordinary_count": current})
+		matches = get_matches()
+	_no_spawn = false
+	_safe_fill(events)
+	assert(get_matches().is_empty(), "Safe fill must settle without any ordinary triple")
+	_recovery_marker("safe_fill_complete", events, {"drain_waves": drain_wave})
+
+func _safe_fill_choices(index: int) -> Array[int]:
+	var choices: Array[int] = []
+	for kind in range(GEM_KINDS):
+		var allowed := true
+		for horizontal in [true, false]:
+			for start in range(-2, 1):
+				var same := true
+				for offset in range(3):
+					var dx := start + offset if horizontal else 0
+					var dy := 0 if horizontal else start + offset
+					var x := index % cols + dx
+					var y: int = index / cols + dy
+					if x < 0 or x >= cols or y < 0 or y >= rows:
+						same = false
+						break
+					var next := y * cols + x
+					if next != index and grid[next] != kind:
+						same = false
+						break
+				if same:
+					allowed = false
+					break
+			if not allowed: break
+		if allowed: choices.append(kind)
+	return choices
+
+func _safe_fill(events: Array) -> void:
+	var before: Array[int] = grid.duplicate()
+	_capture_begin()
+	var falls: Array = []
+	var order: Array[int] = []
+	var spawn_number := 0
+	for index in range(grid.size()):
+		if grid[index] != -1: continue
+		var choices := _safe_fill_choices(index)
+		assert(not choices.is_empty(), "Six-kind safe refill must have an admissible colour")
+		# Fixed first admissible colour: explicitly zero RNG draws, deterministic order.
+		grid[index] = choices[0]
+		_material_ids[index] = _new_material_id()
+		spawn_number += 1
+		falls.append({"from": -spawn_number, "to": index, "kind": grid[index]})
+		order.append(index)
+	events.append(_event("fall", before, {"falls": falls, "safe_fill": true, "fill_order": order, "rng_draws": 0}))
+
+func _fall(events: Array) -> void:
+	_ensure_instances()
+	var before: Array[int] = grid.duplicate()
+	_capture_begin()
+	var falls: Array = []
+	var spawn_number := 0
+	for x in range(cols):
+		var segment: Array[int] = []
+		for y in range(rows + 1):
+			var index := y * cols + x
+			if y < rows and grid[index] != -2 and grid[index] != -3:
+				segment.append(index)
+			elif not segment.is_empty():
+				spawn_number = _fall_segment(segment, falls, spawn_number)
+				segment.clear()
+	events.append(_event("fall", before, {"falls": falls, "no_spawn": _no_spawn}))
+
+func _fall_segment(segment: Array[int], falls: Array, spawn_number: int) -> int:
+	var gems: Array = []
+	for position in range(segment.size() - 1, -1, -1):
+		var index := segment[position]
+		if grid[index] >= 0:
+			gems.append({"from": index, "kind": grid[index], "reward": reward_at(index), "instance": _material_ids[index]})
+		_rewards.erase(index)
+		grid[index] = -1
+		_material_ids[index] = 0
+	var write_position := segment.size() - 1
+	for gem in gems:
+		var destination := segment[write_position]
+		grid[destination] = int(gem["kind"])
+		_material_ids[destination] = int(gem["instance"])
+		if not gem["reward"].is_empty(): _rewards[destination] = gem["reward"].duplicate(true)
+		if int(gem["from"]) != destination: falls.append({"from": int(gem["from"]), "to": destination, "kind": int(gem["kind"])})
+		write_position -= 1
+	if not _no_spawn:
+		while write_position >= 0:
+			var destination := segment[write_position]
+			var kind := _rng.randi_range(0, GEM_KINDS - 1)
+			grid[destination] = kind
+			_material_ids[destination] = _new_material_id()
+			spawn_number += 1
+			falls.append({"from": -spawn_number, "to": destination, "kind": kind})
+			write_position -= 1
+	return spawn_number
+
+func _exchange(a: int, b: int) -> void:
+	_ensure_instances()
+	var before_instances := _material_ids.duplicate()
+	super._exchange(a, b)
+	var old := _material_ids[a]
+	_material_ids[a] = _material_ids[b]
+	_material_ids[b] = old
+	_pending_before_instances = before_instances
+
+func _find_move() -> Array:
+	var rewards := _reward_snapshot()
+	for index in range(grid.size()):
+		if grid[index] < 0: continue
+		for neighbor in [index + 1, index + cols]:
+			if not _can_swap(index, neighbor): continue
+			var first_special := _is_special(grid[index])
+			var second_special := _is_special(grid[neighbor])
+			if first_special and second_special:
+				if _registered_pair(index, neighbor): return [index, neighbor]
+				continue
+			if first_special or second_special:
+				if not reward_at(index if first_special else neighbor).is_empty(): return [index, neighbor]
+				continue
+			if grid[index] == grid[neighbor]: continue
+			var snapshot: Array[int] = _material_snapshot(grid, rewards)
+			var old := snapshot[index]
+			snapshot[index] = snapshot[neighbor]
+			snapshot[neighbor] = old
+			if not _initial_material_matches(snapshot, index, neighbor).is_empty(): return [index, neighbor]
+	return []
+
+func _make_playable() -> bool:
+	var before_instances := _material_ids.duplicate()
+	var playable := super._make_playable()
+	_material_ids.resize(grid.size())
+	for index in range(grid.size()):
+		if _is_ordinary(grid[index]): _material_ids[index] = _new_material_id()
+		elif grid[index] < 0: _material_ids[index] = 0
+		elif reward_at(index).is_empty():
+			_material_ids[index] = _new_material_id()
+		elif index < before_instances.size(): _material_ids[index] = before_instances[index]
+	_pending_before_instances = before_instances
+	_ensure_instances()
+	return playable
+
+func _event(event_type: String, before: Array[int], extra: Dictionary = {}) -> Dictionary:
+	var details := extra.duplicate(true)
+	if not details.has("before_instances"): details["before_instances"] = _pending_before_instances.duplicate()
+	details["after_instances"] = _material_ids.duplicate()
+	return super._event(event_type, before, details)

@@ -1,3 +1,11 @@
+АКТУАЛНО - GAMEPLAY v005 / ART CANDIDATE v004 - 20.10.2026
+Black Hole вече удря всяка реална клетка веднъж и отнема по1 слой почва/руна.
+Read HUMAN_RULE_BLACK_HOLE_ONE_HIT_2026-10-20.txt and builds/black-hole-one-hit-v005-2026-10-20/.
+Нормалната локална игра/Latest сочат v005;158checks+nativePASS; save schema/profile unchanged.
+Отделният Codex арт кандидат е v004: builds/codex-volumetric-gnome-v004-2026-10-20/.
+Той не е GPT task003, не е интегриран в кампанията и чака човешки художествен преглед.
+GPT task003 grant/branch и Grok правата са непроменени. Историята долу е запазена.
+
 АКТУАЛНО — CODEX v002 GNOME GREETING ART PREVIEW / 20.10.2026
 Visible separate Codex candidate now exists; not an external GPT task003 result.
 Read builds/codex-gnome-greeting-v002-2026-10-20/README_BG.txt.

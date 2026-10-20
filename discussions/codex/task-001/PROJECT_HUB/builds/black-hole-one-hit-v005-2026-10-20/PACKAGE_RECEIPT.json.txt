@@ -1,0 +1,8 @@
+{
+  "zip": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\GNOMIT_BLACK_HOLE_ONE_HIT_V005_2026-10-20.zip",
+  "bytes": 56274647,
+  "sha256": "62cae5621af122dc3efa52c447e3b3cd7ca27bf39895e899071ef38b61c40c3a",
+  "entries": 240,
+  "status": "LOCAL_VERIFIED",
+  "human_acceptance": "PENDING"
+}

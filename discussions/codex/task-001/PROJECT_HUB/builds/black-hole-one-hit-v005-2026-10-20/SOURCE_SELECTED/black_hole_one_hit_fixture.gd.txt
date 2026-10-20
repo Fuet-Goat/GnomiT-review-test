@@ -1,0 +1,10 @@
+extends RefCounted
+## Explicit pre-placed test board. Normal campaign never calls this helper.
+static func configure(core) -> void:
+	core.setup_lab("black_hole_swallow",42)
+	for index in [0,1,2]:
+		core.grid[index] = -3
+		core.runes[index] = 3-index
+	for index in [7,8,9]: core.floor[index] = 10-index
+	core.floor[24] = 2
+	core.refresh_material_instances()

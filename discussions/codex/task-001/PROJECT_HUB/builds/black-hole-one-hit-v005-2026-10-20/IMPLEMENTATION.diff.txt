@@ -1,0 +1,105 @@
+--- a/scripts/lab/material_power_board.gd
++++ b/scripts/lab/material_power_board.gd
+@@ -225,6 +225,22 @@
+ 				Vector2.ONE, Dictionary(_combo_parent.get("before_rewards", {})))
+ 	_draw_active_constituent(_cell_size())
+ 	_draw_birth()
++	_draw_black_hole_hit_feedback()
++
++func _draw_black_hole_hit_feedback() -> void:
++	if _power_event.get("power", "") != "black_hole" or _power_epoch != _epoch: return
++	var phase := clampf((_power_t - 0.66) / 0.23, 0.0, 1.0)
++	var alpha := sin(phase * PI)
++	if alpha <= 0.01: return
++	var step := _cell_size()
++	var damaged: Array = Array(_power_event.get("damaged_floor", [])).duplicate()
++	for index in _power_event.get("damaged_runes", []):
++		if not damaged.has(index): damaged.append(index)
++	for raw_index in _power_event.get("hit_indices", []):
++		var index := int(raw_index)
++		draw_rect(Rect2(_center(index)-Vector2.ONE*step*.45,Vector2.ONE*step*.90),Color(.77,.64,1.0,alpha*.18),true)
++		if damaged.has(index):
++			draw_string(ThemeDB.fallback_font,_center(index)+Vector2(-step*.20,-step*.12-phase*step*.13),"-1",HORIZONTAL_ALIGNMENT_LEFT,-1,int(step*.31),Color(1,.92,.63,alpha))
+ 
+ func _draw_birth() -> void:
+ 	if _birth_event.is_empty(): return
+--- a/scripts/lab/material_power_core.gd
++++ b/scripts/lab/material_power_core.gd
+@@ -11,6 +11,14 @@
+ var _paid_instances: Dictionary = {}
+ var _paid_components: Dictionary = {}
+ var _no_spawn := false
++
++func _goal_complete() -> bool:
++	# A remaining two/three-layer obstacle is not a completed objective.
++	match _goal:
++		"floor": return not floor.any(func(hp: int) -> bool: return hp > 0)
++		"rune": return not runes.any(func(hp: int) -> bool: return hp > 0)
++		"boss": return not runes.any(func(hp: int) -> bool: return hp > 0) and collected >= collect_goal
++		_: return collected >= collect_goal
+ 
+ func setup(level: Dictionary, seed_value: int = 1) -> void:
+ 	_material_ids.clear()
+@@ -486,8 +494,24 @@
+ 	var runes_before := runes.duplicate()
+ 	var targets: Array[int] = []
+ 	var removed: Array[int] = []
++	var hit_indices: Array[int] = []
++	var damaged_floor: Array[int] = []
++	var damaged_runes: Array[int] = []
++	var broken_runes: Array[int] = []
+ 	if power == "black_hole":
+ 		for index in range(grid.size()):
++			if before[index] == -2: continue # Actual gaps are not board cells.
++			hit_indices.append(index)
++			# One direct hit per cell/layer. Do not reuse match adjacency damage.
++			if floor_before[index] > 0:
++				floor[index] = maxi(0, floor_before[index] - 1)
++				damaged_floor.append(index)
++			if runes_before[index] > 0:
++				runes[index] = maxi(0, runes_before[index] - 1)
++				damaged_runes.append(index)
++				if runes[index] == 0:
++					_erase_material(index)
++					broken_runes.append(index)
+ 			if _is_ordinary(grid[index]): targets.append(index)
+ 			if grid[index] >= 0: removed.append(index)
+ 	else:
+@@ -522,6 +546,11 @@
+ 		for key in ["orientation", "directions", "rays", "budget"]:
+ 			if components[0].has(key): details[key] = components[0][key]
+ 	if power == "black_hole":
++		details["hit_indices"] = hit_indices
++		details["hit_damage"] = 1
++		details["damaged_floor"] = damaged_floor
++		details["damaged_runes"] = damaged_runes
++		details["broken_runes"] = broken_runes
+ 		var swallowed: Array[int] = []
+ 		for index in removed:
+ 			if _is_special(before[index]):
+--- a/project.godot
++++ b/project.godot
+@@ -2,7 +2,7 @@
+ config_version=5
+ 
+ [application]
+-config/name="GnomiT Mine World and First Volcano"
++config/name="GnomiT - Black Hole One Hit - v005"
+ config/use_custom_user_dir=true
+ config/custom_user_dir_name="GnomiT-CampaignTutorial-Volcano-2026-10-20"
+ config/version="0.1.0-campaign-powers-r2"
+--- a/tests/test_campaign_power_integration.gd
++++ b/tests/test_campaign_power_integration.gd
+@@ -233,7 +233,11 @@
+ 	if expected_power == "mega_volcano":
+ 		check(power_events[0].get("strength_multiplier", 0) == 3 and power_events[0].get("eruption_count", 0) == 1, "4+4 is one mountain eruption with three-volcano strength")
+ 	elif expected_power == "black_hole":
+-		check(power_events[0].floor_before == power_events[0].floor_after and power_events[0].runes_before == power_events[0].runes_after, "5+5 direct sweep preserves real campaign soil and runes before refill cascades")
++		var one_hit := int(power_events[0].get("hit_damage",0)) == 1
++		for index in power_events[0].get("hit_indices",[]):
++			if power_events[0].floor_after[index] != maxi(0,int(power_events[0].floor_before[index])-1): one_hit = false
++			if power_events[0].runes_after[index] != maxi(0,int(power_events[0].runes_before[index])-1): one_hit = false
++		check(one_hit, "5+5 direct hit removes exactly one floor/rune layer before refill cascades")
+ 		check(power_events[0].get("inert_swallowed", []).size() == 1 and powers.size() == 1, "Black Hole swallows the other waiting bonus without chaining its effect")
+ 	assert_mask(app.core, app.current_level, expected_power)
+ 	observations.append({"case":"CONTROLLED_CAMPAIGN_COMBO_FIXTURE", "level":id, "kinds":kinds, "swap":pair, "powers":powers, "goal":app.current_level.goal, "moves_left":app.core.moves_left})

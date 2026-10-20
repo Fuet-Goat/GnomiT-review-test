@@ -1,0 +1,352 @@
+extends "res://scripts/lab/reward_rules_board.gd"
+## Material identity is presentation data, separate from the authored power icon.
+## Every draw receives its real snapshot index, including held and falling tokens.
+const MINERAL_NAMES := ["Ruby", "Amethyst", "Gold ore", "Diamond", "Emerald", "Pearl"]
+var _drawing_reward: Dictionary = {}
+var _suppress_clear_accounting := false
+var _material_clear_event: Dictionary = {}
+
+func setup(core: RefCounted, reduced: bool = false) -> void:
+	_drawing_reward.clear()
+	_material_clear_event.clear()
+	_suppress_clear_accounting = false
+	super.setup(core, reduced)
+
+func _clear_power() -> void:
+	super._clear_power()
+	_material_clear_event.clear()
+
+func _snapshot_reward(index: int, snapshot: Dictionary = {}) -> Dictionary:
+	var rewards: Dictionary = _display_rewards if snapshot.is_empty() else snapshot
+	return Dictionary(rewards.get(index, rewards.get(str(index), {}))).duplicate(true)
+
+func _draw_indexed_gem(index: int, point: Vector2, kind: int, radius: float, alpha: float, stretch: Vector2 = Vector2.ONE, snapshot: Dictionary = {}) -> void:
+	var previous := _drawing_reward
+	_drawing_reward = _snapshot_reward(index, snapshot) if index >= 0 else {}
+	_draw_gem(point, kind, radius, alpha, stretch)
+	_drawing_reward = previous
+
+func material_visual(index: int) -> Dictionary:
+	# Read-only observable contract for native capture and integration checks.
+	var reward := _snapshot_reward(index)
+	return {"index": index, "token_id": reward.get("token_id", -1),
+		"material_instance_id": reward.get("material_instance_id", -1),
+		"mineral_kind": reward.get("mineral_kind", -1), "kind": reward.get("kind", -1),
+		"birth_tier": reward.get("birth_tier", -1)}
+
+func material_draw_samples() -> Array:
+	# Uses the exact draw-layer source indices and interpolation, never the
+	# nearest cell: same-family/different-material pieces may cross in a swap.
+	var result: Array = []
+	if _display_grid.is_empty(): return result
+	var step := _cell_size()
+	var dragged: Dictionary = _drag_visual()
+	var partner: Dictionary = _drag_partner_visual()
+	var lifted := int(dragged.get("index", -1))
+	var partner_index := int(partner.get("index", -1))
+	for index in _display_grid.size():
+		if int(_display_grid[index]) < 6 or _hidden.has(index) or index in [lifted, partner_index]: continue
+		var point := _center(index)
+		if polished_art and index in [_selected, _pressed]: point.y -= step * 0.035
+		result.append(_material_sample(index, point, int(_display_grid[index]), "static"))
+	for motion in _moving:
+		var source := int(motion.get("from", -1))
+		var kind := int(motion.get("kind", -1))
+		if kind < 6: continue
+		var end := _center(int(motion.to))
+		var start := _center(source) if source >= 0 else Vector2(end.x, _board_rect().position.y + (float(motion.get("spawn_row", -1.0)) + 0.5) * step)
+		if motion.has("start_position"): start = Vector2(motion.start_position)
+		var point := start.lerp(end, _motion_t)
+		if _falling and _motion_t >= 0.999: point.y -= sin(_landing_t * PI) * step * 0.065
+		result.append(_material_sample(source, point, kind, "fall" if _falling else "swap"))
+	if not partner.is_empty() and int(_display_grid[partner_index]) >= 6:
+		result.append(_material_sample(partner_index, partner.position, int(_display_grid[partner_index]), "drag_partner"))
+	if not dragged.is_empty() and int(_display_grid[lifted]) >= 6:
+		result.append(_material_sample(lifted, dragged.position, int(_display_grid[lifted]), "drag"))
+	return result
+
+func _material_sample(index: int, point: Vector2, kind: int, phase: String) -> Dictionary:
+	var result := material_visual(index)
+	result["position"] = point
+	result["draw_kind"] = kind
+	result["phase"] = phase
+	return result
+
+func _draw_gem(center: Vector2, kind: int, radius: float, alpha: float, stretch: Vector2 = Vector2.ONE) -> void:
+	var mineral := int(_drawing_reward.get("mineral_kind", -1))
+	var is_coloured := kind >= 6 and int(_drawing_reward.get("kind", -1)) == kind and mineral >= 0 and mineral < 6
+	if not is_coloured or alpha <= 0.0 or radius < 0.3:
+		super._draw_gem(center, kind, radius, alpha, stretch)
+		return
+	# A restrained material socket leaves the liked family icon unmodified.
+	# Mineral chip (lower-left) is intentionally separate from FIVE-TICK (right).
+	var tint: Color = GEM_COLORS[mineral]
+	draw_set_transform(center, 0.0, stretch)
+	draw_circle(Vector2(0, radius * 0.10), radius * 1.06, Color(0.035, 0.08, 0.105, alpha * 0.91), true, -1, true)
+	draw_circle(Vector2(0, radius * 0.10), radius * 1.04, Color(tint.darkened(0.66), alpha * 0.74), true, -1, true)
+	draw_arc(Vector2(0, radius * 0.10), radius * 1.02, 0.0, TAU, 40, Color(tint, alpha * 0.92), maxf(1.2, radius * 0.075), true)
+	draw_set_transform(Vector2.ZERO)
+	super._draw_gem(center + Vector2(0, -radius * 0.08) * stretch, kind, radius * 0.82, alpha, stretch)
+	var chip := center + Vector2(-0.70, 0.66) * radius * stretch
+	draw_set_transform(chip, 0.0, stretch)
+	draw_circle(Vector2.ZERO, radius * 0.40, Color(0.025, 0.07, 0.095, alpha * 0.96), true, -1, true)
+	draw_arc(Vector2.ZERO, radius * 0.385, 0.0, TAU, 24, Color(tint.lightened(0.12), alpha), maxf(1.0, radius * 0.055), true)
+	draw_set_transform(Vector2.ZERO)
+	if mineral < _gem_textures.size():
+		var extent := Vector2.ONE * radius * 0.95 * stretch
+		draw_texture_rect(_gem_textures[mineral], Rect2(chip - extent * 0.5, extent), false, Color(1, 1, 1, alpha))
+	else:
+		draw_circle(chip, radius * 0.22, Color(tint, alpha), true, -1, true)
+	draw_set_transform(Vector2.ZERO)
+
+func _event_gem(index: int, point: Vector2, scale_value: float = 1.0, alpha: float = 1.0) -> void:
+	if not _combo_parent.is_empty() and _combo_consumed.has(index): return
+	var before: Array = _power_event.get("before", [])
+	if index < 0 or index >= before.size() or int(before[index]) < 0: return
+	_draw_indexed_gem(index, point, int(before[index]), _cell_size() * 0.36 * scale_value, alpha,
+		Vector2.ONE, Dictionary(_power_event.get("before_rewards", {})))
+
+func _emit_accounting(event: Dictionary) -> void:
+	# Core's deduplicated removal ledger owns collection; a held catalyst and
+	# a retained new-power anchor are deliberately absent from these indices.
+	for raw_index in event.get("collected_indices", []):
+		var index := int(raw_index)
+		if index >= 0 and index < _display_grid.size(): goal_piece_cleared.emit(get_global_transform() * _center(index))
+	var next_floor: Array = _copy_array(event.get("floor", _display_floor))
+	for index in mini(_display_floor.size(), next_floor.size()):
+		if int(_display_floor[index]) > 0 and int(next_floor[index]) == 0:
+			terrain_target_cleared.emit(get_global_transform() * _center(index))
+	for raw_index in event.get("broken_runes", []):
+		rune_freed.emit(get_global_transform() * _center(int(raw_index)))
+
+func _prepare_clear(event: Dictionary) -> void:
+	var cleared: Array = event.get("indices", event.get("matched", []))
+	if not cleared.is_empty(): foley_requested.emit("break", clampf(0.7 + cleared.size() * 0.035, 0.8, 1.15))
+	_clearing.clear()
+	_releases.clear()
+	for raw_index in cleared:
+		var index := int(raw_index)
+		_clearing[index] = true
+		if _is_gem(index) and not reduced_motion:
+			_spawn_burst(_center(index), GEM_COLORS[int(_display_grid[index]) % 6], 10 if polished_art else 8, "chip")
+			if polished_art and not _excavated.has(index):
+				_spawn_burst(_center(index) + Vector2(0, _cell_size() * 0.2), Color("a97948"), 9, "soil")
+	if not _suppress_clear_accounting: _emit_accounting(event)
+	var next_floor: Array = _copy_array(event.get("floor", _display_floor))
+	for index in mini(_display_floor.size(), next_floor.size()):
+		if int(_display_floor[index]) > 0 and int(next_floor[index]) == 0:
+			_releases[index] = true
+			if not reduced_motion: _spawn_burst(_center(index), Color("ffcf6b"), 9)
+	for raw_index in event.get("broken_runes", []):
+		_releases[int(raw_index)] = true
+		if not reduced_motion: _spawn_burst(_center(int(raw_index)), Color("bdefff"), 14)
+
+func _animate_custom_event(event: Dictionary, epoch: int) -> void:
+	var event_type := String(event.get("type", ""))
+	if event_type == "reward_birth":
+		await _animate_birth(event, epoch)
+		return
+	if event_type not in ["material_turn", "natural_power"]:
+		await super._animate_custom_event(event, epoch)
+		return
+	_clear_power()
+	_combo_parent = event.duplicate(true)
+	_combo_consumed.clear()
+	_display_rewards = Dictionary(event.get("before_rewards", {})).duplicate(true)
+	_emit_accounting(event)
+	for raw_index in event.get("indices", []): _hidden[int(raw_index)] = true
+	for raw_index in event.get("reserved_anchors", []): _hidden[int(raw_index)] = true
+	var components: Array = Array(event.get("components", [])).duplicate(true)
+	if components.is_empty(): components.append(event.duplicate(true))
+	for raw_component in components:
+		if epoch != _epoch or not is_inside_tree(): return
+		if not raw_component is Dictionary: continue
+		var component: Dictionary = raw_component.duplicate(true)
+		component["before"] = event.get("before", []).duplicate()
+		component["before_rewards"] = event.get("before_rewards", {}).duplicate(true)
+		component["runes_before"] = event.get("runes_before", []).duplicate()
+		_power_event = component
+		_power_epoch = epoch
+		_power_t = 0.0
+		power_started.emit(String(component.get("power", "")), Array(component.get("targets", [])).duplicate())
+		if epoch != _epoch: return
+		var duration := power_duration(String(component.get("power", "")), reduced_motion)
+		_power_tween = create_tween()
+		_power_tween.tween_property(self, "_power_t", 1.0, duration).set_trans(Tween.TRANS_LINEAR)
+		queue_redraw()
+		await _wait(duration + 0.01)
+		if epoch != _epoch: return
+		foley_requested.emit("break", 0.9 if String(component.get("power", "")) == "volcano" else 0.8)
+		for raw_index in component.get("indices", []): _combo_consumed[int(raw_index)] = true
+		if is_instance_valid(_power_tween): _power_tween.kill()
+		_power_event.clear()
+		_power_epoch = -1
+		queue_redraw()
+	# Match-only removals are animated once AFTER the source effect. Cells
+	# already consumed by that effect cannot reappear in this local clear.
+	var match_only: Array = []
+	for raw_index in event.get("indices", []):
+		var index := int(raw_index)
+		if not _combo_consumed.has(index): match_only.append(index)
+	if not match_only.is_empty():
+		_material_clear_event = {"indices": match_only}
+		_suppress_clear_accounting = true
+		if reduced_motion:
+			_prepare_clear(_material_clear_event)
+			_effect_t = 0.75
+			queue_redraw()
+			await _wait(0.055)
+		else:
+			await _animate_clear(_material_clear_event, epoch)
+		if epoch != _epoch: return
+		_suppress_clear_accounting = false
+		for index in match_only: _combo_consumed[int(index)] = true
+		_material_clear_event.clear()
+	_hidden.clear()
+	_clearing.clear()
+	_clear_power()
+	queue_redraw()
+
+func _draw() -> void:
+	_draw_board_layer()
+	if not _combo_parent.is_empty():
+		var before: Array = _combo_parent.get("before", [])
+		var active_indices: Array = _power_event.get("indices", [])
+		for raw_index in _combo_parent.get("indices", []):
+			var index := int(raw_index)
+			if _combo_consumed.has(index) or index in active_indices: continue
+			if index < 0 or index >= before.size() or int(before[index]) < 0: continue
+			var shrink := 1.0
+			var alpha := 1.0
+			if _clearing.has(index):
+				shrink = 1.0 + sin(minf(1.0, _effect_t * 2.6) * PI) * 0.27 - pow(_effect_t, 1.6) * 0.86
+				alpha = 1.0 - _effect_t
+			_draw_indexed_gem(index, _center(index), int(before[index]), _cell_size() * 0.36 * shrink, alpha,
+				Vector2.ONE, Dictionary(_combo_parent.get("before_rewards", {})))
+	_draw_active_constituent(_cell_size())
+	_draw_birth()
+	_draw_black_hole_hit_feedback()
+
+func _draw_black_hole_hit_feedback() -> void:
+	if _power_event.get("power", "") != "black_hole" or _power_epoch != _epoch: return
+	var phase := clampf((_power_t - 0.66) / 0.23, 0.0, 1.0)
+	var alpha := sin(phase * PI)
+	if alpha <= 0.01: return
+	var step := _cell_size()
+	var damaged: Array = Array(_power_event.get("damaged_floor", [])).duplicate()
+	for index in _power_event.get("damaged_runes", []):
+		if not damaged.has(index): damaged.append(index)
+	for raw_index in _power_event.get("hit_indices", []):
+		var index := int(raw_index)
+		draw_rect(Rect2(_center(index)-Vector2.ONE*step*.45,Vector2.ONE*step*.90),Color(.77,.64,1.0,alpha*.18),true)
+		if damaged.has(index):
+			draw_string(ThemeDB.fallback_font,_center(index)+Vector2(-step*.20,-step*.12-phase*step*.13),"-1",HORIZONTAL_ALIGNMENT_LEFT,-1,int(step*.31),Color(1,.92,.63,alpha))
+
+func _draw_birth() -> void:
+	if _birth_event.is_empty(): return
+	var step := _cell_size()
+	for raw_award in _birth_event.get("awards", []):
+		var award: Dictionary = raw_award
+		var index := int(award.get("index", -1))
+		var kind := int(award.get("kind", -1))
+		if index < 0 or index >= _display_grid.size() or kind < 6: continue
+		var previous := _drawing_reward
+		_drawing_reward = award.duplicate(true)
+		var point := _center(index)
+		var scale_value := 1.0 if reduced_motion else 0.87 + sin(_birth_t * PI * 0.5) * 0.13
+		_draw_gem(point, kind, step * 0.36 * scale_value, 1.0)
+		_drawing_reward = previous
+		if reduced_motion: continue
+		var mineral := int(award.get("mineral_kind", -1))
+		var tint: Color = GEM_COLORS[mineral] if mineral >= 0 and mineral < 6 else Color("f3d8a0")
+		var opacity := sin(_birth_t * PI) * 0.65
+		for ordinal in 3:
+			var angle := -2.3 + float(ordinal) * 2.1
+			var offset := Vector2.from_angle(angle) * step * (0.28 + _birth_t * 0.12)
+			_draw_sparkle(point + offset, step * 0.045, Color(tint, opacity))
+
+func _draw_board_layer() -> void:
+	if _display_grid.is_empty() or _cols <= 0 or _rows <= 0:
+		return
+	var step := _cell_size()
+	var dragged: Dictionary = _drag_visual()
+	var lifted_index: int = int(dragged.get("index", -1))
+	var partner: Dictionary = _drag_partner_visual()
+	var partner_index: int = int(partner.get("index", -1))
+	for index in range(_display_grid.size()):
+		if int(_display_grid[index]) == HOLE:
+			continue
+		_draw_cell(index, step)
+	for index in range(_display_grid.size()):
+		var kind := int(_display_grid[index])
+		if kind >= 0 and not _hidden.has(index) and index != lifted_index and index != partner_index:
+			var shrink := 1.0
+			var alpha := 1.0
+			if _clearing.has(index):
+				shrink = 1.0 + sin(minf(1.0,_effect_t*2.6) * PI) * 0.27 - pow(_effect_t,1.6) * 0.86
+				alpha = 1.0 - _effect_t
+			elif _shuffle_t > 0.0:
+				shrink = 1.0 - sin(_shuffle_t * PI) * 0.7
+			var gem_center: Vector2=_center(index)
+			if polished_art and (index==_selected or index==_pressed):
+				gem_center.y-=step*0.035;shrink*=1.08
+			_draw_indexed_gem(index, gem_center, kind, step * 0.36 * shrink, alpha)
+		elif kind == RUNE:
+			_draw_rune(_center(index), step, index)
+	var motion_draw_order := _moving.duplicate()
+	if not _falling: motion_draw_order.reverse() # Keep the grabbed stone above its partner.
+	for motion in motion_draw_order:
+		var target := int(motion["to"])
+		var end := _center(target)
+		var start := _center(int(motion["from"])) if int(motion["from"]) >= 0 else Vector2(end.x, _board_rect().position.y + (float(motion.get("spawn_row", -1.0)) + 0.5) * step)
+		if motion.has("start_position"): start = Vector2(motion.start_position)
+		var point := start.lerp(end, _motion_t)
+		if _falling and _motion_t >= 0.999:
+			point.y -= sin(_landing_t * PI) * step * 0.065
+		var squish:=Vector2.ONE
+		if polished_art and _falling:
+			if _motion_t<0.999:squish=Vector2(0.95,1.06)
+			else:squish=Vector2(1.0+sin(_landing_t*TAU)*0.10,1.0-sin(_landing_t*TAU)*0.11)
+		var settling_scale := lerpf(float(motion.get("start_scale", 1.0)), 1.0, _motion_t)
+		_draw_indexed_gem(int(motion["from"]), point, int(motion["kind"]), step * 0.36 * settling_scale, 1.0,squish)
+	for index in _clearing:
+		var color: Color = GEM_COLORS[int(_display_grid[index]) % 6] if _is_gem(int(index)) else Color("fce7ba")
+		color.a = 1.0 - _effect_t
+		draw_arc(_center(int(index)), step * (0.20 + _effect_t * 0.38), 0.0, TAU, 32, color, 2.2, true)
+		if polished_art:
+			draw_circle(_center(int(index)),step*(0.22+_effect_t*0.18),Color(1,1,0.9,(1-_effect_t)*0.15),true,-1,true)
+			_draw_sparkle(_center(int(index)),step*(0.15+_effect_t*0.32),Color(1,1,0.85,1-_effect_t))
+	for index in _releases:
+		var color := Color(1.0, 0.83, 0.45, 1.0 - _effect_t)
+		draw_arc(_center(int(index)), step * (0.38 + _effect_t * 0.12), 0.0, TAU, 32, color, 3.0, true)
+		_draw_sparkle(_center(int(index)), step * (0.20 + _effect_t * 0.13), color)
+	if _selected >= 0:
+		_draw_selection(_selected, Color("ffdc8d"), 1.0)
+	if _pressed >= 0 and _selected != _pressed:
+		_draw_selection(_pressed, Color("e7f5ff"), 0.55)
+	if _hover >= 0 and not busy and _selected != _hover:
+		_draw_selection(_hover, Color("abd6db"), 0.22)
+	for index in _hint:
+		var intensity := 0.75 if reduced_motion else 0.60 + sin(_clock * 5.0) * 0.22
+		_draw_selection(int(index), Color("ffecaf"), intensity)
+		_draw_sparkle(_center(int(index)) + Vector2(step * 0.27, -step * 0.27), step * 0.065, Color(1.0, 0.94, 0.68, intensity))
+	if _hint.size() == 2:
+		draw_line(_center(int(_hint[0])), _center(int(_hint[1])), Color(1.0, 0.91, 0.61, 0.5), 2.0, true)
+	if _invalid:
+		for index in _last_swap:
+			_draw_selection(int(index), Color("fb8279"), 0.8)
+	for particle in _particles:
+		var color: Color = particle["color"]
+		color.a = 1.0 - float(particle["age"]) / float(particle["life"])
+		if String(particle.get("material","light")) in ["soil","chip"]:
+			var p: Vector2=particle["position"];var r: float=particle["size"]
+			draw_colored_polygon(PackedVector2Array([p+Vector2(-r,-r*0.6),p+Vector2(r*0.7,-r),p+Vector2(r,r*0.6),p+Vector2(-r*0.7,r)]),color)
+		else:_draw_sparkle(Vector2(particle["position"]), float(particle["size"]), color)
+
+	if not partner.is_empty():
+		_draw_indexed_gem(partner_index, Vector2(partner.position), int(_display_grid[partner_index]), step * 0.36, 1.0)
+	if not dragged.is_empty():
+		var lifted_center: Vector2 = dragged.position
+		var lifted_kind: int = int(_display_grid[lifted_index])
+		draw_circle(lifted_center + Vector2(step * 0.045, step * 0.10), step * 0.30, Color(0.04, 0.05, 0.07, 0.24), true, -1, true)
+		_draw_indexed_gem(lifted_index, lifted_center, lifted_kind, step * 0.36 * float(dragged.scale), 1.0)
