@@ -1,0 +1,91 @@
+extends SceneTree
+## Scripted capture of the actual campaign/tutorial. No board fixture or win.
+const MainScene = preload("res://main.tscn")
+var app
+var failures: Array[String] = []
+var shots: Array = []
+var before: Dictionary
+var output := "res://verification/native_mine_tutorial_final"
+
+func _initialize() -> void:
+	create_timer(18).timeout.connect(func() -> void: quit(99))
+	call_deferred("run")
+
+func wait_frames(count: int) -> void:
+	for ignored in count: await process_frame
+
+func tap(point: Vector2) -> void:
+	for down in [true,false]:
+		var event:=InputEventScreenTouch.new()
+		event.index=0
+		event.pressed=down
+		event.position=root.get_final_transform()*point
+		Input.parse_input_event(event)
+		await wait_frames(2)
+
+func state() -> Dictionary:
+	return {"grid":app.core.grid.duplicate(),"moves":app.core.moves_left,"collected":app.core.collected,
+		"rng":str(app.core._rng.state),"progress":app.progress.data.duplicate(true)}
+
+func check(ok: bool, label: String) -> void:
+	if not ok: failures.append(label);push_error(label)
+
+func shot(name: String) -> void:
+	await RenderingServer.frame_post_draw
+	var image := root.get_texture().get_image()
+	check(image.get_size()==Vector2i(432,960),"Actual portrait viewport")
+	var path:=output.path_join(name+".png")
+	check(image.save_png(path)==OK,"Saved "+name)
+	shots.append({"file":path,"sha256":FileAccess.get_sha256(path),"tutorial":app.power_tutorial_view.get_snapshot() if is_instance_valid(app.power_tutorial_view) else {}})
+
+func run() -> void:
+	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(output))
+	root.size=Vector2i(432,960)
+	app=MainScene.instantiate()
+	app.save_path_override=output.path_join("isolated_capture_progress.json")
+	check(not FileAccess.file_exists(app.save_path_override),"Fresh isolated capture save")
+	if not failures.is_empty():quit(2);return
+	root.add_child(app)
+	app.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	await wait_frames(8)
+	app.progress.set_option("sound",false)
+	await wait_frames(18)
+	await shot("00_BLENDER_START_WORLD")
+	await tap(app.map_view.marker_center("entry"))
+	await wait_frames(2)
+	check(is_instance_valid(app.pre_level_view),"Touch on native path1 opens existing level preview")
+	if not failures.is_empty():quit(3);return
+	await tap(app.pre_level_view.play_button.get_global_rect().get_center())
+	for ignored in 90:
+		if is_instance_valid(app.power_tutorial_view):break
+		await process_frame
+	check(is_instance_valid(app.power_tutorial_view),"Real level1 entry shows Volcano tutorial")
+	if not failures.is_empty():quit(3);return
+	before=state()
+	await wait_frames(50)
+	await shot("01_MAKE_VOLCANO")
+	await wait_frames(45)
+	app.power_tutorial_view.next_page()
+	await wait_frames(55)
+	await shot("02_USE_VOLCANO")
+	await wait_frames(50)
+	app.power_tutorial_view.back_page()
+	await wait_frames(15)
+	check(app.power_tutorial_view.page_index==0,"Left arrow returns to creation page")
+	app.power_tutorial_view.next_page()
+	check(state()==before,"Tutorial/arrows do not change game or progress")
+	app.power_tutorial_view.finish()
+	await wait_frames(8)
+	check(not is_instance_valid(app.modal) and not app._paused,"Play closes tutorial and restores board")
+	check(state()==before,"Closing tutorial spends no move")
+	await shot("03_READY_TO_PLAY")
+	var receipt:={"status":"PASS" if failures.is_empty() else "FAIL","failures":failures,"shots":shots,
+		"method":"Scripted actual main.tscn level entry and modal navigation; untouched generated board, no simulated win",
+		"viewport":[432,960],"screen_count":DisplayServer.get_screen_count(),"screen_index":DisplayServer.window_get_current_screen(),
+		"human_acceptance":"PENDING","state_preserved":state()==before}
+	var f:=FileAccess.open(output.path_join("CAPTURE_RECEIPT.json"),FileAccess.WRITE)
+	f.store_string(JSON.stringify(receipt,"\t"));f.close()
+	app.queue_free();await process_frame
+	var save:=ProjectSettings.globalize_path(output.path_join("isolated_capture_progress.json"))
+	if FileAccess.file_exists(save):DirAccess.remove_absolute(save)
+	quit(0 if failures.is_empty() else 4)

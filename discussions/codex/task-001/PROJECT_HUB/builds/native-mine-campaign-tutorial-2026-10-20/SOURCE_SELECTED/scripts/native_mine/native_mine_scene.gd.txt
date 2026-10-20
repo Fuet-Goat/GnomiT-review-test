@@ -1,0 +1,34 @@
+extends "res://scripts/native_mine/native_mine_base.gd"
+## The same V3 native scene, with campaign controls replacing preview controls.
+var owner_map: Control
+
+func _build_controls() -> void:
+	controls_layer=CanvasLayer.new()
+	add_child(controls_layer)
+	_build_wordmark()
+	var settings:=Button.new()
+	settings.text="Settings"
+	settings.position=Vector2(282,904)
+	settings.size=Vector2(132,44)
+	_style_button(settings)
+	settings.pressed.connect(func() -> void:
+		if owner_map.interaction_enabled:owner_map.settings_requested.emit())
+	controls_layer.add_child(settings)
+
+func show_level_intro(number: int) -> bool:
+	pointer_active=false
+	return owner_map.choose_number(number)
+
+func _unhandled_input(event: InputEvent) -> void:
+	if owner_map.interaction_enabled:super._unhandled_input(event)
+
+func refresh_progress() -> void:
+	for number: int in level_markers:
+		var id: String="entry" if number==1 else "hollow"
+		var unlocked: bool=owner_map.progress.is_unlocked(id)
+		var button: Button=level_markers[number]
+		button.text=str(number) if unlocked else str(number)+" 🔒"
+		button.disabled=not unlocked
+		button.add_theme_font_size_override("font_size",29 if unlocked else 22)
+		button.add_theme_stylebox_override("normal",_marker_style(Color("568c35") if unlocked else Color("596775"),Color("e9b551")))
+		button.add_theme_stylebox_override("disabled",_marker_style(Color("596775"),Color("ad9867")))

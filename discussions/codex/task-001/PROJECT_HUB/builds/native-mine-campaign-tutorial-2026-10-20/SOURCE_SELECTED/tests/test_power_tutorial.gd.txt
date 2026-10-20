@@ -1,0 +1,266 @@
+extends SceneTree
+## Focused normal-scene tutorial checks. Synthetic input and the explicitly
+## labelled progression/transition fixtures are not human or Android acceptance.
+const MainScene = preload("res://main.tscn")
+const Levels = preload("res://scripts/levels.gd")
+var checks := 0
+var failures: Array[String] = []
+var saves: Array[String] = []
+var tag := str(Time.get_ticks_usec())
+
+func _initialize() -> void:
+	create_timer(18.0).timeout.connect(func() -> void:
+		_cleanup()
+		push_error("Power tutorial checks exceeded 18 seconds")
+		quit(99))
+	call_deferred("run")
+
+func check(ok: bool, message: String, detail: Variant = "") -> void:
+	checks += 1
+	if not ok:
+		failures.append(message)
+		print("FAIL: " + message + " | " + str(detail))
+
+func settle() -> void:
+	await process_frame
+	await process_frame
+
+func make_app(suffix: String, reduced: bool = false):
+	var save := "user://power_tutorial_test_" + tag + "_" + suffix + ".json"
+	check(not FileAccess.file_exists(save), "Unique save is absent before normal scene ready: " + suffix)
+	if FileAccess.file_exists(save): return null
+	saves.append(save)
+	var app = MainScene.instantiate()
+	# Set before _ready: personal campaign saves are never loaded by this test.
+	app.save_path_override = save
+	app.alive_enabled = false
+	app.pilot_seed_override = 5187
+	root.add_child(app)
+	app.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	await settle()
+	app.progress.data.options.sound = false
+	app.progress.data.options.reduced_motion = reduced
+	app.power_audio.set_enabled(false)
+	check(app.current_screen == "map" and app.core == null, "Normal scene boots map without a laboratory: " + suffix)
+	return app
+
+func semantic(app) -> Dictionary:
+	var rewards := {}
+	for i in app.core.grid.size():
+		var reward: Dictionary = app.core.reward_at(i)
+		if not reward.is_empty(): rewards[i] = reward.duplicate(true)
+	return {"grid":app.core.grid.duplicate(), "floor":app.core.floor.duplicate(),
+		"runes":app.core.runes.duplicate(), "moves":app.core.moves_left,
+		"collected":app.core.collected, "won":app.core.won, "lost":app.core.lost,
+		"rewards":rewards, "rng":str(app.core._rng.state),
+		"progress":app.progress.data.duplicate(true), "seed_counter":app.seed_counter}
+
+func all_actions_disabled(app, expected: bool) -> bool:
+	for control in app.action_buttons:
+		if control.disabled != expected: return false
+	return true
+
+func mouse_event(point: Vector2, down: bool) -> void:
+	var event := InputEventMouseButton.new()
+	event.button_index = MOUSE_BUTTON_LEFT
+	event.pressed = down
+	event.button_mask = MOUSE_BUTTON_MASK_LEFT if down else 0
+	event.position = point
+	event.global_position = point
+	root.push_input(event, true)
+
+func attempt_pointer_swap(app) -> void:
+	var origin := -1
+	var target := -1
+	for index in app.core.grid.size():
+		if app.core.grid[index] < 0: continue
+		for candidate in app.core._neighbors(index):
+			if app.core.grid[candidate] >= 0:
+				origin = index
+				target = candidate
+				break
+		if origin >= 0: break
+	check(origin >= 0 and target >= 0, "Generated campaign board has adjacent pointer-test cells")
+	if origin < 0: return
+	var a: Vector2 = app.board.get_global_transform() * app.board._center(origin)
+	var b: Vector2 = app.board.get_global_transform() * app.board._center(target)
+	mouse_event(a, true)
+	var motion := InputEventMouseMotion.new()
+	motion.position = b
+	motion.global_position = b
+	motion.button_mask = MOUSE_BUTTON_MASK_LEFT
+	root.push_input(motion, true)
+	mouse_event(b, false)
+	await settle()
+	check(app.board._pointer_owner == -2 and app.board._pressed == -1 and not app.board._dragging,
+		"Viewport-dispatched pointer cannot acquire or drag the live board through tutorial")
+
+func test_modal_contract() -> void:
+	var app = await make_app("modal")
+	if app == null: return
+	check(app.POWER_INTRODUCTIONS == {"entry":"volcano"}, "Only Volcano is assigned an introduction level; future powers are not invented")
+	app.start_level("entry")
+	await settle()
+	var lesson = app.power_tutorial_view
+	check(is_instance_valid(lesson) and lesson == app.modal, "Entering real level 1 opens tutorial as the active modal")
+	if not is_instance_valid(lesson):
+		app.queue_free()
+		await settle()
+		return
+	check(lesson.page_index == 0 and app._paused, "Tutorial starts on page 1 and pauses gameplay")
+	check(app.board.mouse_filter == Control.MOUSE_FILTER_IGNORE and all_actions_disabled(app, true),
+		"Live board and gameplay actions are blocked while tutorial is open")
+	var before := semantic(app)
+	check(not lesson.finish() and app.modal == lesson, "Page 1 cannot finish before the effect page")
+	var ui_state: Dictionary = lesson.get_snapshot()
+	mouse_event(ui_state.next_rect.get_center(), true)
+	mouse_event(ui_state.next_rect.get_center(), false)
+	await settle()
+	check(lesson.page_index == 1, "Viewport-dispatched click on right arrow changes the visible page")
+	ui_state = lesson.get_snapshot()
+	mouse_event(ui_state.back_rect.get_center(), true)
+	mouse_event(ui_state.back_rect.get_center(), false)
+	await settle()
+	check(lesson.page_index == 0, "Viewport-dispatched click on left arrow returns to the creation page")
+	for i in range(3):
+		lesson.next_page()
+		check(lesson.page_index == 1, "Right arrow reaches effect page")
+		lesson.back_page()
+		check(lesson.page_index == 0, "Left arrow returns to creation page")
+	check(semantic(app) == before, "Paging and rejected finish preserve board, rewards, moves, goals, RNG and progress")
+	var elapsed: float = lesson._mini.elapsed
+	await create_timer(.06).timeout
+	check(lesson._mini.elapsed > elapsed, "Mini illustration actually animates during normal runtime")
+	lesson.propagate_notification(Node.NOTIFICATION_APPLICATION_FOCUS_OUT)
+	elapsed = lesson._mini.elapsed
+	await create_timer(.06).timeout
+	check(lesson._mini.elapsed == elapsed, "Application focus loss freezes the teaching animation")
+	lesson.propagate_notification(Node.NOTIFICATION_APPLICATION_FOCUS_IN)
+	await create_timer(.06).timeout
+	check(lesson._mini.elapsed > elapsed, "Application focus return resumes the same teaching animation")
+	await attempt_pointer_swap(app)
+	check(semantic(app) == before and not app.board.busy, "Pointer attempted behind tutorial cannot resolve a gameplay move")
+	# Direct stale gameplay signal must also be rejected by controller pause gate.
+	app.board.swap_requested.emit(2, 3)
+	check(semantic(app) == before, "Controller also rejects a swap signal while tutorial is active")
+	root.size = Vector2i(360, 780)
+	await settle()
+	check(app.power_tutorial_view == lesson and lesson.page_index == 0 and app._paused,
+		"Resize keeps the same tutorial, page and gameplay block")
+	root.size = Vector2i(432, 960)
+	await settle()
+	check(semantic(app) == before, "Viewport resize cannot change campaign state")
+	lesson.next_page()
+	check(lesson.finish(), "Page 2 completes tutorial")
+	await settle()
+	check(not is_instance_valid(app.modal) and not app._paused and app.board.mouse_filter == Control.MOUSE_FILTER_STOP,
+		"Completion restores playable board")
+	check(all_actions_disabled(app, false), "Completion restores all gameplay action buttons")
+	check(semantic(app) == before, "Completing tutorial consumes no move, mineral, reward, RNG or progress")
+	app.start_level("entry")
+	await settle()
+	check(not is_instance_valid(app.power_tutorial_view), "Retry of level 1 does not force repeated introduction during the same session")
+	app.show_pause()
+	await settle()
+	var guide_button: Button = null
+	for node in app.modal.find_children("*", "Button", true, false):
+		if node.text == "Volcano Guide": guide_button = node
+	check(is_instance_valid(guide_button), "Pause contains an explicit Volcano Guide replay action")
+	if is_instance_valid(guide_button): guide_button.pressed.emit()
+	await settle()
+	var stale = app.power_tutorial_view
+	check(is_instance_valid(stale), "Pause guide action reopens tutorial")
+	if is_instance_valid(stale):
+		app.show_pause()
+		var pause_modal = app.modal
+		stale.completed.emit()
+		check(app.modal == pause_modal and app._paused, "Completion from replaced tutorial cannot close the new Pause modal")
+	app.show_power_tutorial(true)
+	await settle()
+	var escape := InputEventKey.new()
+	escape.pressed = true
+	escape.keycode = KEY_ESCAPE
+	root.push_input(escape, true)
+	await settle()
+	check(not is_instance_valid(app.modal) and not app._paused and all_actions_disabled(app, false),
+		"Escape safely closes tutorial and restores gameplay input")
+	# CONTROLLED prerequisite fixture only. This is not a victory or saved reward.
+	app.progress.data.stars["entry"] = 1
+	app.start_level("hollow")
+	await settle()
+	check(app.current_level == Levels.get_level("hollow") and app.core.initial_moves == int(app.current_level.moves),
+		"Level 2 definition, original goal and move budget are retained")
+	check(not is_instance_valid(app.modal) and not is_instance_valid(app.power_tutorial_view),
+		"Unassigned level 2 does not display any new-power explanation")
+	app.queue_free()
+	await settle()
+
+func test_motion_and_transition() -> void:
+	var app = await make_app("motion", true)
+	if app == null: return
+	app.start_level("entry")
+	await settle()
+	var lesson = app.power_tutorial_view
+	if not is_instance_valid(lesson):
+		check(false, "Reduced motion still presents a readable tutorial")
+		app.queue_free()
+		await settle()
+		return
+	var state := semantic(app)
+	var still: Dictionary = lesson.get_snapshot()
+	await create_timer(0.12).timeout
+	check(lesson.get_snapshot() == still, "Reduced motion tutorial remains static during elapsed runtime")
+	check(semantic(app) == state, "Reduced motion demonstration never changes campaign state")
+	app._close_modal()
+	# CONTROLLED presentation fixture: an explicit entry transition with no seed,
+	# level, progress or live-board edits. Test both complete and focus-cancel paths.
+	app._power_tutorial_seen.clear()
+	app._window_has_focus = false
+	app.start_level("entry")
+	app._begin_entry({"map_rect":Rect2(0,0,720,1600), "hero_foot":Vector2(360,800),
+		"hero_extent":Vector2(180,180), "door":Vector2(360,400), "reference_size":Vector2(720,1600)})
+	check(app.entry_active() and not is_instance_valid(app.modal), "Tutorial waits until mine entry transition ends")
+	app._window_has_focus = true
+	app.entry_transition.complete()
+	await settle()
+	check(is_instance_valid(app.power_tutorial_view) and not app.entry_active() and app._paused,
+		"Normal transition completion opens tutorial before enabling gameplay")
+	app._close_modal()
+	app._power_tutorial_seen.clear()
+	app._window_has_focus = false
+	app.start_level("entry")
+	app._begin_entry({"map_rect":Rect2(0,0,720,1600), "hero_foot":Vector2(360,800),
+		"hero_extent":Vector2(180,180), "door":Vector2(360,400), "reference_size":Vector2(720,1600)})
+	app._notification(Node.NOTIFICATION_WM_WINDOW_FOCUS_OUT)
+	check(not app.entry_active() and not is_instance_valid(app.modal), "Focus loss cancels transition without showing an unfocused tutorial")
+	app._notification(Node.NOTIFICATION_WM_WINDOW_FOCUS_IN)
+	await settle()
+	check(is_instance_valid(app.power_tutorial_view) and app._paused, "Focus return recovers pending tutorial after entry cancellation")
+	app._close_modal()
+	app._power_tutorial_seen.clear()
+	app._window_has_focus = false
+	app.start_level("entry")
+	app._begin_entry({"map_rect":Rect2(0,0,720,1600), "hero_foot":Vector2(360,800),
+		"hero_extent":Vector2(180,180), "door":Vector2(360,400), "reference_size":Vector2(720,1600)})
+	app.cancel_entry(true)
+	app._notification(Node.NOTIFICATION_WM_WINDOW_FOCUS_IN)
+	await settle()
+	check(app.current_screen == "map" and not is_instance_valid(app.power_tutorial_view),
+		"Cancel entry to map cannot open a stale tutorial on focus return")
+	app.queue_free()
+	await settle()
+
+func _cleanup() -> void:
+	for save in saves:
+		for path in [save, save + ".tmp"]:
+			if FileAccess.file_exists(path): DirAccess.remove_absolute(ProjectSettings.globalize_path(path))
+
+func run() -> void:
+	root.size = Vector2i(432,960)
+	await test_modal_contract()
+	await test_motion_and_transition()
+	_cleanup()
+	print("POWER_TUTORIAL " + JSON.stringify({"checks":checks, "failures":failures,
+		"status":"PASS" if failures.is_empty() else "FAIL",
+		"proof":"Scripted real main.tscn/controller/modal checks, synthetic viewport pointer, isolated saves. Transition and level-2 prerequisite fixtures are controlled, not a natural victory. No human, Android or visual-quality acceptance."}))
+	quit(0 if failures.is_empty() else 1)

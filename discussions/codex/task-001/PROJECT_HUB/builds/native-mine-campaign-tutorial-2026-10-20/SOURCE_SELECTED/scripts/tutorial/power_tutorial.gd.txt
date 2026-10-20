@@ -1,0 +1,221 @@
+extends Control
+## Modal, two-page introduction. The owner alone controls campaign lifetime.
+signal completed
+
+const Art = preload("res://scripts/story_art.gd")
+const MiniAnimation = preload("res://scripts/tutorial/volcano_mini_animation.gd")
+const PAGE_COUNT := 2
+
+var power_id := "volcano"
+var reduced_motion := false
+var page_index := 0
+var _finished := false
+var _built := false
+var _card: PanelContainer
+var _inner: PanelContainer
+var _content: VBoxContainer
+var _kicker: Label
+var _title: Label
+var _description: Label
+var _phase: Label
+var _counter: Label
+var _back: Button
+var _next: Button
+var _action: Button
+var _mini
+
+func configure(requested_power: String, reduced: bool = false) -> bool:
+	if requested_power.to_lower() != "volcano": return false
+	power_id = "volcano"
+	reduced_motion = reduced
+	page_index = 0
+	_finished = false
+	if _built: _refresh_page()
+	return true
+
+func _ready() -> void:
+	name = "Volcano tutorial"
+	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	mouse_filter = Control.MOUSE_FILTER_STOP
+	focus_mode = Control.FOCUS_ALL
+	z_index = 100
+	_build()
+	resized.connect(_layout)
+	_layout()
+	_refresh_page()
+	_action.grab_focus()
+
+func _build() -> void:
+	var shade := ColorRect.new()
+	shade.name = "Modal shade"
+	shade.color = Color(.015,.035,.045,.93)
+	shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	shade.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(shade)
+	_card = PanelContainer.new()
+	_card.add_theme_stylebox_override("panel",Art.panel(Color(.73,.58,.38)))
+	add_child(_card)
+	_inner = PanelContainer.new()
+	var dark := StyleBoxFlat.new()
+	dark.bg_color = Color("142f35")
+	dark.border_color = Color("d8ad63")
+	dark.set_border_width_all(3)
+	dark.set_corner_radius_all(22)
+	dark.shadow_color = Color(0,0,0,.40)
+	dark.shadow_size = 10
+	_inner.add_theme_stylebox_override("panel",dark)
+	_card.add_child(_inner)
+	_content = VBoxContainer.new()
+	_inner.add_child(_content)
+	_kicker = _label("NEW POWER",24,Color("e6c785"))
+	_title = _label("",42,Color("fff1c8"))
+	_description = _label("",30,Color("f6f3e8"))
+	_description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_description.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_mini = MiniAnimation.new()
+	_mini.name = "Volcano teaching illustration"
+	_mini.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_mini.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_content.add_child(_mini)
+	_phase = _label("",27,Color("ffda98"))
+	_mini.phase_changed.connect(func(text: String) -> void: _phase.text = text)
+	_phase.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_phase.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	var navigation := HBoxContainer.new()
+	navigation.alignment = BoxContainer.ALIGNMENT_CENTER
+	navigation.add_theme_constant_override("separation",18)
+	_content.add_child(navigation)
+	_back = _button("‹")
+	_back.tooltip_text = "Previous page"
+	_back.pressed.connect(back_page)
+	navigation.add_child(_back)
+	_counter = Label.new()
+	_counter.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_counter.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_counter.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_counter.add_theme_font_override("font",Art.font(800))
+	_counter.add_theme_color_override("font_color",Color("fff0d2"))
+	navigation.add_child(_counter)
+	_next = _button("›")
+	_next.tooltip_text = "Next page"
+	_next.pressed.connect(next_page)
+	navigation.add_child(_next)
+	_action = _button("Next")
+	_action.name = "Tutorial action"
+	_action.pressed.connect(func() -> void:
+		if page_index == PAGE_COUNT-1: finish()
+		else: next_page())
+	_content.add_child(_action)
+	_built = true
+
+func _label(text: String, font_size: int, color: Color) -> Label:
+	var label := Label.new()
+	label.text = text
+	label.add_theme_font_override("font",Art.font(800))
+	label.add_theme_font_size_override("font_size",font_size)
+	label.add_theme_color_override("font_color",color)
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_content.add_child(label)
+	return label
+
+func _button(text: String) -> Button:
+	var button := Button.new()
+	button.text = text
+	button.add_theme_font_override("font",Art.font(850))
+	button.add_theme_color_override("font_color",Color("fff2d0"))
+	button.add_theme_color_override("font_disabled_color",Color("7c8b85"))
+	for state in ["normal","hover","pressed","disabled","focus"]:
+		var style := StyleBoxFlat.new()
+		style.bg_color = Color("3a5b4a")
+		if state == "hover": style.bg_color = Color("507953")
+		if state == "pressed": style.bg_color = Color("294d3d")
+		if state == "disabled": style.bg_color = Color("253e3b")
+		style.border_color = Color("d1ae64") if state != "disabled" else Color("52655a")
+		style.set_border_width_all(3 if state == "focus" else 2)
+		style.set_corner_radius_all(16)
+		button.add_theme_stylebox_override(state,style)
+	return button
+
+func _layout() -> void:
+	if not _built: return
+	var s := maxf(.35,minf(size.x/720.0,size.y/1600.0))
+	var card_size := Vector2(minf(660*s,size.x-28*s),minf(1270*s,size.y-44*s))
+	_card.position = (size-card_size)*.5
+	_card.size = card_size
+	var dark := _inner.get_theme_stylebox("panel") as StyleBoxFlat
+	for edge in ["left","right","top","bottom"]: dark.set("content_margin_"+edge,28*s)
+	_content.add_theme_constant_override("separation",20*s)
+	_kicker.add_theme_font_size_override("font_size",roundi(24*s))
+	_title.add_theme_font_size_override("font_size",roundi(43*s))
+	_description.add_theme_font_size_override("font_size",roundi(30*s))
+	_phase.add_theme_font_size_override("font_size",roundi(27*s))
+	_phase.custom_minimum_size.y = 78*s
+	_counter.add_theme_font_size_override("font_size",roundi(28*s))
+	_mini.custom_minimum_size = Vector2(0,420*s)
+	for button in [_back,_next]:
+		button.custom_minimum_size = Vector2(88,88)*s
+		button.add_theme_font_size_override("font_size",roundi(58*s))
+	_action.custom_minimum_size.y = 92*s
+	_action.add_theme_font_size_override("font_size",roundi(32*s))
+
+func set_page(index: int) -> void:
+	if _finished: return
+	page_index = clampi(index,0,PAGE_COUNT-1)
+	if _built: _refresh_page()
+
+func next_page() -> void:
+	set_page(page_index+1)
+
+func back_page() -> void:
+	set_page(page_index-1)
+
+func _refresh_page() -> void:
+	_title.text = "Create a Volcano" if page_index == 0 else "Let it erupt!"
+	_description.text = "Match 4 minerals of the same kind in one straight line. They leave a Volcano on the board." if page_index == 0 else "Move the Volcano or match its mineral to erupt. Burning rocks hit 3–5 scattered minerals."
+	_counter.text = "%d / %d" % [page_index+1,PAGE_COUNT]
+	_back.disabled = page_index == 0
+	_next.disabled = page_index == PAGE_COUNT-1
+	_action.text = "Next" if page_index == 0 else "Play Level 1"
+	_mini.configure(page_index,reduced_motion)
+	_phase.text = _mini.phase_text
+
+func finish() -> bool:
+	if _finished or page_index != PAGE_COUNT-1: return false
+	dismiss()
+	return true
+
+func dismiss() -> void:
+	if _finished: return
+	_finished = true
+	hide()
+	completed.emit()
+
+func _gui_input(event: InputEvent) -> void:
+	if event is InputEventMouse or event is InputEventScreenTouch or event is InputEventScreenDrag:
+		accept_event()
+
+func _input(event: InputEvent) -> void:
+	if _finished or not is_visible_in_tree() or not event is InputEventKey: return
+	if not event.pressed or event.echo: return
+	if event.is_action_pressed("ui_left"):
+		back_page();get_viewport().set_input_as_handled()
+	elif event.is_action_pressed("ui_right"):
+		next_page();get_viewport().set_input_as_handled()
+	elif event.is_action_pressed("ui_cancel"):
+		# Escape dismisses the normal modal; the owner restores game controls.
+		dismiss()
+		get_viewport().set_input_as_handled()
+
+func get_snapshot() -> Dictionary:
+	return {"power_id":power_id,"page_index":page_index,"page_count":PAGE_COUNT,
+		"reduced_motion":reduced_motion,"finished":_finished,"visible":is_visible_in_tree(),
+		"title":_title.text if _built else "","action":_action.text if _built else "",
+		"can_finish":page_index==PAGE_COUNT-1 and not _finished,
+		"back_enabled":not _back.disabled if _built else false,
+		"next_enabled":not _next.disabled if _built else false,
+		"mini_animation":_mini.get_snapshot() if _built else {},
+		"card_rect":_card.get_global_rect() if _built else Rect2(),
+		"back_rect":_back.get_global_rect() if _built else Rect2(),
+		"next_rect":_next.get_global_rect() if _built else Rect2(),
+		"action_rect":_action.get_global_rect() if _built else Rect2(),
+		"mutates_board":false,"mutates_save":false,"pauses_tree":false}

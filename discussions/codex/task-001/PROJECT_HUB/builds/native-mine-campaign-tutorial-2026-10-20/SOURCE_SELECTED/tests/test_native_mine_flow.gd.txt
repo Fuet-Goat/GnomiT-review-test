@@ -1,0 +1,92 @@
+extends SceneTree
+## Real generated-board victory, no grid or progress fixture injection.
+const Main=preload("res://main.tscn")
+const Core=preload("res://scripts/lab/mega_volcano_core.gd")
+const Levels=preload("res://scripts/levels.gd")
+var failures: Array[String]=[]
+var checks:=0
+var app
+var save:="user://native_mine_flow_"+str(Time.get_ticks_usec())+".json"
+
+func _initialize() -> void:
+	create_timer(40).timeout.connect(func() -> void:quit(99))
+	call_deferred("run")
+func check(ok: bool, label: String) -> void:
+	checks+=1
+	if not ok:failures.append(label);push_error(label)
+func settle() -> void:
+	await process_frame
+	await process_frame
+func winning_path() -> Dictionary:
+	var level: Dictionary=Levels.get_level("entry")
+	for seed_value in range(1,41):
+		var reference=Core.new()
+		reference.setup(level,seed_value)
+		var path: Array=[]
+		while not reference.won and not reference.lost and path.size()<int(level.moves):
+			var pair: Array=reference.hint_move()
+			if pair.size()!=2:break
+			var result: Dictionary=reference.try_swap(pair[0],pair[1])
+			if not result.valid:break
+			path.append(pair.duplicate())
+		if reference.won:return {"seed":seed_value,"path":path}
+	return {}
+func run() -> void:
+	root.size=Vector2i(432,960)
+	var plan:=winning_path()
+	check(not plan.is_empty(),"Unchanged level1 has an ordinary legal winning path")
+	if plan.is_empty():quit(1);return
+	app=Main.instantiate()
+	check(not FileAccess.file_exists(save),"Fresh isolated save before main ready")
+	app.save_path_override=save
+	app.pilot_seed_override=int(plan.seed)
+	app.alive_enabled=false
+	root.add_child(app)
+	app.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	await settle()
+	app.progress.data.options.reduced_motion=true
+	app.progress.data.options.sound=false
+	app.power_audio.set_enabled(false)
+	check(app.map_view.native_scene.model_ready,"Actual native GLB is the main campaign start")
+	check(FileAccess.get_sha256("res://assets/native_mine/storybook_mine.glb")=="19ec82b314f75e43580408e1f42bbb2ea617f3ad41bd9767b3a97ed0893cf0d3","Native map uses exact verified Blender V3 bytes")
+	check(app.map_view.buttons.keys()==["entry","hollow"],"Only authored approach1 and mine2 nodes are presented")
+	check(app.map_view.native_scene.marker_anchors.size()==2,"Numbers use the two actual Blender anchors")
+	check(app.map_view.buttons.hollow.disabled,"Fresh mine2 is visibly locked")
+	check(not app.map_view.choose_number(2) and not is_instance_valid(app.modal),"Locked mine2 cannot open")
+	check(app.map_view.choose_number(1),"Approach1 opens existing campaign preview")
+	await settle()
+	check(is_instance_valid(app.pre_level_view) and app.pre_level_view.level_id=="entry","Path1 points to actual First Crystals")
+	app.pre_level_view.play_requested.emit("entry")
+	await settle()
+	check(is_instance_valid(app.power_tutorial_view),"Playing path1 exposes two-page Volcano lesson")
+	app.power_tutorial_view.next_page()
+	app.power_tutorial_view.finish()
+	await settle()
+	for pair: Array in plan.path:
+		app.board.swap_requested.emit(pair[0],pair[1])
+		while app.board.busy:await process_frame
+		await settle()
+	check(app.core.won and not app.core.lost,"Actual level1 wins through legal moves on its generated board")
+	check(app.progress.is_unlocked("hollow") and app.progress.data.light==10,"Real victory opens mine2 with one existing reward")
+	var stored=load("res://scripts/progress.gd").new()
+	stored.load_progress(save)
+	check(stored.data==app.progress.data and stored.data.version==2,"Victory preserves normal v2 save semantics")
+	app._continue_after_win()
+	await settle()
+	check(app.current_screen=="map" and app.map_view.native_scene.model_ready,"Continue returns to same native Blender world")
+	check(not app.map_view.buttons.hollow.disabled,"Mine2 is now visibly unlocked")
+	check(app.map_view.choose_number(2),"Unlocked mine2 opens its preview")
+	await settle()
+	app.pre_level_view.play_requested.emit("hollow")
+	await settle()
+	check(app.current_level==Levels.get_level("hollow") and not is_instance_valid(app.power_tutorial_view),"Mine2 starts unchanged Root Passage without repeating Volcano intro")
+	var receipt:={"status":"PASS" if failures.is_empty() else "FAIL","checks":checks,"failures":failures,
+		"seed":plan.seed,"legal_path":plan.path,"method":"Actual normal campaign controller, unpainted generated board, legal moves, actual victory/save/unlock; native GUI touch demonstrated separately in capture",
+		"human_acceptance":"PENDING"}
+	var f:=FileAccess.open("res://verification/NATIVE_MINE_FLOW.json",FileAccess.WRITE)
+	f.store_string(JSON.stringify(receipt,"\t"));f.close()
+	print("NATIVE_MINE_FLOW "+JSON.stringify(receipt))
+	app.queue_free();await settle()
+	for path in [save,save+".tmp"]:
+		if FileAccess.file_exists(path):DirAccess.remove_absolute(ProjectSettings.globalize_path(path))
+	quit(0 if failures.is_empty() else 1)
