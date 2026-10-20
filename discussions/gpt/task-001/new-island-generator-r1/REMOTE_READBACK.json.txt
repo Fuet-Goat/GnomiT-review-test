@@ -1,0 +1,90 @@
+{
+  "status": "SOURCE_PROPOSAL_READY_FOR_CODEX_REVIEW",
+  "verified_source_commit": "6c9c38214df659ae21f5d48c7345910cf57b782a",
+  "branch": "codex/gpt/task-001",
+  "root": "discussions/gpt/task-001/new-island-generator-r1/",
+  "readback_method": "Fresh GitHub.fetch_file of every listed text at the exact commit; returned Git blob SHA-1 matched the blob hash computed from local UTF-8 bytes. SHA-256 values are calculated from those local bytes in DELIVERY_MANIFEST. This is not a claim that remote SHA-256 was separately computed by the connector.",
+  "verified_text_files": 14,
+  "verified_text_bytes": 87358,
+  "commit_scope": "14 added text files in own proposal folder; no deletions or changes elsewhere",
+  "manifest_scope": "DELIVERY_MANIFEST describes the immutable 13 source/document payloads at verified_source_commit and excludes itself. This publication receipt was added afterwards and is not one of those payloads.",
+  "blender_build": "NOT_RUN_IN_BLENDER",
+  "render": "NOT_RUN_IN_BLENDER",
+  "glb_reimport": "NOT_RUN_IN_BLENDER",
+  "godot": "NOT_RUN",
+  "mobile": "NOT_MEASURED",
+  "visual_acceptance": "NOT_VERIFIED",
+  "merge": false,
+  "files": [
+    {
+      "path": "DELIVERY_MANIFEST.json.txt",
+      "bytes": 3114,
+      "git_blob_sha1": "3d83f04cfd85aeb176b68d35f2e73f0a64c8a3c4"
+    },
+    {
+      "path": "PROVENANCE.json.txt",
+      "bytes": 5063,
+      "git_blob_sha1": "d83f79f2618fcc6a1e51a23c9f277981d0714076"
+    },
+    {
+      "path": "README_BG.txt",
+      "bytes": 3251,
+      "git_blob_sha1": "f16e702f8c00f2b05eb1e7fd47d954a2228cb3ed"
+    },
+    {
+      "path": "REPORT.txt",
+      "bytes": 8663,
+      "git_blob_sha1": "c62babf27bdfd2d2289fc3e85395a9bd322fb01c"
+    },
+    {
+      "path": "REVIEW_PLAN.txt",
+      "bytes": 3622,
+      "git_blob_sha1": "a94f618c76a5cc87dde4db1f2ed90c74b8ac2891"
+    },
+    {
+      "path": "SOURCE/boardwalk.py.txt",
+      "bytes": 8414,
+      "git_blob_sha1": "cad59588fbf26a8a851030911ffaed8f3e06baa9"
+    },
+    {
+      "path": "SOURCE/build_scene.py.txt",
+      "bytes": 10355,
+      "git_blob_sha1": "b75cb20173ccceb56f2e5822782e85a0f83c1e58"
+    },
+    {
+      "path": "SOURCE/environment.py.txt",
+      "bytes": 10889,
+      "git_blob_sha1": "a88669ad5deec84b0e31429f9b4fe5ed3853f710"
+    },
+    {
+      "path": "SOURCE/geometry.py.txt",
+      "bytes": 7449,
+      "git_blob_sha1": "dc6537e9f8fb01eb2f3bfb4cbf97519ef18ffb2e"
+    },
+    {
+      "path": "SOURCE/materials.py.txt",
+      "bytes": 3846,
+      "git_blob_sha1": "0e8501a857cac88f4c42fbc7d74d8f9b36c48896"
+    },
+    {
+      "path": "SOURCE/mine.py.txt",
+      "bytes": 6287,
+      "git_blob_sha1": "5096aeec12d973f62a8a9e3aef62aef9e9bf224f"
+    },
+    {
+      "path": "SOURCE/presentation.py.txt",
+      "bytes": 8719,
+      "git_blob_sha1": "f175e14262152c5ebcdc7319cd5b2d5563962a08"
+    },
+    {
+      "path": "SOURCE/scene_settings.json.txt",
+      "bytes": 4233,
+      "git_blob_sha1": "0bd8dca1d0cadebbb2e400e197e367bcb81f7186"
+    },
+    {
+      "path": "STATIC_REVIEW.json.txt",
+      "bytes": 3453,
+      "git_blob_sha1": "4327283c5d48ca68513a9f3db552a7d7cf462d72"
+    }
+  ]
+}
