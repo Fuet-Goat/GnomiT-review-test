@@ -1,0 +1,93 @@
+{
+	"checks": 51,
+	"failures": [],
+	"human_art_acceptance": "PENDING",
+	"method": "Explicit seek sampling of the actual imported GLB merged Animation; continuous playback is supplied separately in native movie.",
+	"model_sha256": "19ec82b314f75e43580408e1f42bbb2ea617f3ad41bd9767b3a97ed0893cf0d3",
+	"samples": [
+		{
+			"eye_openness": [
+				1.0,
+				1.0
+			],
+			"hand_changed": false,
+			"head_changed": false,
+			"seconds": 0.0
+		},
+		{
+			"eye_openness": [
+				0.0349999070167542,
+				0.0349999070167542
+			],
+			"hand_changed": true,
+			"head_changed": true,
+			"seconds": 0.791666666666667
+		},
+		{
+			"eye_openness": [
+				0.999999940395355,
+				0.999999940395355
+			],
+			"hand_changed": true,
+			"head_changed": true,
+			"seconds": 0.916666666666667
+		},
+		{
+			"eye_openness": [
+				0.999999940395355,
+				0.999999940395355
+			],
+			"hand_changed": true,
+			"head_changed": true,
+			"seconds": 1.5
+		},
+		{
+			"eye_openness": [
+				0.999999940395355,
+				0.999999940395355
+			],
+			"hand_changed": true,
+			"head_changed": true,
+			"seconds": 2.5
+		},
+		{
+			"eye_openness": [
+				0.0349990129470825,
+				0.0349990129470825
+			],
+			"hand_changed": true,
+			"head_changed": true,
+			"seconds": 4.33333333333333
+		},
+		{
+			"eye_openness": [
+				1.0,
+				1.0
+			],
+			"hand_changed": true,
+			"head_changed": true,
+			"seconds": 4.45833333333333
+		},
+		{
+			"eye_openness": [
+				1.0,
+				1.0
+			],
+			"hand_changed": true,
+			"head_changed": true,
+			"seconds": 5.5
+		},
+		{
+			"eye_openness": [
+				1.0,
+				1.0
+			],
+			"hand_changed": false,
+			"head_changed": false,
+			"seconds": 6.0
+		}
+	],
+	"screen_count": 1,
+	"screen_index": 0,
+	"status": "PASS"
+}

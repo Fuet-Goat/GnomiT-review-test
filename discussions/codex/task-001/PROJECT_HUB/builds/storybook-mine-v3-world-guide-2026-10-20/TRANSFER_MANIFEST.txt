@@ -1,0 +1,16 @@
+{
+  "topic": "STORYBOOK_MINE_V3_WORLD_GUIDE_2026-10-20",
+  "format": "ASCII Base64 wrapped at 76 characters; whitespace ignored when decoding",
+  "attachment": "NATIVE_PROJECT_PACKAGE.base64.txt",
+  "attachment_bytes": 20487581,
+  "attachment_sha256": "8f958d7061894b4a4b42befe00ff48708209f49421dfc9cc5f32c130bfd1606c",
+  "decoded_filename": "GNOMIT_MINE_V3_WORLD_GUIDE_2026-10-20.zip",
+  "decoded_bytes": 15166131,
+  "decoded_sha256": "44ac253a25c41adb213c0cf75467c1361822e41659dff32626d2ef8b849146bf",
+  "archive_entries": 92,
+  "manifest_payload_entries": 91,
+  "scope": "Native art / introduction preview; no campaign integration",
+  "decoding_instructions": "base64.b64decode(Path(attachment).read_bytes()); verify exact decoded bytes and SHA-256 before extracting",
+  "publication_parent": "d243c0a59cf34c34f8d0a85eada44ce915fb948c",
+  "trusted_main": "bd2dfe7fddd300bd8425cd1c5b0846fe50c4f3d2"
+}

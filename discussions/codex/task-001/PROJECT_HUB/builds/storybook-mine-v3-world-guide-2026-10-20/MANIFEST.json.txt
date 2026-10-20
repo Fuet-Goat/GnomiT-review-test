@@ -1,0 +1,463 @@
+{
+  "schema": 1,
+  "root_name": "StorybookMine_V3_2026-10-20",
+  "scope": "Native V3 art / introduction preview",
+  "excluded": "Godot caches, pycache, blend backups, raw AVI, obsolete early captures, V2-only audit. AVI identity in NATIVE_MOVIE_RECEIPT.",
+  "files": [
+    {
+      "path": "ART_DIRECTION_BG.txt",
+      "bytes": 4290,
+      "sha256": "f24e7dd419e54e6467dbe7d9ae7157cddabbb66adfe68da7c33ba3d15d67e1d6"
+    },
+    {
+      "path": "assets/branding/gnomit_element_wordmark_v1.png",
+      "bytes": 1485630,
+      "sha256": "90a07215598d9d3cb95741dc417e96d14aec5e03fea1b0875c40b7f52dabe262"
+    },
+    {
+      "path": "assets/branding/gnomit_element_wordmark_v1_provenance.txt",
+      "bytes": 3516,
+      "sha256": "dd43fde178ac15c578a28b6f2f7179cb3665580a924035d7904b78ab1a728ff6"
+    },
+    {
+      "path": "assets/storybook_mine.glb",
+      "bytes": 13651192,
+      "sha256": "19ec82b314f75e43580408e1f42bbb2ea617f3ad41bd9767b3a97ed0893cf0d3"
+    },
+    {
+      "path": "assets/storybook_mine.glb.import",
+      "bytes": 1164,
+      "sha256": "1c1ae7d341dd3dafc57879fae805c1f2247f0ad61fdb9c0ebaceb7041a502b1d"
+    },
+    {
+      "path": "assets/storybook_mine_Authored_Meadow_Colour.png",
+      "bytes": 77492,
+      "sha256": "6986000b68b24a1e93e7442f2028634b65d6b374a079038a304d5873920ddde0"
+    },
+    {
+      "path": "assets/storybook_mine_Authored_Oak_Colour.png",
+      "bytes": 283833,
+      "sha256": "5764fdec8c8e489285550adfe447d70d089c1b62446c191eb1f59ef9f3541008"
+    },
+    {
+      "path": "assets/storybook_mine_Authored_Oak_Endgrain.png",
+      "bytes": 202674,
+      "sha256": "cf1bf5465cc3b0ca45e0e416356efffa5a90d571c5cea9035759d853d4a0e91a"
+    },
+    {
+      "path": "assets/storybook_mine_Authored_Oak_Normal.png",
+      "bytes": 98420,
+      "sha256": "6ec4ea541cf96310a1bb04dd66ff5b8ad8fa1940f04ac1a1133300ba29015324"
+    },
+    {
+      "path": "assets/storybook_mine_Authored_Oak_Shadow.png",
+      "bytes": 169776,
+      "sha256": "86265173c190bcb9dfa59836463163cef8cff97201b855e1fc2e796018d2d0ab"
+    },
+    {
+      "path": "assets/textures/Authored_Meadow_Colour.png",
+      "bytes": 77492,
+      "sha256": "6986000b68b24a1e93e7442f2028634b65d6b374a079038a304d5873920ddde0"
+    },
+    {
+      "path": "assets/textures/Authored_Oak_Colour.png",
+      "bytes": 283833,
+      "sha256": "5764fdec8c8e489285550adfe447d70d089c1b62446c191eb1f59ef9f3541008"
+    },
+    {
+      "path": "assets/textures/Authored_Oak_Endgrain.png",
+      "bytes": 202674,
+      "sha256": "cf1bf5465cc3b0ca45e0e416356efffa5a90d571c5cea9035759d853d4a0e91a"
+    },
+    {
+      "path": "assets/textures/Authored_Oak_Normal.png",
+      "bytes": 98420,
+      "sha256": "6ec4ea541cf96310a1bb04dd66ff5b8ad8fa1940f04ac1a1133300ba29015324"
+    },
+    {
+      "path": "assets/textures/Authored_Oak_Shadow.png",
+      "bytes": 169776,
+      "sha256": "86265173c190bcb9dfa59836463163cef8cff97201b855e1fc2e796018d2d0ab"
+    },
+    {
+      "path": "capture_preview.gd",
+      "bytes": 11511,
+      "sha256": "42a0b3e9ac749bdbcdf46ccae899abdcdb75284cebc8989c9982a15e1ec19de6"
+    },
+    {
+      "path": "capture_preview.gd.uid",
+      "bytes": 19,
+      "sha256": "bc151e49f59d91e63575b44d588d9779fb820f4517949dd5054074a5b8ca2ad5"
+    },
+    {
+      "path": "check_guide_runtime.gd",
+      "bytes": 3895,
+      "sha256": "498fea4f4ef261671fb79818ee0231a31d2f7591fbda8f346b0bc46421bba627"
+    },
+    {
+      "path": "check_guide_runtime.gd.uid",
+      "bytes": 20,
+      "sha256": "4512ab6619728d8f9f4bfd95e2d99a0986a9ee0a76dc862dfe0a86529e7fdfa9"
+    },
+    {
+      "path": "check_routed_input.gd",
+      "bytes": 1721,
+      "sha256": "be7fd312644988279a141316eb5edbf4ee73cdb1f5970e2782bd158bae3a270b"
+    },
+    {
+      "path": "check_routed_input.gd.uid",
+      "bytes": 20,
+      "sha256": "c439339bc24bb599787c60c2f06836876de780720fcfaf25f16e79491358439d"
+    },
+    {
+      "path": "FINAL_RESPONSE.txt",
+      "bytes": 1797,
+      "sha256": "707910a9321bbb23cf1441d5103e45f7c0109a05fda7a96eca572be16028f92a"
+    },
+    {
+      "path": "INDEPENDENT_REVIEW.txt",
+      "bytes": 2977,
+      "sha256": "31228b82786fcf7af6077c911b7f06de064a7f9e99c0f096c6dfa609c824df10"
+    },
+    {
+      "path": "launch_preview.ps1",
+      "bytes": 486,
+      "sha256": "3a116c9fe0e8b5c3d851b85337d2e4bdaa40af73c58b4d292794b51a61917c04"
+    },
+    {
+      "path": "movie_preview.gd",
+      "bytes": 309,
+      "sha256": "a4cc1b818746f598fc95ebd0e8768ad10357a85cf568101e4f802f24a18cbbc4"
+    },
+    {
+      "path": "movie_preview.gd.uid",
+      "bytes": 19,
+      "sha256": "d5105985e653691fd2ffc48422c6403692012b3328f75b5717a265e12e203679"
+    },
+    {
+      "path": "PLAY_BLENDER_WORLD.cmd",
+      "bytes": 116,
+      "sha256": "c12e54837d536e7b163372d818523d8981f24cc03fbcef064ca862a7985f64b3"
+    },
+    {
+      "path": "PREDECESSOR.json",
+      "bytes": 220,
+      "sha256": "fb2c8a9c9cfb01d59f3d1d640da7665b3265053d7267c7ce040fb3af541d6e79"
+    },
+    {
+      "path": "preview.gd",
+      "bytes": 24341,
+      "sha256": "cc456253810ebc617fd15cb4010750c52a646732ec2b704f3c7adbccac1e9580"
+    },
+    {
+      "path": "preview.gd.uid",
+      "bytes": 20,
+      "sha256": "62afe19fbf409d2da10f9edfb1f2d60b6dc4e51d6c98abe82402b205a50772fc"
+    },
+    {
+      "path": "preview.tscn",
+      "bytes": 169,
+      "sha256": "f8541f6c2712bb929da138cd51c108ca01de67259b5621d7b52c2eb5c7691195"
+    },
+    {
+      "path": "project.godot",
+      "bytes": 871,
+      "sha256": "cd2680a148d59ef050b7200cb9a71aa4e0abbd752c0f1fe47318ecf6e1564c69"
+    },
+    {
+      "path": "PROVENANCE.txt",
+      "bytes": 3639,
+      "sha256": "d5e852be0206eb017e339a03a155ff7137fe07b1cb007ddab75aa737cda38c62"
+    },
+    {
+      "path": "README.txt",
+      "bytes": 6009,
+      "sha256": "477836169143ef266a282eb7dce3f6cc4f34bca644b8c62b8e2d6da0ce4edeb4"
+    },
+    {
+      "path": "references/USER_ADOPTED_ART_DIRECTION_SOURCE_BG.txt",
+      "bytes": 7761,
+      "sha256": "8dcce399ac8da3e7ceaa8714e169a3d0e71b175b7b816b0f98cece811d7d624d"
+    },
+    {
+      "path": "renders/.gdignore",
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "renders/BLENDER_STORYBOOK_MINE.png",
+      "bytes": 621009,
+      "sha256": "19644bc747bdd885557292118a4782dec837c356dde8317126f4b2ce4e6deff6"
+    },
+    {
+      "path": "renders/BLENDER_V3_AUDIT.json",
+      "bytes": 222033,
+      "sha256": "76464216932a3508317901d6f992f14ee9b9bbb5db36f561ee2dac69e78dd689"
+    },
+    {
+      "path": "renders/build.log",
+      "bytes": 145201,
+      "sha256": "69fde27d90fb42f25af43d304a66ef1b182b09dd3df4255d7f652eccf6322cae"
+    },
+    {
+      "path": "renders/BUILD_RECEIPT.json",
+      "bytes": 3715,
+      "sha256": "a3806c61bea3317847e5dd1221832fb5da365542d7b25f1961e033486f4a6276"
+    },
+    {
+      "path": "renders/encode.log",
+      "bytes": 3825,
+      "sha256": "dfba09d045e9f6dfbb6337d8901bfe848520143952dcee2dc9956fe91f4244fc"
+    },
+    {
+      "path": "renders/final_native/GODOT_LEVEL_1_INTRO.png",
+      "bytes": 347956,
+      "sha256": "d29aba8a28c6d8ebf730067bf1c2ce88f83947879a045f9995b2acc3f52d3a87"
+    },
+    {
+      "path": "renders/final_native/GODOT_LEVEL_2_INTRO.png",
+      "bytes": 346103,
+      "sha256": "6e5396762f2bb8af5f0ce46063240574a58f3314cc0c2c2c9c3755086f0b3abc"
+    },
+    {
+      "path": "renders/final_native/GODOT_STORYBOOK_1S.png",
+      "bytes": 356846,
+      "sha256": "a5321af80e33484155f158f53ca4508fb58e24b8c2b47f8339f962c13e0f4e2d"
+    },
+    {
+      "path": "renders/final_native/GODOT_STORYBOOK_3S.png",
+      "bytes": 358831,
+      "sha256": "cccc8d8bdc782cd17291e1337b0e5c3b196d01dcdfac2b167a031fdadff1df2c"
+    },
+    {
+      "path": "renders/final_native/GODOT_STORYBOOK_RECEIPT.json",
+      "bytes": 13945,
+      "sha256": "0c49aaef4a3ab8029ddc14feb74135d5a8efcb8d787fd4ec828ec0cbd81ab7e0"
+    },
+    {
+      "path": "renders/fresh_import/capture.log",
+      "bytes": 12862,
+      "sha256": "c3bed91daef77779634d0056162335c8f3606f7a1d57208e1cd833cbd4e0b272"
+    },
+    {
+      "path": "renders/fresh_import/GODOT_STORYBOOK_RECEIPT.json",
+      "bytes": 13976,
+      "sha256": "e36f2ddebeb06235dba22a337ef24959360d14e5d9811952cb89a5ec94ca6a75"
+    },
+    {
+      "path": "renders/fresh_import/guide_runtime.log",
+      "bytes": 1602,
+      "sha256": "de5b29400afb6a1bc557d85f7618d236c07468ca9e209c441472d7ea85c20c78"
+    },
+    {
+      "path": "renders/fresh_import/GUIDE_RUNTIME_AUDIT.json",
+      "bytes": 1664,
+      "sha256": "0cae66ff469d5ae12127c213058ea7cf62dffc8a6a0792d7f0353b90f787597b"
+    },
+    {
+      "path": "renders/fresh_import/import.log",
+      "bytes": 2132,
+      "sha256": "3afaf371301df169f71219dac26fc94a62960171b4e823ca1a7355041d6e43a6"
+    },
+    {
+      "path": "renders/GNOMIT_MINE_V3_NATIVE.mp4",
+      "bytes": 785404,
+      "sha256": "3c58c6a9c5ad6f56a8eb2661ae4c4a81279078b5ff1867014f354d33d102fb0a"
+    },
+    {
+      "path": "renders/godot_capture_final.log",
+      "bytes": 12831,
+      "sha256": "5255aef9a2970c92f04ee268fae7f8fad158d04fd7090ddc0dfa3692d526925c"
+    },
+    {
+      "path": "renders/godot_capture_final_stdout.log",
+      "bytes": 12836,
+      "sha256": "0f4432e1b7ecfde6586715455e1277e7f5c6b7a95a25befc6141c80bf05c76df"
+    },
+    {
+      "path": "renders/godot_import.log",
+      "bytes": 3785,
+      "sha256": "68bf4d512bb3fd5c08a16d5e3c63849cf19f76986a447bb32afca5a288da2e16"
+    },
+    {
+      "path": "renders/godot_import_stdout.log",
+      "bytes": 5523,
+      "sha256": "e0db1f32310cfc5015366135681664b72096f758c17325bc6713a84240062013"
+    },
+    {
+      "path": "renders/godot_movie_final.log",
+      "bytes": 373,
+      "sha256": "675e92fa1f09fdd0ba755be95e2dab6da197c129947d7f98fdaff654a8bc02e8"
+    },
+    {
+      "path": "renders/godot_movie_final_stdout.log",
+      "bytes": 948,
+      "sha256": "a82d2250f4fbb1683ed7a66629cb6f0bf87cba9d4ad581b1553b254551f1cc3b"
+    },
+    {
+      "path": "renders/godot_reimport.log",
+      "bytes": 3601,
+      "sha256": "4c496ee934085d786eba9ba9ada22c016fa5009f0b2f7b05bf387c5470117794"
+    },
+    {
+      "path": "renders/godot_reimport_stdout.log",
+      "bytes": 5267,
+      "sha256": "47415a41dbbea533d4b9760734b591f440288a910694d47469c2e39ddc89b67a"
+    },
+    {
+      "path": "renders/GUIDE_BLINK_NATIVE.png",
+      "bytes": 371463,
+      "sha256": "f911237b20ed44d16a9e626a396589e301ccb6cd9c2898389a294a7747fbcdef"
+    },
+    {
+      "path": "renders/GUIDE_RUNTIME_AUDIT.json",
+      "bytes": 1664,
+      "sha256": "0cae66ff469d5ae12127c213058ea7cf62dffc8a6a0792d7f0353b90f787597b"
+    },
+    {
+      "path": "renders/guide_runtime_final.log",
+      "bytes": 1602,
+      "sha256": "de5b29400afb6a1bc557d85f7618d236c07468ca9e209c441472d7ea85c20c78"
+    },
+    {
+      "path": "renders/guide_runtime_final_stdout.log",
+      "bytes": 1607,
+      "sha256": "79916662a89d7ec99d902687d718a3fe0ce0a3c93aee8e0dd06a23b24dbfc496"
+    },
+    {
+      "path": "renders/GUIDE_WAVE_NATIVE.png",
+      "bytes": 373057,
+      "sha256": "27c102670eda256f961e6a1ec802ee65321b68882465c50dc5c450407b46e5cb"
+    },
+    {
+      "path": "renders/interactive.log",
+      "bytes": 307,
+      "sha256": "d9845cdf1dfe77277bb960350fa8045a1589054eeaa96ab2c8c13af5fe586fa8"
+    },
+    {
+      "path": "renders/reexport.log",
+      "bytes": 142151,
+      "sha256": "fa5a2506272bec1e0787301e40c8f406daf27dcb53f88dc4ecafdb99ec8aeb74"
+    },
+    {
+      "path": "renders/source_audit.log",
+      "bytes": 423,
+      "sha256": "b47824dfe970c6d9d2d65413ce1905b48e2a4ee9146959c21e32a804b8f7c85e"
+    },
+    {
+      "path": "source/.gdignore",
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "source/audit_scene_v3.py",
+      "bytes": 10992,
+      "sha256": "6d67cb9e143477367e1785b7e29ee287b68da09d4d79d6865c7cb3975af288c6"
+    },
+    {
+      "path": "source/boardwalk_asset.py",
+      "bytes": 6659,
+      "sha256": "e5a1a03d21e9a605fb4d313d6702c665187c9f797bfd730e86bb1fc99f486048"
+    },
+    {
+      "path": "source/build_scene.py",
+      "bytes": 10369,
+      "sha256": "c628c5e51b3b5f2449f008a1f1e30d9cd91b080707504d5d820775e00e41fe75"
+    },
+    {
+      "path": "source/finalize_delivery.py",
+      "bytes": 6357,
+      "sha256": "2c2a6eee2c419bd1643ce019cb74f00463064936c792db5f2ce6b36641c6a0ef"
+    },
+    {
+      "path": "source/foliage_assets.py",
+      "bytes": 29926,
+      "sha256": "ba19db81a2be836622a37c010d7acc0d5580d882a83b02d6224b4f158a67bda0"
+    },
+    {
+      "path": "source/guide_asset.py",
+      "bytes": 13115,
+      "sha256": "7f691d06f69399e8508ac0dadce91243ef7b58a459e1b3b6af46ec9cc89dc407"
+    },
+    {
+      "path": "source/mine_asset.py",
+      "bytes": 23065,
+      "sha256": "1d0b73214cabf1b8b781f11787dbffd70547f23483182c8599f24471e2d2ccc2"
+    },
+    {
+      "path": "source/prepare_view.py",
+      "bytes": 369,
+      "sha256": "097f959ad711504a9c20194e8bf0e877a604660a77632c09b627b769062f9523"
+    },
+    {
+      "path": "source/reexport_scene.py",
+      "bytes": 506,
+      "sha256": "6e2567a3d3a546addf7382370545350dc312a904738f8a7b4a89579b77113a18"
+    },
+    {
+      "path": "source/scene_api.py",
+      "bytes": 8691,
+      "sha256": "e84bbb623575532af2b3249ec40fccbf9117337e50077a697388de561d1ae824"
+    },
+    {
+      "path": "source/storybook_mine.blend",
+      "bytes": 2657237,
+      "sha256": "08b46a08f1a0052971e0e7fe19a5df93bba95ab8d4f01bbd2896314339ccd4f4"
+    },
+    {
+      "path": "source/world_polish.py",
+      "bytes": 6039,
+      "sha256": "2dcb7b62dc04fbdf638bb96d3f3d6d8cd5c8a2fb5d1c946db6a80242fc596a86"
+    },
+    {
+      "path": "verification/.gdignore",
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "verification/FINAL_EXPORT_TIMELINE_AUDIT.json",
+      "bytes": 14574,
+      "sha256": "8fade1cc37a662ab77d732a60d5f7a0e1e3f76117ea717c135834b0f15859945"
+    },
+    {
+      "path": "verification/FINAL_V3_AUDIT.json",
+      "bytes": 841,
+      "sha256": "10be859be123883ffa4b17990785ecfff1e4779ce4d76afb5c791ff71484b18a"
+    },
+    {
+      "path": "verification/FRESH_IMPORT_INPUT.json",
+      "bytes": 574,
+      "sha256": "ac4c217e4b022e5347a9df645358c5e7fe48dff5680c3b737f301da868b00108"
+    },
+    {
+      "path": "verification/GUIDE_RUNTIME_TIMELINE_BEFORE_FIX.json",
+      "bytes": 2057,
+      "sha256": "d460aefb55b56e716c02ea833dcc93e415354574a0b742219d6cf296124eb908"
+    },
+    {
+      "path": "verification/INHERITED_V1_PREDECESSOR.json",
+      "bytes": 286,
+      "sha256": "a57fdb4fd26468e4fc9ca30e4ea2d1945af6aeebe17d11ce88acb5bd0848833a"
+    },
+    {
+      "path": "verification/inspect_imported_guide_times.gd",
+      "bytes": 1422,
+      "sha256": "87fbb394a2d1a410168883ab7a2745540fe29f90b28a940ec2316c7df439cfc1"
+    },
+    {
+      "path": "verification/inspect_imported_guide_times.gd.uid",
+      "bytes": 20,
+      "sha256": "c4e143838b2d261761763a6bdf05d6c2010bc25d015f27845646a86916cd7bca"
+    },
+    {
+      "path": "verification/NATIVE_MOVIE_RECEIPT.json",
+      "bytes": 790,
+      "sha256": "b908215ae7e6120f47c5fd36b1c58884b060032d735527004b9383ff1c0743c9"
+    },
+    {
+      "path": "verification/PREDECESSOR_V2.json",
+      "bytes": 8521,
+      "sha256": "effc3caa611a6b1b25506811fa84b9e41c95b295fe9c098142afc24722c756d8"
+    }
+  ]
+}

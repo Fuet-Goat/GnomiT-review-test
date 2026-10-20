@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "zip": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\GNOMIT_MINE_V3_WORLD_GUIDE_2026-10-20.zip",
+  "bytes": 15166131,
+  "sha256": "44ac253a25c41adb213c0cf75467c1361822e41659dff32626d2ef8b849146bf",
+  "verified_entries": 92,
+  "method": "ZIP CRC and independent per-entry byte/sha256 readback",
+  "manifest_sha256": "49d1e021a0698147a0b6dd368a1d8b92068f0a16d78c9da7472fd56c59a5d544"
+}

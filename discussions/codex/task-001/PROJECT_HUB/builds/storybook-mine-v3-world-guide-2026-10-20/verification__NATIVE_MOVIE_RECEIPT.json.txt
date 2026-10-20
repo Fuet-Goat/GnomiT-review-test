@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "method": "Actual Godot MovieMaker AVI, H264 transcode, full MP4 decode check",
+  "viewport": [
+    432,
+    960
+  ],
+  "frames": 241,
+  "microseconds_per_frame": 33333,
+  "duration_from_header_seconds": 8.033253,
+  "audio": "Silent art preview; no audio changes",
+  "avi_bytes": 14951300,
+  "avi_sha256": "223dce8073782cdadc084a5f05a7e02463c061439d0de5910dde33a3dac7871e",
+  "avi_in_delivery_zip": false,
+  "mp4_bytes": 785404,
+  "mp4_sha256": "3c58c6a9c5ad6f56a8eb2661ae4c4a81279078b5ff1867014f354d33d102fb0a",
+  "encoder": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT\\work\\vertical_slice_1\\tools\\media_runtime\\imageio_ffmpeg\\binaries\\ffmpeg-win-x86_64-v7.1.exe",
+  "decode_exit": 0,
+  "scripted_asset_preview_not_human_playtest": true
+}
