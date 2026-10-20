@@ -1,0 +1,7 @@
+{
+  "zip": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\GNOMIT_VISIBLE_LAYERS_V006_2026-10-21.zip",
+  "bytes": 56223990,
+  "sha256": "3d806a69c70f26925048162de9f739e445e725a8052f877114a51e5d08d65d9e",
+  "entries": 240,
+  "status": "LOCAL_VERIFIED"
+}

@@ -1,0 +1,11 @@
+Read-only source and native-image review, 2026-10-21
+Reviewer: delegated Codex agent orange_layers_visual_review
+Finding: No correctness/readability blocker found for soil-layer badges.
+Digits are legible at 432x960 in actual BEFORE/AFTER captures. 3/2/1 becomes
+2/1/clear and remaining orange cells explicitly show 2/1/1. Badge pass is after
+gems/effects and reads displayed floor or same-epoch frozen event floor_after
+at impact, avoiding future solved Core leakage. Core matches v005 byte-for-byte:
+cb2417fe782327b47ea595a44386259ec138f73e8ef294d72fc1e94bcaac16d7
+Reviewer read PASS10 evidence; did not independently rerun the runtime tests.
+Two BH signals in combined report are separate normal/reduced-motion runs.
+This is source/capture review, not human gameplay or Android acceptance.

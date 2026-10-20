@@ -1,0 +1,22 @@
+{
+  "zip": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\GNOMIT_VISIBLE_LAYERS_V006_DELTA_2026-10-21.zip",
+  "bytes": 1636070,
+  "sha256": "299292618cc25c2c64327b52cffb580538054d7d30b20897dc6d388c391e1d7e",
+  "entries": 28,
+  "base_archive": {
+    "zip": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\GNOMIT_BLACK_HOLE_ONE_HIT_V005_2026-10-20.zip",
+    "bytes": 56274647,
+    "sha256": "62cae5621af122dc3efa52c447e3b3cd7ca27bf39895e899071ef38b61c40c3a",
+    "entries": 240,
+    "status": "LOCAL_VERIFIED",
+    "human_acceptance": "PENDING"
+  },
+  "full_project": {
+    "zip": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\GNOMIT_VISIBLE_LAYERS_V006_2026-10-21.zip",
+    "bytes": 56223990,
+    "sha256": "3d806a69c70f26925048162de9f739e445e725a8052f877114a51e5d08d65d9e",
+    "entries": 240,
+    "status": "LOCAL_VERIFIED"
+  },
+  "status": "LOCAL_VERIFIED"
+}

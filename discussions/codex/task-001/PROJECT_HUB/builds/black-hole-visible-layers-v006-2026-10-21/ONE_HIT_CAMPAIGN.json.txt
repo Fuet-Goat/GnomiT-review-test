@@ -1,0 +1,43 @@
+{
+	"checks": 23,
+	"failures": [],
+	"method": "Scripted controlled fixtures through real main.tscn/Core/Board/controller, fresh test saves cleaned; not a human win",
+	"observations": [
+		{
+			"case": "CONTROLLED_CAMPAIGN_COMBO_FIXTURE",
+			"goal": "rune",
+			"kinds": [
+				9,
+				6,
+				8
+			],
+			"level": "rune",
+			"moves_left": 29,
+			"powers": [
+				"black_hole"
+			],
+			"swap": [
+				1,
+				2
+			]
+		},
+		{
+			"case": "CONTROLLED_CAMPAIGN_COMBO_FIXTURE",
+			"goal": "floor",
+			"kinds": [
+				8,
+				8
+			],
+			"level": "hollow",
+			"moves_left": 31,
+			"powers": [
+				"mega_volcano"
+			],
+			"swap": [
+				0,
+				1
+			]
+		}
+	],
+	"status": "PASS"
+}

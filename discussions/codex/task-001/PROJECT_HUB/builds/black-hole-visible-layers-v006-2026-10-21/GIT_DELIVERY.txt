@@ -1,0 +1,7 @@
+This is a small verified delta on the immutable published v005 full package.
+DOWNLOAD_GNOMIT.py.txt rebuilds a complete v006 into a new folder, verifies every
+file against MANIFEST, and never executes game/engine code. No large base copy
+is duplicated. --base-zip may use the exact already-downloaded v005 ZIP.
+The receipt also identifies the complete local v006 ZIP; Git transports delta.
+User recording/screenshot/contact sheet are excluded. Only own native Godot
+images in the verified package show the visual change.

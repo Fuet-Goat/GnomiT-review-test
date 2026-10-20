@@ -1,3 +1,14 @@
+АКТУАЛНО — GAMEPLAY v006 / ART CANDIDATE v004 — 21.10.2026
+v006 adds visible remaining layer counts on orange soil cells. No rule change:
+one Black Hole hit still gives 3→2, 2→1, 1→clear. Six orange cells become three
+marked 2/1/1. Core and inherited art/audio/save are unchanged from v005.
+Read builds/black-hole-visible-layers-v006-2026-10-21/README_BG.txt.
+135 Core +23 controller +10 native checks PASS. Native 432×960 before/after,
+reduced-motion checks and independent source/capture review. Human test pending.
+Small verified delta + pinned v005 rebuild full project; no user desktop media.
+Local normal campaign/Latest now v006; fixed v005 shortcut remains available.
+No grant changes, main edits or merge. Old entries below are history.
+
 АКТУАЛНО - GAMEPLAY v005 / ART CANDIDATE v004 - 20.10.2026
 Black Hole вече удря всяка реална клетка веднъж и отнема по1 слой почва/руна.
 Read HUMAN_RULE_BLACK_HOLE_ONE_HIT_2026-10-20.txt and builds/black-hole-one-hit-v005-2026-10-20/.

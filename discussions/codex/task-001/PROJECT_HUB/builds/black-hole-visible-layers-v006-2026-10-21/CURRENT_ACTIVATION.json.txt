@@ -1,0 +1,7 @@
+{
+  "status": "PASS",
+  "sample": "v006",
+  "main_scene": "main.tscn",
+  "save_profile_unchanged": "GnomiT-CampaignTutorial-Volcano-2026-10-20",
+  "previous_pointer_backed_up": true
+}

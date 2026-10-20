@@ -1,0 +1,34 @@
+{
+	"badges_after": {
+		"7": 2,
+		"8": 1,
+		"24": 1
+	},
+	"badges_before": {
+		"7": 3,
+		"8": 2,
+		"9": 1,
+		"10": 1,
+		"24": 2,
+		"38": 1
+	},
+	"badges_impact": {
+		"7": 2,
+		"8": 1,
+		"24": 1
+	},
+	"checks": 10,
+	"failures": [],
+	"method": "Scripted native actual Lab/Core/Board; human test pending",
+	"power_signals": [
+		"black_hole",
+		"black_hole"
+	],
+	"screen_count": 1,
+	"screen_index": 0,
+	"status": "PASS",
+	"viewport": [
+		432,
+		960
+	]
+}
