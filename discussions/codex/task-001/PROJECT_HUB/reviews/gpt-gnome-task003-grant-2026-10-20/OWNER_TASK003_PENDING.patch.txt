@@ -1,0 +1,90 @@
+diff --git a/tasks/gpt/task-003.json b/tasks/gpt/task-003.json
+new file mode 100644
+--- /dev/null
++++ b/tasks/gpt/task-003.json
+@@ -0,0 +1,85 @@
++{
++  "schema_version": 1,
++  "repository": "Fuet-Goat/GnomiT-review-test",
++  "task_id": "task-003",
++  "bot": "gpt",
++  "status": "PENDING_USER_AUTHORIZATION",
++  "branch": "codex/gpt/task-003",
++  "allowed_write_roots": [
++    "sandbox/gpt/task-003/art/",
++    "sandbox/gpt/task-003/source/",
++    "sandbox/gpt/task-003/preview/",
++    "sandbox/gpt/task-003/outputs/",
++    "discussions/gpt/task-003/"
++  ],
++  "baseline_manifest_sha256": "78607be62847305875b60a0b9697d477c7decd3fc8671cf304f3ccda014ac1e7",
++  "authorization": null,
++  "objective": "One finished current-v001 gnome guide art/animation candidate: calm idle -> greeting -> smooth settle. Own editable source, exports and isolated visual preview; preserve the existing world/camera/composition and all game rules, audio and progress.",
++  "artistic_autonomy": "Choose the exact face/mesh/material/rig/pose/easing/timing solution within the agreed warm rounded storybook identity. No per-colour/per-frame approval or separate design review is needed within this authorized task once active.",
++  "allowed_tests": [
++    "Read/decode/hash the pinned game/review sources and inspect the actual current gnome rig/model before claiming defects.",
++    "Use available Blender/toolchain to author, render and export gnome-only source in own task folders; inspect pivots/materials/alpha/scale as applicable.",
++    "Create and run a dedicated minimal Godot visual preview only under sandbox/gpt/task-003/preview/, with the fixed v001 world/camera and independent gnome animation playback.",
++    "Preview project.godot may set only its own startup/presentation and isolated custom user directory GnomiT-review-test/gpt/task-003. Imports/caches remain local to preview/.godot and are not committed.",
++    "Capture before/after at the same 432x960 framing and an uninterrupted greeting animation; inspect stationary feet/contact shadow, joint phases, lantern lag and smooth return to idle.",
++    "Check reduced-motion static pose, animation cancellation/restart and absence of duplicate animation players/tracks in the isolated preview.",
++    "Verify exact changed-file scope and hash-protected original v001 inputs; independently download final Git outputs and rehash bytes/SHA-256."
++  ],
++  "allowed_artifact_formats": [
++    ".blend",
++    ".glb",
++    ".gltf",
++    ".bin",
++    ".png",
++    ".jpg",
++    ".webp",
++    ".gif",
++    ".mp4",
++    ".webm",
++    ".py",
++    ".gd",
++    ".tscn",
++    ".tres",
++    ".gdshader",
++    ".godot",
++    ".uid",
++    ".json",
++    ".txt",
++    ".md"
++  ],
++  "required_deliverables": [
++    "Editable gnome source and any actually used generator/textures/settings",
++    "Usable export plus integration instructions for Codex; source and export paths linked",
++    "Same-camera 432x960 before/after and actual animation preview with render/asset/Godot labels",
++    "Filled REPORT, PROVENANCE, ASSET_METADATA and MANIFEST including known inherited origin gaps",
++    "Own Git branch and Draft PR with verified remote delivery; no READY claim if binaries exist only locally"
++  ],
++  "acceptance_criteria": [
++    "Same recognizable small gnome guide: red hat, beard, coat, boots and lantern; face readable at the actual viewport scale.",
++    "Calm idle, finite expressive greeting and smooth settle are visibly distinct; shoulder/elbow/wrist/head may move independently; no perpetual mechanical full-body rocking.",
++    "Feet and contact shadow stay grounded; lantern response is restrained and does not create a neon outline.",
++    "Current world geometry/layout, camera, level1 path and level2 entrance remain the same for honest before/after comparison.",
++    "The fixed world may be copied into the preview; only gnome-specific mesh/rig/material/shadow/lantern response may be changed in the candidate. A shared GLB may be re-exported only with non-gnome content preserved.",
++    "Current loader merges transforms into living_world; a finite gnome greeting may use separate visual animation playback in preview without altering campaign loader/gameplay.",
++    "If a tool cannot run, deliver actual available source/render work and label the missing runtime check explicitly; do not fabricate a Godot capture or a runnable model."
++  ],
++  "forbidden_actions": [
++    "Editing or executing the original/current v001 game, private GnomiT or Cradle of Gnome; changes belong only to the isolated preview.",
++    "Changing match-3 Core/Board rules, main.gd, levels, goals, power recipes/rewards, audio or save/progress.",
++    "Changing the world layout, camera, level markers, UI flow or other bots files; broad scene/VFX redesign is outside this gnome task.",
++    "Self-updating grants, tasks/.github/root policy changes, owner administration, merge, force-push, release, credentials or permission changes.",
++    "Purchases, paid services or machine-wide installations; use available tools and report any missing capability.",
++    "Committing caches, personal saves, credentials, account screenshots or unrelated source copies.",
++    "Starting another task or transferring the candidate into current v001/main/private game before owner acceptance."
++  ],
++  "input_main_commit": "bd2dfe7fddd300bd8425cd1c5b0846fe50c4f3d2",
++  "source_inputs": {
++    "selected_gpt_report_commit": "18be35e1e8a312d8b928976e0bd90f4010edb8b1",
++    "creative_brief_commit": "32dc5f1c271ae56adc6e1181dea0f02a506c1c42",
++    "current_game_package_commit": "f9864651015b5b57f94c439d311f03408fab4446",
++    "current_game_package_sha256": "3853c032565c3d4d2c087dd6f50eb76ab8c12e4f2b95b01904042f9e7e260e28",
++    "review_package_commit": "841af2855d91f170700382d4b0c29c2e32dfa548",
++    "review_package_sha256": "9d17a5a61be7361bb34b111c700d722f083073c1a95d60f8f66da235f30035ba"
++  },
++  "notes": "DRAFT ONLY. A human must authorize delegated owner activation, set APPROVED with genuine authorization text/time, and publish exactly tasks/gpt/task-003.json to main through the trusted owner workflow. This text attachment does not activate task-003, does not expand task-002 and grants nothing to Grok."
++}

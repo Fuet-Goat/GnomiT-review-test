@@ -2349,3 +2349,7 @@ Main remains bd2dfe7fddd300bd8425cd1c5b0846fe50c4f3d2. No merge. No game edits.
 
 ART + ANIMATION CREATIVE PROMPT / 2026-10-20
 User clarifies that the next bot should actually improve art/animation using its own judgment in the agreed GnomiT direction. Prepared one common creative brief, one coherent isolated prototype, source/export/preview and mandatory provenance/docs; no per-detail micromanagement. Existing current review archive remains frozen. Actual main task-002 grants were checked and are narrower (fixed First Bend gnome variant), so the exact needed owner scope is documented, not silently self-granted. This turn changes own report documents only; no game edits, grants, main or merge.
+
+
+GPT GNOME TASK003 GRANT PREPARATION / 2026-10-20
+Read actual selected GPT report18be35e and fresh main. Confirmed no task003; old task002 insufficient. Prepared narrow new pending task003 grant, exact pending patch, owner activation instructions and post-activation followup. Own art/source/preview/outputs/report folders; no gameplay/audio/progress/current-v001 edits. Finite gnome greeting may use separate animation playback in minimal preview. Trusted owner schema/scope validates pending proposal; this does NOT activate it. No owner branch/PR/main/grant write/merge made; concrete delegated owner authority is still needed. One verified ZIP supplied for review.

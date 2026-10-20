@@ -1,0 +1,34 @@
+{
+  "files": [
+    {
+      "path": "CONTINUE_GPT_AFTER_ACTIVATION_BG.txt",
+      "bytes": 1605,
+      "sha256": "6081fac3a225b5062d9d378667ea0816e8716118dbacb4ab2935658d3ca10cfb"
+    },
+    {
+      "path": "FINAL_RESPONSE.txt",
+      "bytes": 378,
+      "sha256": "6d65f33c0e42fe0a9270733364501bebf32aecaaecc3601b934ac96b7d3a34b9"
+    },
+    {
+      "path": "OWNER_TASK003_PENDING.patch",
+      "bytes": 6331,
+      "sha256": "ecbff27ad169862f30224768b7339c05c7c2d8d3b870c0031c3276ca0cf4233e"
+    },
+    {
+      "path": "PREPARATION_CHECK.json",
+      "bytes": 435,
+      "sha256": "1733dc54209612c62af258954ca8d9c357ea2ddbabe4fe9a7f587f2a2e2c1b39"
+    },
+    {
+      "path": "README_BG.txt",
+      "bytes": 2929,
+      "sha256": "2c786e31e53976f6c25514f3142b21209a69aefc4c96e5cdfd2c8ce6a525a506"
+    },
+    {
+      "path": "task-003.proposed.json",
+      "bytes": 6096,
+      "sha256": "d3925f6f1a7a72b098af73f0f3a4b9692c66d8ec0cf63991681429978f88b87f"
+    }
+  ]
+}
