@@ -1,0 +1,34 @@
+{
+  "files": [
+    {
+      "path": "CURRENT_FACTS.txt",
+      "bytes": 1924,
+      "sha256": "6334a3f85ae358c4d006934ba8f5954342ce11ffdb1b87e426be2de59179e9a5"
+    },
+    {
+      "path": "DESIGN_DECISIONS.txt",
+      "bytes": 2444,
+      "sha256": "c5c81a674acdf82243a22f927a3dda5ef7aadf674a5eac5c3815201fe213d75c"
+    },
+    {
+      "path": "ENTITY_CATALOG.json.txt",
+      "bytes": 1534,
+      "sha256": "89574ee98f6c5d40083ceaa5897ba99d0d6243c02c94b5faa6e124bebdb3fd8d"
+    },
+    {
+      "path": "FINAL_RESPONSE.txt",
+      "bytes": 762,
+      "sha256": "8767e41c45b72529cc274a5777a8758aebc48872a05ce1de7800d0ee71dca585"
+    },
+    {
+      "path": "PROVENANCE.txt",
+      "bytes": 519,
+      "sha256": "21470d5e45972c832dc52cae024d8aa49c12c8f08602d6715c9e0c506a43a073"
+    },
+    {
+      "path": "README_BG.txt",
+      "bytes": 3266,
+      "sha256": "309e7bc6fafcbc1942ecb4201bd7e7a857c5867577c213fd01fa68ad29f3f300"
+    }
+  ]
+}

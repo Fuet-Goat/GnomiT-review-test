@@ -1,0 +1,39 @@
+PROPOSED — NOT_IMPLEMENTED — 21.10.2026
+
+Approved direction: distinct damage conditions for both minerals and obstacles,
+visible differentiation, and two-page mini explanations at first introduction.
+
+Pending design choice: protected variants vs special rules on every base material.
+Do not implement a different answer by assuming that a colour now means a power.
+
+Before one conditional piece is activated, define:
+- movement/fall policy and whether it participates in matching while protected;
+- exact valid damage sources, HP, and what happens when protection reaches zero;
+- whether the revealed mineral is collected now or remains as an ordinary piece;
+- whether it counts in 4/5/T/L, and where a new reward may safely be anchored;
+- one-hit Black Hole behavior on protection/mineral/floor without double damage;
+- interaction with waiting powers and cascades, including no infinite re-match;
+- scoring once per actually collected instance, not once per visual fragment;
+- introduction only when the needed action/power is available and demonstrated.
+
+One candidate example, not an approved recipe:
+Armoured diamond visibly wears a stone casing. A demonstrated valid hit cracks
+it; the next valid hit removes the protection. Decide separately whether the
+diamond remains, contributes to matches while protected, and what hits are valid.
+Do not silently turn this incomplete example into a level-generation rule.
+
+Visual principles:
+Crystals may fracture into faceted shards; ore crumbles into dense chunks;
+pearl may split/shed a smooth shell; soil sheds low dust; rune stone splits
+around its engraving. Those animations do not by themselves define damage rules.
+One existing break cue per resolution wave/event remains; no per-cell sound stack.
+Partial damage must look different from final destruction and retain readable HP.
+Art/shapes/powers/tutorial ids must be registered with provenance and metadata.
+
+Acceptance for the first real prototype:
+- At432x960 the special variant is recognizable before the player touches it.
+- Lesson correctly demonstrates one accepted and one rejected action if needed.
+- Each accepted event damages that instance at most once; no duplicate reward.
+- Partial-hit and final-break are visibly distinct; reduced motion same result.
+- Existing ordinary matches, reward recipes, objectives and save remain compatible.
+- Real native playtest plus human acceptance before more variants are introduced.

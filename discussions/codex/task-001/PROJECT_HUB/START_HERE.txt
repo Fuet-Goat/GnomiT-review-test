@@ -1,3 +1,9 @@
+НОВА ДИСКУСИЯ — MATERIAL / OBJECT RULES — 21.10.2026
+Owner wants different damage rules for minerals AND obstacles, plus first-encounter
+two-page animated lessons. Read discussions/material-object-rules-r1-2026-10-21/.
+DESIGN_ONLY: variants-vs-all-materials decision pending. No new rule activated.
+The actual current game is still v006 below; do not claim this design is implemented.
+
 АКТУАЛНО — GAMEPLAY v006 / ART CANDIDATE v004 — 21.10.2026
 v006 adds visible remaining layer counts on orange soil cells. No rule change:
 one Black Hole hit still gives 3→2, 2→1, 1→clear. Six orange cells become three

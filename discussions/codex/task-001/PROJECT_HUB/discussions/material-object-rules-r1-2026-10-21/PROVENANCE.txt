@@ -1,0 +1,7 @@
+DESIGN DOCUMENTATION ONLY — 2026-10-21
+Source: local GnomiT v006, Core/Board/main/tutorial/levels; exact source files
+are present in the verified v006 manifest. User explicitly requested distinct
+damage rules for minerals as well as obstacles. Optional variants-vs-all-base
+material decision remains pending. These files are Codex authored design notes,
+not generated art/audio or a new implemented mechanic. Python standard library
+is used for packaging. No external media or user desktop recording included.
