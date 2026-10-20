@@ -1,0 +1,12 @@
+"""Re-export the saved scene with frame1 aligned to runtime t=0."""
+import bpy
+from pathlib import Path
+
+root = Path(__file__).resolve().parents[1]
+assert Path(bpy.data.filepath).resolve() == (root / 'source/storybook_mine.blend').resolve()
+bpy.ops.export_scene.gltf(
+    filepath=str(root / 'assets/storybook_mine.glb'),
+    export_format='GLB', export_cameras=True, export_lights=True,
+    export_animations=True, export_animation_mode='ACTIONS',
+    export_apply=True, export_anim_slide_to_zero=True,
+)

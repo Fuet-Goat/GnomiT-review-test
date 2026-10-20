@@ -1,0 +1,58 @@
+GNOMIT MINE V3 — NATIVE SCENE, ANIMATION AND INHERITED LETTERING
+20 OCTOBER 2026
+
+NATIVE WORLD AND GUIDE
+V3 is an isolated derivative of the preserved V2 art-preview project.
+Geometry, articulated guide pivots, animation keys and materials are authored
+through the included Blender Python sources. No external model pack, downloaded
+character, raster landscape used as geometry or new paid service was introduced.
+Authoring: existing Blender 5.2.2 LTS. Runtime: existing Godot 4.7.2 Forward+.
+No Unity, Maya or newly installed software was used for this V3 pass.
+
+The oak maps and new meadow map are mathematical procedural textures produced
+by the included sources. Four oak images plus one meadow image are packed in
+the .blend and exported through GLB. The guide uses native geometry/materials,
+not an image cutout. Source scripts expose construction and animation; this is
+not a statement of exclusive copyright or legal clearance. The separate rights
+audit and applicable tool/input licences still apply.
+
+V3 additions include camera framing, 0.11 m board thickness, honey oak colour,
+local grass/moss detail, 44 native tufts, interior rail props, cloud drift,
+contained flame animation and separate guide head/blink groups. Guide boots and
+terrain roots remain fixed in the measured native loop.
+The six-second loop has 144 intervals between frame 1 and frame 145 at 24 fps.
+Export uses export_anim_slide_to_zero=True; Godot import uses 24 fps.
+verification/GUIDE_RUNTIME_TIMELINE_BEFORE_FIX.json retains the failed timing
+check. Final imported-animation receipt: renders/GUIDE_RUNTIME_AUDIT.json
+(51 checks, no failures).
+
+INHERITED BITMAP WORDMARK — DIFFERENT MEDIA
+assets/branding/gnomit_element_wordmark_v1.png is the unchanged generated
+transparent 2D lettering concept inherited from V2. It is not native 3D geometry.
+The original request specified torch i, pickaxe T and cute elemental letters.
+The exact original prompt and generation source information are preserved in
+assets/branding/gnomit_element_wordmark_v1_provenance.txt.
+Original dimensions: 1983 x 793. Original size: 1485630 bytes.
+SHA-256: 90a07215598d9d3cb95741dc417e96d14aec5e03fea1b0875c40b7f52dabe262
+Godot's AtlasTexture frames transparent padding without changing source pixels.
+The o motif remains water-like; the wordmark is still a concept awaiting final
+human approval. Its original image-generation provenance was not replaced by
+the native-scene authoring description.
+
+CAPTURE AND ACCEPTANCE
+Final images are actual native Godot captures. The AVI is an eight-second silent
+native MovieMaker view, with no campaign state or victory simulated. The
+MP4 delivery file is an H264 encoding of that AVI using the existing FFmpeg
+binary. Full decoding is checked in verification/NATIVE_MOVIE_RECEIPT.json.
+The raw AVI is retained locally; its hash is supplied rather than its bytes.
+Guide wave/blink PNGs are actual runtime poses. The Blender beauty image comes
+from native geometry, not a substituted concept image.
+These are scripted technical captures, not human playtests. V3 does not create,
+replace or license game sound. Human artistic approval, Android interaction and
+mobile performance remain pending/unmeasured.
+Markers 1/2 do not launch campaign match-3 or alter progress. The current campaign
+launch pointer, saves, rewards and sounds are outside this preview pass.
+No assertion of finished production art, human hand-painted authorship,
+exclusive ownership or legal all-clear is made.
+V2 evidence is in verification/PREDECESSOR_V2.json and root PREDECESSOR.json.
+verification/INHERITED_V1_PREDECESSOR.json preserves the earlier V1 history.

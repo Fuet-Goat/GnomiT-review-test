@@ -1,0 +1,158 @@
+"""Regular crafted boards on a gentle road, independent of scene/export code.
+
+Every walking plank is a rectangular cuboid.  The old variable-width,
+radially fitted trapezoids are intentionally not used.  A continuous support
+deck, just beneath the planks, fills the narrow seam slivers at a bend.
+"""
+import math
+import bpy
+from mathutils import Vector
+
+
+def _xy(t):
+    return Vector((.55 - .79*t + .50*math.sin(math.pi*t)
+                   + .18*math.sin(math.tau*t), 1.53-6.25*t, 0))
+
+
+def _tangent(t):
+    return Vector((-.79 + .50*math.pi*math.cos(math.pi*t)
+                   + .18*math.tau*math.cos(math.tau*t), -6.25, 0)).normalized()
+
+
+def _normal(t):
+    d = _tangent(t)
+    return Vector((-d.y, d.x, 0))
+
+
+def _resample(count):
+    dense = [_xy(i/1200) for i in range(1201)]
+    cumulative = [0.0]
+    for a, b in zip(dense, dense[1:]):
+        cumulative.append(cumulative[-1] + (b-a).length)
+    total = cumulative[-1]
+    result = []
+    j = 0
+    for k in range(count+1):
+        s = total*k/count
+        while j+1 < len(cumulative)-1 and cumulative[j+1] < s:
+            j += 1
+        denominator = cumulative[j+1]-cumulative[j]
+        fraction = (s-cumulative[j])/denominator if denominator else 0.0
+        result.append((j+fraction)/1200)
+    return result, total
+
+
+def build_boardwalk(api, ground):
+    """Return editable objects, centerline and exact world-space marker anchors.
+
+    ``ground`` is the parent scene's height function.  The road uses world
+    coordinates and its group has an identity transform, matching other V2
+    scene modules.  Entrance faces the negative-Y foreground.
+    """
+    before = set(bpy.data.objects)
+    root = api['empty']('Boardwalk · regular transverse oak boards')
+    mat = api['mat']; cube = api['cube']; cylinder = api['cylinder']
+    finish = api['finish']; tube = api['tube']
+    oak = mat('Boardwalk Oak Honey', '#DDA458', .54)
+    lighter = mat('Boardwalk Oak Light', '#E5B66D', .52)
+    support_mat = mat('Boardwalk Oak Support', '#A96E35', .64)
+    endgrain = mat('Boardwalk Oak Endgrain', '#E8B875', .57)
+    peg_mat = mat('Boardwalk flush bronze pin', '#95682F', .50, .25)
+    # Coordinates form a low-curvature S. Planks have equal centerline spacing.
+    samples, length = _resample(32)
+    half_width = .84
+    thickness = .11
+    board_count = len(samples)-1
+    spacing = length/board_count
+    board_depth = spacing-.006
+
+    def position(t):
+        p = _xy(t)
+        p.z = ground(p.x, p.y)+.18
+        return p
+
+    route = [position(i/128) for i in range(129)]
+    # This lower deck is the only curved road surface. Its top is 20 mm below
+    # the actual rectangular board tops, so seams read as dark wood, not turf.
+    verts = []
+    for i, p in enumerate(route):
+        n = _normal(i/128)
+        for z in (-.11, -.020):
+            for side in (-1, 1):
+                verts.append(tuple(p+n*side*(half_width+.008)+Vector((0,0,z))))
+    faces = []
+    for i in range(len(route)-1):
+        a=i*4; b=(i+1)*4
+        faces.extend([(a+2,a+3,b+3,b+2), (a,b,b+1,a+1),
+                      (a,a+2,b+2,b), (a+1,b+1,b+3,a+3)])
+    faces += [(0,1,3,2), (len(verts)-4,len(verts)-2,len(verts)-1,len(verts)-3)]
+    mesh = bpy.data.meshes.new('Continuous timber support deck')
+    mesh.from_pydata(verts, [], faces); mesh.update()
+    support = bpy.data.objects.new('Continuous timber underdeck', mesh)
+    bpy.context.collection.objects.link(support)
+    finish(support, support.name, support_mat, .006)
+
+    boards = []
+    for i, (ta, tb) in enumerate(zip(samples, samples[1:])):
+        t=(ta+tb)*.5
+        p=position(t)
+        direction=_tangent(t)
+        # A regular 4-corner rectangle, not a widening wedge. Board long axis
+        # runs across the road; the short axis is tangent to the centerline.
+        board=cube('Regular transverse plank %02d'%i,
+                   p-Vector((0,0,thickness*.5)),
+                   (half_width*2,board_depth,thickness),
+                   lighter if i%5==1 else oak,.022)
+        board.rotation_euler.z=math.atan2(direction.y,direction.x)-math.pi*.5
+        board['top_shape']='rectangle';board['road_fraction']=float(t)
+        boards.append(board)
+        # Only two small inset pins per fourth board; the portable oak maps
+        # carry the grain. No long grooves or rows of noisy oversized studs.
+        if i%4==1:
+            n=_normal(t)
+            for side in (-1,1):
+                cylinder('Small inset plank pin %02d %d'%(i,side),
+                         p+n*side*.69+Vector((0,0,.002)),
+                         .015,.006,peg_mat,12,.002)
+
+    # Low edge stringers keep the plank approach visibly built and grounded.
+    for side in (-1,1):
+        points=[tuple(p+_normal(i/128)*side*(half_width+.012)
+                      -Vector((0,0,.040))) for i,p in enumerate(route)]
+        tube('Rounded boardwalk edge stringer %d'%side,points,.042,oak)
+        # Leave the Level 1 arrival area free of tall posts.
+        for k,t in enumerate((.055,.25,.425,.83,.98)):
+            p=position(t)+_normal(t)*side*(half_width+.10)
+            cylinder('Soft approach post %d %02d'%(side,k),
+                     p+Vector((0,0,.175)),.105,.43,oak,24,.029)
+            cylinder('Soft capped post %d %02d'%(side,k),
+                     p+Vector((0,0,.398)),.112,.045,endgrain,24,.017)
+
+    objects=[o for o in bpy.data.objects if o not in before and o != root]
+    for obj in objects:
+        api['parent_keep_world'](obj,root)
+    angles=[math.atan2(_tangent(t).y,_tangent(t).x) for t in samples]
+    angle_changes=[abs((b-a+math.pi)%math.tau-math.pi)
+                   for a,b in zip(angles,angles[1:])]
+    metadata={
+        'board_count':board_count,
+        'plank_top_shape':'identical four-corner rectangle',
+        'top_vertices_per_plank':4,
+        'triangle_top_faces_in_source':0,
+        'board_width_m':half_width*2,
+        'board_depth_m':board_depth,
+        'board_thickness_m':thickness,
+        'center_spacing_m':spacing,
+        'max_adjacent_tangent_change_degrees':math.degrees(max(angle_changes)),
+        'underdeck_top_below_planks_m':.020,
+        'start':list(position(0)),
+        'end':list(position(1)),
+        'level1_fraction':.64,
+        'no_tapered_or_triangular_planks':True,
+        'note':'Curved lower support fills bend seams; walking boards are regular rectangles. Native render acceptance still required.',
+    }
+    return {'root':root,'objects':objects,
+            'route_points':[tuple(p) for p in route],
+            'level1_anchor':tuple(position(.64)),
+            'entrance_anchor':tuple(position(.025)),
+            'metadata':metadata,'checksmetadata':metadata}

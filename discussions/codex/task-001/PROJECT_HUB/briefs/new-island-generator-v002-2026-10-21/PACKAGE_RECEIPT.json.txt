@@ -1,0 +1,8 @@
+{
+  "zip": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\GNOMIT_NEW_ISLAND_GENERATOR_HANDOFF_V2_2026-10-21.zip",
+  "bytes": 4643799,
+  "sha256": "a69318529b44e78a9912c95253bd38c9f03ff0779ca544cf71163ae8a5be0f47",
+  "entries": 19,
+  "status": "LOCAL_VERIFIED",
+  "kind": "UNAPPLIED_SOURCE_PROPOSAL_HANDOFF_NOT_SCENE"
+}

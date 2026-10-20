@@ -1,0 +1,68 @@
+{
+  "contribution": "Codex-written source-proposal handoff and workflow refinement; not a new model/render",
+  "date": "2026-10-21 Europe/Sofia",
+  "inputs": [
+    {
+      "path": "PRIMARY_TARGET_COMPARISON.png",
+      "source_filename": "codex-clipboard-1e0fdc2d-bbbc-4d27-99b8-f217ea2d9591.png",
+      "bytes": 2634535,
+      "sha256": "a7d9b4f82fe73a2e5ab641261b9cbc14765e6360c9c108ab7ee9a51b0bc84add",
+      "role": "Authoritative style AND composition: middle panel only, latest human confirmation",
+      "modified": false,
+      "dimensions": [
+        1448,
+        1086
+      ]
+    },
+    {
+      "path": "SECONDARY_ISLAND_REFERENCE.png",
+      "source_filename": "GnomiT Island_ Cozy Mine Adventure.png",
+      "bytes": 2054056,
+      "sha256": "0431ca1845913d568430590fba9af71df4274fb0ff2a434130b66256885192b6",
+      "role": "Secondary detail reference only; no text/buttons; middle panel takes precedence",
+      "modified": false,
+      "dimensions": [
+        941,
+        1672
+      ]
+    },
+    {
+      "path": "EXAMPLES_ONLY/scene_api.py.txt",
+      "source_filename": "scene_api.py",
+      "bytes": 8691,
+      "sha256": "e84bbb623575532af2b3249ec40fccbf9117337e50077a697388de561d1ae824",
+      "role": "Technical example: native primitives, UV/material/packed mathematical texture helpers; adapt paths, not a drop-in new generator",
+      "modified": false
+    },
+    {
+      "path": "EXAMPLES_ONLY/boardwalk_asset.py.txt",
+      "source_filename": "boardwalk_asset.py",
+      "bytes": 6659,
+      "sha256": "e5a1a03d21e9a605fb4d313d6702c665187c9f797bfd730e86bb1fc99f486048",
+      "role": "Technical example: arc resampling, separate boards and support; old route/layout explicitly forbidden as new output",
+      "modified": false
+    },
+    {
+      "path": "EXAMPLES_ONLY/reexport_scene.py.txt",
+      "source_filename": "reexport_scene.py",
+      "bytes": 506,
+      "sha256": "6e2567a3d3a546addf7382370545350dc312a904738f8a7b4a89579b77113a18",
+      "role": "Technical example of actual prior GLB export settings; old filepath assertions do not apply to new output",
+      "modified": false
+    },
+    {
+      "path": "EXAMPLES_ONLY/V3_PROVENANCE.txt",
+      "source_filename": "PROVENANCE.txt",
+      "bytes": 3639,
+      "sha256": "d5e852be0206eb017e339a03a155ff7137fe07b1cb007ddab75aa737cda38c62",
+      "role": "Prior source provenance context only; wordmark/old assets not included or reused",
+      "modified": false
+    }
+  ],
+  "reference_origin": "User-provided images; original tool/model/prompt/licence facts UNKNOWN here",
+  "example_origin": "Existing local V3 native source, with original PROVENANCE copied and exact bytes/hash preserved",
+  "tools": "Python standard library for copying/metadata/ZIP; Git for report publication. No Blender build, image generation, game tests or source-proposal execution.",
+  "preserved": "Original source files, images, V1 package, game, save and previous scenes unchanged",
+  "workflow_change": "GPT stageA is an unapplied technical source proposal; later Codex source review/build is separate and not authorized merely by another agent report",
+  "authority": "No grants/main/other-bot permissions changed. Text suffix is not a waiver of implementation restrictions."
+}

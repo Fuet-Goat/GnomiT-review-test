@@ -1,3 +1,17 @@
+АКТУАЛЕН WORKFLOW — NEW ISLAND GENERATOR HANDOFF v002 — 21.10.2026
+Read briefs/new-island-generator-v002-2026-10-21/START_HERE_BG.txt and
+PROMPT_FOR_GPT_BG.txt. Supersedes V1 requirement that GPT itself runs Blender.
+Middle panel is now authoritative for BOTH composition AND style, with slightly
+less small stones/flowers. Human wants maximum visual closeness, not old layout.
+GPT stageA: unapplied text source proposal, own report scope, NOT_RUN_IN_BLENDER.
+Codex later reviews accepted source and uses actual local Blender5.2.2 under
+the real human scope. No ready scene/render, execution grant or rights expansion
+is implied. No more installation hunting in GPT's unavailable environment.
+Packet contains actual reference PNGs, current-state facts, exact change list,
+old technical helper EXAMPLES ONLY, input hashes, command/output contract and
+later review/render plan. DOWNLOAD_HANDOFF.py.txt verifies the full ZIP.
+V1 remains preserved history. No game/save/grant/main changes or merge.
+
 НОВО ЗАДАНИЕ ЗА ДРУГИЯ АРТ БОТ — 21.10.2026
 Read briefs/new-island-blender-v001-2026-10-21/PROMPT_FOR_ART_BOT_BG.txt.
 Human wants a NEW editable Blender island based on supplied references: single

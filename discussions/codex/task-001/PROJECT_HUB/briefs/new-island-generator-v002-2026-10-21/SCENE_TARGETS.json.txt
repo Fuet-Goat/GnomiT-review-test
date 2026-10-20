@@ -1,0 +1,62 @@
+{
+  "status": "VISUAL_TARGETS_NOT_MEASUREMENTS",
+  "primary_reference": "PRIMARY_TARGET_COMPARISON.png",
+  "primary_region": "middle_panel",
+  "primary_role": [
+    "composition",
+    "shape_language",
+    "materials",
+    "lighting",
+    "palette"
+  ],
+  "secondary_reference": "SECONDARY_ISLAND_REFERENCE.png",
+  "density_change": "slightly fewer small stones and scattered flowers; approximately one-third is a qualitative direction, not a measured image count",
+  "preserve": [
+    "elongated island silhouette",
+    "two clear road bends",
+    "mine upper-right",
+    "mushroom cottage left",
+    "rounded trees",
+    "warm honey wood",
+    "soft volumetric storybook lighting"
+  ],
+  "exclude": [
+    "old scene geometry/layout",
+    "flat image plane as world",
+    "baked text/buttons/crown/frame",
+    "new hero",
+    "gameplay",
+    "whole-world animation"
+  ],
+  "collections": [
+    "TERRAIN",
+    "BOARDWALK",
+    "MINE",
+    "TREES",
+    "PLANTS",
+    "ROCKS",
+    "LANTERN",
+    "LIGHTS",
+    "CAMERAS",
+    "ANCHORS"
+  ],
+  "required_nodes": [
+    "Road_Centerline",
+    "Level_1_Anchor",
+    "Level_2_Anchor"
+  ],
+  "planned_render_sizes": [
+    [
+      432,
+      960
+    ],
+    [
+      864,
+      1920
+    ]
+  ],
+  "human_visual_acceptance": "PENDING",
+  "blend_exists": false,
+  "render_executed": false,
+  "glb_import_executed": false
+}
