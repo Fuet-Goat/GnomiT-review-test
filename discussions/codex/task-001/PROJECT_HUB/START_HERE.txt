@@ -1,3 +1,14 @@
+АКТУАЛНО — ТВОРЧЕСКА ART + ANIMATION ПРОБА · 20.10.2026
+User wants the bot to improve art/animation using its own artistic judgment.
+Read reviews/art-animation-creative-pass-2026-10-20/ONE_PROMPT_FOR_GPT_AND_GROK_BG.txt.
+This new request is for one coherent usable prototype, not only a review.
+Existing current-project-review package remains immutable evidence/reference.
+Current old task-002 grants do not cover native Blender/world/Godot changes;
+read OWNER_GRANT_SCOPE_REQUIRED.txt. No grant is activated by this document.
+Within an actually matching approved scope, small artistic choices need no
+repeated per-colour/per-frame approval. Source/preview/provenance remain required.
+Recommendation GPT-6.1 Sol / High. Prior sections below are preserved history.
+
 АКТУАЛНО — ГАЛЕРИЯ + ОБЩА ЗАДАЧА ЗА ПРЕГЛЕД · 20.10.2026
 Прочети reviews/current-project-review-2026-10-20/README.txt и общия prompt там.
 70 оригинални PNG:15 actual-campaign scripted и55 controlled power fixtures.

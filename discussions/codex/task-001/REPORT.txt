@@ -2345,3 +2345,7 @@ Independent package QA PASS/no blocking findings; exact receipt and findings are
 in reviews/current-project-review-2026-10-20/REMOTE_READBACK.json.txt and
 INDEPENDENT_PACKAGE_REVIEW.txt. No runtime scripts executed by the downloader.
 Main remains bd2dfe7fddd300bd8425cd1c5b0846fe50c4f3d2. No merge. No game edits.
+
+
+ART + ANIMATION CREATIVE PROMPT / 2026-10-20
+User clarifies that the next bot should actually improve art/animation using its own judgment in the agreed GnomiT direction. Prepared one common creative brief, one coherent isolated prototype, source/export/preview and mandatory provenance/docs; no per-detail micromanagement. Existing current review archive remains frozen. Actual main task-002 grants were checked and are narrower (fixed First Bend gnome variant), so the exact needed owner scope is documented, not silently self-granted. This turn changes own report documents only; no game edits, grants, main or merge.
