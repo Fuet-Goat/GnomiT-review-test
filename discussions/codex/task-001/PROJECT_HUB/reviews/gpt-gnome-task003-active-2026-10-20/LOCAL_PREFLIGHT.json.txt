@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "base_main": "bd2dfe7fddd300bd8425cd1c5b0846fe50c4f3d2",
+  "owner_schema_errors": [],
+  "only_activation_fields_changed": [
+    "status",
+    "authorization",
+    "notes"
+  ],
+  "grant_bytes": 6699,
+  "grant_sha256": "c31be56a1a17706ade953eead7b4df7b30b843086f156f4719db2094aa008153",
+  "game_changes": false
+}

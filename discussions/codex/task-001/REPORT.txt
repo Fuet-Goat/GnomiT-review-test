@@ -2353,3 +2353,17 @@ User clarifies that the next bot should actually improve art/animation using its
 
 GPT GNOME TASK003 GRANT PREPARATION / 2026-10-20
 Read actual selected GPT report18be35e and fresh main. Confirmed no task003; old task002 insufficient. Prepared narrow new pending task003 grant, exact pending patch, owner activation instructions and post-activation followup. Own art/source/preview/outputs/report folders; no gameplay/audio/progress/current-v001 edits. Finite gnome greeting may use separate animation playback in minimal preview. Trusted owner schema/scope validates pending proposal; this does NOT activate it. No owner branch/PR/main/grant write/merge made; concrete delegated owner authority is still needed. One verified ZIP supplied for review.
+
+
+GPT TASK003 OWNER ACTIVATION COMPLETE / 2026-10-20
+Human explicitly accepted reviewed one-file activation: 'napravi vsichko priemame'.
+Owner PR7, head742fbd8fb2fc997db53b409828a7e692f4353f57, required Scope boundary
+and Scope policy runner SUCCESS; independent exact-file/schema/scope review PASS.
+Authorized squash merge main d803005f3b123ca2b1ab617a37098a43c43b5da8 adds ONLY
+tasks/gpt/task-003.json. Fresh Git/raw HTTP readback identical6699bytes, SHA256
+c31be56a1a17706ade953eead7b4df7b30b843086f156f4719db2094aa008153.
+Source roots/scope unchanged from reviewed proposal; status/auth/notes activated.
+Followup and full evidence: reviews/gpt-gnome-task003-active-2026-10-20/.
+Only separate GPT gnome candidate is authorized; original v001, game/audio/progress
+and Grok grants unchanged. No artwork was created or merged by this administration.
+The GPT candidate itself must return via Draft PR for separate visual acceptance.

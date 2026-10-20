@@ -1,0 +1,36 @@
+{
+  "checks": [
+    {
+      "name": "Scope boundary",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "742fbd8fb2fc997db53b409828a7e692f4353f57",
+      "details_url": "https://github.com/Fuet-Goat/GnomiT-review-test/runs/118769208999"
+    },
+    {
+      "name": "Scope policy runner",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "742fbd8fb2fc997db53b409828a7e692f4353f57",
+      "details_url": "https://github.com/Fuet-Goat/GnomiT-review-test/actions/runs/39463626993/job/118769145628"
+    }
+  ],
+  "pr": {
+    "state": "open",
+    "merged": false,
+    "mergeable": true,
+    "mergeable_state": "clean",
+    "changed_files": 1,
+    "commits": 1
+  },
+  "runs": [
+    {
+      "id": 39463626993,
+      "name": "Scope policy",
+      "event": "pull_request_target",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "742fbd8fb2fc997db53b409828a7e692f4353f57"
+    }
+  ]
+}

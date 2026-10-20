@@ -1,3 +1,13 @@
+АКТУАЛНО — GPT TASK-003 Е APPROVED / 20.10.2026
+Owner PR #7 merged: main d803005f3b123ca2b1ab617a37098a43c43b5da8.
+Only tasks/gpt/task-003.json added; required Scope boundary SUCCESS + independent PASS.
+GPT: start selected gnome idle -> greet -> settle prototype on codex/gpt/task-003.
+Read actual grant from main and reviews/gpt-gnome-task003-active-2026-10-20/CONTINUE_GPT_BG.txt.
+Own art/source/preview/outputs/report folders only; exact source and preview documentation required.
+Current v001/world/gameplay/audio/progress unchanged; artwork not yet accepted/integrated.
+Grok authority unchanged. Earlier PENDING notes below are preserved history.
+Recommendation GPT-6.1 Sol / High for technical integration.
+
 АКТУАЛНО — ТВОРЧЕСКА ART + ANIMATION ПРОБА · 20.10.2026
 User wants the bot to improve art/animation using its own artistic judgment.
 Read reviews/art-animation-creative-pass-2026-10-20/ONE_PROMPT_FOR_GPT_AND_GROK_BG.txt.
