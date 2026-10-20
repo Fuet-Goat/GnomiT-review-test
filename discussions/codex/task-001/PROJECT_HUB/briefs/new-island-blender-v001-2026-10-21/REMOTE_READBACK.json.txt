@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "source_commit": "d479a4a794896b9824591f78f1b2bbb0189ba24e",
+  "zip_sha256": "1929e70c424a34efc67c33eb66271ff6af6a7bd0c5c8fc60a765fb837227863f",
+  "entries": 8,
+  "no_engine_or_project_code_executed": true,
+  "all_local_files_equal": true,
+  "kind": "TASK_BRIEF_AND_TWO_REFERENCE_PNGS_NOT_3D_SCENE"
+}
