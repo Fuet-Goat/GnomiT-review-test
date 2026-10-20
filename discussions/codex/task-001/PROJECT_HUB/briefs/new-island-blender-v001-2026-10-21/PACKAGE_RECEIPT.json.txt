@@ -1,0 +1,8 @@
+{
+  "zip": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\GNOMIT_NEW_ISLAND_BLENDER_BRIEF_V1_2026-10-21.zip",
+  "bytes": 4624038,
+  "sha256": "1929e70c424a34efc67c33eb66271ff6af6a7bd0c5c8fc60a765fb837227863f",
+  "entries": 8,
+  "status": "LOCAL_VERIFIED",
+  "kind": "BRIEF_WITH_REFERENCE_IMAGES"
+}

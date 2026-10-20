@@ -1,3 +1,14 @@
+НОВО ЗАДАНИЕ ЗА ДРУГИЯ АРТ БОТ — 21.10.2026
+Read briefs/new-island-blender-v001-2026-10-21/PROMPT_FOR_ART_BOT_BG.txt.
+Human wants a NEW editable Blender island based on supplied references: single
+image for composition, middle comparison panel for style, less small clutter.
+Do not reuse/remodel the old world. Desired output is .blend+GLB+actual renders,
+sources/textures/provenance/metadata/manifest. Both real reference PNGs are in
+the verified ZIP transport beside this brief; DOWNLOAD_BRIEF.py.txt verifies it.
+This is a task brief, not a new model or render. Earlier Blender investigation
+was stopped by human before any scene write/build/render. Normal game remains
+v006; v007 is separate teaching sample. No grant/other-bot scope changes or merge.
+
 НОВО — v007 ОТДЕЛНА УЧЕБНА ПРОБА / КАМПАНИЯТА ОСТАВА v006 — 21.10.2026
 Human selected ordinary + clearly protected variants. Read the updated design:
 discussions/material-object-rules-r1-2026-10-21/OWNER_DECISION.txt.
