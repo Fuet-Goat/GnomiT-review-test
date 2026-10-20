@@ -1,0 +1,13 @@
+V007 — ISOLATED TEACHING PROTOTYPE / SCRIPTED PASS / HUMAN REVIEW PENDING
+Human selected ordinary+protected variants; shared design choice resolved.
+First proposed example: fixed stone-cased diamond2HP, orthogonally adjacent match
+or direct power/BH hit deals1HP; zero reveals ordinary diamond. Revealing event
+does not also collect it. Later valid resolved match/power can collect once.
+20 isolated model +16 native UI/state/reduced-motion checks PASS. Five432x960PNG.
+Font weight adjusted to650/700 after first native inspection for readability.
+Separate v007 Desktop shortcut; normal campaign/Latest stays v006. No save access.
+No new audio; unchanged inherited atlas/font, new code-native casing/cracks/crumbs.
+This does not implement campaign input, match resolution, falling or cascade
+integration. It consumes illustrative resolved events. No generic stale-generation
+rejection in the model; no delayed model callbacks currently exist. Not a
+campaign integration acceptance. Human/Android/performance pending. No merge.

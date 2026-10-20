@@ -1,0 +1,45 @@
+extends RefCounted
+## Isolated teaching model. Receives resolved illustrative events, not raw swaps.
+## This is NOT the campaign's match resolver or an activated level mechanic.
+const CELL := Vector2i(1,1)
+var hp := 2
+var collected := false
+var collection_count := 0
+var generation := 0
+var _seen: Dictionary = {}
+
+func reset() -> void:
+	hp=2;collected=false;collection_count=0;generation+=1;_seen.clear()
+
+func snapshot() -> Dictionary:
+	return {"hp":hp,"protected":hp>0,"fixed":hp>0,"matchable":hp==0 and not collected,
+		"collected":collected,"collection_count":collection_count,"generation":generation}
+
+func resolve(event_id: String, kind: String, cells: Array[Vector2i] = [], targeted: bool = false) -> Dictionary:
+	var before := snapshot()
+	if event_id.is_empty():return _rejected(before,"Missing event identity")
+	if _seen.has(event_id):return _rejected(before,"This event already hit the piece")
+	if collected:return _rejected(before,"Diamond already collected")
+	var valid := kind=="black_hole" or (kind=="power_hit" and targeted)
+	if hp>0 and kind=="match_wave":
+		# Only orthogonal adjacency. Diagonal and distant matches do not hit.
+		for point in cells:
+			if absi(point.x-CELL.x)+absi(point.y-CELL.y)==1:valid=true
+	elif hp==0 and kind=="mineral_match":
+		# Illustration supplies a resolved straight diamond triple through center.
+		valid=_contains_line(cells)
+	if not valid:return _rejected(before,"This action does not damage this piece")
+	_seen[event_id]=true
+	var effect := ""
+	if hp>0:
+		hp-=1
+		effect="armour_chip" if hp>0 else "armour_break"
+	else:
+		collected=true;collection_count+=1;effect="mineral_collect"
+	return {"accepted":true,"effect":effect,"before":before,"after":snapshot()}
+
+func _contains_line(cells: Array[Vector2i]) -> bool:
+	return (cells.has(Vector2i(0,1)) and cells.has(CELL) and cells.has(Vector2i(2,1))) or (cells.has(Vector2i(1,0)) and cells.has(CELL) and cells.has(Vector2i(1,2)))
+
+func _rejected(before: Dictionary, reason: String) -> Dictionary:
+	return {"accepted":false,"reason":reason,"before":before,"after":snapshot(),"effect":"none"}

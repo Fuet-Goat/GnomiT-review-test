@@ -1,0 +1,6 @@
+{
+	"checks": 20,
+	"failures": [],
+	"scope": "Isolated illustrative model; not campaign Core",
+	"status": "PASS"
+}

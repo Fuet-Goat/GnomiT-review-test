@@ -1,0 +1,12 @@
+{
+	"checks": 16,
+	"failures": [],
+	"scope": "Scripted native teaching preview only; not a campaign playtest",
+	"screen_count": 1,
+	"screen_index": 0,
+	"status": "PASS",
+	"viewport": [
+		432,
+		960
+	]
+}

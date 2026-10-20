@@ -3,7 +3,8 @@ PROPOSED — NOT_IMPLEMENTED — 21.10.2026
 Approved direction: distinct damage conditions for both minerals and obstacles,
 visible differentiation, and two-page mini explanations at first introduction.
 
-Pending design choice: protected variants vs special rules on every base material.
+Resolved by human: ordinary + protected variants.
+Exact first damage recipe remains a proposed prototype, not an accepted campaign rule.
 Do not implement a different answer by assuming that a colour now means a power.
 
 Before one conditional piece is activated, define:

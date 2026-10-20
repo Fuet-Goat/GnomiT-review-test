@@ -1,7 +1,19 @@
+НОВО — v007 ОТДЕЛНА УЧЕБНА ПРОБА / КАМПАНИЯТА ОСТАВА v006 — 21.10.2026
+Human selected ordinary + clearly protected variants. Read the updated design:
+discussions/material-object-rules-r1-2026-10-21/OWNER_DECISION.txt.
+Codex first proposed example: stone-cased diamond2HP, adjacent match chips1,
+second reveals, later normal match collects. Independent source/image review;
+20 model +16 native scripted checks PASS, human acceptance pending.
+See builds/armoured-diamond-teaching-v007-2026-10-21/ for full verified source ZIP,
+5 native images, editable code, provenance and decoder. This is a teaching model
+receiving resolved events, NOT a campaign match3 resolver/integrated new mechanic.
+Separate Desktop v007 shortcut; normal Latest/save/game remains v006.
+No grants/main edits, other-bot scope change or merge. Earlier entries are history.
+
 НОВА ДИСКУСИЯ — MATERIAL / OBJECT RULES — 21.10.2026
 Owner wants different damage rules for minerals AND obstacles, plus first-encounter
 two-page animated lessons. Read discussions/material-object-rules-r1-2026-10-21/.
-DESIGN_ONLY: variants-vs-all-materials decision pending. No new rule activated.
+HUMAN CHOICE: ordinary + protected variants. Specific new rules not in campaign.
 The actual current game is still v006 below; do not claim this design is implemented.
 
 АКТУАЛНО — GAMEPLAY v006 / ART CANDIDATE v004 — 21.10.2026
