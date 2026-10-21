@@ -1,0 +1,33 @@
+ACTUAL REMOTE DELIVERY VERIFICATION — 2026-10-22
+
+Artifact commit: b809919345fc26a43de3c5d993a3dd71de6fdb18
+Branch: codex/codex/task-001
+No merge, main/grant changes or game integration.
+
+The stdlib downloader fetched PACKAGE_RECEIPT.json.txt and all 8 actual Base64
+parts from raw.githubusercontent.com at the exact immutable artifact commit.
+It checked part bytes/SHA-256, strict Base64, decoded-part hashes, reconstructed
+ZIP bytes/SHA-256, CRC, safe exact entry paths, all 46 entry byte counts/hashes
+before extraction, then rehashed all extracted files in a new directory.
+
+ZIP: GNOMIT_GRASS_12_TUFT_FILL_PROBE_2026-10-22.zip
+Bytes: 44374192
+SHA-256: 1eca8a617e4c5f65b299ef03a2ee02678c7e76fd19ca9f5ca827486a4515f2c6
+Entries: 46
+Download/extraction result: PASS
+
+The downloaded candidate was then opened in fresh Blender5.2.2 LTS with
+--factory-startup --disable-autoexec and without saving. It has 7590 blades,
+2559 tufts, 121440 vertices and 75900 faces in Reference_Grass_Carpet.
+All 5 source images are packed; no linked library. Reopen exit: 0.
+Candidate SHA-256 before/after fresh open:
+565ef994f53900d63995c8618c5099bb7d90788ece3415d675d4d3ed5e373869
+
+This establishes actual binary delivery and fresh native opening, not a human
+art verdict, a Godot game test, Android performance or commercial clearance.
+No code from the downloaded package was executed during this fresh open.
+The current game selector and selected v014 native remain unchanged.
+
+The pre-existing PROJECT_HUB/START_HERE.txt bytes from ccbc1c4584d64a94ab8809c5f89d5ba2360abeee
+are retained as an exact suffix below the new probe notice. Earlier mixed line
+endings are preserved; the final cumulative diff changes only the new notice.
