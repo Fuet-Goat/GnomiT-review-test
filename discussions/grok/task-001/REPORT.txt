@@ -689,3 +689,53 @@ Owner PR #7 е merged; актуален activation commit d803005f3b123ca2b1ab61
 Качи реалните файлове в своя клон, провери публикуваните bytes/SHA чрез повторно сваляне и върни един Draft PR за кандидата. Ако binary пътят ти не работи, използвай допустимия документиран lossless transfer; ако конкретен инструмент липсва, назови го точно и предай действително направената независима част. Без READY за файлове само в твоя sandbox. Без merge и без прехвърляне към основната v001; първо собственикът вижда и приема пробата.
 Препоръка за Codex техническа работа/интеграция: GPT-6.1 Sol / High. GPT авторът може да използва наличния модел и нужните инструменти; текстът не превключва модел/effort.
 Човешка добавка към Grok: сложи го в твоя раздел.
+
+---
+
+MAP_CAMERA_NAVIGATION_R1_2026-10-21 / INDEPENDENT_RESPONSE
+BOT=grok
+ROLE=ANIMATION OWNER
+MODEL=Grok Build
+STATUS=DISCUSSION_ONLY / NO_IMPLEMENTATION / NO_CONSENSUS
+INPUT_COMMIT=a0e3696028bf1774870e82f824a7640828d1c35c
+PACKET_ZIP_SHA256=7b48b6de9abc1230f59401a44c76fa308cd4706d6018e90d12db0dff748b2a76
+PACKET_BYTES=999084
+GRANT=tasks/grok/task-001.json REPORTS_ONLY; write root discussions/grok/task-001/
+I read START_HERE_BG, SOURCES, the verified packet and the unfinished snapshot. I also saw REPORT_BG while collecting the packet, so this R1 is independent in stance but not strictly blind.
+
+1. WHAT I ACTUALLY SAW
+The verified packet contains two real frames. 01_R3_BLENDER_NATIVE.png is a portrait 3/4 island: wooden path, mine, cottage, rounded trees, readable volume. 02_GODOT_INTEGRATION_WIP.png is a 432x960 development capture of the same island. It is not a finished navigation proof and not a new art target. The gnome there floats above the path and has no planted feet or contact shadow. The footer says to tap the path to walk and drag to explore. I did not run Godot or Blender. Candy Crush Level 1 with a new account: NOT_OBSERVED. I do not call a store icon or a staff post a first launch.
+
+2. SOURCES I CHECKED
+S1, King staff QueenB on community.king.com/discussion/510123: after sign-in the game opens on the main map; tap the next level icon; the green Play appears after that. This supports short level selection. It does not prove a walking avatar.
+S2, Google Play listing for com.king.candycrushsaga: 1B+ lifetime Android downloads at my read. That is a cumulative band, not active players and not a camera test.
+Camera preference, search demand and causal retention: NOT_MEASURED. Downloads do not choose a camera.
+
+3. MY RECOMMENDATION
+Map camera: fixed orthographic 3/4 in portrait. It shows the path, the mine mouth and the gnome body. Strict top-down makes the face and the mine facade weaker. First person is not the main camera: it hides the route, hides the full gnome, and needs look controls. A short lantern dip at the mine entrance is enough. It is not free FPS.
+Board camera: the match3 board stays flat and separate. Do not tilt the board into the map camera.
+Gnome: visible guide, not a gate. He greets on first entry, at the mine, on a new power and on a win, then settles. His position is not the unlock. A lit node shows the current level.
+Navigation: vertical drag looks around. Tap an unlocked number opens the existing goal/reward/Play. One Play enters the level. Tap on empty wood does not send an invisible gnome walking. Locked nodes can be seen and do not start. Unlock comes from a win.
+Walking stays available as an optional "walk with me", not as the price of Play. If it is tested, the feet and a contact shadow must stay on the path. The current procedural bob in the unfinished snapshot is not that walk.
+Level 1 stays on the path. Level 2 is the mine entrance. Later chapters go down through a short shared transition, not a new control scheme.
+Return from a level: same map, camera on the next open node, one settle. No forced walk.
+Rules, saves, rewards and sound stay as they are. This is a design note, not an implementation.
+
+4. SMALLEST COMPARISON
+First, two stills of the same island: strict top-down and 3/4, same nodes and UI. First person is an evaluation only.
+Then, on the chosen 3/4 camera, compare fast selection against optional walking. Do not change the camera in that second test. Do not run the walking variant until the feet are planted. Five to eight people can find problems; that is not a retention proof.
+
+MAP_CAMERA_NAVIGATION_R1_2026-10-21 / PEER_RESPONSE
+PEER=Codex REPORT_BG.txt at a0e3696028bf1774870e82f824a7640828d1c35c
+STATUS=NO_CONSENSUS
+
+I accept the fixed 3/4 map, the flat board, the visible guide, and the split between camera and navigation. I accept that downloads are not a camera result.
+
+Three differences:
+1. Codex keeps walking as a full candidate that can gate Play. I keep walking only as an optional action. Play must stay one tap after the number.
+2. The unfinished Godot frame is not evidence that walking works. The gnome floats and has no contact shadow. A walking test before planted feet measures a broken animation.
+3. First person is not only a production cost. It also throws away the full-body greeting, the feet and the shadow. A short mine dip is the limit.
+
+Smallest test that settles this: same 3/4 camera, same island, A with no required walk against B with a planted walk. If B still floats, do not call the result a navigation result.
+
+No game edit, no new art, no Godot or Blender run, no grant change and no merge.
