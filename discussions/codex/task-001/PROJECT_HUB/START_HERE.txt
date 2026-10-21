@@ -1,3 +1,11 @@
+ПРИЛОЖЕНО — R3 TREES v010 — 21.10.2026
+След приетата посока на grassv009 човекът избра да продължим с дърветата.
+Пет матови корони с плитки листни групи и оформени стволове/корени в Blender.
+builds/r3-trees-applied-v010-2026-10-21/START_HERE_BG.txt.
+52 scripted Godot checks PASS. Трева/камера/layout/gameplay/audio запазени.
+Има пълен възстановим Git пакет с native source и runtime кадри. Това е
+кандидат,не human/Android приемане. Не преминаваме автоматично към цветята.
+
 ПРИЛОЖЕНО В GODOT — R3 GRASS v009 — 21.10.2026
 След „priloji“ новата трева и показаната HomeStart композиция са в отделна
 playable версия. builds/r3-grass-applied-v009-2026-10-21/START_HERE_BG.txt.

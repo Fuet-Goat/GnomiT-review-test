@@ -1,0 +1,42 @@
+GNOMIT — R3 TREE-ONLY v010 — 21.10.2026
+Човешка задача: след приложената трева v009 да се подобрят дърветата към
+приказната референция. Реални Blender meshes и Godot runtime, без imagegen.
+
+Избран native source: native/TREES_V010_SOFT.blend.
+Петте корони са матови с плитък листен релеф;45 wood meshes имат оформена
+кора. Позициите и границите на короните са запазени. Десетте налични
+canopy daisy anchors са прикрепени към новата повърхност;няма нови цветя.
+
+Тревата(mesh,UV,цветове,материали),камерата,светлините,пътят,домът,героят,
+двата реални level markers,match-3 логиката,прогресът и звукът не са преработени.
+Проверени504 non-tree records и5 tree group transforms;59 от61 inherited
+GDScript файла са идентични. Двата presentation файла добавят използване на
+съществуващите vertex colours само за дърветата и новия window title.
+
+52 scripted native Godot проверки PASS:map,grass,trees,travel,goals,Volcano
+intro двете страници,valid swap,return map. Native save/reopen,GLB colour/PBR
+и ground UV1 проверки PASS. Реални кадри432x960 в outputs/. Не са human tests.
+Victory не е тествана;Android/performance/touch не са измерени.
+
+Визуална оценка:по-меко и по-малко пластмасово отv009. Релефът все още е
+по-равномерен от референцията и вътрешната листна дълбочина е по-слаба.
+Това е кандидат за човешко приемане,не постигнато пълно съвпадение.
+Два по-ранни опита и source остават за история. Не започваме цветята.
+
+ПАКЕТ:за да не дублираме целия непроменен runtime,Git съдържа реален delta
+ZIP и immutablev009 base. FINAL_FILES.json.txt описва целия окончателен
+файлов състав. DOWNLOAD_V010.py.txt сваля и проверява и двата архива от
+точни commits,после създава свеж GAME само от изброените final files.
+Това е пълно възстановяване наv010 файловете,не самостоятелен delta game.
+
+Изтегли DOWNLOAD_V010.py.txt като download_v010.py и изпълни:
+python download_v010.py --commit ARTIFACT_COMMIT --output NEW_EMPTY_PATH
+Замени ARTIFACT_COMMIT с точния commit от REMOTE_READBACK.json.txt.
+Downloader не изпълнява игровия код. След проверка:GAME/PLAY_TREES.cmd или
+Godot4.7.2 --path GAME. Launcher изисква вече наличния Windows engine.
+ZIP съдържа source.blend,GLB,скриптове,документация,истински screenshots.
+Локално има и един пълен GNOMIT_R3_TREES_APPLIED_V010_2026-10-21.zip.
+
+Няма промяна вmain,grants,privateCradle или други bot папки;безmerge.
+В Git:само собствени позволени текстови отчети/реален Base64 transfer.
+GPT-6.1 Sol / Extra high.
