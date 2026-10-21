@@ -1,0 +1,24 @@
+{
+  "status": "COMMON_RECOMMENDATION_HUMAN_CHOICE_PENDING",
+  "map": "Fixed portrait orthographic3/4",
+  "board": "Perpendicular fixed match3 grid",
+  "hero": "Visible small guide, no mandatory walk before Play",
+  "navigation": "Vertical drag, unlocked node tap opens goals/reward/onePlay immediately",
+  "codex_revision": "Accept GPT narrow first interactive comparison varying only Play arrival gate",
+  "remaining": {
+    "walking_default": "Guide-only recommended; optional walking deferred, not agreed implementation",
+    "return_after_replay": "GPT retains played node; Grok next-open focus; Codex recommends GPT context policy",
+    "camera_stills": "Only if human still needs composition comparison"
+  },
+  "evidence": {
+    "gpt_media": "NOT_OBSERVED",
+    "grok_media": "OBSERVED_BY_AUTHOR_RUNTIME_NOT_RUN",
+    "grok_r1_blind": false,
+    "candy_crush_first_launch": "NOT_OBSERVED",
+    "market_camera_causality": "NOT_ESTABLISHED",
+    "new_godot_test_this_round": "NOT_RUN"
+  },
+  "next_research_recommendation": "First5minutes and power comprehension",
+  "human_final_approval": false,
+  "implementation_started_by_this_synthesis": false
+}

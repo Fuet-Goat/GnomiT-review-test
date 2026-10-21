@@ -1,0 +1,7 @@
+{
+  "zip": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\GNOMIT_MAP_NAVIGATION_SYNTHESIS_2026-10-21.zip",
+  "bytes": 57273,
+  "entries": 13,
+  "sha256": "eeb092091e8d2b4b9f6e59154231d3aeaad11c1bdb2a4567490cdedae293e670",
+  "status": "ZIP_CRC_MANIFEST_BYTES_PASS_AFTER_REVIEW"
+}

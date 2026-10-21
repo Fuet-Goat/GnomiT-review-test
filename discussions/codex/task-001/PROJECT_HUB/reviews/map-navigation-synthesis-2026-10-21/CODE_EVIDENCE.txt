@@ -1,0 +1,11 @@
+LOCAL READ-ONLY CODE SPOT CHECK —2026-10-21
+
+No source edits or execution in this round.
+
+C:\Users\fruch\Documents\Codex\GnomiT_Playtests\R3_Island_Journey_2026-10-21\scripts\main.gd
+bytes=31995 sha256=289149fb4d792e948b7939e2864937c68068cd5042b623245449921fbdfdfb63
+show_level_preview lines312-342: disables navigation on modal; Play requires docking when slice_enabled.
+
+C:\Users\fruch\Documents\Codex\GnomiT_Playtests\R3_Island_Journey_2026-10-21\scripts\r3\island_map.gd
+bytes=15214 sha256=d30441cd8d3cdf14e108e65544f814fb20887c534f992da8e4e18f11bd8cff28
+cancel_transition/set_interaction_enabled lines336-344: cancels pointer and stops walking.

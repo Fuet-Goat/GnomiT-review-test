@@ -1,0 +1,2 @@
+Read-only internal synthesis review, not external human approval.
+Confirmed common direction and genuine replay-return difference. GPT no-media and Grok nonblind/runtime limits retained. Gate-only A/B requires same preview timing, sufficiently grounded actor, equal focus/dismiss behavior, gesture consumption and no queued arrival click. Modal/navigation coupling was then spot-checked in actual local WIP source; CODE_EVIDENCE records exact hashes. No gameplay test or changes.

@@ -1,3 +1,12 @@
+СИНТЕЗ — MAP/CAMERA/NAVIGATION R2 —21.10.2026
+Read reviews/map-navigation-synthesis-2026-10-21/SYNTHESIS_BG.txt.
+Pinned GPT4b8fde8 and Grok74539e4 reviewed. Common recommendation: fixed3/4
+map, perpendicular board, small visible guide, no mandatory walking beforePlay.
+Codex accepts GPT narrow comparison varying onlyPlay/arrival gating. Replay
+return policy is a genuine remaining difference; human design choice pending.
+COMMON_FOLLOWUP_FOR_GPT_GROK_BG asks for one useful nextDeepResearch topic.
+No implementation/research launch/game/main/grant/other-report changes ormerge.
+
 ПРЕДЛОЖЕНА СЛЕДВАЩА RESEARCH ОПАШКА —21.10.2026
 Read briefs/deep-research-queue-2026-10-21/RESEARCH_QUEUE_BG.txt and
 FOLLOWUP_FOR_GPT_GROK_BG.txt. Three focused topics with ready human research
