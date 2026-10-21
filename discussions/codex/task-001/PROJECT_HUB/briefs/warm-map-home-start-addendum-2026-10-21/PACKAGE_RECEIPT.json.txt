@@ -1,0 +1,16 @@
+{
+  "status": "LOCAL_ARCHIVE_AND_EVERY_ENTRY_SHA256_PASS",
+  "zip_name": "GNOMIT_WARM_MAP_HOME_START_ADDENDUM_2026-10-21.zip",
+  "bytes": 2202579,
+  "sha256": "12798e07b12d3c3ae398c7ba00e05729bb1accdae425f83a97774e598ccca6ab",
+  "entries": 9,
+  "encoded": "HANDOFF_PACKAGE.base64.txt",
+  "latest_image": {
+    "path": "REFERENCES/01_TARGET_WARM_MAP_HOME_START_6_LEVELS.png",
+    "bytes": 2256314,
+    "sha256": "a8ba8f00cba8f715e4633941f65b7f79da7caa174520a2a6e2072c60538e73c9",
+    "width": 840,
+    "height": 1871
+  },
+  "base_commit": "846830301d95928bcd8a66c2ff62767bbc0c37da"
+}

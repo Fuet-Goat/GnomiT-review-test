@@ -1,0 +1,17 @@
+{
+  "kind": "BUILTIN_IMAGEGEN_PRECISE_OBJECT_EDIT",
+  "human_change": "Move existing mushroom home next to the starting gnome, as if he is leaving home.",
+  "source_image_sha256": "38abdf8a8a642090cbdc1d163bbd58582dde3b11ffed5032d563a9a86c51678d",
+  "output": {
+    "path": "REFERENCES/01_TARGET_WARM_MAP_HOME_START_6_LEVELS.png",
+    "bytes": 2256314,
+    "sha256": "a8ba8f00cba8f715e4633941f65b7f79da7caa174520a2a6e2072c60538e73c9",
+    "width": 840,
+    "height": 1871
+  },
+  "authoring": "Built-in image_gen edit in this chat; backend model/version not exposed.",
+  "not_a_native_blender_render": true,
+  "runtime_implementation": "NOT_PERFORMED",
+  "previous_images_preserved": true,
+  "rights_note": "Documentation records provenance; it is not a new legal clearance or exclusive-ownership assertion."
+}

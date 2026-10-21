@@ -1,0 +1,51 @@
+"""Download/decode exact GnomiT reference/source handoff; never executes asset/game code."""
+from pathlib import Path, PurePosixPath
+import argparse, base64, hashlib, io, json, re, stat, subprocess, urllib.request, zipfile
+REPO='Fuet-Goat/GnomiT-review-test'
+PREFIX='discussions/codex/task-001/PROJECT_HUB/briefs/warm-map-home-start-addendum-2026-10-21'
+def sha(data): return hashlib.sha256(data).hexdigest()
+def main():
+ p=argparse.ArgumentParser(description=__doc__)
+ p.add_argument('--commit',required=True);p.add_argument('--output',type=Path,required=True)
+ p.add_argument('--local-repo',type=Path);p.add_argument('--with-existing',action='store_true')
+ a=p.parse_args()
+ if not re.fullmatch('[0-9a-f]{40}',a.commit): raise ValueError('Exact 40-hex commit required')
+ dest=a.output.resolve()
+ if dest.exists(): raise ValueError('Choose a new output directory')
+ def read(commit,path):
+  if a.local_repo:
+   return subprocess.check_output(['git','-C',str(a.local_repo),'show',commit+':'+path])
+  url='https://raw.githubusercontent.com/'+REPO+'/'+commit+'/'+path
+  request=urllib.request.Request(url,headers={'User-Agent':'GnomiT-exact-art-handoff'})
+  with urllib.request.urlopen(request,timeout=60) as r: return r.read()
+ def verify_archive(data, receipt):
+  if len(data)!=receipt['bytes'] or sha(data)!=receipt['sha256']: raise ValueError('Archive identity mismatch')
+  z=zipfile.ZipFile(io.BytesIO(data))
+  if len(z.namelist())!=receipt['entries'] or len(set(z.namelist()))!=len(z.namelist()) or z.testzip() is not None: raise ValueError('ZIP count/duplicate/CRC failure')
+  manifest=json.loads(z.read('MANIFEST.json'))
+  if set(z.namelist())!={row['path'] for row in manifest['files']}|{'MANIFEST.json'}: raise ValueError('Manifest path mismatch')
+  for item in z.infolist():
+   path=PurePosixPath(item.filename)
+   if path.is_absolute() or '..' in path.parts or chr(92) in item.filename or ':' in item.filename or stat.S_ISLNK(item.external_attr>>16): raise ValueError('Unsafe ZIP path')
+  for row in manifest['files']:
+   value=z.read(row['path'])
+   if len(value)!=row['bytes'] or sha(value)!=row['sha256']: raise ValueError('Entry mismatch: '+row['path'])
+  return z
+ receipt=json.loads(read(a.commit,PREFIX+'/PACKAGE_RECEIPT.json.txt'))
+ data=base64.b64decode(read(a.commit,PREFIX+'/'+receipt['encoded']).strip(),validate=True)
+ z=verify_archive(data,receipt)
+ staged=[('HANDOFF',z)]
+ if a.with_existing:
+  links=json.loads(read(a.commit,PREFIX+'/EXISTING_MATERIALS.json.txt'))['packages']
+  for link in links:
+   oldreceipt=json.loads(read(link['commit'],link['folder']+'/'+link['receipt']))
+   if oldreceipt['sha256']!=link['archive_sha256'] or oldreceipt['bytes']!=link['archive_bytes'] or oldreceipt['entries']!=link['entries']: raise ValueError('Pinned package receipt mismatch')
+   olddata=base64.b64decode(read(link['commit'],link['folder']+'/'+link['encoded']).strip(),validate=True)
+   staged.append((link['role'],verify_archive(olddata,oldreceipt)))
+ dest.mkdir(parents=True,exist_ok=False)
+ for label,archive in staged:
+  archive.extractall(dest/label)
+ proof={'status':'EXACT_COMMIT_ARCHIVE_AND_ALL_ENTRY_HASHES_PASS','commit':a.commit,'bytes':receipt['bytes'],'sha256':receipt['sha256'],'entries':receipt['entries'],'packages':[label for label,_ in staged],'executed_project_code':False}
+ (dest/'DOWNLOAD_VERIFIED.json').write_text(json.dumps(proof,indent=2)+'\n',encoding='utf-8')
+ print(json.dumps(proof))
+if __name__=='__main__':main()

@@ -1,0 +1,52 @@
+{
+  "base_codex_commit": "658d7a1eee5cf0a20121af05fb761d80d204fc28",
+  "packages": [
+    {
+      "role": "PREVIOUS_SIX_LEVEL_HANDOFF_AND_SOURCE_CONTEXT",
+      "commit": "3bfb5cba567743ada46bf6985c469f7881d5594e",
+      "folder": "discussions/codex/task-001/PROJECT_HUB/briefs/warm-map-six-levels-direction-2026-10-21",
+      "encoded": "HANDOFF_PACKAGE.base64.txt",
+      "receipt": "PACKAGE_RECEIPT.json.txt",
+      "archive_bytes": 9459562,
+      "archive_sha256": "69b3cf19a469ab089daf1bd81f3d42969e05c2d1ca3c95a04b44a3b8b28115f4",
+      "entries": 50,
+      "contents": "Prior reference PNGs, real R3 screenshots, exact selected source and gnome extraction evidence. Its older target is superseded visually by this addendum."
+    },
+    {
+      "role": "FULL_EDITABLE_R3_BLENDER_BASELINE",
+      "commit": "d1ed5aa1dc0794531ef4f9e0ec9e597116647ff7",
+      "folder": "discussions/codex/task-001/PROJECT_HUB/reviews/codex-r3-tree-mine-light-2026-10-21",
+      "encoded": "NATIVE_REVIEW.base64.txt",
+      "receipt": "PACKAGE_RECEIPT.json.txt",
+      "archive_bytes": 16833817,
+      "archive_sha256": "63ef3f9523295210e9213d31b0635b9290e1bc2d33a41ed91e56297032f3ad21",
+      "entries": 71,
+      "contents": "R3_SELECTED .blend, .glb, all source/settings/textures/native renders, verification and preserved draft",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/tree/d1ed5aa1dc0794531ef4f9e0ec9e597116647ff7/discussions/codex/task-001/PROJECT_HUB/reviews/codex-r3-tree-mine-light-2026-10-21"
+    },
+    {
+      "role": "PRIOR_NAVIGATION_WIP_REVIEW",
+      "commit": "ba2d09e8b5f6512979b27891d6e69173139a14d8",
+      "folder": "discussions/codex/task-001/PROJECT_HUB/briefs/map-camera-navigation-r1-2026-10-21",
+      "encoded": "NATIVE_REVIEW.base64.txt",
+      "receipt": "PACKAGE_RECEIPT.json.txt",
+      "archive_bytes": 999084,
+      "archive_sha256": "7b48b6de9abc1230f59401a44c76fa308cd4706d6018e90d12db0dff748b2a76",
+      "entries": 15,
+      "contents": "Actual screenshots and prior R3 navigation source snapshot; not six-level implementation",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/tree/ba2d09e8b5f6512979b27891d6e69173139a14d8/discussions/codex/task-001/PROJECT_HUB/briefs/map-camera-navigation-r1-2026-10-21"
+    },
+    {
+      "role": "FULL_EXISTING_V004_GNOME_SOURCE_AND_PREVIEW",
+      "commit": "f0f66c8f2472f3e1b9a80aba74764580ecd75434",
+      "folder": "discussions/codex/task-001/PROJECT_HUB/builds/codex-volumetric-gnome-v004-2026-10-20",
+      "encoded": "NATIVE_PREVIEW_PACKAGE.base64.txt",
+      "receipt": "PACKAGE_RECEIPT.json.txt",
+      "archive_bytes": 28970836,
+      "archive_sha256": "4ffb280f898ebd50ffe7beae408db2ec5c4a115d757f6bb962efe81c88b5a1b5",
+      "entries": 95,
+      "contents": "Existing v004 source, editable model and native preview; inherited world is historical context, not the new map baseline",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/tree/f0f66c8f2472f3e1b9a80aba74764580ecd75434/discussions/codex/task-001/PROJECT_HUB/builds/codex-volumetric-gnome-v004-2026-10-20"
+    }
+  ]
+}
