@@ -1,0 +1,104 @@
+{
+  "status": "REMOTE_PINNED_BYTES_ARCHIVE_AND_IMAGES_PASS",
+  "source_commit": "ba2d09e8b5f6512979b27891d6e69173139a14d8",
+  "remote_files_verified": [
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/START_HERE.txt",
+      "bytes": 62087,
+      "sha256": "df596e257b3f29d345be42debd9feb56dd844a56a26df1d065eb60d1aba86f16"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/briefs/map-camera-navigation-r1-2026-10-21/DECISION_STATUS.json.txt",
+      "bytes": 585,
+      "sha256": "946a5249c7905cad7904f5f6dad92ad3c3b4c4f432eb95b5f90a249304c05e1b"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/briefs/map-camera-navigation-r1-2026-10-21/DOWNLOAD_REVIEW.py.txt",
+      "bytes": 2577,
+      "sha256": "dc1e63bc8674d57fcff963e2dc5905fec9b947fa47b4068660c2feb58b1b8e43"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/briefs/map-camera-navigation-r1-2026-10-21/FINAL_RESPONSE.txt",
+      "bytes": 671,
+      "sha256": "c55f4bbc386dd524faa874470a0f40e1417b94a63521f0358fd7451e05f9e382"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/briefs/map-camera-navigation-r1-2026-10-21/GIT_SCOPE_CHECK.json.txt",
+      "bytes": 196,
+      "sha256": "0d3e5beb88f0092165a6e42f8f34333d5d545eb4bdb6497e0065c38826cb9a6d"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/briefs/map-camera-navigation-r1-2026-10-21/INTERNAL_REVIEW.txt",
+      "bytes": 297,
+      "sha256": "6ebf78b83976f1e0e0ad15b3ca3761cda42d117f3e39bbe40ceb4847ecd6db8b"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/briefs/map-camera-navigation-r1-2026-10-21/NATIVE_REVIEW.base64.txt",
+      "bytes": 1332113,
+      "sha256": "02e264f7d22716b677b2075ba0f2f27f32f82224b02e7984ee210ffc42066896"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/briefs/map-camera-navigation-r1-2026-10-21/PACKAGE_RECEIPT.json.txt",
+      "bytes": 307,
+      "sha256": "3a7a34783b90878a9505cf7597dbb79a3d2edd3d6ba2d5a6c722a720997c88c9"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/briefs/map-camera-navigation-r1-2026-10-21/PROMPT_FOR_GPT_BG.txt",
+      "bytes": 4063,
+      "sha256": "66ac90980a9ba38355d678c04fed2a80713b0146d5caa27ed3dea54ef79a0233"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/briefs/map-camera-navigation-r1-2026-10-21/PROVENANCE.txt",
+      "bytes": 914,
+      "sha256": "15e6d05a515e98b0bf1068812f69a9894b1815eb60af37e3445a6b3ad3a45b27"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/briefs/map-camera-navigation-r1-2026-10-21/README.txt",
+      "bytes": 939,
+      "sha256": "b483a4c95fd955cafe92cdb5bda0155bc2c782795b5cdfc026bfe398ea622bcf"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/briefs/map-camera-navigation-r1-2026-10-21/REPORT_BG.txt",
+      "bytes": 12487,
+      "sha256": "7a3af4a11d300725a5b52fed823ed7485b6ac9fa220ac824b5686d9bbc256e40"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/briefs/map-camera-navigation-r1-2026-10-21/SOURCES.json.txt",
+      "bytes": 3925,
+      "sha256": "b1638deb666d240700c1adb7d28a4fe5cc3cc2529bde5bfeeb86521c1ed1cf8e"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/briefs/map-camera-navigation-r1-2026-10-21/START_HERE_BG.txt",
+      "bytes": 1521,
+      "sha256": "fd92cb22b9ca7fc9954a169eec7ed5292468a3ea8266c63ad0762e96aab91fae"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/briefs/map-camera-navigation-r1-2026-10-21/ZIP_MANIFEST.json.txt",
+      "bytes": 2333,
+      "sha256": "d845818b8a88652b80318d532e82a0e34961b5ef55de5daedd5d46e6488b63fd"
+    }
+  ],
+  "zip_sha256": "7b48b6de9abc1230f59401a44c76fa308cd4706d6018e90d12db0dff748b2a76",
+  "zip_bytes": 999084,
+  "entries": 15,
+  "images": [
+    {
+      "path": "MEDIA/01_R3_BLENDER_NATIVE.png",
+      "size": [
+        432,
+        960
+      ],
+      "decoded": true
+    },
+    {
+      "path": "MEDIA/02_GODOT_INTEGRATION_WIP.png",
+      "size": [
+        432,
+        960
+      ],
+      "decoded": true
+    }
+  ],
+  "external_gpt_response": "PENDING",
+  "game_source_executed_by_readback": false
+}
