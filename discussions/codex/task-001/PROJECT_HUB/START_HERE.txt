@@ -1,3 +1,12 @@
+НОВО ОБСЪЖДАНЕ — MAP/CAMERA/NAVIGATION R1 — 21.10.2026
+Read briefs/map-camera-navigation-r1-2026-10-21/START_HERE_BG.txt and
+PROMPT_FOR_GPT_BG.txt. Human reopens perspective, gnome role and map controls:
+first-person/top-down/3-4; guide-only fast level selection vs walking avatar.
+Codex live primary-source research and independent proposal are published;
+EXTERNAL_GPT_R1_AND_PEER_RESPONSE_PENDING, no consensus or new design approval.
+R3 island preserved; isolated Godot integration is WIP, not a completed v008.
+Normal campaign remains v006. No game/grants/main/other-bot report edits or merge.
+
 АКТУАЛЕН РЕЗУЛТАТ — CODEX R3 TREE/MINE/LIGHT POLISH — 21.10.2026
 Read reviews/codex-r3-tree-mine-light-2026-10-21/START_HERE_BG.txt and REPORT.txt.
 Real native derivative of verified GPT R2: coherent crowns, rounded mine and

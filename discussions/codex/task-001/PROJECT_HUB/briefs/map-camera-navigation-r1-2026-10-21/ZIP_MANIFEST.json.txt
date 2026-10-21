@@ -1,0 +1,75 @@
+{
+  "files": [
+    {
+      "path": "DECISION_STATUS.json",
+      "bytes": 585,
+      "sha256": "946a5249c7905cad7904f5f6dad92ad3c3b4c4f432eb95b5f90a249304c05e1b"
+    },
+    {
+      "path": "FINAL_RESPONSE.txt",
+      "bytes": 671,
+      "sha256": "c55f4bbc386dd524faa874470a0f40e1417b94a63521f0358fd7451e05f9e382"
+    },
+    {
+      "path": "INTERNAL_REVIEW.txt",
+      "bytes": 297,
+      "sha256": "6ebf78b83976f1e0e0ad15b3ca3761cda42d117f3e39bbe40ceb4847ecd6db8b"
+    },
+    {
+      "path": "MEDIA/01_R3_BLENDER_NATIVE.png",
+      "bytes": 584729,
+      "sha256": "164711a1256a44a48a636756476e254e80770aae28a659667e497ad06495bcd7"
+    },
+    {
+      "path": "MEDIA/02_GODOT_INTEGRATION_WIP.png",
+      "bytes": 392135,
+      "sha256": "eb907dfbce8ef2bc2370bd3ea8704f562c39073547d9dca0dd6a18f94c3c1f5a"
+    },
+    {
+      "path": "PROMPT_FOR_GPT_BG.txt",
+      "bytes": 4063,
+      "sha256": "66ac90980a9ba38355d678c04fed2a80713b0146d5caa27ed3dea54ef79a0233"
+    },
+    {
+      "path": "PROVENANCE.txt",
+      "bytes": 914,
+      "sha256": "15e6d05a515e98b0bf1068812f69a9894b1815eb60af37e3445a6b3ad3a45b27"
+    },
+    {
+      "path": "README.txt",
+      "bytes": 939,
+      "sha256": "b483a4c95fd955cafe92cdb5bda0155bc2c782795b5cdfc026bfe398ea622bcf"
+    },
+    {
+      "path": "REPORT_BG.txt",
+      "bytes": 12487,
+      "sha256": "7a3af4a11d300725a5b52fed823ed7485b6ac9fa220ac824b5686d9bbc256e40"
+    },
+    {
+      "path": "SOURCE_SNAPSHOT/island_map.gd",
+      "bytes": 15214,
+      "sha256": "d30441cd8d3cdf14e108e65544f814fb20887c534f992da8e4e18f11bd8cff28"
+    },
+    {
+      "path": "SOURCE_SNAPSHOT/island_route.gd",
+      "bytes": 2637,
+      "sha256": "400c50a8b503a39a5dfb7ee1ae118fa853c7b3ffcdafac3fb1b621a6753eddfd"
+    },
+    {
+      "path": "SOURCE_SNAPSHOT/preview_main.gd",
+      "bytes": 976,
+      "sha256": "870aaa28da4e2289e9d99c613cdcf192abc3f4180b125303979eb883bfa82f5c"
+    },
+    {
+      "path": "SOURCE_SNAPSHOT/r3_guide.gd",
+      "bytes": 6906,
+      "sha256": "0a3c6a40a89dadba72d05ca2b6ef6adbb90b00b608e48d3de7e056da650af4c5"
+    },
+    {
+      "path": "SOURCES.json",
+      "bytes": 3925,
+      "sha256": "b1638deb666d240700c1adb7d28a4fe5cc3cc2529bde5bfeeb86521c1ed1cf8e"
+    }
+  ],
+  "note": "Manifest excludes itself."
+}

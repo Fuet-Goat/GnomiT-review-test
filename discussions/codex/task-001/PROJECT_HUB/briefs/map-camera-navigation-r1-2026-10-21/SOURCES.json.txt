@@ -1,0 +1,66 @@
+{
+  "checked_date": "2026-10-21",
+  "method": "Live web search and opened official/publisher primary pages. No game install, no fresh-account runtime, no full proprietary market report.",
+  "sources": [
+    {
+      "id": "S1",
+      "title": "Candy Crush Saga: Where is the play button? — staff QueenB",
+      "url": "https://community.king.com/en/candy-crush-saga/discussion/510123/where-is-the-play-button",
+      "observed": "Official staff text: main map, select the next level icon, then green Play. Not a fresh-account runtime observation."
+    },
+    {
+      "id": "S2",
+      "title": "Candy Crush Saga — Google Play, King publisher listing",
+      "url": "https://play.google.com/store/apps/details?id=com.king.candycrushsaga&hl=en_US",
+      "observed": "At read time: 1B+ lifetime Android download band; updated Oct15,2026. Store listing, not current active users or search demand."
+    },
+    {
+      "id": "S3",
+      "title": "Royal Match — Google Play, Dream Games publisher listing",
+      "url": "https://play.google.com/store/apps/details?id=com.dreamgames.royalmatch&hl=en_US",
+      "observed": "At read time: 100M+ lifetime Android download band; updated Sep25,2026. Puzzle levels plus castle decoration. No causal camera comparison."
+    },
+    {
+      "id": "S4",
+      "title": "Royal Match — official world and character design",
+      "url": "https://www.dreamgames.com/games/royal-match",
+      "observed": "Publisher describes King Robert/Winston/Duke, rounded world shapes, match pieces and unlockable castle areas. This supports character presence, not user-controlled walking."
+    },
+    {
+      "id": "S5",
+      "title": "Gardenscapes — How to play?",
+      "url": "https://playrix.helpshift.com/hc/en/5-gardenscapes/faq/15571-about-the-game-how-to-play-gardenscapes/",
+      "observed": "Official text: match3 wins earn stars for garden tasks/story. Not an observation of first launch."
+    },
+    {
+      "id": "S6",
+      "title": "Gardenscapes — switching garden areas",
+      "url": "https://playrix.helpshift.com/hc/en/5-gardenscapes/faq/16381-how-do-i-switch-between-garden-areas-1762390008/",
+      "observed": "Tablet Map selects expansions; Austin icon indicates selected location. Explicitly gated after Picnic restoration and expansion2, not the screen before level1."
+    },
+    {
+      "id": "S7",
+      "title": "Android Accessibility — touch target size",
+      "url": "https://support.google.com/accessibility/android/answer/7101858?hl=en",
+      "observed": "Official recommendation at least48x48dp targets; dp is not equivalent to physical screenshot pixels. Validate on actual Android density."
+    },
+    {
+      "id": "S8",
+      "title": "Sensor Tower — State of Gaming2026 public summary",
+      "url": "https://sensortower.com/report/state-of-gaming-2026",
+      "observed": "Public summary emphasizes retention/engagement as downloads shrink. Full report is form gated; not downloaded. No first-person vs overhead match3 camera experiment or demand keywords established."
+    },
+    {
+      "id": "S9",
+      "title": "King Community — Saga map makeover",
+      "url": "https://community.king.com/en/candy-crush-saga/discussion/393135/new-saga-map-makeover-check-it-out",
+      "observed": "Official rollout post describes selected groups and links a community tutorial. Older thread, comments not representative survey; not proof of every current client or first-launch visuals."
+    },
+    {
+      "id": "S10",
+      "title": "Homescapes — Unlocking new areas in the mansion",
+      "url": "https://playrix.helpshift.com/hc/en/14-homescapes/faq/1101-unlocking-new-areas-in-the-mansion/",
+      "observed": "Official text: mansion areas unlock sequentially through tasks paid with match3 stars; no inference of freely controlled avatar or first-launch perspective."
+    }
+  ]
+}
