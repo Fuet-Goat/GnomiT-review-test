@@ -1,0 +1,27 @@
+GNOMIT NATIVE SOFT-LEAF C —PROVENANCE/BOUNDARIES
+Input:exact fuller B native SHA256 565ef994f53900d63995c8618c5099bb7d90788ece3415d675d4d3ed5e373869.
+Parent artifact commit:b809919345fc26a43de3c5d993a3dd71de6fdb18.
+AI-assisted procedural Blender Python by Codex. Blender5.2.2 LTS.
+Same12tufts and73leaves,including37inherited+36previous additions.
+No new tuft or leaf. Totals7590leaves/2559tufts.
+Only these73leaf geometries replaced:16→61vertices,10→48faces each.
+Whole body121440→124725vertices;75900→78674faces;136620→142022triangles.
+All7517untargeted per-leaf vertex/colour/relativeface/edge/flags records
+are exact semantically. Global mesh indices/prefixes are NOT unchanged.
+Root/base corners exact;maxheight/maxwidth retained within1e-6m.
+Final tip XY retained within1e-6m,tip Z intentionally lower. Existing
+normalized colour gradient is interpolated onto new samples;selected
+colour bytes are NOT unchanged. No material node/palette/light changes.
+648nonbody scene records,edge grass,camera/world/render settings protected.
+4453new vertices sampled from above against current terrain/props:0blocked.
+Not exhaustive triangle or leaf-leaf collision proof.
+Five source images packed;no linked libraries. No external assets downloaded.
+Inherited B and v014 provenance are included and still apply;this is a
+creation record,not a legal ownership or licensing guarantee.
+No GLB export,Godot integration,game rule/audio/save/current selector change.
+Native/runtime lighting parity NOT_CLAIMED. No new game test run.
+Human choice PENDING;Android/FPS/touch NOT_MEASURED.
+Candidate native saved/reopened;actual full/detail render hashes in receipt.
+Comparison layouts preserve raw pixels;detail is8x native render density,
+not image interpolation. Visual judgement:VISUAL_REVIEW.txt.
+Old embedded B note is historical;new START_HERE_SOFT_SHAPE_C describes C.

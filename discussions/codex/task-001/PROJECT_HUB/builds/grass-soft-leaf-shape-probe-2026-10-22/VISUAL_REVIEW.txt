@@ -1,0 +1,14 @@
+CODEX PIXEL REVIEW —2026-10-22
+Observed both raw full native renders and both actual512x512 detail renders,
+plus04_FULL_B_C.png and05_DETAIL_B_C.png. The reference was directly viewed
+in the preceding B probe; identical TARGET_HOME_START.png is included here.
+VISUAL-JUDGMENT: C clearly has softer sides and relaxed/downturned tips in
+the central close-render group. Leaf count is unchanged. Roots appear planted.
+The new broad arch reads more like a small rosette/ornamental plant than the
+fine curled grass in the reference. It is not a complete reference match.
+At432x960 only a small local difference is visible because only12tufts change.
+The remaining meadow is unchanged. No clear whole-map art win is established.
+This is an internal visual opinion,not independent human acceptance.
+Keep B and C as comparison candidates;do not roll C out over the meadow.
+No new density/material/light/tree/flower change has been made or started.
+Human selection PENDING;Godot/Android/performance NOT_MEASURED for this probe.

@@ -1,0 +1,226 @@
+{
+  "schema": 1,
+  "zip": {
+    "name": "GNOMIT_GRASS_SOFT_LEAF_SHAPE_PROBE_2026-10-22.zip",
+    "bytes": 44391420,
+    "sha256": "ff5ffb74d6685c7f014e2498877f0d9ad03b9510e2954e11d810ec55959d858e",
+    "entries": 31
+  },
+  "parts": [
+    {
+      "path": "PROBE_ZIP.part001.base64.txt",
+      "bytes": 8000001,
+      "sha256": "c9254397a3b7dfb30a99ad8615aedd1781505ee9871a1571a38b8698c964ef57",
+      "base64_chars": 8000000,
+      "payload_sha256": "6ff4d0b4f8a24047933438a5897b0f3b1009d8f93330bdf834a7854fe282c907"
+    },
+    {
+      "path": "PROBE_ZIP.part002.base64.txt",
+      "bytes": 8000001,
+      "sha256": "e88b0a550aa801c79d8b6ebf445b85dad57b61dec0b226e92e933b5a32d35fb6",
+      "base64_chars": 8000000,
+      "payload_sha256": "47d93cc8baec8caec768c80de7c1a4c7b40fff7b9221d368b5767ebb2c33e7d1"
+    },
+    {
+      "path": "PROBE_ZIP.part003.base64.txt",
+      "bytes": 8000001,
+      "sha256": "a9a71b417b53726bc97c4b87a0540dc899b8cf4a908ff6e1d9af14e743e5b0e4",
+      "base64_chars": 8000000,
+      "payload_sha256": "932c9e1ba5af0c6481113e1f4ac14cc236a6439fffe9d17adbc105d22c347ac7"
+    },
+    {
+      "path": "PROBE_ZIP.part004.base64.txt",
+      "bytes": 8000001,
+      "sha256": "b6fe33c4d0a26f8e3ba88e0b8829190e12d639f30c99fae3372c12786657c27e",
+      "base64_chars": 8000000,
+      "payload_sha256": "4194b6de1175d72a1ce6a9fd4e4edea1b5297a38f9f9daa91d2db1b17581be48"
+    },
+    {
+      "path": "PROBE_ZIP.part005.base64.txt",
+      "bytes": 8000001,
+      "sha256": "f3f1b53bcfa1a21ef7861b83f432c55936e3ff92c639d5be09b865d26679adba",
+      "base64_chars": 8000000,
+      "payload_sha256": "382816a3aea4b3e16b88dc152643032e6e27f2318e7fb601c8a6ce753ca9ba58"
+    },
+    {
+      "path": "PROBE_ZIP.part006.base64.txt",
+      "bytes": 8000001,
+      "sha256": "f65f24c21fb5bcf94f4ce0eab7e4f8225839c0ed4b488c63ab73b6113432b5b3",
+      "base64_chars": 8000000,
+      "payload_sha256": "170a3d81ab948189d6fb643c36108226603a301da7c8755dd8fbda120ebedea1"
+    },
+    {
+      "path": "PROBE_ZIP.part007.base64.txt",
+      "bytes": 8000001,
+      "sha256": "656eac661c90e00ab5d744ecdd4115f85ae374f4ace118c8c7540733dca3c852",
+      "base64_chars": 8000000,
+      "payload_sha256": "dc6f0748e5b8aa2827ea0e68f1ec2c78cc812efc09e270783656ac1d02b18432"
+    },
+    {
+      "path": "PROBE_ZIP.part008.base64.txt",
+      "bytes": 3188561,
+      "sha256": "1bf716fc43554d806fd01a638a4e1a1b5207ad39b393ed4288ef6b73517c73a8",
+      "base64_chars": 3188560,
+      "payload_sha256": "c71dd8e07c8498d2c7c0688ae4c82f36d6fd85e34b392120d4a10aded8174d90"
+    }
+  ],
+  "files": [
+    {
+      "path": "documentation/BASE_RESOURCE_AUDIT.json",
+      "bytes": 419,
+      "sha256": "661b3bd720f876831d47427d713a412f8f735bb3ad5706c3526c045bf417ea1a"
+    },
+    {
+      "path": "documentation/FULLER_B_RECEIPT.json",
+      "bytes": 11216,
+      "sha256": "c59e0ae580bb77c308b586a2d689e92f05440d5c7edd2f9423fb15a1485165db"
+    },
+    {
+      "path": "documentation/INHERITED_FULLER_B_PROVENANCE.txt",
+      "bytes": 4661,
+      "sha256": "340fceb8fa6288acc78d57b92b86702bcc72ed49c5292bf33be0f02072d1c7f3"
+    },
+    {
+      "path": "documentation/INHERITED_V014_PROVENANCE.json",
+      "bytes": 120395,
+      "sha256": "6e6940a4bd48d10fb0a056f36bd96b446ceec4e45b91b4a6f59da7e6857c0ae6"
+    },
+    {
+      "path": "documentation/INPUT_RECEIPT.json",
+      "bytes": 430,
+      "sha256": "77455a4d75a177207a75685e57b32fc597f86136c8134de9bf0e89d003470326"
+    },
+    {
+      "path": "documentation/INTERNAL_SOURCE_REVIEW.txt",
+      "bytes": 595,
+      "sha256": "dde6c49c3f5c28d1e0ad89d5e95c1719d631ea07e74117b206fcf34dbc1bb5c0"
+    },
+    {
+      "path": "documentation/PROVENANCE.txt",
+      "bytes": 1872,
+      "sha256": "dbceb18c6a10dabaf2450537c47185900d80495bdd2ffa256f22515afaf492e5"
+    },
+    {
+      "path": "documentation/REBUILD_BG.txt",
+      "bytes": 1525,
+      "sha256": "9261150373a791d7e57c04e1997c4b127cdf333e5bfcb1d1fe10f2df397af5b3"
+    },
+    {
+      "path": "documentation/SOFT_SHAPE_RECEIPT.json",
+      "bytes": 33957,
+      "sha256": "eaaf52f14c12d2858095f002dac75844f982292374fd3826c91d4d2179184aab"
+    },
+    {
+      "path": "documentation/VISUAL_REVIEW.txt",
+      "bytes": 1020,
+      "sha256": "a73c91a086959f01d0a6c67745c6dcba7743d9ac1d9478abbe6e34934d65de04"
+    },
+    {
+      "path": "FINAL_RESPONSE.txt",
+      "bytes": 788,
+      "sha256": "e24e71ac6a32556baf3b94ebc4b92b779c19d5efc35d8ec6c48faf037628973c"
+    },
+    {
+      "path": "MANIFEST.json",
+      "bytes": 5042,
+      "sha256": "22f25c39ff7d182d3847fc0d3e3ac986a597a6dc529990f9de307a1eff0d43a6"
+    },
+    {
+      "path": "native/INPUT_FULLER_B.blend",
+      "bytes": 19682133,
+      "sha256": "565ef994f53900d63995c8618c5099bb7d90788ece3415d675d4d3ed5e373869"
+    },
+    {
+      "path": "native/SOFT_LEAF_C.blend",
+      "bytes": 19773186,
+      "sha256": "afd0c35e0450bd46c26a8cd5c65762510ef409b738454c410b5ea614ab0daee5"
+    },
+    {
+      "path": "outputs/00_B_FULLER_432x960.png",
+      "bytes": 721828,
+      "sha256": "782850ede559c26880d11962f3090165a3b8017e33e1cdbdd6293593bd1b26a4"
+    },
+    {
+      "path": "outputs/01_C_SOFT_432x960.png",
+      "bytes": 721830,
+      "sha256": "06f84498dc227f45efeb20c60deddfc087b90fa6316a69a807a3c1a91c2357bf"
+    },
+    {
+      "path": "outputs/02_B_DETAIL_8X.png",
+      "bytes": 417493,
+      "sha256": "a49728a6998de83945d9d2352606e064169f39f1a8962767b52531301caf68f2"
+    },
+    {
+      "path": "outputs/03_C_DETAIL_8X.png",
+      "bytes": 418364,
+      "sha256": "53aaf997183bb3a3ce586f111b2f2945630b81193f631bfebee81a5c05ca796c"
+    },
+    {
+      "path": "outputs/04_FULL_B_C.png",
+      "bytes": 629988,
+      "sha256": "7b39f41c79a997e9f8ecaa632dd2ecc7bf711203ecaed7b53b0511d712d8b53b"
+    },
+    {
+      "path": "outputs/05_DETAIL_B_C.png",
+      "bytes": 483744,
+      "sha256": "17af7c59ba20985924cbc7dbc3c85a8e08b403a8f51361158b086927255a6ded"
+    },
+    {
+      "path": "outputs/BASE_RESOURCE_AUDIT.log",
+      "bytes": 818,
+      "sha256": "851b47b7020d61f6f5f18bcdd7fe33e87cb9acb51be5b111729189948d570cfd"
+    },
+    {
+      "path": "outputs/SOFT_BUILD.log",
+      "bytes": 1015,
+      "sha256": "63936f1527cc87555cde4a51ee3b8eb4b7243dd59d1dbfc8ab547291823496ef"
+    },
+    {
+      "path": "README_BG.txt",
+      "bytes": 871,
+      "sha256": "c75585939f2707d810148207bfffc4d4504c22b3eb151ac2c143bc74532efab6"
+    },
+    {
+      "path": "reference/TARGET_HOME_START.png",
+      "bytes": 2256314,
+      "sha256": "a8ba8f00cba8f715e4633941f65b7f79da7caa174520a2a6e2072c60538e73c9"
+    },
+    {
+      "path": "tools/audit_bases_and_resources.py",
+      "bytes": 2093,
+      "sha256": "e937853ab70c41999c3c00ffc5e054808c4039594735451d93f46a224d3dd468"
+    },
+    {
+      "path": "tools/build_soft_leaf.py",
+      "bytes": 13607,
+      "sha256": "db6b388632a51c257d13d353bf730b6c38356aa7163431e64456c16fdafd1450"
+    },
+    {
+      "path": "tools/compare_soft_leaf.py",
+      "bytes": 4044,
+      "sha256": "d785c48dc98a322c15da498a79a06f0cb90c4dff62be364aa227579e8121e940"
+    },
+    {
+      "path": "tools/download_verified_probe.py",
+      "bytes": 8085,
+      "sha256": "8ff095749f6571d6dbd97a56c3022d12fd466236b087f02dbbc46acbb8e61192"
+    },
+    {
+      "path": "tools/guard_utils.py",
+      "bytes": 10802,
+      "sha256": "1ec5055c90347cbc688013c97d02723bd5d7bb3e7541b0b958f9b84b3e6e6fa9"
+    },
+    {
+      "path": "tools/package_soft_shape.py",
+      "bytes": 13017,
+      "sha256": "778e30c5ecf00ed257ecb07432cbf343c40e7f8e41901397010bb967dd2c3777"
+    },
+    {
+      "path": "tools/record_helpers.py",
+      "bytes": 15317,
+      "sha256": "a5236b57514843c8308761e10d7ea5b4a021bc6417ca0bd00bce09c4be162708"
+    }
+  ],
+  "payload_sha256_definition": "SHA256 of individually decoded binary part",
+  "game_integration": "NOT_PERFORMED"
+}

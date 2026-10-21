@@ -1,0 +1,6 @@
+Пълен native пакет:GNOMIT_GRASS_SOFT_LEAF_SHAPE_PROBE_2026-10-22.zip,bytes=44391420,SHA256=ff5ffb74d6685c7f014e2498877f0d9ad03b9510e2954e11d810ec55959d858e,entries=31.
+Реалните байтове са в8Base64 части;ред/хешове:PACKAGE_RECEIPT.json.txt.
+Стандартният downloader използва точен40hex commit и НОВА абсолютна папка:
+python download_verified_probe.py --commit <EXACT_COMMIT> --destination <NEW_ABSOLUTE_FOLDER>
+Проверява части/ZIP/всекифайл преди запис и след извличане.Не изпълнява кода.
+Human choice PENDING;не е приложено в играта. Без merge/main/grant промени.
