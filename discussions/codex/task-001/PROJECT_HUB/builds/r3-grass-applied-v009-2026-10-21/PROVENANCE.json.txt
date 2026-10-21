@@ -1,0 +1,21 @@
+{
+  "kind": "NATIVE_GRASS_GODOT_INTEGRATION",
+  "input_native_sha256": "15cb15f8ec0e82449f85247d6b34d486ff9f7b8e0fc13e13e4dd1a42f104678d",
+  "candidate_git_commit": "e4bbaa48629c5f8a9073fde700afeeb6555f2126",
+  "tools": [
+    "Blender5.2.2LTS",
+    "Godot4.7.2",
+    "original local Python export/bake script"
+  ],
+  "new_work": [
+    "top grass colour bake",
+    "world-only GLB export",
+    "vertex colour grass shader",
+    "two presentation adapter changes"
+  ],
+  "inherited": "All existing game/art/audio origin records retained; no change in third-party terms is implied.",
+  "runtime_material": "Ground bake1024x2048; active planarUV1; vertex colours on both grass meshes; .075 shader emission.",
+  "checks": "34 scripted native checks, fresh import, byte comparison59 unchanged scripts; actual game image review.",
+  "human_acceptance": "PENDING",
+  "android": "NOT_MEASURED"
+}

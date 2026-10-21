@@ -1,0 +1,26 @@
+from pathlib import Path,PurePosixPath
+import argparse,base64,hashlib,io,json,re,stat,urllib.request,zipfile
+PREFIX='discussions/codex/task-001/PROJECT_HUB/builds/r3-grass-applied-v009-2026-10-21'
+def sha(d):return hashlib.sha256(d).hexdigest()
+p=argparse.ArgumentParser();p.add_argument('--commit',required=True);p.add_argument('--output',type=Path,required=True);a=p.parse_args()
+assert re.fullmatch('[0-9a-f]{40}',a.commit)
+dest=a.output.resolve();assert not dest.exists()
+def read(name):
+ url='https://raw.githubusercontent.com/Fuet-Goat/GnomiT-review-test/'+a.commit+'/'+PREFIX+'/'+name
+ with urllib.request.urlopen(url,timeout=60) as r:return r.read()
+receipt=json.loads(read('PACKAGE_RECEIPT.json.txt'));chunks=[]
+for part in receipt['parts']:
+ d=read(part['path']).strip();assert len(d)==part['base64_chars'] and sha(d)==part['sha256'];chunks.append(d)
+data=base64.b64decode(b''.join(chunks),validate=True)
+assert len(data)==receipt['bytes'] and sha(data)==receipt['sha256']
+with zipfile.ZipFile(io.BytesIO(data)) as z:
+ assert len(z.namelist())==receipt['entries'] and len(set(z.namelist()))==len(z.namelist()) and z.testzip() is None
+ manifest=json.loads(z.read('MANIFEST.json'))
+ assert set(z.namelist())=={r['path'] for r in manifest['files']}|{'MANIFEST.json'}
+ for item in z.infolist():
+  path=PurePosixPath(item.filename);assert not path.is_absolute() and '..' not in path.parts and chr(92) not in item.filename and ':' not in item.filename and not stat.S_ISLNK(item.external_attr>>16)
+ for row in manifest['files']:
+  d=z.read(row['path']);assert len(d)==row['bytes'] and sha(d)==row['sha256']
+ dest.mkdir(parents=True,exist_ok=False);z.extractall(dest/'GAME')
+proof={'status':'EXACT_HTTPS_COMMIT_FULL_ZIP_ALL_ENTRY_HASHES_PASS','commit':a.commit,'bytes':len(data),'sha256':sha(data),'entries':receipt['entries'],'parts':len(receipt['parts']),'executed_game_or_project_code':False}
+(dest/'DOWNLOAD_VERIFIED.json').write_bytes((json.dumps(proof,indent=2)+'\n').encode());print(json.dumps(proof))

@@ -1,0 +1,1 @@
+Applied the displayed grass and HomeStart composition in playable v009. Existing gameplay and audio code preserved.34 scripted checks passed; UV black rim fixed and actual runtime images inspected. Dedicated Desktop shortcut and current launcher point to v009. Human art/gameplay acceptance pending.
