@@ -1,0 +1,185 @@
+{
+  "schema_version": 1,
+  "files": [
+    {
+      "path": "ART_STAGE_ORDER_BG.txt",
+      "bytes": 2280,
+      "sha256": "36d4325a8b4df376d69c2cc4e532a0ce3cd25a0531bdfa174b5406c26d26a668"
+    },
+    {
+      "path": "BUILD.log",
+      "bytes": 1626,
+      "sha256": "4252c23f8694a89a9166560b23793c1fd85a03f245a2ccdd87067909d087a883"
+    },
+    {
+      "path": "FINAL/01_GRASS_A.blend",
+      "bytes": 2185147,
+      "sha256": "e089d78ae73e1999c41e3d406f9d8ef10992619a57fe0c2cfcfb71f3c592cc3e"
+    },
+    {
+      "path": "FINAL/02_GRASS_B.blend",
+      "bytes": 2185746,
+      "sha256": "8a9e7a88708a96f44f18d358b21f9785e51db867f547e7c23fe1e88374605617"
+    },
+    {
+      "path": "FINAL/RENDERS/00_BASELINE_432x960.png",
+      "bytes": 586983,
+      "sha256": "2044adcbc0a030f79d2f67297401ca2960a000badb0c211931e1f720bb7a2bad"
+    },
+    {
+      "path": "FINAL/RENDERS/01_GRASS_A_432x960.png",
+      "bytes": 592075,
+      "sha256": "6409017128c0fb43a5b9ba0f9d3f76173a185bd404cf0a98ac836bc2658b789f"
+    },
+    {
+      "path": "FINAL/RENDERS/02_GRASS_B_432x960.png",
+      "bytes": 612253,
+      "sha256": "a181ec9f5da8d4ad527ced5100bbd0ea3204c09a84fadecb30ff19d3e0c6b0ac"
+    },
+    {
+      "path": "FINAL/RENDERS/03_COMPARISON_BASE_A_B.png",
+      "bytes": 993450,
+      "sha256": "77157a060bd720ea345755d0c0c05cfad2b1c76b4e16d8552e75cbd2099b2e37"
+    },
+    {
+      "path": "FINAL/RENDERS/04_NATIVE_LAWN_PIXEL_ZOOM.png",
+      "bytes": 33522,
+      "sha256": "d55828fa6decfd745f4aaaf5cfdd1fa7edda7be63f3cd1f102a7586b13b438ac"
+    },
+    {
+      "path": "FINAL/VERIFICATION/GRASS_TRIALS_RECEIPT.json",
+      "bytes": 6198,
+      "sha256": "171c3c98c41b7677d88f524e2a1d0e187765744914e396d71cfffceb908a2535"
+    },
+    {
+      "path": "FINAL/VERIFICATION/LOCAL_FILE_CHECK.json",
+      "bytes": 750,
+      "sha256": "eeb2ca6ae975917fc15ff0a58745d191015f7136c1a66662a9b07358172c7222"
+    },
+    {
+      "path": "FINAL/VERIFICATION/REFINEMENT_CONTEXT.json",
+      "bytes": 543,
+      "sha256": "6e93a221c16da05e091bdfad57d0df977e11a093f9e3501464e222cd28d215d0"
+    },
+    {
+      "path": "FINAL_RESPONSE.txt",
+      "bytes": 219,
+      "sha256": "03c8a3ee531b33bc180f0cb9d188816a0fa96cecd06b61795e757721ba7dcdf0"
+    },
+    {
+      "path": "INPUT_RECEIPT.json",
+      "bytes": 443,
+      "sha256": "02e4cfd1cdd16ffeb30568fd55910b5353b12847aeaa549f0af5a9a4a156e08e"
+    },
+    {
+      "path": "INPUTS/HOME_START_SELECTED.blend",
+      "bytes": 2182208,
+      "sha256": "5dd1234c888e8498ecfd1c58726c74a137dd26defd30fc9b690d985839544d3c"
+    },
+    {
+      "path": "INPUTS/PARENT_INPUT_RECEIPT.json",
+      "bytes": 1106,
+      "sha256": "7d7b2ba22844cdff532920f676aa57b65dfdbbba55d4ec8d24ad1b7b92896b66"
+    },
+    {
+      "path": "INPUTS/PARENT_PROVENANCE.json.txt",
+      "bytes": 1100,
+      "sha256": "b7c08c967cd719c104febaab8f4769c438ded2b4c06e1d38a2d44ccbd0485d8e"
+    },
+    {
+      "path": "INTERNAL_REVIEW.txt",
+      "bytes": 591,
+      "sha256": "fa09a4c83c573383d58dec203f790db4860559934c32ee2a93bab66c214f82ab"
+    },
+    {
+      "path": "package_and_update_brief.py",
+      "bytes": 21536,
+      "sha256": "bb73f590efdf53cd247446509fd423e810a3d0fa223fc34793c5eca183fee2bb"
+    },
+    {
+      "path": "PROMPT_FOR_GPT_BG.txt",
+      "bytes": 5454,
+      "sha256": "51638f681f9b216067e73ca089b2d9082fd5ae507b3a3a24d2a23bba77a51a36"
+    },
+    {
+      "path": "PROVENANCE.json.txt",
+      "bytes": 912,
+      "sha256": "3f1cdb141d24ec1bb907acb6a29f8f01e09be0beb7eb0c44b28c11b1521e4924"
+    },
+    {
+      "path": "README.txt",
+      "bytes": 2588,
+      "sha256": "5e7fcde933af1e33baf7579732118d6c128ff6884c90eb941a987855f0a63939"
+    },
+    {
+      "path": "README_BG.txt",
+      "bytes": 2588,
+      "sha256": "5e7fcde933af1e33baf7579732118d6c128ff6884c90eb941a987855f0a63939"
+    },
+    {
+      "path": "REFERENCE/TARGET_HOME_START.png",
+      "bytes": 2256314,
+      "sha256": "a8ba8f00cba8f715e4633941f65b7f79da7caa174520a2a6e2072c60538e73c9"
+    },
+    {
+      "path": "REFINE.log",
+      "bytes": 1551,
+      "sha256": "937b89587c0e752598a7c3c0d9a5a00f3f354b4a9332d3a7b065f1f6bd970117"
+    },
+    {
+      "path": "REPORT.txt",
+      "bytes": 1675,
+      "sha256": "dc5a0be642e50b09222971cea525ef1b818e0e4033b78168f666795a3a7a9d6f"
+    },
+    {
+      "path": "RESULT/01_GRASS_A.blend",
+      "bytes": 2185103,
+      "sha256": "80f83dc37c5fdba5c226a7b4a6cef2e02a4eaccab3842918b36a85ba8ca4bfb3"
+    },
+    {
+      "path": "RESULT/02_GRASS_B.blend",
+      "bytes": 2185663,
+      "sha256": "67d3b13ce2afc00086aeb9c20343c5e38650531a8ad85ecdb187ff909a11ab2d"
+    },
+    {
+      "path": "RESULT/RENDERS/00_BASELINE_432x960.png",
+      "bytes": 586923,
+      "sha256": "b3d938880aa8859208447c53ee825a9844ad68c40341d79050c912612ea5a2a8"
+    },
+    {
+      "path": "RESULT/RENDERS/01_GRASS_A_432x960.png",
+      "bytes": 587818,
+      "sha256": "7fc768c4f9419e5411017089630b1f836f0f8d6dc722741d990572e461cfb492"
+    },
+    {
+      "path": "RESULT/RENDERS/02_GRASS_B_432x960.png",
+      "bytes": 592225,
+      "sha256": "bac5e3005caacf566f9a287e9d6a219c883bf9bddff91e693d62eb9c2aeb2ce9"
+    },
+    {
+      "path": "RESULT/RENDERS/03_DIAGNOSTIC_CROP_FIRST_DRAFTS.png",
+      "bytes": 17358,
+      "sha256": "5b8caead8b13c45b08755762cb37f3ee20d441988f86814d283ebca984c31cbb"
+    },
+    {
+      "path": "RESULT/VERIFICATION/GRASS_TRIALS_RECEIPT.json",
+      "bytes": 6201,
+      "sha256": "adbb68402682fd572ba8b74015f5991310e4b4289ce86afb3e45e7b1333a77d2"
+    },
+    {
+      "path": "SOURCE/build_grass_trials.py",
+      "bytes": 10802,
+      "sha256": "1ec5055c90347cbc688013c97d02723bd5d7bb3e7541b0b958f9b84b3e6e6fa9"
+    },
+    {
+      "path": "SOURCE/refine_grass_trials.py",
+      "bytes": 1220,
+      "sha256": "b0e1f87be3928ff281daf78ca6b9e9056bcc60fcc285b49b967d487ba9b62d10"
+    },
+    {
+      "path": "START_HERE_BG.txt",
+      "bytes": 1307,
+      "sha256": "a2271b6d35e617d58ff4827f7bf18bd41018acac78f147719adc7de7586d6db9"
+    }
+  ]
+}

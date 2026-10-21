@@ -1,0 +1,16 @@
+{
+  "kind": "CODEX_NATIVE_PROCEDURAL_GRASS_MATERIAL_TRIALS",
+  "source_blend_sha256": "5dd1234c888e8498ecfd1c58726c74a137dd26defd30fc9b690d985839544d3c",
+  "source_publication_commit": "e75f8d231957d9ba3372b0c2d303351eedd9a21a",
+  "tools": {
+    "Blender": "5.2.2 LTS",
+    "renderer": "Cycles CPU192samples",
+    "comparison": "Pillow; original native pixels plus labelled4x nearest-neighbour detail"
+  },
+  "authored": "Two copied top-grass material graphs, parameter revision and trial scripts. No new image_gen bitmap, downloaded asset, model, audio or vegetation scatter.",
+  "coordinate_space": "Object/local metres; no mapping Empty",
+  "affected": "Island_Grass_Cap slot0 only",
+  "inherited_rights": "Existing source provenance limitations retained. This records origin, not exclusive ownership or licence clearance.",
+  "runtime": "NOT_BAKED_NOT_EXPORTED_NOT_INTEGRATED",
+  "human_choice": "PENDING"
+}

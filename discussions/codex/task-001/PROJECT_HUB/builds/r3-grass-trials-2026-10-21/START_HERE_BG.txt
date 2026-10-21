@@ -1,0 +1,16 @@
+GNOMIT — GRASS FIRST — НАШИТЕ ДВЕ NATIVE ПРОБИ
+Актуалният ред е тревата -> една малка пробна група цветя -> други обекти
+един по един. Светлина/номера/поздрав не са текущата задача.
+Прочети README_BG.txt, REPORT.txt и PROMPT_FOR_GPT_BG.txt извън пакета.
+
+Реални кадри: FINAL/RENDERS/03_COMPARISON_BASE_A_B.png и отделните PNGs.
+Editable сцени: FINAL/01_GRASS_A.blend, FINAL/02_GRASS_B.blend.
+RESULT/ е запазеният първи draft. REFERENCE/ е generated target, не native.
+Това е материална проба, не текуща игра. Human choice remains pending.
+
+Repo остава own-text REPORTS_ONLY. Действителните ZIP байтове са в
+NATIVE_GRASS_TRIALS.base64.txt; PACKAGE_RECEIPT.json.txt има bytes/SHA/count.
+Копирай DOWNLOAD_GRASS_TRIALS.py.txt като .py извън repo:
+python DOWNLOAD_GRASS_TRIALS.py --commit ТОЧЕН40HEX --output НОВА_ПАПКА
+Има --local-repo за offline clone. Downloader само проверява/декодира;
+не изпълнява Blender/game. При недостъпни картинки изрично NOT_OBSERVED.

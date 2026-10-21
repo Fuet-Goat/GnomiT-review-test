@@ -1,0 +1,257 @@
+{
+  "status": "TWO_NATIVE_MATERIAL_TRIALS_RENDERED_AND_REOPENED",
+  "source_blend_sha256": "5dd1234c888e8498ecfd1c58726c74a137dd26defd30fc9b690d985839544d3c",
+  "baseline_render": {
+    "path": "00_BASELINE_432x960.png",
+    "bytes": 586983,
+    "sha256": "2044adcbc0a030f79d2f67297401ca2960a000badb0c211931e1f720bb7a2bad",
+    "width": 432,
+    "height": 960,
+    "samples": 192
+  },
+  "variants": [
+    {
+      "variant": "A",
+      "parameters": {
+        "label": "Soft storybook turf",
+        "roughness": 0.86,
+        "macro_scale": 0.55,
+        "macro_detail": 2.0,
+        "macro_colors": [
+          "6BBC39",
+          "73C73B",
+          "83CF45"
+        ],
+        "fine_scale": 5.0,
+        "fine_vector_scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "fine_detail": 2.0,
+        "bump_strength": 0.3,
+        "bump_distance_metres": 0.035,
+        "fine_color_mix": 0.18
+      },
+      "blend": "01_GRASS_A.blend",
+      "blend_sha256": "e089d78ae73e1999c41e3d406f9d8ef10992619a57fe0c2cfcfb71f3c592cc3e",
+      "render": {
+        "path": "01_GRASS_A_432x960.png",
+        "bytes": 592075,
+        "sha256": "6409017128c0fb43a5b9ba0f9d3f76173a185bd404cf0a98ac836bc2658b789f",
+        "width": 432,
+        "height": 960,
+        "samples": 192
+      },
+      "only_changed_object_record": [
+        "Island_Grass_Cap"
+      ],
+      "protected_object_records_unchanged": 646,
+      "original_material_node_inputs_links_unchanged": true,
+      "slot1_lip_and_shared_tuft_material_unchanged": true,
+      "camera_light_world_render_settings_unchanged": true,
+      "fresh_native_reopen": "PASS"
+    },
+    {
+      "variant": "B",
+      "parameters": {
+        "label": "Fine short-grass surface",
+        "roughness": 0.86,
+        "macro_scale": 0.55,
+        "macro_detail": 2.0,
+        "macro_colors": [
+          "6BBC39",
+          "73C73B",
+          "83CF45"
+        ],
+        "fine_scale": 5.0,
+        "fine_vector_scale": [
+          1.0,
+          2.2,
+          1.0
+        ],
+        "fine_detail": 2.0,
+        "bump_strength": 0.65,
+        "bump_distance_metres": 0.045,
+        "fine_color_mix": 0.4
+      },
+      "blend": "02_GRASS_B.blend",
+      "blend_sha256": "8a9e7a88708a96f44f18d358b21f9785e51db867f547e7c23fe1e88374605617",
+      "render": {
+        "path": "02_GRASS_B_432x960.png",
+        "bytes": 612253,
+        "sha256": "a181ec9f5da8d4ad527ced5100bbd0ea3204c09a84fadecb30ff19d3e0c6b0ac",
+        "width": 432,
+        "height": 960,
+        "samples": 192
+      },
+      "only_changed_object_record": [
+        "Island_Grass_Cap"
+      ],
+      "protected_object_records_unchanged": 646,
+      "original_material_node_inputs_links_unchanged": true,
+      "slot1_lip_and_shared_tuft_material_unchanged": true,
+      "camera_light_world_render_settings_unchanged": true,
+      "fresh_native_reopen": "PASS"
+    }
+  ],
+  "baseline_settings": {
+    "camera": {
+      "type": "CAMERA",
+      "matrix_world": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.009729623794555664
+        ],
+        [
+          0.0,
+          0.6819983124732971,
+          -0.731353759765625,
+          -28.828012466430664
+        ],
+        [
+          0.0,
+          0.731353759765625,
+          0.6819983124732971,
+          27.392305374145508
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "hide_render": false,
+      "materials": [],
+      "camera": {
+        "type": "ORTHO",
+        "scale": 19.970230102539062,
+        "sensor_fit": "VERTICAL",
+        "lens": 50.0
+      }
+    },
+    "view": {
+      "transform": "AgX",
+      "look": "AgX - Medium High Contrast",
+      "exposure": 0.10000000149011612,
+      "gamma": 1.0
+    },
+    "world": {
+      "nodes": [
+        {
+          "name": "World Output",
+          "type": "ShaderNodeOutputWorld",
+          "inputs": []
+        },
+        {
+          "name": "Light Path",
+          "type": "ShaderNodeLightPath",
+          "inputs": []
+        },
+        {
+          "name": "Background",
+          "type": "ShaderNodeBackground",
+          "inputs": [
+            [
+              "Color",
+              [
+                0.05951123684644699,
+                0.520995557308197,
+                0.8713670969009399,
+                1.0
+              ]
+            ],
+            [
+              "Strength",
+              0.949999988079071
+            ],
+            [
+              "Weight",
+              0.0
+            ]
+          ]
+        },
+        {
+          "name": "Background.001",
+          "type": "ShaderNodeBackground",
+          "inputs": [
+            [
+              "Color",
+              [
+                0.672443151473999,
+                0.7681511640548706,
+                0.8307698965072632,
+                1.0
+              ]
+            ],
+            [
+              "Strength",
+              0.3199999928474426
+            ],
+            [
+              "Weight",
+              0.0
+            ]
+          ]
+        },
+        {
+          "name": "Mix Shader",
+          "type": "ShaderNodeMixShader",
+          "inputs": [
+            [
+              "Factor",
+              0.5
+            ]
+          ]
+        }
+      ],
+      "links": [
+        [
+          "Light Path",
+          "Is Camera Ray",
+          "Mix Shader",
+          "Factor"
+        ],
+        [
+          "Background.001",
+          "Background",
+          "Mix Shader",
+          "Shader"
+        ],
+        [
+          "Background",
+          "Background",
+          "Mix Shader",
+          "Shader"
+        ],
+        [
+          "Mix Shader",
+          "Shader",
+          "World Output",
+          "Surface"
+        ]
+      ]
+    },
+    "frame": 1,
+    "render": {
+      "engine": "CYCLES",
+      "device": "CPU",
+      "samples": 192,
+      "seed": 402121,
+      "width": 432,
+      "height": 960,
+      "percentage": 100,
+      "threads": 12,
+      "denoise": true
+    }
+  },
+  "geometry_or_object_layout_changes": false,
+  "new_textures_downloaded": false,
+  "new_geometry_or_flowers": false,
+  "runtime_glb_export_or_bake": "NOT_PERFORMED",
+  "android": "NOT_MEASURED",
+  "human_choice": "PENDING"
+}

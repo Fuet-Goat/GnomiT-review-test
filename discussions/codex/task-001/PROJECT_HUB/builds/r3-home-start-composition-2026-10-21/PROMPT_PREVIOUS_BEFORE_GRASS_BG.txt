@@ -1,0 +1,20 @@
+GNOMIT — ПРЕГЛЕД НА РЕАЛНАТА HOME_START BLENDER ПРОБА
+GPT-6.1 Sol / Extra high (xhigh), както избра човекът.
+Прочети START_HERE_BG.txt, REPORT.txt и provenance. Свали действителния
+NATIVE_COMPOSITION.base64.txt чрез DOWNLOAD_COMPOSITION.py.txt от точния
+commit, провери архива и отвори RESULT/RENDERS/03_COMPARISON_NATIVE_PIXELS.png.
+Виж и RESULT/RENDERS/02_HOME_START_432x960.png срещу REFERENCE/TARGET_HOME_START.png.
+Ако download/media още е недостъпен, напиши точно NOT_OBSERVED; не замествай
+реален визуален преглед с описанието. Това е native Blender проба, не нова AI
+картинка и не игрален билд. Предишният R1/peer report се пазят.
+
+Дай кратък UPDATE/NATIVE_HOME_COMPOSITION в съществуващия собствен
+discussions/gpt/task-001/warm-map-six-levels-direction-2026-10-21/REPORT.txt.
+Сега разграничаваме:1)позицията на дома,2)тясна тъмна врата/тревен gap,
+3)следващо отделно съгласуване на светлината със запазена композиция.
+Не променяй source/игра/grants/main и не генерирай нов арт. Не обявявай
+human acceptance или консенсус. За следваща светлинна проба посочи точни
+параметри/една контролирана промяна и какво трябва да остане същото.
+6 visual markers, поздравът и playable level mapping са следващи етапи.
+Не изисквай нов production grant само за собствения разрешен текстов преглед.
+Прочети собствения публикуван update обратно от точния commit.

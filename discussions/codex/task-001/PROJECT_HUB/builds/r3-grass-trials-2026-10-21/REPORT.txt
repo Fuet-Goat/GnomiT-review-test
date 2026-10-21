@@ -1,0 +1,25 @@
+GNOMIT — GRASS FIRST NATIVE TRIALS — ACTUAL REPORT
+Human request: before rewriting GPT brief, try1–2 own grass variants.
+Codex created two original native material drafts and one readability revision;
+all are retained. FINAL A/B are the two options presented for visual choice.
+Source: selected home-start .blend SHA5dd1234c888e8498ecfd1c58726c74a137dd26defd30fc9b690d985839544d3c.
+Only copied material in Island_Grass_Cap slot0 changed.646 other recorded
+objects, original material node inputs/links and camera/light/world settings
+match the input; no grass geometry/flowers/layout/game changes.
+
+Fresh evidence: three192sample Cycles432x960 native renders per batch;
+both saved final .blend files freshly reopened and node/parameter checked.
+PNG/blend SHA values verified and original selected source rehashed unchanged.
+Initial fine noise was active but visually weak (real pixel difference, not
+disconnected graph). Revision uses lower frequency and stronger bump/colour
+grain. Full-size comparisons retain original native pixels; detail4x is labelled.
+
+VISUAL-JUDGMENT: A barely differs at game scale. B visibly improves the surface
+and is the provisional preference of Codex and one read-only pixel reviewer.
+B has directional/combed grain and some felt/carpet character. Neither is
+declared to match the full generated target or to have human art acceptance.
+
+Known limits: procedural material not baked or runtime-exported; no Godot or
+Android run/performance claim. No source model edits, levels, saves, grants,
+main or another bot report changes. Current GPT prompt now asks grass first;
+flowers and other work wait. Old light-next instruction is historical.

@@ -1,3 +1,16 @@
+АКТУАЛНО — ТРЕВАТА ПЪРВА, ЦВЕТЯТА ПОСЛЕ — 21.10.2026
+Човекът промени реда и поиска първо две наши grass проби. Те са направени
+в Blender от точната HomeStart сцена: builds/r3-grass-trials-2026-10-21/.
+Прочети START_HERE_BG.txt и текущия PROMPT_FOR_GPT_BG.txt там.
+Рамка: само материалът на тревата с еднакви camera/light/layout/украса;
+после една малка цветна група; останалите обекти по един. Няма auto-advance.
+designs/ART_STAGE_ORDER_GRASS_FIRST_2026-10-21.txt заменя старото light-next.
+HomeStart prompt също е обновен; старият е запазен. Двете .blend и рендери
+са native prototypes, без bake/runtime/Android приемане или game change.
+Codex предпочита B условно; човешкият избор още е pending. GPT да прегледа
+реалните pixels и да даде един конкретен grass-only следващ кандидат.
+GPT-6.1 Sol / Extra high. Предишните състояния по-долу са история.
+
 АКТУАЛНО — HOME_START ЕТАП1: РЕАЛНА BLENDER КОМПОЗИЦИЯ — 21.10.2026
 Човекът разреши да продължим с обсъдения staged Blender план. Реалният
 дом вече е преместен до наличния гном при старта в отделна native проба.
