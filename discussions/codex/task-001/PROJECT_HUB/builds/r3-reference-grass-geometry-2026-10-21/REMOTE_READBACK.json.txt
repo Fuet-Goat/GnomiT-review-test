@@ -1,0 +1,112 @@
+{
+  "status": "EXACT_HTTPS_REMOTE_READBACK_PASS",
+  "utc": "2026-10-21T17:10:52.740342+00:00",
+  "artifact_commit": "e4bbaa48629c5f8a9073fde700afeeb6555f2126",
+  "transport": "raw.githubusercontent.com HTTPS, no local-repo fallback",
+  "archive": {
+    "status": "EXACT_COMMIT_ARCHIVE_AND_ALL_ENTRY_HASHES_PASS",
+    "commit": "e4bbaa48629c5f8a9073fde700afeeb6555f2126",
+    "bytes": 25805504,
+    "sha256": "259001120a94390a5abb397d5fdfdcd6b90859f7905b3ba23b0bcdb9ec135e99",
+    "entries": 31,
+    "packages": [
+      "HANDOFF"
+    ],
+    "executed_project_code": false
+  },
+  "small_changed_files": [
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/START_HERE.txt",
+      "bytes": 69506,
+      "sha256": "eba938f3a994f62d55dc73c26256c812a50803da7564cbc38ad9ef51d78c1752"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-grass-trials-2026-10-21/PROMPT_FOR_GPT_BG.txt",
+      "bytes": 3747,
+      "sha256": "0930bd961ff3b8f8ed3afde518119fb461485e43aa88c01a48f31afeded48198"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-grass-trials-2026-10-21/PROMPT_PREVIOUS_BEFORE_GEOMETRY_BG.txt",
+      "bytes": 5454,
+      "sha256": "51638f681f9b216067e73ca089b2d9082fd5ae507b3a3a24d2a23bba77a51a36"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-home-start-composition-2026-10-21/PROMPT_FOR_GPT_BG.txt",
+      "bytes": 3747,
+      "sha256": "0930bd961ff3b8f8ed3afde518119fb461485e43aa88c01a48f31afeded48198"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-home-start-composition-2026-10-21/PROMPT_PREVIOUS_BEFORE_GEOMETRY_BG.txt",
+      "bytes": 5454,
+      "sha256": "51638f681f9b216067e73ca089b2d9082fd5ae507b3a3a24d2a23bba77a51a36"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-reference-grass-geometry-2026-10-21/DOWNLOAD_REFERENCE_GRASS.py.txt",
+      "bytes": 3464,
+      "sha256": "746cfc9b7bb726d2062c0cf276e6449829d4e7668526aeb6fda1a27473493681"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-reference-grass-geometry-2026-10-21/EXISTING_MATERIALS.json.txt",
+      "bytes": 77,
+      "sha256": "504c5cab2a0a4ac4751b4f8197d16f4a6003c413cc1962328973f04b5de43b72"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-reference-grass-geometry-2026-10-21/FINAL_RECEIPT.json.txt",
+      "bytes": 2631,
+      "sha256": "f390bc70c11d22f3b2b00c2f940989b2827641f99a9cadbcf199bb7a5650a8b2"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-reference-grass-geometry-2026-10-21/FINAL_RESPONSE.txt",
+      "bytes": 291,
+      "sha256": "f5d35a0b2abeea2742bfb4a437bd9ba20a2915d2a83cc15a1893e8509cf309f6"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-reference-grass-geometry-2026-10-21/INTERNAL_REVIEW.txt",
+      "bytes": 538,
+      "sha256": "38f7a7cf0495ece85eaa86ef1c617cf9587e0b2fab972086be891a9e898b4836"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-reference-grass-geometry-2026-10-21/PACKAGE_RECEIPT.json.txt",
+      "bytes": 331,
+      "sha256": "abd7fd84e871679b82845b7be30e12a8e80e0636e022891d0aad9e77e4b007e9"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-reference-grass-geometry-2026-10-21/PROMPT_FOR_GPT_BG.txt",
+      "bytes": 3747,
+      "sha256": "0930bd961ff3b8f8ed3afde518119fb461485e43aa88c01a48f31afeded48198"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-reference-grass-geometry-2026-10-21/PROVENANCE.json.txt",
+      "bytes": 1368,
+      "sha256": "4a8c5356e33bce12d5cf3bbf638cc87fad00afac463bffcb5e110b280a8cf636"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-reference-grass-geometry-2026-10-21/README_BG.txt",
+      "bytes": 2244,
+      "sha256": "48f7d29ccf156c2572854ce256ec702fdb689ac99b7895d3314e4df8871c1ecd"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-reference-grass-geometry-2026-10-21/REPORT.txt",
+      "bytes": 2145,
+      "sha256": "b92ac9cd029cfa873730b538b0b2914067bc0cf97650fd220f89bd6828ef5548"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-reference-grass-geometry-2026-10-21/START_HERE_BG.txt",
+      "bytes": 917,
+      "sha256": "028f807bc0f73e1752769a1313a4422beb2cf139f4e822f5b41244142ac123c9"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-reference-grass-geometry-2026-10-21/ZIP_MANIFEST.json.txt",
+      "bytes": 4947,
+      "sha256": "748192dd565b39a93a503a7226b81d1e5eafde9661cd0085de6838c0919dc886"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/designs/ART_STAGE_ORDER_GRASS_FIRST_2026-10-21.txt",
+      "bytes": 3036,
+      "sha256": "4eb1cc52801d0c92a31cf7fa02c3a6dad6fda9f07e7c569c7dcd2022d4e9f87a"
+    }
+  ],
+  "original_home_start_source_rehashed_unchanged": true,
+  "human_visual_acceptance": "PENDING",
+  "game_integration": "NOT_PERFORMED"
+}
