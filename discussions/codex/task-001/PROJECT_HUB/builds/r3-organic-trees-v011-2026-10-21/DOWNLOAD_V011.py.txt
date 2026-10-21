@@ -1,0 +1,277 @@
+"""Reconstruct GnomiT v011 from immutable Git text transfers; never run it.
+
+Usage: python download_v011.py --commit <40-hex-artifact-commit> --output <NEW_DIR>
+Only Python's standard library is required. Existing output paths are refused.
+"""
+from __future__ import annotations
+
+import argparse
+import base64
+import hashlib
+import io
+import json
+from pathlib import Path, PurePosixPath
+import re
+import stat
+import sys
+import time
+import urllib.error
+import urllib.parse
+import urllib.request
+import zipfile
+
+
+REPOSITORY = "Fuet-Goat/GnomiT-review-test"
+PREFIX = "discussions/codex/task-001/PROJECT_HUB/builds/r3-organic-trees-v011-2026-10-21"
+BASE_COMMIT = "41be8dc7de9658c08045f9960facfd85066f642c"
+BASE_PREFIX = "discussions/codex/task-001/PROJECT_HUB/builds/r3-grass-applied-v009-2026-10-21"
+BASE_BYTES = 87008816
+BASE_SHA256 = "bb5417e8349fc24266fd11fc4ff274d449e90afd6fc541154cb02ac914eeed92"
+HEX40 = re.compile(r"[0-9a-fA-F]{40}\Z")
+HEX64 = re.compile(r"[0-9a-f]{64}\Z")
+MAX_RESPONSE = 16 * 1024 * 1024
+MAX_ARCHIVE = 512 * 1024 * 1024
+MAX_UNCOMPRESSED = 2 * 1024 * 1024 * 1024
+RESERVED = {"CON", "PRN", "AUX", "NUL"} | {
+    stem + str(number) for stem in ("COM", "LPT") for number in range(1, 10)
+}
+
+
+def require(condition: bool, message: str) -> None:
+    if not condition:
+        raise ValueError(message)
+
+
+def digest(data: bytes) -> str:
+    return hashlib.sha256(data).hexdigest()
+
+
+def count(value: object, label: str, maximum: int = MAX_UNCOMPRESSED) -> int:
+    require(type(value) is int and 0 <= value <= maximum, f"Invalid {label}")
+    return value
+
+
+def expected_hash(value: object) -> str:
+    require(isinstance(value, str) and HEX64.fullmatch(value) is not None,
+            "Invalid SHA-256 field")
+    return value
+
+
+def safe_path(value: object) -> str:
+    require(isinstance(value, str) and bool(value), "Empty/non-text path")
+    require(not any(ord(c) < 32 for c in value), "Control character in path")
+    require(not any(c in value for c in '\\:<>"|?*'), f"Unsafe path: {value!r}")
+    path = PurePosixPath(value)
+    require(not path.is_absolute() and str(path) == value, f"Noncanonical path: {value!r}")
+    require(all(p not in (".", "..", "") and not p.endswith((".", " "))
+                and p.split(".", 1)[0].upper() not in RESERVED for p in path.parts),
+            f"Unsafe path component: {value!r}")
+    return value
+
+
+def parse_json(data: bytes, label: str) -> dict:
+    def unique_object(pairs):
+        out = {}
+        for key, value in pairs:
+            require(key not in out, f"Duplicate JSON key in {label}: {key}")
+            out[key] = value
+        return out
+    parsed = json.loads(data.decode("utf-8-sig"), object_pairs_hook=unique_object)
+    require(isinstance(parsed, dict), f"Expected JSON object: {label}")
+    return parsed
+
+
+def fetch(commit: str, prefix: str, path: str) -> bytes:
+    safe_path(prefix)
+    safe_path(path)
+    url = "https://raw.githubusercontent.com/" + REPOSITORY + "/" + commit + "/" + urllib.parse.quote(prefix + "/" + path, safe="/")
+    for attempt in range(3):
+        try:
+            request = urllib.request.Request(url, headers={"User-Agent": "GnomiT-v011-readback/1"})
+            with urllib.request.urlopen(request, timeout=60) as response:
+                require(response.geturl().startswith("https://raw.githubusercontent.com/"),
+                        "Unexpected download redirect")
+                data = response.read(MAX_RESPONSE + 1)
+                require(len(data) <= MAX_RESPONSE, "Response exceeds transfer limit")
+                return data
+        except (urllib.error.URLError, TimeoutError, OSError):
+            if attempt == 2:
+                raise
+            time.sleep(attempt + 1)
+    raise RuntimeError("Unreachable network retry state")
+
+
+def archive(commit: str, prefix: str, receipt: dict, label: str) -> tuple[bytes, zipfile.ZipFile, dict]:
+    parts = receipt.get("parts")
+    require(isinstance(parts, list) and 0 < len(parts) <= 200, f"Invalid {label} parts")
+    expected_bytes = count(receipt.get("bytes"), label + " bytes", MAX_ARCHIVE)
+    expected_sha = expected_hash(receipt.get("sha256"))
+    expected_entries = count(receipt.get("entries"), label + " entries", 10000)
+    raw = bytearray()
+    names = set()
+    for index, part in enumerate(parts, 1):
+        require(isinstance(part, dict), "Invalid part record")
+        name = safe_path(part.get("path"))
+        require(name.casefold() not in names, "Duplicate transfer part")
+        names.add(name.casefold())
+        text = fetch(commit, prefix, name)
+        chars = count(part.get("base64_chars"), "base64 chars", MAX_RESPONSE)
+        # Transfer receipts hash the Base64 payload without its terminating
+        # LF/CRLF. The reconstructed ZIP has a separate exact-byte SHA check.
+        payload = text.rstrip(b"\r\n")
+        require(digest(payload) == expected_hash(part.get("sha256")), f"Part SHA mismatch: {name}")
+        require(len(payload) == chars, f"Part character count mismatch: {name}")
+        require(not any(c in payload for c in b" \t\r\n"), f"Whitespace inside Base64: {name}")
+        raw.extend(base64.b64decode(payload, validate=True))
+        require(len(raw) <= expected_bytes, f"Oversized {label} archive")
+        print(f"{label}: part {index}/{len(parts)} verified", flush=True)
+    data = bytes(raw)
+    require(len(data) == expected_bytes and digest(data) == expected_sha,
+            f"{label} ZIP size/SHA mismatch")
+    opened = zipfile.ZipFile(io.BytesIO(data))
+    infos = opened.infolist()
+    require(len(infos) == expected_entries, f"{label} ZIP entry count mismatch")
+    entries = {}
+    folded = set()
+    total = 0
+    for info in infos:
+        name = safe_path(info.filename)
+        require(not info.is_dir(), f"Directory ZIP entry unsupported: {name}")
+        require(name.casefold() not in folded, f"Duplicate ZIP path: {name}")
+        require(not stat.S_ISLNK(info.external_attr >> 16), f"Symlink ZIP entry: {name}")
+        kind = stat.S_IFMT(info.external_attr >> 16)
+        require(kind in (0, stat.S_IFREG), f"Non-regular ZIP entry: {name}")
+        require(not info.flag_bits & 1, f"Encrypted ZIP entry: {name}")
+        folded.add(name.casefold())
+        entries[name] = info
+        total += count(info.file_size, "ZIP file bytes")
+        require(total <= MAX_UNCOMPRESSED, "ZIP expanded-size limit exceeded")
+    require(opened.testzip() is None, f"{label} ZIP CRC failed")
+    print(f"{label}: size, SHA, paths, entries and CRC verified", flush=True)
+    return data, opened, entries
+
+
+def file_digest(opened: zipfile.ZipFile, info: zipfile.ZipInfo) -> tuple[int, str]:
+    length = 0
+    hashed = hashlib.sha256()
+    with opened.open(info) as source:
+        while block := source.read(1024 * 1024):
+            length += len(block)
+            hashed.update(block)
+    return length, hashed.hexdigest()
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--commit", required=True, help="Exact v011 artifact Git commit (40 hex digits)")
+    parser.add_argument("--output", required=True, type=Path, help="Fresh output directory; GAME will be created inside")
+    args = parser.parse_args()
+    require(HEX40.fullmatch(args.commit) is not None, "--commit must be exactly40 hex digits")
+    commit = args.commit.lower()
+    requested = args.output.expanduser()
+    require(not requested.exists() and not requested.is_symlink(), "Output already exists; nothing overwritten")
+    destination = requested.resolve()
+    require(not destination.exists(), "Resolved output already exists; nothing overwritten")
+
+    receipt_bytes = fetch(commit, PREFIX, "PACKAGE_RECEIPT.json.txt")
+    receipt = parse_json(receipt_bytes, "v011 receipt")
+    base = receipt.get("base")
+    require(isinstance(base, dict), "Missing pinned base")
+    require(base.get("commit") == BASE_COMMIT and base.get("prefix") == BASE_PREFIX
+            and base.get("bytes") == BASE_BYTES and base.get("sha256") == BASE_SHA256,
+            "Base differs from the pinned v009 artifact")
+    final_info = receipt.get("final_manifest")
+    require(isinstance(final_info, dict), "Missing final manifest reference")
+    manifest_bytes = fetch(commit, PREFIX, safe_path(final_info.get("path")))
+    require(len(manifest_bytes) == count(final_info.get("bytes"), "manifest bytes", MAX_RESPONSE)
+            and digest(manifest_bytes) == expected_hash(final_info.get("sha256")),
+            "Final manifest size/SHA mismatch")
+    manifest = parse_json(manifest_bytes, "final file manifest")
+    final_files = manifest.get("files")
+    require(isinstance(final_files, list) and len(final_files) == count(manifest.get("entries"), "final entries", 10000)
+            and len(final_files) > 0, "Final manifest count mismatch")
+    folded = set()
+    validated = []
+    total = 0
+    for record in final_files:
+        require(isinstance(record, dict), "Invalid final file record")
+        name = safe_path(record.get("path"))
+        require(name.casefold() not in folded, f"Duplicate final path: {name}")
+        folded.add(name.casefold())
+        size = count(record.get("bytes"), "final file bytes")
+        total += size
+        require(total <= MAX_UNCOMPRESSED, "Final expanded-size limit exceeded")
+        validated.append((name, size, expected_hash(record.get("sha256"))))
+    # Reject path/file collisions, e.g. both `assets` and `assets/image.png`.
+    for name, _, _ in validated:
+        require(not any(parent.as_posix().casefold() in folded
+                        for parent in PurePosixPath(name).parents if str(parent) != "."),
+                f"File/directory collision: {name}")
+
+    base_receipt = parse_json(fetch(BASE_COMMIT, BASE_PREFIX, "PACKAGE_RECEIPT.json.txt"), "v009 receipt")
+    require(base_receipt.get("bytes") == BASE_BYTES and base_receipt.get("sha256") == BASE_SHA256,
+            "Pinned base receipt mismatch")
+    base_data, base_zip, base_entries = archive(BASE_COMMIT, BASE_PREFIX, base_receipt, "v009 base")
+    delta_spec = receipt.get("delta")
+    require(isinstance(delta_spec, dict), "Missing v011 delta")
+    delta_data, delta_zip, delta_entries = archive(commit, PREFIX, delta_spec, "v011 delta")
+    selected = []
+    for name, size, expected_sha in validated:
+        source_zip, entries = (delta_zip, delta_entries) if name in delta_entries else (base_zip, base_entries)
+        require(name in entries, f"Final file missing from both ZIPs: {name}")
+        info = entries[name]
+        require(info.file_size == size, f"Final file size mismatch: {name}")
+        actual_size, actual_sha = file_digest(source_zip, info)
+        require(actual_size == size and actual_sha == expected_sha, f"Final file SHA mismatch: {name}")
+        selected.append((name, source_zip, info, size, expected_sha))
+    print(f"All {len(selected)} final file hashes validated before GAME writes", flush=True)
+
+    # No downloaded code is imported or executed. Only already validated bytes
+    # are written, selecting final paths rather than deleting stale base files.
+    destination.mkdir(parents=True, exist_ok=False)
+    game = destination / "GAME"
+    game.mkdir()
+    for name, source_zip, info, size, expected_sha in selected:
+        target = game.joinpath(*PurePosixPath(name).parts)
+        target.parent.mkdir(parents=True, exist_ok=True)
+        hashed = hashlib.sha256()
+        length = 0
+        with source_zip.open(info) as source, target.open("xb") as output:
+            while block := source.read(1024 * 1024):
+                output.write(block)
+                hashed.update(block)
+                length += len(block)
+        require(length == size and hashed.hexdigest() == expected_sha, f"Written-byte mismatch: {name}")
+        disk_hash = hashlib.sha256()
+        disk_length = 0
+        with target.open("rb") as saved:
+            while block := saved.read(1024 * 1024):
+                disk_hash.update(block)
+                disk_length += len(block)
+        require(disk_length == size and disk_hash.hexdigest() == expected_sha,
+                f"Disk readback mismatch: {name}")
+    (destination / "FINAL_FILES.json").write_bytes(manifest_bytes)
+    (destination / "PACKAGE_RECEIPT.json").write_bytes(receipt_bytes)
+    result = {
+        "status": "PASS", "method": "PINNED_V009_PLUS_VERIFIED_V011_DELTA",
+        "artifact_commit": commit, "base_commit": BASE_COMMIT,
+        "base_zip_bytes": len(base_data), "base_zip_sha256": digest(base_data),
+        "delta_zip_bytes": len(delta_data), "delta_zip_sha256": digest(delta_data),
+        "final_manifest_sha256": digest(manifest_bytes),
+        "final_files_verified_before_and_after_write": len(selected),
+        "game_directory": str(game), "executed_downloaded_code": False,
+        "runtime_checks": "NOT_RUN_BY_DOWNLOADER",
+    }
+    (destination / "REMOTE_READBACK.json").write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
+    base_zip.close()
+    delta_zip.close()
+    print(json.dumps(result, indent=2), flush=True)
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except Exception as error:
+        print(f"FAILED: {type(error).__name__}: {error}", file=sys.stderr)
+        print("No downloaded code executed. Any partial output is preserved; use a new output directory for retry.", file=sys.stderr)
+        sys.exit(1)

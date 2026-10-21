@@ -1,0 +1,66 @@
+{
+  "project": "GnomiT",
+  "version": "v011",
+  "date": "2026-10-21",
+  "method": "Native Blender Python crown geometry and PBR vertex colours; no image generation.",
+  "inputs": [
+    {
+      "path": "native/V010_SOURCE.blend",
+      "sha256": "7051d5c969b1b78c92edf4f112d77d9f02c304b0fc488c64f0f9b90c8c286b31",
+      "role": "Exact editable v010 predecessor, including retained bark/grass/world."
+    },
+    {
+      "path": "native/V009_CROWN_LIBRARY.blend",
+      "sha256": "eda6edf13d496d2bf86018339db6778ccb632bd4ee307b25d683424bf07897f4",
+      "role": "Pinned original major crown shapes; only crown mesh data loaded."
+    }
+  ],
+  "generator": {
+    "path": "tools/build_organic_trees.py",
+    "sha256": "de079045febc0f59a67535fabb1c647f497f1729574c701fd920752f1b96e83b",
+    "seed": 261023
+  },
+  "selected_editable_source": {
+    "path": "native/TREES_V011_LEAF_MASSES.blend",
+    "sha256": "4d9dc34db67f44db11a8927b948173244fc3ddc95df9ffdd053944852b125c24"
+  },
+  "runtime_world": {
+    "path": "assets/r3/airy_island.glb",
+    "bytes": 33845080,
+    "sha256": "af955f04050fe86e8e148575822c853340a9000ea83c6ca22b189ef06b58651a",
+    "node_count": 568,
+    "crown_colour0_and_matte": true,
+    "ground_uv1_preserved": true
+  },
+  "scope": "Five existing crown meshes and ten existing canopy-daisy attachments.",
+  "crown_form": "Original major lobes plus9 unequal secondary masses and390 shallow accents per crown, grouped by a continuous irregular low-frequency mask with quiet areas.",
+  "protected_records": 634,
+  "unchanged": "v010 bark; grass mesh/UV/vertex colours/materials; camera, lighting, positions, layout, gameplay and audio.",
+  "flowers": "No new flowers. Ten existing canopy anchors follow the new crown surface; existing flower geometry/local form retained.",
+  "external_runtime_assets_added": "None. Inherited assets retain their prior provenance.",
+  "draft_history": {
+    "local_only_native_drafts": [
+      "native/TREES_V011_ORGANIC.blend",
+      "native/TREES_V011_GROUPED.blend"
+    ],
+    "packaged_history": "Draft generator scripts, receipts and actual screenshots included; bulky native draft binaries excluded from final ZIP/Git delta.",
+    "included_native_sources": [
+      "native/TREES_V011_LEAF_MASSES.blend",
+      "native/V010_SOURCE.blend",
+      "native/V009_CROWN_LIBRARY.blend"
+    ]
+  },
+  "verification": {
+    "native_save_reopen_export": "NATIVE_SAVED_REOPENED_EXPORTED",
+    "scripted_godot_checks": 52,
+    "scripted_status": "PASS",
+    "freshness": "Godot import/runtime receipt and map screenshot are newer than selected GLB."
+  },
+  "visual_review": {
+    "path": "documentation/TREES_VISUAL_REVIEW.txt",
+    "present_when_finalized": true,
+    "automatic_visual_improvement_claim": false
+  },
+  "acceptance": "Human visual acceptance PENDING. Android performance NOT_MEASURED.",
+  "legal_scope": "Creation and input record only; does not guarantee ownership, originality or legal clearance of inherited assets."
+}

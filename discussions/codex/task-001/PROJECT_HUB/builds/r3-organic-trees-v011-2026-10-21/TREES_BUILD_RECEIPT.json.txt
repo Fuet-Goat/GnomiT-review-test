@@ -1,0 +1,246 @@
+{
+  "status": "NATIVE_SAVED_REOPENED_EXPORTED",
+  "seed": 261023,
+  "input_sha256": "7051d5c969b1b78c92edf4f112d77d9f02c304b0fc488c64f0f9b90c8c286b31",
+  "shape_library_sha256": "eda6edf13d496d2bf86018339db6778ccb632bd4ee307b25d683424bf07897f4",
+  "crowns": [
+    {
+      "name": "East_Crown_Sculpt",
+      "vertices": 45506,
+      "previous_vertices": 45506,
+      "secondary_masses": 9,
+      "accent_grouping": "continuous low-frequency irregular mask",
+      "accent_centres": 390,
+      "max_secondary_relief_m": 0.11399022348101381,
+      "max_accent_m": 0.044699575581355885,
+      "quiet_fraction_accent_below_1mm": 0.25420823627653494,
+      "old_bounds": [
+        [
+          -1.2778804302215576,
+          -1.0627765655517578,
+          1.4590814113616943
+        ],
+        [
+          1.2981566190719604,
+          0.9104823470115662,
+          3.379124879837036
+        ]
+      ],
+      "new_bounds": [
+        [
+          -1.2778804302215576,
+          -1.0627765655517578,
+          1.4590814113616943
+        ],
+        [
+          1.2981566190719604,
+          0.9104823470115662,
+          3.379124879837036
+        ]
+      ]
+    },
+    {
+      "name": "Northwest_Crown_Sculpt",
+      "vertices": 45506,
+      "previous_vertices": 45506,
+      "secondary_masses": 9,
+      "accent_grouping": "continuous low-frequency irregular mask",
+      "accent_centres": 390,
+      "max_secondary_relief_m": 0.10675886426180536,
+      "max_accent_m": 0.04490595046639887,
+      "quiet_fraction_accent_below_1mm": 0.46468597547576146,
+      "old_bounds": [
+        [
+          -1.2761077880859375,
+          -1.0626697540283203,
+          1.459428071975708
+        ],
+        [
+          1.2999975681304932,
+          0.9103824496269226,
+          3.3791379928588867
+        ]
+      ],
+      "new_bounds": [
+        [
+          -1.2761077880859375,
+          -1.0626697540283203,
+          1.459428071975708
+        ],
+        [
+          1.2999975681304932,
+          0.9103824496269226,
+          3.3791379928588867
+        ]
+      ]
+    },
+    {
+      "name": "Southeast_Crown_Sculpt",
+      "vertices": 45506,
+      "previous_vertices": 45506,
+      "secondary_masses": 9,
+      "accent_grouping": "continuous low-frequency irregular mask",
+      "accent_centres": 390,
+      "max_secondary_relief_m": 0.11482939060626976,
+      "max_accent_m": 0.04492331211189345,
+      "quiet_fraction_accent_below_1mm": 0.2630422361886345,
+      "old_bounds": [
+        [
+          -1.276275396347046,
+          -1.0626617670059204,
+          1.459394931793213
+        ],
+        [
+          1.2998217344284058,
+          0.9103876948356628,
+          3.379136085510254
+        ]
+      ],
+      "new_bounds": [
+        [
+          -1.276275396347046,
+          -1.0626617670059204,
+          1.459394931793213
+        ],
+        [
+          1.2998217344284058,
+          0.9103876948356628,
+          3.379136085510254
+        ]
+      ]
+    },
+    {
+      "name": "Southwest_Crown_Sculpt",
+      "vertices": 45506,
+      "previous_vertices": 45506,
+      "secondary_masses": 9,
+      "accent_grouping": "continuous low-frequency irregular mask",
+      "accent_centres": 390,
+      "max_secondary_relief_m": 0.11174980541481205,
+      "max_accent_m": 0.04451352092066756,
+      "quiet_fraction_accent_below_1mm": 0.2741396738891575,
+      "old_bounds": [
+        [
+          -1.2717032432556152,
+          -1.0623557567596436,
+          1.4602677822113037
+        ],
+        [
+          1.3044543266296387,
+          0.9105870127677917,
+          3.379207134246826
+        ]
+      ],
+      "new_bounds": [
+        [
+          -1.2717032432556152,
+          -1.0623557567596436,
+          1.4602677822113037
+        ],
+        [
+          1.3044543266296387,
+          0.9105870127677917,
+          3.379207134246826
+        ]
+      ]
+    },
+    {
+      "name": "West_Crown_Sculpt",
+      "vertices": 45506,
+      "previous_vertices": 45506,
+      "secondary_masses": 9,
+      "accent_grouping": "continuous low-frequency irregular mask",
+      "accent_centres": 390,
+      "max_secondary_relief_m": 0.10603228669776162,
+      "max_accent_m": 0.04490744980623054,
+      "quiet_fraction_accent_below_1mm": 0.4765305673977058,
+      "old_bounds": [
+        [
+          -1.275328278541565,
+          -1.062687873840332,
+          1.4595811367034912
+        ],
+        [
+          1.3008098602294922,
+          0.9103707671165466,
+          3.3791463375091553
+        ]
+      ],
+      "new_bounds": [
+        [
+          -1.275328278541565,
+          -1.062687873840332,
+          1.4595811367034912
+        ],
+        [
+          1.3008098602294922,
+          0.9103707671165466,
+          3.3791463375091553
+        ]
+      ]
+    }
+  ],
+  "existing_daisy_attachments": [
+    {
+      "name": "East_Canopy_Daisy_Anchor_0",
+      "local_delta_m": 0.09520831697053093
+    },
+    {
+      "name": "East_Canopy_Daisy_Anchor_1",
+      "local_delta_m": 0.0045065056663456905
+    },
+    {
+      "name": "Northwest_Canopy_Daisy_Anchor_0",
+      "local_delta_m": 0.11262246451648959
+    },
+    {
+      "name": "Northwest_Canopy_Daisy_Anchor_1",
+      "local_delta_m": 0.04890979195773611
+    },
+    {
+      "name": "Southeast_Canopy_Daisy_Anchor_0",
+      "local_delta_m": 0.016280022608660953
+    },
+    {
+      "name": "Southeast_Canopy_Daisy_Anchor_1",
+      "local_delta_m": 0.025317958378755844
+    },
+    {
+      "name": "Southwest_Canopy_Daisy_Anchor_0",
+      "local_delta_m": 0.0033991885914942616
+    },
+    {
+      "name": "Southwest_Canopy_Daisy_Anchor_1",
+      "local_delta_m": 0.03668978408111345
+    },
+    {
+      "name": "West_Canopy_Daisy_Anchor_0",
+      "local_delta_m": 0.023101503182487992
+    },
+    {
+      "name": "West_Canopy_Daisy_Anchor_1",
+      "local_delta_m": 0.088555658481947
+    }
+  ],
+  "protected_records": 634,
+  "group_and_crown_transforms_unchanged": true,
+  "v010_bark_unchanged": true,
+  "grass_mesh_colours_uv_materials_unchanged": true,
+  "scene_settings_unchanged": true,
+  "old_materials_unchanged": true,
+  "native_blend_sha256": "4d9dc34db67f44db11a8927b948173244fc3ddc95df9ffdd053944852b125c24",
+  "glb": {
+    "bytes": 33845080,
+    "sha256": "af955f04050fe86e8e148575822c853340a9000ea83c6ca22b189ef06b58651a",
+    "node_count": 568,
+    "crown_colour0_and_matte": true,
+    "ground_uv1_preserved": true
+  },
+  "human_acceptance": "PENDING",
+  "android_performance": "NOT_MEASURED",
+  "native_render": {
+    "bytes": 733965,
+    "sha256": "a3b579cd66d5d9f08d5bb29d71cdf43df9cea7c7477ea08d2d4d5847d97fa99c",
+    "samples": 128
+  }
+}

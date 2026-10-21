@@ -1,0 +1,11 @@
+V011 C — selected review candidate, not artistic acceptance.
+Read-only independent review of actual native432x960 frame: no visible blocker;
+calmer and less uniformly pebbled thanv010, grouped leaf detail survives unlike
+A/B. Tradeoff:upper areas and smaller trees still quite smooth. Compared with
+reference,less internal leaf depth and still sculpted rounded volumes with
+surface relief. Root inspected the actual Godot432x960 frame too:colours,
+existing flowers and bark visible;v010 camera/light/layout retained.
+The first library-load attempt failed before save because Blender mutated
+the assigned list;fixed with an immutable name tuple and a separate list.
+DraftA/B are preserved as unsuccessful too-smooth/sparse comparisons.
+Human choice betweenv010 andv011 PENDING. Android/performance NOT_MEASURED.
