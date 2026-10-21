@@ -1,0 +1,36 @@
+"""Download and verify actual Blender review evidence; never runs project code.
+python DOWNLOAD_REVIEW.py --commit EXACT_40_HEX --output NEW_FOLDER
+"""
+import argparse,base64,hashlib,io,json,re,stat,urllib.request,zipfile
+from pathlib import Path,PurePosixPath
+REPO='Fuet-Goat/GnomiT-review-test'
+PREFIX='discussions/codex/task-001/PROJECT_HUB/reviews/codex-r3-tree-mine-light-2026-10-21/'
+def get(url):
+ req=urllib.request.Request(url,headers={'User-Agent':'GnomiT-native-art-review'})
+ with urllib.request.urlopen(req,timeout=90) as r:return r.read()
+def main():
+ p=argparse.ArgumentParser(description=__doc__);p.add_argument('--commit',required=True);p.add_argument('--output',type=Path,required=True);a=p.parse_args()
+ if not re.fullmatch('[0-9a-f]{40}',a.commit):raise ValueError('Exact commit required')
+ dest=a.output.resolve()
+ if dest.exists():raise ValueError('Choose a new evidence directory')
+ raw='https://raw.githubusercontent.com/'+REPO+'/'+a.commit+'/'+PREFIX
+ receipt=json.loads(get(raw+'PACKAGE_RECEIPT.json.txt'))
+ encoded=get(raw+'NATIVE_REVIEW.base64.txt').strip()
+ payload=base64.b64decode(encoded,validate=True)
+ if len(payload)!=receipt['bytes'] or hashlib.sha256(payload).hexdigest()!=receipt['sha256']:raise ValueError('ZIP identity mismatch')
+ z=zipfile.ZipFile(io.BytesIO(payload))
+ if z.testzip() is not None:raise ValueError('ZIP CRC failure')
+ manifest=json.loads(z.read('MANIFEST.json'))
+ if len(z.namelist())!=receipt['entries'] or len(z.namelist())!=len(manifest['files'])+1:raise ValueError('Unexpected ZIP entries')
+ if len(set(z.namelist()))!=len(z.namelist()):raise ValueError('Duplicate paths')
+ for item in z.infolist():
+  name=PurePosixPath(item.filename)
+  if name.is_absolute() or '..' in name.parts or chr(92) in item.filename or ':' in item.filename or stat.S_ISLNK(item.external_attr>>16):raise ValueError('Unsafe ZIP path')
+ if set(z.namelist())!={r['path'] for r in manifest['files']}|{'MANIFEST.json'}:raise ValueError('Manifest path mismatch')
+ for row in manifest['files']:
+  data=z.read(row['path'])
+  if len(data)!=row['bytes'] or hashlib.sha256(data).hexdigest()!=row['sha256']:raise ValueError('Payload mismatch: '+row['path'])
+ dest.mkdir(parents=True,exist_ok=False);z.extractall(dest)
+ proof={'status':'REMOTE_DOWNLOAD_AND_ARCHIVE_PASS','source_commit':a.commit,'zip_sha256':receipt['sha256'],'bytes':len(payload),'entries':len(z.namelist()),'project_code_executed':False}
+ (dest/'DOWNLOAD_VERIFIED.json').write_bytes((json.dumps(proof,indent=2)+'\n').encode());print(json.dumps(proof))
+if __name__=='__main__':main()

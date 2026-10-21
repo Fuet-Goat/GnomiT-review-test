@@ -1,0 +1,47 @@
+{
+  "base_source_commit": "a16c9a71e21233ce9d48eeb8ae20ac56bf1500d2",
+  "base_native_review": "0989c3c820aa2988c52c86afa3768eabd2d84ba8",
+  "human_scope": "Polish trees, mine and lighting in isolated Blender derivative; preserve road/terrain/cottage/quiet lawns; no game integration.",
+  "files": [
+    {
+      "name": "boardwalk.py",
+      "bytes": 9961,
+      "sha256": "f143de084142f171d029de07fdf72c60872bb2a0063946a419a57b6a0ec30333"
+    },
+    {
+      "name": "build_scene.py",
+      "bytes": 11173,
+      "sha256": "d424110a5f54dcce012592da3f09009711bfb3289328d6e8bfd11c5b078594ce"
+    },
+    {
+      "name": "environment.py",
+      "bytes": 11640,
+      "sha256": "ab959e1b6043348b97029cc9d2dd1ddf59cd31961dc5a89de4ca64e6aa1a6941"
+    },
+    {
+      "name": "geometry.py",
+      "bytes": 7449,
+      "sha256": "5b4ed5846a26fc46062d8b1c158130625b4eb5d5a2ae8691e9c6f61e9837b130"
+    },
+    {
+      "name": "materials.py",
+      "bytes": 3846,
+      "sha256": "5d56f408bc7ff7522fb54d96ee76bdc57be3a00fdeab37ad35b0e3d944ca8c66"
+    },
+    {
+      "name": "mine.py",
+      "bytes": 6943,
+      "sha256": "13e26f83ad5a9b30b9c2c2cb99b33609e2ee1824618eee0700115a520e78a170"
+    },
+    {
+      "name": "presentation.py",
+      "bytes": 9552,
+      "sha256": "9efaa599772f8485f222dcb93bd089fce111ceeef51f083eb2a6836c8f39eab7"
+    },
+    {
+      "name": "scene_settings.json",
+      "bytes": 4596,
+      "sha256": "9b009f8113a63045e815686027801bb79c798cdc4f0d68d763719831ead32efc"
+    }
+  ]
+}

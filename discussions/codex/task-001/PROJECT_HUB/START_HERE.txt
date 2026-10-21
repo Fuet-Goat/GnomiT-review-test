@@ -1,3 +1,13 @@
+АКТУАЛЕН РЕЗУЛТАТ — CODEX R3 TREE/MINE/LIGHT POLISH — 21.10.2026
+Read reviews/codex-r3-tree-mine-light-2026-10-21/START_HERE_BG.txt and REPORT.txt.
+Real native derivative of verified GPT R2: coherent crowns, rounded mine and
+warm lighting. Selected192sample renders432x960/864x1920, .blend/GLB/source,
+all provenance/checks and first draft retained. Protected native land/road/
+cottage/scatter/anchor geometry matches R2 bit-for-bit. No game integration.
+Status:NATIVE_R3_POLISH_VERIFIED / HUMAN_ART_ACCEPTANCE_PENDING / NOT_INTEGRATED.
+DOWNLOAD_REVIEW verifies the complete archive from an exact Codex commit.
+No grants/main/save/Cradle changes or merge. All previous versions preserved.
+
 АКТУАЛЕН РЕЗУЛТАТ — R2 EXACT NATIVE BLENDER — 21.10.2026
 Read reviews/airy-island-r2-native-a16c9a7-2026-10-21/START_HERE_BG.txt and REPORT.txt.
 Exact GPT source a16c9a7 built/rendered without edits; same seed, actual432x960.

@@ -1,0 +1,71 @@
+{
+  "status": "R3_SOURCE_AND_PRESERVATION_PASS",
+  "base_source_commit": "a16c9a71e21233ce9d48eeb8ae20ac56bf1500d2",
+  "files": [
+    {
+      "path": "boardwalk.py",
+      "bytes": 9961,
+      "sha256": "f143de084142f171d029de07fdf72c60872bb2a0063946a419a57b6a0ec30333",
+      "changed_from_R2": false
+    },
+    {
+      "path": "build_scene.py",
+      "bytes": 11307,
+      "sha256": "2b6ed1094a523dd4fedf203fd7776ef292cd4d142a95aa5540700fa3f7d2a601",
+      "changed_from_R2": true
+    },
+    {
+      "path": "environment.py",
+      "bytes": 14066,
+      "sha256": "d99f22500a9aad28818a9618a05a2dc3e88434900e7b8b1d6457da594f2bdfd6",
+      "changed_from_R2": true
+    },
+    {
+      "path": "geometry.py",
+      "bytes": 7449,
+      "sha256": "5b4ed5846a26fc46062d8b1c158130625b4eb5d5a2ae8691e9c6f61e9837b130",
+      "changed_from_R2": false
+    },
+    {
+      "path": "materials.py",
+      "bytes": 4147,
+      "sha256": "e5c128d943469bf3bf700ac1eac3a5e383ea57f83f1dc713981b8c65eec22cf8",
+      "changed_from_R2": true
+    },
+    {
+      "path": "mine.py",
+      "bytes": 9001,
+      "sha256": "df683df2d750b823ba36a0abaf79ea2d6531b366150c4d28cf2e30069549798b",
+      "changed_from_R2": true
+    },
+    {
+      "path": "presentation.py",
+      "bytes": 9552,
+      "sha256": "9efaa599772f8485f222dcb93bd089fce111ceeef51f083eb2a6836c8f39eab7",
+      "changed_from_R2": false
+    },
+    {
+      "path": "scene_settings.json",
+      "bytes": 4610,
+      "sha256": "8c2ce7a64b8560506413a4fb7bdf69aacf3652e1055cb0e1747bbf4345de19b5",
+      "changed_from_R2": true
+    }
+  ],
+  "protected_modules_byte_identical": [
+    "geometry.py",
+    "boardwalk.py",
+    "presentation.py"
+  ],
+  "protected_setting_blocks": [
+    "terrain",
+    "road",
+    "mine",
+    "cottage",
+    "trees",
+    "decoration",
+    "camera"
+  ],
+  "protected_environment_functions": "All except tree, including Ground/terrain/cottage/decorate unchanged",
+  "protected_palette": "wood, wood_light, wood_dark, grass, grass_light, grass_shadow, cream, red unchanged",
+  "meaning": "Configuration and source preservation checks; not runtime, visual or game acceptance"
+}

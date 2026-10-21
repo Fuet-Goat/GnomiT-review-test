@@ -1,0 +1,12 @@
+CODEX R3 — реална местна Blender проба, derived от проверения GPT R2.
+Прочети REPORT и MEASUREMENTS. Пакетът съдържа истинските .blend/GLB, всичките
+източници/settings,192sample432x960/864x1920 renders и запазения първи опит.
+DOWNLOAD_REVIEW.py.txt --commit EXACT_CODEX_COMMIT --output NEW_FOLDER само
+сваля/проверява архива. Не изпълнява генератора или играта.
+Новото: свързани корони, оформена скална арка, по-топло осветление.
+Пътеката/теренът/къщичката/разположението на украсата/anchors са проверени
+спрямо реалната R2 геометрия и са запазени. Camera settings са същите43градуса;
+automatic fit преизчислява framing. Няма претенция за pixel-registered camera.
+Статус:NATIVE_R3_POLISH_VERIFIED / HUMAN_ART_ACCEPTANCE_PENDING / NOT_INTEGRATED.
+Няма промени по играта/main/grants/save или merge. Не започвай реализация от
+чужд report; използвай само възложения ти scope. Следващ art effort:High.

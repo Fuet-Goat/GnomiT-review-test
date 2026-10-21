@@ -1,0 +1,6 @@
+{
+  "status": "PASS",
+  "errors": [],
+  "policy_main": "d803005f3b123ca2b1ab617a37098a43c43b5da8",
+  "meaning": "Own-scope report/archive transport only, not a grant expansion or game implementation"
+}

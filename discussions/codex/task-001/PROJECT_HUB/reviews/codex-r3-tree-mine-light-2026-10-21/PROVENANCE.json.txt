@@ -1,0 +1,16 @@
+{
+  "kind": "CODEX_R3_DERIVATIVE_NATIVE_ART_POLISH",
+  "date": "2026-10-21 Europe/Sofia",
+  "base_source_commit": "a16c9a71e21233ce9d48eeb8ae20ac56bf1500d2",
+  "base_review_commit": "0989c3c820aa2988c52c86afa3768eabd2d84ba8",
+  "authoring": "Base GPT R2; Codex-authored tree/mine/material/light derivative. Internal tree agent contributed tree function; root implemented mine/material/config and ran native checks.",
+  "inputs": "Only included base source/settings and existing user-provided visual reference; no downloaded meshes/textures/HDRI.",
+  "tools": "Blender5.2.2 LTS/bpy/Cycles/glTF; Python stdlib. PIL only decodes and assembles QA comparisons; no repainting or generated bitmap scene.",
+  "procedural_crowns": "Closed analytic ray-envelope mesh,72segments40rings; full source included.",
+  "textures": "Five analytic256x256 maps from included base material generator.",
+  "selected_render": "CPU192samples, RGBA8 PNG at432x960 and864x1920; static frame1, no animation.",
+  "preservation": "Original R2 and R3 draft retained; protected native geometry/placement bit-identical.",
+  "rights": "No legal-clearance or exclusive ownership assertion. Reference origin/rights UNKNOWN.",
+  "game_integration": "NOT_DONE",
+  "human_acceptance": "PENDING"
+}

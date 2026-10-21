@@ -1,0 +1,27 @@
+{
+  "png_decode": "PASS",
+  "reopen_size": [
+    432,
+    960
+  ],
+  "reopen_pixels_identical": false,
+  "max_RGB_8bit_difference": [
+    [
+      0,
+      1
+    ],
+    [
+      0,
+      1
+    ],
+    [
+      0,
+      1
+    ]
+  ],
+  "mean_RGB_8bit_difference": [
+    5.304783950617284e-05,
+    5.063657407407407e-05,
+    3.8580246913580246e-05
+  ]
+}

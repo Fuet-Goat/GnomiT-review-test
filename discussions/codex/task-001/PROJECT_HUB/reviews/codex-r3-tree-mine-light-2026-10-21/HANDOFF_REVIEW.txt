@@ -1,0 +1,12 @@
+Fresh-context final handoff review:r3_release_review, read-only2026-10-21.
+Blockers:none. Actual ZIP71entries16833817bytes and all70manifest payloads
+match; source/report mirrors/base hashes match. All353 protected fingerprint
+pairs are equal. Source scope is tree/mine/material/light plus provenance.
+Human acceptance, integration, mobile and rights claims remain bounded.
+Current ZIP has no Windows alias/case/reserved/trailing-name collisions.
+Minor future decoder hardening:generic Windows name-alias checks are not
+implemented, but this pinned archive was explicitly checked and is unaffected.
+Inherited tunnel-cap/final-save issues remain disclosed, without invalidating
+this run's actual reopen/reimport. Reviewer ran no project/native/network code.
+ZIP SHA256:63ef3f9523295210e9213d31b0635b9290e1bc2d33a41ed91e56297032f3ad21.
+Remote publication/readback is a subsequent root step.

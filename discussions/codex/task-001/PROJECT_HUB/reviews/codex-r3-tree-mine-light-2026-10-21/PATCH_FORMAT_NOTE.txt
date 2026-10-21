@@ -1,0 +1,6 @@
+SOURCE_CHANGES.patch.txt is a literal unified diff, not a source file.
+Its blank context lines intentionally contain the single required context-prefix
+space. git diff --check therefore reports trailing spaces on those data lines.
+Preserve the patch bytes; whitespace checking is applied to all other staged
+files with this one literal patch excluded. Python source was AST-parsed and
+actually executed, and archive/payload hashes are independently verified.
