@@ -1,0 +1,112 @@
+{
+  "status": "EXACT_GIT_READBACK_AND_FULL_REBUILD_PASS",
+  "source_commit": "617fe061ad442a00c32bf73cecae0ccc91487e94",
+  "remote_text_files": 19,
+  "remote_files": [
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/START_HERE.txt",
+      "bytes": 64198,
+      "sha256": "08edcf9c1f4ddc405e00d490abb11834ef0fc3d3f6809d6d99761ed48b7c2fb3"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/volcano-ab-v008-2026-10-21/BASE_PROTECTION.json.txt",
+      "bytes": 355,
+      "sha256": "13e15c0d315060b0996bb26ef52f39bda7bca5c1ea746d07fe9c8b6e568b316e"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/volcano-ab-v008-2026-10-21/DOWNLOAD_AB_SAMPLE.py.txt",
+      "bytes": 4902,
+      "sha256": "253f989e4d800bea6c87cfd4576b1b56b1cc3959f45e0a73fc1216cadfb25f0a"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/volcano-ab-v008-2026-10-21/FINAL_RESPONSE.txt",
+      "bytes": 493,
+      "sha256": "3ec26a91af82315f5e3f5db93b78baabfa0523853c5bb0bfe52a258dad0ce2ae"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/volcano-ab-v008-2026-10-21/GPT_PRO_REVIEW_PROMPT_BG.txt",
+      "bytes": 2138,
+      "sha256": "d721ac41b14d5498bdbe06b5f4dabc029c0ffee7f465fde5abc50abb05bc3313"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/volcano-ab-v008-2026-10-21/INTERNAL_REVIEW.txt",
+      "bytes": 370,
+      "sha256": "2dab5eea1c049beca87380f839e5ebfd7c900204eed42f18d0d905159365b1e9"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/volcano-ab-v008-2026-10-21/MANIFEST.json.txt",
+      "bytes": 59479,
+      "sha256": "5dc916a234844ef934048c14b49befb10dca5b96115a79516c0034e1f82e029b"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/volcano-ab-v008-2026-10-21/NATIVE_CAPTURE.json.txt",
+      "bytes": 514,
+      "sha256": "d24cb79869703477d78c6bf60563f8960d5f37913a289ebcf1a25318f7ba8d77"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/volcano-ab-v008-2026-10-21/PACKAGE_RECEIPT.json.txt",
+      "bytes": 700,
+      "sha256": "3462a380115517a17b437f6b484fd5f6846fd7262c688c3d71283ac371f5d7db"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/volcano-ab-v008-2026-10-21/PROTOCOL_BG.txt",
+      "bytes": 3634,
+      "sha256": "f5f5fe231f7590ace635e9686e05530abc1c5e62ea528fcafcd3723a0ec43d43"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/volcano-ab-v008-2026-10-21/PROVENANCE.json.txt",
+      "bytes": 1279,
+      "sha256": "0939238590361d8ab91ca972ad30cb070738804c98d7e85977b3135688b5a3f5"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/volcano-ab-v008-2026-10-21/README_BG.txt",
+      "bytes": 4754,
+      "sha256": "9514de303845661c834b4c44b9a7ff2dac4e66e0b687e2961969ec75a939722f"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/volcano-ab-v008-2026-10-21/RELEASE_CHECKS.json.txt",
+      "bytes": 208,
+      "sha256": "a878ee920df61635304879dfb273121f9aafba1b5a70cbdc0a9c6a148570b460"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/volcano-ab-v008-2026-10-21/REPORT.txt",
+      "bytes": 5092,
+      "sha256": "7d73c683df9bb79aedf8a78f2ec3558d4d936cd98e9c796f9f63cc1aaba2d7d6"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/volcano-ab-v008-2026-10-21/SHORTCUT.json.txt",
+      "bytes": 301,
+      "sha256": "27505e9621a6128b4c5e969decbd0fd98c41f00f575cafbf193d5b851251dbc2"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/volcano-ab-v008-2026-10-21/VERIFIED_DELTA.base64.txt",
+      "bytes": 3368937,
+      "sha256": "83f736810e64531c28de8d178f3c8f64ec1744f08474f59ac307f60f0fd47d35"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/volcano-ab-v008-2026-10-21/ab_launcher.gd.txt",
+      "bytes": 3680,
+      "sha256": "6e501db6c0a3f192b9f38a739427e4443faa7fb7a0f4dcc22c8731b0fab54521"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/volcano-ab-v008-2026-10-21/ab_main.gd.txt",
+      "bytes": 10859,
+      "sha256": "568bc8450c3d9eda44235884424e2f3a91e1b0df1b7f56b8b293b0df4dfe8f9a"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/volcano-ab-v008-2026-10-21/trial_log.gd.txt",
+      "bytes": 4823,
+      "sha256": "aa55d860922fc2bfaf9931fac766d530a2b6c419869ef7cdcbdfe97812ea9080"
+    }
+  ],
+  "rebuilt_manifest_files": 338,
+  "decoder_sha256": "253f989e4d800bea6c87cfd4576b1b56b1cc3959f45e0a73fc1216cadfb25f0a",
+  "base_zip_sha256": "3d806a69c70f26925048162de9f739e445e725a8052f877114a51e5d08d65d9e",
+  "delta_sha256": "84d0f004a0fb7c3efd800aa3878c29ec857266a00ff85d1a1d68efded4956e9d",
+  "full_local_zip_sha256": "fcded693471eac5ce0a99b6344849b97782ee3e104d09b849f04ca0cd15e7500",
+  "all_rebuilt_payloads_equal_local_zip": true,
+  "game_execution_during_rebuild": false,
+  "default_network_base_download": "NOT_RERUN; previously verified pinned base archive reused",
+  "human_test": "PENDING",
+  "merge": false
+}
