@@ -1,0 +1,111 @@
+{
+  "status": "PINNED_HTTP_ALL_FOUR_PACKAGES_AND_OUTER_DOCUMENTS_VERIFIED",
+  "publication_commit": "3bfb5cba567743ada46bf6985c469f7881d5594e",
+  "fresh_download": {
+    "status": "EXACT_COMMIT_ARCHIVE_AND_ALL_ENTRY_HASHES_PASS",
+    "commit": "3bfb5cba567743ada46bf6985c469f7881d5594e",
+    "bytes": 9459562,
+    "sha256": "69b3cf19a469ab089daf1bd81f3d42969e05c2d1ca3c95a04b44a3b8b28115f4",
+    "entries": 50,
+    "packages": [
+      "HANDOFF",
+      "FULL_EDITABLE_R3_BLENDER_BASELINE",
+      "PRIOR_NAVIGATION_WIP_REVIEW",
+      "FULL_EXISTING_V004_GNOME_SOURCE_AND_PREVIEW"
+    ],
+    "executed_project_code": false
+  },
+  "outer_text_documents_verified": [
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/START_HERE.txt",
+      "bytes": 65595,
+      "sha256": "6c9ba48d1443797d589095f1dd47c3e243c2ba1ba08b4f9cf19b92f9e4c39f86"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/briefs/warm-map-six-levels-direction-2026-10-21/CODEX_DIRECTION_BG.txt",
+      "bytes": 2331,
+      "sha256": "426a6f2f353b86d0a77efa197b591ede38931860589e0429b47de00fb00a231a"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/briefs/warm-map-six-levels-direction-2026-10-21/DOWNLOAD_HANDOFF.py.txt",
+      "bytes": 3466,
+      "sha256": "6806d2b4f10940a3c2d52af95f2a10a691ddf978d7df55c77a31f9f001ed71e9"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/briefs/warm-map-six-levels-direction-2026-10-21/EXISTING_MATERIALS.json.txt",
+      "bytes": 2442,
+      "sha256": "563fd497db4f93fd1e8d9bd6a5aaf0feb02eaba26c69a16ef42250716bb0991d"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/briefs/warm-map-six-levels-direction-2026-10-21/FINAL_RESPONSE.txt",
+      "bytes": 212,
+      "sha256": "52324af0abb50d3d6c77229da3500883f7fa2ec710d6da4fc55fe68a32ebadca"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/briefs/warm-map-six-levels-direction-2026-10-21/GIT_SCOPE_CHECK.json.txt",
+      "bytes": 2149,
+      "sha256": "beea0e207edb9b9d25011002bafc6083c7f9aaa210e3e93be5548dd42d95f495"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/briefs/warm-map-six-levels-direction-2026-10-21/HANDOFF_REVIEW.txt",
+      "bytes": 438,
+      "sha256": "7bb8534583b453f930e31f00fbfe48d28634f08568f628544a4925ef07f8afb7"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/briefs/warm-map-six-levels-direction-2026-10-21/LAST_IMAGE_EDIT_PROMPT.txt",
+      "bytes": 1498,
+      "sha256": "8057425ebc2b380f1c0aad7f240fb0c488607804e426feb27141000a6e67ec90"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/briefs/warm-map-six-levels-direction-2026-10-21/MANIFEST.json.txt",
+      "bytes": 8550,
+      "sha256": "6ff1e0675a5e66f0056594d29b2aa15f12cd5798bb1d5aee87315cb8cb7f7922"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/briefs/warm-map-six-levels-direction-2026-10-21/PACKAGE_RECEIPT.json.txt",
+      "bytes": 831,
+      "sha256": "6046973bd964d93e71454a8d2402ed02908dba7bc73eb267a5b4ea7bdb0be16f"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/briefs/warm-map-six-levels-direction-2026-10-21/PROMPT_FOR_GPT_BG.txt",
+      "bytes": 6432,
+      "sha256": "32d2f30bafb7794649c711c7fe75e8235c19812381b8ab8089aa9efcab9a4754"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/briefs/warm-map-six-levels-direction-2026-10-21/PROVENANCE.json.txt",
+      "bytes": 1979,
+      "sha256": "f8a1e89dfd9c3f80adb0929a26f08e29f544cee5015b3ba85e9a8441a42cb2b9"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/briefs/warm-map-six-levels-direction-2026-10-21/README.txt",
+      "bytes": 2930,
+      "sha256": "fb442c430d95a28596f882d7e4f16007cf6207a336d89d753c9785cf167b36c6"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/briefs/warm-map-six-levels-direction-2026-10-21/REPORT.txt",
+      "bytes": 2052,
+      "sha256": "031e7f2d17d479cdee59557e46720d2164e561f41efc5ed3ec1dd47a05f833ad"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/briefs/warm-map-six-levels-direction-2026-10-21/SOURCE_RECEIPT.json.txt",
+      "bytes": 13628,
+      "sha256": "6153ad93dce3a10f8375ee5ff4e7c9d01bd72330be07faa15c79dafd330011a3"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/briefs/warm-map-six-levels-direction-2026-10-21/START_HERE_BG.txt",
+      "bytes": 2930,
+      "sha256": "fb442c430d95a28596f882d7e4f16007cf6207a336d89d753c9785cf167b36c6"
+    }
+  ],
+  "latest_image_byte_identical_to_original": true,
+  "latest_image_sha256": "38abdf8a8a642090cbdc1d163bbd58582dde3b11ffed5032d563a9a86c51678d",
+  "all_archive_entry_counts": [
+    50,
+    71,
+    15,
+    95
+  ],
+  "game_blender_generator_code_executed": false,
+  "main_or_grants_changed": false,
+  "meaning": "Actual original PNG/source bytes restored from published Git; four archives CRC/size/SHA and every payload entry verified. This proves delivery, not an implemented scene or visual/mobile acceptance."
+}
