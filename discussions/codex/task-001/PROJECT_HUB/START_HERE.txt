@@ -1,3 +1,11 @@
+ПРЕДЛОЖЕНА СЛЕДВАЩА RESEARCH ОПАШКА —21.10.2026
+Read briefs/deep-research-queue-2026-10-21/RESEARCH_QUEUE_BG.txt and
+FOLLOWUP_FOR_GPT_GROK_BG.txt. Three focused topics with ready human research
+prompts: first minutes/power comprehension; Android art/performance; one-finger
+controls. QUEUED_AFTER_MAP_DECISION, not started and not a new implementation.
+Current map discussion remains open: Grok74539e4 received, external GPT pending.
+Only own report documents; no game/grants/main/other-bot changes or merge.
+
 НОВО ОБСЪЖДАНЕ — MAP/CAMERA/NAVIGATION R1 — 21.10.2026
 Read briefs/map-camera-navigation-r1-2026-10-21/START_HERE_BG.txt and
 PROMPT_FOR_GPT_BG.txt. Human reopens perspective, gnome role and map controls:
