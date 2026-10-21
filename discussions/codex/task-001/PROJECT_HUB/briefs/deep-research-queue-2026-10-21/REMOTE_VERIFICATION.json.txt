@@ -1,0 +1,86 @@
+{
+  "status": "REMOTE_REPORTS_AND_ARCHIVE_PASS",
+  "source_commit": "fb0b3c8bab94a424742a8c947b8a9f89cc44141c",
+  "files": [
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/START_HERE.txt",
+      "bytes": 62631,
+      "sha256": "88e246dc346df95383e0d520ac07037880d2d99a3e702ba56df96ea5b4865cf2"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/briefs/deep-research-queue-2026-10-21/CURRENT_DISCUSSION_STATUS.txt",
+      "bytes": 1177,
+      "sha256": "adf9bbb707e7a36672c4e75cd5425cca11eb214f247ce9bef4b77728516f5668"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/briefs/deep-research-queue-2026-10-21/DEEP_RESEARCH_01_FIRST_MINUTES_BG.txt",
+      "bytes": 3343,
+      "sha256": "4a1bb404f7e63649ae3753c7ac80452626d22d055e0b334061794fe41a4bd9ba"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/briefs/deep-research-queue-2026-10-21/DEEP_RESEARCH_02_ANDROID_ART_BG.txt",
+      "bytes": 3331,
+      "sha256": "697e94db45755e97ab0f7cd0f873d962418fe6a08152617680ead2911c714a5b"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/briefs/deep-research-queue-2026-10-21/DEEP_RESEARCH_03_ONE_FINGER_BG.txt",
+      "bytes": 3282,
+      "sha256": "2035baf17d78c8fbebb8a608009e0139df0d4a231017d1cb8e8dbde10541dd1c"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/briefs/deep-research-queue-2026-10-21/FINAL_RESPONSE.txt",
+      "bytes": 942,
+      "sha256": "e16f91163a9e6f50436b563d786c431d0f9d908e4024cd6994576012b7d1f832"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/briefs/deep-research-queue-2026-10-21/FOLLOWUP_FOR_GPT_GROK_BG.txt",
+      "bytes": 2361,
+      "sha256": "9a1f80913aa076b0022a81632b8166a6f2c08169050a2f92719fa478720c497a"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/briefs/deep-research-queue-2026-10-21/MANIFEST.json.txt",
+      "bytes": 1653,
+      "sha256": "a73ddeb2078f9b8629a81cf8128ecb2041d4cc87dc76fb3dd81c82e0a547d6f9"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/briefs/deep-research-queue-2026-10-21/PACKAGE_RECEIPT.json.txt",
+      "bytes": 276,
+      "sha256": "2944a36afc7bc81a0f886912b5def8df4eebab3775102f5091600ce4d09fa6d6"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/briefs/deep-research-queue-2026-10-21/PACKET.base64.txt",
+      "bytes": 20317,
+      "sha256": "95618ee3d6b4ad1ff449630613a3ab2fac831a062ff8b6db4a7a383b9daa3df2"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/briefs/deep-research-queue-2026-10-21/PROJECT_FACTS_BG.txt",
+      "bytes": 4408,
+      "sha256": "cced0b207d6d3888ff34c4b1eabb0d350facdcb9ba1768b6d5e835a6fa8f866d"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/briefs/deep-research-queue-2026-10-21/README.txt",
+      "bytes": 600,
+      "sha256": "f99f1a24a04c7b58e07bf9f78cf77ea105c70958d3faa8a087c36d8bb1c3717f"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/briefs/deep-research-queue-2026-10-21/RESEARCH_QUEUE_BG.txt",
+      "bytes": 6336,
+      "sha256": "1e69485d18cee6b3c68e8144400c4079bd72a553a33217a4c9caf5c1625ce50e"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/briefs/deep-research-queue-2026-10-21/SCOPE_CHECK.json.txt",
+      "bytes": 152,
+      "sha256": "e6e83484e856f623760f49fa2a242eea0f8da57a45d640c482f1ee1eca3c6a28"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/briefs/deep-research-queue-2026-10-21/SOURCES_BG.txt",
+      "bytes": 1819,
+      "sha256": "6346031cc130ca375581e987bf8feec564099db00e0f5333bbf289d2e53b1d7b"
+    }
+  ],
+  "zip_bytes": 15237,
+  "zip_sha256": "643e9656c07722ec50fab4941bb45c68f592be91b1c130fc7f26e7df2968d57e",
+  "zip_entries": 11,
+  "game_or_asset_code_executed": false,
+  "deep_research_started": false
+}
