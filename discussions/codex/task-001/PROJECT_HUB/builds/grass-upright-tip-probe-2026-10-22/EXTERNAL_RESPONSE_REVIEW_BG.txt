@@ -1,0 +1,12 @@
+EXTERNAL RESPONSE REVIEW —2026-10-22
+The returned text proposes random rotation_angle/base_angle offsets±15degrees and
+leaf_tilt0.6–0.95,using placeholder pseudocode. It does not name a matching generator
+function or actual current parameter. Explicit media observation/execution NOT_STATED.
+Actual C soft_leaf() reads direction from inherited leaf tip-root coordinates.
+No leaf_tilt/rotation_angle exists there and no equal i*360/count loop is used.
+The general idea of greater uprightness is plausible. Random angles plus random tilt
+would change multiple things and would not be a directly applicable patch.
+Codex tested a bounded alternative:one actual normalized Z-arch endpoint.72→.90.
+This affects both the cubic t^3 term and explicit tip value,then maxheight normalization.
+Several targetZ coordinates change;horizontal fan/XY/colour/topology stay exact.
+D is NOT a test of the external randomization proposal and does not prove it wrong.

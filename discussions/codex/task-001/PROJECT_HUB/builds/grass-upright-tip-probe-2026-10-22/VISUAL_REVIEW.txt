@@ -1,0 +1,9 @@
+CODEX VISUAL REVIEW —2026-10-22
+Observed both actual full432x960 and detail512x512 native renders plus04/05 comparisons.
+C:normalized arch endpoint0.72. D:0.90. Allhorizontal fan/XY/density/material/light fixed.
+VISUAL-JUDGMENT: D has more upright tips and less umbrella-like droop in the central
+close group. It reads more like grass than C,but the broad leaf profile/radial fan
+remain. This is partial improvement in this close region,not reference parity.
+At432x960 the12tuft change is still small. No whole-map art winner is established.
+The native close detail uses8xrender pixel density,not interpolated enlargement.
+Human art choice PENDING. Current v014 remains active;D is not globally rolled out.

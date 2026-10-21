@@ -1,0 +1,74 @@
+{
+  "status": "NATIVE_UPRIGHT_TIP_SAVED_REOPENED_RENDERED",
+  "source_sha256": "afd0c35e0450bd46c26a8cd5c65762510ef409b738454c410b5ea614ab0daee5",
+  "candidate_sha256": "290b34b6f36f0c0358b963e9a3a001ef6106eca8427aecedeaf7e696f44832c2",
+  "builder_sha256": "52cd1ce5cbb39ff2524608fcff1fe6d5a6a1b9990ba79e040c7a26eb59a97263",
+  "tool": "Blender5.2.2 LTS",
+  "logical_parameter": {
+    "name": "normalized_arch_endpoint",
+    "before": 0.72,
+    "after": 0.9
+  },
+  "selected_leaves": 73,
+  "selected_tufts": 12,
+  "total_leaves": 7590,
+  "total_tufts": 2559,
+  "vertices": 124725,
+  "faces": 78674,
+  "triangles": 142022,
+  "allowed_z_vertices": 4088,
+  "changed_z_vertices": 4015,
+  "tip_rise_m": {
+    "min": 0.012393534183502197,
+    "max": 0.02776360511779785
+  },
+  "mesh_frozen_except_declared_z_sha256": "19e8238c7ff2c3960c92841b60650fa9514ae0be3c9baba3a9839812f3fa129a",
+  "all_xy_colours_topology_other_z_unchanged": true,
+  "planted_first_five_vertices_per_leaf_exact": true,
+  "protected_non_body_records": 648,
+  "camera_lighting_material_records_unchanged": true,
+  "max_height_width_tolerance_m": 1e-06,
+  "packed_images": 5,
+  "linked_libraries": 0,
+  "angles_or_randomness_changed": false,
+  "footprint_limit": "XY exact,so inherited C point-footprint test unchanged;no new ray test or triangle/leaf-leaf proof.",
+  "hypothesis": "Reduced droop via one normalized Z-arch control;not external rotation/random-tilt proposal.",
+  "renders": [
+    {
+      "path": "outputs/00_C_FULL_432x960.png",
+      "bytes": 721830,
+      "sha256": "06f84498dc227f45efeb20c60deddfc087b90fa6316a69a807a3c1a91c2357bf",
+      "width": 432,
+      "height": 960,
+      "samples": 128
+    },
+    {
+      "path": "outputs/01_D_UPRIGHT_432x960.png",
+      "bytes": 722146,
+      "sha256": "5a0c08db38b70ac76336d9099417b9d3d4cdb11c222c11601914f0f102481f66",
+      "width": 432,
+      "height": 960,
+      "samples": 128
+    },
+    {
+      "path": "outputs/02_C_DETAIL_8X.png",
+      "bytes": 418364,
+      "sha256": "53aaf997183bb3a3ce586f111b2f2945630b81193f631bfebee81a5c05ca796c",
+      "width": 512,
+      "height": 512,
+      "samples": 128
+    },
+    {
+      "path": "outputs/03_D_DETAIL_8X.png",
+      "bytes": 417671,
+      "sha256": "a54cbc43f3682db735add50dcbf89f421b1cc27feadaf623c725d78a5ff55706",
+      "width": 512,
+      "height": 512,
+      "samples": 128
+    }
+  ],
+  "game_integration": "NOT_PERFORMED",
+  "godot_tests": "NOT_RUN",
+  "human_choice": "PENDING",
+  "android_performance": "NOT_MEASURED"
+}
