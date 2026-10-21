@@ -1,0 +1,78 @@
+"""Verify/rebuild GnomiT v008 in a NEW folder. No engine/project code executes.
+python DOWNLOAD_AB_SAMPLE.py --output NEW_FOLDER [--base-zip LOCAL_V006_ZIP]
+"""
+import argparse,base64,hashlib,io,json,stat,urllib.request,zipfile
+from pathlib import Path,PurePosixPath
+REPO='Fuet-Goat/GnomiT-review-test'
+PREFIX='discussions/codex/task-001/PROJECT_HUB/builds/volcano-ab-v008-2026-10-21/'
+DELTA_SHA='84d0f004a0fb7c3efd800aa3878c29ec857266a00ff85d1a1d68efded4956e9d'
+DELTA_BYTES=2526700
+V006_SHA='3d806a69c70f26925048162de9f739e445e725a8052f877114a51e5d08d65d9e'
+V006_BYTES=56223990
+V006_COMMIT='b91ad6c568e6648de42c9af6099353441b2e0142'
+V006_PREFIX='discussions/codex/task-001/PROJECT_HUB/builds/black-hole-visible-layers-v006-2026-10-21/'
+V006_DELTA_SHA='299292618cc25c2c64327b52cffb580538054d7d30b20897dc6d388c391e1d7e'
+V006_DELTA_BYTES=1636070
+V005_COMMIT='ef419de05d05b01be507c769c681c94fbf0fda28'
+V005_PREFIX='discussions/codex/task-001/PROJECT_HUB/builds/black-hole-one-hit-v005-2026-10-20/'
+V005_SHA='62cae5621af122dc3efa52c447e3b3cd7ca27bf39895e899071ef38b61c40c3a'
+V005_BYTES=56274647
+def sha(data):return hashlib.sha256(data).hexdigest()
+def get(url):
+    request=urllib.request.Request(url,headers={'User-Agent':'GnomiT-data-rebuild'})
+    with urllib.request.urlopen(request,timeout=45) as response:return response.read()
+def raw(ref,path):return get('https://raw.githubusercontent.com/'+REPO+'/'+ref+'/'+path)
+def checked_zip(data,size,digest):
+    if len(data)!=size or sha(data)!=digest:raise ValueError('Archive identity mismatch')
+    z=zipfile.ZipFile(io.BytesIO(data))
+    if z.testzip() is not None:raise ValueError('Archive CRC mismatch')
+    if len(z.namelist())!=len(set(z.namelist())):raise ValueError('Duplicate archive paths')
+    for item in z.infolist():
+        p=PurePosixPath(item.filename)
+        if p.is_absolute() or '..' in p.parts or chr(92) in item.filename or ':' in item.filename or stat.S_ISLNK(item.external_attr>>16):raise ValueError('Unsafe archive path')
+    return z
+def verified_map(z):
+    manifest=json.loads(z.read('MANIFEST.json'));result={}
+    for row in manifest['files']:
+        b=z.read(row['path'])
+        if (len(b),sha(b))!=(row['bytes'],row['sha256']):raise ValueError('Manifest mismatch')
+        result[row['path']]=b
+    return result
+def main():
+    ap=argparse.ArgumentParser(description=__doc__)
+    ap.add_argument('--output',type=Path,required=True)
+    ap.add_argument('--base-zip',type=Path)
+    ap.add_argument('--commit',help='Exact published v008 report commit; defaults to current report branch head')
+    args=ap.parse_args();dest=args.output.resolve()
+    if dest.exists():raise ValueError('Output must be NEW')
+    ref=args.commit or json.loads(get('https://api.github.com/repos/'+REPO+'/git/ref/heads/codex/codex/task-001'))['object']['sha']
+    delta=checked_zip(base64.b64decode(raw(ref,PREFIX+'VERIFIED_DELTA.base64.txt')),DELTA_BYTES,DELTA_SHA)
+    if args.base_zip:
+        previous=verified_map(checked_zip(args.base_zip.read_bytes(),V006_BYTES,V006_SHA))
+    else:
+        old=checked_zip(base64.b64decode(raw(V005_COMMIT,V005_PREFIX+'NATIVE_PREVIEW_PACKAGE.base64.txt')),V005_BYTES,V005_SHA)
+        d6=checked_zip(base64.b64decode(raw(V006_COMMIT,V006_PREFIX+'VERIFIED_DELTA.base64.txt')),V006_DELTA_BYTES,V006_DELTA_SHA)
+        previous={}
+        for row in json.loads(d6.read('MANIFEST.json'))['files']:
+            b=d6.read(row['path']) if row['path'] in d6.namelist() else old.read(row['path'])
+            if (len(b),sha(b))!=(row['bytes'],row['sha256']):raise ValueError('v006 identity mismatch')
+            previous[row['path']]=b
+    manifest=json.loads(delta.read('MANIFEST.json'))
+    names=[row['path'] for row in manifest['files']]
+    if len(names)!=len(set(names)):raise ValueError('Duplicate manifest paths')
+    if not set(delta.namelist())<=set(names)|{'MANIFEST.json'}:raise ValueError('Unexpected delta file')
+    assembled={}
+    for row in manifest['files']:
+        name=row['path'];p=PurePosixPath(name)
+        if p.is_absolute() or '..' in p.parts or chr(92) in name or ':' in name:raise ValueError('Unsafe manifest path')
+        b=delta.read(name) if name in delta.namelist() else previous[name.removeprefix('game/')]
+        if (len(b),sha(b))!=(row['bytes'],row['sha256']):raise ValueError('Rebuilt identity mismatch: '+name)
+        assembled[name]=b
+    dest.mkdir(parents=True,exist_ok=False)
+    for name,b in assembled.items():
+        p=dest/name;p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(b)
+    (dest/'MANIFEST.json').write_bytes(delta.read('MANIFEST.json'))
+    proof={'status':'PASS','source_commit':ref,'files':len(assembled),'delta_sha256':DELTA_SHA,'v006_commit':V006_COMMIT,'game_execution':False}
+    (dest/'DOWNLOAD_VERIFIED.json').write_text(json.dumps(proof,indent=2)+'\n',encoding='utf-8')
+    print(json.dumps(proof))
+if __name__=='__main__':main()

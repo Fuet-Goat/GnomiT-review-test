@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "base_unmodified_files": 289,
+  "protected_solver_tutorial_art_audio_files_identical": 132,
+  "base": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\BlackHoleVisibleLayers_2026-10-21",
+  "new_sample": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\Volcano_AB_2026-10-21",
+  "normal_latest_changed": false
+}

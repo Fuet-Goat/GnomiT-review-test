@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-21",
+  "version": "v008",
+  "kind": "isolated_local_AB_sample",
+  "base_project": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\BlackHoleVisibleLayers_2026-10-21",
+  "base_public_commit": "b91ad6c568e6648de42c9af6099353441b2e0142",
+  "base_archive_sha256": "3d806a69c70f26925048162de9f739e445e725a8052f877114a51e5d08d65d9e",
+  "engine_observed": "Godot 4.7.2.stable.official.ed1daf0bf",
+  "new_contribution": "Codex-authored GDScript adapter, local logger, launcher and tests; two read-only internal reviews",
+  "art_audio": "inherited unchanged; no new downloaded/generated art, font or sound",
+  "licence_scope": "Inherited provenance retained in baseline_documentation; no new commercial-rights or ownership audit asserted",
+  "source_of_design": "User-approved A/B direction and pinned research review ae251d853571eeeed9701d86d1dd77f2737c8a0c",
+  "settings": {
+    "initial_seed": 42,
+    "viewport": [
+      720,
+      1600
+    ],
+    "window": [
+      432,
+      960
+    ],
+    "session_profile": "GnomiT-Volcano-AB-2026-10-21"
+  },
+  "game_rules_modified": false,
+  "human_results": "NOT_MEASURED",
+  "android_results": "NOT_MEASURED",
+  "model_effort_recommendation": "GPT-6.1 Sol / Extra High; recommendation, not runtime identity proof"
+}

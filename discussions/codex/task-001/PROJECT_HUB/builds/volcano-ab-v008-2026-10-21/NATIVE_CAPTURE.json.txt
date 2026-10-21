@@ -1,0 +1,25 @@
+{
+	"checks": 17,
+	"failures": [],
+	"method": "Native Godot viewport scripted capture; no user test",
+	"records": [
+		{
+			"arm": "A",
+			"cue_stage": "first_move",
+			"directory": "user://research_sessions/27705501402a035903179f4d26da1c94/",
+			"kind": "SCRIPTED_CAPTURE"
+		},
+		{
+			"arm": "B",
+			"cue_stage": "activation",
+			"directory": "user://research_sessions/8b0ac3cd6f4fe376ef141146d8e35cc7/",
+			"kind": "SCRIPTED_CAPTURE"
+		}
+	],
+	"screen_count": 1,
+	"screen_index": 0,
+	"viewport": [
+		432,
+		960
+	]
+}

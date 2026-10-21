@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "integration": 29,
+  "logger": 44,
+  "unchanged_core": 135,
+  "native": 17,
+  "total_checks": 225,
+  "human": "NOT_MEASURED",
+  "android": "NOT_MEASURED",
+  "scripted_qa_only": true
+}

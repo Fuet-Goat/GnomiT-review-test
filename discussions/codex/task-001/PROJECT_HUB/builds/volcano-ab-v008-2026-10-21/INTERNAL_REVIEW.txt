@@ -1,0 +1,1 @@
+Read-only independent review found stale fade text, invalid-request Help loss and replay cue-cache concerns. Parent reproduced RED, fixed each, reran GREEN; reviewer re-read changed blocks and found no residual blocker. Reviewer did not independently execute tests. Parent inspected native selector/A/B/activation PNGs; no human learning or Android acceptance inferred.

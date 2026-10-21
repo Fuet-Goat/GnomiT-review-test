@@ -1,0 +1,14 @@
+{
+  "status": "FULL_ZIP_AND_COMPACT_DELTA_LOCALLY_VERIFIED",
+  "zip": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\GNOMIT_VOLCANO_AB_V008_2026-10-21.zip",
+  "bytes": 57136680,
+  "sha256": "fcded693471eac5ce0a99b6344849b97782ee3e104d09b849f04ca0cd15e7500",
+  "entries": 339,
+  "delta_bytes": 2526700,
+  "delta_sha256": "84d0f004a0fb7c3efd800aa3878c29ec857266a00ff85d1a1d68efded4956e9d",
+  "delta_payload_files": 118,
+  "base_v006_bytes": 56223990,
+  "base_v006_sha256": "3d806a69c70f26925048162de9f739e445e725a8052f877114a51e5d08d65d9e",
+  "public_base_commit": "b91ad6c568e6648de42c9af6099353441b2e0142",
+  "parent_report_commit": "ae251d853571eeeed9701d86d1dd77f2737c8a0c"
+}

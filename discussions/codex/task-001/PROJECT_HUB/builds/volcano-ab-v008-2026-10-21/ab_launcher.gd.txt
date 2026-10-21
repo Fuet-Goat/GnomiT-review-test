@@ -1,0 +1,84 @@
+extends Control
+const TrialMain = preload("res://scripts/research/ab_main.gd")
+const Art = preload("res://scripts/story_art.gd")
+var menu: CenterContainer
+var app
+var summary: Label
+var last_directory := ""
+
+func _ready() -> void:
+	get_tree().auto_accept_quit = false
+	DisplayServer.window_set_title("GnomiT — Volcano Tutorial A/B")
+	if DisplayServer.get_name() != "headless" and DisplayServer.get_screen_count() > 1:
+		DisplayServer.window_set_current_screen(1)
+	_build()
+
+func _build() -> void:
+	var background := ColorRect.new()
+	background.color = Color("102c32")
+	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	background.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(background)
+	menu = CenterContainer.new()
+	menu.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	add_child(menu)
+	var column := VBoxContainer.new()
+	column.custom_minimum_size.x = 620
+	column.add_theme_constant_override("separation",24)
+	menu.add_child(column)
+	_label(column,"GNOMIT · VOLCANO",38)
+	_label(column,"Tutorial comparison · isolated sample",25)
+	_label(column,"A: the existing two-page guide\nB: short cues during play\n\nSame rules and initial seed: 42.\nEach start uses a fresh local profile.",25)
+	_button(column,"A · Two-page guide",func(): launch("A"))
+	_button(column,"B · Learn while playing",func(): launch("B"))
+	_label(column,"Owner preview: trying both is useful for review,\nbut does not make you two novice participants.\nF8 ends a session and returns here.",21)
+	_button(column,"Open local session records",func(): OS.shell_open(ProjectSettings.globalize_path("user://research_sessions")))
+	summary = _label(column,"No session started.\nNo personal data or automatic upload.",21)
+
+func _label(column: Control,text: String,font_size: int) -> Label:
+	var label := Label.new()
+	label.text = text
+	label.add_theme_font_override("font",Art.font(800))
+	label.add_theme_font_size_override("font_size",font_size)
+	label.add_theme_color_override("font_color",Color("fff2cf"))
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	column.add_child(label)
+	return label
+
+func _button(column: Control,text: String,action: Callable) -> void:
+	var button := Button.new()
+	button.text = text
+	button.custom_minimum_size.y = 92
+	button.add_theme_font_override("font",Art.font(800))
+	button.add_theme_font_size_override("font_size",27)
+	button.add_theme_stylebox_override("normal",Art.panel())
+	button.pressed.connect(action)
+	column.add_child(button)
+
+func launch(arm: String) -> void:
+	menu.hide()
+	app = TrialMain.new()
+	app.trial_arm = arm
+	app.trial_seed = 42
+	app.run_kind = "DECLARED_OBSERVED_SESSION" if OS.get_cmdline_user_args().has("--observed-session") else "OWNER_PREVIEW"
+	app.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	app.trial_finished.connect(_finish)
+	add_child(app)
+	if app.trial_log != null and not app.trial_log.failed:
+		last_directory = app.trial_log.directory
+	else:
+		_finish()
+		summary.text = "Local logging is unavailable.\nNo trial started."
+
+func _finish() -> void:
+	var saved: bool = is_instance_valid(app) and app.trial_log != null and app.trial_log.finished and not app.trial_log.failed
+	if is_instance_valid(app): app.queue_free()
+	app = null
+	menu.show()
+	summary.text = ("Session saved locally." if saved else "Session record incomplete. Check local files.") + "\n" + last_directory + "\nUnderstanding: not automatically assessed."
+	DisplayServer.window_set_title("GnomiT — Volcano Tutorial A/B")
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		if is_instance_valid(app) and app.trial_log != null: app.trial_log.finish("window_closed")
+		get_tree().quit()

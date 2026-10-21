@@ -1,3 +1,11 @@
+VOLCANO A/B LOCAL SAMPLE v008 —21.10.2026
+Read builds/volcano-ab-v008-2026-10-21/README_BG.txt and REPORT.txt.
+A original two-page lesson; B same facts as nonblocking real-game cues.
+225 scripted/native checks pass; six real432x960 PNGs, local JSONL/summary,
+exact source hashes and fixed v008 Desktop shortcut. Human test pending.
+Normal campaign/Latest stays v006; R3 world remains separate WIP.
+No mechanics/art/audio/grants/main/other-bot changes or merge.
+
 VOLCANO DEEP RESEARCH REVIEW —21.10.2026
 Read reviews/volcano-deep-research-review-2026-10-21/REPORT.txt.
 User DOCX preserved; eight cited works checked; actual tutorial/Core inspected.
