@@ -1,0 +1,10 @@
+{
+  "status": "LOCAL_ZIP_CRC_MANIFEST_BYTES_PASS",
+  "zip": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\GNOMIT_VOLCANO_DEEP_RESEARCH_REVIEW_2026-10-21.zip",
+  "bytes": 64862,
+  "sha256": "3db7d6f9ad01b44d89b64014672ad0cae9c039691ebaf37010114f3162c833af",
+  "entries": 11,
+  "input_unchanged": true,
+  "game_execution": false,
+  "game_changes": false
+}

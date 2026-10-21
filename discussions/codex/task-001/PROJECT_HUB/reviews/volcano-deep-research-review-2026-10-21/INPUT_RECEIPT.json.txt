@@ -1,0 +1,50 @@
+{
+  "source": "C:\\Users\\fruch\\Downloads\\GnomiT_ от първия ход до самостоятелното използване на Volcano през първите пет минути.docx",
+  "bytes": 31205,
+  "sha256": "4845ae5f2f67dad378ba1b00ae7f5ef9b49036900db3151c00c2fff4e7f5b09b",
+  "external_links": [
+    {
+      "id": "rId11",
+      "type": "hyperlink",
+      "url": "https://doi.org/10.1023/b%3Atruc.0000021815.74806.f6?utm_source=chatgpt.com"
+    },
+    {
+      "id": "rId19",
+      "type": "hyperlink",
+      "url": "https://dreamgames.helpshift.com/hc/en/3-royal-match/faq/4-how-can-i-play-the-levels/"
+    },
+    {
+      "id": "rId10",
+      "type": "hyperlink",
+      "url": "https://grail.cs.washington.edu/projects/game-abtesting/chi2012/?utm_source=chatgpt.com"
+    },
+    {
+      "id": "rId17",
+      "type": "hyperlink",
+      "url": "https://journals.sagepub.com/doi/full/10.1111/j.0956-7976.2004.00737.x?utm_source=chatgpt.com"
+    },
+    {
+      "id": "rId16",
+      "type": "hyperlink",
+      "url": "https://onlinelibrary.wiley.com/doi/10.1207/s15516709cog1803_3?utm_source=chatgpt.com"
+    },
+    {
+      "id": "rId12",
+      "type": "hyperlink",
+      "url": "https://sga.rs/en/events/1342/"
+    },
+    {
+      "id": "rId18",
+      "type": "hyperlink",
+      "url": "https://www.gdcvault.com/play/1026879/Blockers-Analyzing-Difficulty-Drivers-in"
+    },
+    {
+      "id": "rId15",
+      "type": "hyperlink",
+      "url": "https://www.mdpi.com/2414-4088/4/3/41?utm_source=chatgpt.com"
+    }
+  ],
+  "embedded_media": [],
+  "paragraph_table_blocks": 119,
+  "document_unmodified": true
+}

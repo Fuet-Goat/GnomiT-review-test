@@ -1,0 +1,76 @@
+{
+  "date": "2026-10-21",
+  "roots": [
+    "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\BlackHoleVisibleLayers_2026-10-21",
+    "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\R3_Island_Journey_2026-10-21"
+  ],
+  "classification": "CODE_VERIFIED_ONLY",
+  "files": [
+    {
+      "path": "scripts/tutorial/power_tutorial.gd",
+      "bytes": 8465,
+      "sha256": "a4b4eb8e758283b7e1b6352812e13518e56d571acc1a2caec53b4dedce791bfc",
+      "copies_identical": true
+    },
+    {
+      "path": "scripts/tutorial/volcano_mini_animation.gd",
+      "bytes": 8798,
+      "sha256": "45a7d1f882f9effc61f7ffd1868759bb2d6ae4c0533b79acb4e20c83c14bd6a9",
+      "copies_identical": true
+    },
+    {
+      "path": "scripts/main.gd",
+      "bytes": 31995,
+      "sha256": "289149fb4d792e948b7939e2864937c68068cd5042b623245449921fbdfdfb63",
+      "copies_identical": true
+    },
+    {
+      "path": "scripts/lab/mega_volcano_core.gd",
+      "bytes": 1899,
+      "sha256": "98197cc636ca126a12f6a7dc2a977e3b39bc20e42776fd5acdaded54e34adece",
+      "copies_identical": true
+    },
+    {
+      "path": "scripts/lab/material_power_core.gd",
+      "bytes": 31113,
+      "sha256": "cb2417fe782327b47ea595a44386259ec138f73e8ef294d72fc1e94bcaac16d7",
+      "copies_identical": true
+    },
+    {
+      "path": "scripts/lab/reward_rules_core.gd",
+      "bytes": 19221,
+      "sha256": "c771d019270f5015f64ff5a86a0e2cac81f1e39f7c9afaa0d0e1747c2d7e2934",
+      "copies_identical": true
+    },
+    {
+      "path": "scripts/lab/natural_power_core.gd",
+      "bytes": 10548,
+      "sha256": "d6219ab8d92d32cd7b65661105b81e16389002d4e2ce9406ee19e877db7e5a05",
+      "copies_identical": true
+    },
+    {
+      "path": "scripts/match_core.gd",
+      "bytes": 10023,
+      "sha256": "12f1d987e5a5ab194cfc1ea555a5905922290a23e67f370b9f3a4813d42166bb",
+      "copies_identical": true
+    },
+    {
+      "path": "scripts/lab/material_power_board.gd",
+      "bytes": 19663,
+      "sha256": "bec1b982d0f2fcca4e13d7150200cf81338f970c2557a5a47c8950d6adc4200e",
+      "copies_identical": true
+    },
+    {
+      "path": "scripts/lab/natural_power_board.gd",
+      "bytes": 11579,
+      "sha256": "59b1f5b5444903e3f5bbe0d5b2fb69adb9aa535e8dc3673c162b62d5999f311c",
+      "copies_identical": true
+    },
+    {
+      "path": "scripts/levels.gd",
+      "bytes": 6960,
+      "sha256": "7c582ddf6a1747fb0302413e61a343fcaf7809065788888d6a672b59ba60f850",
+      "copies_identical": true
+    }
+  ]
+}

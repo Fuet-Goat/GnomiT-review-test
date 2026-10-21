@@ -1,3 +1,11 @@
+VOLCANO DEEP RESEARCH REVIEW —21.10.2026
+Read reviews/volcano-deep-research-review-2026-10-21/REPORT.txt.
+User DOCX preserved; eight cited works checked; actual tutorial/Core inspected.
+Support baseline vs contextual candidate with corrections: both trigger routes,
+equal taught content, total-onboarding timing and opportunity-aware evaluation.
+Discussion only; no game/asset/grant/main/other-bot changes or merge.
+No learner/runtime/Android tests. Navigation choice remains pending.
+
 СИНТЕЗ — MAP/CAMERA/NAVIGATION R2 —21.10.2026
 Read reviews/map-navigation-synthesis-2026-10-21/SYNTHESIS_BG.txt.
 Pinned GPT4b8fde8 and Grok74539e4 reviewed. Common recommendation: fixed3/4
