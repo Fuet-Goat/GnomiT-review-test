@@ -1,5 +1,5 @@
 GNOMIT v014 TREE FOLIAGE TRIAL — 2026-10-22
-Status: LOCAL_NATIVE_GAME_PASS / COMPARISON_CANDIDATE / REMOTE_READBACK_PENDING
+Status: LOCAL_REMOTE_GAME_PASS / COMPARISON_CANDIDATE / HUMAN_SELECTION_PENDING
 
 User scope: refine the trees towards the existing reference; subsequent go on.
 Separate local copy; Git handoff remains own text-report paths. Git parent:
@@ -75,3 +75,15 @@ rebuild-instruction finding is addressed by documentation/REBUILD_BG.txt
 with actual tool versions, fresh staging workflow, exact commands and
 explicit existing-output refusal. Review excludes artistic acceptance,
 Android/performance, legal ownership and still-pending remote readback.
+
+REMOTE READBACK — actually completed after push
+Artifact commit:8c68df0f46064be817340034b9c4007c3da2c79c
+Remote helper matched locally reviewed bytes, SHA-256:
+ee53ff2bbde6ecef1f1b9a2b4330d300404e506dd088f32643b8d5aa6afc5b91
+Fresh raw Git downloads:15parts pinnedv009 base +26parts v014delta. All355
+final files match size/SHA before and after write. ZIP/path/CRC checks PASS.
+Downloader executed no code. Subsequent cold Godot import and57checks PASS
+from the reconstructed GAME with selected lightB;no recorded import/script
+errors. Evidence byte hashes are in REMOTE_READBACK.json.txt.
+This closes delivery verification;it does not accept the art,prove reference
+parity,phone performance,human playtest or legal ownership. No merge.
