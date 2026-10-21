@@ -1,0 +1,236 @@
+{
+  "status": "NATIVE_COMPOSITION_PAIR_RENDERED_NOT_HUMAN_ACCEPTED",
+  "blender_version": "5.2.2 LTS",
+  "source_island_sha256": "404d28bd351bf31b878862bd50359e6d66db225fdf553c3816bbcf03f478e7e5",
+  "source_guide_sha256": "77beabbb144932b1e54a957e95f7aa932a6cf3e4627c47b2c733199d666551b7",
+  "control": "Exact existing native R3 plus same native guide at start; old house location",
+  "candidate": "Same scene with Mushroom_Cottage root translation/yaw only",
+  "objects_in_control": 647,
+  "changed_objects": [
+    "Mushroom_Cottage",
+    "Cottage_Cream_Wall",
+    "Cottage_Red_Domed_Cap",
+    "Cottage_Cap_Lip",
+    "Cottage_White_Spot_0",
+    "Cottage_White_Spot_1",
+    "Cottage_White_Spot_2",
+    "Cottage_White_Spot_3",
+    "Cottage_White_Spot_4",
+    "Cottage_White_Spot_5",
+    "Cottage_Door_Arch",
+    "Cottage_Door",
+    "Cottage_Door_Knob",
+    "Cottage_Round_Window"
+  ],
+  "allowed_cottage_subtree": [
+    "Cottage_Cap_Lip",
+    "Cottage_Cream_Wall",
+    "Cottage_Door",
+    "Cottage_Door_Arch",
+    "Cottage_Door_Knob",
+    "Cottage_Red_Domed_Cap",
+    "Cottage_Round_Window",
+    "Cottage_White_Spot_0",
+    "Cottage_White_Spot_1",
+    "Cottage_White_Spot_2",
+    "Cottage_White_Spot_3",
+    "Cottage_White_Spot_4",
+    "Cottage_White_Spot_5",
+    "Mushroom_Cottage"
+  ],
+  "protected_objects_identical": 633,
+  "camera_identical": true,
+  "lighting_world_view_identical": true,
+  "house_geometry_materials_identical": true,
+  "road_trees_mine_scatter_unchanged": true,
+  "old_cottage": {
+    "matrix": [
+      [
+        0.8399999737739563,
+        0.0,
+        0.0,
+        -1.649999976158142
+      ],
+      [
+        0.0,
+        0.8399999737739563,
+        0.0,
+        5.150000095367432
+      ],
+      [
+        0.0,
+        0.0,
+        0.8399999737739563,
+        0.7530030608177185
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "location": [
+      -1.649999976158142,
+      5.150000095367432,
+      0.7530030608177185
+    ],
+    "rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "scale": [
+      0.8399999737739563,
+      0.8399999737739563,
+      0.8399999737739563
+    ]
+  },
+  "new_cottage": {
+    "location": [
+      -2.0999999046325684,
+      -6.900000095367432,
+      0.688542902469635
+    ],
+    "rotation": [
+      0.0,
+      0.0,
+      0.550000011920929
+    ],
+    "scale": [
+      0.8399999737739563,
+      0.8399999737739563,
+      0.8399999737739563
+    ],
+    "bounds": {
+      "min": [
+        -3.0065083503723145,
+        -7.806508541107178,
+        0.6801429390907288
+      ],
+      "max": [
+        -1.1934914588928223,
+        -5.9934916496276855,
+        2.61214280128479
+      ]
+    }
+  },
+  "guide": {
+    "position": [
+      -1.2014188766479492,
+      -8.37276840209961,
+      0.8501962423324585
+    ],
+    "scale": [
+      0.8500000238418579,
+      0.8500000238418579,
+      0.8500000238418579
+    ],
+    "frame": 1,
+    "bounds": {
+      "min": [
+        -1.5557589530944824,
+        -8.559802055358887,
+        0.8501962423324585
+      ],
+      "max": [
+        -0.8890438675880432,
+        -8.22619915008545,
+        1.8471263647079468
+      ]
+    },
+    "same_in_both": true,
+    "new_animation_authored": false
+  },
+  "camera": {
+    "type": "CAMERA",
+    "matrix_world": [
+      [
+        1.0,
+        0.0,
+        0.0,
+        0.009729623794555664
+      ],
+      [
+        0.0,
+        0.6819983124732971,
+        -0.731353759765625,
+        -28.828012466430664
+      ],
+      [
+        0.0,
+        0.731353759765625,
+        0.6819983124732971,
+        27.392305374145508
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "hide_render": false,
+    "camera": {
+      "type": "ORTHO",
+      "scale": 19.970230102539062,
+      "sensor_fit": "VERTICAL",
+      "lens": 50.0,
+      "clip_start": 0.05000000074505806,
+      "clip_end": 200.0
+    }
+  },
+  "lighting_fingerprint": "317ce5b5277709d61e8eaa56526bbbb61b4b9b52c03fb06ae4bcfad7d7e51c67",
+  "projection_normalized": {
+    "guide_foot": [
+      0.3652273416519165,
+      0.22653143107891083,
+      33.06169128417969
+    ],
+    "door": [
+      0.29630911350250244,
+      0.26919662952423096,
+      33.65816116333008
+    ],
+    "house_base": [
+      0.26523616909980774,
+      0.2709074914455414,
+      34.249053955078125
+    ]
+  },
+  "render_a": {
+    "path": "01_CONTROL_432x960.png",
+    "bytes": 585386,
+    "sha256": "ea9b7bbb5e14faa3125e6236c255ef16f79fbfe1bc75ec5d12a9b319ddd40d9a",
+    "width": 432,
+    "height": 960,
+    "samples": 192,
+    "native_blender_render": true
+  },
+  "render_b": {
+    "path": "02_HOME_START_432x960.png",
+    "bytes": 587038,
+    "sha256": "38bd245b3bb80c72bffad6fd2c24f5a050b625b6edd210445da07716dc1d9ef5",
+    "width": 432,
+    "height": 960,
+    "samples": 192,
+    "native_blender_render": true
+  },
+  "world_only_export": {
+    "header_valid": true,
+    "node_count": 566,
+    "named_anchors_present": true,
+    "external_uri_count": 0,
+    "reimport": "NOT_RUN",
+    "lighting_note": "Area lights/world/Cycles look excluded; recreate lighting after engine import"
+  },
+  "source_inputs_unchanged": true,
+  "not_done": [
+    "Warm relighting",
+    "Six level badge UI",
+    "Greeting polish",
+    "New gameplay levels",
+    "Godot integration",
+    "Android performance"
+  ]
+}

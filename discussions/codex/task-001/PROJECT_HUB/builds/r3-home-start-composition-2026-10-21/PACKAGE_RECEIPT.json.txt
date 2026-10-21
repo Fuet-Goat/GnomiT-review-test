@@ -1,0 +1,9 @@
+{
+  "status": "LOCAL_ZIP_CRC_AND_ALL_ENTRY_SHA_PASS",
+  "zip_name": "GNOMIT_R3_HOME_START_COMPOSITION_2026-10-21.zip",
+  "bytes": 18360875,
+  "sha256": "3a8f31a0dead4d38ac4880d8bfc8304a43e5324f17e2d9a13415cbf867c74118",
+  "entries": 47,
+  "encoded": "NATIVE_COMPOSITION.base64.txt",
+  "kind": "ISOLATED_NATIVE_BLENDER_ART_NOT_GAME_BUILD"
+}

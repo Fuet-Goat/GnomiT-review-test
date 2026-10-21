@@ -1,0 +1,4 @@
+{
+  "packages": [],
+  "note": "This composition archive already includes exact native inputs and source. Prior public sources are named by commit in PROVENANCE."
+}
