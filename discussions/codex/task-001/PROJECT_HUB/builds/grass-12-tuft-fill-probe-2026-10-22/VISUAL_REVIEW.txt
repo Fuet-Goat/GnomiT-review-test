@@ -1,0 +1,26 @@
+CODEX VISUAL REVIEW — 2026-10-22
+Observed directly: TARGET_HOME_START.png; both actual 432x960 native renders;
+02_FULL_BEFORE_AFTER.png; three identical 4x-nearest crops in03;
+both actual 512x512 Blender border renders in04/05, covering original xyxy61,428,125,492.
+The border renders use8x native pixel density, not image interpolation.
+
+VISUAL-JUDGMENT
+At the432x960 map scale, the12-tuft difference is very small; no clear whole-map
+visual improvement is established. Do not present this as reference parity.
+In the actual close render, the central selected tuft has a broader fan and
+more overlapping tips. Its base still appears attached to the ground. Existing
+gaps and the neighbouring path/rocks remain. No obvious new floating blade is
+visible in this close region; that is not an exhaustive collision review.
+The blade silhouette remains narrow, sharp and angular; adding leaves does
+not by itself produce the softer curled grass seen in the target image.
+The other two zones were inspected only at map scale and as enlarged source
+pixels; no separate close-render quality verdict is claimed for those zones.
+
+DECISION
+Keep this as a comparison candidate. Do not roll it out over the meadow or
+replace current v014. The local fuller silhouette is visible, but evidence is
+insufficient to call it a successful overall art improvement.
+If the human wants a next probe, inspect/refine one tuft silhouette in isolation
+before changing density, materials, light, flowers or trees. This is a proposed
+next decision, not an authorized automatic next implementation.
+Human visual acceptance PENDING. No Godot/Android test or performance verdict.

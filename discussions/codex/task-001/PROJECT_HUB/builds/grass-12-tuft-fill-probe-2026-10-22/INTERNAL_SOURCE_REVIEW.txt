@@ -1,0 +1,8 @@
+Read-only source/receipt review by grass_probe_source_review,2026-10-22.
+No actionable blocker found in the final source/receipt. Reviewer did not run Blender.
+Fresh input SHA matched the selected v014. Receipt generator SHA matched used source.
+Receipt records12 distinct cells,4 per zone,3 additions each,final5–7 leaves,
+648 protected non-body records and save/reopen prefix guards passing.
+Conditional issue: skipped candidate cells would need attained-safe-count detail.
+Actual limited_candidates_skipped=0, so this did not affect the current run.
+This is internal source review, not independent human/art/Android acceptance.

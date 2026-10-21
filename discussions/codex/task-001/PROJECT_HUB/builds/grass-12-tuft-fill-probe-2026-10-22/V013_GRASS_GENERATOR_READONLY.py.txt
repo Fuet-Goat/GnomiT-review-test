@@ -1,0 +1,446 @@
+"""Original deterministic curved grass clumps on the pinned v012 native scene.
+
+Run only in Blender background mode. Two existing grass mesh datablocks are
+replaced; their objects, transforms, collections and material assignments remain.
+All other geometry, the baked ground, materials, camera and lighting are guarded.
+No texture download, image generation, ground bake or gameplay edit is involved.
+"""
+from pathlib import Path
+import hashlib
+import importlib.util
+import json
+import math
+import random
+import struct
+
+import bpy
+from mathutils import Vector
+from mathutils.bvhtree import BVHTree
+
+
+ROOT = Path(__file__).resolve().parents[1]
+SOURCE = ROOT / 'native/V012_SOURCE.blend'
+OUTPUT = ROOT / 'native/GRASS_V013_CLUMPS.blend'
+GLB = ROOT / 'assets/r3/airy_island.glb'
+RECIPE = ROOT / 'assets/r3/lighting_v012.json'
+SOURCE_SHA = 'ae1dc37ae1aa43cb03c6f3803eb99fd0666bbe88db43b9cb9ec1d8d850c722a0'
+RECIPE_SHA = '10960ab40527705e5a9fb2fd4a485e5d3fd578a9c50d44f717aed84dcd9ea887'
+SEED = 26102213
+GRASS_NAMES = ('Reference_Grass_Carpet', 'Reference_Grass_Edge')
+PARAMETERS = {
+    'seed': SEED,
+    'body_spacing_m': 0.16,
+    'body_cell_jitter': 0.43,
+    'body_leaves_per_tuft': [2, 4],
+    'body_height_m': [0.12, 0.24],
+    'body_width_m': [0.035, 0.060],
+    'body_lean_height_ratio': [0.40, 0.65],
+    'root_jitter_m': 0.006,
+    'root_clearance_m': 0.060,
+    'density_keep_probability': [0.40, 1.0],
+    'border_spacing_m': 0.11,
+    'border_inset_m': 0.070,
+    'border_leaves_per_tuft': [2, 3],
+    'border_height_m': [0.060, 0.130],
+    'border_width_m': [0.025, 0.042],
+    'border_lean_height_ratio': [0.15, 0.30],
+    'leaf_rows': [0.0, 0.18, 0.40, 0.66, 0.85],
+    'leaf_row_width_factors': [0.18, 0.72, 1.0, 0.80, 0.42],
+    'palette_srgb': ['53792A', '87AA3C', 'B6C65C'],
+    'grass_shader': 'Inherited material nodes and existing runtime shader unchanged; emission remains0.075.',
+}
+
+spec = importlib.util.spec_from_file_location('grass_guard', ROOT / 'tools/guard_utils.py')
+guard = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(guard)
+
+
+def sha(data):
+    return hashlib.sha256(data).hexdigest()
+
+
+def write_json(path, value):
+    path.write_bytes((json.dumps(value, indent=2) + '\n').encode('utf-8'))
+
+
+def blend_color(a, b, t):
+    return tuple(x * (1.0-t) + y*t for x, y in zip(a, b))
+
+
+def object_record(obj):
+    record = guard.object_record(obj)
+    record['parent'] = obj.parent.name if obj.parent else None
+    record['matrix_basis'] = [list(row) for row in obj.matrix_basis]
+    record['matrix_parent_inverse'] = [list(row) for row in obj.matrix_parent_inverse]
+    record['collections'] = sorted(c.name for c in obj.users_collection)
+    if obj.type == 'MESH':
+        mesh = obj.data
+        record['uv'] = {
+            layer.name: {
+                'values': guard.fingerprint([list(v.uv) for v in layer.data]),
+                'active_render': layer.active_render}
+            for layer in mesh.uv_layers}
+        record['colours'] = {
+            attribute.name: {
+                'type': attribute.data_type,
+                'domain': attribute.domain,
+                'values': guard.fingerprint([list(v.color) for v in attribute.data])}
+            for attribute in mesh.color_attributes
+            if attribute.data_type in {'FLOAT_COLOR', 'BYTE_COLOR'}}
+        record['face_properties'] = guard.fingerprint([
+            [p.material_index, p.use_smooth] for p in mesh.polygons])
+    if obj.type == 'LIGHT':
+        record['light_properties'] = {
+            'shadow_soft_size': getattr(obj.data, 'shadow_soft_size', None),
+            'shape': getattr(obj.data, 'shape', None),
+            'size_y': getattr(obj.data, 'size_y', None),
+            'use_shadow': obj.data.use_shadow}
+    return record
+
+
+def grass_object_state(obj):
+    return {
+        'name': obj.name,
+        'parent': obj.parent.name if obj.parent else None,
+        'matrix_world': [list(row) for row in obj.matrix_world],
+        'matrix_basis': [list(row) for row in obj.matrix_basis],
+        'matrix_parent_inverse': [list(row) for row in obj.matrix_parent_inverse],
+        'collections': sorted(c.name for c in obj.users_collection),
+        'materials': [s.material.name if s.material else None for s in obj.material_slots],
+        'material_links': [s.link for s in obj.material_slots],
+        'hide_render': obj.hide_render,
+        'exclude_from_glb': obj.get('exclude_from_glb', False)}
+
+
+def mesh_stats(obj):
+    return {
+        'name': obj.name,
+        'tufts': int(obj.get('tuft_count', 0)),
+        'blades': int(obj.get('blade_count', 0)),
+        'vertices': len(obj.data.vertices),
+        'triangles': sum(len(p.vertices)-2 for p in obj.data.polygons)}
+
+
+def integer_noise(ix, iy):
+    value = (ix*374761393 + iy*668265263 + SEED*1442695041) & 0xffffffff
+    value = ((value ^ (value >> 13))*1274126177) & 0xffffffff
+    return ((value ^ (value >> 16)) & 0xffffff) / 16777215.0
+
+
+def noise(x, y):
+    ix, iy = math.floor(x), math.floor(y)
+    x -= ix; y -= iy
+    x = x*x*(3.0-2.0*x); y = y*y*(3.0-2.0*y)
+    return ((1-x)*integer_noise(ix, iy) + x*integer_noise(ix+1, iy))*(1-y) + \
+           ((1-x)*integer_noise(ix, iy+1) + x*integer_noise(ix+1, iy+1))*y
+
+
+def density_field(x, y):
+    return max(0.0, min(1.0,
+        0.68*noise(x*.55+7.0, y*.55-9.0) +
+        0.32*noise(x*1.15-11.0, y*1.15+3.0)))
+
+
+class Clumps:
+    def __init__(self, name):
+        self.name = name
+        self.vertices = []
+        self.faces = []
+        self.colours = []
+        self.blades = 0
+        self.tufts = 0
+
+    def add_leaf(self, root, angle, height, width, lean, curl, tint, field, free_xy):
+        direction = Vector((math.cos(angle), math.sin(angle), 0.0))
+        side = Vector((-direction.y, direction.x, 0.0))
+        palette = [guard.color(c) for c in PARAMETERS['palette_srgb']]
+        rows = []
+        samples = []
+        colours = []
+        # A lightly folded, curved leaf grows from one narrow planted base.
+        for t, width_factor in zip(PARAMETERS['leaf_rows'], PARAMETERS['leaf_row_width_factors']):
+            centre = root + direction*(lean*t*t) + side*(curl*math.sin(t*math.pi))
+            centre.z += height*(t-.10*t*t*t)
+            for across in (-1, 0, 1):
+                point = centre + side*(across*.5*width*width_factor)
+                if across == 0:
+                    point.z += width*.09*math.sin(t*math.pi)
+                rows.append(tuple(point))
+                if across != 0:
+                    samples.append(point)
+                colour = blend_color(palette[0], palette[1], min(1.0, t*1.7))
+                colour = blend_color(colour, palette[2], max(0.0, t-.35)*.70)
+                # Coherent patch colour and a small per-leaf tint, not random white tips.
+                multiplier = tint*(.94+.10*field)
+                colours.append(tuple(max(0.0, min(1.0, c*multiplier)) if j < 3 else 1.0
+                                     for j, c in enumerate(colour)))
+        tip = root + direction*lean + Vector((0.0, 0.0, height*.90))
+        rows.append(tuple(tip)); samples.append(tip)
+        colours.append(blend_color(palette[1], palette[2], .56))
+        for point in samples:
+            if not free_xy(point.x, point.y, blade=True):
+                return False
+        offset = len(self.vertices)
+        self.vertices.extend(rows); self.colours.extend(colours)
+        for row in range(4):
+            lower = offset + row*3
+            upper = lower+3
+            self.faces.extend([(lower, lower+1, upper+1, upper),
+                               (lower+1, lower+2, upper+2, upper+1)])
+        self.faces.extend([(offset+12, offset+13, offset+15),
+                           (offset+13, offset+14, offset+15)])
+        self.blades += 1
+        return True
+
+    def add_tuft(self, point, field, rng, free_xy, border=False, outward=None):
+        before = self.blades
+        count = rng.randint(*(PARAMETERS['border_leaves_per_tuft'] if border
+                              else PARAMETERS['body_leaves_per_tuft']))
+        main_angle = rng.uniform(-math.pi, math.pi)
+        if border:
+            main_angle = math.atan2(outward.y, outward.x)
+        # Leaves fan around one shared base, rather than becoming detached grains.
+        spread = rng.uniform(.65, 1.35) if not border else rng.uniform(.7, 1.1)
+        base_height = rng.uniform(*(PARAMETERS['border_height_m'] if border
+                                    else PARAMETERS['body_height_m']))
+        if not border:
+            base_height *= .82+.27*field
+        for k in range(count):
+            fan = (k-(count-1)/2.0)*spread
+            angle = main_angle + fan + rng.uniform(-.15, .15)
+            height = base_height*rng.uniform(.78, 1.10)
+            width = rng.uniform(*(PARAMETERS['border_width_m'] if border
+                                  else PARAMETERS['body_width_m']))
+            lean = height*rng.uniform(*(PARAMETERS['border_lean_height_ratio'] if border
+                                        else PARAMETERS['body_lean_height_ratio']))
+            jitter = PARAMETERS['root_jitter_m']
+            root = point + Vector((rng.uniform(-jitter, jitter), rng.uniform(-jitter, jitter), -.008))
+            self.add_leaf(root, angle, height, width, lean,
+                          rng.uniform(-.16, .16)*width, rng.uniform(.96, 1.04), field, free_xy)
+        if self.blades > before:
+            self.tufts += 1
+
+    def mesh(self, materials):
+        mesh = bpy.data.meshes.new(self.name+'_V013_Clump_Mesh')
+        mesh.from_pydata(self.vertices, [], self.faces)
+        mesh.update()
+        attr = mesh.color_attributes.new(name='Grass_Colour', type='FLOAT_COLOR', domain='POINT')
+        attr.data.foreach_set('color', [v for colour in self.colours for v in colour])
+        for polygon in mesh.polygons:
+            polygon.use_smooth = True
+        for material in materials:
+            mesh.materials.append(material)
+        return mesh
+
+
+def verify(scene, protected, settings, materials, scene_names, grass_states):
+    bpy.context.view_layer.update()
+    assert set(scene.objects.keys()) == scene_names, 'Scene object set changed.'
+    for name, expected in protected.items():
+        assert object_record(bpy.data.objects[name]) == expected, 'Protected object changed: '+name
+    assert guard.settings_record(scene) == settings, 'Camera/light/world/view/render settings changed.'
+    assert guard.original_materials() == materials, 'A material shader changed or disappeared.'
+    for name, expected in grass_states.items():
+        assert grass_object_state(bpy.data.objects[name]) == expected, 'Grass object identity/assignment changed: '+name
+
+
+def export_world(scene):
+    for obj in scene.objects:
+        obj.select_set(obj.type in {'MESH', 'EMPTY', 'CAMERA'} and not obj.get('exclude_from_glb', False))
+    assert 'FINISHED' in bpy.ops.export_scene.gltf(
+        filepath=str(GLB), export_format='GLB', use_selection=True, export_apply=True,
+        export_cameras=True, export_lights=False, export_animations=False, export_extras=True)
+    data = GLB.read_bytes()
+    assert struct.unpack_from('<4sII', data, 0) == (b'glTF', 2, len(data))
+    length, kind = struct.unpack_from('<II', data, 12)
+    assert kind == 0x4E4F534A
+    doc = json.loads(data[20:20+length])
+    nodes = {node.get('name'): node for node in doc['nodes']}
+    assert len(nodes) == len(doc['nodes']) == 568
+    assert {'Road_Centerline', 'Level_1_Anchor', 'Level_2_Anchor', 'Portrait_Camera',
+            *GRASS_NAMES} <= set(nodes)
+    assert not any(name.startswith('Guide') or name.startswith('R3_Leg') for name in nodes)
+    assert all('uri' not in item for item in doc.get('images', [])+doc.get('buffers', []))
+    for name in list(GRASS_NAMES)+[n for n in nodes if n.endswith('_Crown_Sculpt')]:
+        for primitive in doc['meshes'][nodes[name]['mesh']]['primitives']:
+            assert 'COLOR_0' in primitive['attributes'], name
+    ground = doc['meshes'][nodes['Island_Grass_Cap']['mesh']]['primitives'][0]
+    material = doc['materials'][ground['material']]
+    assert material['pbrMetallicRoughness']['baseColorTexture'].get('texCoord', 0) == 1
+    return {'bytes': len(data), 'sha256': sha(data), 'node_count': len(nodes),
+            'grass_color0': True, 'ground_uv1': True, 'embedded_resources': True,
+            'lights_exported': False, 'duplicate_guide_excluded': True}
+
+
+def main():
+    assert bpy.app.background, 'Use Blender background mode.'
+    assert sha(SOURCE.read_bytes()) == SOURCE_SHA, 'Pinned native input mismatch.'
+    assert sha(RECIPE.read_bytes()) == RECIPE_SHA, 'The selected v012 runtime lighting changed.'
+    assert not OUTPUT.exists(), 'Native output exists; nothing overwritten.'
+    bpy.context.preferences.filepaths.save_version = 0
+    bpy.ops.wm.open_mainfile(filepath=str(SOURCE))
+    scene = bpy.context.scene; scene.frame_set(1); bpy.context.view_layer.update()
+    grass_objects = {name: bpy.data.objects[name] for name in GRASS_NAMES}
+    assert all(obj.type == 'MESH' and len(obj.modifiers) == 0 for obj in grass_objects.values())
+    assert all(all(abs(obj.matrix_world[i][j]-(1.0 if i == j else 0.0)) < 1e-7
+                   for i in range(4) for j in range(4)) for obj in grass_objects.values())
+    retained_unused = []
+    for material in bpy.data.materials:
+        if material.users == 0 and not material.use_fake_user:
+            material.use_fake_user = True; retained_unused.append(material.name)
+    protected = {obj.name: object_record(obj) for obj in scene.objects if obj.name not in GRASS_NAMES}
+    settings = guard.settings_record(scene); materials = guard.original_materials()
+    scene_names = set(scene.objects.keys())
+    grass_states = {name: grass_object_state(obj) for name, obj in grass_objects.items()}
+    previous = [mesh_stats(grass_objects[name]) for name in GRASS_NAMES]
+    collections = {name: tuple(obj.users_collection) for name, obj in grass_objects.items()}
+    assignments = {name: tuple(slot.material for slot in obj.material_slots) for name, obj in grass_objects.items()}
+    assert all(all(material is not None for material in slots) for slots in assignments.values())
+    assert all(all(slot.link == 'DATA' for slot in obj.material_slots) for obj in grass_objects.values())
+    # Temporarily remove the old grass from ray queries; keep the same two objects.
+    for name, obj in grass_objects.items():
+        for collection in collections[name]:
+            collection.objects.unlink(obj)
+    bpy.context.view_layer.update()
+    cap = bpy.data.objects['Island_Grass_Cap']
+    assert len(cap.modifiers) == 0
+    assert all(abs(cap.matrix_world[i][j]-(1.0 if i == j else 0.0)) < 1e-7
+               for i in range(4) for j in range(4)), 'Cap BVH expects local==world.'
+    deps = bpy.context.evaluated_depsgraph_get()
+    bvh = BVHTree.FromObject(cap, deps)
+    down = Vector((0.0, 0.0, -1.0))
+    rejected = {'occupied_roots': 0, 'occupied_blades': 0,
+                'off_surface_roots': 0, 'off_surface_blades': 0}
+
+    def surface(x, y):
+        point, normal, index, distance = bvh.ray_cast(Vector((x, y, 3.0)), down, 5.0)
+        if point is None or normal.z < .65 or cap.data.polygons[index].material_index != 0:
+            return None
+        return point
+
+    def free_xy(x, y, blade=False):
+        point = surface(x, y)
+        suffix = 'blades' if blade else 'roots'
+        if point is None:
+            rejected['off_surface_'+suffix] += 1
+            return False
+        hit, location, normal, face, obj, matrix = scene.ray_cast(
+            deps, Vector((x, y, point.z+.5)), down, distance=.75)
+        if not hit or obj.original != cap:
+            rejected['occupied_'+suffix] += 1
+            return False
+        return True
+
+    def free_root(point, radius):
+        return all(free_xy(point.x+dx, point.y+dy) for dx, dy in
+                   [(0, 0), (radius, 0), (-radius, 0), (0, radius), (0, -radius)])
+
+    rng = random.Random(SEED)
+    body = Clumps(GRASS_NAMES[0]); edge = Clumps(GRASS_NAMES[1])
+    coords = [vertex.co for vertex in cap.data.vertices]
+    xmin, xmax = min(v.x for v in coords), max(v.x for v in coords)
+    ymin, ymax = min(v.y for v in coords), max(v.y for v in coords)
+    centre = Vector(((xmin+xmax)*.5, (ymin+ymax)*.5, 0.0))
+    step = PARAMETERS['body_spacing_m']
+    for iy in range(math.floor(ymin/step), math.ceil(ymax/step)):
+        for ix in range(math.floor(xmin/step), math.ceil(xmax/step)):
+            jitter = PARAMETERS['body_cell_jitter']
+            x = (ix+.5+rng.uniform(-jitter, jitter))*step
+            y = (iy+.5+rng.uniform(-jitter, jitter))*step
+            point = surface(x, y)
+            if point is None:
+                continue
+            field = density_field(x, y)
+            if rng.random() > .40+.60*field:
+                continue
+            if not free_root(point, PARAMETERS['root_clearance_m']):
+                continue
+            body.add_tuft(point, field, rng, free_xy)
+
+    boundary = {}
+    for polygon in cap.data.polygons:
+        if polygon.material_index != 0:
+            continue
+        for a, b in polygon.edge_keys:
+            boundary[(a, b)] = boundary.get((a, b), 0)+1
+    for (a, b), count in sorted(boundary.items()):
+        if count != 1:
+            continue
+        av, bv = cap.data.vertices[a].co, cap.data.vertices[b].co
+        tangent = Vector((bv.x-av.x, bv.y-av.y, 0.0))
+        if tangent.length < 1e-7:
+            continue
+        tangent.normalize(); outward = Vector((tangent.y, -tangent.x, 0.0))
+        midpoint = (av+bv)*.5
+        if outward.dot(Vector((midpoint.x-centre.x, midpoint.y-centre.y, 0))) < 0:
+            outward.negate()
+        divisions = max(1, math.ceil((bv-av).length/PARAMETERS['border_spacing_m']))
+        for k in range(divisions):
+            q = av.lerp(bv, (k+rng.uniform(.18, .82))/divisions)
+            point = surface(q.x-outward.x*PARAMETERS['border_inset_m'],
+                            q.y-outward.y*PARAMETERS['border_inset_m'])
+            if point is None or not free_root(point, .025):
+                continue
+            field = density_field(point.x, point.y)
+            if rng.random() > .72+.25*field:
+                continue
+            edge.add_tuft(point, field, rng, free_xy, border=True, outward=outward)
+    assert body.blades > 1000 and edge.blades > 100, (body.blades, edge.blades)
+    meshes = {body.name: body, edge.name: edge}
+    for name in GRASS_NAMES:
+        obj = grass_objects[name]; clumps = meshes[name]
+        obj.data = clumps.mesh(assignments[name])
+        obj['seed'] = SEED; obj['blade_count'] = clumps.blades; obj['tuft_count'] = clumps.tufts
+        obj['grass_revision'] = 'V013 connected curved leaf clumps; original material and light retained.'
+        obj['footprint_guard'] = 'Sampled root/leaf-width/tip rays; not proof of every possible triangle collision.'
+        for collection in collections[name]:
+            collection.objects.link(obj)
+    verify(scene, protected, settings, materials, scene_names, grass_states)
+    new_records = {name: object_record(bpy.data.objects[name]) for name in GRASS_NAMES}
+    stats = []
+    for name in GRASS_NAMES:
+        row = mesh_stats(bpy.data.objects[name]); row['mesh_record_sha256'] = guard.fingerprint(new_records[name]); stats.append(row)
+    note = bpy.data.texts.new('START_HERE_GRASS_V013')
+    note.write('V013 grass-only: existing two grass objects receive curved connected clump meshes and vertex colours.\n'
+               'The baked cap, all materials, all other geometry, camera and native v012 lighting remain.\n'
+               'Godot keeps its v012 B light recipe and existing grass shader. Native/Godot pixel parity is not claimed.\n'
+               'Footprint checking uses sampled rays, not exhaustive polygon collision proof.\n')
+    assert 'FINISHED' in bpy.ops.wm.save_as_mainfile(filepath=str(OUTPUT), check_existing=False)
+    selected_sha = sha(OUTPUT.read_bytes())
+    glb = export_world(scene)
+    bpy.ops.wm.open_mainfile(filepath=str(OUTPUT)); scene = bpy.context.scene
+    scene.frame_set(1); verify(scene, protected, settings, materials, scene_names, grass_states)
+    assert all(object_record(bpy.data.objects[name]) == record for name, record in new_records.items())
+    scene.cycles.samples = 128
+    render = ROOT / 'outputs/00_NATIVE_GRASS_432x960.png'; scene.render.filepath = str(render)
+    assert scene.render.resolution_x == 432 and scene.render.resolution_y == 960
+    assert scene.render.resolution_percentage == 100
+    assert 'FINISHED' in bpy.ops.render.render(write_still=True)
+    image = render.read_bytes()
+    assert image[:8] == b'\x89PNG\r\n\x1a\n' and struct.unpack('>II', image[16:24]) == (432, 960)
+    receipt = {
+        'status': 'GRASS_CLUMPS_NATIVE_REOPENED_EXPORTED', 'input_sha256': SOURCE_SHA,
+        'seed': SEED, 'parameters': PARAMETERS,
+        'protected_non_grass_records': len(protected),
+        'all_other_geometry_materials_camera_lighting_unchanged': True,
+        'ground_uv_material_unchanged': True,
+        'grass_objects_names_transforms_collections_material_slots_unchanged': True,
+        'previous_grass_meshes': previous, 'grass_meshes': stats,
+        'footprint_rejections': rejected,
+        'guard_limit': 'Sampled rays at roots, leaf rows/widths and tips; not an exhaustive triangle-collision proof.',
+        'unused_material_retention_flags_added': retained_unused,
+        'selected_blend_sha256': selected_sha, 'glb': glb,
+        'native_render': {'bytes': len(image), 'sha256': sha(image), 'samples': 128},
+        'lighting_recipe_sha256': RECIPE_SHA,
+        'native_runtime_render_parity': 'NOT_CLAIMED - inherited separate native and Godot v012 light rigs.',
+        'generator_sha256': sha(Path(__file__).read_bytes()),
+        'human_acceptance': 'PENDING', 'android_performance': 'NOT_MEASURED'}
+    assert sha(OUTPUT.read_bytes()) == selected_sha
+    assert sha(SOURCE.read_bytes()) == SOURCE_SHA
+    assert sha(RECIPE.read_bytes()) == RECIPE_SHA
+    write_json(ROOT / 'documentation/GRASS_BUILD_RECEIPT.json', receipt)
+    print('GRASS_CLUMPS_BUILD '+json.dumps(receipt))
+
+
+if __name__ == '__main__':
+    main()
