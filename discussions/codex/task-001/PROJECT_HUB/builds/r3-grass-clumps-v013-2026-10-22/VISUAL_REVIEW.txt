@@ -1,0 +1,27 @@
+GNOMIT v013 GRASS — actual pixel review — 2026-10-22
+
+Observed: actual Blender output 00_NATIVE_GRASS_432x960.png and actual Godot
+GRASS_V013_FROZEN.png at 432x960. Godot comparison baseline is v012
+LIGHT_B_432x960.png, with the same verified camera, profile B, route and
+frozen guide pose/map clock. Native and runtime renderers are separate.
+
+VISUAL-JUDGMENT: meaningful grass shape change. Curved pointed blades now
+share planted clump roots; broader leaves are clearer at map scale. The
+surface has more calm green gaps and a shorter, less hairy island edge.
+Path edges, roots, flowers and stones remain readable. No obvious clipping
+or oversized clump blocker is visible in the observed portrait views.
+
+Remaining gap: density still reads somewhat peppered and the new grass
+resembles short sprouts. The reference has longer, more flowing connected
+tufts and a richer continuous grassy layer. Reference parity is not claimed.
+This is one usable isolated grass candidate for human comparison, not an
+assertion that the entire island artwork is finished.
+
+Placement validation uses sampled rays at roots, widths, rows and tips;
+neither this pixel review nor those rays prove absence of every possible
+mesh intersection. Only the two grass meshes changed. Native protected
+object/material checks and runtime inherited-file checks supply scope
+evidence independently from this aesthetic judgment.
+
+Human visual acceptance: PENDING. Android performance, FPS and touch:
+NOT_MEASURED. The game smoke is scripted, not a human playtest.

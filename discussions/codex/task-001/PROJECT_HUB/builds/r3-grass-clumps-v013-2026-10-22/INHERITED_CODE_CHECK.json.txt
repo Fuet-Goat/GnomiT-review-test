@@ -1,0 +1,22 @@
+{
+  "status": "PASS",
+  "base": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\R3_Lighting_2026-10-21",
+  "unchanged_scripts": 60,
+  "changed_scripts": [
+    "scripts/r3/preview_main.gd"
+  ],
+  "allowed_script_changes": "Window title only.",
+  "map_adapter": "BYTE_IDENTICAL_TO_V012",
+  "project_changes": "Window title and isolated v013 user-data directory only.",
+  "unchanged_inherited_resources": 85,
+  "changed_inherited_resources": [
+    "assets/r3/airy_island.glb"
+  ],
+  "lighting_recipe_sha256": "10960ab40527705e5a9fb2fd4a485e5d3fd578a9c50d44f717aed84dcd9ea887",
+  "lighting_profile": "B",
+  "lighting_shader_camera_gameplay_audio": "UNCHANGED",
+  "main_scene": "BYTE_IDENTICAL_TO_V012",
+  "base_manifest_entries_unchanged": 340,
+  "base_modified_entries": [],
+  "native_protected_non_grass_records": 647
+}

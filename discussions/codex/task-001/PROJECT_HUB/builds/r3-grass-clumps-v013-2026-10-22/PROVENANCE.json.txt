@@ -1,0 +1,167 @@
+{
+  "project": "GnomiT",
+  "version": "v013",
+  "date": "2026-10-22",
+  "method": "Deterministic native Blender grass geometry and vertex colours; no image generation.",
+  "input": {
+    "path": "native/V012_SOURCE.blend",
+    "sha256": "ae1dc37ae1aa43cb03c6f3803eb99fd0666bbe88db43b9cb9ec1d8d850c722a0",
+    "role": "Exact v012 editable world with its native warm lighting."
+  },
+  "generator": {
+    "path": "tools/build_grass_v013.py",
+    "sha256": "d859494f88722f2f9012e9800eab0e1e7c609780a8ea5cdf97197dcdc2ca1b18",
+    "seed": 26102213
+  },
+  "selected_editable_source": {
+    "path": "native/GRASS_V013_CLUMPS.blend",
+    "sha256": "856ebcb4641e689c00f3de456220bebc43a20efc2e632c919e2509bf3373e7b7"
+  },
+  "runtime_world": {
+    "path": "assets/r3/airy_island.glb",
+    "bytes": 29738492,
+    "sha256": "06ea29ea41a9108b25785a072e1316fcad909e2a13d1ff1e26baee9ef3da73bf",
+    "node_count": 568,
+    "grass_color0": true,
+    "ground_uv1": true,
+    "embedded_resources": true,
+    "lights_exported": false,
+    "duplicate_guide_excluded": true
+  },
+  "scope": "Replace only Reference_Grass_Carpet and Reference_Grass_Edge mesh geometry/vertex colours.",
+  "form": "Connected small clumps of curved tapered blades, patchwise relief and short inward edge grass.",
+  "parameters": {
+    "seed": 26102213,
+    "body_spacing_m": 0.16,
+    "body_cell_jitter": 0.43,
+    "body_leaves_per_tuft": [
+      2,
+      4
+    ],
+    "body_height_m": [
+      0.12,
+      0.24
+    ],
+    "body_width_m": [
+      0.035,
+      0.06
+    ],
+    "body_lean_height_ratio": [
+      0.4,
+      0.65
+    ],
+    "root_jitter_m": 0.006,
+    "root_clearance_m": 0.06,
+    "density_keep_probability": [
+      0.4,
+      1.0
+    ],
+    "border_spacing_m": 0.11,
+    "border_inset_m": 0.07,
+    "border_leaves_per_tuft": [
+      2,
+      3
+    ],
+    "border_height_m": [
+      0.06,
+      0.13
+    ],
+    "border_width_m": [
+      0.025,
+      0.042
+    ],
+    "border_lean_height_ratio": [
+      0.15,
+      0.3
+    ],
+    "leaf_rows": [
+      0.0,
+      0.18,
+      0.4,
+      0.66,
+      0.85
+    ],
+    "leaf_row_width_factors": [
+      0.18,
+      0.72,
+      1.0,
+      0.8,
+      0.42
+    ],
+    "palette_srgb": [
+      "53792A",
+      "87AA3C",
+      "B6C65C"
+    ],
+    "grass_shader": "Inherited material nodes and existing runtime shader unchanged; emission remains0.075."
+  },
+  "grass_meshes": [
+    {
+      "name": "Reference_Grass_Carpet",
+      "tufts": 2559,
+      "blades": 7554,
+      "vertices": 120864,
+      "triangles": 135972,
+      "mesh_record_sha256": "7c728429c91097fffdf49f6795942ed0f423cb5dbee4d555d46af6b3232ff4d0"
+    },
+    {
+      "name": "Reference_Grass_Edge",
+      "tufts": 426,
+      "blades": 1068,
+      "vertices": 17088,
+      "triangles": 19224,
+      "mesh_record_sha256": "dbd919e38264c866aa38d09a077aefbac01740d8b675d080900251d2598c3695"
+    }
+  ],
+  "previous_grass_meshes": [
+    {
+      "name": "Reference_Grass_Carpet",
+      "tufts": 5045,
+      "blades": 20087,
+      "vertices": 200870,
+      "triangles": 200870
+    },
+    {
+      "name": "Reference_Grass_Edge",
+      "tufts": 702,
+      "blades": 2806,
+      "vertices": 28060,
+      "triangles": 28060
+    }
+  ],
+  "materials": "Existing grass material reused; no shader, ground bake, ground UV or other material change.",
+  "unchanged": "All other objects, trees, bark, flowers, route, guide, camera, layout, lighting, gameplay, progress and audio.",
+  "lighting": {
+    "recipe": "assets/r3/lighting_v012.json",
+    "sha256": "10960ab40527705e5a9fb2fd4a485e5d3fd578a9c50d44f717aed84dcd9ea887",
+    "runtime_profile": "B",
+    "render_parity": "NOT_CLAIMED. Native Cycles and Godot retain their separate v012 lighting rigs."
+  },
+  "footprint_validation": {
+    "rejections": {
+      "occupied_roots": 1125,
+      "occupied_blades": 69,
+      "off_surface_roots": 73,
+      "off_surface_blades": 37
+    },
+    "builder_guard_limit": "Sampled rays at roots, leaf rows/widths and tips; not an exhaustive triangle-collision proof.",
+    "limitation": "Conservative sampled root/mid/tip/width rays; not proof that every triangle avoids every prop."
+  },
+  "external_assets_added": "None. Existing asset provenance remains applicable; no new model, image texture, font or audio added to the runtime.",
+  "verification": {
+    "native_save_reopen_export": "GRASS_CLUMPS_NATIVE_REOPENED_EXPORTED",
+    "native_protected_non_grass_records": 647,
+    "scripted_game_checks": 57,
+    "scripted_game_status": "PASS",
+    "same_lighting_camera_route_frozen_guide_comparison": true,
+    "predecessor_manifest_entries_unchanged": 340
+  },
+  "visual_review": {
+    "path": "documentation/GRASS_VISUAL_REVIEW.txt",
+    "present_when_finalized": true,
+    "automatic_improvement_or_acceptance_claim": false
+  },
+  "performance": "Geometry counts are recorded; Android/FPS/touch remain NOT_MEASURED. Lower counts alone do not prove faster rendering.",
+  "acceptance": "Human visual acceptance PENDING; the comparison is scripted, not a human playtest.",
+  "legal_scope": "Input and creation record only; inherited asset records still apply. No legal ownership guarantee is inferred."
+}

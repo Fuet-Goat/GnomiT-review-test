@@ -1,0 +1,55 @@
+GNOMIT v013 GRASS CLUMPS — 2026-10-22
+Status: LOCAL_NATIVE_AND_GAME_PASS / REMOTE_READBACK_PENDING
+
+Human request: finish/refine grass now. The isolated v013 changes only the
+two named grass meshes. Exact v012 source SHA-256:
+ae1dc37ae1aa43cb03c6f3803eb99fd0666bbe88db43b9cb9ec1d8d850c722a0
+Input repository report head: 352a8a3e05a218d66d0ea5b6087f231972433fb6
+Main scope grant checked at d803005f3b123ca2b1ab617a37098a43c43b5da8.
+Local isolated implementation is explicitly requested by the human; Git
+handoff remains within own discussions/codex/task-001 text-report scope.
+
+Native source output SHA-256:
+856ebcb4641e689c00f3de456220bebc43a20efc2e632c919e2509bf3373e7b7
+Runtime world: 29738492 bytes; SHA-256:
+06ea29ea41a9108b25785a072e1316fcad909e2a13d1ff1e26baee9ef3da73bf
+Generator SHA-256:
+d859494f88722f2f9012e9800eab0e1e7c609780a8ea5cdf97197dcdc2ca1b18
+Selected light B recipe unchanged, SHA-256:
+10960ab40527705e5a9fb2fd4a485e5d3fd578a9c50d44f717aed84dcd9ea887
+
+BODY: 2559 planted tufts / 7554 curved blades; EDGE: 426 / 1068.
+Prior grass: 5747 tufts total. New: 2985 total. Density and blade geometry
+both change; reduced geometry is recorded, not used as a performance claim.
+Material/shader, ground baked texture/UV and all non-grass objects protected.
+Native guard protects 647 non-grass records; runtime guard preserves 60
+scripts and 85 other resources, with title-only change in the 61st script.
+Native saved/reopened/rendered/exported; 568-node GLB embeds resources,
+retains both grass COLOR_0 channels and ground UV1; no duplicate Guide.
+Godot fresh import and 57 scripted game checks PASS at 432x960 on desktop.
+Map -> level1 goals -> both Volcano intro pages -> valid swap -> map return.
+Frozen comparison verifies same B lighting, camera, route and guide pose.
+340 predecessor-manifest entries remain unchanged.
+
+Visual judgment: useful clearer clumps and calmer gaps, short inward edge.
+No obvious overlap/overscale blocker observed. Still short scattered sprouts
+relative to lush flowing reference; no reference parity or final-art claim.
+Independent read-only visual reviewer agrees on that bounded conclusion.
+Human acceptance PENDING; Android/FPS/touch NOT_MEASURED; win NOT_TESTED.
+Sampled root/leaf-width/tip rays are not universal triangle collision proof.
+
+Desktop shortcut v013 - 2026-10-22 - R3 Grass Clumps is registered and read
+back. Current selector points to v013; old selector metadata is backed up.
+Interactive game was launched separately. Scripted tests saw one Godot
+screen and used screen0 fallback; monitor2 placement is not claimed.
+
+Full local ZIP: GNOMIT_R3_GRASS_CLUMPS_V013_2026-10-22.zip
+123989421 bytes / 333 entries / SHA-256:
+93ca19520982d28a99e3f5ae6e127ddb11e3864ddcb4db6fb59f66ff0ba2af60
+Full and delta CRC/all entries verified. Git transfer: immutable pinned v009
+base plus v013 delta, 66869105 bytes / 53 changed-new entries / 12 parts.
+PACKAGE_RECEIPT.json.txt and FINAL_FILES.json.txt specify exact bytes/hashes.
+Remote success is not asserted until fresh exact-commit readback is appended.
+
+No main/grant/private-game edit, no merge, no auto-next art stage.
+GPT-6.1 Sol / Extra high.
