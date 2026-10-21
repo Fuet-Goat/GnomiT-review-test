@@ -47,3 +47,9 @@ python download_v012.py --commit ARTIFACT_COMMIT --output NEW_OUTPUT_FOLDER
 текстови отчети в тестовия checkout;локалната изолирана проба е по човешката
 задача. Старитеv011/v010 остават. Не започваме следващ арт етап.
 GPT-6.1 Sol / Extra high.
+
+REMOTE ПРЕДАВАНЕ PASS
+Artifact:44142669244660b1d931e9606b7c29205aff7942.
+341finalфайла възстановени и проверениSHA-256 от публикуваните Git байтове.
+След това cold import PASS и57scripted checks PASS с действителен профилB.
+Точна последователност/хешове:REMOTE_READBACK.json.txt.

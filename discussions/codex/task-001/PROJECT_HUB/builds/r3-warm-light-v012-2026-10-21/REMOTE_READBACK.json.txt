@@ -1,0 +1,43 @@
+{
+  "status": "PASS",
+  "method": "PINNED_V009_PLUS_VERIFIED_V012_DELTA",
+  "artifact_commit": "44142669244660b1d931e9606b7c29205aff7942",
+  "base_commit": "41be8dc7de9658c08045f9960facfd85066f642c",
+  "base_zip_bytes": 87008816,
+  "base_zip_sha256": "bb5417e8349fc24266fd11fc4ff274d449e90afd6fc541154cb02ac914eeed92",
+  "delta_zip_bytes": 75568300,
+  "delta_zip_sha256": "21f15b97de3e5ff6e5c03f0a844bee9e5644598e4fde1682ecbb46ec487a886b",
+  "final_manifest_sha256": "d38a3678a57e51725c2e4b1e2fc67d282f7d6d64b0727101945f7fdee46e6a8a",
+  "final_files_verified_before_and_after_write": 341,
+  "game_directory": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\R3_Light_v012_RemoteCheck_4414266\\GAME",
+  "executed_downloaded_code": false,
+  "runtime_checks": "NOT_RUN_BY_DOWNLOADER",
+  "cold_import_after_readback": "PASS",
+  "runtime_after_readback": {
+    "status": "PASS",
+    "checks": 57,
+    "lighting_profile": "B",
+    "scripted_not_human": true,
+    "android_performance": "NOT_MEASURED",
+    "won_level": "NOT_TESTED"
+  },
+  "sequence": "341 final files verified from remote bytes before execution. Subsequent cold Godot import and57check selectedB smoke wrote local generated cache/test outputs. Downloader executed no code.",
+  "evidence": {
+    "COLD_IMPORT.log": {
+      "bytes": 26094,
+      "sha256": "a6147f1a08a1b39d66fb92d82b336ef4804e597b67140b0546baf62e80348ebf"
+    },
+    "COLD_RUNTIME.log": {
+      "bytes": 2782,
+      "sha256": "479238e775d4ce69be51788fc6253c10c2e8b40f825fbcdc5a46f76634ca6934"
+    },
+    "GAME/verification/LIGHTING_GAME_SMOKE.json": {
+      "bytes": 2376,
+      "sha256": "5c10e248fbb7e55a9f4c502e4d7bcc927322ea95fc21339961507fe729b252c4"
+    },
+    "GAME/outputs/01_TREES_MAP.png": {
+      "bytes": 452599,
+      "sha256": "7bf102a36de78047beeeb312b357c932ff75d55c8f04d4bc257aeea153811c5e"
+    }
+  }
+}
