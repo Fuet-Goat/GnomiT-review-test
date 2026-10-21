@@ -1,5 +1,5 @@
 GNOMIT v013 GRASS CLUMPS — 2026-10-22
-Status: LOCAL_NATIVE_AND_GAME_PASS / REMOTE_READBACK_PENDING
+Status: LOCAL_AND_REMOTE_NATIVE_BYTES_GAME_PASS / HUMAN_ACCEPTANCE_PENDING
 
 Human request: finish/refine grass now. The isolated v013 changes only the
 two named grass meshes. Exact v012 source SHA-256:
@@ -53,3 +53,15 @@ Remote success is not asserted until fresh exact-commit readback is appended.
 
 No main/grant/private-game edit, no merge, no auto-next art stage.
 GPT-6.1 Sol / Extra high.
+
+REMOTE READBACK — ACTUALLY RUN AFTER ARTIFACT PUSH
+Artifact commit: 01a9e2c3c90c1395c88e2438409b108b426016e6
+Remote downloader matches locally reviewed helper bytes:
+c27ad7082b456618bd5fc1cf9f9adc50f71fe181b0ca39cf1df4285d23e84335
+Fresh raw Git downloads reconstructed pinned v009 plus v013 delta. All333
+final files match exact sizes/SHA before and after disk write. ZIP sizes,
+CRC, safe paths and final manifest passed. The downloader executed no code.
+After verification, cold Godot import and the 57-check runtime smoke PASS,
+selected B, no recorded script/import errors. This is scripted desktop
+evidence, not human or Android acceptance. REMOTE_READBACK.json.txt records
+the actual evidence hashes. No merge or private-game transfer performed.
