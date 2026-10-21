@@ -1,0 +1,49 @@
+GNOMIT — LIGHTING-ONLY v012 — 21.10.2026
+Човекът поиска светлината да се доработи върху текущатаv011.
+Избран Codex кандидат:B. По-топъл страничен ключ,по-слабо равномерно
+запълване,по-локална топлина от фенера и по-малко червено в мината.
+BASELINE/A/B са запазени в assets/r3/lighting_v012.json. В нормалната игра
+се използва B;debug override GNOMIT_LIGHTING_PROFILE е само за сравнения.
+
+57 scripted Godot проверки PASS. Три frozen comparison кадъра със същите
+камера,геометрия,route161samples,поза иexposure0.90. Реални screenshots в
+outputs/00_LIGHT_COMPARISON.png и06_LIGHTING_BEFORE_AFTER.png.
+59 от61 GDScript файла са byte-identical сv011;един има window title,а
+island_map.gd има само lightadapter+lantern pulse base. Целият останал UTF8
+текст/UI е проверен срещуv011. Първият draft имаше encoding regression;
+той е запазен катоотхвърлен кадър и е поправен преди финалните проверки.
+85 inherited runtime resources,включително worldGLB,са непроменени. Камера,
+материали,трева,дървета,герой,layout,gameplay/progress/audio са запазени.
+
+Native Blender source:native/LIGHTING_V012_SELECTED.blend,входV011_SOURCE.blend.
+644 nonlight records и всички material shader nodes са запазени;
+променени са само5съществуващи светлини. Два неизползвани материала са
+запазени с fake-user retentionflags,за да не бъдат изхвърлени приsave. Не са
+сменяни техните шейдъри/assignment. Native save/reopen/render PASS.
+Blender използва отделно настроени AREA/POINT lights;Godot използва
+Directional/OmniLight+ACES от JSON. Няма твърдение за еднакви числови единици
+или пикселна идентичност. GLB не е преекспортиран и не пренася тезиlights.
+Първият неуспешен native save draft остава локално извън крайния ZIP;
+диагностиката и поправеният генератор са включени.
+
+Визуален извод:В дава по-ясен обем на дърветата/корените/камъните/ръба.
+Не се виждат неприемливо черни сенки или прегорели детайли при432x960.
+Пътят,героят и фенерът са четими. Още е по-тъмно/маслинено от сияйната
+референция. Това е сравним кандидат,човешко приемане PENDING.
+Android/performance NOT_MEASURED;win flow NOT_TESTED. Не са human tests.
+
+ПРЕДАВАНЕ
+Пълен локален ZIP:GNOMIT_R3_WARM_LIGHT_V012_2026-10-21.zip.
+Git съдържа реаленBase64deltaZIP + pinned immutablev009 base и manifest
+на целия окончателен файлов състав. DOWNLOAD_V012.py.txt възстановява
+точните finalGAME файлове,проверява part/ZIP/file SHA/CRC и отказва
+съществуващ output. Не изпълнява изтегления код и не трие предшественици.
+Изтегли helper катоdownload_v012.py:
+python download_v012.py --commit ARTIFACT_COMMIT --output NEW_OUTPUT_FOLDER
+Точният ARTIFACT_COMMIT ще бъде в REMOTE_READBACK.json.txt след проверката.
+Всички източници,JSONрецепти,документи и реални screenshots са в архива.
+
+Безmerge/main/grant/privateCradle/другbot промени. Само разрешени собствени
+текстови отчети в тестовия checkout;локалната изолирана проба е по човешката
+задача. Старитеv011/v010 остават. Не започваме следващ арт етап.
+GPT-6.1 Sol / Extra high.

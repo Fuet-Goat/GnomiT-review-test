@@ -1,0 +1,367 @@
+{
+  "project": "GnomiT",
+  "version": "v012",
+  "date": "2026-10-21",
+  "method": "Lighting-only Godot recipe and separately tuned native Blender area/point light rig.",
+  "scope": "Light direction, colour, energy, fill, ambient balance and local lantern light; geometry/materials/camera/layout unchanged.",
+  "input": {
+    "path": "native/V011_SOURCE.blend",
+    "sha256": "4d9dc34db67f44db11a8927b948173244fc3ddc95df9ffdd053944852b125c24",
+    "role": "Exact v011 editable native source."
+  },
+  "runtime_geometry": {
+    "path": "assets/r3/airy_island.glb",
+    "sha256": "af955f04050fe86e8e148575822c853340a9000ea83c6ca22b189ef06b58651a",
+    "change": "None; byte-identical to v011."
+  },
+  "recipe": {
+    "path": "assets/r3/lighting_v012.json",
+    "sha256": "10960ab40527705e5a9fb2fd4a485e5d3fd578a9c50d44f717aed84dcd9ea887",
+    "selected_profile": "B",
+    "preserved_profiles": [
+      "BASELINE",
+      "A",
+      "B"
+    ],
+    "selected_parameters": {
+      "description": "More directional golden light, less even ambient fill.",
+      "background": "bfe5f2",
+      "ambient_color": "c4dbea",
+      "ambient_energy": 0.2,
+      "exposure": 0.9,
+      "ao_radius": 0.45,
+      "ao_intensity": 1.3,
+      "ao_light_affect": 0.3,
+      "key": {
+        "rotation": [
+          -38,
+          -45,
+          0
+        ],
+        "color": "ffdcB0",
+        "energy": 1.08,
+        "angular_distance": 7.0
+      },
+      "fill": {
+        "rotation": [
+          -40,
+          125,
+          0
+        ],
+        "color": "c2ddfa",
+        "energy": 0.1
+      },
+      "lantern": {
+        "color": "ffac59",
+        "energy": 1.6,
+        "range": 2.4,
+        "size": 0.24
+      },
+      "interior": {
+        "color": "ffb45c",
+        "energy": 1.0,
+        "range": 2.4
+      }
+    }
+  },
+  "native_generator": {
+    "path": "tools/build_native_lighting.py",
+    "sha256": "4749e28134cb3d68670aa1a15b15b3b1a759404df3eedeebe3d5809b3046f2f6"
+  },
+  "selected_editable_source": {
+    "path": "native/LIGHTING_V012_SELECTED.blend",
+    "sha256": "ae1dc37ae1aa43cb03c6f3803eb99fd0666bbe88db43b9cb9ec1d8d850c722a0"
+  },
+  "native_light_settings": [
+    {
+      "name": "Fill_Sky",
+      "type": "AREA",
+      "parent": null,
+      "location_local": [
+        6.0,
+        -1.0,
+        8.5
+      ],
+      "rotation_local_radians": [
+        0.6561598777770996,
+        -3.2889548862158335e-09,
+        1.4056477546691895
+      ],
+      "matrix_world": [
+        [
+          0.16439887881278992,
+          -0.7815601825714111,
+          0.6017779111862183,
+          6.0
+        ],
+        [
+          0.986393928527832,
+          0.1302599459886551,
+          -0.100296251475811,
+          -1.0
+        ],
+        [
+          3.2889548862158335e-09,
+          0.6100786924362183,
+          0.7923408150672913,
+          8.5
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "energy_watts": 350.0,
+      "colour_linear": [
+        0.5394794940948486,
+        0.7230551242828369,
+        0.9559733271598816
+      ],
+      "use_shadow": true,
+      "shape": "DISK",
+      "size": 8.0
+    },
+    {
+      "name": "Key_Warm",
+      "type": "AREA",
+      "parent": null,
+      "location_local": [
+        -7.5,
+        -6.0,
+        10.0
+      ],
+      "rotation_local_radians": [
+        0.9287203550338745,
+        -3.5345344429060788e-09,
+        -0.7531512975692749
+      ],
+      "matrix_world": [
+        [
+          0.7295371890068054,
+          0.40958449244499207,
+          -0.547737181186676,
+          -7.5
+        ],
+        [
+          -0.683941125869751,
+          0.4368901252746582,
+          -0.5842529535293579,
+          -6.0
+        ],
+        [
+          3.5345344429060788e-09,
+          0.8008542656898499,
+          0.5988593101501465,
+          10.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "energy_watts": 2350.0,
+      "colour_linear": [
+        1.0,
+        0.715693473815918,
+        0.43415364623069763
+      ],
+      "use_shadow": true,
+      "shape": "DISK",
+      "size": 6.5
+    },
+    {
+      "name": "Lantern_Local_Warmth",
+      "type": "POINT",
+      "parent": "Lantern_Pivot",
+      "location_local": [
+        0.0,
+        -0.05999999865889549,
+        -0.029999999329447746
+      ],
+      "rotation_local_radians": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "matrix_world": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.16999995708465576
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          5.849999904632568
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          2.120929479598999
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "energy_watts": 16.0,
+      "colour_linear": [
+        1.0,
+        0.4125426113605499,
+        0.09989872574806213
+      ],
+      "use_shadow": true,
+      "shadow_soft_size": 0.23999999463558197
+    },
+    {
+      "name": "Mine_Interior_Amber",
+      "type": "POINT",
+      "parent": "Mine_Root",
+      "location_local": [
+        0.20000000298023224,
+        0.6499999761581421,
+        1.0
+      ],
+      "rotation_local_radians": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "matrix_world": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          1.25
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          6.900000095367432
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          1.870929479598999
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "energy_watts": 18.0,
+      "colour_linear": [
+        1.0,
+        0.4564110338687897,
+        0.10702310502529144
+      ],
+      "use_shadow": true,
+      "shadow_soft_size": 0.47999998927116394
+    },
+    {
+      "name": "Rim_Soft",
+      "type": "AREA",
+      "parent": null,
+      "location_local": [
+        -2.0,
+        9.0,
+        11.0
+      ],
+      "rotation_local_radians": [
+        0.7253032922744751,
+        7.945886437710215e-08,
+        -2.9229238033294678
+      ],
+      "matrix_world": [
+        [
+          -0.9761871099472046,
+          0.1623285561800003,
+          -0.14390350878238678,
+          -2.0
+        ],
+        [
+          -0.2169303596019745,
+          -0.7304791212081909,
+          0.6475658416748047,
+          9.0
+        ],
+        [
+          -7.945886437710215e-08,
+          0.663362443447113,
+          0.7482982873916626,
+          11.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "energy_watts": 650.0,
+      "colour_linear": [
+        1.0,
+        0.8713670969009399,
+        0.6653872728347778
+      ],
+      "use_shadow": true,
+      "shape": "DISK",
+      "size": 7.0
+    }
+  ],
+  "native_datablock_retention": {
+    "unused_material_fake_user_flags_added": [
+      "Airy_leaf.001",
+      "GnomiT_Leafy_Crown_Matte"
+    ],
+    "purpose": "Keep unused predecessor material datablocks when saving. No shader/node or material assignment changes.",
+    "failed_save_draft": "Preserved locally as native/LIGHTING_UNUSED_MATERIAL_DRAFT.blend; excluded from final package. Diagnosis and error log included."
+  },
+  "render_parity": "NOT_CLAIMED. Native Blender area/point lighting and Godot directional/point lighting use different rigs and tone mapping. Native lights are not exported in the runtime GLB; Godot reads its explicit JSON recipe.",
+  "unchanged": "All inherited runtime geometry/material assets; camera, guide, route, layout, gameplay, progress and audio. The map script outside its lighting adapter matches v011 UTF-8 text.",
+  "new_external_assets": "None. No image generation, downloaded models, new textures or audio.",
+  "comparison": {
+    "profiles": [
+      "BASELINE",
+      "A",
+      "B"
+    ],
+    "same_camera": true,
+    "same_route": true,
+    "guide_pose_frozen": true,
+    "map_clock_frozen": true,
+    "native_pixel_size": [
+      432,
+      960
+    ],
+    "image": "outputs/06_LIGHTING_BEFORE_AFTER.png"
+  },
+  "verification": {
+    "native_save_reopen": "NATIVE_LIGHTING_SAVED_REOPENED",
+    "protected_nonlight_records": 644,
+    "game_smoke_status": "PASS",
+    "scripted_checks": 57,
+    "game_profile": "B",
+    "predecessor_manifest_entries_unchanged": 340
+  },
+  "visual_review": {
+    "path": "documentation/LIGHTING_VISUAL_REVIEW.txt",
+    "present_when_finalized": true,
+    "automatic_acceptance_claim": false
+  },
+  "acceptance": "Human visual acceptance PENDING; Android/performance NOT_MEASURED.",
+  "legal_scope": "Creation/input record only. Inherited asset provenance remains applicable; this record does not guarantee ownership or legal clearance."
+}

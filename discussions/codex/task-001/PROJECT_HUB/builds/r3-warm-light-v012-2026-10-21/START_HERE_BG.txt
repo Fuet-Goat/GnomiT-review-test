@@ -1,0 +1,2 @@
+V012 LIGHTING-ONLY — започни с README_BG.txt.
+Същатаv011 геометрия,само светлина. Godot/Blender evidence са отделни.

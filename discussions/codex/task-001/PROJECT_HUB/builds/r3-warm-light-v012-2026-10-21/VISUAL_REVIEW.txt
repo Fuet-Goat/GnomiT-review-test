@@ -1,0 +1,9 @@
+LIGHTING B — actual Godot comparison, 432x960, same geometry/camera/frozen pose.
+Independent read-only judgement: B gives clearer form to trees,roots,mine
+stones and island edge than A; path and guide remain readable. No visible
+unacceptable shadow crush/highlight clipping/yellowing at this size. Shadows
+are conspicuous but coherent; lantern remains a small warm accent.
+Remaining gap: darker/more olive than the luminous golden reference; this
+improves directional form without establishing full glow/reference parity.
+Root reviewed final UTF8-restored B frame too. No human acceptance claimed.
+Native Blender render is separate evidence; no native/Godot pixel parity.
