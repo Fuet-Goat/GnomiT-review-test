@@ -1,0 +1,100 @@
+{
+  "status": "REMOTE_TEXT_AND_FULL_ARCHIVE_READBACK_PASS",
+  "publication_commit": "f324e3615bfb8f9daf978d36adab587a9dcc9c7c",
+  "text_files_verified": [
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/START_HERE.txt",
+      "bytes": 60742,
+      "sha256": "a4a8f4f55c79d5ada4217a182f5210c300849ea7a37c82d13ed6887c9942818f"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/airy-island-r2-native-a16c9a7-2026-10-21/DELEGATED_REVIEW.txt",
+      "bytes": 635,
+      "sha256": "ce489a55a3112c87695454970f2092d8411434b18a879c117d492015807038f9"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/airy-island-r2-native-a16c9a7-2026-10-21/DOWNLOAD_REVIEW.py.txt",
+      "bytes": 2581,
+      "sha256": "b9c1f963df2d741214d01f4e879d2a118dc0491a08a6f58e879a350c8451275e"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/airy-island-r2-native-a16c9a7-2026-10-21/FINAL_RESPONSE.txt",
+      "bytes": 904,
+      "sha256": "84ffb5aac26f1f7386f17ad489d38f2997f9c56bdaabfe72b80e894a09caf52d"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/airy-island-r2-native-a16c9a7-2026-10-21/GIT_SCOPE_CHECK.json.txt",
+      "bytes": 210,
+      "sha256": "d94875cd870547ae0050d6b9db38ab872bc34921da98669eade040f875bd3d30"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/airy-island-r2-native-a16c9a7-2026-10-21/HANDOFF_REVIEW.txt",
+      "bytes": 700,
+      "sha256": "8448e11174fa24e072f714c1c095ded9dcc8398485ccc3c23413d418ed11b224"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/airy-island-r2-native-a16c9a7-2026-10-21/IMAGE_DECODE.json.txt",
+      "bytes": 351,
+      "sha256": "809d97312ed5aaf2dfe1396c34dc02fdc44faed3891b2280532d3134525aaf83"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/airy-island-r2-native-a16c9a7-2026-10-21/MEASUREMENTS.json.txt",
+      "bytes": 2590,
+      "sha256": "5df8babd54449a746dbd79fca9e15f40baf913d431b823c78ad11cc5998246e7"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/airy-island-r2-native-a16c9a7-2026-10-21/NATIVE_VERIFICATION.json.txt",
+      "bytes": 9461,
+      "sha256": "4aa9d31859c203f17369e65b01acd3d6daa05bb63e5c63f36914fe8336a213de"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/airy-island-r2-native-a16c9a7-2026-10-21/PACKAGE_RECEIPT.json.txt",
+      "bytes": 327,
+      "sha256": "09f72d7b09e7066b670f0179babef9053bd6f7fdd6ce4350cec8a9e666022a14"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/airy-island-r2-native-a16c9a7-2026-10-21/PROGRESS.txt",
+      "bytes": 1073,
+      "sha256": "05470058471c9f12af27f3f55ef1d310a8abe75fea01e21aa6d48a107fe1b9ca"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/airy-island-r2-native-a16c9a7-2026-10-21/PROVENANCE.json.txt",
+      "bytes": 1184,
+      "sha256": "91ef42c25165aec1fc25c63fd2d699ee185082d579c40ec7a6811ccfa413e11f"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/airy-island-r2-native-a16c9a7-2026-10-21/README.txt",
+      "bytes": 1650,
+      "sha256": "a4c4b4e972a03be4c51bb090f84a65a2f087646e42bc108d6cb42df71d345d4e"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/airy-island-r2-native-a16c9a7-2026-10-21/REPORT.txt",
+      "bytes": 5518,
+      "sha256": "0df3e553a1b7ae5d620853e3f1d585f5116b72fec8eaba76709742fb351de536"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/airy-island-r2-native-a16c9a7-2026-10-21/SOURCE_RECEIPT.json.txt",
+      "bytes": 2477,
+      "sha256": "780a0ff5a936030d05a675a523566faa573ef225fc82521134d52f32c76db00c"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/airy-island-r2-native-a16c9a7-2026-10-21/START_HERE_BG.txt",
+      "bytes": 1035,
+      "sha256": "aa7683a6e7c30dd1b58b9fa46848649575abcbe0f0b16e1e196ac2dc3ae593fd"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/airy-island-r2-native-a16c9a7-2026-10-21/ZIP_MANIFEST.json.txt",
+      "bytes": 10818,
+      "sha256": "55c25a9e35653bdd00992e47574d47da9c64500380c16ed523bcc4d6ebccee3a"
+    }
+  ],
+  "archive": {
+    "status": "REMOTE_DOWNLOAD_AND_ARCHIVE_PASS",
+    "source_commit": "f324e3615bfb8f9daf978d36adab587a9dcc9c7c",
+    "zip_sha256": "6bdf602ecea1efa5f9e30d6a9a4b3149e4a8c1c94877e1ad9e8dede965d23f52",
+    "bytes": 11341209,
+    "entries": 64,
+    "project_code_executed": false
+  },
+  "meaning": "Pinned HTTP download and decode; all64 ZIP entries verified by count/CRC/manifest bytes and SHA256. No project code executed by downloader. Native build/reopen/reimport verification is separately recorded. Human art acceptance and integration remain pending."
+}
