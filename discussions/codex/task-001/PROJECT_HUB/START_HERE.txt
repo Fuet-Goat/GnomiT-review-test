@@ -1,3 +1,12 @@
+АКТУАЛЕН РЕЗУЛТАТ — R2 EXACT NATIVE BLENDER — 21.10.2026
+Read reviews/airy-island-r2-native-a16c9a7-2026-10-21/START_HERE_BG.txt and REPORT.txt.
+Exact GPT source a16c9a7 built/rendered without edits; same seed, actual432x960.
+Road outer seam0.08773513524294523m vs previous0.2853608862638055m.
+Saved .blend reopened, R2 camera53/43 control rendered, GLB reimport verified.
+Full source/models/images/evidence in verified report ZIP via DOWNLOAD_REVIEW.
+Status EXACT_R2_NATIVE_BUILD_VERIFIED / HUMAN_ART_REVIEW_PENDING / NOT_INTEGRATED.
+No grants/main/game/save/campaign changes or merge. Old versions preserved.
+
 АКТУАЛЕН РЕЗУЛТАТ — ACTUAL BLENDER ISLAND REVIEW — 21.10.2026
 Read reviews/airy-island-native-a55cce4-2026-10-21/REPORT.txt.
 Exact GPT source a55cce4 built/rendered in local Blender5.2.2; real .blend,

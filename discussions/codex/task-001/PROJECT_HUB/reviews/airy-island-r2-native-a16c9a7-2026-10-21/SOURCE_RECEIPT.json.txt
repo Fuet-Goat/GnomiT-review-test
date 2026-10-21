@@ -1,0 +1,74 @@
+{
+  "status": "SOURCE_IDENTITY_AND_SYNTAX_PASS",
+  "commit": "a16c9a71e21233ce9d48eeb8ae20ac56bf1500d2",
+  "verified_manifest_files": [
+    "BASE_RECONSTRUCTION.json.txt",
+    "CHANGELOG.txt",
+    "PROVENANCE.json.txt",
+    "README_BG.txt",
+    "REPORT.txt",
+    "REVIEW_PLAN.txt",
+    "SOURCE/boardwalk.py.txt",
+    "SOURCE/build_scene.py.txt",
+    "SOURCE/environment.py.txt",
+    "SOURCE/geometry.py.txt",
+    "SOURCE/materials.py.txt",
+    "SOURCE/mine.py.txt",
+    "SOURCE/presentation.py.txt",
+    "SOURCE/scene_settings.json.txt",
+    "STATIC_REVIEW.json.txt"
+  ],
+  "all_git_files_preserved": 17,
+  "materialized": [
+    {
+      "source": "proposal/SOURCE/boardwalk.py.txt",
+      "target": "SOURCE_MATERIALIZED/boardwalk.py",
+      "bytes": 9961,
+      "sha256": "f143de084142f171d029de07fdf72c60872bb2a0063946a419a57b6a0ec30333"
+    },
+    {
+      "source": "proposal/SOURCE/build_scene.py.txt",
+      "target": "SOURCE_MATERIALIZED/build_scene.py",
+      "bytes": 11173,
+      "sha256": "d424110a5f54dcce012592da3f09009711bfb3289328d6e8bfd11c5b078594ce"
+    },
+    {
+      "source": "proposal/SOURCE/environment.py.txt",
+      "target": "SOURCE_MATERIALIZED/environment.py",
+      "bytes": 11640,
+      "sha256": "ab959e1b6043348b97029cc9d2dd1ddf59cd31961dc5a89de4ca64e6aa1a6941"
+    },
+    {
+      "source": "proposal/SOURCE/geometry.py.txt",
+      "target": "SOURCE_MATERIALIZED/geometry.py",
+      "bytes": 7449,
+      "sha256": "5b4ed5846a26fc46062d8b1c158130625b4eb5d5a2ae8691e9c6f61e9837b130"
+    },
+    {
+      "source": "proposal/SOURCE/materials.py.txt",
+      "target": "SOURCE_MATERIALIZED/materials.py",
+      "bytes": 3846,
+      "sha256": "5d56f408bc7ff7522fb54d96ee76bdc57be3a00fdeab37ad35b0e3d944ca8c66"
+    },
+    {
+      "source": "proposal/SOURCE/mine.py.txt",
+      "target": "SOURCE_MATERIALIZED/mine.py",
+      "bytes": 6943,
+      "sha256": "13e26f83ad5a9b30b9c2c2cb99b33609e2ee1824618eee0700115a520e78a170"
+    },
+    {
+      "source": "proposal/SOURCE/presentation.py.txt",
+      "target": "SOURCE_MATERIALIZED/presentation.py",
+      "bytes": 9552,
+      "sha256": "9efaa599772f8485f222dcb93bd089fce111ceeef51f083eb2a6836c8f39eab7"
+    },
+    {
+      "source": "proposal/SOURCE/scene_settings.json.txt",
+      "target": "SOURCE_MATERIALIZED/scene_settings.json",
+      "bytes": 4596,
+      "sha256": "9b009f8113a63045e815686027801bb79c798cdc4f0d68d763719831ead32efc"
+    }
+  ],
+  "proposal_execution": false,
+  "blender_build": "NOT_RUN"
+}

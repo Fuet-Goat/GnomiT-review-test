@@ -1,0 +1,8 @@
+{
+  "status": "LOCAL_ARCHIVE_VERIFIED",
+  "kind": "EXACT_R2_NATIVE_REVIEW_NOT_INTEGRATED",
+  "zip": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\GNOMIT_AIRY_ISLAND_R2_NATIVE_REVIEW_2026-10-21.zip",
+  "bytes": 11341209,
+  "sha256": "6bdf602ecea1efa5f9e30d6a9a4b3149e4a8c1c94877e1ad9e8dede965d23f52",
+  "entries": 64
+}
