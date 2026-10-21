@@ -1,0 +1,15 @@
+{
+  "status": "EXACT_COMMIT_ARCHIVE_AND_ALL_ENTRY_HASHES_PASS",
+  "commit": "c7601e4370cad81f3809bf886075545f7cc35713",
+  "bytes": 2202579,
+  "sha256": "12798e07b12d3c3ae398c7ba00e05729bb1accdae425f83a97774e598ccca6ab",
+  "entries": 9,
+  "packages": [
+    "HANDOFF"
+  ],
+  "executed_project_code": false,
+  "latest_image_byte_identical_to_original": true,
+  "latest_image_sha256": "a8ba8f00cba8f715e4633941f65b7f79da7caa174520a2a6e2072c60538e73c9",
+  "previous_handoff_preserved": true,
+  "meaning": "Fresh pinned HTTP download decoded and verified; generated still reference only, not Blender or runtime implementation."
+}
