@@ -1,0 +1,120 @@
+"""NOT_APPLIED: open mine shell, separate arch rocks, timber and lantern.
+No dark image plane stands in for the tunnel. The shell is actual geometry.
+"""
+from __future__ import annotations
+import math
+import bpy
+from mathutils import Vector
+from geometry import empty, mesh_object, box, ellipsoid, cylinder, tube
+
+
+def tunnel_shell(collection,parent,mats,width,straight,rise,depth):
+    half=width/2
+    inner=[(-half,0),(half,0),(half,straight)]
+    for i in range(1,17):
+        a=math.pi*i/16
+        inner.append((half*math.cos(a),straight+rise*math.sin(a)))
+    outer=[]
+    for x,z in inner:
+        outer.append((x*(half+0.29)/half, z+0.27 if z>=straight else z))
+    verts=[]
+    for contour in (inner,outer):
+        for y in (0,depth):
+            verts.extend((x,y,z) for x,z in contour)
+    n=len(inner); faces=[]
+    # Every sector except the floor: sides and ceiling are thick, open at front.
+    for i in range(1,n):
+        j=(i+1)%n
+        faces.extend([(i,j,n+j,n+i),(2*n+i,3*n+i,3*n+j,2*n+j),
+                      (i,2*n+i,2*n+j,j),(n+i,n+j,3*n+j,3*n+i)])
+    # Bottom ends of the two upright wall slabs.
+    faces.extend([(0,n,3*n,2*n),(1,2*n+1,3*n+1,n+1)])
+    shell=mesh_object('Mine_Thick_Open_Tunnel',verts,faces,collection,mats['tunnel'],smooth=False,parent=parent)
+    shell['opening']='Real hollow front with thick side/roof geometry; no raster proxy'
+    box('Mine_Distant_Dark_End',(0,depth+0.035,0.86),(width+0.36,0.09,1.82),collection,mats['tunnel'],0.04,parent)
+    return shell
+
+
+def timber_frame(prefix,y,width,height,cols,parent,mats,light=False):
+    key='wood' if light else 'wood_dark'
+    for side in (-1,1):
+        box(prefix+'_Post_%s'%side,(side*width/2,y,height/2),(0.22,0.26,height),cols['MINE'],mats[key],0.046,parent)
+    box(prefix+'_Header',(0,y,height),(width+0.43,0.31,0.25),cols['MINE'],mats[key],0.046,parent)
+    for side in (-1,1):
+        # Geometry braces, not black lines painted over a beam.
+        obj=box(prefix+'_Knee_%s'%side,(side*(width/2-0.17),y+0.025,height-0.22),
+                (0.12,0.18,0.49),cols['MINE'],mats[key],0.022,parent)
+        obj.rotation_euler.y=side*math.radians(39)
+        pin=cylinder(prefix+'_Peg_%s'%side,(side*(width/2+0.018),y-0.168,height),
+                     0.035,0.018,cols['MINE'],mats['brass'],parent,0.008)
+        pin.rotation_euler.x=math.pi/2
+
+
+def lantern(cols,parent,mats):
+    group=empty('Lantern_Pivot',cols['LANTERN'],(-0.88,-0.34,1.28),parent)
+    for z,size in [(-0.19,(0.26,0.22,0.055)),(0.19,(0.28,0.24,0.06))]:
+        box('Lantern_Base' if z<0 else 'Lantern_Cap',(0,0,z),size,cols['LANTERN'],mats['brass'],0.035,group)
+    for i,(x,y) in enumerate([(-0.098,-0.078),(0.098,-0.078),(-0.098,0.078),(0.098,0.078)]):
+        box('Lantern_Cage_Rod_%d'%i,(x,y,0),(0.023,0.023,0.37),cols['LANTERN'],mats['brass'],0.007,group)
+    ellipsoid('Lantern_Warm_Core',(0,0,0),(0.079,0.061,0.145),cols['LANTERN'],mats['lamp'],
+              irregularity=0.025,parent=group,segments=20,rings=14)
+    points=[(0.07*math.cos(math.pi*i/14),0,0.25+0.075*math.sin(math.pi*i/14)) for i in range(15)]
+    tube('Lantern_Handle',points,[0.014]*len(points),cols['LANTERN'],mats['iron'],group,10)
+    tube('Lantern_Hook',[(-0.88,-0.13,1.79),(-0.88,-0.37,1.76),(-0.88,-0.35,1.54)],
+         [0.024,0.024,0.019],cols['LANTERN'],mats['iron'],parent,10)
+    light=bpy.data.lights.new('Lantern_Local_Warmth','POINT')
+    light.energy=18.0; light.color=(1.0,0.61,0.25); light.shadow_soft_size=0.18
+    obj=bpy.data.objects.new('Lantern_Local_Warmth',light); cols['LIGHTS'].objects.link(obj)
+    obj.parent=group; obj.location=(0,-0.06,-0.03)
+    return group
+
+
+def build(cols,root,mats,config,ground):
+    c=config['mine']; x,y=c['x'],c['y']
+    group=empty('Mine_Root',cols['MINE'],(x,y,ground.height(x,y)+config['road']['deck_clearance']),root)
+    group.rotation_euler.z=math.radians(c['yaw_degrees'])
+    tunnel_shell(cols['MINE'],group,mats,c['opening_width'],c['straight_height'],c['arch_rise'],c['depth'])
+    # Voussoirs have broad stone faces and rounded edges, not ellipsoid cushions.
+    # Front contour is CCW in XZ, hence its normal faces -Y out of the entrance.
+    for i in range(9):
+        a=math.pi*i/9+0.013; b=math.pi*(i+1)/9-0.013
+        outer=1.0+0.045*math.sin(i*1.9)
+        contour=[(1.02*math.cos(a),1.03+0.71*math.sin(a)),
+                 (1.54*outer*math.cos(a),1.03+1.17*outer*math.sin(a)),
+                 (1.54*outer*math.cos(b),1.03+1.17*outer*math.sin(b)),
+                 (1.02*math.cos(b),1.03+0.71*math.sin(b))]
+        verts=[(xx,yy,zz) for yy in (-0.025,0.68+0.03*math.sin(i)) for xx,zz in contour]
+        faces=[(0,1,2,3),(7,6,5,4)]+[(j,j+4,(j+1)%4+4,(j+1)%4) for j in range(4)]
+        mesh_object('Mine_Arch_Stone_%02d'%i,verts,faces,cols['MINE'],
+                    mats['stone_light' if i%3==1 else 'stone'],bevel=0.074,parent=group)
+        if i in (2,5,7):
+            mid=(a+b)/2
+            ellipsoid('Mine_Arch_Moss_%02d'%i,
+                      (1.40*math.cos(mid),0.38,1.08+1.13*math.sin(mid)),
+                      (0.23,0.35,0.055),cols['MINE'],mats['moss'],phase=i,
+                      irregularity=0.13,parent=group)
+    for side in (-1,1):
+        for layer in range(3):
+            for depth_index in range(2):
+                loc=(side*(1.27+0.035*(2-layer)),0.20+depth_index*0.60,0.19+layer*0.38)
+                dims=(0.63+0.04*math.sin(layer+side),0.72,0.46)
+                obj=box('Mine_Buttress_%s_%d_%d'%(side,layer,depth_index),loc,dims,
+                        cols['MINE'],mats['stone' if layer%2 else 'stone_shadow'],0.115,group)
+                obj.rotation_euler.z=0.04*side*(layer-1)
+    for i,(xx,yy,zz) in enumerate([(-0.72,1.01,1.94),(0,1.12,2.12),(0.72,1.05,1.98)]):
+        obj=box('Mine_Roof_%d'%i,(xx,yy,zz),(0.88,0.86,0.58),cols['MINE'],
+                mats['stone_light' if i==1 else 'stone'],0.14,group)
+        obj.rotation_euler.y=0.10*(i-1)
+        ellipsoid('Mine_Roof_Moss_%d'%i,(xx,yy,zz+0.24),(0.33,0.37,0.065),cols['MINE'],mats['moss'],
+                  irregularity=0.15,parent=group)
+    timber_frame('Portal',-0.085,c['opening_width']+0.015,1.68,cols,group,mats,True)
+    timber_frame('Tunnel_Brace_A',0.69,c['opening_width']-0.15,1.51,cols,group,mats)
+    timber_frame('Tunnel_Brace_B',1.28,c['opening_width']-0.25,1.48,cols,group,mats)
+    box('Tunnel_Floor',(0,0.78,-0.083),(c['opening_width'],1.75,0.095),cols['MINE'],mats['wood_dark'],0.01,group)
+    for i in range(6):
+        box('Threshold_Board_%d'%i,(0,0.075+i*0.20,-0.012),(c['opening_width']-0.19,0.185,0.06),
+            cols['MINE'],mats['wood'] if i<2 else mats['wood_dark'],0.015,group)
+    lantern(cols,group,mats)
+    return {'origin_blender_z_up':list(group.location),'yaw_degrees':c['yaw_degrees'],
+            'opening_width_m':c['opening_width'],'tunnel_depth_m':c['depth'],
+            'separate_arch_stones':9,'interior':'Hollow geometric shell, timber braces, distant dark end'}

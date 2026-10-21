@@ -1,0 +1,113 @@
+GNOMIT / NEW ISLAND GENERATOR R2 / SOURCE REVISION
+BOT=gpt / MODEL=GPT-6 Astra Pro / EFFORT=UNKNOWN
+STATUS=SOURCE_REVISION_PREPARED_FOR_REMOTE_DELIVERY
+APPLICATION=NOT_APPLIED
+BLENDER_BUILD=NOT_RUN_IN_BLENDER
+RENDER=NOT_RUN_IN_BLENDER
+R2_VISUAL_ACCEPTANCE=NOT_VERIFIED
+
+INPUT
+Codex native review: 51fe9874f5b0f6cb129dd945b0d1ab2336fe1892.
+PROMPT_FOR_GPT_R2_BG.txt blob: 58b5d0cdfd009b7a84da9551c39cc8bd2697a69d.
+Read REPORT.txt, NORMALS_FIX.patch.txt, NORMALS_FIX_RECEIPT.json.txt,
+ZIP_MANIFEST.json.txt, PACKAGE_RECEIPT and DOWNLOAD_REVIEW.py.txt there.
+Read current main AGENTS.md, tasks/gpt/task-001.json and own discussion rules.
+Task-001 remains REPORTS_ONLY. This is the explicitly requested complete,
+unapplied text proposal, not execution authority inferred from a .txt suffix.
+Own branch: codex/gpt/task-001. Only new-island-generator-r2/ is written.
+R1, all other reports, game, main, grants and the native evidence stay untouched.
+
+NATIVE INPUT LIMITATION
+Direct container urllib download failed: Temporary failure in name resolution.
+The container download bridge also refused the URL because the web reader could
+not fetch it. No native review ZIP was mounted in the current runtime.
+Consequently I did NOT open the new Blender render or decode the native package.
+The fallback allowed by the R2 prompt is used: exact remote reports/patch/manifest.
+Original reference PRIMARY_TARGET_COMPARISON.png WAS opened visually from the
+previous handoff ZIP. Its middle panel remains the style/composition authority.
+The old supplied source-proposal ZIP was read, with its 13 manifest payloads
+verified by actual bytes/SHA-256. Applying ONLY the published normal-fix text
+reconstructed boardwalk.py to exactly 8614 bytes / SHA256
+2c4030e61efa3117e88efa494353fdfae47f13ebc32f3eb0d23934b8243157c6.
+The other seven source/settings payloads match Codex's published source manifest.
+Thus the revision base is byte-identical to declared 02_CODEX_NORMALS_FIX/SOURCE,
+reconstructed from the prior attachment plus patch, not falsely claimed extracted
+from the inaccessible new native archive. See BASE_RECONSTRUCTION.json.txt.
+
+CODEX OBSERVATIONS, NOT NEW GPT MEASUREMENTS
+The reported previous scene has 76 boards, maximum outer seam
+0.2853608862638055m and minimum depth 0.08931492934143596m.
+The underdeck negative signed volume was fixed by reversing face winding.
+The report describes a thin land mass, pale cushion-like mine rocks, obscured
+cottage walls and primitive crowns. These are Codex's visual judgments; I did
+not independently view that render. The prior native build success does not
+prove that these proposed changes build or look better.
+
+ONE R2 REVISION
+1. BOARDWALK: smoother four-segment route, jointly revised spacing/depth search.
+The previous solver could satisfy overlap by shrinking boards into thin fans.
+R2 keeps SAT, rejects depth below 66% of centre spacing or 0.08m, and searches
+bounded candidate counts. It also rejects raw outer seams above 0.09m and a
+bevel-adjusted separation bound above 0.106m. These are TARGET LIMITS in the
+new code, not measured achieved seams. New centres/tangents must satisfy all
+conditions or the build reports failure; no permissive fallback. Full-width
+rectangular boards remain. The corrected underdeck winding is retained verbatim;
+its material becomes honey wood, with an 0.008m recess. Colour is a supporting
+change, not the geometric fix. Level anchors and editable centreline remain.
+
+2. ISLAND/CAMERA: deeper tapered earthen profile, 2.45m proposed earth_depth
+instead of 1.28m; rounded shoulder, broader middle body, sculpted broad vertical
+rhythm, planar closed underside. A modest grass dome replaces the flat top.
+The proposed 43-degree camera elevation replaces 53 degrees; the existing
+fit-to-all-evaluated-geometry method still frames crowns and the earth mass.
+A slightly broader/longer footprint leaves quiet lawns around the new route.
+Actual projected proportions, visibility and similarity remain to be rendered.
+
+3. LANDMARKS/COLOUR: mine arch becomes nine rounded-edge shaped stone blocks
+with broad faces, not eleven near-identical ellipsoids. The original hollow
+tunnel, frame, braces, lantern and object separation are kept. Stone colours
+are darker neutral warm gray. Cottage wall and door are taller; roof/spots/lip
+are moved together so the cream wall can be read. Tree crowns are more
+asymmetric and fuller around the main mass; sparse leaf tips and existing
+sculpted roots remain. Greens/honey wood are stronger. A camera-ray blue sky
+is separated from neutral ambient illumination; this new node arrangement
+still needs a local Blender check. No scatter carpet is added: 16 small-stone
+and 18 tuft targets instead of 18/22, existing bounded rejection and quiet zones.
+
+PRESERVED
+Seven modules plus settings, seed 402121, new absolute output directory,
+factory-startup/background isolation, CPU Cycles draft/final contract,
+packed/generated PBR textures, editable separate objects, ten collections,
+Road_Centerline, Level_1_Anchor, Level_2_Anchor and portrait camera.
+geometry.py and materials.py are byte-identical to the corrected base.
+No external assets, old map, character, UI, sound, animation or gameplay added.
+The output basename remains gnomit_airy_island_v001 per the contract; R2 is a
+source revision in a different NEW directory, not a game version or overwrite.
+
+ACTUAL CHECKS
+Python AST parse of all seven proposed .py.txt documents; JSON parse;
+local-import completeness; actual source/file hashes; exact normal-fix base
+reconstruction; text diff against that base; syntax and manual data-flow review.
+No bpy/mathutils import, generator invocation, geometry simulation, Blender
+search/install/run, glTF export, render, unit/game test, Godot or mobile test.
+The proposed future checks in the source are NOT results of this session.
+
+REVIEW RISKS / NEXT STAGE
+Codex should inspect the full source and change log before any later authorized
+native run. Check the tighter road solver, physical seams after bevel, underdeck
+signed volume, stone-block normals/bevel limits, full-frame silhouette, cottage
+occlusion, sky/ambient colour handling and GLB materials after reimport.
+No assertion of production topology, speed, final beauty or mobile suitability.
+If the seam constraints cannot be met, preserve FAILED receipt and adjust route
+radii/width/spacing jointly; do not restore the 0.285m seam as acceptable.
+A real 432x960 candidate render and normal-fix control are required for art review.
+Separate camera-controlled comparisons from geometry/palette comparisons when
+measuring the cause of a visual difference. Do not call a new camera an A/B with
+identical projection. Keep a comparison render with the previous 53-degree view
+as well as the proposed 43-degree view during that local stage.
+
+DELIVERY
+Full text set, no placeholders and no omitted imports. Actual manifest covers
+text payloads only. Publication/readback receipt follows the verified Git commit;
+only then SOURCE_REVISION_READY_FOR_CODEX is a delivery status. It is never
+READY_ART, READY_BLEND or visual PASS. No merge or main-game integration.

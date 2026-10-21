@@ -1,0 +1,272 @@
+{
+  "proposal_status": "NOT_APPLIED / NOT_RUN_IN_BLENDER",
+  "schema_version": 1,
+  "asset_name": "gnomit_airy_island_v001",
+  "seed": 402121,
+  "units": "metres",
+  "terrain": {
+    "half_width": 3.95,
+    "half_length": 10.0,
+    "exponent": 2.55,
+    "top_z": 0.62,
+    "earth_depth": 2.45,
+    "segments": 128,
+    "radial_rings": 20,
+    "crown_height": 0.18,
+    "edge_lobes": 15
+  },
+  "road": {
+    "bezier_segments": [
+      [
+        [
+          -1.6,
+          -8.4
+        ],
+        [
+          -0.25,
+          -8.4
+        ],
+        [
+          1.35,
+          -7.45
+        ],
+        [
+          1.35,
+          -5.7
+        ]
+      ],
+      [
+        [
+          1.35,
+          -5.7
+        ],
+        [
+          1.35,
+          -3.45
+        ],
+        [
+          -1.4,
+          -2.95
+        ],
+        [
+          -1.4,
+          -0.5
+        ]
+      ],
+      [
+        [
+          -1.4,
+          -0.5
+        ],
+        [
+          -1.4,
+          1.95
+        ],
+        [
+          1.05,
+          2.35
+        ],
+        [
+          1.05,
+          4.85
+        ]
+      ],
+      [
+        [
+          1.05,
+          4.85
+        ],
+        [
+          1.05,
+          5.3
+        ],
+        [
+          1.05,
+          5.75
+        ],
+        [
+          1.05,
+          6.2
+        ]
+      ]
+    ],
+    "half_width": 0.62,
+    "plank_thickness": 0.13,
+    "target_spacing": 0.19,
+    "gap": 0.008,
+    "deck_clearance": 0.16,
+    "underdeck_recess": 0.008,
+    "min_plank_depth": 0.08,
+    "post_fractions": [
+      0.025,
+      0.15,
+      0.34,
+      0.52,
+      0.7,
+      0.86,
+      0.98
+    ],
+    "level1_fraction": 0.245,
+    "level2_fraction": 1.0,
+    "plank_bevel": 0.008,
+    "min_depth_ratio": 0.66,
+    "max_planks": 190,
+    "max_outer_seam": 0.09,
+    "max_visible_seam": 0.106
+  },
+  "mine": {
+    "x": 1.05,
+    "y": 6.25,
+    "yaw_degrees": 0.0,
+    "opening_width": 1.85,
+    "straight_height": 1.14,
+    "arch_rise": 0.63,
+    "depth": 1.55
+  },
+  "cottage": {
+    "x": -1.65,
+    "y": 5.15,
+    "scale": 0.84
+  },
+  "trees": [
+    {
+      "name": "Northwest",
+      "x": -1.7,
+      "y": 7.85,
+      "scale": 1.12
+    },
+    {
+      "name": "West",
+      "x": -2.7,
+      "y": 1.85,
+      "scale": 1.02
+    },
+    {
+      "name": "Southwest",
+      "x": -2.92,
+      "y": -3.5,
+      "scale": 0.67
+    },
+    {
+      "name": "Southeast",
+      "x": 2.72,
+      "y": -5.9,
+      "scale": 1.03
+    },
+    {
+      "name": "East",
+      "x": 2.99,
+      "y": 0.5,
+      "scale": 0.65
+    }
+  ],
+  "decoration": {
+    "small_rock_count": 16,
+    "flower_clusters": [
+      [
+        -2.5,
+        -7.45
+      ],
+      [
+        2.8,
+        -7.7
+      ],
+      [
+        -2.62,
+        -0.8
+      ],
+      [
+        2.6,
+        3.8
+      ],
+      [
+        -0.55,
+        8.0
+      ],
+      [
+        3.05,
+        -2.8
+      ]
+    ],
+    "flowers_per_cluster": 3,
+    "tuft_count": 18,
+    "quiet_meadows": [
+      [
+        -0.2,
+        2.3,
+        0.75,
+        1.25
+      ],
+      [
+        0.25,
+        -1.9,
+        0.73,
+        0.8
+      ],
+      [
+        -1.7,
+        -5.8,
+        0.55,
+        0.8
+      ]
+    ],
+    "scatter_attempt_limit": 1200
+  },
+  "camera": {
+    "elevation_degrees": 43.0,
+    "azimuth_degrees": 0.0,
+    "margin_fraction": 0.045,
+    "distance": 40.0
+  },
+  "render": {
+    "engine": "CYCLES",
+    "device": "CPU",
+    "draft_samples": 48,
+    "final_samples": 192,
+    "denoise": true,
+    "view_transform": "AgX",
+    "look": "None",
+    "exposure": 0.0,
+    "gamma": 1.0,
+    "transparent": false
+  },
+  "palette": {
+    "grass": "73C73B",
+    "grass_light": "97D94B",
+    "grass_shadow": "469B38",
+    "soil": "B97642",
+    "soil_dark": "8B5437",
+    "soil_light": "D39555",
+    "wood": "E4A357",
+    "wood_light": "F0BC70",
+    "wood_dark": "9F642F",
+    "bark": "A86B35",
+    "leaf": "5CB72F",
+    "leaf_light": "91CE38",
+    "leaf_shadow": "2F803C",
+    "stone": "ACA999",
+    "stone_light": "C8C3AD",
+    "stone_shadow": "929889",
+    "moss": "78B93B",
+    "cream": "F1DDA6",
+    "red": "E55238",
+    "pink": "EF8B9A",
+    "white": "FFF3DC",
+    "yellow": "EDC765",
+    "brass": "BB8B46",
+    "iron": "655A42",
+    "tunnel": "433B2F",
+    "lamp": "FFD27D",
+    "sky": "69C6EC"
+  },
+  "proposal_revision": "R2_AFTER_CODEX_NATIVE_REVIEW",
+  "base_review_commit": "51fe9874f5b0f6cb129dd945b0d1ab2336fe1892",
+  "lighting": {
+    "ambient_strength": 0.28,
+    "ambient_hex": "D2E1EB",
+    "visible_sky_strength": 0.95,
+    "key_energy": 1450.0,
+    "fill_energy": 390.0,
+    "rim_energy": 650.0
+  }
+}

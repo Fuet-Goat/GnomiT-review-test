@@ -1,0 +1,135 @@
+{
+  "kind": "SOURCE_TEXT_INSPECTION_ONLY",
+  "analyzer_python": "3.13.5",
+  "checks": [
+    {
+      "path": "SOURCE/boardwalk.py.txt",
+      "bytes": 9961,
+      "sha256": "f143de084142f171d029de07fdf72c60872bb2a0063946a419a57b6a0ec30333",
+      "git_blob_sha1": "66081dd5b354d0928c54261f3b333664365b938d",
+      "syntax": "PARSED_NOT_EXECUTED",
+      "imports": [
+        "__future__",
+        "bisect",
+        "bpy",
+        "geometry",
+        "json",
+        "math",
+        "mathutils"
+      ]
+    },
+    {
+      "path": "SOURCE/build_scene.py.txt",
+      "bytes": 11173,
+      "sha256": "d424110a5f54dcce012592da3f09009711bfb3289328d6e8bfd11c5b078594ce",
+      "git_blob_sha1": "6043f90f7710c713932de453aca1c1431317a8e5",
+      "syntax": "PARSED_NOT_EXECUTED",
+      "imports": [
+        "__future__",
+        "argparse",
+        "boardwalk",
+        "bpy",
+        "environment",
+        "geometry",
+        "hashlib",
+        "json",
+        "materials",
+        "mine",
+        "pathlib",
+        "presentation",
+        "random",
+        "shutil",
+        "sys",
+        "traceback"
+      ]
+    },
+    {
+      "path": "SOURCE/environment.py.txt",
+      "bytes": 11640,
+      "sha256": "ab959e1b6043348b97029cc9d2dd1ddf59cd31961dc5a89de4ca64e6aa1a6941",
+      "git_blob_sha1": "da15ce19c34815ee47d98961ef1681e35358aa4c",
+      "syntax": "PARSED_NOT_EXECUTED",
+      "imports": [
+        "__future__",
+        "geometry",
+        "math",
+        "mathutils",
+        "random"
+      ]
+    },
+    {
+      "path": "SOURCE/geometry.py.txt",
+      "bytes": 7449,
+      "sha256": "5b4ed5846a26fc46062d8b1c158130625b4eb5d5a2ae8691e9c6f61e9837b130",
+      "git_blob_sha1": "dc6537e9f8fb01eb2f3bfb4cbf97519ef18ffb2e",
+      "syntax": "PARSED_NOT_EXECUTED",
+      "imports": [
+        "__future__",
+        "bpy",
+        "math",
+        "mathutils"
+      ]
+    },
+    {
+      "path": "SOURCE/materials.py.txt",
+      "bytes": 3846,
+      "sha256": "5d56f408bc7ff7522fb54d96ee76bdc57be3a00fdeab37ad35b0e3d944ca8c66",
+      "git_blob_sha1": "0e8501a857cac88f4c42fbc7d74d8f9b36c48896",
+      "syntax": "PARSED_NOT_EXECUTED",
+      "imports": [
+        "__future__",
+        "array",
+        "bpy",
+        "math"
+      ]
+    },
+    {
+      "path": "SOURCE/mine.py.txt",
+      "bytes": 6943,
+      "sha256": "13e26f83ad5a9b30b9c2c2cb99b33609e2ee1824618eee0700115a520e78a170",
+      "git_blob_sha1": "c45f494ee1aadec0552998b740ecdd7102e4e3d7",
+      "syntax": "PARSED_NOT_EXECUTED",
+      "imports": [
+        "__future__",
+        "bpy",
+        "geometry",
+        "math",
+        "mathutils"
+      ]
+    },
+    {
+      "path": "SOURCE/presentation.py.txt",
+      "bytes": 9552,
+      "sha256": "9efaa599772f8485f222dcb93bd089fce111ceeef51f083eb2a6836c8f39eab7",
+      "git_blob_sha1": "994c69bcfc36e8a21a1fcf282e6d48b1e787c861",
+      "syntax": "PARSED_NOT_EXECUTED",
+      "imports": [
+        "__future__",
+        "bpy",
+        "json",
+        "materials",
+        "math",
+        "mathutils",
+        "struct"
+      ]
+    }
+  ],
+  "configuration_json": "PARSED",
+  "local_module_names": [
+    "boardwalk",
+    "build_scene",
+    "environment",
+    "geometry",
+    "materials",
+    "mine",
+    "presentation"
+  ],
+  "normal_fix_line_preserved": true,
+  "geometry_and_materials_byte_identical_to_base": true,
+  "source_executed": false,
+  "geometry_solver_executed": false,
+  "render_inspection": "NOT_OBSERVED_NATIVE_R1; no R2 render exists",
+  "scope": "AST, JSON, imports, hashes and text diffs only. No bpy/mathutils imported.",
+  "runtime_tests": "NOT_RUN_IN_BLENDER",
+  "visual_result": "NOT_VERIFIED"
+}
