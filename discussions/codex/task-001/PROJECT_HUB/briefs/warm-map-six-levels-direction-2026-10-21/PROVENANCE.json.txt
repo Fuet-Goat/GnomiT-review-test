@@ -1,0 +1,32 @@
+{
+  "status": "DOCUMENTED_HANDOFF_NOT_EXCLUSIVE_RIGHTS_ASSERTION",
+  "request": "Human requested latest six-marker image and necessary existing materials in Git for GPT direction.",
+  "latest_reference": "REFERENCES/01_TARGET_WARM_MAP_6_LEVELS.png",
+  "image_creation": "Built-in image_gen editing in this Codex chat. Image-generation backend version not exposed. No new images generated in this publication task.",
+  "ancestry": [
+    "Actual R3 Godot capture",
+    "Warm generated edit",
+    "Expressive waving-gnome edit",
+    "Six-level-marker edit"
+  ],
+  "source_vs_target": "Generated images are art references only. They are not claimed to be native renders or existing animation frames.",
+  "native_source": "Exact prior Codex R3 derivative of GPT R2; inherited provenance retained byte-for-byte.",
+  "gnome_source": "Existing Codex v004 model/source and current R3 GLB; not newly authored in this task.",
+  "external_downloads_for_asset_creation": false,
+  "legal_clearance": "Not performed in this publication task. Existing source provenance limitations retained; documentation is not a guarantee of exclusivity.",
+  "known_unknowns": [
+    "Earlier exact warm/gnome edit prompts not re-collected here",
+    "Human acceptance of an implemented six-level scene",
+    "Android performance/touch testing",
+    "Final navigation and playable-level count"
+  ],
+  "originals_modified": false,
+  "gnome_extraction": {
+    "source_in_existing_v004_package": "source/gnome_volumetric_candidate.blend",
+    "source_blend_sha256": "77beabbb144932b1e54a957e95f7aa932a6cf3e4627c47b2c733199d666551b7",
+    "current_r3_glb_sha256": "c5abfa4a4688d370966edcebf662e4d4692314ea3ea67f3180b1c5f60e3b9e16",
+    "note": "R3 extracted/grounded guide is a separate export, not byte-identical to the whole-world v004 GLB. Prior extraction source and receipt included; not rerun in this handoff task.",
+    "prior_receipt_triangle_count": 102732,
+    "mobile_performance": "NOT_MEASURED"
+  }
+}

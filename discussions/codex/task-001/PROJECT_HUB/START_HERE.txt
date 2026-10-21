@@ -1,3 +1,16 @@
+АКТУАЛНО — ТОПЛАТА КАРТА С 6 МАРКЕРА — GPT НАСОКА — 21.10.2026
+Човекът поиска последната генерирана картинка и нужните налични материали
+в Git за независима GPT насока. Прочети briefs/warm-map-six-levels-direction-2026-10-21/START_HERE_BG.txt
+и PROMPT_FOR_GPT_BG.txt. Новият проверим пакет съдържа оригиналните PNG,
+реалните R3 кадри и избрани точни източници. Пълните предишни .blend/.glb/
+gnome пакети са с immutable Git links и опционален общ downloader.
+Цел: топъл остров, малък приветлив гном, балансирани номера до входа.
+Шестте маркера са ВИЗУАЛНО предложение, не шест готови игрови нива;
+съгласуването със старото 1/2 и подземния план е част от GPT анализа.
+Това не е нова игрова версия. Няма Blender build, runtime change, grant edit,
+main change или merge. GPT публикува само собствен тематичен REPORT.
+Настройка: GPT-6.1 Sol / Extra high (xhigh). Старите записи по-долу са история.
+
 VOLCANO A/B LOCAL SAMPLE v008 —21.10.2026
 Read builds/volcano-ab-v008-2026-10-21/README_BG.txt and REPORT.txt.
 A original two-page lesson; B same facts as nonblocking real-game cues.
