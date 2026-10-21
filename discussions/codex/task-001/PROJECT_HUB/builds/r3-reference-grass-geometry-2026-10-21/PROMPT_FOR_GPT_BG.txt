@@ -1,0 +1,42 @@
+GNOMIT — GPT ART DIRECTION: REFERENCE-DRIVEN GRASS GEOMETRY
+Модел: GPT-6.1 Sol. Effort: Extra high (xhigh).
+
+АКТУАЛНА КОРЕКЦИЯ НА ЧОВЕКА
+Целта е тревата от TARGET_HOME_START.png, а не едва забележим material noise.
+Първите material-only A/B са отхвърлени като практически еднакви и са запазени.
+Не ги представяй като човешки избран B или като завършен grass етап.
+Новият native Blender кандидат добавя реални стръкчета и тревен ръб.
+Човешко приемане още НЯМА. Сега се работи само по тревата.
+
+ВХОД
+PROJECT_HUB/builds/r3-reference-grass-geometry-2026-10-21/START_HERE_BG.txt,
+REPORT.txt, FINAL_RECEIPT.json.txt и проверимия пакет с DOWNLOAD_REFERENCE_GRASS.py.txt.
+Пакетът съдържа exact INPUTS/HOME_START_SELECTED.blend:
+SHA256 5dd1234c888e8498ecfd1c58726c74a137dd26defd30fc9b690d985839544d3c.
+Действителни pixels: FINAL/RENDERS/01_REFERENCE_GRASS_432x960.png и
+02_BEFORE_TRIAL_REFERENCE.png. INPUTS/TARGET_HOME_START.png е generated concept.
+RESULT/ е по-острият първи geometry draft; FINAL/ е по-меката ревизия.
+
+ТВОЯТА ЗАДАЧА ОСТАВА САМО СОБСТВЕН ТЕКСТОВ ПРЕГЛЕД/ИЗХОДНО ПРЕДЛОЖЕНИЕ
+1. Виж действителните PNG при432x960; при media/DNS blocker назови NOT_OBSERVED.
+2. Оцени конкретно grass: къси извити стръкчета, групиране, спокойни площи,
+   зелени вариации, жълто-зелени връхчета, тревен ръб, чиста пътека/предмети.
+3. Кажи ясно какво още НЕ прилича на референцията. Не обещавай full match,
+   докато светлината, props и други етапи умишлено са фиксирани.
+4. Предложи ЕДИН следващ малък grass-only кандидат с конкретни параметри/код.
+   Без нов остров, нови цветя, светлина, камера, дом/гном/дървета/път/номера/UI.
+5. Запази Source input; само самостоятелни grass meshes/копиран grass material.
+   Без редакция на общи grass_shadow/grass_light материали или повторен decorate().
+6. Документирай произход, генератор/seed/единици/зависимости. Днешните229k
+   grass triangles са native proof, не готов мобилен asset. Bake/LOD/runtime
+   shader и Godot/Android проверки са отделна бъдеща стъпка.
+
+ПРЕДАВАНЕ
+Добави UPDATE/REFERENCE_GRASS_GEOMETRY към собствения
+discussions/gpt/task-001/warm-map-six-levels-direction-2026-10-21/REPORT.txt
+на codex/gpt/task-001. Запази R1/peer и историята.
+По желание един неприложен source proposal.py.txt в същата собствена папка.
+Без изпълнение, нов арт/Blender инсталация, game/source/grant/main редакции,
+merge или автоматичен преход към цветя. REPORTS_ONLY позволява този текст.
+Преди финал свери публикуваните собствени текстове от точния commit.
+Върни commit/REPORT, точно видени кадри и една следваща grass-only промяна.

@@ -1,0 +1,33 @@
+GNOMIT — REFERENCE GRASS CORRECTION — ACTUAL REPORT
+User correction: material-only A/B have essentially no useful visible difference
+and do not follow the intended reference. Codex acknowledged wrong approach.
+
+Root cause: smooth unchanged geometry + fine Noise/Bump cannot create separate
+blades, tuft silhouettes or a shaggy rim. The reference visibly has these forms.
+Corrective candidate uses deterministic low curved/folded blades and perimeter
+fringe on the same selected native source. New copied ground material; two new
+meshes. No changed source mesh vertices, layout, lighting, camera or flowers.
+
+RESULT first geometry draft had sharp confetti-like dark contrast. FINAL lowers
+blade width/height, softens palette and adds .075 vertex-colour emission in the
+NEW blade material only. Old scene lights stay identical. Both drafts retained.
+
+Verified: final .blend saved, freshly reopened; original source rehashed;
+647 original recorded geometry/transforms and646 original material assignments
+unchanged; original material node inputs/links and scene settings checked.
+Grass cap has0modifiers, so evaluated BVH/raw polygon index mapping is applicable.
+Final native render432x960, Cycles CPU192samples. Seed261021.
+Measured final:5747 tuft sites,22893 blades,228930 vertices/triangles.114 blade
+footprints rejected in addition to occupied field root mask. Some tuft sites
+may have rejected blades; site count is not separate object count.
+
+Visual review (actual final PNG, Codex and independent read-only reviewer):
+Obvious improvement from smooth original; blades/fringe visible without zoom;
+route and props remain readable, no severe visible intrusion. Still partial
+reference match: uniform/fine speckle and insufficient calm/curved tuft groups.
+Unchanged cool lighting leaves a major full-reference golden-light gap.
+
+Not accepted as finished grass. No Godot/Android/runtime/performance claim.
+First grass, later flowers, then other objects; no automatic stage advance.
+All new code and procedural material origin documented. Prior art rights/terms
+are inherited from preserved source provenance, not established by this report.

@@ -1,57 +1,42 @@
-GNOMIT — GPT: ПЪРВО ТРЕВАТА, ПОСЛЕ ЕЛЕМЕНТИТЕ ЕДИН ПО ЕДИН
-Модел: GPT-6.1 Sol. Effort: Extra high (xhigh), както избра човекът.
+GNOMIT — GPT ART DIRECTION: REFERENCE-DRIVEN GRASS GEOMETRY
+Модел: GPT-6.1 Sol. Effort: Extra high (xhigh).
 
-АКТУАЛНО ЧОВЕШКО РЕШЕНИЕ
-Преди светлина/цветя/други обекти довършваме САМО тревата. Codex вече направи
-два native Blender варианта от избраната HomeStart сцена. Тази инструкция
-заменя стария prompt за първа светлинна проба, включително копието му в
-историческия HomeStart ZIP. Старите доклади и source модели се пазят.
+АКТУАЛНА КОРЕКЦИЯ НА ЧОВЕКА
+Целта е тревата от TARGET_HOME_START.png, а не едва забележим material noise.
+Първите material-only A/B са отхвърлени като практически еднакви и са запазени.
+Не ги представяй като човешки избран B или като завършен grass етап.
+Новият native Blender кандидат добавя реални стръкчета и тревен ръб.
+Човешко приемане още НЯМА. Сега се работи само по тревата.
 
-ПЪРВО ПРОЧЕТИ/ВИЖ
-PROJECT_HUB/designs/ART_STAGE_ORDER_GRASS_FIRST_2026-10-21.txt.
-PROJECT_HUB/builds/r3-grass-trials-2026-10-21/START_HERE_BG.txt и REPORT.txt.
-Свали проверимия действителен пакет с DOWNLOAD_GRASS_TRIALS.py.txt от точния
-commit; CRC/SHA/count/manifest са задължителни преди READY за доставка.
-Отвори FINAL/RENDERS/03_COMPARISON_BASE_A_B.png, отделните native кадри
-00_BASELINE_432x960.png,01_GRASS_A_432x960.png,02_GRASS_B_432x960.png и
-04_NATIVE_LAWN_PIXEL_ZOOM.png. REFERENCE/TARGET_HOME_START.png е визуална цел,
-не действителният native рендер. RESULT/ е запазеният първи слаб draft.
-При DNS/media blocker назови точния NOT_OBSERVED файл; не твърди pixel review
-по чужд текст. Можеш да дадеш условна source насока, ясно отделена от видяното.
-
-ТОЧЕН ИЗХОДЕН МОДЕЛ
-INPUTS/HOME_START_SELECTED.blend:
+ВХОД
+PROJECT_HUB/builds/r3-reference-grass-geometry-2026-10-21/START_HERE_BG.txt,
+REPORT.txt, FINAL_RECEIPT.json.txt и проверимия пакет с DOWNLOAD_REFERENCE_GRASS.py.txt.
+Пакетът съдържа exact INPUTS/HOME_START_SELECTED.blend:
 SHA256 5dd1234c888e8498ecfd1c58726c74a137dd26defd30fc9b690d985839544d3c.
-Това е местеният дом до същия гном; не връщай стария свят или дома при мината.
-FINAL/01_GRASS_A.blend и FINAL/02_GRASS_B.blend са двете editable проби.
-SOURCE/build_grass_trials.py и refine_grass_trials.py съдържат точните графи.
-Променя се само grass top: Island_Grass_Cap slot0 е отделно копие на Airy_grass.
-Airy_grass_shadow (lip/underside) и общият Airy_grass_light (старите туфи) се пазят.
-Не пускай генератора/decorate() отначало, защото това може да раздвижи украсата.
+Действителни pixels: FINAL/RENDERS/01_REFERENCE_GRASS_432x960.png и
+02_BEFORE_TRIAL_REFERENCE.png. INPUTS/TARGET_HOME_START.png е generated concept.
+RESULT/ е по-острият първи geometry draft; FINAL/ е по-меката ревизия.
 
-ТВОЯТА СЕГАШНА ЗАДАЧА: САМО СОБСТВЕН ТЕКСТОВ ПРЕГЛЕД/ПРЕДЛОЖЕНИЕ
-1. Кажи A/B/нито един и защо, по реалния432x960 кадър, не само увеличението.
-2. Посочи един малък следващ кандидат само за тревата. Търсим мека приказна
-   повърхност, леки зелени вариации и четима фина структура със спокойни площи.
-3. Провери риска B да изглежда сресана/на ивици/като филц. Дай конкретни
-   shader параметри/връзки за една ограничена следваща проба, не нов остров.
-4. Запази камерата, осветлението/world/view, геометрията, позициите/мащабите
-   на дома/гнома/дърветата/пътя/камъните и наличните цветя. Без нови цветя,
-   частици, големи grass scatter системи, нови UI номера, поздрав или геймплей.
-5. Ако предлагаш нов материал/текстура, запиши как се създава, seed/единици,
-   зависимости, произход и как ще бъде възстановим. Външен материал без
-   установен източник/условия не става автоматично production asset.
-6. Native Noise/Bump не се пренася автоматично в GLB. Предложи бъдещ bake
-   или runtime shader като отделна стъпка; текущите проби не са Godot-ready.
+ТВОЯТА ЗАДАЧА ОСТАВА САМО СОБСТВЕН ТЕКСТОВ ПРЕГЛЕД/ИЗХОДНО ПРЕДЛОЖЕНИЕ
+1. Виж действителните PNG при432x960; при media/DNS blocker назови NOT_OBSERVED.
+2. Оцени конкретно grass: къси извити стръкчета, групиране, спокойни площи,
+   зелени вариации, жълто-зелени връхчета, тревен ръб, чиста пътека/предмети.
+3. Кажи ясно какво още НЕ прилича на референцията. Не обещавай full match,
+   докато светлината, props и други етапи умишлено са фиксирани.
+4. Предложи ЕДИН следващ малък grass-only кандидат с конкретни параметри/код.
+   Без нов остров, нови цветя, светлина, камера, дом/гном/дървета/път/номера/UI.
+5. Запази Source input; само самостоятелни grass meshes/копиран grass material.
+   Без редакция на общи grass_shadow/grass_light материали или повторен decorate().
+6. Документирай произход, генератор/seed/единици/зависимости. Днешните229k
+   grass triangles са native proof, не готов мобилен asset. Bake/LOD/runtime
+   shader и Godot/Android проверки са отделна бъдеща стъпка.
 
 ПРЕДАВАНЕ
-Добави UPDATE/GRASS_FIRST към съществуващия собствен
+Добави UPDATE/REFERENCE_GRASS_GEOMETRY към собствения
 discussions/gpt/task-001/warm-map-six-levels-direction-2026-10-21/REPORT.txt
-на codex/gpt/task-001. Пази R1/peer отговорите и историята.
-По желание конкретен неприложен shader source като GRASS_MATERIAL_PROPOSAL.py.txt
-само в същата собствена тематична папка. Без изпълнение, нови изображения,
-Blender инсталация, source/game редакции, grants, main или merge.
-REPORTS_ONLY вече позволява този собствен текст; не чакай production grant.
-Преди финал прочети публикуваните собствени текстове от точния commit.
-Върни commit/REPORT линк, реално видени кадри и1 конкретна следваща промяна.
-Не обявявай човешко приемане, consensus или автоматично преминаване към цветя.
+на codex/gpt/task-001. Запази R1/peer и историята.
+По желание един неприложен source proposal.py.txt в същата собствена папка.
+Без изпълнение, нов арт/Blender инсталация, game/source/grant/main редакции,
+merge или автоматичен преход към цветя. REPORTS_ONLY позволява този текст.
+Преди финал свери публикуваните собствени текстове от точния commit.
+Върни commit/REPORT, точно видени кадри и една следваща grass-only промяна.

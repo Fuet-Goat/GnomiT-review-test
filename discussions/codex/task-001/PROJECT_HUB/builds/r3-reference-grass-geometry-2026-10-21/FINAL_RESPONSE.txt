@@ -1,0 +1,1 @@
+The prior material-only trials missed the intended grass reference. This separate native trial has actual short grass geometry/fringe and a meaningful visible difference. Still partial reference fidelity; original camera/lights/props retained; human art choice pending; no game integration.

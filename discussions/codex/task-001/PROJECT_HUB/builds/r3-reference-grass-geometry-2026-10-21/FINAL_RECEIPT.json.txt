@@ -1,0 +1,85 @@
+{
+  "status": "NATIVE_SAVED_REOPENED_FINAL_RENDERED",
+  "source_sha256": "5dd1234c888e8498ecfd1c58726c74a137dd26defd30fc9b690d985839544d3c",
+  "parameters": {
+    "seed": 261021,
+    "spacing_m": 0.122,
+    "tuft_blades": [
+      3,
+      5
+    ],
+    "height_m": [
+      0.07,
+      0.15
+    ],
+    "width_m": [
+      0.02,
+      0.037
+    ],
+    "clearance_m": 0.075,
+    "border_spacing_m": 0.075,
+    "ground_srgb": [
+      "5F8D35",
+      "7FA63D",
+      "9CB64A"
+    ],
+    "blade_srgb": [
+      "5B8227",
+      "8AAB38",
+      "B3C945",
+      "CBD45F"
+    ]
+  },
+  "original_objects": 647,
+  "protected_original_geometry_transforms": 647,
+  "protected_original_material_assignments": 646,
+  "camera_light_world_settings_unchanged": true,
+  "old_material_node_inputs_links_unchanged": true,
+  "added_objects": [
+    "Reference_Grass_Carpet",
+    "Reference_Grass_Edge"
+  ],
+  "tufts": 5747,
+  "blades": 22893,
+  "grass_vertices": 228930,
+  "grass_triangles": 228930,
+  "rejected_occupied_field_cells": 2405,
+  "human_visual_acceptance": "PENDING",
+  "blend_bytes": 8547698,
+  "blend_sha256": "15cb15f8ec0e82449f85247d6b34d486ff9f7b8e0fc13e13e4dd1a42f104678d",
+  "runtime_bake_optimisation_android": "NOT_PERFORMED",
+  "draft_render": {
+    "path": "00_DRAFT_REFERENCE_GRASS_432x960.png",
+    "bytes": 727990,
+    "sha256": "8d25ef5f1286f92255cf2213c549fc067ed9fc1bb2b06ece2915ce7cf9f5beee",
+    "width": 432,
+    "height": 960,
+    "samples": 64
+  },
+  "final_render": {
+    "path": "01_REFERENCE_GRASS_432x960.png",
+    "bytes": 728721,
+    "sha256": "bbc0def2f3c56b65524f5a7b94b7d1fd707c7decaf5b9f98d8a617e0b9b5c62b",
+    "width": 432,
+    "height": 960,
+    "samples": 192
+  },
+  "fresh_reopen": "PASS",
+  "cap_modifiers": 0,
+  "evaluated_raw_cap_topology_same": true,
+  "rejected_blade_footprints": 114,
+  "added_mesh_records": [
+    {
+      "name": "Reference_Grass_Carpet",
+      "record_sha256": "51ed1fe37bfd8646f78d1d6b0660602d998943a6bda8f342a33d31dcef976d72"
+    },
+    {
+      "name": "Reference_Grass_Edge",
+      "record_sha256": "abd3ca988d70df160b32cf032c9a634f1c0ea9d2ef920f05d2297e607fe4257d"
+    }
+  ],
+  "stylised_blade_emission_strength": 0.075,
+  "revision_reason": "First geometry draft was too sharp/dark. Narrower shorter leaves and closer palette values soften contrast.",
+  "footprint_check": "Root plus sampled actual mid/tip width positions; conservative ray mask, not proof of every possible polygon/prop intersection.",
+  "guard_scope": "Original object recorded geometry/transforms/material slots, original node inputs/links, camera/light/world/render settings; not every Blender property."
+}

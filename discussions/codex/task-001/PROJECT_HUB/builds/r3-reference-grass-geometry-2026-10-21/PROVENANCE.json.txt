@@ -1,0 +1,44 @@
+{
+  "kind": "CODEX_ORIGINAL_PROCEDURAL_GRASS_GEOMETRY_AND_MATERIAL",
+  "input_native_sha256": "5dd1234c888e8498ecfd1c58726c74a137dd26defd30fc9b690d985839544d3c",
+  "source_publication_commit": "e75f8d231957d9ba3372b0c2d303351eedd9a21a",
+  "previous_material_trials_commit": "2f03e9078e1b0f61f29ba9364d3ded4d8f2a9d5f",
+  "tools": {
+    "Blender": "5.2.2 LTS",
+    "render": "Cycles CPU192samples",
+    "comparison": "Pillow; native columns unscaled, only concept resized"
+  },
+  "authorship": "Original deterministic Python-authored meshes and colours. No downloaded grass, sound or texture; no new imagegen image.",
+  "seed": 261021,
+  "source_parameters": {
+    "seed": 261021,
+    "spacing_m": 0.122,
+    "tuft_blades": [
+      3,
+      5
+    ],
+    "height_m": [
+      0.07,
+      0.15
+    ],
+    "width_m": [
+      0.02,
+      0.037
+    ],
+    "clearance_m": 0.075,
+    "border_spacing_m": 0.075,
+    "ground_srgb": [
+      "5F8D35",
+      "7FA63D",
+      "9CB64A"
+    ],
+    "blade_srgb": [
+      "5B8227",
+      "8AAB38",
+      "B3C945",
+      "CBD45F"
+    ]
+  },
+  "inherited": "Input native .blend/target concept retained with parent provenance. Documentation is origin evidence, not a legal ownership/licence conclusion.",
+  "limitations": "Native229k triangle art trial. No bake/LOD/runtime export/integration/Android check. Human art acceptance pending."
+}
