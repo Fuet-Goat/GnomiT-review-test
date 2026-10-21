@@ -40,3 +40,9 @@ ZIP съдържа source.blend,GLB,скриптове,документация,
 Няма промяна вmain,grants,privateCradle или други bot папки;безmerge.
 В Git:само собствени позволени текстови отчети/реален Base64 transfer.
 GPT-6.1 Sol / Extra high.
+
+ПРОВЕРЕНО ПРЕДАВАНЕ ОТ GITHUB
+Artifact commit:a48a73fb9e1b36e0cbe1655eab4dbc6800957649.
+362 окончателни файла възстановени и проверени SHA-256 преди изпълнение.
+След това свеж Godot import PASS и повторени52 scripted checks PASS.
+REMOTE_READBACK.json.txt описва последователността и точните хешове.
