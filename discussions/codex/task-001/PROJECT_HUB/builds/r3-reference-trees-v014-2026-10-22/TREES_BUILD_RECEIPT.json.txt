@@ -1,0 +1,502 @@
+{
+  "status": "TREES_REFERENCE_NATIVE_REOPENED_EXPORTED",
+  "input_sha256": "856ebcb4641e689c00f3de456220bebc43a20efc2e632c919e2509bf3373e7b7",
+  "shape_library_sha256": "eda6edf13d496d2bf86018339db6778ccb632bd4ee307b25d683424bf07897f4",
+  "seed": 26102214,
+  "parameters": {
+    "seed": 26102214,
+    "subdivision_levels": 2,
+    "medium_clusters": 130,
+    "camera_facing_clusters": 100,
+    "medium_cluster_diameter_px_large_crown": [
+      7.0,
+      12.0
+    ],
+    "cluster_local_radius_limits_m": [
+      0.085,
+      0.29
+    ],
+    "cluster_relief_m": [
+      0.04,
+      0.075
+    ],
+    "leaf_caps_per_cluster": [
+      8,
+      12
+    ],
+    "leaf_length_px_large_crown": [
+      3.8,
+      5.5
+    ],
+    "leaf_width_length_ratio": [
+      0.5,
+      0.68
+    ],
+    "leaf_relief_m": [
+      0.018,
+      0.032
+    ],
+    "leaf_patch_coverage": 0.94,
+    "relief_scale": 0.22,
+    "palette_srgb": [
+      "397E42",
+      "6BAB41",
+      "A4CB55"
+    ],
+    "daisy_max_local_delta_m": 0.24,
+    "surface": "One continuous sculpted mesh per existing crown; max-union relief, no loose additions.",
+    "colour": "Medium leaf green, cooler soft recesses, restrained tips; no broad cloudy colour noise.",
+    "pixel_targets": "Projected design targets, not a human-accepted measurement of visible rendered leaves."
+  },
+  "protected_records": 634,
+  "group_and_crown_transforms_unchanged": true,
+  "grass_geometry_vertex_colours_uv_materials_unchanged": true,
+  "old_materials_unchanged": true,
+  "scene_settings_unchanged": true,
+  "existing_daisy_attachments": [
+    {
+      "name": "East_Canopy_Daisy_Anchor_0",
+      "old_location": [
+        -0.32868731021881104,
+        -0.43601909279823303,
+        2.7563772201538086
+      ],
+      "new_location": [
+        -0.2888871729373932,
+        -0.37595707178115845,
+        2.707169771194458
+      ],
+      "local_delta_m": 0.08725176392279552
+    },
+    {
+      "name": "East_Canopy_Daisy_Anchor_1",
+      "old_location": [
+        0.3109111785888672,
+        -0.39756736159324646,
+        2.6785099506378174
+      ],
+      "new_location": [
+        0.31008726358413696,
+        -0.3963547646999359,
+        2.6776394844055176
+      ],
+      "local_delta_m": 0.0017049746680544845
+    },
+    {
+      "name": "Northwest_Canopy_Daisy_Anchor_0",
+      "old_location": [
+        -0.341094970703125,
+        -0.45474329590797424,
+        2.7717177867889404
+      ],
+      "new_location": [
+        -0.2868189215660095,
+        -0.37283578515052795,
+        2.704612970352173
+      ],
+      "local_delta_m": 0.11898649615346377
+    },
+    {
+      "name": "Northwest_Canopy_Daisy_Anchor_1",
+      "old_location": [
+        0.3271121382713318,
+        -0.42141032218933105,
+        2.6956279277801514
+      ],
+      "new_location": [
+        0.316854327917099,
+        -0.4063138961791992,
+        2.6847896575927734
+      ],
+      "local_delta_m": 0.0212271726596902
+    },
+    {
+      "name": "Southeast_Canopy_Daisy_Anchor_0",
+      "old_location": [
+        -0.30234310030937195,
+        -0.3962631821632385,
+        2.723806142807007
+      ],
+      "new_location": [
+        -0.29278501868247986,
+        -0.38183915615081787,
+        2.711988925933838
+      ],
+      "local_delta_m": 0.02095366469979564
+    },
+    {
+      "name": "Southeast_Canopy_Daisy_Anchor_1",
+      "old_location": [
+        0.3007173240184784,
+        -0.38256511092185974,
+        2.667739152908325
+      ],
+      "new_location": [
+        0.31619563698768616,
+        -0.40534451603889465,
+        2.684093713760376
+      ],
+      "local_delta_m": 0.032030471486641475
+    },
+    {
+      "name": "Southwest_Canopy_Daisy_Anchor_0",
+      "old_location": [
+        -0.30164244771003723,
+        -0.3952058255672455,
+        2.722939968109131
+      ],
+      "new_location": [
+        -0.2939850986003876,
+        -0.38365018367767334,
+        2.713472843170166
+      ],
+      "local_delta_m": 0.016786730054418057
+    },
+    {
+      "name": "Southwest_Canopy_Daisy_Anchor_1",
+      "old_location": [
+        0.33594784140586853,
+        -0.43441376090049744,
+        2.7049639225006104
+      ],
+      "new_location": [
+        0.31463733315467834,
+        -0.40305113792419434,
+        2.6824471950531006
+      ],
+      "local_delta_m": 0.04409937509625046
+    },
+    {
+      "name": "West_Canopy_Daisy_Anchor_0",
+      "old_location": [
+        -0.29334259033203125,
+        -0.38268059492111206,
+        2.7126784324645996
+      ],
+      "new_location": [
+        -0.28544795513153076,
+        -0.37076684832572937,
+        2.7029178142547607
+      ],
+      "local_delta_m": 0.017307001085975732
+    },
+    {
+      "name": "West_Canopy_Daisy_Anchor_1",
+      "old_location": [
+        0.3539291024208069,
+        -0.4608766734600067,
+        2.7239630222320557
+      ],
+      "new_location": [
+        0.31224462389945984,
+        -0.39952969551086426,
+        2.6799192428588867
+      ],
+      "local_delta_m": 0.08626066278137712
+    }
+  ],
+  "crowns": [
+    {
+      "name": "East_Crown_Sculpt",
+      "vertices": 45506,
+      "triangles": 91008,
+      "previous_vertices": 45506,
+      "medium_clusters": 130,
+      "leaf_caps": 1210,
+      "projected_bounds_px": {
+        "min": [
+          319.33692169189453,
+          513.8877868652344
+        ],
+        "max": [
+          399.8290958404541,
+          599.8154067993164
+        ],
+        "width": 80.49217414855957,
+        "height": 85.92761993408203
+      },
+      "cluster_target_px": [
+        5.941208947443067,
+        10.143420243318053
+      ],
+      "leaf_target_px": [
+        3.220101487396045,
+        4.659957926212844
+      ],
+      "max_cluster_relief_m": 0.01633964998951623,
+      "max_leaf_relief_m": 0.006990558833606625,
+      "quiet_fraction_leaf_relief_below_1mm": 0.6185777699644003,
+      "old_bounds": [
+        [
+          -1.2778804302215576,
+          -1.0627765655517578,
+          1.4590814113616943
+        ],
+        [
+          1.2981566190719604,
+          0.9104823470115662,
+          3.379124879837036
+        ]
+      ],
+      "new_bounds": [
+        [
+          -1.2778804302215576,
+          -1.0627765655517578,
+          1.4590814113616943
+        ],
+        [
+          1.2981566190719604,
+          0.9104823470115662,
+          3.379124879837036
+        ]
+      ],
+      "mesh_record_sha256": "ccb719f9b1b87a807942a7ba487d9dacb2df6be1b0e1a827e8b8b22aa4f28b79"
+    },
+    {
+      "name": "Northwest_Crown_Sculpt",
+      "vertices": 45506,
+      "triangles": 91008,
+      "previous_vertices": 45506,
+      "medium_clusters": 130,
+      "leaf_caps": 1287,
+      "projected_bounds_px": {
+        "min": [
+          65.10482168197632,
+          759.9173355102539
+        ],
+        "max": [
+          203.8026909828186,
+          907.9564476013184
+        ],
+        "width": 138.69786930084229,
+        "height": 148.03911209106445
+      },
+      "cluster_target_px": [
+        7.781683247671873,
+        13.14798434731723
+      ],
+      "leaf_target_px": [
+        4.180372681126959,
+        6.045824814830315
+      ],
+      "max_cluster_relief_m": 0.016403520269872122,
+      "max_leaf_relief_m": 0.006977899078390977,
+      "quiet_fraction_leaf_relief_below_1mm": 0.6980837691732958,
+      "old_bounds": [
+        [
+          -1.2761077880859375,
+          -1.0626697540283203,
+          1.459428071975708
+        ],
+        [
+          1.2999975681304932,
+          0.9103824496269226,
+          3.3791379928588867
+        ]
+      ],
+      "new_bounds": [
+        [
+          -1.2761077880859375,
+          -1.0626697540283203,
+          1.459428071975708
+        ],
+        [
+          1.2999975681304932,
+          0.9103824496269226,
+          3.3791379928588867
+        ]
+      ],
+      "mesh_record_sha256": "1cd73546ef27937daff5ffcbe21bd69863c6ecb200ef1d18c68e37f1e4042520"
+    },
+    {
+      "name": "Southeast_Crown_Sculpt",
+      "vertices": 45506,
+      "triangles": 91008,
+      "previous_vertices": 45506,
+      "medium_clusters": 130,
+      "leaf_caps": 1205,
+      "projected_bounds_px": {
+        "min": [
+          283.0937805175781,
+          306.54470443725586
+        ],
+        "max": [
+          410.6458740234375,
+          442.6888847351074
+        ],
+        "width": 127.55209350585938,
+        "height": 136.14418029785156
+      },
+      "cluster_target_px": [
+        7.738770131401063,
+        13.194479106222714
+      ],
+      "leaf_target_px": [
+        4.182905608769653,
+        6.049074899490961
+      ],
+      "max_cluster_relief_m": 0.01638991585734923,
+      "max_leaf_relief_m": 0.007021382535879262,
+      "quiet_fraction_leaf_relief_below_1mm": 0.67788863007076,
+      "old_bounds": [
+        [
+          -1.276275396347046,
+          -1.0626617670059204,
+          1.459394931793213
+        ],
+        [
+          1.2998217344284058,
+          0.9103876948356628,
+          3.379136085510254
+        ]
+      ],
+      "new_bounds": [
+        [
+          -1.276275396347046,
+          -1.0626617670059204,
+          1.459394931793213
+        ],
+        [
+          1.2998217344284058,
+          0.9103876948356628,
+          3.379136085510254
+        ]
+      ],
+      "mesh_record_sha256": "8c2466571c4b2785b89bd9e349d448145b1a7e667e2e3e865c10ebeb68aa2dfe"
+    },
+    {
+      "name": "Southwest_Crown_Sculpt",
+      "vertices": 45506,
+      "triangles": 91008,
+      "previous_vertices": 45506,
+      "medium_clusters": 130,
+      "leaf_caps": 1238,
+      "projected_bounds_px": {
+        "min": [
+          34.20439624786377,
+          380.72696685791016
+        ],
+        "max": [
+          117.1771330833435,
+          469.2655563354492
+        ],
+        "width": 82.97273683547974,
+        "height": 88.53858947753906
+      },
+      "cluster_target_px": [
+        6.116904456687341,
+        10.45824745815951
+      ],
+      "leaf_target_px": [
+        3.318925303091268,
+        4.803478535371225
+      ],
+      "max_cluster_relief_m": 0.016457587591061716,
+      "max_leaf_relief_m": 0.007007538569182241,
+      "quiet_fraction_leaf_relief_below_1mm": 0.5758361534742671,
+      "old_bounds": [
+        [
+          -1.2717032432556152,
+          -1.0623557567596436,
+          1.4602677822113037
+        ],
+        [
+          1.3044543266296387,
+          0.9105870127677917,
+          3.379207134246826
+        ]
+      ],
+      "new_bounds": [
+        [
+          -1.2717032432556152,
+          -1.0623557567596436,
+          1.4602677822113037
+        ],
+        [
+          1.3044543266296387,
+          0.9105870127677917,
+          3.379207134246826
+        ]
+      ],
+      "mesh_record_sha256": "983891bf8c519bab18de72a6f0bf065f369ee70d93888f0656353979b7334d53"
+    },
+    {
+      "name": "West_Crown_Sculpt",
+      "vertices": 45506,
+      "triangles": 91008,
+      "previous_vertices": 45506,
+      "medium_clusters": 130,
+      "leaf_caps": 1198,
+      "projected_bounds_px": {
+        "min": [
+          23.20592039823532,
+          563.7040901184082
+        ],
+        "max": [
+          149.5216770172119,
+          698.5204696655273
+        ],
+        "width": 126.3157566189766,
+        "height": 134.81637954711914
+      },
+      "cluster_target_px": [
+        7.752241906691561,
+        13.081535538464715
+      ],
+      "leaf_target_px": [
+        4.180723414908751,
+        6.049231307715861
+      ],
+      "max_cluster_relief_m": 0.016393713010985172,
+      "max_leaf_relief_m": 0.006968610206309221,
+      "quiet_fraction_leaf_relief_below_1mm": 0.669230431151936,
+      "old_bounds": [
+        [
+          -1.275328278541565,
+          -1.062687873840332,
+          1.4595811367034912
+        ],
+        [
+          1.3008098602294922,
+          0.9103707671165466,
+          3.3791463375091553
+        ]
+      ],
+      "new_bounds": [
+        [
+          -1.275328278541565,
+          -1.062687873840332,
+          1.4595811367034912
+        ],
+        [
+          1.3008098602294922,
+          0.9103707671165466,
+          3.3791463375091553
+        ]
+      ],
+      "mesh_record_sha256": "53e48bc8f8611830b4b0f21bdd19f2b6c3f098c284b257efd5da67ecd34a6cd0"
+    }
+  ],
+  "unused_material_retention_flags_added": [],
+  "native_blend_sha256": "d763d19318e47bf4801f4e3bc8cfedef9b99791b092ac88cf30bd508f92137b4",
+  "glb": {
+    "bytes": 29738484,
+    "sha256": "26f4a9805bf3300ebaa5343dec6933ca236802671c2524a916a00a23e53c339b",
+    "node_count": 568,
+    "grass_color0": true,
+    "crown_color0": true,
+    "ground_uv1": true,
+    "embedded_resources": true,
+    "lights_exported": false,
+    "duplicate_guide_excluded": true
+  },
+  "native_render": {
+    "bytes": 721686,
+    "sha256": "88d0fb2a9a61b7246a34e185bdf79687837f2b6583a094820f9a7909ca08172e",
+    "samples": 128
+  },
+  "generator_sha256": "9d1939beb61b0f879bc20ddf222c3c04577cbd3f0e5ff8b5be7f95ffbba7b086",
+  "verification_limits": "Geometry/colour guards and projected design targets; no human aesthetic acceptance or phone performance measurement.",
+  "human_acceptance": "PENDING",
+  "android_performance": "NOT_MEASURED"
+}

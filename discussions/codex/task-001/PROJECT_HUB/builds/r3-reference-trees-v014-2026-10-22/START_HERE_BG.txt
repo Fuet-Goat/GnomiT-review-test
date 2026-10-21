@@ -1,0 +1,58 @@
+GNOMIT — TREE FOLIAGE TRIAL v014 — 22.10.2026
+
+Изрично човешко задание: „q da opravim durvetata ? da poprilichat na druggite ?“
+и последващо „go on“. Целта е доближаване на короните до листния вид на
+reference/TARGET_HOME_START.png, при запазени трева v013 и светлина B.
+
+Това е ОТДЕЛНА ПРОБА ЗА СРАВНЕНИЕ, не обявен художествен победител.
+Първият вариант беше прекалено гладък с единични изпъкнали капачета;
+вторият имаше люспести/зелевидни групи. Двата са запазени в native/draft1
+и native/draft2 с точните генератори, Blender, GLB, рендери и receipts.
+Третата проба запазва плътното разположение, но мащабира само релефа по0.22.
+Листната шарка е по-гъста и спокойна; короните още стоят като цели обеми
+с повърхностен детайл. Визуалното приемане и изборът v013/v014 са PENDING.
+
+СЪСТАВ
+native/TREES_V014_REFERENCE.blend — избраният кандидат за сравнение.
+native/V013_SOURCE.blend — точен вход с приложената трева v013.
+native/V009_CROWN_LIBRARY.blend — включен предишен smooth crown източник.
+tools/build_trees_v014.py — детерминиран генератор, seed26102214.
+assets/r3/airy_island.glb — действителен embedded world export, 568 nodes.
+outputs/06_TREES_BEFORE_AFTER.png — действителни Godot кадри при еднаква
+камера, B светлина, 161-point route и неподвижна поза на гнома.
+documentation/TREES_VISUAL_REVIEW.txt, TREES_BUILD_RECEIPT.json,
+TREES_PROVENANCE.json и INHERITED_CODE_CHECK.json дават произхода и границите.
+
+ЗАПАЗЕНО И ПРОВЕРЕНО
+Петте crown mesh-а/vertex colours и десет стари daisy прикрепвания са
+единствената художествена промяна. Native guard пази634 други записа,
+точни native UV/material/light/camera данни, тревата, кората и клончетата.
+60/61 scripts са byte-identical; променено е само прозоречното заглавие
+на preview_main.gd. 85 други runtime ресурса са byte-identical.
+Godot: fresh import и57 scripted game checks PASS. Играта/звукът/прогресът
+и двете реални нива са запазени. Това не е human или Android playtest.
+
+Независим GLB преглед:539 protected meshes. Position/normal/index/colour/UV1
+байтове съвпадат точно. TEXCOORD_0 на184 mesh-а има само измерено float32
+закръгляне:2322 компонента, максимум2^-23. Native UV guard остава точен.
+Проверяващият код допуска само тази записана числова еквивалентност;
+не допуска различен layout/count, материал, друга attribute или index промяна.
+Между native и Godot renderer-ите не се твърди пикселна идентичност.
+
+ПАКЕТ И САМОСТОЯТЕЛНО ВЪЗСТАНОВЯВАНЕ
+PACKAGE_RECEIPT.json.txt описва пълния ZIP и действителния delta по байтове,
+SHA-256, entry count и части. FINAL_FILES.json.txt описва всяка крайна пътека.
+DOWNLOAD_V014.py.txt се сваля/преглежда и се пази като download_v014.py:
+python download_v014.py --commit <exact-40-hex-artifact-commit> --output <NEW_DIR>
+Скриптът проверява pinned immutable v009 base плюс v014 delta, всички
+части/ZIP CRC/крайни файлове преди и след запис. Не изпълнява изтеглен код
+и отказва съществуваща output папка. След това GAME е пълната проба.
+Отвори project.godot с Godot4.7.2 или PLAY_REFERENCE_TREES.cmd с наличния
+Windows engine в C:/Tools/Godot. За редакция отвори финалния Blender source.
+Точният artifact commit и последващият независим readback са в REPORT.txt.
+
+Няма нови външни модели/текстури/звуци. Наследените asset записи важат;
+документиран произход не означава самостоятелно правно заключение.
+Android/FPS/touch NOT_MEASURED; human art acceptance PENDING.
+Няма main/grant/private-project редакция, merge или следващ арт етап.
+GPT-6.1 Sol / Extra high.
