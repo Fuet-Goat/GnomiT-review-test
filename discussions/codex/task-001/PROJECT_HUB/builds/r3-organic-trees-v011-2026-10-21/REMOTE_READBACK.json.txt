@@ -1,0 +1,50 @@
+{
+  "status": "PASS",
+  "method": "PINNED_V009_PLUS_VERIFIED_V011_DELTA",
+  "artifact_commit": "fbd47fb0ab87d39dfe664921af6b00f21a45fb22",
+  "base_commit": "41be8dc7de9658c08045f9960facfd85066f642c",
+  "base_zip_bytes": 87008816,
+  "base_zip_sha256": "bb5417e8349fc24266fd11fc4ff274d449e90afd6fc541154cb02ac914eeed92",
+  "delta_zip_bytes": 82314815,
+  "delta_zip_sha256": "d325b0ae9ffc51c0d06db2e915f2879767a260dbcdecebc35d53ab052e6863dd",
+  "final_manifest_sha256": "9a86a64f59d6e3a21cb8c59b4af7d66966e8fc4ceff5f540a1055dc8f8128117",
+  "final_files_verified_before_and_after_write": 341,
+  "game_directory": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\R3_Organic_v011_RemoteCheck_fbd47fb\\GAME",
+  "executed_downloaded_code": false,
+  "runtime_checks": "NOT_RUN_BY_DOWNLOADER",
+  "cold_import_after_readback": "PASS",
+  "runtime_after_readback": {
+    "status": "PASS",
+    "scripted_checks": 52,
+    "failures": [],
+    "scripted_not_human": true,
+    "android_performance": "NOT_MEASURED",
+    "won_level": "NOT_TESTED"
+  },
+  "inherited_resource_audit": {
+    "unchanged_resources": 84,
+    "changed_resources": [
+      "assets/r3/airy_island.glb"
+    ],
+    "main_scene": "UNCHANGED"
+  },
+  "sequence": "All341 file paths/bytes/SHA verified from remote before execution. Afterwards cold Godot import and52check smoke wrote only local generated caches/test outputs. Downloader did not execute code.",
+  "evidence": {
+    "COLD_IMPORT.log": {
+      "bytes": 25408,
+      "sha256": "ed032277d3b0d91d837ebf8b206cee6b2c2c5f6f29acbea7822e889cb0b3c7d6"
+    },
+    "COLD_RUNTIME.log": {
+      "bytes": 2597,
+      "sha256": "d8e7e15fe8ddb05c66945bd7ad74c83b36c3d56fd60192ae9c76aab4374b545c"
+    },
+    "GAME/verification/TREES_SMOKE.json": {
+      "bytes": 2167,
+      "sha256": "8cd87fd0d82b232ca8ad72bee75b2faeb7703a2453b174096b5de59706f17ed0"
+    },
+    "GAME/outputs/01_TREES_MAP.png": {
+      "bytes": 433685,
+      "sha256": "fb88ef2ee0fe5133b1fdb71772f54cc95c8603627ef974158dc5a353d97bf4dc"
+    }
+  }
+}

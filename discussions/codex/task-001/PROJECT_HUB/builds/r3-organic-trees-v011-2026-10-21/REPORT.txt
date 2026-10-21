@@ -44,3 +44,10 @@ python download_v011.py --commit ARTIFACT_COMMIT --output NEW_OUTPUT_FOLDER
 
 Няма промяна вmain/grants/privateCradle/другbot илиmerge.
 GPT-6.1 Sol / Extra high.
+
+REMOTE ПРЕДАВАНЕ PASS
+Artifact:fbd47fb0ab87d39dfe664921af6b00f21a45fb22.
+341 final файла възстановени от Git и проверени преди и след запис.
+След това fresh cold import PASS и52 runtime checks PASS.
+84 inherited resources иmain.tscn са непроменени;само world.glb е art delta.
+Точна последователност/хешове:REMOTE_READBACK.json.txt.
