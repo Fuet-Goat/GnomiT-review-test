@@ -1,0 +1,145 @@
+"""Palette-only Blender map candidate. No geometry, camera, light or layout edits."""
+from pathlib import Path
+import hashlib,importlib.util,json
+import bpy
+
+ROOT=Path(__file__).resolve().parents[1]
+SOURCE=ROOT/'native/INPUT_H.blend';OUTPUT=ROOT/'native/MAP_PALETTE_I2.blend'
+PIN='6f08ae54a5fe21a2db5eca22bcc14928bbaa24a04f79b0e5d8ad3312ee681677'
+spec=importlib.util.spec_from_file_location('records',ROOT/'tools/record_helpers.py')
+p=importlib.util.module_from_spec(spec);spec.loader.exec_module(p);g=p.g
+PALETTE={'Airy_wood':'FFCC55','Airy_wood_light':'FFD478','Airy_wood_dark':'AB7638',
+    'Airy_Endgrain':'F5C779','Airy_stone':'B0AA9D','Airy_stone_light':'E0D6BE',
+    'Airy_stone_shadow':'879084','Airy_moss':'78B13A','Airy_leaf':'70B631',
+    'Airy_leaf.001':'70B631','Airy_leaf_light':'B7DA49','Airy_leaf_shadow':'45943B',
+    'Airy_grass_light':'B0D446','Airy_grass_shadow':'418633','Airy_soil':'C17D40',
+    'Airy_soil_light':'D79752','Airy_soil_dark':'955E35','Airy_red':'F0372E',
+    'Airy_pink':'EE89AA','Airy_yellow':'FFE078'}
+EXTRA={'GnomiT_Organic_Crown_Matte','GnomiT_Carved_Tree_Bark','Low fine blade colours','Soft continuous green turf'}
+
+def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
+def linear(c):return c/12.92 if c<=.04045 else ((c+.055)/1.055)**2.4
+def colour(h):return tuple(linear(int(h[i:i+2],16)/255) for i in (0,2,4))+(1,)
+
+def material_guard(mat,allowed):
+    record=g.nodes_record(mat.node_tree)
+    if record:
+        record['nodes']=[n for n in record['nodes'] if not n['name'].startswith('Palette_')]
+        for row in record['nodes']:
+            if allowed and row['type']=='ShaderNodeBsdfPrincipled':
+                row['inputs']=[(name,None if name=='Base Color' else value) for name,value in row['inputs']]
+        record['links']=sorted(link for link in record['links'] if not link[0].startswith('Palette_')
+            and not link[2].startswith('Palette_') and not (allowed and link[3]=='Base Color'))
+        ramps={n.name:{'interpolation':n.color_ramp.interpolation,'positions':[e.position for e in n.color_ramp.elements],
+            'colours':None if allowed and mat.name=='Soft continuous green turf' and n.name=='Color Ramp'
+            else [list(e.color) for e in n.color_ramp.elements]} for n in mat.node_tree.nodes
+            if n.bl_idname=='ShaderNodeValToRGB' and not n.name.startswith('Palette_')}
+    else:ramps={}
+    return g.fingerprint({'diffuse':None if allowed else list(mat.diffuse_color),'nodes':record,'ramps':ramps})
+
+def full_material(mat):
+    return g.fingerprint({'diffuse':list(mat.diffuse_color),'nodes':g.nodes_record(mat.node_tree),
+        'ramps':{n.name:[(e.position,list(e.color)) for e in n.color_ramp.elements]
+            for n in mat.node_tree.nodes if n.bl_idname=='ShaderNodeValToRGB'} if mat.node_tree else {}})
+
+def image_record():
+    return {im.name:{'size':list(im.size),'source':im.source,'alpha_mode':im.alpha_mode,
+        'packed_sha256':hashlib.sha256(im.packed_file.data).hexdigest() if im.packed_file else None}
+        for im in bpy.data.images if im.source not in ('GENERATED','VIEWER')}
+
+def point_attributes():
+    result={}
+    for name in ('Reference_Grass_Carpet','Reference_Grass_Edge'):
+        mesh=bpy.data.objects[name].data
+        result[name]={a.name:g.fingerprint([list(x.vector) for x in a.data]) if a.data_type=='FLOAT_VECTOR'
+            else g.fingerprint([x.value for x in a.data]) for a in mesh.attributes
+            if a.data_type in ('FLOAT_VECTOR','INT','FLOAT')}
+    return result
+
+def main():
+    assert bpy.app.background and sha(SOURCE)==PIN and not OUTPUT.exists()
+    selector=Path('C:/Users/fruch/Documents/Codex/GnomiT_Playtests/CURRENT_GNOMIT.json');selector_sha=sha(selector)
+    bpy.context.preferences.filepaths.save_version=0;bpy.ops.wm.open_mainfile(filepath=str(SOURCE))
+    scene=bpy.context.scene;scene.frame_set(1);bpy.context.view_layer.update()
+    objects={o.name:p.object_record(o) for o in scene.objects}
+    settings=g.settings_record(scene);images=image_record();point_data=point_attributes()
+    allowed=set(PALETTE)|EXTRA;assert allowed<=set(bpy.data.materials.keys())
+    guards={m.name:material_guard(m,m.name in allowed) for m in bpy.data.materials}
+    before_materials={m.name:full_material(m) for m in bpy.data.materials};changes=[]
+    def base(mat):return mat.node_tree.nodes.get('Principled BSDF').inputs['Base Color']
+    def wrap(mat,node,input_name,output_name):
+        socket=base(mat);links=mat.node_tree.links;assert len(socket.links)==1
+        old=socket.links[0];upstream=old.from_socket;links.remove(old)
+        links.new(upstream,node.inputs[input_name]);links.new(node.outputs[output_name],socket)
+    for name,target in PALETTE.items():
+        mat=bpy.data.materials[name];socket=base(mat);old=list(socket.default_value);new=colour(target)
+        if socket.is_linked:
+            mix=mat.node_tree.nodes.new('ShaderNodeMixRGB');mix.name='Palette_Albedo_Multiply'
+            mix.blend_type='MULTIPLY';mix.inputs[0].default_value=1
+            mix.inputs[2].default_value=tuple(min(2,new[i]/max(old[i],.015)) for i in range(3))+(1,)
+            wrap(mat,mix,'Color1','Color')
+        if name.startswith('Airy_wood') and socket.is_linked:
+            soft=mat.node_tree.nodes.new('ShaderNodeMixRGB');soft.name='Palette_Wood_Colour_Soften'
+            soft.blend_type='MIX';soft.inputs[0].default_value=.18;soft.inputs[2].default_value=new
+            wrap(mat,soft,'Color1','Color')
+        socket.default_value=new;mat.diffuse_color=new
+        changes.append({'material':name,'target_srgb':target,'original_base_linear':old,
+            'method':'Multiply original linked albedo; retain grain' if socket.is_linked else 'Constant albedo'})
+    for name,hue,saturation,value in [('GnomiT_Carved_Tree_Bark',.495,1.02,1.08),
+        ('Low fine blade colours',.49,1.05,1.10)]:
+        mat=bpy.data.materials[name];hsv=mat.node_tree.nodes.new('ShaderNodeHueSaturation');hsv.name='Palette_Albedo_HSV'
+        hsv.inputs['Hue'].default_value=hue;hsv.inputs['Saturation'].default_value=saturation;hsv.inputs['Value'].default_value=value
+        wrap(mat,hsv,'Color','Color');changes.append({'material':name,'hue':hue,'saturation':saturation,'value':value})
+    turf=bpy.data.materials['Soft continuous green turf'];ramp=turf.node_tree.nodes['Color Ramp']
+    ramp.color_ramp.elements[0].color=colour('68AC31');ramp.color_ramp.elements[1].color=colour('A3C53E')
+    changes.append({'material':turf.name,'ramp_srgb':['68AC31','A3C53E'],'positions_unchanged':True})
+    # A painted colour gradient adds greener bases and lime-lit crown tops.
+    mat=bpy.data.materials['GnomiT_Organic_Crown_Matte'];nodes=mat.node_tree.nodes;links=mat.node_tree.links
+    coord=nodes.new('ShaderNodeTexCoord');coord.name='Palette_Crown_Generated_Coordinates'
+    separate=nodes.new('ShaderNodeSeparateXYZ');separate.name='Palette_Crown_Height'
+    links.new(coord.outputs['Generated'],separate.inputs['Vector'])
+    ramp=nodes.new('ShaderNodeValToRGB');ramp.name='Palette_Crown_Green_To_Lime'
+    ramp.color_ramp.elements[0].position=.06;ramp.color_ramp.elements[0].color=colour('409331')
+    ramp.color_ramp.elements[1].position=.94;ramp.color_ramp.elements[1].color=colour('B8D83E')
+    mid=ramp.color_ramp.elements.new(.52);mid.color=colour('85C93B')
+    links.new(separate.outputs['Z'],ramp.inputs['Fac'])
+    mix=nodes.new('ShaderNodeMixRGB');mix.name='Palette_Crown_Colour_Blend';mix.blend_type='MIX';mix.inputs[0].default_value=.40
+    links.new(ramp.outputs['Color'],mix.inputs[2]);wrap(mat,mix,'Color1','Color')
+    changes.append({'material':mat.name,'height_gradient_srgb':['409331','85C93B','B8D83E'],'blend':.40,
+        'existing_vertex_colours_unchanged':True,'note':'Painted albedo gradient,not a light or geometry change'})
+    def verify():
+        bpy.context.view_layer.update()
+        assert set(scene.objects.keys())==set(objects)
+        assert all(p.object_record(bpy.data.objects[name])==record for name,record in objects.items())
+        assert g.settings_record(scene)==settings and point_attributes()==point_data
+        assert image_record()==images
+        assert set(bpy.data.materials.keys())==set(guards)
+        assert all(material_guard(bpy.data.materials[name],name in allowed)==record for name,record in guards.items())
+        for mat in bpy.data.materials:
+            if mat.node_tree:
+                assert all(not link.from_node.name.startswith('Palette_') or link.to_node.name.startswith('Palette_')
+                    or (link.to_node.bl_idname=='ShaderNodeBsdfPrincipled' and link.to_socket.name=='Base Color')
+                    for link in mat.node_tree.links)
+        assert sha(SOURCE)==PIN and sha(selector)==selector_sha
+    verify()
+    changed=[m.name for m in bpy.data.materials if full_material(m)!=before_materials[m.name]]
+    assert set(changed)==allowed
+    note=bpy.data.texts.new('START_HERE_PALETTE_I')
+    note.write('Palette-only candidate based on whole-map grass H2. Geometry/layout/point attributes/vertex colours/camera/lights/roughness/bump/normal/emission unchanged. Albedo colours changed; original grain and crown colours preserved upstream. Guide materials unchanged. No game integration.\n')
+    assert 'FINISHED' in bpy.ops.wm.save_as_mainfile(filepath=str(OUTPUT),check_existing=False)
+    native_sha=sha(OUTPUT);bpy.ops.wm.open_mainfile(filepath=str(OUTPUT));scene=bpy.context.scene;verify()
+    print('PALETTE_GUARDS_PASS '+str(len(objects))+' objects '+str(len(changed))+' materials',flush=True)
+    old_path=scene.render.filepath;target=ROOT/'outputs/PALETTE_I2.png';scene.render.filepath=str(target)
+    assert 'FINISHED' in bpy.ops.render.render(write_still=True)
+    scene.render.filepath=old_path;verify();assert sha(OUTPUT)==native_sha
+    receipt={'status':'PALETTE_SAVED_REOPENED_RENDERED','source_sha256':PIN,'candidate_sha256':native_sha,
+        'builder_sha256':sha(Path(__file__)),'changed_materials':changed,'changes':changes,
+        'unchanged_scene_objects':len(objects),'geometry_topology_transforms_vertex_colours_point_attributes_unchanged':True,
+        'camera_light_world_colour_management_render_settings_unchanged':True,'existing_non_albedo_shader_inputs_links_unchanged':True,
+        'packed_image_records_unchanged':True,'guide_materials_unchanged':True,'selector_unchanged_sha256':selector_sha,
+        'render':{'path':'outputs/PALETTE_I2.png','bytes':target.stat().st_size,'sha256':sha(target),'width':432,'height':960,'samples':scene.cycles.samples},
+        'game_integration':'NOT_PERFORMED','phone_performance':'NOT_MEASURED','human_choice':'PENDING'}
+    (ROOT/'documentation/PALETTE_I2_RECEIPT.json').write_bytes((json.dumps(receipt,indent=2)+'\n').encode())
+    print('PALETTE_READY '+native_sha,flush=True)
+
+if __name__=='__main__':main()
