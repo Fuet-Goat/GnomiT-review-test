@@ -1,0 +1,7 @@
+{
+  "status": "REMOTE_ZIP_BYTES_IDENTICAL",
+  "artifact_commit": "53da39621b52b13532258de5d9fa7e226a73255f",
+  "zip_sha256": "04531d7207351456e5baf39ceb413ebaaf4063c77d8a5365f555be7153399255",
+  "zip_bytes": 31741704,
+  "parts": 22
+}
