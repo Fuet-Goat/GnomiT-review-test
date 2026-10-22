@@ -1,0 +1,22 @@
+ACTUAL REMOTE DELIVERY —2026-10-22
+Artifact commit:194c6d2be5c474cde760f8d923aae2b476405c49
+Branch:codex/codex/task-001. No merge/main/grant changes.
+
+Fetched exact-commit receipt and all8actual Base64 parts. Checked part bytes,
+SHA256,strict Base64,decoded-part hashes,ZIP bytes/hash/CRC,safe exact entries,
+all28file hashes before extraction and again after extraction. Result:PASS.
+
+ZIP:GNOMIT_GRASS_TAPER_PROFILE_PROBE_2026-10-22.zip
+Bytes:44382258
+SHA256:dc3041528874d148cb1f806a33c639919d92a1a05dcad2999f7a7202a2c622d0
+Entries:28
+
+Downloaded E opened in fresh Blender5.2.2 LTS with --factory-startup and
+--disable-autoexec. No downloaded script executed. Checked124725vertices,
+78674faces,7590leaves,2559tufts,5packed images,no linked libraries.
+No native save;exit0. CandidateSHA before/after:
+db0782926b6a98f500efa3cb347a7a58f24fad378e37a6f9aebd6eb0e9448615
+
+Current v014 selector unchanged. Only native12tuft grass comparison performed.
+Work order recorded inWORK_ORDER_BG.txt;later art stages have not started.
+Human art choice PENDING. No Godot/Android/performance/game acceptance inferred.
