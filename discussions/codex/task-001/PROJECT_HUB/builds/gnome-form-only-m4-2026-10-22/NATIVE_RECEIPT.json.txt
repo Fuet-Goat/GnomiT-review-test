@@ -1,0 +1,41 @@
+{
+  "status": "NATIVE_SAVED_REOPENED_RENDERED",
+  "input_sha256": "c10a83a0ec3911017bb4cb52e202347b7cd01a603ba27db27d345bc64454ba53",
+  "output_sha256": "71b3f6d87cb689447adc25ac55a99c8d68a6006e6b8a12970e37592ea7f9bd21",
+  "protected_world_objects": 591,
+  "face": {
+    "continuous_face_vertices": 72724,
+    "eye_depth_shift_m": 0.014,
+    "eye_depth_scale": 0.78,
+    "eye_vertical_scale": 0.84,
+    "lid_method": "broad skin patches, same blink groups",
+    "separate_nose_geometry": "retained hidden, new nose continuous with face"
+  },
+  "beard": {
+    "object": "Guide_continuous jaw wrapping beard",
+    "operation": "retained jaw silhouette plus three broad shallow overlapping lobes; voxel union",
+    "lock_count": 3,
+    "inherited_base_evaluated_before_voxel_union": true,
+    "voxel_size_canonical_m": 0.0045,
+    "vertices": 27006,
+    "polygons": 27004,
+    "material_slots": [
+      "Guide beard warm ivory — Soft K — Storybook L"
+    ],
+    "transforms_parents_actions_material_definitions": "unchanged"
+  },
+  "shoulders": "existing coat armhole surface expanded; existing first sleeve rings tapered and inset",
+  "reshaped_sleeves": [
+    "Guide_shaped upper sleeve",
+    "Guide_tailored lantern sleeve"
+  ],
+  "scene_object_count_unchanged": 666,
+  "all_material_definitions_and_slots_unchanged": true,
+  "pose_and_parent_transforms_unchanged": true,
+  "cap_boots_root_unchanged": true,
+  "actions_unchanged": true,
+  "map_camera_light_world_unchanged": true,
+  "new_animation_visual_check": "NOT_PERFORMED",
+  "Godot_or_shader_bake": "NOT_PERFORMED",
+  "human_visual_choice": "PENDING"
+}

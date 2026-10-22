@@ -1,0 +1,139 @@
+"""Continuous face/nose and broad lid patches in preserved head coordinates."""
+import bpy,math
+from mathutils import Vector
+
+PROFILE=[(.625,.078,.070,.008),(.65,.115,.095,.008),(.69,.165,.129,.002),
+         (.735,.190,.145,-.002),(.78,.190,.146,-.001),(.823,.182,.142,0),
+         (.865,.166,.132,.004),(.899,.139,.112,.009),(.923,.09,.077,.012),(.934,.008,.009,.014)]
+
+def profile(z):
+    for k,(a,b) in enumerate(zip(PROFILE,PROFILE[1:])):
+        if z<=b[0]:
+            t=max(0,min(1,(z-a[0])/(b[0]-a[0])))
+            prev=PROFILE[max(0,k-1)];nxt=PROFILE[min(len(PROFILE)-1,k+2)]
+            values=[]
+            for i in range(1,4):
+                m0=(b[i]-prev[i])/(b[0]-prev[0])
+                m1=(nxt[i]-a[i])/(nxt[0]-a[0])
+                dz=b[0]-a[0]
+                values.append((2*t**3-3*t*t+1)*a[i]+(t**3-2*t*t+t)*dz*m0+
+                              (-2*t**3+3*t*t)*b[i]+(t**3-t*t)*dz*m1)
+            return tuple(values)
+    return PROFILE[-1][1:]
+
+def gaussian(x,z,cx,cz,wx,wz):return math.exp(-((x-cx)/wx)**2-((z-cz)/wz)**2)
+
+def anatomy(x,z,front):
+    cheek=sum(gaussian(x,z,side*.111,.762,.053,.045) for side in (-1,1))
+    # One skin surface continues through cheek, bridge and rounded nose tip.
+    nose=.014*gaussian(x,z,0,.805,.027,.047)
+    orbit=0;cavity=0
+    for side in (-1,1):
+        r=math.sqrt(((x-side*.078)/.045)**2+((z-.813)/.031)**2)
+        orbit+=.019*math.exp(-((r-1.03)/.38)**2)
+        cavity+=.006*math.exp(-r*r*1.7)
+    brow=.008*gaussian(abs(x),z,.082,.855,.071,.026)
+    return front*(-.020*cheek-nose-orbit+cavity-brow)
+
+def skin_y(x,z):
+    rx,ry,cy=profile(z);s=math.sqrt(max(0,1-(x/max(rx,1e-5))**2))
+    return cy-ry*s+anatomy(x,z,s**4)
+
+def replace_mesh(obj,verts,faces):
+    old=obj.data;old.use_fake_user=True
+    mesh=bpy.data.meshes.new(obj.name+'_M');mesh.from_pydata(verts,[],faces);mesh.update()
+    for m in old.materials:mesh.materials.append(m)
+    for f in mesh.polygons:f.use_smooth=True
+    obj.data=mesh
+
+def build_face_form(objects,canonical):
+    face=objects['Guide_integrated sculpted face'];to_local=face.matrix_world.inverted()@canonical
+    verts=[];faces=[];count=128;rows=65
+    for j in range(rows):
+        z=.625+(.934-.625)*j/(rows-1);rx,ry,cy=profile(z)
+        for i in range(count):
+            a=math.tau*i/count;x=rx*math.cos(a);front=max(0,-math.sin(a))**4
+            y=cy+ry*math.sin(a)+anatomy(x,z,front)
+            zz=z+.006*front*sum(gaussian(x,z,s*.11,.76,.05,.035) for s in (-1,1))
+            verts.append(to_local@Vector((x,y,zz)))
+    for j in range(rows-1):
+        for i in range(count):
+            a=j*count+i;b=j*count+(i+1)%count;faces.append((a,b,b+count,a+count))
+    faces += [tuple(reversed(range(count))),tuple((rows-1)*count+i for i in range(count))]
+    replace_mesh(face,verts,faces)
+    # Blend the inherited rounded nose volumes into that same skin mesh.
+    # This preserves the characteristic bulb while eliminating a glued seam.
+    joined=[v.co.copy() for v in face.data.vertices]
+    joined_faces=[tuple(p.vertices) for p in face.data.polygons]
+    for name in ('Guide_shaped warm nose','Guide_nose bridge'):
+        nose_obj=objects[name];matrix=face.matrix_world.inverted()@nose_obj.matrix_world
+        offset=len(joined)
+        joined.extend(matrix@v.co for v in nose_obj.data.vertices)
+        joined_faces.extend(tuple(offset+i for i in p.vertices) for p in nose_obj.data.polygons)
+    tempmesh=bpy.data.meshes.new('M2_face_nose_union_temp');tempmesh.from_pydata(joined,[],joined_faces);tempmesh.update()
+    temp=bpy.data.objects.new('M2_face_nose_union_temp',tempmesh);bpy.context.scene.collection.objects.link(temp)
+    remesh=temp.modifiers.new('Continuous skin union','REMESH');remesh.mode='VOXEL';remesh.voxel_size=.0028;remesh.use_smooth_shade=True
+    smooth=temp.modifiers.new('Smooth nose cheek transitions','SMOOTH');smooth.factor=.35;smooth.iterations=4
+    bpy.context.view_layer.update();deps=bpy.context.evaluated_depsgraph_get()
+    result=bpy.data.meshes.new_from_object(temp.evaluated_get(deps),depsgraph=deps);result.name='Guide_M2_continuous_face_nose'
+    for m in face.data.materials:result.materials.append(m)
+    for polygon in result.polygons:polygon.use_smooth=True
+    face.data.use_fake_user=True;face.data=result
+    bpy.data.objects.remove(temp,do_unlink=True)
+    if tempmesh.users==0:bpy.data.meshes.remove(tempmesh)
+    for modifier in face.modifiers:
+        if modifier.type=='SUBSURF':modifier.levels=1;modifier.render_levels=1
+    for name in ('Guide_shaped warm nose','Guide_nose bridge'):objects[name].hide_render=True
+    head_inverse=canonical.inverted()
+    for side,label in ((-1,'Left'),(1,'Right')):
+        eye=objects['Guide_'+label+' eye white'];to_head=head_inverse@eye.matrix_world
+        center=sum((to_head@v.co for v in eye.data.vertices),Vector())/len(eye.data.vertices)
+        group=objects['Guide_EyeBlink'+label]
+        for obj in objects.values():
+            if obj.type!='MESH' or obj.parent!=group or 'eyelid' in obj.name:continue
+            matrix=head_inverse@obj.matrix_world;back=matrix.inverted()
+            for vertex in obj.data.vertices:
+                v=matrix@vertex.co;d=v-center
+                v=center+Vector((d.x,d.y*.78+.014,d.z*.84))
+                vertex.co=back@v
+            obj.data.update()
+        # Broad tapered patches meet the face surface, unlike a tubular ring.
+        lids=[o for o in objects.values() if o.parent==group and 'eyelid' in o.name]
+        for lid in lids:
+            upper='upper' in lid.name;matrix=lid.matrix_world.inverted()@canonical
+            vs=[];fs=[];n=33
+            for row in range(3):
+                q=row/2
+                for i in range(n):
+                    u=-1+2*i/(n-1);arc=math.sqrt(max(0,1-u*u));x=center.x+.040*u
+                    sign=1 if upper else -1
+                    inner_z=center.z+(.001 if upper else -.001)+sign*(.021 if upper else .020)*arc
+                    z=inner_z+sign*q*(.022 if upper else .012)*arc
+                    edge_y=center.y+.014-.013*arc
+                    outer_y=skin_y(x,z)-.001
+                    y=(1-q)*edge_y+q*outer_y-.002*math.sin(math.pi*q)*arc
+                    vs.append(matrix@Vector((x,y,z)))
+            for row in range(2):
+                for i in range(n-1):
+                    a=row*n+i;poly=(a,a+1,a+1+n,a+n)
+                    fs.append(poly if upper else tuple(reversed(poly)))
+            replace_mesh(lid,vs,fs)
+            if not any(m.type=='SOLIDIFY' for m in lid.modifiers):
+                m=lid.modifiers.new('Lid skin thickness M','SOLIDIFY');m.thickness=.0015
+    for name in ('Guide_tapered white eyebrow','Guide_tapered white eyebrow.001'):
+        obj=objects[name];matrix=head_inverse@obj.matrix_world;back=matrix.inverted()
+        for vertex in obj.data.vertices:
+            v=matrix@vertex.co
+            v.z+=(.006 if v.x<0 else .002)
+            vertex.co=back@v
+        obj.data.update()
+    for name in ('Guide_flowing moustache','Guide_flowing moustache.001'):
+        obj=objects[name];matrix=head_inverse@obj.matrix_world;back=matrix.inverted()
+        for vertex in obj.data.vertices:
+            v=matrix@vertex.co
+            v.z-=.020*max(0,min(1,(abs(v.x)-.055)/.075))
+            vertex.co=back@v
+        obj.data.update()
+    return {'continuous_face_vertices':len(face.data.vertices),'eye_depth_shift_m':.014,
+            'eye_depth_scale':.78,'eye_vertical_scale':.84,'lid_method':'broad skin patches, same blink groups',
+            'separate_nose_geometry':'retained hidden, new nose continuous with face'}

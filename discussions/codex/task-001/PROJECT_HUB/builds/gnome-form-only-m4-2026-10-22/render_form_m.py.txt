@@ -1,0 +1,34 @@
+from pathlib import Path
+import sys,bpy,json
+from mathutils import Vector
+ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'tools'))
+from render_soft_preview import make_stage
+
+def render(path,label,save=False):
+    scene=make_stage(path);scene.name='GnomiT Form M Static'
+    scene.render.resolution_x=600;scene.render.resolution_y=760
+    scene.view_settings.view_transform='Standard';scene.view_settings.look='None';scene.view_settings.exposure=-.80
+    root=bpy.data.objects['Guide_Root'];target=root.matrix_world.translation+Vector((0,0,.53));camera=scene.camera
+    camera.data.ortho_scale=1.40
+    floor=bpy.data.objects['Preview-only soft sage floor']
+    floor.data.materials[0].node_tree.nodes['Principled BSDF'].inputs['Base Color'].default_value=(.62,.66,.49,1)
+    key=bpy.data.objects['Warm large key'];key.data.energy=430;key.data.color=(1,.86,.67)
+    bpy.data.objects['Soft fill'].data.energy=150;bpy.data.objects['Gentle rim'].data.energy=240
+    for view,offset in [('CONTROL',(.70,-3.8,.95)),('THREE_QUARTER',(2.65,-3.1,1.05))]:
+        camera.location=target+Vector(offset);camera.rotation_euler=(target-camera.location).to_track_quat('-Z','Y').to_euler()
+        scene.frame_set(1);bpy.context.view_layer.update()
+        if save and view=='CONTROL':bpy.data.libraries.write(str(ROOT/'native/GNOME_FORM_M4_STAGE.blend'),{scene},compress=True)
+        scene.render.filepath=str(ROOT/'outputs'/f'{label}_{view}.png')
+        assert 'FINISHED' in bpy.ops.render.render(write_still=True)
+    return {'width':600,'height':760,'engine':'Eevee','frame':1,'view_transform':'Standard','look':'None','exposure':-.8,
+            'control_camera_offset':[.70,-3.8,.95],'three_quarter_camera_offset':[2.65,-3.1,1.05],
+            'ortho_scale':1.40,'lights':'same L2 studio key/fill/rim values for both'}
+
+def main():
+    before=render(ROOT/'native/INPUT_L2.blend','BEFORE_L2')
+    after=render(ROOT/'native/GNOME_FORM_M4.blend','FORM_M4',True)
+    assert before==after
+    (ROOT/'documentation/COMPARE_RECEIPT.json').write_bytes((json.dumps(after,indent=2)+'\n').encode())
+    print('FORM_M_COMPARABLE_RENDERS_COMPLETE')
+
+if __name__=='__main__':main()
