@@ -1,0 +1,32 @@
+from pathlib import Path
+from PIL import Image,ImageDraw,ImageFont
+import json
+ROOT=Path(__file__).resolve().parents[1]
+paths=sorted((ROOT/'frames').glob('frame_*.png'));assert len(paths)==121
+samples=[Image.open(p).convert('RGB').resize((216,280)) for p in paths[::12]]
+sheet=Image.new('RGB',(216*len(samples),280))
+for i,im in enumerate(samples):sheet.paste(im,(i*216,0))
+palette=sheet.quantize(colors=224,method=Image.Quantize.MEDIANCUT)
+frames=[]
+for path in paths:
+    with Image.open(path) as im:frames.append(im.convert('RGB').quantize(palette=palette,dither=Image.Dither.NONE))
+durations=[round((i+1)*100/24)*10-round(i*100/24)*10 for i in range(121)]
+gif=ROOT/'outputs/GNOME_SOFT_GREETING_K.gif'
+frames[0].save(gif,save_all=True,append_images=frames[1:],duration=durations,loop=0,disposal=2,optimize=False)
+with Image.open(gif) as im:
+    count=im.n_frames;total=0
+    for i in range(count):im.seek(i);total+=im.info.get('duration',0)
+assert total==sum(durations)
+font=ImageFont.truetype('C:/Windows/Fonts/arialbd.ttf',22)
+comparison=Image.new('RGB',(888,612),'#f2eddd');draw=ImageDraw.Draw(comparison)
+for x,path,label in [(8,'BEFORE_STAGE_J.png','BEFORE'),(448,'POSE_001.png','SOFTER LOOK')]:
+    draw.text((x+12,12),label,fill='#28514b',font=font)
+    with Image.open(ROOT/'outputs'/path) as im:comparison.paste(im.convert('RGB'),(x,44))
+comparison.save(ROOT/'outputs/BEFORE_AFTER_SOFT.png')
+receipt={'format':'GIF','native_frames':121,'gif_stored_frames':count,'duration_ms':total,
+         'native_fps':24,'GIF_frame_delays':'40/50ms to approximate 24fps with GIF centisecond precision',
+         'single_shared_palette':224,'dimensions':[432,560],'loop':'first and last native poses coincide',
+         'source':'actual Blender Eevee frames, isolated stage; not Godot runtime or image morphing',
+         'audio':False,'ffmpeg':'unavailable in this Blender build; no additional software installed'}
+(ROOT/'documentation/GIF_RECEIPT.json').write_bytes((json.dumps(receipt,indent=2)+'\n').encode())
+print(json.dumps(receipt))

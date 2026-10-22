@@ -1,0 +1,113 @@
+{
+  "zip_name": "GNOMIT_GNOME_SOFT_GREETING_K_2026-10-22.zip",
+  "zip_bytes": 30374554,
+  "zip_sha256": "7d0f3f44bba0476051f54ef1748b51f500509238b2ce6f881d50ea7d4601aeec",
+  "zip_entries": 36,
+  "parts": [
+    {
+      "path": "TRANSFER.part001.b64.txt",
+      "bytes": 2000000,
+      "sha256": "0157106f090c2cc824bb9213c61b7ee2b7d9b5cbe1813045c1102fff974aa585"
+    },
+    {
+      "path": "TRANSFER.part002.b64.txt",
+      "bytes": 2000000,
+      "sha256": "6024bdd469a3c61a8aa2ace3fc0026b84ad8443c35f2a32ad6102520b452cba1"
+    },
+    {
+      "path": "TRANSFER.part003.b64.txt",
+      "bytes": 2000000,
+      "sha256": "9454190d8c19912d3d4125dd39fd0225aac04e17ecc70d63eb0fe0b5eb10fcd2"
+    },
+    {
+      "path": "TRANSFER.part004.b64.txt",
+      "bytes": 2000000,
+      "sha256": "0ce593a86d1c4c8d933ccdaa2328e546a298a3c8b2a232cb687f69991cc66c99"
+    },
+    {
+      "path": "TRANSFER.part005.b64.txt",
+      "bytes": 2000000,
+      "sha256": "1aa543e51dfb8b3b2dbe1336597e5c5644b7dad45318a610b64ade51a0c4cc60"
+    },
+    {
+      "path": "TRANSFER.part006.b64.txt",
+      "bytes": 2000000,
+      "sha256": "2a4fcbb1cf7f8d17fe400729282a2e23415197d6e1251e2accde790a2ba34632"
+    },
+    {
+      "path": "TRANSFER.part007.b64.txt",
+      "bytes": 2000000,
+      "sha256": "f37c827d0a9429b00e6be90a8af2bb94a9d0665cbd3b09579567825e15f799d6"
+    },
+    {
+      "path": "TRANSFER.part008.b64.txt",
+      "bytes": 2000000,
+      "sha256": "6cf6378753bec4879c40dcad2561b636400dfd58cec21f3c1baf8724ac506213"
+    },
+    {
+      "path": "TRANSFER.part009.b64.txt",
+      "bytes": 2000000,
+      "sha256": "81ba514a768a089f43b6ea2b240950060573474d91e3c91577d7fdd40174e9ad"
+    },
+    {
+      "path": "TRANSFER.part010.b64.txt",
+      "bytes": 2000000,
+      "sha256": "ca67131c6cc6758ac3da80e2b1f3d5c3d23f40708cef4197e1b4013beb844fe5"
+    },
+    {
+      "path": "TRANSFER.part011.b64.txt",
+      "bytes": 2000000,
+      "sha256": "a6792bb1a16e90b882249698dfc1a16be9164576b58df84e100e5be69d7db57c"
+    },
+    {
+      "path": "TRANSFER.part012.b64.txt",
+      "bytes": 2000000,
+      "sha256": "9fa486c31bcaf36ce0e561720c197cbaf076ed0bdda10cfff66531a37d1ee6c2"
+    },
+    {
+      "path": "TRANSFER.part013.b64.txt",
+      "bytes": 2000000,
+      "sha256": "9926d2bc338d0d9eba27640a55e730a4887132f5dcd0c638820ffba3a072d587"
+    },
+    {
+      "path": "TRANSFER.part014.b64.txt",
+      "bytes": 2000000,
+      "sha256": "e949ef51baaa22bea7dc93852903bb31241e0a2944361c34808b6b1aacd94854"
+    },
+    {
+      "path": "TRANSFER.part015.b64.txt",
+      "bytes": 2000000,
+      "sha256": "3480b69cdcbcf51d1a9d386051ddddd3ea13a60dda558d4edabdc3ea17151e11"
+    },
+    {
+      "path": "TRANSFER.part016.b64.txt",
+      "bytes": 2000000,
+      "sha256": "23da1e066d272e5910d9fc5a163f75b5fe33dd9d5790b9f1b98e3f4e8d99fb5c"
+    },
+    {
+      "path": "TRANSFER.part017.b64.txt",
+      "bytes": 2000000,
+      "sha256": "8b745ee860025489711ff5d4adec52efcfcc66b34b7296b68b20c394bda40860"
+    },
+    {
+      "path": "TRANSFER.part018.b64.txt",
+      "bytes": 2000000,
+      "sha256": "53666cbbcdbbeefda4fa766570f661a3dbc684158c338cafecaf8ed80d72fa14"
+    },
+    {
+      "path": "TRANSFER.part019.b64.txt",
+      "bytes": 2000000,
+      "sha256": "e1a02da8038441ce5bc831940ed2ff758f44bc6e9dc2d6290ac6be5f47924352"
+    },
+    {
+      "path": "TRANSFER.part020.b64.txt",
+      "bytes": 2000000,
+      "sha256": "8055203df8a045ff4addcc7f85c95bb0b68c12bc727683c6da28987afb1dbe0b"
+    },
+    {
+      "path": "TRANSFER.part021.b64.txt",
+      "bytes": 499408,
+      "sha256": "0675f311d963e393836a5d9cde4a1dfa7b87bc8021c523c2d181449d832ffe91"
+    }
+  ]
+}

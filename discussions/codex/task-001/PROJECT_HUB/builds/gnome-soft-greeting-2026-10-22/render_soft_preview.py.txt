@@ -1,0 +1,63 @@
+"""Actual Eevee animation on an isolated guide stage, not a Godot capture."""
+from pathlib import Path
+import sys,bpy,math,json
+from mathutils import Vector
+ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT/'tools'))
+from build_cartoon_guide import descends
+
+def make_stage(source):
+    bpy.ops.wm.open_mainfile(filepath=str(source));old=bpy.context.scene
+    root=bpy.data.objects['Guide_Root'];guide=[o for o in old.objects if descends(o,root)]
+    scene=bpy.data.scenes.new('Soft Gnome K — Animation Stage')
+    for o in guide:scene.collection.objects.link(o)
+    scene.render.engine='CYCLES'
+    scene.render.engine='BLENDER_EEVEE'
+    scene.render.resolution_x=432;scene.render.resolution_y=560;scene.render.resolution_percentage=100
+    scene.render.fps=24;scene.frame_start=1;scene.frame_end=121
+    scene.view_settings.view_transform='AgX'
+    scene.world=bpy.data.worlds.new('Guide preview sage world');scene.world.use_nodes=True
+    scene.world.node_tree.nodes['Background'].inputs['Color'].default_value=(.40,.52,.46,1)
+    scene.world.node_tree.nodes['Background'].inputs['Strength'].default_value=.35
+    bpy.context.window.scene=scene
+    camera_data=bpy.data.cameras.new('Guide Preview Camera');camera=bpy.data.objects.new('Guide Preview Camera',camera_data)
+    scene.collection.objects.link(camera);scene.camera=camera
+    target=root.matrix_world.translation+Vector((0,0,.52))
+    camera.location=target+Vector((.28,-3.8,1.0));camera.rotation_euler=(target-camera.location).to_track_quat('-Z','Y').to_euler()
+    camera.data.type='ORTHO';camera.data.ortho_scale=1.46
+    for name,offset,power,color,size in [
+        ('Warm large key',(-2,-3,4),330,(1,.83,.64),4),
+        ('Soft fill',(2,-1,2.5),190,(.72,.87,1),3),
+        ('Gentle rim',(.8,2,3),280,(1,.88,.68),3)]:
+        data=bpy.data.lights.new(name,'AREA');data.energy=power;data.color=color;data.shape='DISK';data.size=size
+        obj=bpy.data.objects.new(name,data);scene.collection.objects.link(obj)
+        obj.location=target+Vector(offset);obj.rotation_euler=(target-obj.location).to_track_quat('-Z','Y').to_euler()
+    bpy.ops.mesh.primitive_plane_add(size=200,location=(root.location.x,root.location.y,root.location.z-.001))
+    floor=bpy.context.object;floor.name='Preview-only soft sage floor'
+    mat=bpy.data.materials.new('Preview sage floor');mat.diffuse_color=(.26,.39,.28,1);mat.use_nodes=True
+    mat.node_tree.nodes['Principled BSDF'].inputs['Base Color'].default_value=(.26,.39,.28,1)
+    mat.node_tree.nodes['Principled BSDF'].inputs['Roughness'].default_value=.9;floor.data.materials.append(mat)
+    scene.frame_set(1);bpy.context.view_layer.update()
+    return scene
+
+def main():
+    scene=make_stage(ROOT/'native/GNOME_SOFT_GREETING_K.blend')
+    # Portable small preview source: only this stage and its actual dependencies.
+    bpy.data.libraries.write(str(ROOT/'native/GNOME_K_ANIMATION_STAGE.blend'),{scene},compress=True)
+    for frame in (1,42,64,84,112):
+        scene.frame_set(frame);scene.render.filepath=str(ROOT/f'outputs/POSE_{frame:03d}.png')
+        assert 'FINISHED' in bpy.ops.render.render(write_still=True)
+    scene.frame_set(1)
+    # This Blender build has no FFMPEG enum. Native PNG frames preserve the
+    # actual animation; Pillow assembles them to an inline GIF afterwards.
+    scene.render.image_settings.file_format='PNG'
+    scene.render.filepath=str(ROOT/'frames/frame_')
+    assert 'FINISHED' in bpy.ops.render.render(animation=True)
+    data={'kind':'Actual native Blender Eevee studio-stage animation','frames':121,'fps':24,
+          'seconds':121/24,'dimensions':[432,560],'audio':False,
+          'source_scene':'GNOME_SOFT_GREETING_K.blend','studio_lighting':'Preview only, not map lighting',
+          'Godot_runtime':'NOT_PERFORMED','human_visual_acceptance':'PENDING'}
+    (ROOT/'documentation/VIDEO_RECEIPT.json').write_bytes((json.dumps(data,indent=2)+'\n').encode())
+    print('ANIMATION_PREVIEW_COMPLETE',flush=True)
+
+if __name__=='__main__':main()
