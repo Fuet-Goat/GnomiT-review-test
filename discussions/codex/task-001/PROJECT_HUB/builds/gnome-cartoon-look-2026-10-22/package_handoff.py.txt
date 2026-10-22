@@ -1,0 +1,98 @@
+"""Package native art evidence and prepare an own-path text Git handoff."""
+from pathlib import Path
+import hashlib,json,zipfile,base64,subprocess
+from PIL import Image,ImageDraw,ImageFont
+
+ROOT=Path(__file__).resolve().parents[1]
+REPO=Path('C:/Users/fruch/Documents/Codex/GnomiT/work/review_test_repo_2026_10_14')
+PREFIX='discussions/codex/task-001/PROJECT_HUB/builds/gnome-cartoon-look-2026-10-22'
+ZIP=ROOT.parent/'GNOMIT_GNOME_CARTOON_J_2026-10-22.zip'
+def sha(data):return hashlib.sha256(data).hexdigest()
+def write(path,text):path.write_bytes(text.encode('utf-8'))
+def dump(path,obj):write(path,json.dumps(obj,ensure_ascii=False,indent=2)+'\n')
+
+def main():
+    receipt=json.loads((ROOT/'documentation/CARTOON_GNOME_RECEIPT.json').read_text())
+    assert receipt['status']=='NATIVE_SAVED_REOPENED_AND_RENDERED'
+    assert not ZIP.exists()
+    font=ImageFont.truetype('C:/Windows/Fonts/arialbd.ttf',24)
+    canvas=Image.new('RGB',(1144,706),'#f5efe1');draw=ImageDraw.Draw(canvas)
+    for x,name,label in [(8,'GNOME_BEFORE.png','BEFORE'),(576,'GNOME_AFTER.png','CARTOON LOOK')]:
+        draw.text((x+14,14),label,font=font,fill='#28514b')
+        with Image.open(ROOT/'outputs'/name) as im:canvas.paste(im.convert('RGB'),(x,56))
+    canvas.save(ROOT/'outputs/BEFORE_AFTER_GNOME.png')
+    write(ROOT/'README_BG.txt', '''GNOMIT — GNOME CARTOON LOOK J — 2026-10-22
+
+Променено е само външното оформление на главата на същия гном:
+- 10% по-широка глава и 22% по-големи очни комплекти;
+- по-пълни бузи, по-заоблена долна брада;
+- леко повдигнати вежди и крайчета на мустаците.
+Запазени са дрехите, материалите, фенерът, стъпването, rig transforms
+и съществуващите animation actions/keyframes. Нова анимация не е създадена.
+
+Отвори native/GNOME_CARTOON_J.blend. Това е цялото отделно Blender копие.
+outputs/BEFORE_AFTER_GNOME.png е сравнение с еднаква камера/светлина/кадър.
+outputs/MAP_WITH_CARTOON_GNOME.png е истинският общ Blender рендер 432x960.
+Това е кандидат за визуален избор. Няма Godot интеграция или Android тест.
+
+INPUT_I2.blend не се дублира в ZIP. Входът е MAP_PALETTE_I2.blend от:
+Git commit c67b0c409854b4b96ae4e098cb3d4e929948b115,
+discussions/codex/task-001/PROJECT_HUB/builds/map-palette-only-2026-10-22/.
+SHA-256: 002b552562faea2dad32ce7fef929df9f3fe31c8ae7418ed62e0d115cef4da07
+Възстанови предходния ZIP от Base64 частите и копирай този файл като
+native/INPUT_I2.blend преди повторно изпълнение на tools/build_cartoon_guide.py.
+Използван е Blender 5.2.2 LTS, background, disable-autoexec, frame 1.
+
+Първата проба спря след close-up: връщането на camera.matrix_world доведе
+до float rounding при decomposition и exact guard отхвърли камерата.
+Корекцията възстановява оригиналните location/rotation/scale стойности.
+Проваленият лог и източник са запазени; guard не е отслабен.
+''')
+    write(ROOT/'documentation/PROVENANCE.txt','''PROVENANCE — GNOME CARTOON J
+Owner-requested modest cartoon appearance, same existing character.
+Original input is the project's existing I2 native scene; its inherited assets
+and their existing provenance remain inherited, not re-certified here.
+New work is procedural mesh/curve coordinate deformation authored in the
+included Python source. No external mesh, texture, font embedded in Blender,
+image-generation output, music, audio or downloaded artistic asset was added.
+Arial is used only for raster comparison captions generated on this machine.
+No new copyright/license ownership guarantee is inferred from a render.
+Blender native render; not an AI illustration and not a runtime capture.
+Camera/world/materials/grass and non-guide geometry are protected by guards.
+Existing animation keyframe data is compared, not a fresh animation playtest.
+''')
+    write(ROOT/'FINAL_RESPONSE.txt','''Готова е отделна Blender проба на същия гном с по-анимационен външен вид.
+Сравнение: outputs/BEFORE_AFTER_GNOME.png
+Цяла карта: outputs/MAP_WITH_CARTOON_GNOME.png
+Източник: native/GNOME_CARTOON_J.blend
+Сцената е записана, отворена отново и рендерирана.
+Нова анимация и Godot интеграция не са правени. Визуалният избор е на човека.
+''')
+    files=[p for p in ROOT.rglob('*') if p.is_file() and '__pycache__' not in p.parts
+           and p.name not in {'INPUT_I2.blend','MANIFEST.json','REMOTE_READBACK.txt'}]
+    manifest={p.relative_to(ROOT).as_posix():{'bytes':p.stat().st_size,'sha256':sha(p.read_bytes())} for p in sorted(files)}
+    dump(ROOT/'MANIFEST.json',manifest);files.append(ROOT/'MANIFEST.json')
+    with zipfile.ZipFile(ZIP,'x',zipfile.ZIP_DEFLATED,compresslevel=6) as z:
+        for file in sorted(files):z.write(file,file.relative_to(ROOT).as_posix())
+    with zipfile.ZipFile(ZIP) as z:
+        assert z.testzip() is None
+        for name,entry in manifest.items():
+            data=z.read(name);assert len(data)==entry['bytes'] and sha(data)==entry['sha256']
+    target=REPO/PREFIX;target.mkdir(parents=True,exist_ok=False)
+    encoded=base64.b64encode(ZIP.read_bytes());parts=[]
+    for i in range(0,len(encoded),2_000_000):
+        name=f'TRANSFER.part{i//2_000_000+1:03d}.b64.txt';data=encoded[i:i+2_000_000]
+        (target/name).write_bytes(data)
+        parts.append({'path':name,'bytes':len(data),'sha256':sha(data)})
+    transfer={'zip_name':ZIP.name,'zip_bytes':ZIP.stat().st_size,'zip_sha256':sha(ZIP.read_bytes()),
+              'zip_entries':len(files),'parts':parts}
+    dump(target/'TRANSFER_MANIFEST.json.txt',transfer)
+    dump(target/'NATIVE_RECEIPT.json.txt',receipt)
+    for name in ['build_cartoon_guide.py','render_closeup.py','package_handoff.py']:
+        (target/(name+'.txt')).write_bytes((ROOT/'tools'/name).read_bytes())
+    write(target/'REPORT.txt',(ROOT/'README_BG.txt').read_text(encoding='utf-8')+
+          '\nZIP CRC and every manifest entry: PASS. Full remote readback is a subsequent check.\n')
+    print(json.dumps({'ZIP':str(ZIP),'bytes':transfer['zip_bytes'],'sha256':transfer['zip_sha256'],
+                      'parts':len(parts),'git_prefix':PREFIX},indent=2))
+
+if __name__=='__main__':main()

@@ -1,0 +1,28 @@
+GNOMIT — GNOME CARTOON LOOK J — 2026-10-22
+
+Променено е само външното оформление на главата на същия гном:
+- 10% по-широка глава и 22% по-големи очни комплекти;
+- по-пълни бузи, по-заоблена долна брада;
+- леко повдигнати вежди и крайчета на мустаците.
+Запазени са дрехите, материалите, фенерът, стъпването, rig transforms
+и съществуващите animation actions/keyframes. Нова анимация не е създадена.
+
+Отвори native/GNOME_CARTOON_J.blend. Това е цялото отделно Blender копие.
+outputs/BEFORE_AFTER_GNOME.png е сравнение с еднаква камера/светлина/кадър.
+outputs/MAP_WITH_CARTOON_GNOME.png е истинският общ Blender рендер 432x960.
+Това е кандидат за визуален избор. Няма Godot интеграция или Android тест.
+
+INPUT_I2.blend не се дублира в ZIP. Входът е MAP_PALETTE_I2.blend от:
+Git commit c67b0c409854b4b96ae4e098cb3d4e929948b115,
+discussions/codex/task-001/PROJECT_HUB/builds/map-palette-only-2026-10-22/.
+SHA-256: 002b552562faea2dad32ce7fef929df9f3fe31c8ae7418ed62e0d115cef4da07
+Възстанови предходния ZIP от Base64 частите и копирай този файл като
+native/INPUT_I2.blend преди повторно изпълнение на tools/build_cartoon_guide.py.
+Използван е Blender 5.2.2 LTS, background, disable-autoexec, frame 1.
+
+Първата проба спря след close-up: връщането на camera.matrix_world доведе
+до float rounding при decomposition и exact guard отхвърли камерата.
+Корекцията възстановява оригиналните location/rotation/scale стойности.
+Проваленият лог и източник са запазени; guard не е отслабен.
+
+ZIP CRC and every manifest entry: PASS. Full remote readback is a subsequent check.
