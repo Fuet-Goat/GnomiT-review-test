@@ -1,0 +1,46 @@
+{
+  "status": "PUBLIC_ORIGINAL_PNGS_ANONYMOUSLY_VERIFIED",
+  "release_id": 421180109,
+  "release_url": "https://github.com/Fuet-Goat/GnomiT-review-test/releases/tag/gnome-r3-visual-review-2026-10-22",
+  "tag": "gnome-r3-visual-review-2026-10-22",
+  "target_commit": "51c3b2dd459e25aa6bf333cf4053cacc6d4bc7b3",
+  "prerelease": true,
+  "assets": [
+    {
+      "name": "R3_FORM_COMPARISON.png",
+      "id": 667029288,
+      "bytes": 636130,
+      "sha256": "380bc0bdd48a2ff9993cc694ad600480c185a77c2a9321e0427b9cd4ac335bd5",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/gnome-r3-visual-review-2026-10-22/R3_FORM_COMPARISON.png",
+      "api_url": "https://api.github.com/repos/Fuet-Goat/GnomiT-review-test/releases/assets/667029288",
+      "anonymous_http": 200,
+      "content_type": "application/octet-stream",
+      "remote_bytes_sha256": "PASS"
+    },
+    {
+      "name": "R3_FACE_COMPARISON.png",
+      "id": 667029290,
+      "bytes": 520826,
+      "sha256": "c7be4ec3f85eb547a806fcf6fdc38bba7b54ab3e8350ffdaa84c9051edd50abf",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/gnome-r3-visual-review-2026-10-22/R3_FACE_COMPARISON.png",
+      "api_url": "https://api.github.com/repos/Fuet-Goat/GnomiT-review-test/releases/assets/667029290",
+      "anonymous_http": 200,
+      "content_type": "application/octet-stream",
+      "remote_bytes_sha256": "PASS"
+    },
+    {
+      "name": "R3_MAP_SCALE.png",
+      "id": 667029291,
+      "bytes": 632776,
+      "sha256": "863bd2c67b1dafa12539fcbf5bf7dc58a395536884da234b28802048f97245eb",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/gnome-r3-visual-review-2026-10-22/R3_MAP_SCALE.png",
+      "api_url": "https://api.github.com/repos/Fuet-Goat/GnomiT-review-test/releases/assets/667029291",
+      "anonymous_http": 200,
+      "content_type": "application/octet-stream",
+      "remote_bytes_sha256": "PASS"
+    }
+  ],
+  "model_or_game_edits": false,
+  "visual_form": "HOLD",
+  "materials_rig_animation": "ON_HOLD"
+}
