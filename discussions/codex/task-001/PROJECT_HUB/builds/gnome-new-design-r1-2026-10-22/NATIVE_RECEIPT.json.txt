@@ -1,0 +1,21 @@
+{
+  "status": "FRESH_NATIVE_SAVED_REOPENED_RENDERED",
+  "native_sha256": "f82d98bed6c32240d2718a00831da3b7c68c762b31390eab50bfd761f5c205ee",
+  "predecessor_mesh_imports": 0,
+  "predecessor_scene_reads": 0,
+  "actions": 0,
+  "rig": "NOT_CREATED",
+  "asset_collection": "R1_NEW_GNOME",
+  "asset_objects": 29,
+  "stage_images": [
+    "R1_CLAY_FRONT.png",
+    "R1_CLAY_THREE_QUARTER.png"
+  ],
+  "stage_dimensions": [
+    600,
+    840
+  ],
+  "finish": "coarse clay proportions/gesture study, not a finished match to the concept PNG",
+  "material_detail_or_animation": "NOT_PERFORMED",
+  "human_design_approval": "PENDING"
+}

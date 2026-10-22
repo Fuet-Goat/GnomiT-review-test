@@ -1,0 +1,48 @@
+{
+  "zip_name": "GNOMIT_GNOME_NEW_DESIGN_R1_2026-10-22.zip",
+  "zip_bytes": 10506837,
+  "zip_sha256": "2a9ed12da9e36654294026a49d3946871d26388d89547639bc348d74b091779a",
+  "zip_entries": 23,
+  "parts": [
+    {
+      "path": "TRANSFER.part001.b64.txt",
+      "bytes": 2000000,
+      "sha256": "a3a043d917781786145408ff18c5afadef615e3a47964d441c5145137aa60e2e"
+    },
+    {
+      "path": "TRANSFER.part002.b64.txt",
+      "bytes": 2000000,
+      "sha256": "88e9b8f12a30df15a27c7ff2ed6772f2a1edbfc5fcb5853a6fad49ba765d991a"
+    },
+    {
+      "path": "TRANSFER.part003.b64.txt",
+      "bytes": 2000000,
+      "sha256": "33825b2ebb2310967733c29aae0d1c79b4357e71216c8737b69cf6ab30f022bd"
+    },
+    {
+      "path": "TRANSFER.part004.b64.txt",
+      "bytes": 2000000,
+      "sha256": "b4de7b962a223dcf74ff901f7fe879febb38c687c419dcfa6cd2706286185ec6"
+    },
+    {
+      "path": "TRANSFER.part005.b64.txt",
+      "bytes": 2000000,
+      "sha256": "d7222e070ea26d59c1cd5bd563de74044fa09dad4c92243c73fcc96ee6184547"
+    },
+    {
+      "path": "TRANSFER.part006.b64.txt",
+      "bytes": 2000000,
+      "sha256": "51cf1b0365edf87cf7e7101054cb3fa1a390fd32e421decb993d34f5e6d30283"
+    },
+    {
+      "path": "TRANSFER.part007.b64.txt",
+      "bytes": 2000000,
+      "sha256": "69aa13d5553cd7adcc85f9ab87aece5fee2651b54f3c710a8d7ac8ec67ced977"
+    },
+    {
+      "path": "TRANSFER.part008.b64.txt",
+      "bytes": 9116,
+      "sha256": "e7c20d0593963c8401d9a0a88495791a5f7265c0e025459bb849da02e559ee15"
+    }
+  ]
+}

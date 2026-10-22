@@ -1,0 +1,171 @@
+"""Fresh, unrigged storybook coat blockout; Blender 5.2, front = -Y.
+
+No predecessor geometry is loaded or sampled.  ``build_body`` constructs its
+own pear-shaped coat and curved sleeves and fuses their shoulder intersections.
+Only the optional ``api['cloth']`` material is used.
+"""
+
+import math
+import bpy
+from mathutils import Vector
+
+
+def _mesh_object(name, vertices, faces, collection):
+    mesh = bpy.data.meshes.new(name + "_Mesh")
+    mesh.from_pydata(vertices, [], faces)
+    mesh.update()
+    obj = bpy.data.objects.new(name, mesh)
+    collection.objects.link(obj)
+    return obj
+
+
+def _closed_rings(name, rings, collection):
+    count = len(rings[0])
+    vertices = [tuple(v) for ring in rings for v in ring]
+    faces = []
+    for row in range(len(rings) - 1):
+        for j in range(count):
+            k = (j + 1) % count
+            faces.append((row * count + j, row * count + k,
+                          (row + 1) * count + k, (row + 1) * count + j))
+    faces.append(tuple(reversed(range(count))))
+    faces.append(tuple((len(rings) - 1) * count + j for j in range(count)))
+    return _mesh_object(name, vertices, faces, collection)
+
+
+def _coat(prefix, collection):
+    # (height, half width, half depth).  The skirt is the broadest area;
+    # shoulders narrow gently into a short neck rather than a separate sphere.
+    profile = [
+        (.250, .216, .134), (.265, .245, .150),
+        (.290, .262, .163), (.345, .270, .176),
+        (.405, .263, .175), (.465, .249, .170),
+        (.510, .237, .165), (.560, .229, .159),
+        (.615, .228, .151), (.660, .222, .141),
+        (.700, .211, .128), (.735, .191, .115),
+        (.770, .153, .103), (.800, .139, .103),
+        (.850, .130, .100), (.900, .115, .092), (.925, .100, .085),
+    ]
+    rings = []
+    for z, rx, ry in profile:
+        ring = []
+        for j in range(48):
+            angle = math.tau * j / 48
+            x = rx * math.cos(angle)
+            front = max(0.0, -math.sin(angle)) ** 3
+            # Two wide, shallow drapes, not a corrugated or high-frequency skin.
+            skirt = math.exp(-((z - .405) / .135) ** 2)
+            folds = (.008 * math.exp(-((x + .105 + .10 * (z - .4)) / .053) ** 2)
+                     + .006 * math.exp(-((x - .087 - .08 * (z - .4)) / .058) ** 2))
+            y = .018 + ry * math.sin(angle) - front * skirt * folds
+            ring.append((x, y, z))
+        rings.append(ring)
+    return _closed_rings(prefix + "_CoatCore", rings, collection)
+
+
+def _catmull(points, radii, samples_per_span=6):
+    points = [Vector(p) for p in points]
+    out = []
+    for i in range(len(points) - 1):
+        p0 = points[i - 1] if i else 2 * points[0] - points[1]
+        p1, p2 = points[i], points[i + 1]
+        p3 = points[i + 2] if i + 2 < len(points) else 2 * points[-1] - points[-2]
+        for k in range(samples_per_span):
+            t = k / samples_per_span
+            position = .5 * ((2 * p1) + (-p0 + p2) * t
+                            + (2 * p0 - 5 * p1 + 4 * p2 - p3) * t * t
+                            + (-p0 + 3 * p1 - 3 * p2 + p3) * t * t * t)
+            radius = radii[i] * (1 - t) + radii[i + 1] * t
+            out.append((position, radius))
+    out.append((points[-1], radii[-1]))
+    return out
+
+
+def _sleeve(name, path, radii, collection):
+    samples = _catmull(path, radii)
+    rings = []
+    for i, (centre, radius) in enumerate(samples):
+        before = samples[max(0, i - 1)][0]
+        after = samples[min(len(samples) - 1, i + 1)][0]
+        tangent = (after - before).normalized()
+        across = Vector((0, 1, 0)).cross(tangent).normalized()
+        depth = tangent.cross(across).normalized()
+        ring = []
+        for j in range(24):
+            angle = math.tau * j / 24
+            # Mildly flattened cloth cross section, continuous through elbow.
+            point = centre + radius * (math.cos(angle) * across
+                                       + .91 * math.sin(angle) * depth)
+            ring.append(point)
+        rings.append(ring)
+    return _closed_rings(name, rings, collection)
+
+
+def build_body(api=None):
+    """Return a new unified coat and canonical hand attachment information.
+
+    ``api`` may contain ``collection`` and ``cloth``.  All coordinates are world
+    canonical for a 1.5-unit-tall character, with feet intended near z=0.
+    Anatomical right is viewer-left (-X); anatomical left holds the lantern.
+    No old mesh, armature, action, file, or external resource is accessed.
+    """
+    api = api or {}
+    collection = api.get("collection") or bpy.context.collection
+    prefix = api.get("prefix", "NewGnome")
+
+    right_cuff = Vector((-.335, -.055, .568))
+    right_hand = Vector((-.360, -.080, .580))
+    left_cuff = Vector((.343, -.073, .449))
+    left_hand = Vector((.356, -.100, .435))
+    right_direction = (right_hand - right_cuff).normalized()
+    left_direction = (left_hand - left_cuff).normalized()
+
+    pieces = [_coat(prefix, collection)]
+    pieces.append(_sleeve(prefix + "_RightSleeve", [
+        (-.155, .018, .685), (-.205, .014, .650),
+        (-.254, .002, .582), (-.289, -.020, .533),
+        (-.312, -.033, .548), tuple(right_cuff),
+    ], [.112, .108, .098, .086, .073, .063], collection))
+    pieces.append(_sleeve(prefix + "_LeftSleeve", [
+        (.155, .018, .685), (.208, .020, .634),
+        (.246, .023, .568), (.285, .008, .499),
+        (.316, -.025, .468), tuple(left_cuff),
+    ], [.112, .107, .096, .083, .071, .062], collection))
+
+    bpy.ops.object.select_all(action="DESELECT")
+    for obj in pieces:
+        obj.select_set(True)
+    bpy.context.view_layer.objects.active = pieces[0]
+    bpy.ops.object.join()
+    body = pieces[0]
+    body.name = prefix + "_ContinuousCoat"
+
+    # The shoulder volumes are genuinely fused, not hidden under round caps.
+    remesh = body.modifiers.new("New coat shoulder fusion", "REMESH")
+    remesh.mode = "VOXEL"
+    remesh.voxel_size = .012
+    remesh.use_smooth_shade = True
+    bpy.ops.object.modifier_apply(modifier=remesh.name)
+    smooth = body.modifiers.new("Broad cloth smoothing", "SMOOTH")
+    smooth.factor = .45
+    smooth.iterations = 3
+    bpy.ops.object.modifier_apply(modifier=smooth.name)
+    for polygon in body.data.polygons:
+        polygon.use_smooth = True
+    if api.get("cloth") is not None:
+        body.data.materials.clear()
+        body.data.materials.append(api["cloth"])
+
+    return {
+        "body": body,
+        "objects": [body],
+        "neck_center": (0.0, .018, .925),
+        "cuffs": {
+            "right": {"center": tuple(right_cuff),
+                      "direction": tuple(right_direction),
+                      "radius": .063, "hand_center": tuple(right_hand)},
+            "left": {"center": tuple(left_cuff),
+                     "direction": tuple(left_direction),
+                     "radius": .062, "hand_center": tuple(left_hand)},
+        },
+    }
