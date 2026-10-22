@@ -1,0 +1,3 @@
+Open outputs/DETAIL_F_G.png and FULL_F_G.png. Candidate: native/CARPET_PATCH_G.blend. A single bounded visible patch,not a new playable game version.
+Rebuild in a fresh folder using Blender5.2.2: blender --background --factory-startup --disable-autoexec --python-exit-code 1 --python tools/build_carpet_patch.py
+Supply native/INPUT_F.blend with SHA-256 59d742005904fdbc03c6a9891f77fb45b4f0af4530fc42ad7b7a296d61ca17c6 from Git artifact5311e9f731cd90bc4db638d60cac5bb90311d45f, builds/grass-width-070-e-f-2026-10-22. The ZIP includes G but omits F native already published there. tools/compare_patch.py also needs the pinned prior local F folder/receipt to copy the reused full control. Raw native patch renders do not require Pillow. No original game/selector should be replaced.

@@ -1,0 +1,206 @@
+"""Bounded native grass-carpet redesign. No game/export/scene relighting."""
+from pathlib import Path
+import hashlib,importlib.util,json,math,random
+import bpy
+from bpy_extras.object_utils import world_to_camera_view
+from mathutils import Vector
+from mathutils.bvhtree import BVHTree
+
+ROOT=Path(__file__).resolve().parents[1]
+SOURCE=ROOT/'native/INPUT_F.blend';OUTPUT=ROOT/'native/CARPET_PATCH_G.blend'
+PIN='59d742005904fdbc03c6a9891f77fb45b4f0af4530fc42ad7b7a296d61ca17c6'
+POLYGON=[(218,505),(366,505),(377,590),(345,667),(211,656),(205,573)]
+SEED=2026102207;STEP=.085
+
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def write(p,data):p.write_bytes((json.dumps(data,indent=2)+'\n').encode())
+spec=importlib.util.spec_from_file_location('records',ROOT/'tools/record_helpers.py')
+p=importlib.util.module_from_spec(spec);spec.loader.exec_module(p);g=p.g
+
+def inside(x,y):
+    result=False
+    for (ax,ay),(bx,by) in zip(POLYGON,POLYGON[1:]+POLYGON[:1]):
+        if (ay>y)!=(by>y) and x<(bx-ax)*(y-ay)/(by-ay)+ax:result=not result
+    return result
+
+def render(scene,name,detail=False):
+    state=(scene.render.filepath,scene.cycles.samples,scene.render.resolution_x,scene.render.resolution_y,
+        scene.render.use_border,scene.render.use_crop_to_border,scene.render.border_min_x,
+        scene.render.border_max_x,scene.render.border_min_y,scene.render.border_max_y)
+    scene.cycles.samples=128
+    if detail:
+        scene.render.resolution_x=1728;scene.render.resolution_y=3840
+        scene.render.use_border=True;scene.render.use_crop_to_border=True
+        scene.render.border_min_x=230/432;scene.render.border_max_x=358/432
+        scene.render.border_min_y=1-638/960;scene.render.border_max_y=1-510/960
+    target=ROOT/'outputs'/name;scene.render.filepath=str(target)
+    assert 'FINISHED' in bpy.ops.render.render(write_still=True)
+    (scene.render.filepath,scene.cycles.samples,scene.render.resolution_x,scene.render.resolution_y,
+        scene.render.use_border,scene.render.use_crop_to_border,scene.render.border_min_x,
+        scene.render.border_max_x,scene.render.border_min_y,scene.render.border_max_y)=state
+    return {'path':target.relative_to(ROOT).as_posix(),'bytes':target.stat().st_size,'sha256':sha(target),
+        'width':512 if detail else 432,'height':512 if detail else 960,'samples':128}
+
+def main():
+    assert bpy.app.background and sha(SOURCE)==PIN and not OUTPUT.exists()
+    selector=Path('C:/Users/fruch/Documents/Codex/GnomiT_Playtests/CURRENT_GNOMIT.json');selector_sha=sha(selector)
+    bpy.context.preferences.filepaths.save_version=0;bpy.ops.wm.open_mainfile(filepath=str(SOURCE))
+    scene=bpy.context.scene;scene.frame_set(1);bpy.context.view_layer.update()
+    body=bpy.data.objects['Reference_Grass_Carpet'];old=body.data
+    assert not old.has_custom_normals and len(old.uv_layers)==0 and old.users==1
+    assert all(not e.use_seam and not e.use_edge_sharp for e in old.edges)
+    assert len(old.color_attributes)==1 and old.color_attributes[0].name=='Grass_Colour'
+    attr=old.color_attributes[0];assert attr.domain=='POINT' and attr.data_type=='FLOAT_COLOR'
+    assert body.matrix_world==bpy.data.objects['Island_Grass_Cap'].matrix_world
+    assert body.matrix_world.is_identity
+    settings=g.settings_record(scene);materials=g.original_materials()
+    protected={o.name:p.object_record(o) for o in scene.objects if o!=body};names=set(scene.objects.keys())
+    body_identity={k:p.object_record(body)[k] for k in ('matrix_world','matrix_basis','parent','collections','materials')}
+    old_vertices=[tuple(v.co) for v in old.vertices];old_colours=[tuple(c.color) for c in attr.data]
+    old_faces=[tuple(f.vertices) for f in old.polygons];old_flags=[(f.material_index,f.use_smooth) for f in old.polygons]
+    def screen(q):
+        v=world_to_camera_view(scene,scene.camera,q);return v.x*432,(1-v.y)*960
+    # Components can have 16 or 61 vertices. Recover them from actual topology.
+    parent=list(range(len(old_vertices)))
+    def find(i):
+        while parent[i]!=i:parent[i]=parent[parent[i]];i=parent[i]
+        return i
+    for e in old.edges:
+        a,b=map(find,e.vertices)
+        if a!=b:parent[b]=a
+    components={}
+    for i in range(len(parent)):components.setdefault(find(i),[]).append(i)
+    assert len(components)==7590 and {len(c) for c in components.values()}=={16,61}
+    removed=set();removed_leaves=0
+    for indices in components.values():
+        base=indices[:3] if len(indices)==16 else indices[:5]
+        root=sum((Vector(old_vertices[i]) for i in base),Vector())/len(base)
+        if inside(*screen(root)):removed.update(indices);removed_leaves+=1
+    assert removed_leaves>50
+    keep=[i for i in range(len(old_vertices)) if i not in removed];mapping={i:j for j,i in enumerate(keep)}
+    vertices=[old_vertices[i] for i in keep];colours=[old_colours[i] for i in keep]
+    faces=[];flags=[]
+    for face,flag in zip(old_faces,old_flags):
+        if face[0] in removed:assert all(i in removed for i in face);continue
+        assert all(i not in removed for i in face)
+        faces.append(tuple(mapping[i] for i in face));flags.append(flag)
+    frozen_vertex_count=len(vertices);frozen_face_count=len(faces)
+    untouched=g.fingerprint({'vertices':vertices,'colours':colours,'faces':faces,'flags':flags})
+    baseline=render(scene,'00_F_PATCH_DETAIL.png',True)
+    print('CONTROL_DONE; removed old leaves '+str(removed_leaves),flush=True)
+    # Unlink only old grass temporarily for unobstructed terrain/prop ray tests.
+    edge=bpy.data.objects['Reference_Grass_Edge'];collections={o.name:tuple(o.users_collection) for o in (body,edge)}
+    for o in (body,edge):
+        for col in collections[o.name]:col.objects.unlink(o)
+    bpy.context.view_layer.update();deps=bpy.context.evaluated_depsgraph_get()
+    cap=bpy.data.objects['Island_Grass_Cap'];bvh=BVHTree.FromObject(cap,deps);down=Vector((0,0,-1));cache={}
+    def free(x,y):
+        key=(round(x,4),round(y,4))
+        if key in cache:return cache[key]
+        hit,n,face,_=bvh.ray_cast(Vector((x,y,3)),down,5)
+        result=None
+        if hit is not None and n.z>.65 and cap.data.polygons[face].material_index==0:
+            ok,loc,normal,idx,obj,mat=scene.ray_cast(deps,hit+Vector((0,0,.45)),down,distance=.65)
+            if ok and obj.original==cap:result=hit
+        cache[key]=result;return result
+    rng=random.Random(SEED);new_blades=0;new_tufts=0;accent_tufts=0;rejected=0
+    palette=[g.color(c) for c in ('628B2E','91B83D','B9CF58')]
+    times=[0,.12,.25,.38,.52,.66,.79,.90,1]
+    def leaf(root,angle,height,width,lean,curl,tint):
+        nonlocal new_blades,rejected
+        direction=Vector((math.cos(angle),math.sin(angle),0));side=Vector((-direction.y,direction.x,0))
+        coords=[];cs=[]
+        for t in times[:-1]:
+            centre=root+direction*(lean*(.15*t+.85*t*t))+side*(curl*math.sin(math.pi*t))
+            centre.z+=height*math.sin(math.pi*.64*t)
+            profile=(math.sin(math.pi*(.10+.90*t))**.85)*(1-.25*t)
+            for across in (-1,0,1):
+                q=centre+side*(across*.5*width*profile)
+                if across==0:q.z+=width*.045*math.sin(math.pi*t)
+                coords.append(tuple(q))
+                mix=min(1,t*1.5);c=[palette[0][i]*(1-mix)+palette[1][i]*mix for i in range(4)]
+                mix=max(0,t-.35)*.7;c=[c[i]*(1-mix)+palette[2][i]*mix for i in range(4)]
+                cs.append(tuple(min(1,c[i]*tint) if i<3 else 1 for i in range(4)))
+        tip=root+direction*lean;tip.z+=height*math.sin(math.pi*.64)
+        coords.append(tuple(tip));cs.append(tuple(min(1,palette[2][i]*tint) if i<3 else 1 for i in range(4)))
+        for index in (6,8,12,14,18,20,21,23,24):
+            q=coords[index]
+            if free(q[0],q[1]) is None:rejected+=1;return False
+        start=len(vertices);vertices.extend(coords);colours.extend(cs)
+        for row in range(7):
+            a=start+row*3;faces.extend([(a,a+1,a+4,a+3),(a+1,a+2,a+5,a+4)]);flags.extend([(0,True)]*2)
+        faces.extend([(start+21,start+22,start+24),(start+22,start+23,start+24)]);flags.extend([(0,True)]*2)
+        new_blades+=1;return True
+    minx=min(v.co.x for v in cap.data.vertices);maxx=max(v.co.x for v in cap.data.vertices)
+    miny=min(v.co.y for v in cap.data.vertices);maxy=max(v.co.y for v in cap.data.vertices)
+    for iy in range(math.floor(miny/STEP),math.ceil(maxy/STEP)):
+        for ix in range(math.floor(minx/STEP),math.ceil(maxx/STEP)):
+            # Local seeded RNG; never replay the old global scatter.
+            x=(ix+.5+rng.uniform(-.35,.35))*STEP;y=(iy+.5+rng.uniform(-.35,.35))*STEP
+            hit,n,face,_=bvh.ray_cast(Vector((x,y,3)),down,5)
+            if hit is None or not inside(*screen(hit)):continue
+            ground=free(x,y)
+            if ground is None:continue
+            # Small root clearance protects path edges, trunks and rocks.
+            if any(free(x+dx,y+dy) is None for dx,dy in ((.025,0),(-.025,0),(0,.025),(0,-.025))):continue
+            accent=rng.random()<.085;angle=rng.uniform(0,math.tau)
+            count=rng.randint(7,10) if accent else rng.randint(5,8);made=0
+            for j in range(count):
+                bx=x+rng.uniform(-.024,.024);by=y+rng.uniform(-.024,.024);base=free(bx,by)
+                if base is None:continue
+                root=base.copy();root.z-=.004
+                height=rng.uniform(.19,.29) if accent else rng.uniform(.11,.21)
+                width=rng.uniform(.016,.024) if accent else rng.uniform(.008,.014)
+                # Irregular open fans, with upright and gently hooked blades.
+                a=angle+rng.uniform(-1.30,1.30)+(math.pi if j%4==0 else 0)
+                made+=leaf(root,a,height,width,height*rng.uniform(.25,.62),rng.uniform(-.025,.025),rng.uniform(.96,1.04))
+            if made:new_tufts+=1;accent_tufts+=int(accent)
+    for o in (body,edge):
+        for col in collections[o.name]:col.objects.link(o)
+    assert new_blades>1000 and new_blades<15000
+    mesh=bpy.data.meshes.new('Reference_Grass_Carpet_G_Patch');mesh.from_pydata(vertices,[],faces);mesh.update()
+    colour=mesh.color_attributes.new(name='Grass_Colour',type='FLOAT_COLOR',domain='POINT')
+    colour.data.foreach_set('color',[c for rgba in colours for c in rgba])
+    for face,flag in zip(mesh.polygons,flags):face.material_index,face.use_smooth=flag
+    for mat in old.materials:mesh.materials.append(mat)
+    body.data=mesh
+    def verify():
+        bpy.context.view_layer.update()
+        assert set(scene.objects.keys())==names
+        assert all(p.object_record(bpy.data.objects[n])==record for n,record in protected.items())
+        assert g.settings_record(scene)==settings and g.original_materials()==materials
+        assert {k:p.object_record(body)[k] for k in body_identity}==body_identity
+        data=body.data;prefix={'vertices':[tuple(v.co) for v in data.vertices[:frozen_vertex_count]],
+            'colours':[tuple(c.color) for c in data.color_attributes['Grass_Colour'].data[:frozen_vertex_count]],
+            'faces':[tuple(f.vertices) for f in data.polygons[:frozen_face_count]],
+            'flags':[(f.material_index,f.use_smooth) for f in data.polygons[:frozen_face_count]]}
+        assert g.fingerprint(prefix)==untouched
+        assert sha(SOURCE)==PIN and sha(selector)==selector_sha
+    verify()
+    body['blade_count']=7590-removed_leaves+new_blades
+    body['probe_shape']='G: bounded dense fine curved grass carpet patch; outside leaf geometry retained'
+    body['patch_new_blades']=new_blades;body['patch_new_tufts']=new_tufts
+    body['tuft_count_status']='Original parent count2559 retained as historical metadata; replacement tuft total not reconstructed'
+    note=bpy.data.texts.new('START_HERE_CARPET_PATCH_G')
+    note.write('One native grass-carpet patch. Same F world/camera/lights. Old patch leaves replaced by denser fine curved blades and accent tufts. Outside leaves semantically exact with remapped indices. No game integration. Source and receipts accompany this file.\n')
+    assert 'FINISHED' in bpy.ops.wm.save_as_mainfile(filepath=str(OUTPUT),check_existing=False)
+    output_sha=sha(OUTPUT);bpy.ops.wm.open_mainfile(filepath=str(OUTPUT));scene=bpy.context.scene;body=bpy.data.objects['Reference_Grass_Carpet'];verify()
+    images=[im for im in bpy.data.images if im.source not in ('GENERATED','VIEWER')]
+    assert len(images)==5 and all(im.packed_file for im in images) and not bpy.data.libraries
+    print('PATCH_SAVED '+json.dumps({'removed':removed_leaves,'new_blades':new_blades,'new_tufts':new_tufts}),flush=True)
+    pictures=[baseline,render(scene,'01_G_CARPET_FULL.png'),render(scene,'02_G_PATCH_DETAIL.png',True)];verify()
+    result={'status':'PATCH_SAVED_REOPENED_RENDERED','source_sha256':PIN,'candidate_sha256':output_sha,'builder_sha256':sha(Path(__file__)),
+        'seed':SEED,'root_grid_m':STEP,'screen_root_polygon':POLYGON,'removed_old_leaves':removed_leaves,
+        'new_blades':new_blades,'new_tufts':new_tufts,'accent_tufts':accent_tufts,'new_leaf_vertices':25,
+        'new_leaf_quads':14,'new_leaf_triangles':2,'rejected_blades':rejected,'ray_query_cache_entries':len(cache),
+        'unchanged_outside_leaf_vertices':frozen_vertex_count,'unchanged_outside_leaf_faces':frozen_face_count,
+        'unchanged_outside_leaf_fingerprint':untouched,'outside_indices_remapped':True,
+        'protected_non_body_objects':len(protected),'camera_light_materials_unchanged':True,'palette_only_new_blades':True,
+        'old_tuft_total_not_reconstructed':True,'packed_images':5,'linked_libraries':0,
+        'selector_unchanged_sha256':selector_sha,'renders':pictures,'blender_version':bpy.app.version_string,
+        'footprint_limit':'Root clearance and sampled row-side/tip rays only; not every triangle or leaf/leaf intersection',
+        'game_integration':'NOT_PERFORMED','android_performance':'NOT_MEASURED','human_choice':'PENDING'}
+    assert sha(OUTPUT)==output_sha;write(ROOT/'documentation/PATCH_RECEIPT.json',result)
+    print('CARPET_PATCH_READY '+json.dumps({'sha256':output_sha,'blades':new_blades}),flush=True)
+
+if __name__=='__main__':main()

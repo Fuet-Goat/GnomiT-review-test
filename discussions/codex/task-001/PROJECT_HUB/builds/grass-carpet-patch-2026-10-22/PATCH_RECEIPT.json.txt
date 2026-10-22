@@ -1,0 +1,95 @@
+{
+  "status": "PATCH_SAVED_REOPENED_RENDERED",
+  "source_sha256": "59d742005904fdbc03c6a9891f77fb45b4f0af4530fc42ad7b7a296d61ca17c6",
+  "candidate_sha256": "5baeaadab55c144fd554cbae9122db30d3ce6104b41b3a48b9eaa301635b0260",
+  "builder_sha256": "8bf02cfc0d9c35c07597575faa063f02e60d2683a56eb7218dd8d08c3bda277e",
+  "seed": 2026102207,
+  "root_grid_m": 0.085,
+  "screen_root_polygon": [
+    [
+      218,
+      505
+    ],
+    [
+      366,
+      505
+    ],
+    [
+      377,
+      590
+    ],
+    [
+      345,
+      667
+    ],
+    [
+      211,
+      656
+    ],
+    [
+      205,
+      573
+    ]
+  ],
+  "removed_old_leaves": 877,
+  "new_blades": 9257,
+  "new_tufts": 1430,
+  "accent_tufts": 105,
+  "new_leaf_vertices": 25,
+  "new_leaf_quads": 14,
+  "new_leaf_triangles": 2,
+  "rejected_blades": 188,
+  "ray_query_cache_entries": 101832,
+  "unchanged_outside_leaf_vertices": 110693,
+  "unchanged_outside_leaf_faces": 69904,
+  "unchanged_outside_leaf_fingerprint": "f8e6257d2ae59ece118f327dfbdf13fa4325170e888d842fcd04410f04720ce5",
+  "outside_indices_remapped": true,
+  "protected_non_body_objects": 648,
+  "camera_light_materials_unchanged": true,
+  "palette_only_new_blades": true,
+  "old_tuft_total_not_reconstructed": true,
+  "packed_images": 5,
+  "linked_libraries": 0,
+  "selector_unchanged_sha256": "e1f2f766c10d2b80267893e86ded85f42f6941266f7500c8658a06a9bf9474b3",
+  "renders": [
+    {
+      "path": "outputs/00_F_PATCH_DETAIL.png",
+      "bytes": 452659,
+      "sha256": "39716758af5d70791bc728cdd73e48b60539f9d5c8b14a700070fc94f5ec0238",
+      "width": 512,
+      "height": 512,
+      "samples": 128
+    },
+    {
+      "path": "outputs/01_G_CARPET_FULL.png",
+      "bytes": 724525,
+      "sha256": "c82f821908688de6f59131ed5715d1b27e88b438ef709d30040d37ff8376639c",
+      "width": 432,
+      "height": 960,
+      "samples": 128
+    },
+    {
+      "path": "outputs/02_G_PATCH_DETAIL.png",
+      "bytes": 535194,
+      "sha256": "735812bf3619fa962b5ab102fe31aa8a72e73b4dc2d9b69e9f2e270c60a8214e",
+      "width": 512,
+      "height": 512,
+      "samples": 128
+    }
+  ],
+  "blender_version": "5.2.2 LTS",
+  "footprint_limit": "Root clearance and sampled row-side/tip rays only; not every triangle or leaf/leaf intersection",
+  "game_integration": "NOT_PERFORMED",
+  "android_performance": "NOT_MEASURED",
+  "human_choice": "PENDING",
+  "reused_full_control": {
+    "path": "outputs/00_F_FULL_CONTROL.png",
+    "bytes": 721803,
+    "sha256": "1a91b981799b9f0531417c54dca7ebc659e7244b3696bf1c6ae7277f189ddbc0",
+    "width": 432,
+    "height": 960,
+    "samples": 128,
+    "source_receipt": "Grass_Width_070_Probe_2026-10-22/documentation/WIDTH_F_RECEIPT.json",
+    "note": "Prior native F render, verified bytes; fresh detail controls rendered in the current build."
+  }
+}
