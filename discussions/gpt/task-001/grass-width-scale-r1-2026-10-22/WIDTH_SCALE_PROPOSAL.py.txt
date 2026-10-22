@@ -1,0 +1,158 @@
+"""UNEXECUTED source proposal for GnomiT native E -> F, not a built asset.
+
+Candidate: WIDTH_SCALE = 0.70. Target environment: Blender 5.2.2 LTS.
+Caller must first verify the exact E .blend and selected-block JSON, then
+use a fresh isolated copy in Object Mode. No scene I/O is performed here.
+Calling twice would compound the transformation; never use F as the input.
+"""
+
+
+def scale_selected_leaf_width(mesh, blocks, scale):
+    """Narrow selected E leaf rows in local XY about their existing centres.
+
+    mesh: the unevaluated Mesh of Reference_Grass_Carpet from verified E.
+    blocks: the LIST at document['blocks'] in SELECTED_LEAF_BLOCKS.json.txt.
+        Required per block: source_blade_index, vertex_start, vertex_count=61,
+        row_count=12, across_count=5, construction_peak_width_m. Other fields
+        are provenance, not geometric instructions. All 73 blocks are required.
+    scale: finite Python int/float with 0 < scale <= 1; candidate is 0.70.
+
+    Row j, column c: vertex_start + 5*j + c. Centre column is 2.
+    Rows: [0,.08,.16,.25,.34,.43,.50,.59,.68,.77,.86,.94].
+    Preserve all five vertices of row 0, all centre vertices, tip index 60,
+    and every Z. Modify ONLY columns (0,1,3,4) of rows 1..11, INCLUDING row 6.
+    Return audit data, not an artistic/runtime PASS. Full scene/topology/
+    colour/UV/normal-policy guards and save/reopen/render belong to caller.
+    """
+    import math
+    from collections.abc import Mapping
+
+    # Preflight completely before the first coordinate assignment.
+    if isinstance(scale, bool) or not isinstance(scale, (int, float)):
+        raise TypeError('scale must be a Python int or float, not bool')
+    factor = float(scale)
+    if not math.isfinite(factor) or not 0.0 < factor <= 1.0:
+        raise ValueError('scale must be finite and satisfy 0 < scale <= 1')
+    if getattr(mesh, 'is_editmode', False):
+        raise ValueError('Object Mode is required; do not modify an Edit Mode mesh')
+    if getattr(mesh, 'shape_keys', None) is not None:
+        raise ValueError('Shape keys require a separate reviewed strategy')
+    if (len(mesh.vertices), len(mesh.polygons)) != (124725, 78674):
+        raise ValueError('Unexpected E mesh counts; no change made')
+    if isinstance(blocks, (str, bytes, Mapping)):
+        raise TypeError("Pass document['blocks'], not the whole JSON document")
+    entries = tuple(blocks)
+    if len(entries) != 73:
+        raise ValueError('This bounded proposal requires all 73 selected E leaves')
+
+    validated = []
+    source_ids = set()
+    for block in entries:
+        if not isinstance(block, Mapping):
+            raise TypeError('Each block must be a mapping')
+        keys = ('source_blade_index', 'vertex_start', 'vertex_count',
+                'row_count', 'across_count')
+        if any(type(block.get(key)) is not int for key in keys):
+            raise TypeError('Block indices and counts must be integers, not bools')
+        blade, start = block['source_blade_index'], block['vertex_start']
+        if not 0 <= blade < 7590 or blade in source_ids:
+            raise ValueError('Duplicate or out-of-range source blade index')
+        if (block['vertex_count'], block['row_count'], block['across_count']) != (61, 12, 5):
+            raise ValueError('Selected leaf layout must be 12*5 + one tip')
+        if start < 0 or start + 61 > len(mesh.vertices):
+            raise ValueError('Leaf block outside mesh vertex range')
+        width = block.get('construction_peak_width_m')
+        if isinstance(width, bool) or not isinstance(width, (int, float)):
+            raise TypeError('construction_peak_width_m must be numeric')
+        width = float(width)
+        if not math.isfinite(width) or width <= 0.0:
+            raise ValueError('Invalid construction peak width')
+        validated.append((blade, start, width))
+        source_ids.add(blade)
+    validated.sort()
+    previous_end = -1
+    for order, (blade, start, _) in enumerate(validated):
+        # Exact layout rule read from the pinned D->E builder, not start=blade*61.
+        if start != blade * 16 + 45 * order or start < previous_end:
+            raise ValueError('Block ordering/layout differs from the pinned E source')
+        previous_end = start + 61
+
+    before = tuple(tuple(vertex.co) for vertex in mesh.vertices)
+    tolerance = 1e-6  # Local-coordinate numeric guard, not an artistic parameter.
+    planned = {}
+    peak_before = {}
+    for blade, start, width in validated:
+        leaf = before[start:start + 61]
+        if any(not math.isfinite(value) for point in leaf for value in point):
+            raise ValueError('Non-finite selected leaf coordinates')
+        # E preserved this 3D peak span. A .blend hash check is still mandatory.
+        if abs(math.dist(leaf[30], leaf[34]) - width) > tolerance:
+            raise ValueError('Peak span is not E; wrong input or already narrowed')
+        peak_before[blade] = math.hypot(leaf[34][0] - leaf[30][0],
+                                        leaf[34][1] - leaf[30][1])
+        if peak_before[blade] <= tolerance:
+            raise ValueError('Degenerate XY peak span')
+        for row in range(1, 12):
+            cx, cy, _ = before[start + row * 5 + 2]
+            for column in (0, 1, 3, 4):
+                index = start + row * 5 + column
+                x, y, _ = before[index]
+                if math.hypot(x - cx, y - cy) <= tolerance:
+                    raise ValueError('Degenerate selected side offset')
+                target = (cx + factor * (x - cx), cy + factor * (y - cy))
+                if not all(math.isfinite(value) for value in target):
+                    raise ValueError('Non-finite target coordinates')
+                planned[index] = target
+    if len(planned) != 3212:  # 73 leaves * 11 non-base rows * 4 side columns.
+        raise ValueError('Unexpected allowed XY set; no change made')
+
+    peak_audit = []
+    try:
+        for index, (x, y) in planned.items():
+            co = mesh.vertices[index].co
+            co.x = x
+            co.y = y
+        mesh.update()
+        if (len(mesh.vertices), len(mesh.polygons)) != (124725, 78674):
+            raise RuntimeError('Unexpected mesh count change')
+        for index, old in enumerate(before):
+            now = tuple(mesh.vertices[index].co)
+            if index not in planned:
+                if now != old:
+                    raise RuntimeError('A protected vertex changed')
+            elif (now[2] != old[2] or not all(math.isfinite(v) for v in now)
+                  or abs(now[0] - planned[index][0]) > tolerance
+                  or abs(now[1] - planned[index][1]) > tolerance):
+                raise RuntimeError('Z changed or scaled XY is outside tolerance')
+        for blade, start, _ in validated:
+            left = mesh.vertices[start + 30].co
+            right = mesh.vertices[start + 34].co
+            actual = math.hypot(right.x - left.x, right.y - left.y)
+            expected = factor * peak_before[blade]
+            if abs(actual - expected) > tolerance:
+                raise RuntimeError('Peak XY width does not match scale * E')
+            peak_audit.append({'source_blade_index': blade,
+                               'before_xy_m': peak_before[blade],
+                               'expected_xy_m': expected, 'after_xy_m': actual})
+    except Exception:
+        # Best-effort rollback of ONLY our XY writes. Caller must discard the
+        # isolated session on failure, never save it as an accepted candidate.
+        for index in planned:
+            co = mesh.vertices[index].co
+            co.x, co.y = before[index][0], before[index][1]
+        mesh.update()
+        raise
+
+    return {
+        'status': 'WIDTH_COORDINATES_UPDATED_NOT_RENDERED',
+        'scale': factor, 'selected_leaves': len(validated),
+        'allowed_xy_vertices': len(planned),
+        'changed_xy_vertices': sum(tuple(mesh.vertices[i].co[:2]) != before[i][:2]
+                                   for i in planned),
+        'allowed_xy_indices': sorted(planned),
+        'all_z_and_unlisted_coordinates_exact': True,
+        'peak_xy_spans_m': peak_audit,
+        'coordinate_tolerance_m': tolerance,
+        'full_scene_guards_required': True,
+        'visual_result': 'UNVERIFIED',
+    }
