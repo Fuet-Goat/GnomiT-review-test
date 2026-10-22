@@ -1,0 +1,24 @@
+GNOMIT NATIVE TAPER E —PROVENANCE AND LIMITS
+InputD SHA256:290b34b6f36f0c0358b963e9a3a001ef6106eca8427aecedeaf7e696f44832c2.
+Parent artifact:2968b846505051a377c3831ed7e43ebdb8036b4f.
+AI-assisted original procedural Blender Python by Codex. Blender5.2.2 LTS.
+One logical parameter:width profile power0.8→1.6. KeepDvertical arch endpoint0.90.
+Newwidth/oldwidth ratio scales only XYoffsets from existing row centres.
+Base row,t=.5peakwidth row,central columns and tip are exact anchors.
+2920eligible side-row vertices changeXY;allZ,colours,edges,loops,faces,
+otherXY and all648nonbody scene records are exact under recorded guards.
+Same73leaves in12tufts;7590totalleaves/2559tufts. No scatter replay/randomness.
+Same124725vertices/78674faces/142022triangles. No topology increase this probe.
+Maximum cross-sectional span at t=.5 and maximum height within1e-6m fixed.
+Overall projected leaf bounding width is intentionally not invariant.
+FixedZ while narrowing changes fold proportions and normals/shading naturally;
+material nodes/palette/light are unchanged. No colour interpolation in E.
+2920changedXYfootprints rechecked against current terrain/props:0blocked.
+Point samples do not prove triangle/leaf-leaf collision safety.
+Native save/reopen/actualfull+detailrenders pass. Five packed images,no linked libraries.
+No external assets downloaded. InheritedDprovenance applies;no legal guarantee inferred.
+No GLB export/Godot integration/game/audio/save/currentselector change.
+Native/runtime lighting parity NOT_CLAIMED. Human art choice PENDING.
+Godot tests NOT_RUN;Android/performance NOT_MEASURED. Currentgame remainsv014.
+Visual opinion:VISUAL_REVIEW.txt. Bounded stage order:WORK_ORDER_BG.txt.
+Exact raw files/bytes/hashes:MANIFEST.json. Rebuild instructions:REBUILD_BG.txt.

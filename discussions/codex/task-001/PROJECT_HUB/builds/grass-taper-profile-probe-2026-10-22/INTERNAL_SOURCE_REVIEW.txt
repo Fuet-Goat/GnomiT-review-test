@@ -1,0 +1,7 @@
+Read-only grass_shape_scope_review found no actionable source/receipt issue.
+It confirmed builder/candidate hashes,2920changedXYvertices,73leaves×10rows×4sides,
+fixedZ/colour/topology/otherXY and exactbase/centreline/tip/peakwidth anchors.
+648nonbodyrecords pass;point-footprint samples report0blocked.
+Reviewer did not execute Blender or inspect rendered pixels.
+Width invariance means maximum cross-sectional span at t=.5,not unchanged
+projected leaf bounding width. Normals/fold proportions can change with narrowing.

@@ -1,0 +1,6 @@
+Пълен native ZIP:GNOMIT_GRASS_TAPER_PROFILE_PROBE_2026-10-22.zip,bytes=44382258,SHA256=dc3041528874d148cb1f806a33c639919d92a1a05dcad2999f7a7202a2c622d0,entries=28.
+Реални Base64 части:8;ред/хешове:PACKAGE_RECEIPT.json.txt.
+DOWNLOAD_VERIFIED_PROBE.py.txt запазен като.py:
+python download_verified_probe.py --commit <EXACT_40_HEX_COMMIT> --destination <NEW_ABSOLUTE_FOLDER>
+Проверява части/ZIP/всекифайл преди и след извличане;не изпълнява кода.
+Няма merge/main/grant промени. Currentv014;Human choicePENDING.

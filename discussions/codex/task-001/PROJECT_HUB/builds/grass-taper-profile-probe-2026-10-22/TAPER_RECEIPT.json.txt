@@ -1,0 +1,101 @@
+{
+  "status": "NATIVE_TAPER_SAVED_REOPENED_RENDERED",
+  "source_sha256": "290b34b6f36f0c0358b963e9a3a001ef6106eca8427aecedeaf7e696f44832c2",
+  "candidate_sha256": "db0782926b6a98f500efa3cb347a7a58f24fad378e37a6f9aebd6eb0e9448615",
+  "builder_sha256": "359e8a60c414f8958bcf9d86853cb9c8415251b0f39b2ae366be91826d3e3151",
+  "tool": "Blender5.2.2 LTS",
+  "logical_parameter": {
+    "name": "width_profile_exponent",
+    "before": 0.8,
+    "after": 1.6
+  },
+  "rows_t": [
+    0,
+    0.08,
+    0.16,
+    0.25,
+    0.34,
+    0.43,
+    0.5,
+    0.59,
+    0.68,
+    0.77,
+    0.86,
+    0.94
+  ],
+  "row_width_ratios": [
+    1.0,
+    0.44109347526709997,
+    0.5744741470940916,
+    0.7596664317681463,
+    0.8998931199645519,
+    0.9806907251187158,
+    1.0,
+    0.968106906917476,
+    0.873391453261136,
+    0.7183317340616583,
+    0.5050654119451699,
+    0.26192745619938396
+  ],
+  "selected_leaves": 73,
+  "selected_tufts": 12,
+  "total_leaves": 7590,
+  "total_tufts": 2559,
+  "vertices": 124725,
+  "faces": 78674,
+  "triangles": 142022,
+  "allowed_xy_vertices": 2920,
+  "changed_xy_vertices": 2920,
+  "mesh_frozen_except_declared_xy_sha256": "f20e4d5f11ce8e59cc865ffe078b7bc8e88cad653a59d9e908687d31de95694a",
+  "all_z_colours_topology_other_xy_unchanged": true,
+  "bases_centrelines_tips_peak_width_row_exact": true,
+  "protected_non_body_records": 648,
+  "camera_lighting_material_records_unchanged": true,
+  "max_height_width_tolerance_m": 1e-06,
+  "collision_check": {
+    "tested_vertices": 2920,
+    "blocked": 0,
+    "limit": "Point footprints only,not triangle/leaf-leaf proof."
+  },
+  "shading_limit": "Narrowing XY with fixedZ changes fold proportions/normals;material nodes/palette fixed.",
+  "packed_images": 5,
+  "linked_libraries": 0,
+  "renders": [
+    {
+      "path": "outputs/00_D_FULL_432x960.png",
+      "bytes": 722146,
+      "sha256": "5a0c08db38b70ac76336d9099417b9d3d4cdb11c222c11601914f0f102481f66",
+      "width": 432,
+      "height": 960,
+      "samples": 128
+    },
+    {
+      "path": "outputs/01_E_TAPER_432x960.png",
+      "bytes": 721913,
+      "sha256": "cd49dcaf7c2f62c99ac65410a8a6229902bd9f207e550f3dce0436a2d9d02738",
+      "width": 432,
+      "height": 960,
+      "samples": 128
+    },
+    {
+      "path": "outputs/02_D_DETAIL_8X.png",
+      "bytes": 417671,
+      "sha256": "a54cbc43f3682db735add50dcbf89f421b1cc27feadaf623c725d78a5ff55706",
+      "width": 512,
+      "height": 512,
+      "samples": 128
+    },
+    {
+      "path": "outputs/03_E_DETAIL_8X.png",
+      "bytes": 417421,
+      "sha256": "08d6a3a56c5ed55dd08851ddc3c1e5dc1ca66d36094778cda38aa3d2c8126891",
+      "width": 512,
+      "height": 512,
+      "samples": 128
+    }
+  ],
+  "game_integration": "NOT_PERFORMED",
+  "godot_tests": "NOT_RUN",
+  "human_choice": "PENDING",
+  "android_performance": "NOT_MEASURED"
+}

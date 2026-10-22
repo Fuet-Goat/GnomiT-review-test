@@ -1,0 +1,211 @@
+{
+  "schema": 1,
+  "zip": {
+    "name": "GNOMIT_GRASS_TAPER_PROFILE_PROBE_2026-10-22.zip",
+    "bytes": 44382258,
+    "sha256": "dc3041528874d148cb1f806a33c639919d92a1a05dcad2999f7a7202a2c622d0",
+    "entries": 28
+  },
+  "parts": [
+    {
+      "path": "PROBE_ZIP.part001.base64.txt",
+      "bytes": 8000001,
+      "sha256": "33958597104ebb8aec782a83d85e8c208f3dd05d3c2165bafe22b0d459b98fa6",
+      "base64_chars": 8000000,
+      "payload_sha256": "8e46103fe86f4c7fd5a724103266737c14655331436f23501f2db4fd9852b0c1"
+    },
+    {
+      "path": "PROBE_ZIP.part002.base64.txt",
+      "bytes": 8000001,
+      "sha256": "33498948eaf8d5792e6a960bdf0120644f00eb893d42630248c587805a7d6e1b",
+      "base64_chars": 8000000,
+      "payload_sha256": "0ae112efbb3142a68efe307cf27f2e19ac8a7d781c3052b7cbd6a05e52724d12"
+    },
+    {
+      "path": "PROBE_ZIP.part003.base64.txt",
+      "bytes": 8000001,
+      "sha256": "c9e6f0e0f05e33a45eee596df834d3d17393f0e42925cf3ff7974127fb3cbdce",
+      "base64_chars": 8000000,
+      "payload_sha256": "a1a42ba384f5bed67c03fca38b72c7158976675b1e02139235584578c7b60052"
+    },
+    {
+      "path": "PROBE_ZIP.part004.base64.txt",
+      "bytes": 8000001,
+      "sha256": "1da3fe5e77efc18fc400dd806c2ee66be59a7636db03035280df81ac4320767f",
+      "base64_chars": 8000000,
+      "payload_sha256": "b33e52210b5be00540c9a58d8c9e6f135224b9e57203ce02bd4ca3142ab49fde"
+    },
+    {
+      "path": "PROBE_ZIP.part005.base64.txt",
+      "bytes": 8000001,
+      "sha256": "e42e7b96726702c8edd3856efa88874673d3b3bde8606d0d0574766f2c33134c",
+      "base64_chars": 8000000,
+      "payload_sha256": "64c648c56b66dba03a744a044e06cc85a5e61045c03f282c15da4fb0f2c0709a"
+    },
+    {
+      "path": "PROBE_ZIP.part006.base64.txt",
+      "bytes": 8000001,
+      "sha256": "8fc3664c77f8451bb1f651b962065c5443b2bb2058e4dbf12bc7c18ed10f408e",
+      "base64_chars": 8000000,
+      "payload_sha256": "261d34d7d0b329b7200db05e9f792f61fbb9cbd560a2c1cea68188e5cb1ac3d2"
+    },
+    {
+      "path": "PROBE_ZIP.part007.base64.txt",
+      "bytes": 8000001,
+      "sha256": "33dd9e6c20ae4391a0a4b554638b6596453dfd78400372f780eff27c8c49a035",
+      "base64_chars": 8000000,
+      "payload_sha256": "556fed4b8018e3a93616d010ac8aed15270affcd21fdaaf72901f1a51ed4caad"
+    },
+    {
+      "path": "PROBE_ZIP.part008.base64.txt",
+      "bytes": 3176345,
+      "sha256": "75f1c9c875be7c9f5d100d84bb1030558af320aa1afd1bbb8506f8737711ce1f",
+      "base64_chars": 3176344,
+      "payload_sha256": "84a41580a58799cf3d67090c47fdbce51c7037eed2aa209fd1c2c821cf99d6af"
+    }
+  ],
+  "files": [
+    {
+      "path": "documentation/INHERITED_D_PROVENANCE.txt",
+      "bytes": 2205,
+      "sha256": "a4b6868213bcb6ceb71cc40a3751efb15ddbccd9c2ff0f852e96cc808c5062fa"
+    },
+    {
+      "path": "documentation/INPUT_D_RECEIPT.json",
+      "bytes": 2510,
+      "sha256": "bc77fb3c49e0ca5599822eb37420aa08e6b0696b26d5618be268b5f148b0857d"
+    },
+    {
+      "path": "documentation/INPUT_PIN.json",
+      "bytes": 539,
+      "sha256": "dbd23677b303e17503a9f1a03320ae17d86f9c4f40f116dc39b7a6addca1e413"
+    },
+    {
+      "path": "documentation/INTERNAL_SOURCE_REVIEW.txt",
+      "bytes": 523,
+      "sha256": "8f4b3eae473dec33669731089074433dc6eb96f812ad6b36f973cef6e43d58e5"
+    },
+    {
+      "path": "documentation/LEAF_LAYOUT_RECEIPT.json",
+      "bytes": 33957,
+      "sha256": "eaaf52f14c12d2858095f002dac75844f982292374fd3826c91d4d2179184aab"
+    },
+    {
+      "path": "documentation/PROVENANCE.txt",
+      "bytes": 1783,
+      "sha256": "72956d2a23a9bc63b3bd70c678fd89f88110be1af0c21e7bcad28bef69b1bfcb"
+    },
+    {
+      "path": "documentation/REBUILD_BG.txt",
+      "bytes": 1089,
+      "sha256": "5d96f6e7f3656e31d5396be749d400dee881ea00193d12ad88dbdb310ab0a675"
+    },
+    {
+      "path": "documentation/TAPER_RECEIPT.json",
+      "bytes": 2812,
+      "sha256": "4d25d0d826b44d4966f83e11890c967d5af25bd087b94890fde2255492a8fed3"
+    },
+    {
+      "path": "documentation/VISUAL_REVIEW.txt",
+      "bytes": 813,
+      "sha256": "977c7c065ca38a1195ac59b35902ea398765886dfafd139f4823d316740b2a79"
+    },
+    {
+      "path": "documentation/WORK_ORDER_BG.txt",
+      "bytes": 1256,
+      "sha256": "dab84005dd336d794f4e1c935275e2f1440c36a75f94802c8073e29d779ee0bb"
+    },
+    {
+      "path": "FINAL_RESPONSE.txt",
+      "bytes": 542,
+      "sha256": "556800a664bba180813bcdfbe2daa3bbd68e59c2e017e2207587288301a7c964"
+    },
+    {
+      "path": "MANIFEST.json",
+      "bytes": 4492,
+      "sha256": "be0dd54f157c6ab7d598adbd4a7bae84a868d893bb8daa9566539d48926af17f"
+    },
+    {
+      "path": "native/INPUT_D.blend",
+      "bytes": 19773394,
+      "sha256": "290b34b6f36f0c0358b963e9a3a001ef6106eca8427aecedeaf7e696f44832c2"
+    },
+    {
+      "path": "native/TAPER_PROFILE_E.blend",
+      "bytes": 19773481,
+      "sha256": "db0782926b6a98f500efa3cb347a7a58f24fad378e37a6f9aebd6eb0e9448615"
+    },
+    {
+      "path": "outputs/00_D_FULL_432x960.png",
+      "bytes": 722146,
+      "sha256": "5a0c08db38b70ac76336d9099417b9d3d4cdb11c222c11601914f0f102481f66"
+    },
+    {
+      "path": "outputs/01_E_TAPER_432x960.png",
+      "bytes": 721913,
+      "sha256": "cd49dcaf7c2f62c99ac65410a8a6229902bd9f207e550f3dce0436a2d9d02738"
+    },
+    {
+      "path": "outputs/02_D_DETAIL_8X.png",
+      "bytes": 417671,
+      "sha256": "a54cbc43f3682db735add50dcbf89f421b1cc27feadaf623c725d78a5ff55706"
+    },
+    {
+      "path": "outputs/03_E_DETAIL_8X.png",
+      "bytes": 417421,
+      "sha256": "08d6a3a56c5ed55dd08851ddc3c1e5dc1ca66d36094778cda38aa3d2c8126891"
+    },
+    {
+      "path": "outputs/04_FULL_D_E.png",
+      "bytes": 612792,
+      "sha256": "0718390565afd1f13d063e938685712f1c912d1a03bdd2d871eed8d5c3e36da3"
+    },
+    {
+      "path": "outputs/05_DETAIL_D_E.png",
+      "bytes": 440485,
+      "sha256": "55ee957281dda50e4ce9bbfd1f3a4bad1e0e4d3a2c7b6cdbecc67efa306c12b2"
+    },
+    {
+      "path": "outputs/TAPER_BUILD.log",
+      "bytes": 951,
+      "sha256": "a957bb70d48d7912eb30127b6f71fc056d6632b74794ecb9e6c29666e6bbd177"
+    },
+    {
+      "path": "README_BG.txt",
+      "bytes": 925,
+      "sha256": "9ff435dd2fddc5308f1098b9329e4642ad74213a8017ae4bf8bd7759d36eabd2"
+    },
+    {
+      "path": "reference/TARGET_HOME_START.png",
+      "bytes": 2256314,
+      "sha256": "a8ba8f00cba8f715e4633941f65b7f79da7caa174520a2a6e2072c60538e73c9"
+    },
+    {
+      "path": "tools/build_taper_profile.py",
+      "bytes": 10246,
+      "sha256": "359e8a60c414f8958bcf9d86853cb9c8415251b0f39b2ae366be91826d3e3151"
+    },
+    {
+      "path": "tools/compare_taper.py",
+      "bytes": 3969,
+      "sha256": "cadafe588171621d9899bd060673e55be8080d7a488980e8f5d5df72d6acbdad"
+    },
+    {
+      "path": "tools/download_verified_probe.py",
+      "bytes": 8083,
+      "sha256": "5976406cacc8b79dcb88153bcb2365ba70d9ee5c6170fff1de15bfb008514303"
+    },
+    {
+      "path": "tools/guard_utils.py",
+      "bytes": 10802,
+      "sha256": "1ec5055c90347cbc688013c97d02723bd5d7bb3e7541b0b958f9b84b3e6e6fa9"
+    },
+    {
+      "path": "tools/record_helpers.py",
+      "bytes": 15317,
+      "sha256": "a5236b57514843c8308761e10d7ea5b4a021bc6417ca0bd00bce09c4be162708"
+    }
+  ],
+  "payload_sha256_definition": "SHA256 of individually decoded binary part",
+  "game_integration": "NOT_PERFORMED"
+}
