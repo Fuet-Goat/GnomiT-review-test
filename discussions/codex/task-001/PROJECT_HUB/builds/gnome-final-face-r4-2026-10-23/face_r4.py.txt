@@ -1,0 +1,135 @@
+"""Continuous authored face profile and orbital ribbons for the R4 clay pass.
+
+Facial planes and cheeks are deformations of one closed head surface. Broad
+nose bridge/tip and ears are fused into it; orbital ribbons are also fused
+so their outer edges do not remain separate oval pads. Front is -Y.
+"""
+import math
+import bpy
+from mathutils import Vector
+from shape_helpers import _closed_rings,_catmull
+
+PROFILE=[((0,.018,.930),.103,.092),((0,.018,.968),.132,.106),
+         ((0,.018,1.010),.178,.132),((0,.018,1.060),.208,.151),
+         ((0,.018,1.105),.218,.157),((0,.018,1.150),.214,.156),
+         ((0,.018,1.195),.207,.153),((0,.018,1.240),.199,.148),
+         ((0,.018,1.275),.181,.131),((0,.018,1.299),.128,.096),
+         ((0,.018,1.315),.012,.012)]
+
+def gaussian(x,z,cx,cz,sx,sz):
+    return math.exp(-((x-cx)/sx)**2-((z-cz)/sz)**2)
+
+def displacement(x,z):
+    # Negative Y is forward. A broad cheek field flows into a shallow muzzle.
+    cheek=sum(-.050*gaussian(x,z,s*.115,1.112,.100,.070)
+              -.013*gaussian(x,z,s*.131,1.143,.057,.035) for s in (-1,1))
+    muzzle=-.008*gaussian(x,z,0,1.067,.100,.040)
+    nose=-.034*gaussian(x,z,0,1.120,.056,.037)
+    bridge=-.011*gaussian(x,z,0,1.166,.032,.057)
+    wings=sum(-.010*gaussian(x,z,s*.040,1.104,.022,.018) for s in (-1,1))
+    sockets=sum(.016*gaussian(x,z,s*.084,1.166+(s<0)*.003,.043,.029) for s in (-1,1))
+    orbital_brow=sum(-.009*gaussian(x,z,s*.088,1.209+(s<0)*.003,.060,.024) for s in (-1,1))
+    return cheek+muzzle+nose+bridge+wings+sockets+orbital_brow
+
+def build_face(api):
+    collection,clay,eye,root=(api[k] for k in ('collection','clay','eye','root'))
+    x_samples=_catmull([p[0] for p in PROFILE],[p[1] for p in PROFILE],10)
+    y_samples=_catmull([p[0] for p in PROFILE],[p[2] for p in PROFILE],10)
+    samples=[(c.z,rx,ry) for (c,rx),(_,ry) in zip(x_samples,y_samples)]
+    def radii(z):
+        for i in range(len(samples)-1):
+            z0,rx0,ry0=samples[i];z1,rx1,ry1=samples[i+1]
+            if z<=z1:
+                t=max(0,min(1,(z-z0)/(z1-z0)))
+                return rx0*(1-t)+rx1*t,ry0*(1-t)+ry1*t
+        return samples[-1][1:]
+    def surface(x,z):
+        rx,ry=radii(z);f=math.sqrt(max(0,1-(x/rx)**2))
+        return .018-ry*f+displacement(x,z)*f**3
+    rings=[]
+    for z,rx,ry in samples:
+        ring=[]
+        for j in range(128):
+            a=math.tau*j/128;x=rx*math.cos(a);front=max(0,-math.sin(a))**3
+            ring.append((x,.018+ry*math.sin(a)+front*displacement(x,z),z))
+        rings.append(ring)
+    head=_closed_rings('R4_ContinuousFacialPlanes',rings,collection)
+    head.data.materials.append(clay)
+    def sphere(name,center,scale,mat):
+        bpy.ops.mesh.primitive_uv_sphere_add(segments=40,ring_count=24,radius=1,location=center)
+        obj=bpy.context.object
+        for c in list(obj.users_collection):c.objects.unlink(obj)
+        collection.objects.link(obj);obj.name=name;obj.scale=scale
+        bpy.ops.object.transform_apply(location=False,rotation=False,scale=True)
+        obj.data.materials.append(mat)
+        for p in obj.data.polygons:p.use_smooth=True
+        return obj
+    ears=[sphere('R4 ear '+str(s),(s*.221,.009,1.110+(s>0)*.003),(.053,.036,.060),clay) for s in (-1,1)]
+    nose_parts=[sphere('R4 integrated nose bridge',(0,-.170,1.148),(.037,.038,.043),clay),
+                sphere('R4 integrated rounded nose',(0,-.203,1.119),(.058,.068,.044),clay)]
+    bpy.ops.object.select_all(action='DESELECT')
+    for obj in [head,*ears,*nose_parts]:obj.select_set(True)
+    bpy.context.view_layer.objects.active=head;bpy.ops.object.join()
+    remesh=head.modifiers.new('Join ears to continuous head','REMESH');remesh.mode='VOXEL';remesh.voxel_size=.0028;remesh.use_smooth_shade=True
+    bpy.ops.object.modifier_apply(modifier=remesh.name)
+    smooth=head.modifiers.new('Broad skin transitions','SMOOTH');smooth.factor=.30;smooth.iterations=3
+    bpy.ops.object.modifier_apply(modifier=smooth.name)
+    for p in head.data.polygons:p.use_smooth=True
+    objects=[head];lid_objects=[]
+    for s in (-1,1):
+        ex=s*.084;ez=1.168+(s<0)*.002;ey=-.129
+        globe=sphere('R4 inset eye '+str(s),(ex,ey,ez),(.034,.022,.022),clay);objects.append(globe)
+        pupil=sphere('R4 pupil '+str(s),(ex-.001,ey-.0223,ez),(.014,.003,.014),eye);objects.append(pupil)
+        # A broad annular skin patch settles onto the cheek/forehead. Its inner
+        # edge wraps the eye globe; there are no separate thick tubular lids.
+        verts=[];faces=[];n=96;rows=9
+        for row in range(rows):
+            u=row/(rows-1);ease=u*u*(3-2*u)
+            for j in range(n):
+                a=math.tau*j/n;ca,sa=math.cos(a),math.sin(a)
+                iz=.0145*sa*(.65+.35*abs(sa))+.004*ca*s
+                ix=.0325*ca
+                ox=.048*ca;oz=(.029 if sa>0 else .024)*sa
+                x=ex+ix*(1-ease)+ox*ease;z=ez+iz*(1-ease)+oz*ease
+                sphere_depth=.022*math.sqrt(max(.04,1-(ix/.034)**2-(iz/.022)**2))
+                inner_y=ey-sphere_depth-.0008
+                outer_y=surface(ex+ox,ez+oz)-.0010
+                y=inner_y*(1-ease)+outer_y*ease-.002*math.sin(math.pi*u)
+                verts.append((x,y,z))
+        for row in range(rows-1):
+            for j in range(n):faces.append((row*n+j,(row+1)*n+j,(row+1)*n+(j+1)%n,row*n+(j+1)%n))
+        mesh=bpy.data.meshes.new('R4 orbital skin ribbon mesh');mesh.from_pydata(verts,[],faces);mesh.update()
+        lid=bpy.data.objects.new('R4 wrapped orbital skin '+str(s),mesh);collection.objects.link(lid);mesh.materials.append(clay)
+        sub=lid.modifiers.new('Continuous lid curvature','SUBSURF');sub.levels=1;sub.render_levels=1
+        solid=lid.modifiers.new('Skin overlap for fusion','SOLIDIFY');solid.thickness=.005;solid.offset=-1
+        for p in mesh.polygons:p.use_smooth=True
+        lid_objects.append(lid)
+        # One soft, unequal brow ribbon. Thickness stays subordinate to lids.
+        points=[(s*.034,1.215),(s*.066,1.229+(s<0)*.003),(s*.101,1.226+(s>0)*.001),(s*.139,1.207)]
+        pts=[(x,surface(x,z)-.004,z) for x,z in points]
+        samples_brow=_catmull(pts,[.002,.013,.010,.001],8);brow_rings=[]
+        for center,radius in samples_brow:
+            brow_rings.append([center+Vector((0,.0055*math.sin(math.tau*j/24),radius*math.cos(math.tau*j/24))) for j in range(24)])
+        brow=_closed_rings('R4 soft brow '+str(s),brow_rings,collection);brow.data.materials.append(clay)
+        sub=brow.modifiers.new('Soft brow shape','SUBSURF');sub.levels=1;sub.render_levels=1
+        for p in brow.data.polygons:p.use_smooth=True
+        objects.append(brow)
+    # Weld the orbital transitions into the skin; no independent goggle pads.
+    for lid in lid_objects:
+        bpy.ops.object.select_all(action='DESELECT');lid.select_set(True);bpy.context.view_layer.objects.active=lid
+        bpy.ops.object.convert(target='MESH')
+    bpy.ops.object.select_all(action='DESELECT')
+    for obj in [head,*lid_objects]:obj.select_set(True)
+    bpy.context.view_layer.objects.active=head;bpy.ops.object.join()
+    remesh=head.modifiers.new('Continuous orbital skin fusion','REMESH');remesh.mode='VOXEL';remesh.voxel_size=.002;remesh.use_smooth_shade=True
+    bpy.ops.object.modifier_apply(modifier=remesh.name)
+    smooth=head.modifiers.new('Settle eyelids into cheek planes','SMOOTH');smooth.factor=.40;smooth.iterations=4
+    bpy.ops.object.modifier_apply(modifier=smooth.name)
+    for p in head.data.polygons:p.use_smooth=True
+    for obj in objects:obj.parent=root
+    return {'objects':objects,'head':head,'method':'single closed head loft with continuous analytical facial planes/cheeks; fused nose/ears and orbital skin; inset globes',
+            'eye_center_y':-.129,'eye_front_nominal_y':-.151,'eye_size':(.034,.022,.022),
+            'opening_half_height':.0145,'outer_corner_lift':.004,'pupil_marker_radii':(.014,.003,.014),
+            'brow': 'soft fuller arch, mild asymmetry; fixed head profile/nose/ears',
+            'eyelid_method':'annular skin patches conforming to eye rims, evaluated and voxel-fused into the face',
+            'new_materials':0,'new_rig_or_actions':0}
