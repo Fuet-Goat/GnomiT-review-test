@@ -1,0 +1,1424 @@
+{
+  "status": "PAIRED_NATIVE_MAP_RENDER_ONLY",
+  "frame": 1,
+  "source_world": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\Gnome_Form_M_2026-10-22\\native\\GNOME_FORM_M4.blend",
+  "source_sha256_before": "71b3f6d87cb689447adc25ac55a99c8d68a6006e6b8a12970e37592ea7f9bd21",
+  "source_sha256_after": "71b3f6d87cb689447adc25ac55a99c8d68a6006e6b8a12970e37592ea7f9bd21",
+  "input_sha256_before": {
+    "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\Gnome_Form_M_2026-10-22\\native\\GNOME_FORM_M4.blend": "71b3f6d87cb689447adc25ac55a99c8d68a6006e6b8a12970e37592ea7f9bd21",
+    "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\Gnome_Concept_Form_R2_2026-10-22\\native\\GNOME_R2_FORM_B.blend": "5531b9ca48c7e8a9776e3348bd4c007a1ad44a2b2f4b3d362e4bfe8211e19717",
+    "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\Gnome_Face_Cap_R3_2026-10-22\\native\\GNOME_R3_FACE_CAP_C.blend": "72263fcd64dc756ee98b95073d166e453619b81c6420ef6b42230ece519988ac",
+    "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\Gnome_Concept_Form_R2_2026-10-22\\documentation\\MAP_SCALE_RECEIPT.json": "bda2475ee10016f4010996ff12a9ee8d78fc07b68abe4057fab2a171927999ef"
+  },
+  "input_sha256_after": {
+    "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\Gnome_Form_M_2026-10-22\\native\\GNOME_FORM_M4.blend": "71b3f6d87cb689447adc25ac55a99c8d68a6006e6b8a12970e37592ea7f9bd21",
+    "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\Gnome_Concept_Form_R2_2026-10-22\\native\\GNOME_R2_FORM_B.blend": "5531b9ca48c7e8a9776e3348bd4c007a1ad44a2b2f4b3d362e4bfe8211e19717",
+    "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\Gnome_Face_Cap_R3_2026-10-22\\native\\GNOME_R3_FACE_CAP_C.blend": "72263fcd64dc756ee98b95073d166e453619b81c6420ef6b42230ece519988ac",
+    "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\Gnome_Concept_Form_R2_2026-10-22\\documentation\\MAP_SCALE_RECEIPT.json": "bda2475ee10016f4010996ff12a9ee8d78fc07b68abe4057fab2a171927999ef"
+  },
+  "placement_receipt": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\Gnome_Concept_Form_R2_2026-10-22\\documentation\\MAP_SCALE_RECEIPT.json",
+  "placement_rule": "Exact R2 receipt root scale/location, zero rotation; no bbox recentering or rescaling",
+  "root_scale_from_receipt": [
+    0.61279296875,
+    0.61279296875,
+    0.61279296875
+  ],
+  "root_world_location_from_receipt": [
+    -1.2133331298828125,
+    -8.362190246582031,
+    0.8483578562736511
+  ],
+  "r2_root_transform_before_and_after_render": {
+    "scale": [
+      0.61279296875,
+      0.61279296875,
+      0.61279296875
+    ],
+    "world_location": [
+      -1.2133331298828125,
+      -8.362190246582031,
+      0.8483578562736511
+    ],
+    "rotation_euler": [
+      0.0,
+      -0.0,
+      0.0
+    ],
+    "matrix_world": [
+      [
+        0.61279296875,
+        0.0,
+        0.0,
+        -1.2133331298828125
+      ],
+      [
+        0.0,
+        0.61279296875,
+        0.0,
+        -8.362190246582031
+      ],
+      [
+        0.0,
+        0.0,
+        0.61279296875,
+        0.8483578562736511
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ]
+  },
+  "r3_root_transform_before_and_after_render": {
+    "scale": [
+      0.61279296875,
+      0.61279296875,
+      0.61279296875
+    ],
+    "world_location": [
+      -1.2133331298828125,
+      -8.362190246582031,
+      0.8483578562736511
+    ],
+    "rotation_euler": [
+      0.0,
+      -0.0,
+      0.0
+    ],
+    "matrix_world": [
+      [
+        0.61279296875,
+        0.0,
+        0.0,
+        -1.2133331298828125
+      ],
+      [
+        0.0,
+        0.61279296875,
+        0.0,
+        -8.362190246582031
+      ],
+      [
+        0.0,
+        0.0,
+        0.61279296875,
+        0.8483578562736511
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ]
+  },
+  "root_transforms_exactly_equal": true,
+  "r2_evaluated_bbox": {
+    "min": [
+      -1.5160562992095947,
+      -8.539114952087402,
+      0.8502714037895203
+    ],
+    "max": [
+      -0.9480997323989868,
+      -8.236175537109375,
+      1.851144790649414
+    ],
+    "height": 1.0008733868598938,
+    "bottom_center": [
+      -1.2320780158042908,
+      -8.387645244598389,
+      0.8502714037895203
+    ]
+  },
+  "r3_evaluated_bbox": {
+    "min": [
+      -1.5160562992095947,
+      -8.539114952087402,
+      0.8502714037895203
+    ],
+    "max": [
+      -0.9480997323989868,
+      -8.236175537109375,
+      1.851144552230835
+    ],
+    "height": 1.0008731484413147,
+    "bottom_center": [
+      -1.2320780158042908,
+      -8.387645244598389,
+      0.8502714037895203
+    ]
+  },
+  "bounds_method": "actual evaluated mesh vertices, not conservative modifier bounding boxes",
+  "height_difference_m": -2.384185791015625e-07,
+  "cap_top_difference_m": -2.384185791015625e-07,
+  "foot_bottom_difference_m": 0.0,
+  "height_tolerance_m": 2e-06,
+  "camera_lights_world_preserved": true,
+  "presentation_before": {
+    "camera": {
+      "name": "Portrait_Camera",
+      "matrix_world": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.009729623794555664
+        ],
+        [
+          0.0,
+          0.6819983124732971,
+          -0.731353759765625,
+          -28.828012466430664
+        ],
+        [
+          0.0,
+          0.731353759765625,
+          0.6819983124732971,
+          27.392305374145508
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "hide_render": false,
+      "settings": {
+        "type": "ORTHO",
+        "lens": 50.0,
+        "ortho_scale": 19.970230102539062,
+        "shift_x": 0.0,
+        "shift_y": 0.0,
+        "clip_start": 0.05000000074505806,
+        "clip_end": 200.0,
+        "sensor_width": 36.0,
+        "sensor_height": 24.0
+      }
+    },
+    "lights": [
+      {
+        "name": "Fill_Sky",
+        "matrix_world": [
+          [
+            0.16439887881278992,
+            -0.7815601825714111,
+            0.6017779111862183,
+            6.0
+          ],
+          [
+            0.986393928527832,
+            0.1302599459886551,
+            -0.100296251475811,
+            -1.0
+          ],
+          [
+            3.2889548862158335e-09,
+            0.6100786924362183,
+            0.7923408150672913,
+            8.5
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "hide_render": false,
+        "settings": {
+          "type": "AREA",
+          "energy": 350.0,
+          "color": [
+            0.5394794940948486,
+            0.7230551242828369,
+            0.9559733271598816
+          ],
+          "size": 8.0,
+          "size_y": 0.25,
+          "shape": "DISK",
+          "use_shadow": true
+        },
+        "nodes": {
+          "nodes": [
+            {
+              "name": "Emission",
+              "type": "ShaderNodeEmission",
+              "inputs": [
+                {
+                  "name": "Color",
+                  "identifier": "Color",
+                  "value": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                },
+                {
+                  "name": "Strength",
+                  "identifier": "Strength",
+                  "value": 1.0
+                },
+                {
+                  "name": "Weight",
+                  "identifier": "Weight",
+                  "value": 0.0
+                }
+              ]
+            },
+            {
+              "name": "Light Output",
+              "type": "ShaderNodeOutputLight",
+              "inputs": []
+            }
+          ],
+          "links": [
+            [
+              "Emission",
+              "Emission",
+              "Light Output",
+              "Surface"
+            ]
+          ]
+        }
+      },
+      {
+        "name": "Key_Warm",
+        "matrix_world": [
+          [
+            0.7295371890068054,
+            0.40958449244499207,
+            -0.547737181186676,
+            -7.5
+          ],
+          [
+            -0.683941125869751,
+            0.4368901252746582,
+            -0.5842529535293579,
+            -6.0
+          ],
+          [
+            3.5345344429060788e-09,
+            0.8008542656898499,
+            0.5988593101501465,
+            10.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "hide_render": false,
+        "settings": {
+          "type": "AREA",
+          "energy": 2350.0,
+          "color": [
+            1.0,
+            0.715693473815918,
+            0.43415364623069763
+          ],
+          "size": 6.5,
+          "size_y": 0.25,
+          "shape": "DISK",
+          "use_shadow": true
+        },
+        "nodes": {
+          "nodes": [
+            {
+              "name": "Emission",
+              "type": "ShaderNodeEmission",
+              "inputs": [
+                {
+                  "name": "Color",
+                  "identifier": "Color",
+                  "value": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                },
+                {
+                  "name": "Strength",
+                  "identifier": "Strength",
+                  "value": 1.0
+                },
+                {
+                  "name": "Weight",
+                  "identifier": "Weight",
+                  "value": 0.0
+                }
+              ]
+            },
+            {
+              "name": "Light Output",
+              "type": "ShaderNodeOutputLight",
+              "inputs": []
+            }
+          ],
+          "links": [
+            [
+              "Emission",
+              "Emission",
+              "Light Output",
+              "Surface"
+            ]
+          ]
+        }
+      },
+      {
+        "name": "Lantern_Local_Warmth",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.16999995708465576
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            5.849999904632568
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            2.120929479598999
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "hide_render": false,
+        "settings": {
+          "type": "POINT",
+          "energy": 16.0,
+          "color": [
+            1.0,
+            0.4125426113605499,
+            0.09989872574806213
+          ],
+          "use_shadow": true
+        },
+        "nodes": {
+          "nodes": [
+            {
+              "name": "Emission",
+              "type": "ShaderNodeEmission",
+              "inputs": [
+                {
+                  "name": "Color",
+                  "identifier": "Color",
+                  "value": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                },
+                {
+                  "name": "Strength",
+                  "identifier": "Strength",
+                  "value": 1.0
+                },
+                {
+                  "name": "Weight",
+                  "identifier": "Weight",
+                  "value": 0.0
+                }
+              ]
+            },
+            {
+              "name": "Light Output",
+              "type": "ShaderNodeOutputLight",
+              "inputs": []
+            }
+          ],
+          "links": [
+            [
+              "Emission",
+              "Emission",
+              "Light Output",
+              "Surface"
+            ]
+          ]
+        }
+      },
+      {
+        "name": "Mine_Interior_Amber",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            1.25
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            6.900000095367432
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.870929479598999
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "hide_render": false,
+        "settings": {
+          "type": "POINT",
+          "energy": 18.0,
+          "color": [
+            1.0,
+            0.4564110338687897,
+            0.10702310502529144
+          ],
+          "use_shadow": true
+        },
+        "nodes": {
+          "nodes": [
+            {
+              "name": "Emission",
+              "type": "ShaderNodeEmission",
+              "inputs": [
+                {
+                  "name": "Color",
+                  "identifier": "Color",
+                  "value": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                },
+                {
+                  "name": "Strength",
+                  "identifier": "Strength",
+                  "value": 1.0
+                },
+                {
+                  "name": "Weight",
+                  "identifier": "Weight",
+                  "value": 0.0
+                }
+              ]
+            },
+            {
+              "name": "Light Output",
+              "type": "ShaderNodeOutputLight",
+              "inputs": []
+            }
+          ],
+          "links": [
+            [
+              "Emission",
+              "Emission",
+              "Light Output",
+              "Surface"
+            ]
+          ]
+        }
+      },
+      {
+        "name": "Rim_Soft",
+        "matrix_world": [
+          [
+            -0.9761871099472046,
+            0.1623285561800003,
+            -0.14390350878238678,
+            -2.0
+          ],
+          [
+            -0.2169303596019745,
+            -0.7304791212081909,
+            0.6475658416748047,
+            9.0
+          ],
+          [
+            -7.945886437710215e-08,
+            0.663362443447113,
+            0.7482982873916626,
+            11.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "hide_render": false,
+        "settings": {
+          "type": "AREA",
+          "energy": 650.0,
+          "color": [
+            1.0,
+            0.8713670969009399,
+            0.6653872728347778
+          ],
+          "size": 7.0,
+          "size_y": 0.25,
+          "shape": "DISK",
+          "use_shadow": true
+        },
+        "nodes": {
+          "nodes": [
+            {
+              "name": "Emission",
+              "type": "ShaderNodeEmission",
+              "inputs": [
+                {
+                  "name": "Color",
+                  "identifier": "Color",
+                  "value": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                },
+                {
+                  "name": "Strength",
+                  "identifier": "Strength",
+                  "value": 1.0
+                },
+                {
+                  "name": "Weight",
+                  "identifier": "Weight",
+                  "value": 0.0
+                }
+              ]
+            },
+            {
+              "name": "Light Output",
+              "type": "ShaderNodeOutputLight",
+              "inputs": []
+            }
+          ],
+          "links": [
+            [
+              "Emission",
+              "Emission",
+              "Light Output",
+              "Surface"
+            ]
+          ]
+        }
+      }
+    ],
+    "world": {
+      "name": "Airy_Soft_Sky",
+      "color": [
+        0.05000000074505806,
+        0.05000000074505806,
+        0.05000000074505806
+      ],
+      "use_nodes": true,
+      "nodes": {
+        "nodes": [
+          {
+            "name": "Background",
+            "type": "ShaderNodeBackground",
+            "inputs": [
+              {
+                "name": "Color",
+                "identifier": "Color",
+                "value": [
+                  0.05951123684644699,
+                  0.520995557308197,
+                  0.8713670969009399,
+                  1.0
+                ]
+              },
+              {
+                "name": "Strength",
+                "identifier": "Strength",
+                "value": 0.949999988079071
+              },
+              {
+                "name": "Weight",
+                "identifier": "Weight",
+                "value": 0.0
+              }
+            ]
+          },
+          {
+            "name": "Background.001",
+            "type": "ShaderNodeBackground",
+            "inputs": [
+              {
+                "name": "Color",
+                "identifier": "Color",
+                "value": [
+                  0.672443151473999,
+                  0.7681511640548706,
+                  0.8307698965072632,
+                  1.0
+                ]
+              },
+              {
+                "name": "Strength",
+                "identifier": "Strength",
+                "value": 0.3199999928474426
+              },
+              {
+                "name": "Weight",
+                "identifier": "Weight",
+                "value": 0.0
+              }
+            ]
+          },
+          {
+            "name": "Light Path",
+            "type": "ShaderNodeLightPath",
+            "inputs": []
+          },
+          {
+            "name": "Mix Shader",
+            "type": "ShaderNodeMixShader",
+            "inputs": [
+              {
+                "name": "Factor",
+                "identifier": "Fac",
+                "value": 0.5
+              }
+            ]
+          },
+          {
+            "name": "World Output",
+            "type": "ShaderNodeOutputWorld",
+            "inputs": []
+          }
+        ],
+        "links": [
+          [
+            "Background",
+            "Background",
+            "Mix Shader",
+            "Shader_001"
+          ],
+          [
+            "Background.001",
+            "Background",
+            "Mix Shader",
+            "Shader"
+          ],
+          [
+            "Light Path",
+            "Is Camera Ray",
+            "Mix Shader",
+            "Fac"
+          ],
+          [
+            "Mix Shader",
+            "Shader",
+            "World Output",
+            "Surface"
+          ]
+        ]
+      }
+    },
+    "color_management": {
+      "view_transform": "AgX",
+      "look": "AgX - Medium High Contrast",
+      "exposure": 0.10000000149011612,
+      "gamma": 1.0
+    }
+  },
+  "presentation_after": {
+    "camera": {
+      "name": "Portrait_Camera",
+      "matrix_world": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.009729623794555664
+        ],
+        [
+          0.0,
+          0.6819983124732971,
+          -0.731353759765625,
+          -28.828012466430664
+        ],
+        [
+          0.0,
+          0.731353759765625,
+          0.6819983124732971,
+          27.392305374145508
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "hide_render": false,
+      "settings": {
+        "type": "ORTHO",
+        "lens": 50.0,
+        "ortho_scale": 19.970230102539062,
+        "shift_x": 0.0,
+        "shift_y": 0.0,
+        "clip_start": 0.05000000074505806,
+        "clip_end": 200.0,
+        "sensor_width": 36.0,
+        "sensor_height": 24.0
+      }
+    },
+    "lights": [
+      {
+        "name": "Fill_Sky",
+        "matrix_world": [
+          [
+            0.16439887881278992,
+            -0.7815601825714111,
+            0.6017779111862183,
+            6.0
+          ],
+          [
+            0.986393928527832,
+            0.1302599459886551,
+            -0.100296251475811,
+            -1.0
+          ],
+          [
+            3.2889548862158335e-09,
+            0.6100786924362183,
+            0.7923408150672913,
+            8.5
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "hide_render": false,
+        "settings": {
+          "type": "AREA",
+          "energy": 350.0,
+          "color": [
+            0.5394794940948486,
+            0.7230551242828369,
+            0.9559733271598816
+          ],
+          "size": 8.0,
+          "size_y": 0.25,
+          "shape": "DISK",
+          "use_shadow": true
+        },
+        "nodes": {
+          "nodes": [
+            {
+              "name": "Emission",
+              "type": "ShaderNodeEmission",
+              "inputs": [
+                {
+                  "name": "Color",
+                  "identifier": "Color",
+                  "value": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                },
+                {
+                  "name": "Strength",
+                  "identifier": "Strength",
+                  "value": 1.0
+                },
+                {
+                  "name": "Weight",
+                  "identifier": "Weight",
+                  "value": 0.0
+                }
+              ]
+            },
+            {
+              "name": "Light Output",
+              "type": "ShaderNodeOutputLight",
+              "inputs": []
+            }
+          ],
+          "links": [
+            [
+              "Emission",
+              "Emission",
+              "Light Output",
+              "Surface"
+            ]
+          ]
+        }
+      },
+      {
+        "name": "Key_Warm",
+        "matrix_world": [
+          [
+            0.7295371890068054,
+            0.40958449244499207,
+            -0.547737181186676,
+            -7.5
+          ],
+          [
+            -0.683941125869751,
+            0.4368901252746582,
+            -0.5842529535293579,
+            -6.0
+          ],
+          [
+            3.5345344429060788e-09,
+            0.8008542656898499,
+            0.5988593101501465,
+            10.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "hide_render": false,
+        "settings": {
+          "type": "AREA",
+          "energy": 2350.0,
+          "color": [
+            1.0,
+            0.715693473815918,
+            0.43415364623069763
+          ],
+          "size": 6.5,
+          "size_y": 0.25,
+          "shape": "DISK",
+          "use_shadow": true
+        },
+        "nodes": {
+          "nodes": [
+            {
+              "name": "Emission",
+              "type": "ShaderNodeEmission",
+              "inputs": [
+                {
+                  "name": "Color",
+                  "identifier": "Color",
+                  "value": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                },
+                {
+                  "name": "Strength",
+                  "identifier": "Strength",
+                  "value": 1.0
+                },
+                {
+                  "name": "Weight",
+                  "identifier": "Weight",
+                  "value": 0.0
+                }
+              ]
+            },
+            {
+              "name": "Light Output",
+              "type": "ShaderNodeOutputLight",
+              "inputs": []
+            }
+          ],
+          "links": [
+            [
+              "Emission",
+              "Emission",
+              "Light Output",
+              "Surface"
+            ]
+          ]
+        }
+      },
+      {
+        "name": "Lantern_Local_Warmth",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.16999995708465576
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            5.849999904632568
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            2.120929479598999
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "hide_render": false,
+        "settings": {
+          "type": "POINT",
+          "energy": 16.0,
+          "color": [
+            1.0,
+            0.4125426113605499,
+            0.09989872574806213
+          ],
+          "use_shadow": true
+        },
+        "nodes": {
+          "nodes": [
+            {
+              "name": "Emission",
+              "type": "ShaderNodeEmission",
+              "inputs": [
+                {
+                  "name": "Color",
+                  "identifier": "Color",
+                  "value": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                },
+                {
+                  "name": "Strength",
+                  "identifier": "Strength",
+                  "value": 1.0
+                },
+                {
+                  "name": "Weight",
+                  "identifier": "Weight",
+                  "value": 0.0
+                }
+              ]
+            },
+            {
+              "name": "Light Output",
+              "type": "ShaderNodeOutputLight",
+              "inputs": []
+            }
+          ],
+          "links": [
+            [
+              "Emission",
+              "Emission",
+              "Light Output",
+              "Surface"
+            ]
+          ]
+        }
+      },
+      {
+        "name": "Mine_Interior_Amber",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            1.25
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            6.900000095367432
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.870929479598999
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "hide_render": false,
+        "settings": {
+          "type": "POINT",
+          "energy": 18.0,
+          "color": [
+            1.0,
+            0.4564110338687897,
+            0.10702310502529144
+          ],
+          "use_shadow": true
+        },
+        "nodes": {
+          "nodes": [
+            {
+              "name": "Emission",
+              "type": "ShaderNodeEmission",
+              "inputs": [
+                {
+                  "name": "Color",
+                  "identifier": "Color",
+                  "value": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                },
+                {
+                  "name": "Strength",
+                  "identifier": "Strength",
+                  "value": 1.0
+                },
+                {
+                  "name": "Weight",
+                  "identifier": "Weight",
+                  "value": 0.0
+                }
+              ]
+            },
+            {
+              "name": "Light Output",
+              "type": "ShaderNodeOutputLight",
+              "inputs": []
+            }
+          ],
+          "links": [
+            [
+              "Emission",
+              "Emission",
+              "Light Output",
+              "Surface"
+            ]
+          ]
+        }
+      },
+      {
+        "name": "Rim_Soft",
+        "matrix_world": [
+          [
+            -0.9761871099472046,
+            0.1623285561800003,
+            -0.14390350878238678,
+            -2.0
+          ],
+          [
+            -0.2169303596019745,
+            -0.7304791212081909,
+            0.6475658416748047,
+            9.0
+          ],
+          [
+            -7.945886437710215e-08,
+            0.663362443447113,
+            0.7482982873916626,
+            11.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "hide_render": false,
+        "settings": {
+          "type": "AREA",
+          "energy": 650.0,
+          "color": [
+            1.0,
+            0.8713670969009399,
+            0.6653872728347778
+          ],
+          "size": 7.0,
+          "size_y": 0.25,
+          "shape": "DISK",
+          "use_shadow": true
+        },
+        "nodes": {
+          "nodes": [
+            {
+              "name": "Emission",
+              "type": "ShaderNodeEmission",
+              "inputs": [
+                {
+                  "name": "Color",
+                  "identifier": "Color",
+                  "value": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                },
+                {
+                  "name": "Strength",
+                  "identifier": "Strength",
+                  "value": 1.0
+                },
+                {
+                  "name": "Weight",
+                  "identifier": "Weight",
+                  "value": 0.0
+                }
+              ]
+            },
+            {
+              "name": "Light Output",
+              "type": "ShaderNodeOutputLight",
+              "inputs": []
+            }
+          ],
+          "links": [
+            [
+              "Emission",
+              "Emission",
+              "Light Output",
+              "Surface"
+            ]
+          ]
+        }
+      }
+    ],
+    "world": {
+      "name": "Airy_Soft_Sky",
+      "color": [
+        0.05000000074505806,
+        0.05000000074505806,
+        0.05000000074505806
+      ],
+      "use_nodes": true,
+      "nodes": {
+        "nodes": [
+          {
+            "name": "Background",
+            "type": "ShaderNodeBackground",
+            "inputs": [
+              {
+                "name": "Color",
+                "identifier": "Color",
+                "value": [
+                  0.05951123684644699,
+                  0.520995557308197,
+                  0.8713670969009399,
+                  1.0
+                ]
+              },
+              {
+                "name": "Strength",
+                "identifier": "Strength",
+                "value": 0.949999988079071
+              },
+              {
+                "name": "Weight",
+                "identifier": "Weight",
+                "value": 0.0
+              }
+            ]
+          },
+          {
+            "name": "Background.001",
+            "type": "ShaderNodeBackground",
+            "inputs": [
+              {
+                "name": "Color",
+                "identifier": "Color",
+                "value": [
+                  0.672443151473999,
+                  0.7681511640548706,
+                  0.8307698965072632,
+                  1.0
+                ]
+              },
+              {
+                "name": "Strength",
+                "identifier": "Strength",
+                "value": 0.3199999928474426
+              },
+              {
+                "name": "Weight",
+                "identifier": "Weight",
+                "value": 0.0
+              }
+            ]
+          },
+          {
+            "name": "Light Path",
+            "type": "ShaderNodeLightPath",
+            "inputs": []
+          },
+          {
+            "name": "Mix Shader",
+            "type": "ShaderNodeMixShader",
+            "inputs": [
+              {
+                "name": "Factor",
+                "identifier": "Fac",
+                "value": 0.5
+              }
+            ]
+          },
+          {
+            "name": "World Output",
+            "type": "ShaderNodeOutputWorld",
+            "inputs": []
+          }
+        ],
+        "links": [
+          [
+            "Background",
+            "Background",
+            "Mix Shader",
+            "Shader_001"
+          ],
+          [
+            "Background.001",
+            "Background",
+            "Mix Shader",
+            "Shader"
+          ],
+          [
+            "Light Path",
+            "Is Camera Ray",
+            "Mix Shader",
+            "Fac"
+          ],
+          [
+            "Mix Shader",
+            "Shader",
+            "World Output",
+            "Surface"
+          ]
+        ]
+      }
+    },
+    "color_management": {
+      "view_transform": "AgX",
+      "look": "AgX - Medium High Contrast",
+      "exposure": 0.10000000149011612,
+      "gamma": 1.0
+    }
+  },
+  "resolution": [
+    432,
+    960
+  ],
+  "renders": [
+    "R2_MAP_SCALE.png",
+    "R3_MAP_SCALE.png"
+  ],
+  "original_guide_hidden_objects": [
+    "Guide_Root",
+    "Guide_boot stitch",
+    "Guide_boot stitch.001",
+    "Guide_BreathingTorso",
+    "Guide_brass buckle",
+    "Guide_buckle leather inset",
+    "Guide_folded collar lapel",
+    "Guide_folded collar lapel.001",
+    "Guide_HeadAcknowledge",
+    "Guide_bent red cap",
+    "Guide_cap front seam",
+    "Guide_cap thick folded rim",
+    "Guide_continuous jaw wrapping beard",
+    "Guide_EyeBlinkLeft",
+    "Guide_Left eye catchlight",
+    "Guide_Left eye iris",
+    "Guide_Left eye pupil",
+    "Guide_Left eye white",
+    "Guide_lower sculpted eyelid",
+    "Guide_upper sculpted eyelid",
+    "Guide_EyeBlinkRight",
+    "Guide_lower sculpted eyelid.001",
+    "Guide_Right eye catchlight",
+    "Guide_Right eye iris",
+    "Guide_Right eye pupil",
+    "Guide_Right eye white",
+    "Guide_upper sculpted eyelid.001",
+    "Guide_flowing moustache",
+    "Guide_flowing moustache.001",
+    "Guide_integrated sculpted face",
+    "Guide_left ear",
+    "Guide_nose bridge",
+    "Guide_right ear",
+    "Guide_shaped warm nose",
+    "Guide_SmileExpression",
+    "Guide_friendly smile",
+    "Guide_tapered white eyebrow",
+    "Guide_tapered white eyebrow.001",
+    "Guide_lantern hand",
+    "Guide_lantern sleeve cuff",
+    "Guide_LanternLag",
+    "Guide_lantern base",
+    "Guide_lantern cage rib",
+    "Guide_lantern cage rib.001",
+    "Guide_lantern cage rib.002",
+    "Guide_lantern cage rib.003",
+    "Guide_lantern hanging handle",
+    "Guide_lantern roof",
+    "Guide_lantern warm pane",
+    "Guide_little brass coat button",
+    "Guide_little brass coat button.001",
+    "Guide_little brass coat button.002",
+    "Guide_overlapping coat front",
+    "Guide_ShoulderWave",
+    "Guide_ElbowWave",
+    "Guide_cloth elbow bridge",
+    "Guide_HandWave",
+    "Guide_wave finger",
+    "Guide_wave finger.001",
+    "Guide_wave finger.002",
+    "Guide_wave finger.003",
+    "Guide_waving open palm",
+    "Guide_waving thumb",
+    "Guide_raised cream cuff",
+    "Guide_tapered forearm sleeve",
+    "Guide_shaped upper sleeve",
+    "Guide_tailored coat continuous shell",
+    "Guide_tailored lantern sleeve",
+    "Guide_wrapped leather belt",
+    "Guide_planted boot sole",
+    "Guide_planted boot sole.001",
+    "Guide_rounded leather boot",
+    "Guide_rounded leather boot.001",
+    "Guide_trouser cuff",
+    "Guide_trouser cuff.001"
+  ],
+  "appended_r2_collection": "R2_NEW_GNOME",
+  "appended_r3_collection": "R2_NEW_GNOME.001",
+  "world_blend_saved": false,
+  "game_integration": false,
+  "human_visual_acceptance": "PENDING"
+}

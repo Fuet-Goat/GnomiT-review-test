@@ -1,0 +1,110 @@
+"""Bounded R2->R3 face/cap pass; every other object is protected by fingerprints."""
+from pathlib import Path
+import sys,json,hashlib,struct,math
+import bpy
+from mathutils import Vector
+ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'source'))
+from face_r3 import build_face
+from cap_r3 import build_cap
+SOURCE=ROOT.parent/'Gnome_Concept_Form_R2_2026-10-22/native/GNOME_R2_FORM_B.blend'
+EXPECTED='5531b9ca48c7e8a9776e3348bd4c007a1ad44a2b2f4b3d362e4bfe8211e19717'
+TAG='R3_FACE_CAP_C'
+
+def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
+def digest(data):return hashlib.sha256(json.dumps(data,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+def plain(v):
+    if v is None or isinstance(v,(str,int,float,bool)):return v
+    if isinstance(v,bpy.types.ID):return v.name
+    try:return [plain(x) for x in v]
+    except TypeError:return str(v)
+def fingerprint(obj):
+    result={'name':obj.name,'type':obj.type,'matrix':[list(r) for r in obj.matrix_world],
+            'local':[list(r) for r in obj.matrix_local],'parent':obj.parent.name if obj.parent else None,
+            'hide_render':obj.hide_render,'hide_viewport':obj.hide_viewport,
+            'modifiers':[{p.identifier:plain(getattr(m,p.identifier)) for p in m.bl_rna.properties if not p.is_readonly and p.identifier!='rna_type'} for m in obj.modifiers]}
+    if obj.type=='MESH':
+        h=hashlib.sha256()
+        for v in obj.data.vertices:h.update(struct.pack('<3f',*v.co))
+        for p in obj.data.polygons:h.update(struct.pack('<I',len(p.vertices)));h.update(struct.pack('<'+'I'*len(p.vertices),*p.vertices));h.update(struct.pack('<I?',p.material_index,p.use_smooth))
+        result['mesh_sha256']=h.hexdigest();result['materials']=[m.name if m else None for m in obj.data.materials]
+    return result
+def material_record():
+    result={}
+    for mat in bpy.data.materials:
+        result[mat.name]={'diffuse':list(mat.diffuse_color),'nodes':None if mat.node_tree is None else [
+            {'name':n.name,'type':n.bl_idname,'inputs':[(s.identifier,plain(s.default_value)) for s in n.inputs if hasattr(s,'default_value')]} for n in mat.node_tree.nodes]}
+    return result
+def cap_top(obj):
+    deps=bpy.context.evaluated_depsgraph_get();ev=obj.evaluated_get(deps);mesh=ev.to_mesh()
+    try:return max((obj.matrix_local@v.co).z for v in mesh.vertices)
+    finally:ev.to_mesh_clear()
+def render(name):
+    bpy.context.scene.render.filepath=str(ROOT/'outputs'/name)
+    assert 'FINISHED' in bpy.ops.render.render(write_still=True)
+def detail(name):
+    scene=bpy.context.scene;cam=scene.camera
+    oldtransform=(cam.location.copy(),cam.rotation_euler.copy(),cam.scale.copy());oldscale=cam.data.ortho_scale
+    oldres=(scene.render.resolution_x,scene.render.resolution_y)
+    target=Vector((0,-.04,1.17));cam.location=target+Vector((1.1,-5,.34))
+    cam.rotation_euler=(target-cam.location).to_track_quat('-Z','Y').to_euler();cam.data.ortho_scale=.67
+    scene.render.resolution_x=640;scene.render.resolution_y=640
+    render(name)
+    cam.location,cam.rotation_euler,cam.scale=oldtransform;cam.data.ortho_scale=oldscale
+    scene.render.resolution_x,scene.render.resolution_y=oldres;bpy.context.view_layer.update()
+
+def main():
+    assert bpy.app.background and sha(SOURCE)==EXPECTED
+    native=ROOT/'native'/f'GNOME_{TAG}.blend';assert not native.exists()
+    bpy.ops.wm.open_mainfile(filepath=str(SOURCE))
+    scene=bpy.context.scene;asset=bpy.data.collections['R2_NEW_GNOME'];root=bpy.data.objects['R2_GnomeRoot']
+    clay=bpy.data.materials['R1 Clay — form review only'];eye=bpy.data.materials['R1 Eye direction — blockout marker']
+    assert len(bpy.data.actions)==0 and not any(o.type=='ARMATURE' for o in bpy.data.objects)
+    render('R2_BASELINE_FRONT.png');detail('R2_FACE_DETAIL.png')
+    allowed={'R2_ContinuousHead','R1_FloppyCap'}
+    for side in (-1,1):
+        allowed.update(prefix+str(side) for prefix in ['R2 eye white ','R2 pupil ','R2 soft upper lid ','R2 lower cheek lid ','R2 expressive brow '])
+    assert all(bpy.data.objects.get(n) is not None for n in allowed)
+    protected={obj.name:fingerprint(obj) for obj in bpy.data.objects if obj.name not in allowed}
+    materials_before=material_record()
+    highest=cap_top(bpy.data.objects['R1_FloppyCap'])
+    for name in allowed:bpy.data.objects.remove(bpy.data.objects[name],do_unlink=True)
+    face=build_face({'collection':asset,'root':root,'clay':clay,'eye':eye})
+    cap=build_cap({'collection':asset,'root':root,'clay':clay,'target_top_z':highest})
+    new_objects=face['objects']+cap['objects']
+    for obj in new_objects:
+        if obj.type=='MESH':
+            bpy.ops.object.select_all(action='DESELECT');obj.select_set(True);bpy.context.view_layer.objects.active=obj
+            bpy.ops.object.mode_set(mode='EDIT');bpy.ops.mesh.select_all(action='SELECT');bpy.ops.mesh.normals_make_consistent(inside=False);bpy.ops.object.mode_set(mode='OBJECT')
+    bpy.context.view_layer.update()
+    assert materials_before==material_record(),'Material definitions changed'
+    assert set(obj.name for obj in bpy.data.objects)==set(protected)|set(obj.name for obj in new_objects)
+    for name,row in protected.items():assert fingerprint(bpy.data.objects[name])==row,'Protected object changed: '+name
+    assert abs(cap_top(cap['object'])-highest)<2e-6
+    assert len(bpy.data.actions)==0 and not any(o.type=='ARMATURE' for o in bpy.data.objects)
+    text=bpy.data.texts.new('START_HERE_R3');text.write('Bounded face/cap R3 candidate. R2 body/hands/boots/beard/collar/brim/materials unchanged by fingerprints. New continuous facial planes and orbital skin patches; one broad cap fold. No rig/actions/game integration. Human clay acceptance pending.\n')
+    scene.render.resolution_x=600;scene.render.resolution_y=840
+    bpy.context.preferences.filepaths.save_version=0
+    assert 'FINISHED' in bpy.ops.wm.save_as_mainfile(filepath=str(native),check_existing=False)
+    render(f'{TAG}_FRONT.png')
+    camera=scene.camera;oldtransform=(camera.location.copy(),camera.rotation_euler.copy(),camera.scale.copy());target=Vector((0,0,.80))
+    camera.location=target+Vector((3,-4,.65));camera.rotation_euler=(target-camera.location).to_track_quat('-Z','Y').to_euler()
+    render(f'{TAG}_THREE_QUARTER.png');camera.location,camera.rotation_euler,camera.scale=oldtransform
+    detail('R3_FACE_DETAIL.png')
+    bpy.ops.wm.open_mainfile(filepath=str(native))
+    for name,row in protected.items():assert fingerprint(bpy.data.objects[name])==row,'Protected object changed after reopen: '+name
+    assert sha(SOURCE)==EXPECTED
+    receipt={'status':'NATIVE_SAVED_REOPENED_RENDERED','source_native':str(SOURCE),'source_sha256_before':EXPECTED,'source_sha256_after':sha(SOURCE),
+             'native':str(native),'native_sha256':sha(native),'replacement_objects':sorted(allowed),
+             'new_objects':[obj.name for obj in new_objects] if False else [o.name for o in bpy.data.objects if o.name not in protected],
+             'protected_objects':len(protected),'protected_object_fingerprints':{k:digest(v) for k,v in protected.items()},
+             'protected_geometry_transforms_modifiers_material_slots':'EXACT_MATCH_BEFORE_AFTER_REOPEN',
+             'material_definitions_unchanged':True,'beard_collar_brim':'UNCHANGED; no compelling merge defect in R2 3/4 pixels',
+             'face':{k:v for k,v in face.items() if k not in ('objects','head')},'cap':cap['metadata'],
+             'cap_top_before':highest,'cap_top_after':cap_top(bpy.data.objects[cap['metadata']['object']]),
+             'actions':len(bpy.data.actions),'armatures':sum(o.type=='ARMATURE' for o in bpy.data.objects),
+             'stage_dimensions':[600,840],'face_detail_dimensions':[640,640],
+             'game_integration':False,'human_form_acceptance':'PENDING','materials_rig_animation':'NOT_PERFORMED'}
+    (ROOT/'documentation/R3_RECEIPT.json').write_bytes((json.dumps(receipt,indent=2,ensure_ascii=False)+'\n').encode())
+    print('R3_COMPLETE '+json.dumps({k:v for k,v in receipt.items() if k!='protected_object_fingerprints'}),flush=True)
+
+if __name__=='__main__':main()

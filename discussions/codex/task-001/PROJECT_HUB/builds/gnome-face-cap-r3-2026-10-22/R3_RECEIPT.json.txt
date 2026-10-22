@@ -1,0 +1,114 @@
+{
+  "status": "NATIVE_SAVED_REOPENED_RENDERED",
+  "source_native": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\Gnome_Concept_Form_R2_2026-10-22\\native\\GNOME_R2_FORM_B.blend",
+  "source_sha256_before": "5531b9ca48c7e8a9776e3348bd4c007a1ad44a2b2f4b3d362e4bfe8211e19717",
+  "source_sha256_after": "5531b9ca48c7e8a9776e3348bd4c007a1ad44a2b2f4b3d362e4bfe8211e19717",
+  "native": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\Gnome_Face_Cap_R3_2026-10-22\\native\\GNOME_R3_FACE_CAP_C.blend",
+  "native_sha256": "72263fcd64dc756ee98b95073d166e453619b81c6420ef6b42230ece519988ac",
+  "replacement_objects": [
+    "R1_FloppyCap",
+    "R2 expressive brow -1",
+    "R2 expressive brow 1",
+    "R2 eye white -1",
+    "R2 eye white 1",
+    "R2 lower cheek lid -1",
+    "R2 lower cheek lid 1",
+    "R2 pupil -1",
+    "R2 pupil 1",
+    "R2 soft upper lid -1",
+    "R2 soft upper lid 1",
+    "R2_ContinuousHead"
+  ],
+  "new_objects": [
+    "R3 inset eye -1",
+    "R3 inset eye 1",
+    "R3 pupil -1",
+    "R3 pupil 1",
+    "R3 soft brow -1",
+    "R3 soft brow 1",
+    "R3_ContinuousFacialPlanes",
+    "R3_OneFoldStorybookCap"
+  ],
+  "protected_objects": 24,
+  "protected_object_fingerprints": {
+    "R1 camera": "2c8a9c31cd4f66d76357c12208ebf0181e08e18f30023fbafc1559d6acaaf8bb",
+    "R1 fill": "2e31dc1eaa44801288407c0b13dfb13b685d018870f5b461c475e842555fd779",
+    "R1 key": "4ff6123ba1d0a4abc02d0904e84ed76e0fbae0b8eac434b8fb52331d39d92d68",
+    "R1 rim": "f33e8c8563ced62eaa13845059fc3d326209088c1b10ab9b4ba769c94b6eab8f",
+    "R1 stage floor": "f06139cc8253fd3d12241f859eb3362385ee6b711e727388da4dea1b2279d26e",
+    "R1_Boot_-1": "e3013cfb50b79767fc855273bb247d18cb92f66d547ba9d2a4e1a00f3f6b4865",
+    "R1_Boot_1": "4e92ed95485078ea35978c760a7d22284414a3bc48dccc1d55b1da899f76f738",
+    "R1_FoldedCapBand": "1e95395739453393c800e7a8b6a3267557c1119ef7183c65994a339c44b0c887",
+    "R1_LanternBlockout": "c26b32cf5c1f8faaaa1c7f59db0f4e19fa9a8282362059d1f0255fd3d00c1f45",
+    "R2 broad folded collar -1": "f15efbc1b7f68aebf96e808e3371cfbb80822c63df9255d94859241d97a1c89e",
+    "R2 broad folded collar 1": "6c3424877bf2697b71ef5559a49cbdca385f4a83a41e76a701adbb3fa0b83e49",
+    "R2 curved sole -1": "8b7ed3affa1b727cb012ad4e4c9340e6096c326f736f48f070288c7946032217",
+    "R2 curved sole 1": "136b7c0d87891c212ce9e09131ae173069bb9c642dc7a3010bb40dce24b7c23a",
+    "R2 lantern handle": "c9944b50bb5d3f782b3d0a67e9ac01d7904db29d60db77301be47cef64ff5e74",
+    "R2 moustache -1": "23602b07c820aad4f7e56f0a418079bf0c380cd8fc2b5f54638f2ccd04c1d305",
+    "R2 moustache 1": "b6f573d0876df8e175b602666ed4559e55222fa429601de7f03cdaf693023319",
+    "R2 smile": "a8adc0e53fd245f9e5e9190c46aa5024fed5dddbcac279b78bdc1a83295c5e2e",
+    "R2 trouser -1": "9a38663369cb7212afdc32cc9f9482899d2181700e185cba9dd0c2e39254a257",
+    "R2 trouser 1": "6a52a6803fb77f77bde61265579346f7f90563b4b7332a68fd19c9ced22a6c05",
+    "R2_ContinuousCoat": "ba540096c6a3a910f55e1e5c55488957d783a3ed40cb15f3746e8baab636403e",
+    "R2_GnomeRoot": "b9c1ff3beaee360ca441275e16deffc63792b29f9e1b0d1ce47fe816561f8dbc",
+    "R2_LanternGripHand": "1415ad117b0d2c0a1bae74e99310c690696180e50387c870a5179f04c5a894fa",
+    "R2_OneSweptBeard": "60003ddd9d768edbbdf85d657f7e4a173ef9e28cb6e16ee61d2c188e11ff7072",
+    "R2_OpenInvitationHand": "ff93cd3e82e3f629b933d79c507b4b0c8f7a61d982e6892a22b3c85d1bde7fba"
+  },
+  "protected_geometry_transforms_modifiers_material_slots": "EXACT_MATCH_BEFORE_AFTER_REOPEN",
+  "material_definitions_unchanged": true,
+  "beard_collar_brim": "UNCHANGED; no compelling merge defect in R2 3/4 pixels",
+  "face": {
+    "method": "single closed head loft with continuous analytical facial planes/cheeks; fused nose/ears and orbital skin; inset globes",
+    "eye_center_y": -0.129,
+    "eye_front_nominal_y": -0.151,
+    "eye_size": [
+      0.034,
+      0.022,
+      0.022
+    ],
+    "eyelid_method": "annular skin patches conforming to eye rims, evaluated and voxel-fused into the face",
+    "new_materials": 0,
+    "new_rig_or_actions": 0
+  },
+  "cap": {
+    "object": "R3_OneFoldStorybookCap",
+    "construction": "new continuous swept cloth with one dominant diagonal front fold",
+    "base_center": [
+      0.0,
+      0.018,
+      1.264
+    ],
+    "base_radii": [
+      0.244,
+      0.18
+    ],
+    "dominant_fold_count": 1,
+    "maximum_authored_front_indent": 0.0754868459085698,
+    "target_top_local_z": 1.6364202499389648,
+    "unscaled_top_local_z": 1.6194276809692383,
+    "evaluated_top_local_z": 1.6364201307296753,
+    "control_z_scale_about_base": 1.0478087945299828,
+    "subdivision": 2,
+    "existing_brim": "UNCHANGED BY HELPER",
+    "root_transform": "UNCHANGED BY HELPER",
+    "rig_or_animation": "NOT_CREATED",
+    "material_source": "existing caller clay only"
+  },
+  "cap_top_before": 1.6364202499389648,
+  "cap_top_after": 1.6364201307296753,
+  "actions": 0,
+  "armatures": 0,
+  "stage_dimensions": [
+    600,
+    840
+  ],
+  "face_detail_dimensions": [
+    640,
+    640
+  ],
+  "game_integration": false,
+  "human_form_acceptance": "PENDING",
+  "materials_rig_animation": "NOT_PERFORMED"
+}
