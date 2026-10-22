@@ -1,0 +1,1 @@
+GPT authored exact width helper; Codex reviewed and authored isolated Blender wrapper and pixel comparison. No new external model, texture, sound or geometry source. E inherited assets/provenance retained; this does not establish blanket exclusive rights. Exact source and output hashes in WIDTH_F_RECEIPT.json. Five packed images unchanged.

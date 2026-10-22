@@ -1,0 +1,108 @@
+"""One isolated E/F comparison. Execute GPT's exact helper once on pinned E."""
+from pathlib import Path
+import hashlib, importlib.util, json
+import bpy
+from mathutils import Vector
+from mathutils.bvhtree import BVHTree
+
+ROOT=Path(__file__).resolve().parents[1]
+SOURCE=ROOT/'native/INPUT_E.blend'
+OUTPUT=ROOT/'native/WIDTH_070_F.blend'
+PIN='db0782926b6a98f500efa3cb347a7a58f24fad378e37a6f9aebd6eb0e9448615'
+SELECTOR=Path('C:/Users/fruch/Documents/Codex/GnomiT_Playtests/CURRENT_GNOMIT.json')
+
+def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
+def module(name,file):
+    spec=importlib.util.spec_from_file_location(name,ROOT/'tools'/file)
+    obj=importlib.util.module_from_spec(spec);spec.loader.exec_module(obj);return obj
+
+h=module('inherited_taper','inherited_taper_helpers.py');p=h.p;g=p.g
+proposal=module('width_proposal','width_proposal.py')
+
+def main():
+    assert bpy.app.background and sha(SOURCE)==PIN and not OUTPUT.exists()
+    selector_sha=sha(SELECTOR)
+    payload=json.loads((ROOT/'documentation/SELECTED_LEAF_BLOCKS.json.txt').read_text())
+    assert payload['native_E_sha256']==PIN and payload['selected_tuft_count']==12
+    assert payload['layout_receipt_sha256']=='eaaf52f14c12d2858095f002dac75844f982292374fd3826c91d4d2179184aab'
+    bpy.context.preferences.filepaths.save_version=0
+    bpy.ops.wm.open_mainfile(filepath=str(SOURCE))
+    scene=bpy.context.scene;scene.frame_set(1);bpy.context.view_layer.update()
+    body=bpy.data.objects['Reference_Grass_Carpet'];mesh=body.data
+    assert mesh.users==1 and not mesh.has_custom_normals and not mesh.library
+    protected={o.name:p.object_record(o) for o in scene.objects if o!=body}
+    names=set(scene.objects.keys());settings=g.settings_record(scene);materials=g.original_materials()
+    identity={k:v for k,v in p.object_record(body).items() if k!='mesh'}
+    allowed={b['vertex_start']+r*5+c for b in payload['blocks'] for r in range(1,12) for c in (0,1,3,4)}
+    assert len(allowed)==3212
+    frozen=h.frozen(mesh,allowed)
+    before={i:tuple(mesh.vertices[i].co) for i in allowed}
+    h.ROOT=ROOT
+    # Render the unchanged E in this same Blender run before the one edit.
+    renders=[h.render(scene,'00_E_FULL_432x960.png'),h.render(scene,'02_E_DETAIL_8X.png',True)]
+    print('E_CONTROL_RENDERED',flush=True)
+    audit=proposal.scale_selected_leaf_width(mesh,payload['blocks'],0.70)
+    assert set(audit['allowed_xy_indices'])==allowed and audit['changed_xy_vertices']==3212
+
+    def verify():
+        bpy.context.view_layer.update()
+        assert set(scene.objects.keys())==names
+        assert all(p.object_record(bpy.data.objects[n])==r for n,r in protected.items())
+        assert g.settings_record(scene)==settings and g.original_materials()==materials
+        assert {k:v for k,v in p.object_record(body).items() if k!='mesh'}==identity
+        assert h.frozen(body.data,allowed)==frozen
+        assert (len(body.data.vertices),len(body.data.polygons))==(124725,78674)
+        assert int(body['blade_count'])==7590 and int(body['tuft_count'])==2559
+        for b in payload['blocks']:
+            start=b['vertex_start']
+            for r in range(1,12):
+                centre=body.data.vertices[start+r*5+2].co
+                for c in (0,1,3,4):
+                    i=start+r*5+c;co=body.data.vertices[i].co;old=before[i]
+                    assert co.z==old[2]
+                    assert abs(co.x-(centre.x+.7*(old[0]-centre.x)))<1e-6
+                    assert abs(co.y-(centre.y+.7*(old[1]-centre.y)))<1e-6
+        assert sha(SOURCE)==PIN and sha(SELECTOR)==selector_sha
+    verify()
+    # Same limited terrain/prop point-footprint guard as prior E.
+    edge=bpy.data.objects['Reference_Grass_Edge']
+    collections={o.name:tuple(o.users_collection) for o in (body,edge)}
+    for o in (body,edge):
+        for collection in collections[o.name]:collection.objects.unlink(o)
+    bpy.context.view_layer.update();deps=bpy.context.evaluated_depsgraph_get()
+    cap=bpy.data.objects['Island_Grass_Cap'];bvh=BVHTree.FromObject(cap,deps)
+    down=Vector((0,0,-1));blocked=0
+    for i in allowed:
+        q=mesh.vertices[i].co
+        hit,n,face,distance=bvh.ray_cast(Vector((q.x,q.y,3)),down,5)
+        if hit is None or n.z<.65 or cap.data.polygons[face].material_index!=0:
+            blocked+=1;continue
+        ok,loc,normal,idx,obj,mat=scene.ray_cast(deps,hit+Vector((0,0,.5)),down,distance=.75)
+        if not ok or obj.original!=cap:blocked+=1
+    for o in (body,edge):
+        for collection in collections[o.name]:collection.objects.link(o)
+    assert blocked==0,('Footprint rejected',blocked)
+    verify()
+    note=bpy.data.texts.new('START_HERE_WIDTH_070_F')
+    note.write('F: GPT width helper applied once to E. 73 leaves/12 tufts; XY width 0.70. All Z/bases/centres/tips/topology/colours/other scene fixed. Native comparison only; no game integration. Older notes describe predecessors.\n')
+    assert 'FINISHED' in bpy.ops.wm.save_as_mainfile(filepath=str(OUTPUT),check_existing=False)
+    output_sha=sha(OUTPUT)
+    bpy.ops.wm.open_mainfile(filepath=str(OUTPUT));scene=bpy.context.scene
+    body=bpy.data.objects['Reference_Grass_Carpet'];verify()
+    images=[im for im in bpy.data.images if im.source not in ('GENERATED','VIEWER')]
+    assert len(images)==5 and all(im.packed_file for im in images) and not bpy.data.libraries
+    renders.extend([h.render(scene,'01_F_WIDTH070_432x960.png'),h.render(scene,'03_F_DETAIL_8X.png',True)])
+    verify();assert sha(OUTPUT)==output_sha
+    receipt={'status':'F_SAVED_REOPENED_RENDERED','proposal_commit':'f18d86eba1953c1c16af407dd8a6af9af38796c5',
+        'proposal_sha256':sha(ROOT/'tools/width_proposal.py'),'builder_sha256':sha(Path(__file__)),
+        'source_sha256':PIN,'candidate_sha256':output_sha,'scale':.70,'selected_tufts':12,
+        'audit':audit,'protected_non_body_records':len(protected),'protected_mesh_fingerprint':frozen,
+        'all_z_other_coordinates_colours_uv_topology_exact':True,'camera_light_materials_unchanged':True,
+        'packed_images':5,'linked_libraries':0,'selector_unchanged_sha256':selector_sha,
+        'footprints':{'tested_vertices':len(allowed),'blocked':blocked,'limit':'Point tests only, not triangle or leaf-leaf collision proof'},
+        'renders':renders,'game_integration':'NOT_PERFORMED','human_choice':'PENDING',
+        'godot_android_performance':'NOT_MEASURED','blender_version':bpy.app.version_string}
+    (ROOT/'documentation/WIDTH_F_RECEIPT.json').write_bytes((json.dumps(receipt,indent=2)+'\n').encode())
+    print('WIDTH_F_READY '+json.dumps({'changed_xy':audit['changed_xy_vertices'],'candidate_sha256':output_sha}),flush=True)
+
+if __name__=='__main__':main()

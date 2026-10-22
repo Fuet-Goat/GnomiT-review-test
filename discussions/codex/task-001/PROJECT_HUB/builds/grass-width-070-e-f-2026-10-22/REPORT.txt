@@ -1,0 +1,5 @@
+NATIVE E/F COMPARISON / HUMAN CHOICE PENDING
+GPT exact function f18d86eba1953c1c16af407dd8a6af9af38796c5 applied ONCE to pinned E; width XY scale .70 for 73 leaves in 12 existing tufts. 3212 allowed XY positions changed. Every Z, other coordinate, base, centre, tip, topology, UV, colours, materials, camera/light/settings and 648 non-body objects remained unchanged. Same CURRENT_GNOMIT selector. Saved F and reopened; guards repeated; fresh E/F full 432x960 and native detail512x512 at8x density, Cycles128samples. 3212 terrain/prop point checks,0blocked; not triangle/leaf-leaf collision proof.
+VISUAL-JUDGMENT: selected leaves slimmer in detail; radial arrangement remains. Full-map difference subtle because only12of2559tufts changed. No reference parity or global art success claimed. No automatic global application.
+Blender exit0; after Blender quit, allocator warning:2blocks,0.000046MB unfreed. No guard/render failure reported; not investigated as an art change.
+No game integration, GLB export, Godot/Android execution or performance measurement. Human selection pending.
