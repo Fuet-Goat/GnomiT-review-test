@@ -1,0 +1,90 @@
+{
+  "status": "FRESH_NATIVE_SAVED_REOPENED_RENDERED",
+  "native_sha256": "5531b9ca48c7e8a9776e3348bd4c007a1ad44a2b2f4b3d362e4bfe8211e19717",
+  "predecessor_mesh_imports": 0,
+  "predecessor_scene_reads": 0,
+  "actions": 0,
+  "rig": "NOT_CREATED",
+  "asset_collection": "R2_NEW_GNOME",
+  "asset_objects": 31,
+  "stage_images": [
+    "R2_FORM_B_FRONT.png",
+    "R2_FORM_B_THREE_QUARTER.png"
+  ],
+  "stage_dimensions": [
+    600,
+    840
+  ],
+  "body": {
+    "neck_center": [
+      0.0,
+      0.018,
+      0.99
+    ],
+    "shoulder_roots": {
+      "right": [
+        -0.2,
+        0.018,
+        0.86
+      ],
+      "left": [
+        0.2,
+        0.018,
+        0.855
+      ]
+    },
+    "lantern_handle_top": [
+      0.365,
+      -0.132,
+      0.59
+    ],
+    "cuffs": {
+      "right": {
+        "center": [
+          -0.3499999940395355,
+          -0.10000000149011612,
+          0.6800000071525574
+        ],
+        "direction": [
+          -0.4850711226463318,
+          -0.7276067733764648,
+          0.48507148027420044
+        ],
+        "radius": 0.073,
+        "hand_center": [
+          -0.38999998569488525,
+          -0.1599999964237213,
+          0.7200000286102295
+        ],
+        "gesture": "open palm up and outward"
+      },
+      "left": {
+        "center": [
+          0.33000001311302185,
+          -0.07999999821186066,
+          0.6200000047683716
+        ],
+        "direction": [
+          0.5144956111907959,
+          -0.6859940886497498,
+          -0.5144960880279541
+        ],
+        "radius": 0.071,
+        "hand_center": [
+          0.36000001430511475,
+          -0.11999999731779099,
+          0.5899999737739563
+        ],
+        "gesture": "four curled fingers around lantern handle",
+        "lantern_handle_top": [
+          0.365,
+          -0.132,
+          0.59
+        ]
+      }
+    }
+  },
+  "finish": "coarse clay proportions/gesture study, not a finished match to the concept PNG",
+  "material_detail_or_animation": "NOT_PERFORMED",
+  "human_design_approval": "PENDING"
+}
