@@ -1,0 +1,63 @@
+{
+  "zip_name": "GNOMIT_GRASS_SMALL_SQUARE_2026-10-22.zip",
+  "zip_bytes": 15719149,
+  "zip_sha256": "0a3496d95ffb3db3c7b33de302c47f9697e33ccb9ba435bf72fa0c800f1865bb",
+  "zip_entries": 14,
+  "parts": [
+    {
+      "path": "TRANSFER.part001.b64.txt",
+      "bytes": 2000000,
+      "sha256": "856e3eeeb348e786ed414239994b6fe3027f5d13d68eed9e269af6bb5084b40e"
+    },
+    {
+      "path": "TRANSFER.part002.b64.txt",
+      "bytes": 2000000,
+      "sha256": "93a14c1834f5401eea02c352d0876bd7ee0002e34b71fa07cb194ce9115ce6b4"
+    },
+    {
+      "path": "TRANSFER.part003.b64.txt",
+      "bytes": 2000000,
+      "sha256": "35dd3bdda22771dd0cb401ed98d758d5216cb17e9a1ded59f6b95e3c58c95ece"
+    },
+    {
+      "path": "TRANSFER.part004.b64.txt",
+      "bytes": 2000000,
+      "sha256": "468cd47e867029347b5d760c82d1787490ff256fb82c06a50800285a353bfd6f"
+    },
+    {
+      "path": "TRANSFER.part005.b64.txt",
+      "bytes": 2000000,
+      "sha256": "fcd3126e224a11c81887edd99cb8fc0aaeb9d90406740007012e4bb40f03358e"
+    },
+    {
+      "path": "TRANSFER.part006.b64.txt",
+      "bytes": 2000000,
+      "sha256": "81b1c93021f0a8d77e1eef0caa9a9fc18fd2376bb445294bfd5289a350dfa02e"
+    },
+    {
+      "path": "TRANSFER.part007.b64.txt",
+      "bytes": 2000000,
+      "sha256": "f4739b279c1d7075c1f8323595f0584b131b4f65691ad1691a73409e8114581f"
+    },
+    {
+      "path": "TRANSFER.part008.b64.txt",
+      "bytes": 2000000,
+      "sha256": "b66684704c0c43716437a79cf3be0f8e1391b1d3e7fc3a3817b35a3ea1bf3d17"
+    },
+    {
+      "path": "TRANSFER.part009.b64.txt",
+      "bytes": 2000000,
+      "sha256": "f3eaf1870a9b8441c86f1936f75e18a2d8458de252bc258b533605754dd6525d"
+    },
+    {
+      "path": "TRANSFER.part010.b64.txt",
+      "bytes": 2000000,
+      "sha256": "5f2b87aa41c3e88b61cd20577abbac5d3530b8e84ce7641fe2d678e5ca04b32f"
+    },
+    {
+      "path": "TRANSFER.part011.b64.txt",
+      "bytes": 958868,
+      "sha256": "543ba9e854608b1885442d3f1ef3861936baa2fe0105fc5053db3d692a8fbf4c"
+    }
+  ]
+}

@@ -1,0 +1,139 @@
+"""Original standalone Blender grass-carpet swatch; no game or parent scene I/O."""
+from pathlib import Path
+import hashlib,json,math,random
+import bpy
+from mathutils import Vector
+
+ROOT=Path(__file__).resolve().parent
+SEED=2026102211
+
+def linear(c):return c/12.92 if c<=.04045 else ((c+.055)/1.055)**2.4
+def colour(h):return tuple(linear(int(h[i:i+2],16)/255) for i in (0,2,4))+(1,)
+def aim(obj,target):obj.rotation_euler=(Vector(target)-obj.location).to_track_quat('-Z','Y').to_euler()
+
+def material(name,hexcol):
+    m=bpy.data.materials.new(name);m.use_nodes=True
+    shader=m.node_tree.nodes.get('Principled BSDF');shader.inputs['Base Color'].default_value=colour(hexcol)
+    shader.inputs['Roughness'].default_value=.82;shader.inputs['Specular IOR Level'].default_value=.22
+    return m,shader
+
+def rounded_block(name,dimensions,z,mat,bevel):
+    bpy.ops.mesh.primitive_cube_add(location=(0,0,z));o=bpy.context.object;o.name=name
+    o.dimensions=dimensions;bpy.ops.object.transform_apply(location=False,rotation=False,scale=True)
+    mod=o.modifiers.new('Soft rounded edges','BEVEL');mod.width=bevel;mod.segments=6
+    o.modifiers.new('Weighted normals','WEIGHTED_NORMAL')
+    for f in o.data.polygons:f.use_smooth=True
+    o.data.materials.append(mat);return o
+
+def main():
+    assert bpy.app.background and not (ROOT/'GRASS_SQUARE_B.blend').exists()
+    bpy.context.preferences.filepaths.save_version=0
+    bpy.ops.object.select_all(action='SELECT');bpy.ops.object.delete(use_global=False)
+    scene=bpy.context.scene;scene.render.engine='CYCLES';scene.cycles.samples=96
+    scene.cycles.use_denoising=True;scene.cycles.seed=SEED
+    scene.render.resolution_x=768;scene.render.resolution_y=768;scene.render.resolution_percentage=100
+    scene.render.image_settings.file_format='PNG';scene.render.film_transparent=False
+    scene.view_settings.view_transform='Standard';scene.view_settings.exposure=-.30
+    scene.world.use_nodes=True;bg=scene.world.node_tree.nodes.get('Background')
+    bg.inputs['Color'].default_value=(.72,.82,1,1);bg.inputs['Strength'].default_value=.5
+
+    turf,bsdf=material('Soft continuous green turf','71B22B')
+    nodes=turf.node_tree.nodes;links=turf.node_tree.links
+    coord=nodes.new('ShaderNodeTexCoord')
+    noise=nodes.new('ShaderNodeTexNoise');noise.inputs['Scale'].default_value=1.7
+    noise.inputs['Detail'].default_value=2;links.new(coord.outputs['Object'],noise.inputs['Vector'])
+    ramp=nodes.new('ShaderNodeValToRGB');ramp.color_ramp.elements[0].position=.15
+    ramp.color_ramp.elements[0].color=colour('559D24');ramp.color_ramp.elements[1].position=.85
+    ramp.color_ramp.elements[1].color=colour('80BC32')
+    links.new(noise.outputs['Fac'],ramp.inputs['Fac']);links.new(ramp.outputs['Color'],bsdf.inputs['Base Color'])
+    fine=nodes.new('ShaderNodeTexNoise');fine.inputs['Scale'].default_value=130
+    fine.inputs['Detail'].default_value=2;links.new(coord.outputs['Object'],fine.inputs['Vector'])
+    bump=nodes.new('ShaderNodeBump');bump.inputs['Strength'].default_value=.20
+    bump.inputs['Distance'].default_value=.0015;links.new(fine.outputs['Fac'],bump.inputs['Height'])
+    links.new(bump.outputs['Normal'],bsdf.inputs['Normal']);bsdf.inputs['Sheen Weight'].default_value=.10
+    soil,_=material('Warm earth edge','9B612E')
+    rounded_block('Soil cross section',(1.99,1.99,.13),-.025,soil,.05)
+    rounded_block('Continuous soft grass base',(2.04,2.04,.15),.075,turf,.062)
+
+    blade_mat,shader=material('Low fine blade colours','88BC38')
+    attr=blade_mat.node_tree.nodes.new('ShaderNodeVertexColor');attr.layer_name='Grass_Colour'
+    blade_mat.node_tree.links.new(attr.outputs['Color'],shader.inputs['Base Color'])
+    shader.inputs['Sheen Weight'].default_value=.12
+    vertices=[];faces=[];colours=[];rng=random.Random(SEED)
+    palette=[colour(h) for h in ('509322','77B731','9DCA48')]
+    rows=[0,.22,.46,.70,.88]
+    def leaf(x,y,angle,height,width,lean):
+        start=len(vertices);direction=Vector((math.cos(angle),math.sin(angle),0))
+        side=Vector((-direction.y,direction.x,0));root=Vector((x,y,.087+math.sqrt(max(0,.062**2-math.hypot(max(abs(x)-.958,0),max(abs(y)-.958,0))**2))))
+        for t in rows:
+            centre=root+direction*(lean*t*t);centre.z+=height*math.sin(math.pi*.60*t)
+            w=width*math.sin(math.pi*(.12+.88*t))**.8
+            for c in (-1,0,1):
+                q=centre+side*(c*w*.5)
+                if c==0:q.z+=width*.035*math.sin(math.pi*t)
+                vertices.append(tuple(q))
+                a=min(1,t*1.5);b=max(0,t-.35)*.7
+                col=[palette[0][i]*(1-a)+palette[1][i]*a for i in range(4)]
+                colours.append(tuple(col[i]*(1-b)+palette[2][i]*b for i in range(4)))
+        tip=root+direction*lean;tip.z+=height*math.sin(math.pi*.60)
+        vertices.append(tuple(tip));colours.append(palette[2])
+        for row in range(4):
+            a=start+row*3;faces.extend([(a,a+1,a+4,a+3),(a+1,a+2,a+5,a+4)])
+        faces.extend([(start+12,start+13,start+15),(start+13,start+14,start+15)])
+    # Low micro-blades blend visually into the continuous surface at map scale.
+    step=.021;tufts=0
+    for iy in range(-47,48):
+        for ix in range(-47,48):
+            x=ix*step+rng.uniform(-.008,.008);y=iy*step+rng.uniform(-.008,.008)
+            if abs(x)>1.005 or abs(y)>1.005:continue
+            if math.hypot(max(abs(x)-.958,0),max(abs(y)-.958,0))>.05:continue
+            # Coherent soft variation avoids the evenly spaced field effect.
+            local=.76+.18*math.sin(x*4.5+y*1.4)+.10*math.cos(y*5.5-x*2)
+            if rng.random()>.86:continue
+            tufts+=1;base_angle=rng.uniform(0,math.tau)
+            for j in range(rng.randint(2,3)):
+                leaf(x+rng.uniform(-.006,.006),y+rng.uniform(-.006,.006),base_angle+rng.uniform(-1.5,1.5),
+                    rng.uniform(.025,.048)*local,rng.uniform(.005,.008),rng.uniform(.012,.024))
+    accents=[(-.72,-.67),(.65,-.56),(-.62,.57),(.64,.65),(-.24,.21)]
+    for x,y in accents:
+        angle=rng.uniform(0,math.tau)
+        for j in range(5):
+            leaf(x+rng.uniform(-.008,.008),y+rng.uniform(-.008,.008),angle+rng.uniform(-1.6,1.6),
+                rng.uniform(.045,.067),rng.uniform(.006,.009),rng.uniform(.02,.035))
+    mesh=bpy.data.meshes.new('Low grass carpet geometry');mesh.from_pydata(vertices,[],faces);mesh.update()
+    layer=mesh.color_attributes.new(name='Grass_Colour',type='FLOAT_COLOR',domain='POINT')
+    layer.data.foreach_set('color',[c for rgba in colours for c in rgba])
+    for f in mesh.polygons:f.use_smooth=True
+    obj=bpy.data.objects.new('Short fine grass with five accent tufts',mesh);scene.collection.objects.link(obj)
+    mesh.materials.append(blade_mat)
+
+    floor,_=material('Neutral warm studio floor','E0E5E0')
+    bpy.ops.mesh.primitive_plane_add(size=200,location=(0,0,-.101));bpy.context.object.data.materials.append(floor)
+    for name,loc,energy,size in [('Large warm daylight',(-3,-4,6),650,4.5),('Soft sky fill',(4,2,5),220,4)]:
+        data=bpy.data.lights.new(name,'AREA');data.energy=energy;data.shape='DISK';data.size=size
+        light=bpy.data.objects.new(name,data);scene.collection.objects.link(light);light.location=loc;aim(light,(0,0,0))
+    cam=bpy.data.cameras.new('Grass sample camera');camera=bpy.data.objects.new(cam.name,cam)
+    scene.collection.objects.link(camera);camera.location=(2.9,-3.8,3.0);aim(camera,(0,0,.05))
+    cam.type='ORTHO';cam.ortho_scale=3.38;scene.camera=camera
+    note=bpy.data.texts.new('START_HERE')
+    note.write('Standalone low soft grass-carpet swatch. Procedural Blender scene,not an image plane and not integrated into GnomiT. Main blades25-48mm before coherent height factor; five accent tufts45-67mm. Seed/code/receipt supplied. New procedural materials; no external textures.\n')
+    scene.render.filepath=str(ROOT/'GRASS_SQUARE_B.png')
+    target=ROOT/'GRASS_SQUARE_B.blend'
+    assert 'FINISHED' in bpy.ops.wm.save_as_mainfile(filepath=str(target),check_existing=False)
+    file_sha=hashlib.sha256(target.read_bytes()).hexdigest()
+    bpy.ops.wm.open_mainfile(filepath=str(target));scene=bpy.context.scene
+    assert len(bpy.data.objects['Short fine grass with five accent tufts'].data.vertices)==len(vertices)
+    assert not bpy.data.libraries and all(not m.library for m in bpy.data.materials)
+    assert 'FINISHED' in bpy.ops.render.render(write_still=True)
+    picture=ROOT/'GRASS_SQUARE_B.png';assert picture.exists()
+    receipt={'status':'SAVED_REOPENED_RENDERED','blender':bpy.app.version_string,'seed':SEED,
+        'tile_metres':[2.04,2.04],'image_px':[768,768],'samples':96,'micro_tufts':tufts,
+        'blade_count':len(vertices)//16,'main_nominal_height_m':[.025,.048],'accent_height_m':[.045,.067],
+        'accent_tufts':5,'blend_sha256':file_sha,'image_sha256':hashlib.sha256(picture.read_bytes()).hexdigest(),
+        'source_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+        'origin':'Original Codex procedural geometry/materials. No downloaded asset or texture.',
+        'game_integration':'NOT_PERFORMED','phone_performance':'NOT_MEASURED','human_choice':'PENDING'}
+    (ROOT/'RECEIPT_B.json').write_bytes((json.dumps(receipt,indent=2)+'\n').encode())
+    print('SQUARE_READY '+json.dumps(receipt),flush=True)
+
+if __name__=='__main__':main()

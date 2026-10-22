@@ -1,0 +1,32 @@
+{
+  "status": "SAVED_REOPENED_RENDERED",
+  "blender": "5.2.2 LTS",
+  "seed": 2026102211,
+  "tile_metres": [
+    2.04,
+    2.04
+  ],
+  "image_px": [
+    768,
+    768
+  ],
+  "samples": 96,
+  "micro_tufts": 7762,
+  "blade_count": 19487,
+  "main_nominal_height_m": [
+    0.025,
+    0.048
+  ],
+  "accent_height_m": [
+    0.045,
+    0.067
+  ],
+  "accent_tufts": 5,
+  "blend_sha256": "635bb27fa3567701ca1fc9f1d1ed4a8ff04ce18186cc2bc287d173e8db59b09f",
+  "image_sha256": "857b1c962ac8fb4a5fdaec8dc105b279b560d749276f4296c654b936850a679e",
+  "source_sha256": "bfc79fa93c2e51106f27aba7f25df09cef07017b949ee683555f75757d4da66a",
+  "origin": "Original Codex procedural geometry/materials. No downloaded asset or texture.",
+  "game_integration": "NOT_PERFORMED",
+  "phone_performance": "NOT_MEASURED",
+  "human_choice": "PENDING"
+}
