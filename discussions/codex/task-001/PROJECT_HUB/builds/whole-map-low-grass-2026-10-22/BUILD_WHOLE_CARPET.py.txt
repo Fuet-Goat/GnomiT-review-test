@@ -1,0 +1,189 @@
+"""Apply square B grass/material to the whole native map using shared 3D tufts."""
+from pathlib import Path
+import hashlib,importlib.util,json,math,random
+import bpy
+from mathutils import Vector
+from mathutils.bvhtree import BVHTree
+
+ROOT=Path(__file__).resolve().parents[1]
+SOURCE=ROOT/'native/INPUT_G.blend';SQUARE=ROOT/'native/INPUT_SQUARE_B.blend'
+OUTPUT=ROOT/'native/WHOLE_MAP_LOW_GRASS_H2.blend'
+SOURCE_PIN='5baeaadab55c144fd554cbae9122db30d3ce6104b41b3a48b9eaa301635b0260'
+SQUARE_PIN='635bb27fa3567701ca1fc9f1d1ed4a8ff04ce18186cc2bc287d173e8db59b09f'
+SEED=2026102215;STEP=.021;MASK_STEP=.035
+spec=importlib.util.spec_from_file_location('records',ROOT/'tools/record_helpers.py')
+p=importlib.util.module_from_spec(spec);spec.loader.exec_module(p);g=p.g
+
+def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
+def dump(path,data):path.write_bytes((json.dumps(data,indent=2)+'\n').encode())
+
+def render(scene,name,detail=False):
+    old=(scene.render.filepath,scene.cycles.samples,scene.render.resolution_x,scene.render.resolution_y,
+        scene.render.use_border,scene.render.use_crop_to_border,scene.render.border_min_x,
+        scene.render.border_max_x,scene.render.border_min_y,scene.render.border_max_y)
+    scene.cycles.samples=128
+    if detail:
+        scene.render.resolution_x=1728;scene.render.resolution_y=3840
+        scene.render.use_border=True;scene.render.use_crop_to_border=True
+        scene.render.border_min_x=230/432;scene.render.border_max_x=358/432
+        scene.render.border_min_y=1-638/960;scene.render.border_max_y=1-510/960
+    path=ROOT/'outputs'/name;scene.render.filepath=str(path)
+    assert 'FINISHED' in bpy.ops.render.render(write_still=True)
+    (scene.render.filepath,scene.cycles.samples,scene.render.resolution_x,scene.render.resolution_y,
+        scene.render.use_border,scene.render.use_crop_to_border,scene.render.border_min_x,
+        scene.render.border_max_x,scene.render.border_min_y,scene.render.border_max_y)=old
+    return {'path':path.relative_to(ROOT).as_posix(),'bytes':path.stat().st_size,'sha256':sha(path),
+        'width':512 if detail else 432,'height':512 if detail else 960,'samples':128}
+
+def main():
+    assert bpy.app.background and sha(SOURCE)==SOURCE_PIN and sha(SQUARE)==SQUARE_PIN and not OUTPUT.exists()
+    selector=Path('C:/Users/fruch/Documents/Codex/GnomiT_Playtests/CURRENT_GNOMIT.json');selector_sha=sha(selector)
+    bpy.context.preferences.filepaths.save_version=0;bpy.ops.wm.open_mainfile(filepath=str(SOURCE))
+    scene=bpy.context.scene;scene.frame_set(1);bpy.context.view_layer.update()
+    body=bpy.data.objects['Reference_Grass_Carpet'];edge=bpy.data.objects['Reference_Grass_Edge']
+    cap=bpy.data.objects['Island_Grass_Cap']
+    assert all(o.matrix_world.is_identity and o.data.users==1 for o in (body,edge,cap))
+    assert not body.modifiers and not edge.modifiers
+    names=set(scene.objects.keys());settings=g.settings_record(scene);materials=g.original_materials()
+    # Keep inherited materials even if replacing cap slot0 removes their last user.
+    for name in materials:bpy.data.materials[name].use_fake_user=True
+    protected={o.name:p.object_record(o) for o in scene.objects if o not in (body,edge,cap)}
+    cap_shape=g.fingerprint(p.mesh_prefix(cap.data));cap_record=p.object_record(cap);cap_record.pop('materials')
+    grass_identity={o.name:{k:p.object_record(o)[k] for k in ('matrix_world','matrix_basis','parent','collections','materials')} for o in (body,edge)}
+    old_edge=edge.data;assert len(old_edge.vertices)%16==0
+    edge_roots=[old_edge.vertices[i+1].co.copy()+Vector((0,0,.007)) for i in range(0,len(old_edge.vertices),16)]
+    # Append only actual B grass mesh/material, not the square camera or studio.
+    with bpy.data.libraries.load(str(SQUARE),link=False) as (src,dst):
+        assert 'Low grass carpet geometry' in src.meshes and 'Soft continuous green turf' in src.materials
+        dst.meshes=['Low grass carpet geometry'];dst.materials=['Soft continuous green turf']
+    sample=dst.meshes[0];turf=dst.materials[0];blade_material=sample.materials[0]
+    sample_colours=sample.color_attributes['Grass_Colour'];blade_total=len(sample.vertices)//16
+    prototypes=bpy.data.collections.new('LowGrass_Prototype_Library');scene.collection.children.link(prototypes)
+    sizes=[];prototype_names=[]
+    for variant in range(17):
+        amount=(2+variant%2) if variant<12 else 5
+        first=(763+variant*919) if variant<12 else blade_total-25+(variant-12)*5
+        vs=[];fs=[];cs=[]
+        for j in range(amount):
+            start=(first+j)*16;root=sample.vertices[start+1].co.copy();offset=len(vs)
+            for k in range(16):
+                q=sample.vertices[start+k].co-root
+                q.x+=(j-(amount-1)*.5)*.002
+                vs.append(tuple(q));cs.append(tuple(sample_colours.data[start+k].color))
+            for row in range(4):
+                a=offset+row*3;fs.extend([(a,a+1,a+4,a+3),(a+1,a+2,a+5,a+4)])
+            fs.extend([(offset+12,offset+13,offset+15),(offset+13,offset+14,offset+15)])
+        mesh=bpy.data.meshes.new('LowGrass_Tuft_Mesh_%02d'%variant);mesh.from_pydata(vs,[],fs);mesh.update()
+        colours=mesh.color_attributes.new(name='Grass_Colour',type='FLOAT_COLOR',domain='POINT')
+        colours.data.foreach_set('color',[c for rgba in cs for c in rgba])
+        for face in mesh.polygons:face.use_smooth=True
+        mesh.materials.append(blade_material)
+        obj=bpy.data.objects.new('LowGrass_Prototype_%02d'%variant,mesh);prototypes.objects.link(obj)
+        obj.location=(0,0,-100);prototype_names.append(obj.name);sizes.append(amount)
+    bpy.data.meshes.remove(sample)
+    nodegroup=bpy.data.node_groups.new('Whole map low grass from square B','GeometryNodeTree')
+    nodegroup.interface.new_socket(name='Geometry',in_out='INPUT',socket_type='NodeSocketGeometry')
+    nodegroup.interface.new_socket(name='Geometry',in_out='OUTPUT',socket_type='NodeSocketGeometry')
+    nodes=nodegroup.nodes;links=nodegroup.links
+    inp=nodes.new('NodeGroupInput');out=nodes.new('NodeGroupOutput')
+    info=nodes.new('GeometryNodeCollectionInfo');info.inputs['Collection'].default_value=prototypes
+    info.inputs['Separate Children'].default_value=True;info.inputs['Reset Children'].default_value=True
+    inst=nodes.new('GeometryNodeInstanceOnPoints');inst.inputs['Pick Instance'].default_value=True
+    links.new(inp.outputs['Geometry'],inst.inputs['Points']);links.new(info.outputs['Instances'],inst.inputs['Instance'])
+    for name,kind,target in [('Grass_Rotation','FLOAT_VECTOR','Rotation'),('Grass_Scale','FLOAT_VECTOR','Scale'),('Grass_Variant','INT','Instance Index')]:
+        attr=nodes.new('GeometryNodeInputNamedAttribute');attr.data_type=kind;attr.inputs['Name'].default_value=name
+        links.new(attr.outputs['Attribute'],inst.inputs[target])
+    links.new(inst.outputs['Instances'],out.inputs['Geometry'])
+    print('INSTANCE_NODEGROUP_READY',flush=True)
+    collections={o.name:tuple(o.users_collection) for o in (body,edge)}
+    for o in (body,edge):
+        for collection in collections[o.name]:collection.objects.unlink(o)
+    bpy.context.view_layer.update();deps=bpy.context.evaluated_depsgraph_get()
+    bvh=BVHTree.FromObject(cap,deps);down=Vector((0,0,-1));cache={}
+    def free(x,y):
+        key=(round(x/MASK_STEP),round(y/MASK_STEP))
+        if key in cache:return cache[key]
+        qx,qy=key[0]*MASK_STEP,key[1]*MASK_STEP
+        hit,n,face,_=bvh.ray_cast(Vector((qx,qy,3)),down,5);ok=False
+        if hit is not None and n.z>.65 and cap.data.polygons[face].material_index==0:
+            yes,loc,norm,idx,obj,mat=scene.ray_cast(deps,hit+Vector((0,0,.45)),down,distance=.65)
+            ok=bool(yes and obj.original==cap)
+        cache[key]=ok;return ok
+    rng=random.Random(SEED);points=[];rotations=[];scales=[];variants=[]
+    minx=min(v.co.x for v in cap.data.vertices);maxx=max(v.co.x for v in cap.data.vertices)
+    miny=min(v.co.y for v in cap.data.vertices);maxy=max(v.co.y for v in cap.data.vertices)
+    for iy in range(math.floor(miny/STEP),math.ceil(maxy/STEP)):
+        for ix in range(math.floor(minx/STEP),math.ceil(maxx/STEP)):
+            x=(ix+rng.uniform(-.38,.38))*STEP;y=(iy+rng.uniform(-.38,.38))*STEP
+            if rng.random()>.86:continue
+            hit,n,face,_=bvh.ray_cast(Vector((x,y,3)),down,5)
+            if hit is None or n.z<.65 or cap.data.polygons[face].material_index!=0 or not free(x,y):continue
+            if any(not free(x+dx,y+dy) for dx,dy in ((.055,0),(-.055,0),(0,.055),(0,-.055))):continue
+            hit.z-=.001;points.append(tuple(hit))
+            angle=rng.uniform(0,math.tau);rotation=n.to_track_quat('Z','Y')
+            from mathutils import Quaternion
+            rotation=rotation@Quaternion(Vector((0,0,1)),angle);rotations.append(tuple(rotation.to_euler()))
+            s=rng.uniform(.94,1.06);z=(1+.12*math.sin(x*4.5+y*1.4)+.10*math.cos(y*5.5-x*2))*rng.uniform(.95,1.05)
+            scales.append((s,s,z));variants.append(12+rng.randrange(5) if rng.random()<.00065 else rng.randrange(12))
+    assert len(points)>20000
+    print('BODY_POINTS '+str(len(points))+' MASK_QUERIES '+str(len(cache)),flush=True)
+    for o in (body,edge):
+        for collection in collections[o.name]:collection.objects.link(o)
+    def assign(obj,positions,angles,scale_values,picks):
+        old=obj.data;mesh=bpy.data.meshes.new(obj.name+'_Low_Grass_Points');mesh.from_pydata(positions,[],[])
+        for name,kind,values,field in [('Grass_Rotation','FLOAT_VECTOR',angles,'vector'),('Grass_Scale','FLOAT_VECTOR',scale_values,'vector'),('Grass_Variant','INT',picks,'value')]:
+            a=mesh.attributes.new(name=name,type=kind,domain='POINT')
+            a.data.foreach_set(field,[c for v in values for c in v] if kind=='FLOAT_VECTOR' else values)
+        for mat in old.materials:mesh.materials.append(mat)
+        obj.data=mesh;mod=obj.modifiers.new('Square B low grass instances','NODES');mod.node_group=nodegroup
+        obj['tuft_count']=len(positions);obj['blade_count']=sum(sizes[i] for i in picks)
+        obj['tuft_count_status']='MEASURED new instance/root point count'
+        obj['grass_revision']='H: whole map low grass from actual square B prototype geometry and materials'
+        for key in ('patch_new_blades','patch_new_tufts','probe_shape'):
+            if key in obj:del obj[key]
+        if old.users==0:bpy.data.meshes.remove(old)
+    assign(body,points,rotations,scales,variants)
+    epicks=[i%12 for i in range(len(edge_roots))]
+    assign(edge,[tuple(v) for v in edge_roots],[(0,0,rng.uniform(0,math.tau)) for _ in edge_roots],[(1,1,.8)]*len(edge_roots),epicks)
+    cap.data.materials[0]=turf
+    def verify():
+        bpy.context.view_layer.update()
+        assert set(scene.objects.keys())==names|set(prototype_names)
+        assert all(p.object_record(bpy.data.objects[n])==record for n,record in protected.items())
+        assert g.settings_record(scene)==settings
+        current=g.original_materials();assert all(current[n]==record for n,record in materials.items())
+        assert g.fingerprint(p.mesh_prefix(cap.data))==cap_shape
+        rec=p.object_record(cap);rec.pop('materials');assert rec==cap_record
+        for obj in (body,edge):assert {k:p.object_record(obj)[k] for k in grass_identity[obj.name]}==grass_identity[obj.name]
+        assert sha(SOURCE)==SOURCE_PIN and sha(SQUARE)==SQUARE_PIN and sha(selector)==selector_sha
+    verify()
+    # Check actual dependency-graph instances, including reset source transforms.
+    count=0;lowest=math.inf
+    for instance in bpy.context.evaluated_depsgraph_get().object_instances:
+        if instance.is_instance and instance.object.original.name in prototype_names:
+            count+=1;lowest=min(lowest,instance.matrix_world.translation.z)
+    assert count==len(points)+len(edge_roots) and lowest>-5,(count,lowest)
+    note=bpy.data.texts.new('START_HERE_WHOLE_MAP_LOW_GRASS_H')
+    note.write('Square B low grass applied across the map top and border with shared Geometry Nodes instances. Same map/camera/lights. Only turf material slot0 and the two grass objects changed; prototype sources live below the map and reset through Collection Info. Not integrated into Godot. Keep node collection for correct rendering.\n')
+    assert 'FINISHED' in bpy.ops.wm.save_as_mainfile(filepath=str(OUTPUT),check_existing=False)
+    output_sha=sha(OUTPUT);bpy.ops.wm.open_mainfile(filepath=str(OUTPUT));scene=bpy.context.scene
+    body=bpy.data.objects['Reference_Grass_Carpet'];edge=bpy.data.objects['Reference_Grass_Edge'];cap=bpy.data.objects['Island_Grass_Cap'];verify()
+    assert not bpy.data.libraries
+    print('WHOLE_MAP_SAVED '+str(count),flush=True)
+    pictures=[render(scene,'WHOLE_MAP_LOW_GRASS.png'),render(scene,'LOW_GRASS_DETAIL.png',True)];verify()
+    receipt={'status':'WHOLE_MAP_SAVED_REOPENED_RENDERED','source_sha256':SOURCE_PIN,'square_b_sha256':SQUARE_PIN,
+        'candidate_sha256':output_sha,'builder_sha256':sha(Path(__file__)),'seed':SEED,'root_grid_m':STEP,
+        'body_instances':len(points),'edge_instances':len(edge_roots),'verified_instances':count,
+        'actual_blades':int(body['blade_count'])+int(edge['blade_count']),'prototype_count':17,
+        'geometry':'Shared actual B 3D blades, Geometry Nodes instances; no image plane or turf-square objects',
+        'protected_original_objects':len(protected),'original_cap_geometry_unchanged':True,
+        'original_camera_light_colour_management_unchanged':True,'original_material_nodes_unchanged':True,'inherited_materials_retained_with_fake_user':True,
+        'changes':['Whole body grass','Whole border grass','Terrain turf material slot0','17 shared prototype source objects'],
+        'footprint_limit':'35mm cached occupancy mask and55mm cardinal clearance; not exhaustive triangle/leaf collision proof',
+        'mask_cells':len(cache),'lowest_instance_z':lowest,'prototype_source_z':-100,
+        'selector_unchanged_sha256':selector_sha,'renders':pictures,'game_integration':'NOT_PERFORMED',
+        'runtime_export':'NOT_PERFORMED','phone_performance':'NOT_MEASURED','human_choice':'PENDING'}
+    assert sha(OUTPUT)==output_sha;dump(ROOT/'documentation/WHOLE_MAP_RECEIPT.json',receipt)
+    print('WHOLE_MAP_READY '+json.dumps({'candidate_sha256':output_sha,'instances':count}),flush=True)
+
+if __name__=='__main__':main()
