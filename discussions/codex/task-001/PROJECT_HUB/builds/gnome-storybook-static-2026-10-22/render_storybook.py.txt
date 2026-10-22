@@ -1,0 +1,35 @@
+from pathlib import Path
+import sys,bpy,json
+from mathutils import Vector
+ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'tools'))
+from render_soft_preview import make_stage
+
+def render(path,label,save=False):
+    scene=make_stage(path);scene.name='GnomiT Storybook Static L'
+    scene.render.resolution_x=600;scene.render.resolution_y=760
+    scene.view_settings.view_transform='Standard';scene.view_settings.look='None'
+    scene.view_settings.exposure=-.80
+    root=bpy.data.objects['Guide_Root'];target=root.matrix_world.translation+Vector((0,0,.53))
+    camera=scene.camera;camera.location=target+Vector((.70,-3.8,.95))
+    camera.rotation_euler=(target-camera.location).to_track_quat('-Z','Y').to_euler();camera.data.ortho_scale=1.40
+    floor=bpy.data.objects['Preview-only soft sage floor'];m=floor.data.materials[0]
+    m.node_tree.nodes['Principled BSDF'].inputs['Base Color'].default_value=(.62,.66,.49,1)
+    key=bpy.data.objects['Warm large key'];key.data.energy=430;key.data.color=(1,.86,.67)
+    bpy.data.objects['Soft fill'].data.energy=150
+    bpy.data.objects['Gentle rim'].data.energy=240
+    scene.frame_set(1);bpy.context.view_layer.update()
+    if save:bpy.data.libraries.write(str(ROOT/'native/GNOME_L2_STATIC_STAGE.blend'),{scene},compress=True)
+    scene.render.filepath=str(ROOT/'outputs'/label)
+    assert 'FINISHED' in bpy.ops.render.render(write_still=True)
+    return {'width':600,'height':760,'engine':'Blender Eevee','frame':1,
+            'view_transform':scene.view_settings.view_transform,'look':scene.view_settings.look,'exposure':-.80,
+            'camera_offset':[.70,-3.8,.95],'orthographic_scale':1.40,'preview_lighting':'identical for before and after'}
+
+def main():
+    before=render(ROOT/'native/INPUT_K.blend','BEFORE_K.png')
+    after=render(ROOT/'native/GNOME_STORYBOOK_L2.blend','STORYBOOK_L2.png',True)
+    assert before==after
+    (ROOT/'documentation/STATIC_PREVIEW_RECEIPT.json').write_bytes((json.dumps(after,indent=2)+'\n').encode())
+    print('COMPARABLE_STORYBOOK_STILLS_COMPLETE')
+
+if __name__=='__main__':main()
