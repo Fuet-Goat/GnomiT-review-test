@@ -1,0 +1,4539 @@
+{
+	"asset": "res://assets/gnome_r3.glb",
+	"asset_sha256": "3b72702cb1c995d2553dddd4895a1e2327be14d5a22cc38a60a88603d47c529f",
+	"checks": {
+		"animation_player_count": 1,
+		"available_clips": [
+			{
+				"duration_s": 6.0,
+				"last_key_time_s": 6.0,
+				"loop_mode": 0,
+				"name": "Animation"
+			}
+		],
+		"bone_names": [
+			"Root",
+			"Chest",
+			"Head",
+			"upperarm.L",
+			"forearm.L",
+			"hand.L",
+			"lantern",
+			"upperarm.R",
+			"forearm.R",
+			"hand.R"
+		],
+		"clip_selection": "Sole non-RESET imported clip; generic exporter name accepted",
+		"required_meshes": [
+			{
+				"binds_original_skeleton": true,
+				"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R3_RightSleeve",
+				"source_name": "R3_RightSleeve",
+				"surfaces": 1
+			},
+			{
+				"binds_original_skeleton": true,
+				"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R3_RightTorsoPatch",
+				"source_name": "R3_RightTorsoPatch",
+				"surfaces": 1
+			}
+		],
+		"selected_clip": "Animation",
+		"skeleton_count": 1
+	},
+	"coordinate_conversion": "Blender world [x,y,z] to Godot world [x,z,-y]",
+	"deformation_limit": "Blender Preserve Volume uses dual-quaternion skinning; glTF/Godot LBS may deform differently and is not tested here",
+	"failures": [
+		"Joint position mismatch: Head at 2.25s (0.001187087m)",
+		"Joint position mismatch: upperarm.R at 2.25s (0.001283473m)",
+		"Joint position mismatch: forearm.R at 2.25s (0.001933936m)",
+		"Joint position mismatch: hand.R at 2.25s (0.002585055m)"
+	],
+	"foot_node_stability": [
+		{
+			"delta_from_t0_m": 0.0,
+			"source_name": "R1_Boot_-1",
+			"time_s": 0.0
+		},
+		{
+			"delta_from_t0_m": 0.0,
+			"source_name": "R1_Boot_1",
+			"time_s": 0.0
+		},
+		{
+			"delta_from_t0_m": 0.0,
+			"source_name": "R2 curved sole -1",
+			"time_s": 0.0
+		},
+		{
+			"delta_from_t0_m": 0.0,
+			"source_name": "R2 curved sole 1",
+			"time_s": 0.0
+		},
+		{
+			"delta_from_t0_m": 0.0,
+			"source_name": "R1_Boot_-1",
+			"time_s": 1.5
+		},
+		{
+			"delta_from_t0_m": 0.0,
+			"source_name": "R1_Boot_1",
+			"time_s": 1.5
+		},
+		{
+			"delta_from_t0_m": 0.0,
+			"source_name": "R2 curved sole -1",
+			"time_s": 1.5
+		},
+		{
+			"delta_from_t0_m": 0.0,
+			"source_name": "R2 curved sole 1",
+			"time_s": 1.5
+		},
+		{
+			"delta_from_t0_m": 0.0,
+			"source_name": "R1_Boot_-1",
+			"time_s": 2.25
+		},
+		{
+			"delta_from_t0_m": 0.0,
+			"source_name": "R1_Boot_1",
+			"time_s": 2.25
+		},
+		{
+			"delta_from_t0_m": 0.0,
+			"source_name": "R2 curved sole -1",
+			"time_s": 2.25
+		},
+		{
+			"delta_from_t0_m": 0.0,
+			"source_name": "R2 curved sole 1",
+			"time_s": 2.25
+		},
+		{
+			"delta_from_t0_m": 0.0,
+			"source_name": "R1_Boot_-1",
+			"time_s": 3.0
+		},
+		{
+			"delta_from_t0_m": 0.0,
+			"source_name": "R1_Boot_1",
+			"time_s": 3.0
+		},
+		{
+			"delta_from_t0_m": 0.0,
+			"source_name": "R2 curved sole -1",
+			"time_s": 3.0
+		},
+		{
+			"delta_from_t0_m": 0.0,
+			"source_name": "R2 curved sole 1",
+			"time_s": 3.0
+		},
+		{
+			"delta_from_t0_m": 0.0,
+			"source_name": "R1_Boot_-1",
+			"time_s": 3.75
+		},
+		{
+			"delta_from_t0_m": 0.0,
+			"source_name": "R1_Boot_1",
+			"time_s": 3.75
+		},
+		{
+			"delta_from_t0_m": 0.0,
+			"source_name": "R2 curved sole -1",
+			"time_s": 3.75
+		},
+		{
+			"delta_from_t0_m": 0.0,
+			"source_name": "R2 curved sole 1",
+			"time_s": 3.75
+		},
+		{
+			"delta_from_t0_m": 0.0,
+			"source_name": "R1_Boot_-1",
+			"time_s": 4.5
+		},
+		{
+			"delta_from_t0_m": 0.0,
+			"source_name": "R1_Boot_1",
+			"time_s": 4.5
+		},
+		{
+			"delta_from_t0_m": 0.0,
+			"source_name": "R2 curved sole -1",
+			"time_s": 4.5
+		},
+		{
+			"delta_from_t0_m": 0.0,
+			"source_name": "R2 curved sole 1",
+			"time_s": 4.5
+		},
+		{
+			"delta_from_t0_m": 0.0,
+			"source_name": "R1_Boot_-1",
+			"time_s": 6.0
+		},
+		{
+			"delta_from_t0_m": 0.0,
+			"source_name": "R1_Boot_1",
+			"time_s": 6.0
+		},
+		{
+			"delta_from_t0_m": 0.0,
+			"source_name": "R2 curved sole -1",
+			"time_s": 6.0
+		},
+		{
+			"delta_from_t0_m": 0.0,
+			"source_name": "R2 curved sole 1",
+			"time_s": 6.0
+		}
+	],
+	"godot_version": {
+		"build": "official",
+		"hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+		"hex": 263938,
+		"major": 4,
+		"minor": 7,
+		"patch": 2,
+		"status": "stable",
+		"string": "4.7.2-stable (official)",
+		"timestamp": 0
+	},
+	"max_enforced_object_origin_delta_m": 0.0,
+	"max_joint_position_delta_m": 0.00258505484089255,
+	"max_object_origin_delta_m": 1.18280029296875,
+	"measurement_scope": "Joint world positions and object node world origins; no rotation, skinned-vertex, topology, shader, or DQ/LBS deformation parity claim",
+	"native_source_path": "C:/Users/fruch/Documents/Codex/GnomiT_Playtests/Gnome_R3_Godot_Preview_2026-10-23/native/GNOME_R3_ACCEPTED.blend",
+	"object_origin_policy": "Report all raw origin deltas. Skinned mesh export can bake object transforms into geometry, so its origin deltas are informational; enforce foot node stability separately",
+	"position_tolerance_m": 0.001,
+	"reference": "res://verification/blender_reference.json",
+	"reference_sha256": "faaf06619d2a983b6482f9133e1d09b038622351467b3cff0b2ef4baf0848636",
+	"rest_endpoints": [
+		{
+			"bone": "Root",
+			"imported_rest_world": [
+				0.0,
+				0.119999997317791,
+				-0.0179999992251396
+			],
+			"t0_to_rest_m": 0.0,
+			"t0_to_t6_m": 0.0,
+			"t6_to_rest_m": 0.0
+		},
+		{
+			"bone": "Chest",
+			"imported_rest_world": [
+				0.0,
+				0.560000002384186,
+				-0.0179999992251396
+			],
+			"t0_to_rest_m": 0.0,
+			"t0_to_t6_m": 0.0,
+			"t6_to_rest_m": 0.0
+		},
+		{
+			"bone": "Head",
+			"imported_rest_world": [
+				0.0,
+				0.985000014305115,
+				-0.0179999992251396
+			],
+			"t0_to_rest_m": 0.0,
+			"t0_to_t6_m": 0.0,
+			"t6_to_rest_m": 0.0
+		},
+		{
+			"bone": "upperarm.R",
+			"imported_rest_world": [
+				-0.200000002980232,
+				0.860000014305115,
+				-0.0179999992251396
+			],
+			"t0_to_rest_m": 0.0,
+			"t0_to_t6_m": 0.0,
+			"t6_to_rest_m": 0.0
+		},
+		{
+			"bone": "forearm.R",
+			"imported_rest_world": [
+				-0.289999932050705,
+				0.75,
+				0.0149999856948853
+			],
+			"t0_to_rest_m": 0.0000000149011611938477,
+			"t0_to_t6_m": 0.0,
+			"t6_to_rest_m": 0.0000000149011611938477
+		},
+		{
+			"bone": "hand.R",
+			"imported_rest_world": [
+				-0.349999964237213,
+				0.680000007152557,
+				0.0999999865889549
+			],
+			"t0_to_rest_m": 0.0000000298023223876953,
+			"t0_to_t6_m": 0.0,
+			"t6_to_rest_m": 0.0000000298023223876953
+		},
+		{
+			"bone": "upperarm.L",
+			"imported_rest_world": [
+				0.200000002980232,
+				0.855000019073486,
+				-0.0179999992251396
+			],
+			"t0_to_rest_m": 0.0,
+			"t0_to_t6_m": 0.0,
+			"t6_to_rest_m": 0.0
+		},
+		{
+			"bone": "forearm.L",
+			"imported_rest_world": [
+				0.290000081062317,
+				0.745000004768372,
+				-0.00600002333521843
+			],
+			"t0_to_rest_m": 0.00000000465661287307739,
+			"t0_to_t6_m": 0.0,
+			"t6_to_rest_m": 0.00000000465661287307739
+		},
+		{
+			"bone": "hand.L",
+			"imported_rest_world": [
+				0.330000162124634,
+				0.619999945163727,
+				0.0799999684095383
+			],
+			"t0_to_rest_m": 0.0000000298023223876953,
+			"t0_to_t6_m": 0.0,
+			"t6_to_rest_m": 0.0000000298023223876953
+		},
+		{
+			"bone": "lantern",
+			"imported_rest_world": [
+				0.365000128746033,
+				0.589999794960022,
+				0.131999924778938
+			],
+			"t0_to_rest_m": 0.0000000298023223876953,
+			"t0_to_t6_m": 0.0,
+			"t6_to_rest_m": 0.0000000298023223876953
+		}
+	],
+	"samples": [
+		{
+			"bones": {
+				"Chest": {
+					"blender_converted_world": [
+						0.0,
+						0.560000002384186,
+						-0.0179999992251396
+					],
+					"delta_m": 0.0,
+					"godot_world": [
+						0.0,
+						0.560000002384186,
+						-0.0179999992251396
+					]
+				},
+				"Head": {
+					"blender_converted_world": [
+						0.0,
+						0.985000014305115,
+						-0.0179999992251396
+					],
+					"delta_m": 0.0,
+					"godot_world": [
+						0.0,
+						0.985000014305115,
+						-0.0179999992251396
+					]
+				},
+				"Root": {
+					"blender_converted_world": [
+						0.0,
+						0.119999997317791,
+						-0.0179999992251396
+					],
+					"delta_m": 0.0,
+					"godot_world": [
+						0.0,
+						0.119999997317791,
+						-0.0179999992251396
+					]
+				},
+				"forearm.L": {
+					"blender_converted_world": [
+						0.290000021457672,
+						0.745000004768372,
+						-0.00599998794496059
+					],
+					"delta_m": 0.0000000670616913112099,
+					"godot_world": [
+						0.290000081062317,
+						0.745000004768372,
+						-0.00600001867860556
+					]
+				},
+				"forearm.R": {
+					"blender_converted_world": [
+						-0.289999961853027,
+						0.750000059604645,
+						0.0149999968707561
+					],
+					"delta_m": 0.0000000667440644974704,
+					"godot_world": [
+						-0.289999932050705,
+						0.75,
+						0.0150000005960464
+					]
+				},
+				"hand.L": {
+					"blender_converted_world": [
+						0.330000013113022,
+						0.620000004768372,
+						0.0800000205636024
+					],
+					"delta_m": 0.000000162039427209493,
+					"godot_world": [
+						0.330000162124634,
+						0.619999945163727,
+						0.0799999982118607
+					]
+				},
+				"hand.R": {
+					"blender_converted_world": [
+						-0.349999964237213,
+						0.680000066757202,
+						0.100000008940697
+					],
+					"delta_m": 0.0000000600685012841495,
+					"godot_world": [
+						-0.349999964237213,
+						0.680000007152557,
+						0.100000016391277
+					]
+				},
+				"lantern": {
+					"blender_converted_world": [
+						0.365000009536743,
+						0.589999973773956,
+						0.132000014185905
+					],
+					"delta_m": 0.000000223020165890375,
+					"godot_world": [
+						0.365000128746033,
+						0.589999794960022,
+						0.131999954581261
+					]
+				},
+				"upperarm.L": {
+					"blender_converted_world": [
+						0.200000002980232,
+						0.855000019073486,
+						-0.0179999992251396
+					],
+					"delta_m": 0.0,
+					"godot_world": [
+						0.200000002980232,
+						0.855000019073486,
+						-0.0179999992251396
+					]
+				},
+				"upperarm.R": {
+					"blender_converted_world": [
+						-0.200000002980232,
+						0.860000014305115,
+						-0.0179999992251396
+					],
+					"delta_m": 0.0,
+					"godot_world": [
+						-0.200000002980232,
+						0.860000014305115,
+						-0.0179999992251396
+					]
+				}
+			},
+			"objects": {
+				"R1_Boot_-1": {
+					"blender_converted_world_origin": [
+						-0.150999993085861,
+						0.186000004410744,
+						-0.0199999995529652
+					],
+					"delta_m": 0.240410059690475,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R1_Boot_-1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R1_Boot_1": {
+					"blender_converted_world_origin": [
+						0.150999993085861,
+						0.186000004410744,
+						-0.0199999995529652
+					],
+					"delta_m": 0.240410059690475,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R1_Boot_1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R1_FoldedCapBand": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R1_FoldedCapBand",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R1_LanternBlockout": {
+					"blender_converted_world_origin": [
+						0.365000009536743,
+						0.418999999761581,
+						0.131999999284744
+					],
+					"delta_m": 0.571147978305817,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R1_LanternBlockout",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 broad folded collar -1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 broad folded collar -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 broad folded collar 1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 broad folded collar 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 curved sole -1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 curved sole -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 curved sole 1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 curved sole 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 lantern handle": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 lantern handle",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 moustache -1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 moustache -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 moustache 1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 moustache 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 smile": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 smile",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 trouser -1": {
+					"blender_converted_world_origin": [
+						-0.150999993085861,
+						0.291000008583069,
+						-0.0179999992251396
+					],
+					"delta_m": 0.328338235616684,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 trouser -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 trouser 1": {
+					"blender_converted_world_origin": [
+						0.150999993085861,
+						0.291000008583069,
+						-0.0179999992251396
+					],
+					"delta_m": 0.328338235616684,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 trouser 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2_ContinuousCoat": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2_ContinuousCoat",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2_GnomeRoot": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot",
+					"origin_correspondence_enforced": true,
+					"skinned_mesh_origin_may_be_rebased": false
+				},
+				"R2_LanternGripHand": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2_LanternGripHand",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2_OneSweptBeard": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2_OneSweptBeard",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2_OpenInvitationHand": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2_OpenInvitationHand",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R3_OneFoldStorybookCap": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R3_OneFoldStorybookCap",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R3_RightSleeve": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R3_RightSleeve",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R3_RightTorsoPatch": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R3_RightTorsoPatch",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4 inset eye -1": {
+					"blender_converted_world_origin": [
+						-0.0839999988675117,
+						1.16999995708466,
+						0.128999993205071
+					],
+					"delta_m": 1.18008351325989,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4 inset eye -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4 inset eye 1": {
+					"blender_converted_world_origin": [
+						0.0839999988675117,
+						1.16799998283386,
+						0.128999993205071
+					],
+					"delta_m": 1.1781005859375,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4 inset eye 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4 pupil -1": {
+					"blender_converted_world_origin": [
+						-0.0850000008940697,
+						1.16999995708466,
+						0.151299998164177
+					],
+					"delta_m": 1.18280029296875,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4 pupil -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4 pupil 1": {
+					"blender_converted_world_origin": [
+						0.0829999968409538,
+						1.16799998283386,
+						0.151299998164177
+					],
+					"delta_m": 1.18067967891693,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4 pupil 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4 soft brow -1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4 soft brow -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4 soft brow 1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4 soft brow 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4_ContinuousFacialPlanes": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4_ContinuousFacialPlanes",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				}
+			},
+			"time_s": 0.0
+		},
+		{
+			"bones": {
+				"Chest": {
+					"blender_converted_world": [
+						0.0,
+						0.560800015926361,
+						-0.0179999992251396
+					],
+					"delta_m": 0.0001678466796875,
+					"godot_world": [
+						0.0,
+						0.560632169246674,
+						-0.0179999992251396
+					]
+				},
+				"Head": {
+					"blender_converted_world": [
+						0.00163188192527741,
+						0.985796928405762,
+						-0.0179999992251396
+					],
+					"delta_m": 0.000167904727277346,
+					"godot_world": [
+						0.0016362969763577,
+						0.985629081726074,
+						-0.0179999992251396
+					]
+				},
+				"Root": {
+					"blender_converted_world": [
+						0.0,
+						0.119999997317791,
+						-0.0179999992251396
+					],
+					"delta_m": 0.0,
+					"godot_world": [
+						0.0,
+						0.119999997317791,
+						-0.0179999992251396
+					]
+				},
+				"forearm.L": {
+					"blender_converted_world": [
+						0.290708214044571,
+						0.744685173034668,
+						-0.00599998794496059
+					],
+					"delta_m": 0.000170957791851833,
+					"godot_world": [
+						0.290710210800171,
+						0.744514226913452,
+						-0.00600001867860556
+					]
+				},
+				"forearm.R": {
+					"blender_converted_world": [
+						-0.320041716098785,
+						0.787324666976929,
+						0.0149999968707561
+					],
+					"delta_m": 0.000161947813467123,
+					"godot_world": [
+						-0.320040911436081,
+						0.787162721157074,
+						0.0150000117719173
+					]
+				},
+				"hand.L": {
+					"blender_converted_world": [
+						0.330227971076965,
+						0.619532525539398,
+						0.0800000205636024
+					],
+					"delta_m": 0.000171424573636614,
+					"godot_world": [
+						0.330228716135025,
+						0.619361102581024,
+						0.0799999982118607
+					]
+				},
+				"hand.R": {
+					"blender_converted_world": [
+						-0.409809082746506,
+						0.766305148601532,
+						0.100000008940697
+					],
+					"delta_m": 0.000159084869665094,
+					"godot_world": [
+						-0.409808933734894,
+						0.766146063804626,
+						0.100000008940697
+					]
+				},
+				"lantern": {
+					"blender_converted_world": [
+						0.365112513303757,
+						0.589398324489594,
+						0.132000014185905
+					],
+					"delta_m": 0.000171900319401175,
+					"godot_world": [
+						0.36511293053627,
+						0.589226424694061,
+						0.131999954581261
+					]
+				},
+				"upperarm.L": {
+					"blender_converted_world": [
+						0.201131239533424,
+						0.855029940605164,
+						-0.0179999992251396
+					],
+					"delta_m": 0.000170020153746009,
+					"godot_world": [
+						0.20113430917263,
+						0.854859948158264,
+						-0.0179999992251396
+					]
+				},
+				"upperarm.R": {
+					"blender_converted_world": [
+						-0.198846608400345,
+						0.861565768718719,
+						-0.0179999992251396
+					],
+					"delta_m": 0.00016578976646997,
+					"godot_world": [
+						-0.198843494057655,
+						0.861400008201599,
+						-0.0179999992251396
+					]
+				}
+			},
+			"objects": {
+				"R1_Boot_-1": {
+					"blender_converted_world_origin": [
+						-0.150999993085861,
+						0.186000004410744,
+						-0.0199999995529652
+					],
+					"delta_m": 0.240410059690475,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R1_Boot_-1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R1_Boot_1": {
+					"blender_converted_world_origin": [
+						0.150999993085861,
+						0.186000004410744,
+						-0.0199999995529652
+					],
+					"delta_m": 0.240410059690475,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R1_Boot_1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R1_FoldedCapBand": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R1_FoldedCapBand",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R1_LanternBlockout": {
+					"blender_converted_world_origin": [
+						0.365000009536743,
+						0.418999999761581,
+						0.131999999284744
+					],
+					"delta_m": 0.571147978305817,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R1_LanternBlockout",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 broad folded collar -1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 broad folded collar -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 broad folded collar 1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 broad folded collar 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 curved sole -1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 curved sole -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 curved sole 1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 curved sole 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 lantern handle": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 lantern handle",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 moustache -1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 moustache -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 moustache 1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 moustache 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 smile": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 smile",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 trouser -1": {
+					"blender_converted_world_origin": [
+						-0.150999993085861,
+						0.291000008583069,
+						-0.0179999992251396
+					],
+					"delta_m": 0.328338235616684,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 trouser -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 trouser 1": {
+					"blender_converted_world_origin": [
+						0.150999993085861,
+						0.291000008583069,
+						-0.0179999992251396
+					],
+					"delta_m": 0.328338235616684,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 trouser 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2_ContinuousCoat": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2_ContinuousCoat",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2_GnomeRoot": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot",
+					"origin_correspondence_enforced": true,
+					"skinned_mesh_origin_may_be_rebased": false
+				},
+				"R2_LanternGripHand": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2_LanternGripHand",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2_OneSweptBeard": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2_OneSweptBeard",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2_OpenInvitationHand": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2_OpenInvitationHand",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R3_OneFoldStorybookCap": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R3_OneFoldStorybookCap",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R3_RightSleeve": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R3_RightSleeve",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R3_RightTorsoPatch": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R3_RightTorsoPatch",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4 inset eye -1": {
+					"blender_converted_world_origin": [
+						-0.0839999988675117,
+						1.16999995708466,
+						0.128999993205071
+					],
+					"delta_m": 1.18008351325989,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4 inset eye -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4 inset eye 1": {
+					"blender_converted_world_origin": [
+						0.0839999988675117,
+						1.16799998283386,
+						0.128999993205071
+					],
+					"delta_m": 1.1781005859375,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4 inset eye 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4 pupil -1": {
+					"blender_converted_world_origin": [
+						-0.0850000008940697,
+						1.16999995708466,
+						0.151299998164177
+					],
+					"delta_m": 1.18280029296875,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4 pupil -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4 pupil 1": {
+					"blender_converted_world_origin": [
+						0.0829999968409538,
+						1.16799998283386,
+						0.151299998164177
+					],
+					"delta_m": 1.18067967891693,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4 pupil 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4 soft brow -1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4 soft brow -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4 soft brow 1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4 soft brow 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4_ContinuousFacialPlanes": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4_ContinuousFacialPlanes",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				}
+			},
+			"time_s": 1.5
+		},
+		{
+			"bones": {
+				"Chest": {
+					"blender_converted_world": [
+						0.0,
+						0.561500012874603,
+						-0.0179999992251396
+					],
+					"delta_m": 0.000551760196685791,
+					"godot_world": [
+						0.0,
+						0.560948252677917,
+						-0.0179999992251396
+					]
+				},
+				"Head": {
+					"blender_converted_world": [
+						0.00333790993317962,
+						0.986486911773682,
+						-0.0179999992251396
+					],
+					"delta_m": 0.00118708680383861,
+					"godot_world": [
+						0.0022832143586129,
+						0.985942125320435,
+						-0.0179999992251396
+					]
+				},
+				"Root": {
+					"blender_converted_world": [
+						0.0,
+						0.119999997317791,
+						-0.0179999992251396
+					],
+					"delta_m": 0.0,
+					"godot_world": [
+						0.0,
+						0.119999997317791,
+						-0.0179999992251396
+					]
+				},
+				"forearm.L": {
+					"blender_converted_world": [
+						0.291444033384323,
+						0.744216680526733,
+						-0.00599998794496059
+					],
+					"delta_m": 0.000485376134747639,
+					"godot_world": [
+						0.290989756584167,
+						0.744387626647949,
+						-0.00600001867860556
+					]
+				},
+				"forearm.R": {
+					"blender_converted_world": [
+						-0.338624715805054,
+						0.845099210739136,
+						0.0149999745190144
+					],
+					"delta_m": 0.00193393556401134,
+					"godot_world": [
+						-0.339270949363709,
+						0.84327644109726,
+						0.0149999745190144
+					]
+				},
+				"hand.L": {
+					"blender_converted_world": [
+						0.330461084842682,
+						0.618906378746033,
+						0.0800000205636024
+					],
+					"delta_m": 0.000304032961139455,
+					"godot_world": [
+						0.330317705869675,
+						0.619174480438232,
+						0.0799999982118607
+					]
+				},
+				"hand.R": {
+					"blender_converted_world": [
+						-0.425231844186783,
+						0.876709461212158,
+						0.0999999791383743
+					],
+					"delta_m": 0.00258505484089255,
+					"godot_world": [
+						-0.426099181175232,
+						0.874274253845215,
+						0.0999999642372131
+					]
+				},
+				"lantern": {
+					"blender_converted_world": [
+						0.365224361419678,
+						0.58863240480423,
+						0.132000014185905
+					],
+					"delta_m": 0.000360884499968961,
+					"godot_world": [
+						0.36515599489212,
+						0.588986754417419,
+						0.131999954581261
+					]
+				},
+				"upperarm.L": {
+					"blender_converted_world": [
+						0.202310740947723,
+						0.854920148849487,
+						-0.0179999992251396
+					],
+					"delta_m": 0.000730570522136986,
+					"godot_world": [
+						0.201581925153732,
+						0.854869544506073,
+						-0.0179999992251396
+					]
+				},
+				"upperarm.R": {
+					"blender_converted_world": [
+						-0.197637662291527,
+						0.863061547279358,
+						-0.0179999992251396
+					],
+					"delta_m": 0.00128347298596054,
+					"godot_world": [
+						-0.198385432362556,
+						0.862018406391144,
+						-0.0179999992251396
+					]
+				}
+			},
+			"objects": {
+				"R1_Boot_-1": {
+					"blender_converted_world_origin": [
+						-0.150999993085861,
+						0.186000004410744,
+						-0.0199999995529652
+					],
+					"delta_m": 0.240410059690475,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R1_Boot_-1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R1_Boot_1": {
+					"blender_converted_world_origin": [
+						0.150999993085861,
+						0.186000004410744,
+						-0.0199999995529652
+					],
+					"delta_m": 0.240410059690475,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R1_Boot_1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R1_FoldedCapBand": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R1_FoldedCapBand",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R1_LanternBlockout": {
+					"blender_converted_world_origin": [
+						0.365000009536743,
+						0.418999999761581,
+						0.131999999284744
+					],
+					"delta_m": 0.571147978305817,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R1_LanternBlockout",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 broad folded collar -1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 broad folded collar -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 broad folded collar 1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 broad folded collar 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 curved sole -1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 curved sole -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 curved sole 1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 curved sole 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 lantern handle": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 lantern handle",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 moustache -1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 moustache -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 moustache 1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 moustache 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 smile": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 smile",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 trouser -1": {
+					"blender_converted_world_origin": [
+						-0.150999993085861,
+						0.291000008583069,
+						-0.0179999992251396
+					],
+					"delta_m": 0.328338235616684,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 trouser -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 trouser 1": {
+					"blender_converted_world_origin": [
+						0.150999993085861,
+						0.291000008583069,
+						-0.0179999992251396
+					],
+					"delta_m": 0.328338235616684,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 trouser 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2_ContinuousCoat": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2_ContinuousCoat",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2_GnomeRoot": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot",
+					"origin_correspondence_enforced": true,
+					"skinned_mesh_origin_may_be_rebased": false
+				},
+				"R2_LanternGripHand": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2_LanternGripHand",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2_OneSweptBeard": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2_OneSweptBeard",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2_OpenInvitationHand": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2_OpenInvitationHand",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R3_OneFoldStorybookCap": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R3_OneFoldStorybookCap",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R3_RightSleeve": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R3_RightSleeve",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R3_RightTorsoPatch": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R3_RightTorsoPatch",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4 inset eye -1": {
+					"blender_converted_world_origin": [
+						-0.0839999988675117,
+						1.16999995708466,
+						0.128999993205071
+					],
+					"delta_m": 1.18008351325989,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4 inset eye -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4 inset eye 1": {
+					"blender_converted_world_origin": [
+						0.0839999988675117,
+						1.16799998283386,
+						0.128999993205071
+					],
+					"delta_m": 1.1781005859375,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4 inset eye 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4 pupil -1": {
+					"blender_converted_world_origin": [
+						-0.0850000008940697,
+						1.16999995708466,
+						0.151299998164177
+					],
+					"delta_m": 1.18280029296875,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4 pupil -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4 pupil 1": {
+					"blender_converted_world_origin": [
+						0.0829999968409538,
+						1.16799998283386,
+						0.151299998164177
+					],
+					"delta_m": 1.18067967891693,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4 pupil 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4 soft brow -1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4 soft brow -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4 soft brow 1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4 soft brow 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4_ContinuousFacialPlanes": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4_ContinuousFacialPlanes",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				}
+			},
+			"time_s": 2.25
+		},
+		{
+			"bones": {
+				"Chest": {
+					"blender_converted_world": [
+						0.0,
+						0.560656249523163,
+						-0.0179999992251396
+					],
+					"delta_m": 0.000355184078216553,
+					"godot_world": [
+						0.0,
+						0.561011433601379,
+						-0.0179999992251396
+					]
+				},
+				"Head": {
+					"blender_converted_world": [
+						0.00114737870171666,
+						0.985654711723328,
+						-0.0179999992251396
+					],
+					"delta_m": 0.000364666106179357,
+					"godot_world": [
+						0.0012310144957155,
+						0.986009657382965,
+						-0.0179999992251396
+					]
+				},
+				"Root": {
+					"blender_converted_world": [
+						0.0,
+						0.119999997317791,
+						-0.0179999992251396
+					],
+					"delta_m": 0.0,
+					"godot_world": [
+						0.0,
+						0.119999997317791,
+						-0.0179999992251396
+					]
+				},
+				"forearm.L": {
+					"blender_converted_world": [
+						0.290498405694962,
+						0.744872689247131,
+						-0.00599998794496059
+					],
+					"delta_m": 0.000300225714454427,
+					"godot_world": [
+						0.29053470492363,
+						0.745170712471008,
+						-0.00600001867860556
+					]
+				},
+				"forearm.R": {
+					"blender_converted_world": [
+						-0.339395523071289,
+						0.837909400463104,
+						0.0149999931454659
+					],
+					"delta_m": 0.000586438516620547,
+					"godot_world": [
+						-0.339368045330048,
+						0.838495194911957,
+						0.015000008046627
+					]
+				},
+				"hand.L": {
+					"blender_converted_world": [
+						0.330160796642303,
+						0.619765162467957,
+						0.0800000205636024
+					],
+					"delta_m": 0.000290392898023129,
+					"godot_world": [
+						0.330172538757324,
+						0.620055317878723,
+						0.0799999982118607
+					]
+				},
+				"hand.R": {
+					"blender_converted_world": [
+						-0.42717507481575,
+						0.86610072851181,
+						0.100000001490116
+					],
+					"delta_m": 0.000649941095616668,
+					"godot_world": [
+						-0.427127540111542,
+						0.866748929023743,
+						0.100000016391277
+					]
+				},
+				"lantern": {
+					"blender_converted_world": [
+						0.365079671144485,
+						0.589670777320862,
+						0.132000014185905
+					],
+					"delta_m": 0.000283241301076487,
+					"godot_world": [
+						0.365085482597351,
+						0.58995395898819,
+						0.131999954581261
+					]
+				},
+				"upperarm.L": {
+					"blender_converted_world": [
+						0.200795695185661,
+						0.855115294456482,
+						-0.0179999992251396
+					],
+					"delta_m": 0.000320938765071332,
+					"godot_world": [
+						0.200853630900383,
+						0.855430960655212,
+						-0.0179999992251396
+					]
+				},
+				"upperarm.R": {
+					"blender_converted_world": [
+						-0.199189364910126,
+						0.861195087432861,
+						-0.0179999992251396
+					],
+					"delta_m": 0.000398813630454242,
+					"godot_world": [
+						-0.199130222201347,
+						0.86158949136734,
+						-0.0179999992251396
+					]
+				}
+			},
+			"objects": {
+				"R1_Boot_-1": {
+					"blender_converted_world_origin": [
+						-0.150999993085861,
+						0.186000004410744,
+						-0.0199999995529652
+					],
+					"delta_m": 0.240410059690475,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R1_Boot_-1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R1_Boot_1": {
+					"blender_converted_world_origin": [
+						0.150999993085861,
+						0.186000004410744,
+						-0.0199999995529652
+					],
+					"delta_m": 0.240410059690475,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R1_Boot_1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R1_FoldedCapBand": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R1_FoldedCapBand",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R1_LanternBlockout": {
+					"blender_converted_world_origin": [
+						0.365000009536743,
+						0.418999999761581,
+						0.131999999284744
+					],
+					"delta_m": 0.571147978305817,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R1_LanternBlockout",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 broad folded collar -1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 broad folded collar -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 broad folded collar 1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 broad folded collar 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 curved sole -1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 curved sole -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 curved sole 1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 curved sole 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 lantern handle": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 lantern handle",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 moustache -1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 moustache -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 moustache 1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 moustache 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 smile": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 smile",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 trouser -1": {
+					"blender_converted_world_origin": [
+						-0.150999993085861,
+						0.291000008583069,
+						-0.0179999992251396
+					],
+					"delta_m": 0.328338235616684,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 trouser -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 trouser 1": {
+					"blender_converted_world_origin": [
+						0.150999993085861,
+						0.291000008583069,
+						-0.0179999992251396
+					],
+					"delta_m": 0.328338235616684,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 trouser 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2_ContinuousCoat": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2_ContinuousCoat",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2_GnomeRoot": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot",
+					"origin_correspondence_enforced": true,
+					"skinned_mesh_origin_may_be_rebased": false
+				},
+				"R2_LanternGripHand": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2_LanternGripHand",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2_OneSweptBeard": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2_OneSweptBeard",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2_OpenInvitationHand": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2_OpenInvitationHand",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R3_OneFoldStorybookCap": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R3_OneFoldStorybookCap",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R3_RightSleeve": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R3_RightSleeve",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R3_RightTorsoPatch": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R3_RightTorsoPatch",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4 inset eye -1": {
+					"blender_converted_world_origin": [
+						-0.0839999988675117,
+						1.16999995708466,
+						0.128999993205071
+					],
+					"delta_m": 1.18008351325989,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4 inset eye -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4 inset eye 1": {
+					"blender_converted_world_origin": [
+						0.0839999988675117,
+						1.16799998283386,
+						0.128999993205071
+					],
+					"delta_m": 1.1781005859375,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4 inset eye 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4 pupil -1": {
+					"blender_converted_world_origin": [
+						-0.0850000008940697,
+						1.16999995708466,
+						0.151299998164177
+					],
+					"delta_m": 1.18280029296875,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4 pupil -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4 pupil 1": {
+					"blender_converted_world_origin": [
+						0.0829999968409538,
+						1.16799998283386,
+						0.151299998164177
+					],
+					"delta_m": 1.18067967891693,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4 pupil 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4 soft brow -1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4 soft brow -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4 soft brow 1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4 soft brow 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4_ContinuousFacialPlanes": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4_ContinuousFacialPlanes",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				}
+			},
+			"time_s": 3.0
+		},
+		{
+			"bones": {
+				"Chest": {
+					"blender_converted_world": [
+						0.0,
+						0.560850024223328,
+						-0.0179999992251396
+					],
+					"delta_m": 0.0000914335250854492,
+					"godot_world": [
+						0.0,
+						0.560758590698242,
+						-0.0179999992251396
+					]
+				},
+				"Head": {
+					"blender_converted_world": [
+						0.00166896765585989,
+						0.985846757888794,
+						-0.0179999992251396
+					],
+					"delta_m": 0.0000944597195484675,
+					"godot_world": [
+						0.00169222138356417,
+						0.985755205154419,
+						-0.0179999992251396
+					]
+				},
+				"Root": {
+					"blender_converted_world": [
+						0.0,
+						0.119999997317791,
+						-0.0179999992251396
+					],
+					"delta_m": 0.0,
+					"godot_world": [
+						0.0,
+						0.119999997317791,
+						-0.0179999992251396
+					]
+				},
+				"forearm.L": {
+					"blender_converted_world": [
+						0.290724277496338,
+						0.744709730148315,
+						-0.00599998794496059
+					],
+					"delta_m": 0.000107765794382431,
+					"godot_world": [
+						0.29073441028595,
+						0.74460244178772,
+						-0.00600001867860556
+					]
+				},
+				"forearm.R": {
+					"blender_converted_world": [
+						-0.338959276676178,
+						0.837945997714996,
+						0.0150000005960464
+					],
+					"delta_m": 0.0000823178343125619,
+					"godot_world": [
+						-0.338942766189575,
+						0.837865352630615,
+						0.0150000154972076
+					]
+				},
+				"hand.L": {
+					"blender_converted_world": [
+						0.330233097076416,
+						0.619553625583649,
+						0.0800000205636024
+					],
+					"delta_m": 0.000109605090983678,
+					"godot_world": [
+						0.330236464738846,
+						0.619444072246552,
+						0.0799999982118607
+					]
+				},
+				"hand.R": {
+					"blender_converted_world": [
+						-0.427796244621277,
+						0.862603545188904,
+						0.100000023841858
+					],
+					"delta_m": 0.0000847525661811233,
+					"godot_world": [
+						-0.427780449390411,
+						0.862520277500153,
+						0.100000031292439
+					]
+				},
+				"lantern": {
+					"blender_converted_world": [
+						0.365115016698837,
+						0.58941638469696,
+						0.132000014185905
+					],
+					"delta_m": 0.000111592838948127,
+					"godot_world": [
+						0.365116715431213,
+						0.589304804801941,
+						0.131999954581261
+					]
+				},
+				"upperarm.L": {
+					"blender_converted_world": [
+						0.201156929135323,
+						0.855062365531921,
+						-0.0179999992251396
+					],
+					"delta_m": 0.000103657672298141,
+					"godot_world": [
+						0.201173022389412,
+						0.854959964752197,
+						-0.0179999992251396
+					]
+				},
+				"upperarm.R": {
+					"blender_converted_world": [
+						-0.198820367455482,
+						0.86163318157196,
+						-0.0179999992251396
+					],
+					"delta_m": 0.0000822474976303056,
+					"godot_world": [
+						-0.198803916573524,
+						0.861552596092224,
+						-0.0179999992251396
+					]
+				}
+			},
+			"objects": {
+				"R1_Boot_-1": {
+					"blender_converted_world_origin": [
+						-0.150999993085861,
+						0.186000004410744,
+						-0.0199999995529652
+					],
+					"delta_m": 0.240410059690475,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R1_Boot_-1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R1_Boot_1": {
+					"blender_converted_world_origin": [
+						0.150999993085861,
+						0.186000004410744,
+						-0.0199999995529652
+					],
+					"delta_m": 0.240410059690475,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R1_Boot_1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R1_FoldedCapBand": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R1_FoldedCapBand",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R1_LanternBlockout": {
+					"blender_converted_world_origin": [
+						0.365000009536743,
+						0.418999999761581,
+						0.131999999284744
+					],
+					"delta_m": 0.571147978305817,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R1_LanternBlockout",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 broad folded collar -1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 broad folded collar -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 broad folded collar 1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 broad folded collar 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 curved sole -1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 curved sole -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 curved sole 1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 curved sole 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 lantern handle": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 lantern handle",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 moustache -1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 moustache -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 moustache 1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 moustache 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 smile": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 smile",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 trouser -1": {
+					"blender_converted_world_origin": [
+						-0.150999993085861,
+						0.291000008583069,
+						-0.0179999992251396
+					],
+					"delta_m": 0.328338235616684,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 trouser -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 trouser 1": {
+					"blender_converted_world_origin": [
+						0.150999993085861,
+						0.291000008583069,
+						-0.0179999992251396
+					],
+					"delta_m": 0.328338235616684,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 trouser 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2_ContinuousCoat": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2_ContinuousCoat",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2_GnomeRoot": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot",
+					"origin_correspondence_enforced": true,
+					"skinned_mesh_origin_may_be_rebased": false
+				},
+				"R2_LanternGripHand": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2_LanternGripHand",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2_OneSweptBeard": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2_OneSweptBeard",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2_OpenInvitationHand": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2_OpenInvitationHand",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R3_OneFoldStorybookCap": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R3_OneFoldStorybookCap",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R3_RightSleeve": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R3_RightSleeve",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R3_RightTorsoPatch": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R3_RightTorsoPatch",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4 inset eye -1": {
+					"blender_converted_world_origin": [
+						-0.0839999988675117,
+						1.16999995708466,
+						0.128999993205071
+					],
+					"delta_m": 1.18008351325989,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4 inset eye -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4 inset eye 1": {
+					"blender_converted_world_origin": [
+						0.0839999988675117,
+						1.16799998283386,
+						0.128999993205071
+					],
+					"delta_m": 1.1781005859375,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4 inset eye 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4 pupil -1": {
+					"blender_converted_world_origin": [
+						-0.0850000008940697,
+						1.16999995708466,
+						0.151299998164177
+					],
+					"delta_m": 1.18280029296875,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4 pupil -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4 pupil 1": {
+					"blender_converted_world_origin": [
+						0.0829999968409538,
+						1.16799998283386,
+						0.151299998164177
+					],
+					"delta_m": 1.18067967891693,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4 pupil 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4 soft brow -1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4 soft brow -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4 soft brow 1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4 soft brow 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4_ContinuousFacialPlanes": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4_ContinuousFacialPlanes",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				}
+			},
+			"time_s": 3.75
+		},
+		{
+			"bones": {
+				"Chest": {
+					"blender_converted_world": [
+						0.0,
+						0.561068177223206,
+						-0.0179999992251396
+					],
+					"delta_m": 0.000562429428100586,
+					"godot_world": [
+						0.0,
+						0.560505747795105,
+						-0.0179999992251396
+					]
+				},
+				"Head": {
+					"blender_converted_world": [
+						0.00227200938388705,
+						0.986062109470367,
+						-0.0179999992251396
+					],
+					"delta_m": 0.000602975604124367,
+					"godot_world": [
+						0.00205172481946647,
+						0.985500812530518,
+						-0.0179999992251396
+					]
+				},
+				"Root": {
+					"blender_converted_world": [
+						0.0,
+						0.119999997317791,
+						-0.0179999992251396
+					],
+					"delta_m": 0.0,
+					"godot_world": [
+						0.0,
+						0.119999997317791,
+						-0.0179999992251396
+					]
+				},
+				"forearm.L": {
+					"blender_converted_world": [
+						0.290984839200974,
+						0.744515180587769,
+						-0.00599998794496059
+					],
+					"delta_m": 0.000422458891989663,
+					"godot_world": [
+						0.290889799594879,
+						0.74410355091095,
+						-0.00600001867860556
+					]
+				},
+				"forearm.R": {
+					"blender_converted_world": [
+						-0.330717355012894,
+						0.810264408588409,
+						0.0150000005960464
+					],
+					"delta_m": 0.000745234428904951,
+					"godot_world": [
+						-0.330846428871155,
+						0.809530436992645,
+						0.0150000154972076
+					]
+				},
+				"hand.L": {
+					"blender_converted_world": [
+						0.330316036939621,
+						0.619303107261658,
+						0.0800000205636024
+					],
+					"delta_m": 0.000392398767871782,
+					"godot_world": [
+						0.330285966396332,
+						0.618911862373352,
+						0.0799999982118607
+					]
+				},
+				"hand.R": {
+					"blender_converted_world": [
+						-0.422896057367325,
+						0.808506727218628,
+						0.100000008940697
+					],
+					"delta_m": 0.000792144564911723,
+					"godot_world": [
+						-0.42302417755127,
+						0.807725012302399,
+						0.100000023841858
+					]
+				},
+				"lantern": {
+					"blender_converted_world": [
+						0.365155160427094,
+						0.589116394519806,
+						0.132000014185905
+					],
+					"delta_m": 0.000373524060705677,
+					"godot_world": [
+						0.365140706300735,
+						0.588743150234222,
+						0.131999954581261
+					]
+				},
+				"upperarm.L": {
+					"blender_converted_world": [
+						0.201574176549912,
+						0.854994773864746,
+						-0.0179999992251396
+					],
+					"delta_m": 0.000482685572933406,
+					"godot_world": [
+						0.201421797275543,
+						0.854536771774292,
+						-0.0179999992251396
+					]
+				},
+				"upperarm.R": {
+					"blender_converted_world": [
+						-0.198393374681473,
+						0.862133085727692,
+						-0.0179999992251396
+					],
+					"delta_m": 0.000683413119986653,
+					"godot_world": [
+						-0.198549389839172,
+						0.861467719078064,
+						-0.0179999992251396
+					]
+				}
+			},
+			"objects": {
+				"R1_Boot_-1": {
+					"blender_converted_world_origin": [
+						-0.150999993085861,
+						0.186000004410744,
+						-0.0199999995529652
+					],
+					"delta_m": 0.240410059690475,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R1_Boot_-1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R1_Boot_1": {
+					"blender_converted_world_origin": [
+						0.150999993085861,
+						0.186000004410744,
+						-0.0199999995529652
+					],
+					"delta_m": 0.240410059690475,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R1_Boot_1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R1_FoldedCapBand": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R1_FoldedCapBand",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R1_LanternBlockout": {
+					"blender_converted_world_origin": [
+						0.365000009536743,
+						0.418999999761581,
+						0.131999999284744
+					],
+					"delta_m": 0.571147978305817,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R1_LanternBlockout",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 broad folded collar -1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 broad folded collar -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 broad folded collar 1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 broad folded collar 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 curved sole -1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 curved sole -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 curved sole 1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 curved sole 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 lantern handle": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 lantern handle",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 moustache -1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 moustache -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 moustache 1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 moustache 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 smile": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 smile",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 trouser -1": {
+					"blender_converted_world_origin": [
+						-0.150999993085861,
+						0.291000008583069,
+						-0.0179999992251396
+					],
+					"delta_m": 0.328338235616684,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 trouser -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 trouser 1": {
+					"blender_converted_world_origin": [
+						0.150999993085861,
+						0.291000008583069,
+						-0.0179999992251396
+					],
+					"delta_m": 0.328338235616684,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 trouser 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2_ContinuousCoat": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2_ContinuousCoat",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2_GnomeRoot": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot",
+					"origin_correspondence_enforced": true,
+					"skinned_mesh_origin_may_be_rebased": false
+				},
+				"R2_LanternGripHand": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2_LanternGripHand",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2_OneSweptBeard": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2_OneSweptBeard",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2_OpenInvitationHand": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2_OpenInvitationHand",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R3_OneFoldStorybookCap": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R3_OneFoldStorybookCap",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R3_RightSleeve": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R3_RightSleeve",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R3_RightTorsoPatch": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R3_RightTorsoPatch",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4 inset eye -1": {
+					"blender_converted_world_origin": [
+						-0.0839999988675117,
+						1.16999995708466,
+						0.128999993205071
+					],
+					"delta_m": 1.18008351325989,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4 inset eye -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4 inset eye 1": {
+					"blender_converted_world_origin": [
+						0.0839999988675117,
+						1.16799998283386,
+						0.128999993205071
+					],
+					"delta_m": 1.1781005859375,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4 inset eye 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4 pupil -1": {
+					"blender_converted_world_origin": [
+						-0.0850000008940697,
+						1.16999995708466,
+						0.151299998164177
+					],
+					"delta_m": 1.18280029296875,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4 pupil -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4 pupil 1": {
+					"blender_converted_world_origin": [
+						0.0829999968409538,
+						1.16799998283386,
+						0.151299998164177
+					],
+					"delta_m": 1.18067967891693,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4 pupil 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4 soft brow -1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4 soft brow -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4 soft brow 1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4 soft brow 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4_ContinuousFacialPlanes": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4_ContinuousFacialPlanes",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				}
+			},
+			"time_s": 4.5
+		},
+		{
+			"bones": {
+				"Chest": {
+					"blender_converted_world": [
+						0.0,
+						0.560000002384186,
+						-0.0179999992251396
+					],
+					"delta_m": 0.0,
+					"godot_world": [
+						0.0,
+						0.560000002384186,
+						-0.0179999992251396
+					]
+				},
+				"Head": {
+					"blender_converted_world": [
+						0.0,
+						0.985000014305115,
+						-0.0179999992251396
+					],
+					"delta_m": 0.0,
+					"godot_world": [
+						0.0,
+						0.985000014305115,
+						-0.0179999992251396
+					]
+				},
+				"Root": {
+					"blender_converted_world": [
+						0.0,
+						0.119999997317791,
+						-0.0179999992251396
+					],
+					"delta_m": 0.0,
+					"godot_world": [
+						0.0,
+						0.119999997317791,
+						-0.0179999992251396
+					]
+				},
+				"forearm.L": {
+					"blender_converted_world": [
+						0.290000021457672,
+						0.745000004768372,
+						-0.00599998794496059
+					],
+					"delta_m": 0.0000000670616913112099,
+					"godot_world": [
+						0.290000081062317,
+						0.745000004768372,
+						-0.00600001867860556
+					]
+				},
+				"forearm.R": {
+					"blender_converted_world": [
+						-0.289999961853027,
+						0.750000059604645,
+						0.0149999968707561
+					],
+					"delta_m": 0.0000000667440644974704,
+					"godot_world": [
+						-0.289999932050705,
+						0.75,
+						0.0150000005960464
+					]
+				},
+				"hand.L": {
+					"blender_converted_world": [
+						0.330000013113022,
+						0.620000004768372,
+						0.0800000205636024
+					],
+					"delta_m": 0.000000162039427209493,
+					"godot_world": [
+						0.330000162124634,
+						0.619999945163727,
+						0.0799999982118607
+					]
+				},
+				"hand.R": {
+					"blender_converted_world": [
+						-0.349999964237213,
+						0.680000066757202,
+						0.100000008940697
+					],
+					"delta_m": 0.0000000600685012841495,
+					"godot_world": [
+						-0.349999964237213,
+						0.680000007152557,
+						0.100000016391277
+					]
+				},
+				"lantern": {
+					"blender_converted_world": [
+						0.365000009536743,
+						0.589999973773956,
+						0.132000014185905
+					],
+					"delta_m": 0.000000223020165890375,
+					"godot_world": [
+						0.365000128746033,
+						0.589999794960022,
+						0.131999954581261
+					]
+				},
+				"upperarm.L": {
+					"blender_converted_world": [
+						0.200000002980232,
+						0.855000019073486,
+						-0.0179999992251396
+					],
+					"delta_m": 0.0,
+					"godot_world": [
+						0.200000002980232,
+						0.855000019073486,
+						-0.0179999992251396
+					]
+				},
+				"upperarm.R": {
+					"blender_converted_world": [
+						-0.200000002980232,
+						0.860000014305115,
+						-0.0179999992251396
+					],
+					"delta_m": 0.0,
+					"godot_world": [
+						-0.200000002980232,
+						0.860000014305115,
+						-0.0179999992251396
+					]
+				}
+			},
+			"objects": {
+				"R1_Boot_-1": {
+					"blender_converted_world_origin": [
+						-0.150999993085861,
+						0.186000004410744,
+						-0.0199999995529652
+					],
+					"delta_m": 0.240410059690475,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R1_Boot_-1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R1_Boot_1": {
+					"blender_converted_world_origin": [
+						0.150999993085861,
+						0.186000004410744,
+						-0.0199999995529652
+					],
+					"delta_m": 0.240410059690475,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R1_Boot_1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R1_FoldedCapBand": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R1_FoldedCapBand",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R1_LanternBlockout": {
+					"blender_converted_world_origin": [
+						0.365000009536743,
+						0.418999999761581,
+						0.131999999284744
+					],
+					"delta_m": 0.571147978305817,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R1_LanternBlockout",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 broad folded collar -1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 broad folded collar -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 broad folded collar 1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 broad folded collar 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 curved sole -1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 curved sole -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 curved sole 1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 curved sole 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 lantern handle": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 lantern handle",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 moustache -1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 moustache -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 moustache 1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 moustache 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 smile": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 smile",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 trouser -1": {
+					"blender_converted_world_origin": [
+						-0.150999993085861,
+						0.291000008583069,
+						-0.0179999992251396
+					],
+					"delta_m": 0.328338235616684,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 trouser -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2 trouser 1": {
+					"blender_converted_world_origin": [
+						0.150999993085861,
+						0.291000008583069,
+						-0.0179999992251396
+					],
+					"delta_m": 0.328338235616684,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2 trouser 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2_ContinuousCoat": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2_ContinuousCoat",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2_GnomeRoot": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot",
+					"origin_correspondence_enforced": true,
+					"skinned_mesh_origin_may_be_rebased": false
+				},
+				"R2_LanternGripHand": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2_LanternGripHand",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2_OneSweptBeard": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2_OneSweptBeard",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R2_OpenInvitationHand": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R2_OpenInvitationHand",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R3_OneFoldStorybookCap": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R3_OneFoldStorybookCap",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R3_RightSleeve": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R3_RightSleeve",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R3_RightTorsoPatch": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R3_RightTorsoPatch",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4 inset eye -1": {
+					"blender_converted_world_origin": [
+						-0.0839999988675117,
+						1.16999995708466,
+						0.128999993205071
+					],
+					"delta_m": 1.18008351325989,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4 inset eye -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4 inset eye 1": {
+					"blender_converted_world_origin": [
+						0.0839999988675117,
+						1.16799998283386,
+						0.128999993205071
+					],
+					"delta_m": 1.1781005859375,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4 inset eye 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4 pupil -1": {
+					"blender_converted_world_origin": [
+						-0.0850000008940697,
+						1.16999995708466,
+						0.151299998164177
+					],
+					"delta_m": 1.18280029296875,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4 pupil -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4 pupil 1": {
+					"blender_converted_world_origin": [
+						0.0829999968409538,
+						1.16799998283386,
+						0.151299998164177
+					],
+					"delta_m": 1.18067967891693,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4 pupil 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4 soft brow -1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4 soft brow -1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4 soft brow 1": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4 soft brow 1",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				},
+				"R4_ContinuousFacialPlanes": {
+					"blender_converted_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"delta_m": 0.0,
+					"godot_world_origin": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"node_path": "/root/gnome_r3/R2_GnomeRoot/RigR1_GnomeArmature/Skeleton3D/R4_ContinuousFacialPlanes",
+					"origin_correspondence_enforced": false,
+					"skinned_mesh_origin_may_be_rebased": true
+				}
+			},
+			"time_s": 6.0
+		}
+	],
+	"schema": "GNOME_R3_GODOT_IMPORT_VALIDATION_V1",
+	"source_sha256_actual": "0335bcc275bfbc8e3b7d3ea43bde2fad6c8ece5281a750007290ef154ac8bffc",
+	"source_sha256_expected": "0335bcc275bfbc8e3b7d3ea43bde2fad6c8ece5281a750007290ef154ac8bffc",
+	"status": "FAIL"
+}

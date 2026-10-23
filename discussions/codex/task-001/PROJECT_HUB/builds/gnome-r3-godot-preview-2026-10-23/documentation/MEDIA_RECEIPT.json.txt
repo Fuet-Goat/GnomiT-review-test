@@ -1,0 +1,20 @@
+{
+  "status": "REAL_GODOT_CAPTURE_ENCODED",
+  "gif": "GODOT_R3_GREETING.gif",
+  "bytes": 4985574,
+  "sha256": "9661191a98a6dcdade2420afb9227591c3b04f5b8b9800e197e54d6ce8e3258c",
+  "decoded_frames": 117,
+  "decoded_duration_ms": 6000,
+  "native_clip_loops": false,
+  "GIF_preview_loops_for_review": true,
+  "no_AI_raster_generation_or_synthetic_motion": true,
+  "lossy_256_colour_quantisation": true,
+  "comparison": "Same native model/gesture/camera framing, separate Blender/Godot studios; not pixel-identical lighting",
+  "comparison_blender_frames": {
+    "37": "f1447bee95888f70e6b248b19eaf32480a90999fb238d7ab75e5219c3f30dd74",
+    "55": "3e6db8d79907bf70587eb3e9097a71ab5dd3c20c816a3069ae76f1f63fb6f16e",
+    "73": "000d7c124ec3cca6404d68badfcf266078b0b0c27d095ccc6ef3eba16882e87c",
+    "91": "80e02b31aa9278ad4c50914790692af7cd6d0372f7e3c9c6644939282123ec82",
+    "109": "b525acdb293166622a6f35e7ee0fdc916c0feb23674ee589009a0b1dbbe7b914"
+  }
+}

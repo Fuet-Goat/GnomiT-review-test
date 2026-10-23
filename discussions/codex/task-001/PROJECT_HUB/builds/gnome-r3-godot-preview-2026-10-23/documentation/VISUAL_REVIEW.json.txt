@@ -1,0 +1,8 @@
+{
+  "method": "Actual native Godot PNGs and Blender/Godot comparison sheet inspected",
+  "observed": "Open underarm silhouette retained; no new shoulder hole, detachment or cuff separation visible.",
+  "independent_review": "Same findings; Replay/Reduced Motion code has no obvious regression.",
+  "known_cosmetic_limit": "Small torso-patch crease below sleeve root remains.",
+  "lighting": "Godot studio with AgX/SSAO; differs from Blender. Not pixel-identical lighting.",
+  "human_Godot_acceptance": "PENDING"
+}

@@ -1,0 +1,16 @@
+from pathlib import Path
+import bpy,json,hashlib
+ROOT=Path(__file__).resolve().parents[1]
+source=ROOT/'native/GNOME_R3_ACCEPTED.blend'
+assert hashlib.sha256(source.read_bytes()).hexdigest()=='0335bcc275bfbc8e3b7d3ea43bde2fad6c8ece5281a750007290ef154ac8bffc'
+bpy.ops.wm.open_mainfile(filepath=str(source))
+properties=bpy.ops.export_scene.gltf.get_rna_type().properties
+export={p.identifier:{'default':str(getattr(p,'default','')),'enum':[x.identifier for x in getattr(p,'enum_items',[])]} for p in properties if p.identifier.startswith(('export_','use_'))}
+scene=bpy.context.scene;col=bpy.data.collections['R2_NEW_GNOME']
+result={'blender':bpy.app.version_string,'objects':[{'name':o.name,'type':o.type,'parent':o.parent.name if o.parent else None,'parent_type':o.parent_type,'modifiers':[m.type for m in o.modifiers]} for o in col.all_objects],
+ 'camera':{'name':scene.camera.name,'type':scene.camera.data.type,'scale':scene.camera.data.ortho_scale,'matrix':[list(row) for row in scene.camera.matrix_world]},
+ 'res':[scene.render.resolution_x,scene.render.resolution_y],'fps':scene.render.fps,'frames':[scene.frame_start,scene.frame_end],
+ 'materials':{m.name:[{'type':n.bl_idname,'name':n.name} for n in m.node_tree.nodes] if m.node_tree else [] for m in bpy.data.materials},
+ 'export_properties':export}
+(ROOT/'documentation/EXPORT_INSPECTION.json').write_text(json.dumps(result,indent=2),encoding='utf-8')
+print('EXPORT_INSPECTION '+json.dumps({'objects':len(result['objects']),'camera':result['camera'],'res':result['res'],'fps':result['fps'],'frames':result['frames']}))

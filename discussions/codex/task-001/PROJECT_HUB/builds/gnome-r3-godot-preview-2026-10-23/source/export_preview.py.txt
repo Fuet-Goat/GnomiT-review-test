@@ -1,0 +1,107 @@
+"""Transport the accepted native unchanged; bake procedural PBR fields on RAM-only copies."""
+from pathlib import Path
+import bpy,json,hashlib
+ROOT=Path(__file__).resolve().parents[1]
+SOURCE=ROOT/'native/GNOME_R3_ACCEPTED.blend'
+EXPECTED='0335bcc275bfbc8e3b7d3ea43bde2fad6c8ece5281a750007290ef154ac8bffc'
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def dump(p,d):p.write_text(json.dumps(d,indent=2)+'\n',encoding='utf-8')
+def xyz(v):return [float(v.x),float(v.z),float(-v.y)]
+
+assert sha(SOURCE)==EXPECTED
+bpy.ops.wm.open_mainfile(filepath=str(SOURCE));scene=bpy.context.scene
+asset=bpy.data.collections['R2_NEW_GNOME'];rig=bpy.data.objects['RigR1_GnomeArmature']
+times=[0,1.5,2.25,3,3.75,4.5,6]
+reference={'source_sha256':EXPECTED,'times':times,'poses':[],
+    'expected_bones':[b.name for b in rig.data.bones],
+    'required_objects':['R3_RightSleeve','R3_RightTorsoPatch'],
+    'foot_objects':['R1_Boot_-1','R1_Boot_1','R2 curved sole -1','R2 curved sole 1'],
+    'mesh_samples':{},'axis_conversion':'Blender(x,y,z) -> glTF(x,z,-y)'}
+names=['R3_RightSleeve','R3_RightTorsoPatch','R2_ContinuousCoat','R1_Boot_-1','R1_Boot_1']
+indices={}
+for t in times:
+    scene.frame_set(round(t*24)+1);bpy.context.view_layer.update()
+    reference['poses'].append({'time':t,'bones':{b.name:xyz(rig.matrix_world@b.matrix.translation) for b in rig.pose.bones},
+        'objects':{o.name:xyz(o.matrix_world.translation) for o in asset.all_objects if o.type!='ARMATURE'}})
+    deps=bpy.context.evaluated_depsgraph_get()
+    for name in names:
+        obj=bpy.data.objects[name];evaluated=obj.evaluated_get(deps);mesh=evaluated.to_mesh()
+        if name not in indices:indices[name]=sorted(set(round(i*(len(mesh.vertices)-1)/80) for i in range(81)))
+        points=[xyz(evaluated.matrix_world@mesh.vertices[i].co) for i in indices[name]]
+        if name not in reference['mesh_samples']:reference['mesh_samples'][name]={'rest_positions':points,'poses':[]}
+        reference['mesh_samples'][name]['poses'].append({'time':t,'positions':points})
+        evaluated.to_mesh_clear()
+dump(ROOT/'godot/verification/blender_reference.json',reference)
+scene.frame_set(1)
+
+# glTF cannot carry arbitrary Blender node graphs. Bake their PBR fields, not lighting.
+bake_records=[];scene.render.engine='CYCLES';scene.cycles.samples=1
+scene.render.bake.use_clear=True;scene.render.bake.margin=8
+bake_dir=ROOT/'source/baked_transport_textures';bake_dir.mkdir(exist_ok=True)
+for obj in list(asset.all_objects):
+    if obj.type!='MESH' or not obj.data.materials:continue
+    original=obj.data.materials[0]
+    if not original.node_tree or len(original.node_tree.nodes)<=2:continue
+    bpy.ops.object.select_all(action='DESELECT');obj.select_set(True);bpy.context.view_layer.objects.active=obj
+    mat=original.copy();mat.name=original.name+' [GLB '+obj.name+']';obj.data.materials[0]=mat
+    tree=mat.node_tree;out=next(n for n in tree.nodes if n.type=='OUTPUT_MATERIAL')
+    surface=out.inputs['Surface'].links[0].from_socket
+    def connect(value,input):
+        if isinstance(value,bpy.types.NodeSocket):tree.links.new(value,input)
+        elif isinstance(value,(float,int)):
+            input.default_value=(value,value,value,1) if input.type=='RGBA' else ((value,value,value) if input.type=='VECTOR' else value)
+        else:input.default_value=tuple(value)[:3] if input.type=='VECTOR' else value
+    def value(socket):return socket.links[0].from_socket if socket.is_linked else socket.default_value
+    def mix(a,b,f):
+        n=tree.nodes.new('ShaderNodeMixRGB');n.blend_type='MIX';connect(f,n.inputs[0]);connect(a,n.inputs[1]);connect(b,n.inputs[2]);return n.outputs[0]
+    def field(shader,key):
+        n=shader.node
+        if n.type=='BSDF_PRINCIPLED':
+            if key=='emission':
+                scale=tree.nodes.new('ShaderNodeVectorMath');scale.operation='SCALE'
+                connect(value(n.inputs['Emission Color']),scale.inputs[0]);connect(value(n.inputs['Emission Strength']),scale.inputs[3]);return scale.outputs[0]
+            return value(n.inputs[{'base':'Base Color','rough':'Roughness','metal':'Metallic'}[key]])
+        if n.type=='MIX_SHADER':return mix(field(n.inputs[1].links[0].from_socket,key),field(n.inputs[2].links[0].from_socket,key),value(n.inputs[0]))
+        raise RuntimeError('Unsupported source shader '+n.type)
+    fields={key:field(surface,key) for key in ('base','rough','metal','emission')}
+    strength=max([float(n.inputs['Emission Strength'].default_value) for n in tree.nodes if n.type=='BSDF_PRINCIPLED']+[1.])
+    bpy.ops.object.mode_set(mode='EDIT');bpy.ops.mesh.select_all(action='SELECT');bpy.ops.uv.smart_project(angle_limit=1.151917,island_margin=.02);bpy.ops.object.mode_set(mode='OBJECT')
+    uv=tree.nodes.new('ShaderNodeUVMap');uv.uv_map=obj.data.uv_layers.active.name
+    textures={};size=1024 if 'Beard' in obj.name else 512
+    orm=tree.nodes.new('ShaderNodeCombineXYZ');orm.inputs[0].default_value=1;connect(fields['rough'],orm.inputs[1]);connect(fields['metal'],orm.inputs[2])
+    es=tree.nodes.new('ShaderNodeVectorMath');es.operation='SCALE';connect(fields['emission'],es.inputs[0]);es.inputs[3].default_value=1/strength
+    for key,expr in [('base',fields['base']),('orm',orm.outputs[0]),('emission',es.outputs[0])]:
+        image=bpy.data.images.new(obj.name+' '+key,width=size,height=size,alpha=False)
+        if key=='orm':image.colorspace_settings.name='Non-Color'
+        image.file_format='PNG';image.filepath_raw=str(bake_dir/(obj.name.replace(' ','_')+'_'+key+'.png'))
+        tex=tree.nodes.new('ShaderNodeTexImage');tex.image=image;tree.links.new(uv.outputs['UV'],tex.inputs['Vector'])
+        emission=tree.nodes.new('ShaderNodeEmission');connect(expr,emission.inputs[0]);emission.inputs[1].default_value=1
+        for link in list(out.inputs['Surface'].links):tree.links.remove(link)
+        tree.links.new(emission.outputs[0],out.inputs['Surface']);tree.nodes.active=tex
+        bpy.ops.object.bake(type='EMIT');image.save();textures[key]=tex
+    pbr=tree.nodes.new('ShaderNodeBsdfPrincipled');tree.links.new(textures['base'].outputs['Color'],pbr.inputs['Base Color'])
+    split=tree.nodes.new('ShaderNodeSeparateColor');tree.links.new(textures['orm'].outputs['Color'],split.inputs[0])
+    tree.links.new(split.outputs[1],pbr.inputs['Roughness']);tree.links.new(split.outputs[2],pbr.inputs['Metallic'])
+    tree.links.new(textures['emission'].outputs['Color'],pbr.inputs['Emission Color']);pbr.inputs['Emission Strength'].default_value=strength
+    for link in list(out.inputs['Surface'].links):tree.links.remove(link)
+    tree.links.new(pbr.outputs[0],out.inputs['Surface'])
+    bake_records.append({'object':obj.name,'source_material':original.name,'transport_material':mat.name,'size':size,'emission_strength':strength,
+                         'textures':{k:Path(tex.image.filepath_raw).relative_to(ROOT).as_posix() for k,tex in textures.items()}})
+
+bpy.ops.object.select_all(action='DESELECT')
+for obj in asset.all_objects:obj.select_set(True)
+bpy.context.view_layer.objects.active=rig;scene.frame_start=1;scene.frame_end=145
+gltf=ROOT/'godot/assets/gnome_r3.glb';assert not gltf.exists()
+options=dict(filepath=str(gltf),export_format='GLB',use_selection=True,export_apply=True,
+    export_yup=True,export_skins=True,export_animations=True,export_frame_range=True,
+    export_frame_step=1,export_force_sampling=True,export_animation_mode='ACTIVE_ACTIONS',export_anim_slide_to_zero=True,
+    export_cameras=False,export_lights=False,export_materials='EXPORT',export_image_format='AUTO')
+assert 'FINISHED' in bpy.ops.export_scene.gltf(**options)
+assert sha(SOURCE)==EXPECTED
+dump(ROOT/'documentation/EXPORT_RECEIPT.json',{'status':'GLB_EXPORTED_FROM_ACCEPTED_R3','source_sha256':EXPECTED,
+ 'source_unchanged':True,'glb_sha256':sha(gltf),'glb_bytes':gltf.stat().st_size,'baked_transport_fields':bake_records,
+ 'options':options,'native_saved':False,'geometry_weight_action_edits':False,
+ 'caveats':['PBR field baking approximates arbitrary shader mixtures; native shaders remain unchanged.',
+            'glTF skinning uses matrix blending; source Preserve Volume uses dual quaternions. Parity measured separately.'],
+ 'human_Godot_acceptance':'PENDING','game_integration':False})
+print('GLB_EXPORT_COMPLETE '+sha(gltf),flush=True)

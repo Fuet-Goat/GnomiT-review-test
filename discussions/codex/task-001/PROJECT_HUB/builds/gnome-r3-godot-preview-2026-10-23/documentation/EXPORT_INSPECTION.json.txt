@@ -1,0 +1,1040 @@
+{
+  "blender": "5.2.2 LTS",
+  "objects": [
+    {
+      "name": "R2_ContinuousCoat",
+      "type": "MESH",
+      "parent": "R2_GnomeRoot",
+      "parent_type": "OBJECT",
+      "modifiers": [
+        "ARMATURE"
+      ]
+    },
+    {
+      "name": "R2_OneSweptBeard",
+      "type": "MESH",
+      "parent": "R2_GnomeRoot",
+      "parent_type": "OBJECT",
+      "modifiers": [
+        "SUBSURF",
+        "ARMATURE"
+      ]
+    },
+    {
+      "name": "R2 moustache -1",
+      "type": "MESH",
+      "parent": "R2_GnomeRoot",
+      "parent_type": "OBJECT",
+      "modifiers": [
+        "ARMATURE"
+      ]
+    },
+    {
+      "name": "R2 moustache 1",
+      "type": "MESH",
+      "parent": "R2_GnomeRoot",
+      "parent_type": "OBJECT",
+      "modifiers": [
+        "ARMATURE"
+      ]
+    },
+    {
+      "name": "R2 smile",
+      "type": "MESH",
+      "parent": "R2_GnomeRoot",
+      "parent_type": "OBJECT",
+      "modifiers": [
+        "ARMATURE"
+      ]
+    },
+    {
+      "name": "R1_FoldedCapBand",
+      "type": "MESH",
+      "parent": "R2_GnomeRoot",
+      "parent_type": "OBJECT",
+      "modifiers": [
+        "SUBSURF",
+        "ARMATURE"
+      ]
+    },
+    {
+      "name": "R2 broad folded collar -1",
+      "type": "MESH",
+      "parent": "R2_GnomeRoot",
+      "parent_type": "OBJECT",
+      "modifiers": [
+        "SOLIDIFY",
+        "SUBSURF",
+        "ARMATURE"
+      ]
+    },
+    {
+      "name": "R2 broad folded collar 1",
+      "type": "MESH",
+      "parent": "R2_GnomeRoot",
+      "parent_type": "OBJECT",
+      "modifiers": [
+        "SOLIDIFY",
+        "SUBSURF",
+        "ARMATURE"
+      ]
+    },
+    {
+      "name": "R2 trouser -1",
+      "type": "MESH",
+      "parent": "R2_GnomeRoot",
+      "parent_type": "OBJECT",
+      "modifiers": [
+        "ARMATURE"
+      ]
+    },
+    {
+      "name": "R1_Boot_-1",
+      "type": "MESH",
+      "parent": "R2_GnomeRoot",
+      "parent_type": "OBJECT",
+      "modifiers": [
+        "ARMATURE"
+      ]
+    },
+    {
+      "name": "R2 curved sole -1",
+      "type": "MESH",
+      "parent": "R2_GnomeRoot",
+      "parent_type": "OBJECT",
+      "modifiers": [
+        "SUBSURF",
+        "ARMATURE"
+      ]
+    },
+    {
+      "name": "R2 trouser 1",
+      "type": "MESH",
+      "parent": "R2_GnomeRoot",
+      "parent_type": "OBJECT",
+      "modifiers": [
+        "ARMATURE"
+      ]
+    },
+    {
+      "name": "R1_Boot_1",
+      "type": "MESH",
+      "parent": "R2_GnomeRoot",
+      "parent_type": "OBJECT",
+      "modifiers": [
+        "ARMATURE"
+      ]
+    },
+    {
+      "name": "R2 curved sole 1",
+      "type": "MESH",
+      "parent": "R2_GnomeRoot",
+      "parent_type": "OBJECT",
+      "modifiers": [
+        "SUBSURF",
+        "ARMATURE"
+      ]
+    },
+    {
+      "name": "R2_OpenInvitationHand",
+      "type": "MESH",
+      "parent": "R2_GnomeRoot",
+      "parent_type": "OBJECT",
+      "modifiers": [
+        "ARMATURE"
+      ]
+    },
+    {
+      "name": "R2_LanternGripHand",
+      "type": "MESH",
+      "parent": "R2_GnomeRoot",
+      "parent_type": "OBJECT",
+      "modifiers": [
+        "ARMATURE"
+      ]
+    },
+    {
+      "name": "R1_LanternBlockout",
+      "type": "MESH",
+      "parent": "R2_GnomeRoot",
+      "parent_type": "OBJECT",
+      "modifiers": [
+        "BEVEL",
+        "ARMATURE"
+      ]
+    },
+    {
+      "name": "R2 lantern handle",
+      "type": "MESH",
+      "parent": "R2_GnomeRoot",
+      "parent_type": "OBJECT",
+      "modifiers": [
+        "ARMATURE"
+      ]
+    },
+    {
+      "name": "R2_GnomeRoot",
+      "type": "EMPTY",
+      "parent": null,
+      "parent_type": "OBJECT",
+      "modifiers": []
+    },
+    {
+      "name": "R3_OneFoldStorybookCap",
+      "type": "MESH",
+      "parent": "R2_GnomeRoot",
+      "parent_type": "OBJECT",
+      "modifiers": [
+        "SUBSURF",
+        "ARMATURE"
+      ]
+    },
+    {
+      "name": "R4_ContinuousFacialPlanes",
+      "type": "MESH",
+      "parent": "R2_GnomeRoot",
+      "parent_type": "OBJECT",
+      "modifiers": [
+        "ARMATURE"
+      ]
+    },
+    {
+      "name": "R4 inset eye -1",
+      "type": "MESH",
+      "parent": "R2_GnomeRoot",
+      "parent_type": "OBJECT",
+      "modifiers": [
+        "ARMATURE"
+      ]
+    },
+    {
+      "name": "R4 pupil -1",
+      "type": "MESH",
+      "parent": "R2_GnomeRoot",
+      "parent_type": "OBJECT",
+      "modifiers": [
+        "ARMATURE"
+      ]
+    },
+    {
+      "name": "R4 soft brow -1",
+      "type": "MESH",
+      "parent": "R2_GnomeRoot",
+      "parent_type": "OBJECT",
+      "modifiers": [
+        "SUBSURF",
+        "ARMATURE"
+      ]
+    },
+    {
+      "name": "R4 inset eye 1",
+      "type": "MESH",
+      "parent": "R2_GnomeRoot",
+      "parent_type": "OBJECT",
+      "modifiers": [
+        "ARMATURE"
+      ]
+    },
+    {
+      "name": "R4 pupil 1",
+      "type": "MESH",
+      "parent": "R2_GnomeRoot",
+      "parent_type": "OBJECT",
+      "modifiers": [
+        "ARMATURE"
+      ]
+    },
+    {
+      "name": "R4 soft brow 1",
+      "type": "MESH",
+      "parent": "R2_GnomeRoot",
+      "parent_type": "OBJECT",
+      "modifiers": [
+        "SUBSURF",
+        "ARMATURE"
+      ]
+    },
+    {
+      "name": "RigR1_GnomeArmature",
+      "type": "ARMATURE",
+      "parent": "R2_GnomeRoot",
+      "parent_type": "OBJECT",
+      "modifiers": []
+    },
+    {
+      "name": "R3_RightTorsoPatch",
+      "type": "MESH",
+      "parent": "R2_GnomeRoot",
+      "parent_type": "OBJECT",
+      "modifiers": [
+        "ARMATURE"
+      ]
+    },
+    {
+      "name": "R3_RightSleeve",
+      "type": "MESH",
+      "parent": "R2_GnomeRoot",
+      "parent_type": "OBJECT",
+      "modifiers": [
+        "SUBSURF",
+        "ARMATURE"
+      ]
+    }
+  ],
+  "camera": {
+    "name": "R1 camera",
+    "type": "ORTHO",
+    "scale": 1.9199999570846558,
+    "matrix": [
+      [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.06784321367740631,
+        -0.9976959824562073,
+        -5.0
+      ],
+      [
+        0.0,
+        0.9976959824562073,
+        0.06784321367740631,
+        1.1399999856948853
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ]
+  },
+  "res": [
+    600,
+    840
+  ],
+  "fps": 24,
+  "frames": [
+    1,
+    145
+  ],
+  "materials": {
+    "M1 brown iris and pupil": [
+      {
+        "type": "ShaderNodeBsdfPrincipled",
+        "name": "Principled BSDF"
+      },
+      {
+        "type": "ShaderNodeOutputMaterial",
+        "name": "Material Output"
+      },
+      {
+        "type": "ShaderNodeTexCoord",
+        "name": "Texture Coordinate"
+      },
+      {
+        "type": "ShaderNodeSeparateXYZ",
+        "name": "Separate XYZ"
+      },
+      {
+        "type": "ShaderNodeMath",
+        "name": "Math"
+      },
+      {
+        "type": "ShaderNodeMath",
+        "name": "Math.001"
+      },
+      {
+        "type": "ShaderNodeMath",
+        "name": "Math.002"
+      },
+      {
+        "type": "ShaderNodeMath",
+        "name": "Math.003"
+      },
+      {
+        "type": "ShaderNodeMath",
+        "name": "Math.004"
+      },
+      {
+        "type": "ShaderNodeMath",
+        "name": "Math.005"
+      },
+      {
+        "type": "ShaderNodeMath",
+        "name": "Math.006"
+      },
+      {
+        "type": "ShaderNodeMixRGB",
+        "name": "Mix (Legacy)"
+      }
+    ],
+    "M1 brown leather boots": [
+      {
+        "type": "ShaderNodeBsdfPrincipled",
+        "name": "Principled BSDF"
+      },
+      {
+        "type": "ShaderNodeOutputMaterial",
+        "name": "Material Output"
+      }
+    ],
+    "M1 cream beard and brows": [
+      {
+        "type": "ShaderNodeBsdfPrincipled",
+        "name": "Principled BSDF"
+      },
+      {
+        "type": "ShaderNodeOutputMaterial",
+        "name": "Material Output"
+      },
+      {
+        "type": "ShaderNodeTexCoord",
+        "name": "Texture Coordinate"
+      },
+      {
+        "type": "ShaderNodeSeparateXYZ",
+        "name": "Separate XYZ"
+      },
+      {
+        "type": "ShaderNodeMixRGB",
+        "name": "Mix (Legacy)"
+      }
+    ],
+    "M1 dark leather soles": [
+      {
+        "type": "ShaderNodeBsdfPrincipled",
+        "name": "Principled BSDF"
+      },
+      {
+        "type": "ShaderNodeOutputMaterial",
+        "name": "Material Output"
+      }
+    ],
+    "M1 folded cherry hem": [
+      {
+        "type": "ShaderNodeBsdfPrincipled",
+        "name": "Principled BSDF"
+      },
+      {
+        "type": "ShaderNodeOutputMaterial",
+        "name": "Material Output"
+      }
+    ],
+    "M1 framed amber lantern": [
+      {
+        "type": "ShaderNodeBsdfPrincipled",
+        "name": "Principled BSDF"
+      },
+      {
+        "type": "ShaderNodeOutputMaterial",
+        "name": "Material Output"
+      },
+      {
+        "type": "ShaderNodeBsdfPrincipled",
+        "name": "Principled BSDF.001"
+      },
+      {
+        "type": "ShaderNodeTexCoord",
+        "name": "Texture Coordinate"
+      },
+      {
+        "type": "ShaderNodeSeparateXYZ",
+        "name": "Separate XYZ"
+      },
+      {
+        "type": "ShaderNodeMath",
+        "name": "Math"
+      },
+      {
+        "type": "ShaderNodeMath",
+        "name": "Math.001"
+      },
+      {
+        "type": "ShaderNodeMath",
+        "name": "Math.002"
+      },
+      {
+        "type": "ShaderNodeMath",
+        "name": "Math.003"
+      },
+      {
+        "type": "ShaderNodeMath",
+        "name": "Math.004"
+      },
+      {
+        "type": "ShaderNodeMath",
+        "name": "Math.005"
+      },
+      {
+        "type": "ShaderNodeMath",
+        "name": "Math.006"
+      },
+      {
+        "type": "ShaderNodeMath",
+        "name": "Math.007"
+      },
+      {
+        "type": "ShaderNodeMath",
+        "name": "Math.008"
+      },
+      {
+        "type": "ShaderNodeMath",
+        "name": "Math.009"
+      },
+      {
+        "type": "ShaderNodeMath",
+        "name": "Math.010"
+      },
+      {
+        "type": "ShaderNodeMixShader",
+        "name": "Mix Shader"
+      }
+    ],
+    "M1 olive trousers": [
+      {
+        "type": "ShaderNodeBsdfPrincipled",
+        "name": "Principled BSDF"
+      },
+      {
+        "type": "ShaderNodeOutputMaterial",
+        "name": "Material Output"
+      }
+    ],
+    "M1 satin bronze handle": [
+      {
+        "type": "ShaderNodeBsdfPrincipled",
+        "name": "Principled BSDF"
+      },
+      {
+        "type": "ShaderNodeOutputMaterial",
+        "name": "Material Output"
+      }
+    ],
+    "M1 soft cherry cloth": [
+      {
+        "type": "ShaderNodeBsdfPrincipled",
+        "name": "Principled BSDF"
+      },
+      {
+        "type": "ShaderNodeOutputMaterial",
+        "name": "Material Output"
+      }
+    ],
+    "M1 soft warm smile": [
+      {
+        "type": "ShaderNodeBsdfPrincipled",
+        "name": "Principled BSDF"
+      },
+      {
+        "type": "ShaderNodeOutputMaterial",
+        "name": "Material Output"
+      }
+    ],
+    "M1 teal folded collar": [
+      {
+        "type": "ShaderNodeBsdfPrincipled",
+        "name": "Principled BSDF"
+      },
+      {
+        "type": "ShaderNodeOutputMaterial",
+        "name": "Material Output"
+      }
+    ],
+    "M1 teal wool coat": [
+      {
+        "type": "ShaderNodeBsdfPrincipled",
+        "name": "Principled BSDF"
+      },
+      {
+        "type": "ShaderNodeOutputMaterial",
+        "name": "Material Output"
+      }
+    ],
+    "M1 warm eye white": [
+      {
+        "type": "ShaderNodeBsdfPrincipled",
+        "name": "Principled BSDF"
+      },
+      {
+        "type": "ShaderNodeOutputMaterial",
+        "name": "Material Output"
+      }
+    ],
+    "M1 warm skin": [
+      {
+        "type": "ShaderNodeBsdfPrincipled",
+        "name": "Principled BSDF"
+      },
+      {
+        "type": "ShaderNodeOutputMaterial",
+        "name": "Material Output"
+      }
+    ],
+    "R1 ivory stage": [
+      {
+        "type": "ShaderNodeBsdfPrincipled",
+        "name": "Principled BSDF"
+      },
+      {
+        "type": "ShaderNodeOutputMaterial",
+        "name": "Material Output"
+      }
+    ]
+  },
+  "export_properties": {
+    "export_import_convert_lighting_mode": {
+      "default": "SPEC",
+      "enum": [
+        "SPEC",
+        "COMPAT",
+        "RAW"
+      ]
+    },
+    "export_use_gltfpack": {
+      "default": "False",
+      "enum": []
+    },
+    "export_gltfpack_tc": {
+      "default": "True",
+      "enum": []
+    },
+    "export_gltfpack_tq": {
+      "default": "8",
+      "enum": []
+    },
+    "export_gltfpack_si": {
+      "default": "1.0",
+      "enum": []
+    },
+    "export_gltfpack_sa": {
+      "default": "False",
+      "enum": []
+    },
+    "export_gltfpack_slb": {
+      "default": "False",
+      "enum": []
+    },
+    "export_gltfpack_vp": {
+      "default": "14",
+      "enum": []
+    },
+    "export_gltfpack_vt": {
+      "default": "12",
+      "enum": []
+    },
+    "export_gltfpack_vn": {
+      "default": "8",
+      "enum": []
+    },
+    "export_gltfpack_vc": {
+      "default": "8",
+      "enum": []
+    },
+    "export_gltfpack_vpi": {
+      "default": "Integer",
+      "enum": [
+        "Integer",
+        "Normalized",
+        "Floating-point"
+      ]
+    },
+    "export_gltfpack_noq": {
+      "default": "True",
+      "enum": []
+    },
+    "export_gltfpack_kn": {
+      "default": "False",
+      "enum": []
+    },
+    "export_format": {
+      "default": "",
+      "enum": []
+    },
+    "export_copyright": {
+      "default": "",
+      "enum": []
+    },
+    "export_image_format": {
+      "default": "AUTO",
+      "enum": [
+        "AUTO",
+        "JPEG",
+        "WEBP",
+        "NONE"
+      ]
+    },
+    "export_image_add_webp": {
+      "default": "False",
+      "enum": []
+    },
+    "export_image_webp_fallback": {
+      "default": "False",
+      "enum": []
+    },
+    "export_texture_dir": {
+      "default": "",
+      "enum": []
+    },
+    "export_jpeg_quality": {
+      "default": "75",
+      "enum": []
+    },
+    "export_image_quality": {
+      "default": "75",
+      "enum": []
+    },
+    "export_keep_originals": {
+      "default": "False",
+      "enum": []
+    },
+    "export_texcoords": {
+      "default": "True",
+      "enum": []
+    },
+    "export_normals": {
+      "default": "True",
+      "enum": []
+    },
+    "export_gn_mesh": {
+      "default": "False",
+      "enum": []
+    },
+    "export_meshopt_compression_enable": {
+      "default": "False",
+      "enum": []
+    },
+    "export_meshopt_extension": {
+      "default": "EXT_meshopt_compression",
+      "enum": [
+        "EXT_meshopt_compression",
+        "KHR_meshopt_compression"
+      ]
+    },
+    "export_draco_mesh_compression_enable": {
+      "default": "False",
+      "enum": []
+    },
+    "export_draco_mesh_compression_level": {
+      "default": "6",
+      "enum": []
+    },
+    "export_draco_position_quantization": {
+      "default": "14",
+      "enum": []
+    },
+    "export_draco_normal_quantization": {
+      "default": "10",
+      "enum": []
+    },
+    "export_draco_texcoord_quantization": {
+      "default": "12",
+      "enum": []
+    },
+    "export_draco_color_quantization": {
+      "default": "10",
+      "enum": []
+    },
+    "export_draco_generic_quantization": {
+      "default": "12",
+      "enum": []
+    },
+    "export_tangents": {
+      "default": "False",
+      "enum": []
+    },
+    "export_materials": {
+      "default": "EXPORT",
+      "enum": [
+        "EXPORT",
+        "PLACEHOLDER",
+        "VIEWPORT",
+        "NONE"
+      ]
+    },
+    "export_unused_images": {
+      "default": "False",
+      "enum": []
+    },
+    "export_unused_textures": {
+      "default": "False",
+      "enum": []
+    },
+    "export_vertex_color": {
+      "default": "MATERIAL",
+      "enum": [
+        "MATERIAL",
+        "ACTIVE",
+        "NAME",
+        "NONE"
+      ]
+    },
+    "export_vertex_color_name": {
+      "default": "Color",
+      "enum": []
+    },
+    "export_all_vertex_colors": {
+      "default": "True",
+      "enum": []
+    },
+    "export_active_vertex_color_when_no_material": {
+      "default": "True",
+      "enum": []
+    },
+    "export_attributes": {
+      "default": "False",
+      "enum": []
+    },
+    "use_mesh_edges": {
+      "default": "False",
+      "enum": []
+    },
+    "use_mesh_vertices": {
+      "default": "False",
+      "enum": []
+    },
+    "export_cameras": {
+      "default": "False",
+      "enum": []
+    },
+    "use_selection": {
+      "default": "False",
+      "enum": []
+    },
+    "use_visible": {
+      "default": "False",
+      "enum": []
+    },
+    "use_renderable": {
+      "default": "False",
+      "enum": []
+    },
+    "use_active_collection_with_nested": {
+      "default": "True",
+      "enum": []
+    },
+    "use_active_collection": {
+      "default": "False",
+      "enum": []
+    },
+    "use_active_scene": {
+      "default": "False",
+      "enum": []
+    },
+    "export_extras": {
+      "default": "False",
+      "enum": []
+    },
+    "export_yup": {
+      "default": "True",
+      "enum": []
+    },
+    "export_apply": {
+      "default": "False",
+      "enum": []
+    },
+    "export_shared_accessors": {
+      "default": "False",
+      "enum": []
+    },
+    "export_animations": {
+      "default": "True",
+      "enum": []
+    },
+    "export_frame_range": {
+      "default": "False",
+      "enum": []
+    },
+    "export_frame_step": {
+      "default": "1",
+      "enum": []
+    },
+    "export_force_sampling": {
+      "default": "True",
+      "enum": []
+    },
+    "export_sampling_interpolation_fallback": {
+      "default": "LINEAR",
+      "enum": [
+        "LINEAR",
+        "STEP"
+      ]
+    },
+    "export_pointer_animation": {
+      "default": "False",
+      "enum": []
+    },
+    "export_animation_mode": {
+      "default": "ACTIONS",
+      "enum": [
+        "ACTIONS",
+        "ACTIVE_ACTIONS",
+        "BROADCAST",
+        "NLA_TRACKS",
+        "SCENE"
+      ]
+    },
+    "export_nla_strips_merged_animation_name": {
+      "default": "Animation",
+      "enum": []
+    },
+    "export_def_bones": {
+      "default": "False",
+      "enum": []
+    },
+    "export_hierarchy_flatten_bones": {
+      "default": "False",
+      "enum": []
+    },
+    "export_hierarchy_flatten_objs": {
+      "default": "False",
+      "enum": []
+    },
+    "export_armature_object_remove": {
+      "default": "False",
+      "enum": []
+    },
+    "export_leaf_bone": {
+      "default": "False",
+      "enum": []
+    },
+    "export_optimize_animation_size": {
+      "default": "True",
+      "enum": []
+    },
+    "export_optimize_animation_keep_anim_armature": {
+      "default": "True",
+      "enum": []
+    },
+    "export_optimize_animation_keep_anim_object": {
+      "default": "False",
+      "enum": []
+    },
+    "export_optimize_disable_viewport": {
+      "default": "False",
+      "enum": []
+    },
+    "export_negative_frame": {
+      "default": "SLIDE",
+      "enum": [
+        "SLIDE",
+        "CROP"
+      ]
+    },
+    "export_anim_slide_to_zero": {
+      "default": "False",
+      "enum": []
+    },
+    "export_bake_animation": {
+      "default": "False",
+      "enum": []
+    },
+    "export_merge_animation": {
+      "default": "ACTION",
+      "enum": [
+        "NLA_TRACK",
+        "ACTION",
+        "NONE"
+      ]
+    },
+    "export_anim_single_armature": {
+      "default": "True",
+      "enum": []
+    },
+    "export_reset_pose_bones": {
+      "default": "True",
+      "enum": []
+    },
+    "export_current_frame": {
+      "default": "False",
+      "enum": []
+    },
+    "export_rest_position_armature": {
+      "default": "True",
+      "enum": []
+    },
+    "export_anim_scene_split_object": {
+      "default": "True",
+      "enum": []
+    },
+    "export_skins": {
+      "default": "True",
+      "enum": []
+    },
+    "export_influence_nb": {
+      "default": "4",
+      "enum": []
+    },
+    "export_all_influences": {
+      "default": "False",
+      "enum": []
+    },
+    "export_morph": {
+      "default": "True",
+      "enum": []
+    },
+    "export_morph_normal": {
+      "default": "True",
+      "enum": []
+    },
+    "export_morph_tangent": {
+      "default": "False",
+      "enum": []
+    },
+    "export_morph_animation": {
+      "default": "True",
+      "enum": []
+    },
+    "export_morph_reset_sk_data": {
+      "default": "True",
+      "enum": []
+    },
+    "export_lights": {
+      "default": "False",
+      "enum": []
+    },
+    "export_try_sparse_sk": {
+      "default": "True",
+      "enum": []
+    },
+    "export_try_omit_sparse_sk": {
+      "default": "False",
+      "enum": []
+    },
+    "export_gpu_instances": {
+      "default": "False",
+      "enum": []
+    },
+    "export_action_filter": {
+      "default": "False",
+      "enum": []
+    },
+    "export_convert_animation_pointer": {
+      "default": "False",
+      "enum": []
+    },
+    "export_nla_strips": {
+      "default": "True",
+      "enum": []
+    },
+    "export_original_specular": {
+      "default": "False",
+      "enum": []
+    },
+    "export_hierarchy_full_collections": {
+      "default": "False",
+      "enum": []
+    },
+    "export_extra_animations": {
+      "default": "False",
+      "enum": []
+    },
+    "export_loglevel": {
+      "default": "-1",
+      "enum": []
+    }
+  }
+}

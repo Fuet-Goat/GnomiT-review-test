@@ -1,0 +1,34 @@
+{
+  "native_source_commit": "f3624de7d21c20a6cc8d7a87ab966d064f19e650",
+  "native_source_sha256": "0335bcc275bfbc8e3b7d3ea43bde2fad6c8ece5281a750007290ef154ac8bffc",
+  "glb_sha256": "3b72702cb1c995d2553dddd4895a1e2327be14d5a22cc38a60a88603d47c529f",
+  "accepted_baseline": "Owner supplied external GPT acceptance of R4 form/M2 materials/RigR3 sleeve/greeting direction.",
+  "native_edits": false,
+  "weight_bone_gesture_edits": false,
+  "new_blink": false,
+  "transport": "RAM-only UV/PBR field baking and sampled GLB export, timeline shifted to zero; native unchanged.",
+  "import": "24fps; AnimationPlayer optimiser/compression disabled to preserve authored keys.",
+  "software": [
+    "Blender 5.2.2",
+    "Godot 4.7.2",
+    "Python/Pillow/NumPy"
+  ],
+  "new_third_party_models_or_textures": false,
+  "AI_bitmap_generation": false,
+  "engine_binary_bundled": false,
+  "source_reference": "https://github.com/godotengine/godot/blob/master/editor/import/3d/resource_importer_scene.cpp",
+  "limitations": [
+    "Arbitrary shader mixtures approximated by baked PBR fields.",
+    "Godot LBS differs from Blender Preserve Volume DQ.",
+    "High-resolution studio asset; Android optimisation/performance not measured."
+  ],
+  "asset_complexity": {
+    "meshes": 28,
+    "triangles": 874805,
+    "vertices": 445842,
+    "materials": 19,
+    "images": 24
+  },
+  "game_integration": false,
+  "human_Godot_acceptance": "PENDING"
+}

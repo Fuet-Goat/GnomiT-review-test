@@ -1,0 +1,491 @@
+"""Measure exported GLB linear-blend skinning against evaluated Blender samples.
+
+This reads the actual GLB accessors, inverse bind matrices, node hierarchy, and
+animation channels. It does not use Blender's joint-position verification as a
+substitute for vertex deformation, and it does not claim to run Godot's renderer.
+The expected Blender reference is in world glTF coordinates: (x, z, -y).
+Only documentation/GLB_SKIN_PARITY.json is written.
+"""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import math
+import struct
+import sys
+from datetime import datetime, timezone
+from pathlib import Path
+
+import numpy as np
+
+
+TIMES = (0.0, 1.5, 2.25, 3.0, 3.75, 4.5, 6.0)
+COMPONENTS = {
+    5120: np.dtype("i1"),
+    5121: np.dtype("u1"),
+    5122: np.dtype("<i2"),
+    5123: np.dtype("<u2"),
+    5125: np.dtype("<u4"),
+    5126: np.dtype("<f4"),
+}
+WIDTHS = {"SCALAR": 1, "VEC2": 2, "VEC3": 3, "VEC4": 4,
+          "MAT2": 4, "MAT3": 9, "MAT4": 16}
+
+
+def sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def require(condition: bool, message: str) -> None:
+    if not condition:
+        raise ValueError(message)
+
+
+def normalized_quaternion(value: np.ndarray) -> np.ndarray:
+    length = float(np.linalg.norm(value))
+    require(length > 1e-15, "Zero-length quaternion in GLB")
+    return value / length
+
+
+def slerp(a: np.ndarray, b: np.ndarray, fraction: float) -> np.ndarray:
+    a, b = normalized_quaternion(a), normalized_quaternion(b)
+    dot = float(np.dot(a, b))
+    if dot < 0.0:
+        b, dot = -b, -dot
+    dot = min(1.0, max(-1.0, dot))
+    if dot > 0.9995:
+        return normalized_quaternion(a + fraction * (b - a))
+    angle = math.acos(dot)
+    return (math.sin((1.0 - fraction) * angle) * a
+            + math.sin(fraction * angle) * b) / math.sin(angle)
+
+
+def trs_matrix(translation: np.ndarray, rotation: np.ndarray,
+               scale: np.ndarray) -> np.ndarray:
+    x, y, z, w = normalized_quaternion(rotation)
+    result = np.eye(4, dtype=np.float64)
+    result[:3, :3] = np.array([
+        [1 - 2*y*y - 2*z*z, 2*x*y - 2*z*w, 2*x*z + 2*y*w],
+        [2*x*y + 2*z*w, 1 - 2*x*x - 2*z*z, 2*y*z - 2*x*w],
+        [2*x*z - 2*y*w, 2*y*z + 2*x*w, 1 - 2*x*x - 2*y*y],
+    ]) @ np.diag(scale)
+    result[:3, 3] = translation
+    return result
+
+
+class GLB:
+    def __init__(self, path: Path, animation_selector: str | None):
+        payload = path.read_bytes()
+        require(len(payload) >= 20, "GLB is too short")
+        magic, version, length = struct.unpack_from("<4sII", payload)
+        require(magic == b"glTF" and version == 2, "Expected glTF 2 binary GLB")
+        require(length == len(payload), "GLB declared length differs from file length")
+        chunks: list[tuple[bytes, bytes]] = []
+        cursor = 12
+        while cursor < length:
+            require(cursor + 8 <= length, "Truncated GLB chunk header")
+            size, kind = struct.unpack_from("<I4s", payload, cursor)
+            cursor += 8
+            require(cursor + size <= length, "Truncated GLB chunk payload")
+            chunks.append((kind, payload[cursor:cursor + size]))
+            cursor += size
+        require(chunks and chunks[0][0] == b"JSON", "First GLB chunk must be JSON")
+        self.document = json.loads(chunks[0][1].decode("utf-8").rstrip("\x00 \r\n\t"))
+        binaries = [data for kind, data in chunks if kind == b"BIN\x00"]
+        require(len(binaries) == 1, "Expected exactly one embedded GLB BIN chunk")
+        buffers = self.document.get("buffers", [])
+        require(len(buffers) == 1 and "uri" not in buffers[0],
+                "This validator requires one embedded buffer and no external URI")
+        self.binary = binaries[0]
+        require(len(self.binary) >= buffers[0]["byteLength"], "Truncated embedded buffer")
+        self.accessor_cache: dict[int, np.ndarray] = {}
+        self.nodes = self.document.get("nodes", [])
+        self.parents: dict[int, int] = {}
+        for parent, node in enumerate(self.nodes):
+            for child in node.get("children", []):
+                require(child not in self.parents, "GLB node has more than one parent")
+                self.parents[child] = parent
+        self.animation_index = self.select_animation(animation_selector)
+        self.animation = (self.document["animations"][self.animation_index]
+                          if self.animation_index is not None else None)
+        self.channels = []
+        targets = set()
+        for channel in (self.animation or {}).get("channels", []):
+            target = channel["target"]
+            require("node" in target, "Animation channel has no node target")
+            node_id, path_name = target["node"], target["path"]
+            require(path_name in {"translation", "rotation", "scale"},
+                    f"Unsupported animation target {path_name}; morph animation needs a separate evaluator")
+            require("matrix" not in self.nodes[node_id],
+                    "Animated node uses a matrix rather than TRS")
+            key = (node_id, path_name)
+            require(key not in targets, f"Duplicate animation channel target {key}")
+            targets.add(key)
+            sampler = self.animation["samplers"][channel["sampler"]]
+            interpolation = sampler.get("interpolation", "LINEAR")
+            require(interpolation in {"LINEAR", "STEP"},
+                    f"Unsupported {interpolation} interpolation; this evaluator supports LINEAR and STEP")
+            times = self.accessor(sampler["input"]).reshape(-1)
+            values = self.accessor(sampler["output"])
+            require(len(times) > 0 and len(times) == len(values), "Invalid animation sampler size")
+            require(np.all(np.diff(times) > 0), "Animation input times must increase strictly")
+            width = 4 if path_name == "rotation" else 3
+            require(values.shape == (len(times), width), "Animation sampler has wrong output dimensions")
+            self.channels.append((node_id, path_name, times, values, interpolation))
+
+    def select_animation(self, selector: str | None) -> int | None:
+        animations = self.document.get("animations", [])
+        if not animations:
+            require(selector is None, "Animation was requested but GLB has no animation")
+            return None
+        if selector is None:
+            require(len(animations) == 1,
+                    "Multiple animations exist; select one with --animation INDEX_OR_NAME")
+            return 0
+        if selector.isdigit():
+            index = int(selector)
+            require(index < len(animations), "Animation index is out of range")
+            return index
+        matches = [i for i, animation in enumerate(animations)
+                   if animation.get("name") == selector]
+        require(len(matches) == 1, "Animation name is missing or ambiguous")
+        return matches[0]
+
+    def read_view(self, view_id: int, offset: int, count: int,
+                  dtype: np.dtype, width: int, type_name: str = "SCALAR") -> np.ndarray:
+        view = self.document["bufferViews"][view_id]
+        require(view.get("buffer", 0) == 0, "Accessor refers to a non-embedded buffer")
+        # glTF matrix columns are padded to four-byte alignment even with byte/short components.
+        if type_name.startswith("MAT"):
+            dimension = int(type_name[-1])
+            column_bytes = dimension * dtype.itemsize
+            column_stride = (column_bytes + 3) // 4 * 4
+            element_bytes = dimension * column_stride
+            component_offsets = [col * column_stride + row * dtype.itemsize
+                                 for col in range(dimension) for row in range(dimension)]
+        else:
+            element_bytes = width * dtype.itemsize
+            component_offsets = [i * dtype.itemsize for i in range(width)]
+        stride = view.get("byteStride", element_bytes)
+        require(stride >= element_bytes and offset >= 0, "Invalid accessor stride or offset")
+        occupied = offset + ((count - 1) * stride + element_bytes if count else 0)
+        require(occupied <= view["byteLength"], "Accessor exceeds bufferView bounds")
+        base = view.get("byteOffset", 0) + offset
+        require(base + max(0, occupied - offset) <= len(self.binary), "Accessor exceeds BIN bounds")
+        if count == 0:
+            return np.empty((0, width), dtype=dtype)
+        return np.column_stack([
+            np.ndarray((count,), dtype=dtype, buffer=self.binary,
+                       offset=base + component_offset, strides=(stride,))
+            for component_offset in component_offsets
+        ])
+
+    def accessor(self, index: int) -> np.ndarray:
+        if index in self.accessor_cache:
+            return self.accessor_cache[index]
+        accessor = self.document["accessors"][index]
+        dtype = COMPONENTS[accessor["componentType"]]
+        type_name = accessor["type"]
+        width, count = WIDTHS[type_name], accessor["count"]
+        if "bufferView" in accessor:
+            value = self.read_view(accessor["bufferView"], accessor.get("byteOffset", 0),
+                                   count, dtype, width, type_name)
+        else:
+            value = np.zeros((count, width), dtype=dtype)
+        if "sparse" in accessor:
+            sparse = accessor["sparse"]
+            indices = sparse["indices"]
+            index_dtype = COMPONENTS[indices["componentType"]]
+            require(index_dtype.kind == "u", "Sparse accessor indices must be unsigned")
+            positions = self.read_view(indices["bufferView"], indices.get("byteOffset", 0),
+                                       sparse["count"], index_dtype, 1).reshape(-1)
+            require(np.all(positions < count), "Sparse accessor index exceeds count")
+            values = sparse["values"]
+            value[positions] = self.read_view(values["bufferView"], values.get("byteOffset", 0),
+                                              sparse["count"], dtype, width, type_name)
+        if accessor.get("normalized", False) and dtype.kind in {"i", "u"}:
+            info = np.iinfo(dtype)
+            value = value.astype(np.float64) / info.max
+            if dtype.kind == "i":
+                value = np.maximum(value, -1.0)
+        require(np.all(np.isfinite(value)), f"Nonfinite accessor {index}")
+        self.accessor_cache[index] = value
+        return value
+
+    def world_matrices(self, time: float | None) -> list[np.ndarray]:
+        overrides: dict[int, dict[str, np.ndarray]] = {}
+        if time is not None:
+            for node_id, path_name, times, values, interpolation in self.channels:
+                if time <= times[0]:
+                    value = values[0]
+                elif time >= times[-1]:
+                    value = values[-1]
+                else:
+                    right = int(np.searchsorted(times, time, side="right"))
+                    left = right - 1
+                    fraction = float((time - times[left]) / (times[right] - times[left]))
+                    value = (values[left] if interpolation == "STEP" else
+                             slerp(values[left], values[right], fraction)
+                             if path_name == "rotation" else
+                             values[left] + fraction * (values[right] - values[left]))
+                overrides.setdefault(node_id, {})[path_name] = value
+        locals_ = []
+        for node_id, node in enumerate(self.nodes):
+            if "matrix" in node:
+                matrix = np.asarray(node["matrix"], dtype=np.float64).reshape((4, 4), order="F")
+            else:
+                values = overrides.get(node_id, {})
+                matrix = trs_matrix(
+                    np.asarray(values.get("translation", node.get("translation", [0, 0, 0])), dtype=np.float64),
+                    np.asarray(values.get("rotation", node.get("rotation", [0, 0, 0, 1])), dtype=np.float64),
+                    np.asarray(values.get("scale", node.get("scale", [1, 1, 1])), dtype=np.float64))
+            locals_.append(matrix)
+        worlds: dict[int, np.ndarray] = {}
+        pending = set()
+
+        def visit(node_id: int) -> np.ndarray:
+            if node_id in worlds:
+                return worlds[node_id]
+            require(node_id not in pending, "Cycle in GLB node hierarchy")
+            pending.add(node_id)
+            parent = self.parents.get(node_id)
+            worlds[node_id] = ((visit(parent) @ locals_[node_id])
+                               if parent is not None else locals_[node_id])
+            pending.remove(node_id)
+            return worlds[node_id]
+
+        return [visit(i) for i in range(len(self.nodes))]
+
+    def matching_mesh_nodes(self, object_name: str) -> list[int]:
+        nodes = [i for i, node in enumerate(self.nodes) if "mesh" in node]
+        exact_nodes = [i for i in nodes if self.nodes[i].get("name") == object_name]
+        if exact_nodes:
+            return exact_nodes
+        return [i for i in nodes if self.document["meshes"][self.nodes[i]["mesh"]].get("name") == object_name]
+
+    def primitive_geometry(self, node_id: int) -> list[dict]:
+        node = self.nodes[node_id]
+        mesh = self.document["meshes"][node["mesh"]]
+        require(not any(float(weight) != 0.0 for weight in node.get("weights", mesh.get("weights", []))),
+                "Nonzero morph weights are unsupported by this skin-only evaluator")
+        result = []
+        for primitive_id, primitive in enumerate(mesh["primitives"]):
+            require(not primitive.get("extensions", {}).get("KHR_draco_mesh_compression"),
+                    "Draco-compressed primitive is unsupported")
+            attributes = primitive["attributes"]
+            require("POSITION" in attributes, "Mesh primitive has no POSITION accessor")
+            positions = self.accessor(attributes["POSITION"]).astype(np.float64)
+            require(positions.ndim == 2 and positions.shape[1] == 3, "Invalid POSITION shape")
+            geometry = {"node": node_id, "primitive": primitive_id, "positions": positions}
+            if "skin" in node:
+                skin = self.document["skins"][node["skin"]]
+                require("JOINTS_0" in attributes and "WEIGHTS_0" in attributes,
+                        "Skinned mesh primitive lacks joint/weight attributes")
+                influence_sets = sorted(int(key.split("_")[1]) for key in attributes if key.startswith("JOINTS_"))
+                require({key.replace("JOINTS_", "WEIGHTS_") for key in attributes if key.startswith("JOINTS_")}
+                        == {key for key in attributes if key.startswith("WEIGHTS_")},
+                        "JOINTS and WEIGHTS influence sets differ")
+                joints = np.concatenate([self.accessor(attributes[f"JOINTS_{i}"]) for i in influence_sets], axis=1)
+                weights = np.concatenate([self.accessor(attributes[f"WEIGHTS_{i}"]) for i in influence_sets], axis=1).astype(np.float64)
+                require(joints.shape == weights.shape and joints.shape[0] == len(positions),
+                        "Skin attribute dimensions differ")
+                require(np.all(joints == np.floor(joints)), "Joint attribute contains noninteger indices")
+                joints = joints.astype(np.int64)
+                require(np.all(joints >= 0) and np.all(joints < len(skin["joints"])), "Joint index outside skin")
+                require(np.all(weights >= 0), "Negative skin weights")
+                sums = weights.sum(axis=1)
+                require(np.all(sums > 1e-15), "Skinned vertex has zero total weight")
+                # Renormalize quantized/float32 sums as required by glTF skinning.
+                geometry["max_weight_sum_residual"] = float(np.max(np.abs(sums - 1.0)))
+                geometry["weights"] = weights / sums[:, None]
+                geometry["joints"] = joints
+                geometry["skin_joints"] = skin["joints"]
+                inverse_bind = (self.accessor(skin["inverseBindMatrices"]).astype(np.float64).reshape((-1, 4, 4)).transpose(0, 2, 1)
+                                if "inverseBindMatrices" in skin else np.repeat(np.eye(4)[None, :, :], len(skin["joints"]), axis=0))
+                require(len(inverse_bind) == len(skin["joints"]), "Inverse bind matrix count differs from skin joint count")
+                geometry["inverse_bind"] = inverse_bind
+            result.append(geometry)
+        return result
+
+    @staticmethod
+    def deform(geometry: dict, worlds: list[np.ndarray]) -> np.ndarray:
+        positions = geometry["positions"]
+        homogeneous = np.column_stack((positions, np.ones(len(positions))))
+        if "weights" not in geometry:
+            return (worlds[geometry["node"]] @ homogeneous.T).T[:, :3]
+        matrices = np.asarray([worlds[index] for index in geometry["skin_joints"]]) @ geometry["inverse_bind"]
+        result = np.zeros((len(positions), 3), dtype=np.float64)
+        for slot in range(geometry["weights"].shape[1]):
+            transformed = np.einsum("nij,nj->ni", matrices[geometry["joints"][:, slot]], homogeneous)
+            result += transformed[:, :3] * geometry["weights"][:, slot, None]
+        # In world coordinates the mesh-world inverse in the skin matrix cancels
+        # the mesh-world transform used for the rendered skinned vertex.
+        return result
+
+
+def nearest_vertices(reference: np.ndarray, vertices: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    require(len(vertices) > 0, "No exported vertices available for correspondence")
+    indices = np.zeros(len(reference), dtype=np.int64)
+    squared = np.full(len(reference), np.inf)
+    for begin in range(0, len(reference), 128):
+        query = reference[begin:begin + 128]
+        for vertex_begin in range(0, len(vertices), 16384):
+            candidates = vertices[vertex_begin:vertex_begin + 16384]
+            distances = (np.sum(query * query, axis=1)[:, None]
+                         + np.sum(candidates * candidates, axis=1)[None, :]
+                         - 2.0 * query @ candidates.T)
+            local = np.argmin(distances, axis=1)
+            values = distances[np.arange(len(query)), local]
+            improve = values < squared[begin:begin + len(query)]
+            indices[begin:begin + len(query)][improve] = vertex_begin + local[improve]
+            squared[begin:begin + len(query)][improve] = values[improve]
+    # Recompute chosen distances directly to avoid cancellation at tiny residuals.
+    residuals = np.linalg.norm(vertices[indices] - reference, axis=1)
+    return indices, residuals
+
+
+def metrics(errors: np.ndarray) -> dict:
+    return {"maximum_m": float(np.max(errors)),
+            "rms_m": float(np.sqrt(np.mean(errors * errors))),
+            "mean_m": float(np.mean(errors))}
+
+
+def measure(glb: GLB, reference: dict, match_threshold: float, parity_threshold: float) -> dict:
+    samples = reference["mesh_samples"]
+    require(isinstance(samples, dict) and bool(samples), "Reference mesh_samples is empty or invalid")
+    rest_worlds = glb.world_matrices(None)
+    pose_worlds = {time: glb.world_matrices(time) for time in TIMES}
+    meshes = {}
+    all_errors, all_residuals = [], []
+    for name, sample in samples.items():
+        nodes = glb.matching_mesh_nodes(name)
+        require(bool(nodes), f"No exported mesh node or mesh name matches {name!r}")
+        geometry = [item for node in nodes for item in glb.primitive_geometry(node)]
+        rest_vertices = np.concatenate([glb.deform(item, rest_worlds) for item in geometry])
+        rest = np.asarray(sample["rest_positions"], dtype=np.float64)
+        require(rest.ndim == 2 and rest.shape[1] == 3 and len(rest) > 0 and np.all(np.isfinite(rest)),
+                f"Invalid reference rest positions for {name}")
+        indices, residuals = nearest_vertices(rest, rest_vertices)
+        all_residuals.append(residuals)
+        poses = sample["poses"]
+        used = set()
+        posed = []
+        all_mesh_errors = []
+        for time in TIMES:
+            matches = [i for i, pose in enumerate(poses) if abs(float(pose["time"]) - time) <= 1e-7]
+            require(len(matches) == 1, f"Reference {name} requires exactly one pose at {time}s")
+            used.add(matches[0])
+            expected = np.asarray(poses[matches[0]]["positions"], dtype=np.float64)
+            require(expected.shape == rest.shape and np.all(np.isfinite(expected)),
+                    f"Reference pose dimensions/nonfinite positions for {name} at {time}s")
+            actual_vertices = np.concatenate([glb.deform(item, pose_worlds[time]) for item in geometry])
+            actual = actual_vertices[indices]
+            errors = np.linalg.norm(actual - expected, axis=1)
+            maximum_index = int(np.argmax(errors))
+            item_result = {"time_s": time, "sample_count": len(errors), **metrics(errors),
+                           "within_deformation_threshold": bool(np.all(errors <= parity_threshold)),
+                           "worst_sample_index": maximum_index,
+                           "worst_reference_position_m": expected[maximum_index].tolist(),
+                           "worst_glb_lbs_position_m": actual[maximum_index].tolist(),
+                           "worst_displacement_m": (actual[maximum_index] - expected[maximum_index]).tolist()}
+            posed.append(item_result)
+            all_mesh_errors.append(errors)
+            all_errors.append(errors)
+        correspondences = []
+        offsets = np.cumsum([0] + [len(item["positions"]) for item in geometry])
+        for sample_index, (flat_index, residual) in enumerate(zip(indices, residuals)):
+            geometry_index = int(np.searchsorted(offsets, flat_index, side="right") - 1)
+            item = geometry[geometry_index]
+            correspondences.append({"sample_index": sample_index, "node_index": item["node"],
+                                    "primitive_index": item["primitive"],
+                                    "vertex_index": int(flat_index - offsets[geometry_index]),
+                                    "rest_residual_m": float(residual)})
+        meshes[name] = {
+            "node_indices": nodes, "exported_vertex_count_including_duplicates": len(rest_vertices),
+            "sample_count": len(rest), "skinned_primitive_count": sum("weights" in item for item in geometry),
+            "unskinned_primitive_count": sum("weights" not in item for item in geometry),
+            "max_encoded_weight_sum_residual": max((item.get("max_weight_sum_residual", 0.0) for item in geometry), default=0.0),
+            "rest_matching": {**metrics(residuals),
+                              "unmatched_sample_count": int(np.count_nonzero(residuals > match_threshold)),
+                              "within_match_threshold": bool(np.all(residuals <= match_threshold))},
+            "aggregate_deformation": metrics(np.concatenate(all_mesh_errors)),
+            "poses": posed, "correspondences": correspondences,
+            "unused_reference_pose_count": len(poses) - len(used),
+        }
+    combined_errors, combined_residuals = np.concatenate(all_errors), np.concatenate(all_residuals)
+    match_ok = bool(np.all(combined_residuals <= match_threshold))
+    deform_ok = bool(np.all(combined_errors <= parity_threshold))
+    return {
+        "status": "MEASURED",
+        "interpretation": "Actual exported GLB LINEAR/STEP animation and linear-blend vertex skinning compared with Blender evaluated reference positions. Dual-quaternion Preserve Volume deformation may differ from GLB linear blending. This is a numerical export evaluation, not a Godot renderer capture.",
+        "coordinate_system": "world glTF right-handed Y-up; Blender world (x,y,z) converted to (x,z,-y)",
+        "rest_correspondence_method": "Nearest exported rest-skinned world vertex per reference sample; duplicate exported vertices are permitted; the same correspondence is retained at every pose.",
+        "rest_transform_definition": "GLB default node transforms with animation disabled; reference must represent Blender armature rest pose.",
+        "weight_policy": "All JOINTS_n/WEIGHTS_n influences are included; each vertex's weights are normalized before linear blending.",
+        "thresholds_m": {"rest_matching": match_threshold, "deformation": parity_threshold},
+        "threshold_flags": {"all_rest_matches_within_threshold": match_ok,
+                            "all_deformation_samples_within_threshold": deform_ok,
+                            "parity_within_threshold_with_valid_correspondence": match_ok and deform_ok},
+        "correspondence_valid": match_ok,
+        "global_rest_matching": metrics(combined_residuals),
+        "global_deformation": metrics(combined_errors),
+        "total_reference_samples": sum(mesh["sample_count"] for mesh in meshes.values()),
+        "total_pose_comparisons": len(combined_errors),
+        "sample_times_s": list(TIMES),
+        "animation": {"index": glb.animation_index, "name": (glb.animation or {}).get("name"),
+                      "channel_count": len(glb.channels), "time_policy": "Clamp outside each sampler's keys; no loop wrapping.",
+                      "interpolation_channel_counts": {kind: sum(channel[4] == kind for channel in glb.channels)
+                                                       for kind in sorted({channel[4] for channel in glb.channels})},
+                      "rotation_interpolation": "Normalized quaternion shortest-arc SLERP"},
+        "meshes": meshes,
+    }
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[1])
+    parser.add_argument("--animation", help="Animation index or exact name; required when multiple clips exist")
+    parser.add_argument("--match-threshold-m", type=float, default=0.0001)
+    parser.add_argument("--deformation-threshold-m", type=float, default=0.0001)
+    args = parser.parse_args()
+    require(args.match_threshold_m >= 0 and math.isfinite(args.match_threshold_m), "Invalid match threshold")
+    require(args.deformation_threshold_m >= 0 and math.isfinite(args.deformation_threshold_m), "Invalid deformation threshold")
+    root = args.root.resolve()
+    glb_path = root / "godot/assets/gnome_r3.glb"
+    reference_path = root / "godot/verification/blender_reference.json"
+    output_path = root / "documentation/GLB_SKIN_PARITY.json"
+    provenance = {"glb": {"path": str(glb_path)},
+                  "blender_reference": {"path": str(reference_path)},
+                  "validator": {"path": str(Path(__file__).resolve()), "sha256": sha256(Path(__file__))}}
+    for label, path in (("glb", glb_path), ("blender_reference", reference_path)):
+        if path.is_file():
+            provenance[label].update({"sha256": sha256(path), "bytes": path.stat().st_size})
+    native = root / "native/GNOME_R3_ACCEPTED.blend"
+    if native.is_file():
+        provenance["native_blender_source"] = {"path": str(native), "sha256": sha256(native), "bytes": native.stat().st_size}
+    try:
+        reference = json.loads(reference_path.read_text(encoding="utf-8-sig"))
+        glb = GLB(glb_path, args.animation)
+        report = measure(glb, reference, args.match_threshold_m, args.deformation_threshold_m)
+        exit_code = 0
+    except Exception as error:
+        report = {"status": "ERROR", "error_type": type(error).__name__, "error": str(error),
+                  "interpretation": "No completed deformation measurement is claimed."}
+        exit_code = 1
+    report["generated_at_utc"] = datetime.now(timezone.utc).isoformat()
+    report["source_files"] = provenance
+    report["runtime"] = {"python": sys.version, "numpy": np.__version__}
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(json.dumps(report, indent=2, allow_nan=False) + "\n", encoding="utf-8")
+    print(json.dumps({"status": report["status"], "output": str(output_path),
+                      "threshold_flags": report.get("threshold_flags"),
+                      "global_rest_matching": report.get("global_rest_matching"),
+                      "global_deformation": report.get("global_deformation"),
+                      "error": report.get("error")}, allow_nan=False))
+    return exit_code
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

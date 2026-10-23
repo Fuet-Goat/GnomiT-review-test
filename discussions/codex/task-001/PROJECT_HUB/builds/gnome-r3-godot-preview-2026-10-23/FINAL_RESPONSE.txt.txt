@@ -1,0 +1,1 @@
+Приетият R3 е пренесен в изолиран GLB/Godot preview със същия поздрав. Проверени са импортът, 6 секунди, Replay и Reduced Motion. Има малка измерена разлика от skinning и различно студийно осветление. Играта не е променена. Виж outputs/GODOT_R3_GREETING.gif и Launch_R3_Preview.cmd. Човешко приемане на Godot: PENDING.

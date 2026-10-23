@@ -1,0 +1,6 @@
+Приета Blender база: Rig R3 / M2 / оригинален greeting. Само изолиран GLB export и Godot preview. Без промени на модел, weights, bones, timing, материали или игра. Без blink в този кръг.
+1. Проверка/export на копие от точния native, без запис на промени в него.
+2. Standalone Godot сцена, Replay и Reduced Motion, оригинален 6-секунден поздрав.
+3. Проверка на import, времена/пози спрямо Blender, screenshot/GIF от истински Godot.
+4. Един ZIP с източници, native, GLB, Godot проект, media и manifest; собствен Git handoff.
+Граници: визуален seam остава известен; разлики Blender/Godot осветление да се показват честно; Android/game integration не са част от тази проба.
