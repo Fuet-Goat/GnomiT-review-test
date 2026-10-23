@@ -1,0 +1,9 @@
+#!/bin/bash
+# Rebuild Grok GLB/.blend from the current map GLB, reimport in isolated Godot copy, capture UI-free 432x960.
+set -e
+T=$(cd "$(dirname "$0")/.." && pwd)
+/workspace/tools/blender-5.2.2-linux-x64/blender -b --python $T/source/grok_build_environment.py -- $T/game/assets/r3/airy_island.glb $T/art/GROK_T003_ENVIRONMENT.blend $T/game/assets/grok/grok_island_t003.glb 2>&1 | grep -E "GROK_BUILD_DONE|Error"
+cd $T/game
+export LD_LIBRARY_PATH=/workspace/tools/lvp/root/usr/lib/x86_64-linux-gnu VK_ICD_FILENAMES=/workspace/tools/lvp/root/usr/share/vulkan/icd.d/lvp_icd.json
+timeout 600 /workspace/tools/Godot_v4.7.2-stable_linux.x86_64 --headless --path . --import >/dev/null 2>&1 || true
+bash $T/source/grok_capture.sh.txt res://assets/grok/grok_island_t003.glb "$1" | grep -o '"camera_size":[0-9.]*'

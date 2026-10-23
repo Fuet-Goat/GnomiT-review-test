@@ -1,0 +1,587 @@
+{
+ "task": "grok/task-003",
+ "input_commit": "74d7959ca4adb796549e4b4e02bb30c250018a07",
+ "grant_main": "dabe1793398d9ceb6afcb0b459ba91e8687c6ac6",
+ "files": [
+  {
+   "path": "sandbox/grok/task-003/outputs/ASSET_METADATA.json",
+   "bytes": 2187,
+   "sha256": "cb4d1eee1805e9101456641a04305ed6f07b382205edd5beabda2f08e6b042d0"
+  },
+  {
+   "path": "sandbox/grok/task-003/outputs/CURRENT_VS_GROK_432x960.png",
+   "bytes": 790712,
+   "sha256": "9b9ea17ada5533a9fed96d4e0f7de9751509ad1d2f31913ce26170fe9cfbe5c3"
+  },
+  {
+   "path": "sandbox/grok/task-003/outputs/GRASS_DETAIL.png",
+   "bytes": 1341195,
+   "sha256": "16b4f6b0c9fce079834f5f278738563159121d5ddbb4437e26976d50910005f3"
+  },
+  {
+   "path": "sandbox/grok/task-003/outputs/GROK_FULL_FRAME_432x960.png",
+   "bytes": 358745,
+   "sha256": "964249d8aa58e29c14e6c541e9d151b5a1ced79054df0567bc0520669cce791e"
+  },
+  {
+   "path": "sandbox/grok/task-003/outputs/LIGHTING_EFFECT_B_vs_G1.png",
+   "bytes": 1510774,
+   "sha256": "d158c5d9304ccdd5e7362b65bc8e8da8cc366fe4f3f11f264105fa6fa8142572"
+  },
+  {
+   "path": "sandbox/grok/task-003/outputs/MINE_PATH_DETAIL.png",
+   "bytes": 1392677,
+   "sha256": "40bb367718fe81122245860af633dee3a2a47ab8299cafce39de7b94b003ca39"
+  },
+  {
+   "path": "sandbox/grok/task-003/outputs/PROVENANCE.md",
+   "bytes": 1907,
+   "sha256": "d613245ffe7657f29d9c881dfb636c3f1db764c19d6c4ecfa91edf10a014b8c6"
+  },
+  {
+   "path": "sandbox/grok/task-003/outputs/RAW_CURRENT_B_432x960.png",
+   "bytes": 421063,
+   "sha256": "18f5910cd69e6c67fc91366b9f02e1e2f5ff9d348d045ce6932c4ecf8bf7d447"
+  },
+  {
+   "path": "sandbox/grok/task-003/outputs/RAW_GROK_LIGHT_B_432x960.png",
+   "bytes": 360575,
+   "sha256": "3960f1f991854840b17b0b067b2c8842769053510619266331a5f2cc522f5973"
+  },
+  {
+   "path": "sandbox/grok/task-003/outputs/REPORT.md",
+   "bytes": 10251,
+   "sha256": "7cdf14eccbcda35a77e3d3e98ac5288ba46a55772ee04c502b6329fe69a691cd"
+  },
+  {
+   "path": "sandbox/grok/task-003/outputs/TREES_DETAIL.png",
+   "bytes": 1703794,
+   "sha256": "fa6797c874e20ea88dedb1350d8c2a22f7486ce21f7b0d442670c6ea9057135c"
+  },
+  {
+   "path": "sandbox/grok/task-003/art/GROK_T003_ENVIRONMENT.blend",
+   "bytes": 2113627,
+   "sha256": "7321dc159d16d203d4cd370a086d58db26e107fc0fc4b01a2156a642d5f1c261"
+  },
+  {
+   "path": "sandbox/grok/task-003/art/GROK_T003_ENVIRONMENT.glb",
+   "bytes": 2666008,
+   "sha256": "06d30df23a399cbde5212ad34697e5bb1110dbfa47d5fe7ed7fc7a6ee775c3d6"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/grok_preview.gd",
+   "bytes": 1270,
+   "sha256": "c2bcbebf91b5e14a8210b9253b4151405b668fc3e41f0bea1e97c726ba02a3e4"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/grok_preview.gd.uid",
+   "bytes": 20,
+   "sha256": "24027c7cb43d0587e16f1bed8ea10db735a21001e9b7265cc227fa2b26fedf62"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/grok_preview.tscn",
+   "bytes": 219,
+   "sha256": "b4fff9f4c1093bea37aecb204c5a4860cb6c8780d285e3f81dab6eb107d7f826"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/integration.gd",
+   "bytes": 2091,
+   "sha256": "4565d9ece5cfc9784e39208bed08da5d988c042a84cae1171b632ebd896d34b2"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/integration.gd.uid",
+   "bytes": 20,
+   "sha256": "ff2780f4b703d01ed093fac51d95df81033d7aa9087143e9b8d8f6a549db816d"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/integration.tscn",
+   "bytes": 268,
+   "sha256": "1f75f12b23e282d23b5797c99100aee9e9feed656dae24a15407f7f442a6c427"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/integration_map.gd",
+   "bytes": 1984,
+   "sha256": "d688b56e788280b35b7d5a6d8d1defc6318e45c2f54785e511b2f26a6bb1908e"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/integration_map.gd.uid",
+   "bytes": 20,
+   "sha256": "4dfef09f79bb140572fc6c445e399601078ab57d525d9661c8541b416702d37d"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/master_guide.gd",
+   "bytes": 1724,
+   "sha256": "68a9d47451bdaf2a3f7bd13bcbf22ad9beb4e5325eb7f84887128b21a48f51c6"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/master_guide.gd.uid",
+   "bytes": 20,
+   "sha256": "fb34fcdbf172e7e2ad170176a5feda6c89253cd2f15d07312f626d45209d7a6c"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/project.godot",
+   "bytes": 567,
+   "sha256": "0d32e7ae24064abaa781ec29fae525c0f2fa52b499f16b947dc200bd3a77b1af"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/grok_tools/grok_capture.gd",
+   "bytes": 1799,
+   "sha256": "b9233784c3a7b957e6d0828517b5a1cfbda21a8560723f9bbfa8acef8187fa63"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/grok_tools/grok_capture.gd.uid",
+   "bytes": 19,
+   "sha256": "c75804dce27542c912f16131ad87f6c4e5c852b20e3745d477fcac0411f7ce1d"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/scripts/r3/island_map.gd",
+   "bytes": 17701,
+   "sha256": "f959b4dafb5812b53c69de4327d1567ffc3540de890e4a9ac6fe663031c85445"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/scripts/r3/island_map.gd.uid",
+   "bytes": 19,
+   "sha256": "a0d86606c90b21f88c1f95f173f0900b9ea218720679d308f2f17cf9a8f7f121"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/scripts/r3/island_route.gd",
+   "bytes": 2637,
+   "sha256": "400c50a8b503a39a5dfb7ee1ae118fa853c7b3ffcdafac3fb1b621a6753eddfd"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/scripts/r3/island_route.gd.uid",
+   "bytes": 19,
+   "sha256": "9817445a80521059ef613dcb8babbf3f37b4f17bb9f9d8ddb1dbb339dbc6612b"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/scripts/r3/r3_guide.gd",
+   "bytes": 6906,
+   "sha256": "0a3c6a40a89dadba72d05ca2b6ef6adbb90b00b608e48d3de7e056da650af4c5"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/scripts/r3/r3_guide.gd.uid",
+   "bytes": 19,
+   "sha256": "714a9b3e6ac56b8c7dcd6dfcb605fca9fec940f4f13d443df146b8912f6e19d9"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3.glb",
+   "bytes": 29222684,
+   "sha256": "3b72702cb1c995d2553dddd4895a1e2327be14d5a22cc38a60a88603d47c529f"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3.glb.import",
+   "bytes": 1145,
+   "sha256": "6f8cfeee8a03d53eee366ecfb4ead0e8fee138cda1c626d647654aa96e81521e"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3_R1_LanternBlockout_base.png",
+   "bytes": 6193,
+   "sha256": "466adf23024670e1f619a045e5ba18a6203387e3c17e32b90ecfe724cbf7f58a"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3_R1_LanternBlockout_base.png.import",
+   "bytes": 1007,
+   "sha256": "a45aade804f49832a974de6b7f2814551d1f59ef33fb3a7708b59393c5d6b8b8"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3_R1_LanternBlockout_emission.png",
+   "bytes": 4939,
+   "sha256": "add30f3e87e6f5fb5dd10333959b3ffd4077c325110506802c9602ee17c01d60"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3_R1_LanternBlockout_emission.png.import",
+   "bytes": 1019,
+   "sha256": "b9b3489f52e8cc0b9337ded36e5a3ef0623bf450dcdb03dd9f7617c944940128"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3_R1_LanternBlockout_orm.png",
+   "bytes": 6068,
+   "sha256": "3be5e6865ba57b81e490c185c52933dd822d193ac04d9ef43f930ec1718e02b9"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3_R1_LanternBlockout_orm.png.import",
+   "bytes": 1004,
+   "sha256": "f000cbfac33537ad4fe1bb3aa410277dc047da387d37a670c6e343ffa164a331"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3_R2_OneSweptBeard_base.png",
+   "bytes": 165669,
+   "sha256": "94426234d01e31c81cd341c018ef5fa13240b76e397715896b32ec9ad4d4c57b"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3_R2_OneSweptBeard_base.png.import",
+   "bytes": 1000,
+   "sha256": "fc9c91aa4e10be7a88828964ad0e0dad6fa97b445896f7b770b4f1a4b8001464"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3_R2_OneSweptBeard_emission.png",
+   "bytes": 13995,
+   "sha256": "1a5e57350822bcd0cdb03f4dc88a26b4a281ba170756106cf0e2df2b298a2cd2"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3_R2_OneSweptBeard_emission.png.import",
+   "bytes": 1013,
+   "sha256": "225c0cabcd5916da71a1d1a926a404588a99b3b2aef463add4530646b1bed3b0"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3_R2_OneSweptBeard_orm.png",
+   "bytes": 63590,
+   "sha256": "85638e5924d9c4f22056fb1f4db9a79c3fba26c8d934ff9dab0569de2bfd6604"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3_R2_OneSweptBeard_orm.png.import",
+   "bytes": 998,
+   "sha256": "6a8b17718bc32d26809a0c8a365fbe2db09550586eb9d45da961d8bc4ae129a4"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3_R2_moustache_-1_base.png",
+   "bytes": 57727,
+   "sha256": "4247f3cece0958c90aeee4c47664494bbf1ddc4d53dae8cbc598724d49f352e3"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3_R2_moustache_-1_base.png.import",
+   "bytes": 998,
+   "sha256": "1ac14d7234a28d4f1d4e5bdbfb9e65b82b09cc0486a0deb44d5dfd0d641d4485"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3_R2_moustache_-1_emission.png",
+   "bytes": 3693,
+   "sha256": "9a334c89c9511a9c155910ad84763ff23c8b112f0211566c41a19673f0552c6c"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3_R2_moustache_-1_emission.png.import",
+   "bytes": 1010,
+   "sha256": "f0df447cbad68f4838d03b78274dd9f8ea3caf14a5277418201cf003d2a71a4e"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3_R2_moustache_-1_orm.png",
+   "bytes": 21050,
+   "sha256": "4cfc5860f691c5d6aed5c3525db03b75d30d6e3e529f7a3ad44e8f42a8633268"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3_R2_moustache_-1_orm.png.import",
+   "bytes": 995,
+   "sha256": "c18aa9877700bd9444f7e70a65da0b47f95279ef0392ee4e3a8782e03b4093cd"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3_R2_moustache_1_base.png",
+   "bytes": 56132,
+   "sha256": "83d233af88d81e3279e5fedacadd10ed613e915340e4f5a3c3dd2797e45be0fa"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3_R2_moustache_1_base.png.import",
+   "bytes": 995,
+   "sha256": "580c3d1fc1fd900ab1ca42f9e9dde72f083aa07b6e7841343f7ebba1f5887400"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3_R2_moustache_1_emission.png",
+   "bytes": 3693,
+   "sha256": "9a334c89c9511a9c155910ad84763ff23c8b112f0211566c41a19673f0552c6c"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3_R2_moustache_1_emission.png.import",
+   "bytes": 1007,
+   "sha256": "076743e5799c321ef5ec3d268e06a40d9e7a945c212cd5d1211eccb3c4600741"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3_R2_moustache_1_orm.png",
+   "bytes": 19813,
+   "sha256": "07f7de10d547de5228fef002af91d08c54b0ee2114dc78ee91f33a4745ea8968"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3_R2_moustache_1_orm.png.import",
+   "bytes": 992,
+   "sha256": "0e360abcb8310e13d75a9be33613acb4d6b86ecc2adb0b987c99a3012f79f665"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3_R4_pupil_-1_base.png",
+   "bytes": 16432,
+   "sha256": "c1a5958b12cf75cae289a9f7ea3741bdb7638531005d0f32eca053472ec3beb5"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3_R4_pupil_-1_base.png.import",
+   "bytes": 986,
+   "sha256": "3a363c917c764e5fa18f486241b2a7bff0e05e37acb575e4f66cb23f6941ff6c"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3_R4_pupil_-1_emission.png",
+   "bytes": 3693,
+   "sha256": "9a334c89c9511a9c155910ad84763ff23c8b112f0211566c41a19673f0552c6c"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3_R4_pupil_-1_emission.png.import",
+   "bytes": 997,
+   "sha256": "5965b36507047fe654490bf93623c78c45b2c5a0e62834a8865e426b9ec1f2b9"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3_R4_pupil_-1_orm.png",
+   "bytes": 14167,
+   "sha256": "3dfab7504d8988af58a2c17c9d3ce07195c9c75266a24f398971208cc5f11805"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3_R4_pupil_-1_orm.png.import",
+   "bytes": 983,
+   "sha256": "96eca4815cb4d50753c98c5ef04871599eac4a8e5faf6ce167f1214283ea9aee"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3_R4_pupil_1_base.png",
+   "bytes": 16432,
+   "sha256": "c1a5958b12cf75cae289a9f7ea3741bdb7638531005d0f32eca053472ec3beb5"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3_R4_pupil_1_base.png.import",
+   "bytes": 983,
+   "sha256": "2425a22737203892b39c2956d9b4ea70c9aaec1d5d498967f97c60bb3876f93e"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3_R4_pupil_1_emission.png",
+   "bytes": 3693,
+   "sha256": "9a334c89c9511a9c155910ad84763ff23c8b112f0211566c41a19673f0552c6c"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3_R4_pupil_1_emission.png.import",
+   "bytes": 995,
+   "sha256": "81f8b32aa5d66471fdb09eed4d15028ecb7ccd12ab7bec4fd0cc5cb6aae8095b"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3_R4_pupil_1_orm.png",
+   "bytes": 14167,
+   "sha256": "3dfab7504d8988af58a2c17c9d3ce07195c9c75266a24f398971208cc5f11805"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3_R4_pupil_1_orm.png.import",
+   "bytes": 980,
+   "sha256": "c608e1f790e06044b62cd8b9d481294bee4b1990ad3e0589b1ad98b27ac3c71e"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3_R4_soft_brow_-1_base.png",
+   "bytes": 52650,
+   "sha256": "7c4291432018386d202e88353cd3003523569685113c25696175a80b52d97670"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3_R4_soft_brow_-1_base.png.import",
+   "bytes": 996,
+   "sha256": "25a02d65501f845eb1b38dea3d1e16751ea238f45250361283f9542e56d67ce2"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3_R4_soft_brow_-1_emission.png",
+   "bytes": 3693,
+   "sha256": "9a334c89c9511a9c155910ad84763ff23c8b112f0211566c41a19673f0552c6c"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3_R4_soft_brow_-1_emission.png.import",
+   "bytes": 1010,
+   "sha256": "69a9324af6bba3ac56d2a7db8d0329e6be93b5ceccf040c78edac8db213b7d81"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3_R4_soft_brow_-1_orm.png",
+   "bytes": 22414,
+   "sha256": "97aeabebacf16a946da7fd7637c4d1ab836fe9823994ec871f8e26f8579536e3"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3_R4_soft_brow_-1_orm.png.import",
+   "bytes": 995,
+   "sha256": "a95afeeb244bdf92637883f34f70ab1744876946b209a57a641a3fd3547da623"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3_R4_soft_brow_1_base.png",
+   "bytes": 53403,
+   "sha256": "4c491eb3a05963c9ef44454be6eeead79675e4c21d6a1488d1bce94791c2a930"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3_R4_soft_brow_1_base.png.import",
+   "bytes": 995,
+   "sha256": "334cbbc0698d2432a7c8778741f2bd0aa48f1c8850c6a442981646940aed8c96"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3_R4_soft_brow_1_emission.png",
+   "bytes": 3693,
+   "sha256": "9a334c89c9511a9c155910ad84763ff23c8b112f0211566c41a19673f0552c6c"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3_R4_soft_brow_1_emission.png.import",
+   "bytes": 1006,
+   "sha256": "838c18cc37c7e02d13157c07b6f16448f62f2e313d091cd3f7c121f8610676c9"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3_R4_soft_brow_1_orm.png",
+   "bytes": 23129,
+   "sha256": "485bb64a43c9f15f8642934221f7676ffa02db267a1c16efec8bf38a47d4b7ab"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/gnome_r3_R4_soft_brow_1_orm.png.import",
+   "bytes": 992,
+   "sha256": "719606472f892f64698c3dd2e4c6ba808f222401bf856446417629699ff63f57"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/r3/airy_island.glb",
+   "bytes": 29738484,
+   "sha256": "26f4a9805bf3300ebaa5343dec6933ca236802671c2524a916a00a23e53c339b"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/r3/airy_island.glb.import",
+   "bytes": 1157,
+   "sha256": "85da94858f862096346a4f5ae0ed948266b29161877e768eb7877763b326b1b3"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/r3/airy_island_Airy_bark.png",
+   "bytes": 36770,
+   "sha256": "16a1ec98b1ef5159434778d401b01375fe78bc9a141a3caa51c8cff32691c0d0"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/r3/airy_island_Airy_bark.png.import",
+   "bytes": 977,
+   "sha256": "f1e1ddd2f038932116a15cad74046e466293cbf7dfa296e6252c2572ee4dfa6a"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/r3/airy_island_Airy_endgrain.png",
+   "bytes": 57184,
+   "sha256": "e048f16dfcf0b8df0ebbc306bb1a000d5811794fd347be522018907320d1e39f"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/r3/airy_island_Airy_endgrain.png.import",
+   "bytes": 989,
+   "sha256": "32d151597bbfda7cf068047b7376a3b054749fe01a70dcd15cd4ea6508aaef18"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/r3/airy_island_Airy_wood.png",
+   "bytes": 38683,
+   "sha256": "fc439d6471305ec93fa09fc80008a6bf73c38af0930957b6c63525bb550964c2"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/r3/airy_island_Airy_wood.png.import",
+   "bytes": 976,
+   "sha256": "99bac2dc4af0b8b8893873075ba50118abd52c0b8b4dbec6e65ccec85e6013e7"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/r3/airy_island_Airy_wood_dark.png",
+   "bytes": 28659,
+   "sha256": "bf7b308ef09ac9aba7e8f82bc938255f2f0890136db69adf8a98237ca8052fb6"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/r3/airy_island_Airy_wood_dark.png.import",
+   "bytes": 991,
+   "sha256": "e3b6cd80f5d6d8af5e7373ce163b79674a7415664de7fd5aa5da8687814d0131"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/r3/airy_island_Airy_wood_light.png",
+   "bytes": 42274,
+   "sha256": "5bad7a0aa083af863eba53c596a1bed3f714ce543186c88b4232bfdcd018f4bd"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/r3/airy_island_Airy_wood_light.png.import",
+   "bytes": 995,
+   "sha256": "8689adaaab39d25d63bfc99486636bd0b6a439fd57e572452b6b0f5c2ed6d645"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/r3/airy_island_grass_ground_baked.png",
+   "bytes": 772445,
+   "sha256": "71185b8526a5af1cb9218f1a17b0b1386694516ce8e0d0e56cde8af2b1b62492"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/r3/airy_island_grass_ground_baked.png.import",
+   "bytes": 1004,
+   "sha256": "78ea44736cf7f3c9f581600a2d5d6af6e8aaa59d056606d50eae374542edde39"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/r3/gnome_guide.glb",
+   "bytes": 2665104,
+   "sha256": "c5abfa4a4688d370966edcebf662e4d4692314ea3ea67f3180b1c5f60e3b9e16"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/r3/gnome_guide.glb.import",
+   "bytes": 1158,
+   "sha256": "80918150535e9fd9fa69e89197152a8d2980824840e9fac03e37e795891b6954"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/r3/lighting_v012.json",
+   "bytes": 2766,
+   "sha256": "10960ab40527705e5a9fb2fd4a485e5d3fd578a9c50d44f717aed84dcd9ea887"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/grok/grok_island_t003.glb",
+   "bytes": 2666008,
+   "sha256": "06d30df23a399cbde5212ad34697e5bb1110dbfa47d5fe7ed7fc7a6ee775c3d6"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/grok/grok_island_t003.glb.import",
+   "bytes": 1175,
+   "sha256": "92e575a02a17bff4cf4bcdb2ff019c8d9a1a7d0a932e9c801f8ce542410d62c2"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/grok/grok_island_t003_Airy_wood.png",
+   "bytes": 38683,
+   "sha256": "fc439d6471305ec93fa09fc80008a6bf73c38af0930957b6c63525bb550964c2"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/grok/grok_island_t003_Airy_wood.png.import",
+   "bytes": 994,
+   "sha256": "182dcb4675e5072cd9478b968da0e284dd41ef5218b698e4e5722e5e20f958c3"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/grok/grok_island_t003_Airy_wood_dark.png",
+   "bytes": 28659,
+   "sha256": "bf7b308ef09ac9aba7e8f82bc938255f2f0890136db69adf8a98237ca8052fb6"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/assets/grok/grok_island_t003_Airy_wood_dark.png.import",
+   "bytes": 1009,
+   "sha256": "ddea32021d42db64de34ea23d5b843ac496a2757433a12020d1bb76005eee4ea"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/shaders/reference_grass.gdshader",
+   "bytes": 312,
+   "sha256": "c7b82792f02c7537aaf9c433d083c04d207191af71b97780130fef2093fdfe8b"
+  },
+  {
+   "path": "sandbox/grok/task-003/game/shaders/reference_grass.gdshader.uid",
+   "bytes": 20,
+   "sha256": "b294cba336559a0f4fca1befea78e35c80c3d73684aa545a57bd1252bbae20c5"
+  },
+  {
+   "path": "sandbox/grok/task-003/preview/ISOLATED_PREVIEW_SCREENSHOT.png",
+   "bytes": 389176,
+   "sha256": "5dc082d2451ed4beedce29e578fdaade33c310e9846d8097046c7329b1d8b809"
+  },
+  {
+   "path": "sandbox/grok/task-003/source/grok_build_environment.py",
+   "bytes": 21104,
+   "sha256": "7718e33edead20402b2212bff8c34f71912a2cee6b562eacf578497ba4921499"
+  },
+  {
+   "path": "sandbox/grok/task-003/source/grok_capture.sh.txt",
+   "bytes": 462,
+   "sha256": "e932e78492962d7035dcbe19568e481f71a97cb49beebbff5f4959904fb386c6"
+  },
+  {
+   "path": "sandbox/grok/task-003/source/grok_compose.py",
+   "bytes": 1553,
+   "sha256": "6fe6a2b8d1a28950125f40a2be84c9c2dbf4167e89eb14d3137fe9fdbbe7d5b2"
+  },
+  {
+   "path": "sandbox/grok/task-003/source/grok_metadata.py",
+   "bytes": 1922,
+   "sha256": "1fcdd1ff383f622875a14d5a6509fd35a0c2666e54b2133b0776883997846425"
+  },
+  {
+   "path": "sandbox/grok/task-003/source/grok_rebuild_and_capture.sh.txt",
+   "bytes": 806,
+   "sha256": "6bdf258ef95b9482b13d94098c94c8220316d5a5d971aa3048f90d735e1c21ac"
+  },
+  {
+   "path": "discussions/grok/task-003/PROVENANCE.md",
+   "bytes": 1907,
+   "sha256": "d613245ffe7657f29d9c881dfb636c3f1db764c19d6c4ecfa91edf10a014b8c6"
+  },
+  {
+   "path": "discussions/grok/task-003/README.md",
+   "bytes": 275,
+   "sha256": "958312319807c28e486eed8ce904e2fd8c4bfab5f20a0a39340018d3aa0864aa"
+  },
+  {
+   "path": "discussions/grok/task-003/REPORT.md",
+   "bytes": 10251,
+   "sha256": "7cdf14eccbcda35a77e3d3e98ac5288ba46a55772ee04c502b6329fe69a691cd"
+  }
+ ]
+}
