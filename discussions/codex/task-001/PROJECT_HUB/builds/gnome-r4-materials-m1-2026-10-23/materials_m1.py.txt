@@ -1,0 +1,105 @@
+"""M1 storybook material definitions. No images, geometry or lights created."""
+import bpy
+
+def rgba(code):
+    values=[int(code.lstrip('#')[i:i+2],16)/255 for i in (0,2,4)]
+    return tuple(c/12.92 if c<=.04045 else ((c+.055)/1.055)**2.4 for c in values)+(1,)
+
+def principled(name,color,roughness,metallic=0,sheen=0,subsurface=0):
+    name='M1 '+name;assert bpy.data.materials.get(name) is None
+    mat=bpy.data.materials.new(name);mat.use_nodes=True;mat.diffuse_color=rgba(color)
+    shader=mat.node_tree.nodes['Principled BSDF']
+    for key,value in [('Base Color',rgba(color)),('Roughness',roughness),('Metallic',metallic),
+                      ('Sheen Weight',sheen),('Subsurface Weight',subsurface),('Specular IOR Level',.35)]:
+        if key in shader.inputs:shader.inputs[key].default_value=value
+    return mat,shader
+
+def cloth(name,color,roughness):
+    mat,p=principled(name,color,roughness,sheen=.18)
+    nodes,links=mat.node_tree.nodes,mat.node_tree.links
+    noise=nodes.new('ShaderNodeTexNoise');noise.inputs['Scale'].default_value=5
+    noise.inputs['Detail'].default_value=0
+    mapped=nodes.new('ShaderNodeMapRange');mapped.inputs['To Min'].default_value=roughness-.035;mapped.inputs['To Max'].default_value=roughness+.035
+    links.new(noise.outputs['Fac'],mapped.inputs['Value']);links.new(mapped.outputs['Result'],p.inputs['Roughness'])
+    return mat
+
+def build_materials():
+    mats={}
+    mats['cap']=cloth('soft cherry cloth','#BB3022',.76)
+    mats['band']=cloth('folded cherry hem','#A92D23',.78)
+    mats['coat']=cloth('teal wool coat','#286B72',.80)
+    mats['collar']=cloth('teal folded collar','#327A7C',.78)
+    mats['skin'],skin=principled('warm skin','#E6A174',.53,subsurface=.04)
+    if 'Subsurface Radius' in skin.inputs:skin.inputs['Subsurface Radius'].default_value=(.7,.32,.18)
+    mats['hair'],hair=principled('cream beard and brows','#EAD9B6',.76)
+    nodes,links=mats['hair'].node_tree.nodes,mats['hair'].node_tree.links
+    tex=nodes.new('ShaderNodeTexCoord');sep=nodes.new('ShaderNodeSeparateXYZ');mix=nodes.new('ShaderNodeMixRGB')
+    mix.inputs[1].default_value=rgba('#E4CEA9');mix.inputs[2].default_value=rgba('#F4E7CE')
+    links.new(tex.outputs['Generated'],sep.inputs[0]);links.new(sep.outputs['Z'],mix.inputs[0]);links.new(mix.outputs[0],hair.inputs['Base Color'])
+    mats['trousers'],_=principled('olive trousers','#625B3B',.85)
+    mats['boots'],_=principled('brown leather boots','#73462B',.56)
+    mats['soles'],_=principled('dark leather soles','#493222',.72)
+    mats['mouth'],_=principled('soft warm smile','#6D3D2D',.60)
+    mats['eye_white'],_=principled('warm eye white','#E8E1D1',.30)
+    mats['pupil'],pupil=principled('brown iris and pupil','#503726',.26)
+    nodes,links=mats['pupil'].node_tree.nodes,mats['pupil'].node_tree.links
+    tex=nodes.new('ShaderNodeTexCoord');sep=nodes.new('ShaderNodeSeparateXYZ');links.new(tex.outputs['Generated'],sep.inputs[0])
+    def op(operation,a,b=None):
+        node=nodes.new('ShaderNodeMath');node.operation=operation
+        if hasattr(a,'node'):links.new(a,node.inputs[0])
+        else:node.inputs[0].default_value=a
+        if b is not None:
+            if hasattr(b,'node'):links.new(b,node.inputs[1])
+            else:node.inputs[1].default_value=b
+        return node.outputs[0]
+    dx=op('SUBTRACT',sep.outputs['X'],.5);dz=op('SUBTRACT',sep.outputs['Z'],.5)
+    radius=op('SQRT',op('ADD',op('MULTIPLY',dx,dx),op('MULTIPLY',dz,dz)))
+    center=op('LESS_THAN',radius,.235);mix=nodes.new('ShaderNodeMixRGB');mix.inputs[1].default_value=rgba('#705033');mix.inputs[2].default_value=rgba('#17130F')
+    links.new(center,mix.inputs[0]);links.new(mix.outputs[0],pupil.inputs['Base Color'])
+    mats['bronze'],_=principled('satin bronze handle','#82603C',.38,metallic=.70)
+    mats['lantern']=lantern_material()
+    return mats
+
+def lantern_material():
+    mat,bronze=principled('framed amber lantern','#82603C',.38,metallic=.70)
+    nodes,links=mat.node_tree.nodes,mat.node_tree.links
+    glass=nodes.new('ShaderNodeBsdfPrincipled');glass.inputs['Base Color'].default_value=rgba('#FFAD35');glass.inputs['Roughness'].default_value=.30
+    glass.inputs['Emission Color'].default_value=rgba('#FFB642');glass.inputs['Emission Strength'].default_value=1.5
+    tex=nodes.new('ShaderNodeTexCoord');sep=nodes.new('ShaderNodeSeparateXYZ');links.new(tex.outputs['Generated'],sep.inputs[0])
+    def op(operation,a,b):
+        node=nodes.new('ShaderNodeMath');node.operation=operation
+        for i,v in enumerate((a,b)):
+            if hasattr(v,'node'):links.new(v,node.inputs[i])
+            else:node.inputs[i].default_value=v
+        return node.outputs[0]
+    def edge(v):return op('MAXIMUM',op('LESS_THAN',v,.13),op('GREATER_THAN',v,.87))
+    corners=op('MINIMUM',edge(sep.outputs['X']),edge(sep.outputs['Y']))
+    border=op('MAXIMUM',corners,edge(sep.outputs['Z']))
+    mix=nodes.new('ShaderNodeMixShader');links.new(border,mix.inputs[0]);links.new(glass.outputs['BSDF'],mix.inputs[1]);links.new(bronze.outputs['BSDF'],mix.inputs[2])
+    links.new(mix.outputs[0],nodes['Material Output'].inputs['Surface'])
+    return mat
+
+def assign_materials(asset,mats):
+    assignments={}
+    for obj in asset.objects:
+        if obj.type!='MESH':continue
+        n=obj.name
+        if n=='R3_OneFoldStorybookCap':key='cap'
+        elif n=='R1_FoldedCapBand':key='band'
+        elif n=='R2_ContinuousCoat':key='coat'
+        elif n.startswith('R2 broad folded collar'):key='collar'
+        elif n in ('R4_ContinuousFacialPlanes','R2_OpenInvitationHand','R2_LanternGripHand'):key='skin'
+        elif n.startswith('R4 soft brow') or n.startswith('R2 moustache') or n=='R2_OneSweptBeard':key='hair'
+        elif n.startswith('R4 inset eye'):key='eye_white'
+        elif n.startswith('R4 pupil'):key='pupil'
+        elif n.startswith('R2 trouser'):key='trousers'
+        elif n.startswith('R1_Boot_'):key='boots'
+        elif n.startswith('R2 curved sole'):key='soles'
+        elif n=='R2 smile':key='mouth'
+        elif n=='R2 lantern handle':key='bronze'
+        elif n=='R1_LanternBlockout':key='lantern'
+        else:raise AssertionError('Unassigned mesh: '+n)
+        assert len(obj.data.materials)>0
+        for i in range(len(obj.data.materials)):obj.data.materials[i]=mats[key]
+        assignments[n]=key
+    return assignments

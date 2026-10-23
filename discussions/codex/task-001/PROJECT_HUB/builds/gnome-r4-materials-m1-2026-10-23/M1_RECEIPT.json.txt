@@ -1,0 +1,166 @@
+{
+  "status": "NATIVE_SAVED_REOPENED_RENDERED_VERIFIED",
+  "source_native": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\Gnome_Final_Face_R4_2026-10-23\\native\\GNOME_R4_FACE_ONLY_A.blend",
+  "source_sha256_before": "b67b725597c82f156b3cf3de36b3f0f1d55a1508d7fcb154d8bed0f7fa12ee7b",
+  "source_sha256_after": "b67b725597c82f156b3cf3de36b3f0f1d55a1508d7fcb154d8bed0f7fa12ee7b",
+  "native": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\Gnome_R4_Materials_M1_2026-10-23\\native\\GNOME_M1_COLORED_R4.blend",
+  "native_sha256": "366649c61e802c32ba5b08b5537e211d67edade2b284f78ec53a6494b16036e6",
+  "protected_objects": 32,
+  "protected_geometry_pose_modifiers_studio": "EXACT_MATCH_TO_ACCEPTED_R4",
+  "protected_object_fingerprints": {
+    "R1 camera": "2c8a9c31cd4f66d76357c12208ebf0181e08e18f30023fbafc1559d6acaaf8bb",
+    "R1 fill": "2e31dc1eaa44801288407c0b13dfb13b685d018870f5b461c475e842555fd779",
+    "R1 key": "4ff6123ba1d0a4abc02d0904e84ed76e0fbae0b8eac434b8fb52331d39d92d68",
+    "R1 rim": "f33e8c8563ced62eaa13845059fc3d326209088c1b10ab9b4ba769c94b6eab8f",
+    "R1 stage floor": "f06139cc8253fd3d12241f859eb3362385ee6b711e727388da4dea1b2279d26e",
+    "R1_Boot_-1": "1a90355f468a928536fe74cd102898198ea5c2243fee9db297e0a583ca3d79e5",
+    "R1_Boot_1": "d26d94d58d6fa0bfdfde55b8b247b14180e8748fb9087487625c45f449cf4919",
+    "R1_FoldedCapBand": "9964a79df7910c4fca4628c157c1f688c0bd059baf17be755a4df759ed84be6d",
+    "R1_LanternBlockout": "d35431defd2853adcbae5373ee8378d5ec1336ea62f34c7e9bf5450e848d8fc1",
+    "R2 broad folded collar -1": "9f2d5d6620c1a73492fad748c28469aa5236941eb40e14138ed2042682c15f9c",
+    "R2 broad folded collar 1": "0df6bcdfa89c2ba6f7cbcd548d33d4934cfb6266678b914de4c3219e20e4db04",
+    "R2 curved sole -1": "97555e8a384176cbddfe9b4cd533089d6d180c2e3221b89a0d0ff05b6bc4fcbb",
+    "R2 curved sole 1": "52d8cbe756159630daa9a9430f4f0335d952bc7918b3fd4a490d8261ac158de3",
+    "R2 lantern handle": "b172b4d771c87be252151128d426d97318b4514aa7b0c6ee104cc711aa8f9414",
+    "R2 moustache -1": "270e2e1697ec548cbe8c5a4f4118b4b9e2fcba39bbca312deebf88a5a0c96ad2",
+    "R2 moustache 1": "cb88cfcd60b179b417f6f0bf999591237cc44181188116f3536b456d1f9d4964",
+    "R2 smile": "2b6fefdd1104b8008cda420f659c3cff13da1ed6ad6639d4ce44f31a2e5d2855",
+    "R2 trouser -1": "de22d9522fbd07aa6d76de943796517292756b4dbc76abc39061c170c2d130d0",
+    "R2 trouser 1": "2a3b761ae272da37eac48df1a802771a6447ad921735235e23a7827f6304c8a0",
+    "R2_ContinuousCoat": "648d924f4bc0e452d2a795ba28cb4266d3f662b89afdadc15646d2ca280e8fdb",
+    "R2_GnomeRoot": "b9c1ff3beaee360ca441275e16deffc63792b29f9e1b0d1ce47fe816561f8dbc",
+    "R2_LanternGripHand": "042108b60e56d36aae4f870d660fdc47e603e93b4b576b9fe93b05cc4365d55a",
+    "R2_OneSweptBeard": "e082356c16843cce7795b80d6a93f09836f4477700b4a407c57a23ec1bc5227b",
+    "R2_OpenInvitationHand": "6ecf486acff053fb443c1e6a24a2ba1cb4b4e248feafea721891b3936d6c70f0",
+    "R3_OneFoldStorybookCap": "d1e47342acafdfb5604510cf208053ad44bf2813bd409151511e4474c802961f",
+    "R4 inset eye -1": "181e912be4279109f06a5d76cf91172702653162680db386d2d1cdf40ac89de2",
+    "R4 inset eye 1": "8e1b6da15286a079b36bfd4c2e6323bc90ccb02e367c8867217adf9cf6891df0",
+    "R4 pupil -1": "4729c23dbd9876b58a3562f45fc4af1d1a31ede90e612250563b9857d67a886c",
+    "R4 pupil 1": "be7dea13aa65b3474945f06a320f6c51e032150587c9a4bda8e711ab53474659",
+    "R4 soft brow -1": "59ba58f2815f6754c5c5185a4bef44d30301937212ca5284c390d9b657d9d4d5",
+    "R4 soft brow 1": "060b17f85a3b258a7930383f3b0fdff5b9143151f97e42a81c99c89d4ccc70f1",
+    "R4_ContinuousFacialPlanes": "53684a2775785489148512637ef680171fda4a920d1f3a5bc5fb766ce62cb3ff"
+  },
+  "retained_original_material_definitions": "UNCHANGED",
+  "unreferenced_replaced_clay_materials_omitted_by_blender_save": [
+    "R1 Clay â€” form review only",
+    "R1 Eye direction â€” blockout marker"
+  ],
+  "new_materials": [
+    "M1 brown iris and pupil",
+    "M1 brown leather boots",
+    "M1 cream beard and brows",
+    "M1 dark leather soles",
+    "M1 folded cherry hem",
+    "M1 framed amber lantern",
+    "M1 olive trousers",
+    "M1 satin bronze handle",
+    "M1 soft cherry cloth",
+    "M1 soft warm smile",
+    "M1 teal folded collar",
+    "M1 teal wool coat",
+    "M1 warm eye white",
+    "M1 warm skin"
+  ],
+  "assignments": {
+    "R2_ContinuousCoat": [
+      "M1 teal wool coat"
+    ],
+    "R2_OneSweptBeard": [
+      "M1 cream beard and brows"
+    ],
+    "R2 moustache -1": [
+      "M1 cream beard and brows"
+    ],
+    "R2 moustache 1": [
+      "M1 cream beard and brows"
+    ],
+    "R2 smile": [
+      "M1 soft warm smile"
+    ],
+    "R1_FoldedCapBand": [
+      "M1 folded cherry hem"
+    ],
+    "R2 broad folded collar -1": [
+      "M1 teal folded collar"
+    ],
+    "R2 broad folded collar 1": [
+      "M1 teal folded collar"
+    ],
+    "R2 trouser -1": [
+      "M1 olive trousers"
+    ],
+    "R1_Boot_-1": [
+      "M1 brown leather boots"
+    ],
+    "R2 curved sole -1": [
+      "M1 dark leather soles"
+    ],
+    "R2 trouser 1": [
+      "M1 olive trousers"
+    ],
+    "R1_Boot_1": [
+      "M1 brown leather boots"
+    ],
+    "R2 curved sole 1": [
+      "M1 dark leather soles"
+    ],
+    "R2_OpenInvitationHand": [
+      "M1 warm skin"
+    ],
+    "R2_LanternGripHand": [
+      "M1 warm skin"
+    ],
+    "R1_LanternBlockout": [
+      "M1 framed amber lantern"
+    ],
+    "R2 lantern handle": [
+      "M1 satin bronze handle"
+    ],
+    "R3_OneFoldStorybookCap": [
+      "M1 soft cherry cloth"
+    ],
+    "R4_ContinuousFacialPlanes": [
+      "M1 warm skin"
+    ],
+    "R4 inset eye -1": [
+      "M1 warm eye white"
+    ],
+    "R4 pupil -1": [
+      "M1 brown iris and pupil"
+    ],
+    "R4 soft brow -1": [
+      "M1 cream beard and brows"
+    ],
+    "R4 inset eye 1": [
+      "M1 warm eye white"
+    ],
+    "R4 pupil 1": [
+      "M1 brown iris and pupil"
+    ],
+    "R4 soft brow 1": [
+      "M1 cream beard and brows"
+    ]
+  },
+  "new_images_or_geometry_or_lights": 0,
+  "actions": 0,
+  "armatures": 0,
+  "stage_dimensions": [
+    600,
+    840
+  ],
+  "face_detail_dimensions": [
+    640,
+    640
+  ],
+  "human_form_acceptance": {
+    "status": "ACCEPTED",
+    "evidence": "haresva mi",
+    "date": "2026-10-23"
+  },
+  "material_scope_authorization": "taka , napravi vsichko kakto se razbrahme + iskame da vidim dokude sme ,zaz da mojem da produljim natataka",
+  "human_material_acceptance": "PENDING",
+  "rig_animation": "NOT_STARTED",
+  "game_integration": false,
+  "receipt_recovery": "First build saved/reopened/rendered and shape guards passed, then receipt serialization referenced a stale Material pointer. build_m1.py now snapshots plain material names before reopen. This verification read both native inputs without changing or saving them; no rerender or material edit."
+}
