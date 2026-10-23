@@ -1,0 +1,99 @@
+"""Publish only the authorised own-task text handoff and review media."""
+from pathlib import Path
+import sys,json,hashlib,base64,subprocess,urllib.request,urllib.parse,concurrent.futures
+ROOT=Path(__file__).resolve().parents[1]
+REPO=Path('C:/Users/fruch/Documents/Codex/GnomiT/work/review_test_repo_2026_10_14')
+PREFIX='discussions/codex/task-001/PROJECT_HUB/builds/gnome-rig-r3-separated-sleeve-2026-10-23'
+API='https://api.github.com/repos/Fuet-Goat/GnomiT-review-test'
+def sha(data):return hashlib.sha256(data).hexdigest()
+def git(*args):return subprocess.check_output(['git',*args],cwd=REPO,text=True).strip()
+def dump(path,data):path.write_bytes((json.dumps(data,indent=2,ensure_ascii=False)+'\n').encode())
+def get(url):
+    with urllib.request.urlopen(urllib.request.Request(url,headers={'User-Agent':'GnomiT-native-review'}),timeout=60) as response:return response.read()
+def scope_and_commit():
+    assert git('branch','--show-current')=='codex/codex/task-001'
+    assert git('rev-parse','HEAD')=='90795a4a0b517e5ee336f8052d01cb1238e21d49'
+    subprocess.run(['git','fetch','origin','main'],cwd=REPO,check=True,capture_output=True)
+    names=[p.relative_to(REPO).as_posix() for p in (REPO/PREFIX).rglob('*') if p.is_file()]
+    assert all(name.startswith(PREFIX+'/') and name.endswith(('.txt','.md')) for name in names)
+    status=git('status','--porcelain','--untracked-files=all').splitlines()
+    assert status and all(line.startswith('?? '+PREFIX+'/') for line in status),status
+    namespace={'__name__':'trusted_scope'}
+    exec(compile(git('show','origin/main:.github/scripts/check_scope.py'),'trusted_scope','exec'),namespace)
+    grant=json.loads(git('show','origin/main:tasks/codex/task-001.json'))
+    errors=namespace['evaluate_task'](grant,'Fuet-Goat/GnomiT-review-test','codex/codex/task-001',
+        [{'filename':name,'status':'added'} for name in names],{name:'100644' for name in names})
+    assert not errors,errors
+    subprocess.run(['git','add','--',PREFIX],cwd=REPO,check=True,capture_output=True)
+    subprocess.run(['git','diff','--cached','--check'],cwd=REPO,check=True,capture_output=True)
+    subprocess.run(['git','commit','-m','Record separated sleeve native preview'],cwd=REPO,check=True,capture_output=True)
+    commit=git('rev-parse','HEAD')
+    subprocess.run(['git','push','origin','codex/codex/task-001'],cwd=REPO,check=True,capture_output=True)
+    return commit
+def verify_commit(commit):
+    base=f'https://raw.githubusercontent.com/Fuet-Goat/GnomiT-review-test/{commit}/{PREFIX}/'
+    transfer=json.loads(get(base+'TRANSFER_MANIFEST.json.txt'))
+    def part(row):
+        data=get(base+row['path']);assert len(data)==row['bytes'] and sha(data)==row['sha256'];return data
+    with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:data=base64.b64decode(b''.join(pool.map(part,transfer['parts'])),validate=True)
+    assert len(data)==transfer['zip_bytes'] and sha(data)==transfer['zip_sha256']
+    assert data==(ROOT.parent/transfer['zip_name']).read_bytes()
+    proof={'commit':commit,'parts':len(transfer['parts']),'zip_sha256':sha(data),'all_remote_parts_verified':True,'reconstructed_zip_byte_identical':True}
+    dump(ROOT/'documentation/REMOTE_READBACK.json',proof)
+    return proof
+def media(commit):
+    credential=subprocess.run(['git','credential','fill'],input='protocol=https\nhost=github.com\n\n',cwd=REPO,text=True,capture_output=True,check=True)
+    fields=dict(line.split('=',1) for line in credential.stdout.splitlines() if '=' in line)
+    auth={'Authorization':'Bearer '+fields['password'],'Accept':'application/vnd.github+json','User-Agent':'GnomiT-native-review','X-GitHub-Api-Version':'2022-11-28'}
+    def request(url,method='GET',data=None,content='application/json'):
+        with urllib.request.urlopen(urllib.request.Request(url,data=data,method=method,headers={**auth,'Content-Type':content}),timeout=120) as response:return json.loads(response.read())
+    release=request(API+'/releases/421180109')
+    assert not release['draft'] and release['tag_name']=='gnome-r3-visual-review-2026-10-22'
+    previous={item['id']:(item['name'],item['size'],item.get('digest')) for item in release['assets']}
+    existing={item['name']:item for item in release['assets']}
+    media_paths=[(ROOT/'outputs/R1_R3_GREETING.gif','GNOMIT_RIG_R1_R3_GREETING.gif','image/gif'),
+                 (ROOT/'outputs/R1_R3_SLEEVE_CLOSEUP.gif','GNOMIT_RIG_R1_R3_SLEEVE_CLOSEUP.gif','image/gif'),
+                 (ROOT/'outputs/R1_R3_GREETING_KEYPOSES.png','GNOMIT_RIG_R1_R3_GREETING_KEYPOSES.png','image/png'),
+                 (ROOT/'outputs/R1_R3_SLEEVE_KEYPOSES.png','GNOMIT_RIG_R1_R3_SLEEVE_KEYPOSES.png','image/png'),
+                 (ROOT.parent/'GNOMIT_RIG_R3_SEPARATED_SLEEVE_2026-10-23.zip','GNOMIT_RIG_R3_SEPARATED_SLEEVE_2026-10-23.zip','application/zip')]
+    rows=[]
+    for path,name,mime in media_paths:
+        data=path.read_bytes();digest='sha256:'+sha(data)
+        if name in existing:
+            asset=existing[name];assert asset['size']==len(data) and asset.get('digest')==digest
+        else:
+            url=release['upload_url'].split('{',1)[0]+'?name='+urllib.parse.quote(name)
+            asset=request(url,'POST',data,mime)
+        assert asset['size']==len(data) and asset.get('digest')==digest
+        remote=get(asset['browser_download_url']);assert remote==data
+        rows.append({'name':name,'url':asset['browser_download_url'],'bytes':len(data),'sha256':sha(data),'anonymous_readback_byte_identical':True})
+        print('PUBLIC_VERIFIED '+name,flush=True)
+    after=request(API+'/releases/421180109')
+    current={item['id']:(item['name'],item['size'],item.get('digest')) for item in after['assets']}
+    assert all(current[key]==value for key,value in previous.items())
+    marker='### Rig R3 separated sleeve - 2026-10-23'
+    addition=marker+'\n\nSource handoff commit: `'+commit+'`. Actual native Blender preview: raised sleeve separates below the armpit and overlaps at shoulder; former welded web removed. Original M2 finish, action timing, amplitude and rest bones retained. Faint torso patch seam remains. Human visual acceptance pending. No game integration.\n\n'+'\n'.join('- ['+row['name']+']('+row['url']+')' for row in rows)
+    if marker not in after['body']:
+        request(API+'/releases/421180109','PATCH',json.dumps({'body':after['body']+'\n\n'+addition}).encode())
+    verification={'source_commit':commit,'existing_assets_unchanged':True,'existing_asset_count':len(previous),'media':rows}
+    dump(ROOT/'documentation/PUBLIC_MEDIA_VERIFIED.json',verification)
+    target=REPO/PREFIX
+    dump(target/'PUBLIC_MEDIA_VERIFICATION.json.txt',verification)
+    (target/'PUBLIC_MEDIA_LINKS.md').write_bytes((addition+'\n\nAll downloads were read back anonymously and matched local SHA-256/bytes.\n').encode())
+    names=[PREFIX+'/PUBLIC_MEDIA_LINKS.md',PREFIX+'/PUBLIC_MEDIA_VERIFICATION.json.txt']
+    status=git('status','--porcelain','--untracked-files=all').splitlines()
+    assert sorted(line[3:] for line in status)==sorted(names),status
+    subprocess.run(['git','add','--',*names],cwd=REPO,check=True,capture_output=True)
+    subprocess.run(['git','diff','--cached','--check'],cwd=REPO,check=True,capture_output=True)
+    subprocess.run(['git','commit','-m','Publish separated sleeve comparison media'],cwd=REPO,check=True,capture_output=True)
+    final=git('rev-parse','HEAD')
+    subprocess.run(['git','push','origin','codex/codex/task-001'],cwd=REPO,check=True,capture_output=True)
+    for name in names:assert get(f'https://raw.githubusercontent.com/Fuet-Goat/GnomiT-review-test/{final}/{name}')==(REPO/name).read_bytes()
+    print(json.dumps({'source_commit':commit,'links_commit':final,'media_verified':len(rows),'previous_assets_preserved':len(previous)},indent=2))
+if __name__=='__main__':
+    mode=sys.argv[1]
+    if mode=='source':
+        commit=scope_and_commit();print('SOURCE_PUSHED '+commit,flush=True);print(json.dumps(verify_commit(commit),indent=2))
+    elif mode=='verify':print(json.dumps(verify_commit(sys.argv[2]),indent=2))
+    elif mode=='media':media(sys.argv[2])
+    else:raise ValueError('source/verify/media only')

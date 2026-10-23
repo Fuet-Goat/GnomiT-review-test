@@ -1,0 +1,45 @@
+{
+  "status": "RING_BASED_ACTUAL_ARMATURE_MEASUREMENT",
+  "ring_count": 37,
+  "vertices_per_ring": 24,
+  "subdivision_disabled_only_in_RAM_for_correspondence": true,
+  "native_unchanged": true,
+  "claim": "Measures centreline and radius stability; does not assert zero local strain or human acceptance",
+  "frames": {
+    "1": {
+      "centreline_arc_length_world": 0.38991342570961657,
+      "length_ratio_to_rest": 1.0,
+      "maximum_ring_radius_ratio_error": 0.0
+    },
+    "37": {
+      "centreline_arc_length_world": 0.3878303980592079,
+      "length_ratio_to_rest": 0.9946577175519984,
+      "maximum_ring_radius_ratio_error": 3.8317956674305265e-07
+    },
+    "55": {
+      "centreline_arc_length_world": 0.3868790044122222,
+      "length_ratio_to_rest": 0.9922177050152302,
+      "maximum_ring_radius_ratio_error": 1.4243987289663806e-07
+    },
+    "73": {
+      "centreline_arc_length_world": 0.3868865869046408,
+      "length_ratio_to_rest": 0.9922371516203446,
+      "maximum_ring_radius_ratio_error": 1.471499180283331e-07
+    },
+    "91": {
+      "centreline_arc_length_world": 0.3871022616508098,
+      "length_ratio_to_rest": 0.9927902865778714,
+      "maximum_ring_radius_ratio_error": 1.3181447111598743e-07
+    },
+    "109": {
+      "centreline_arc_length_world": 0.3876098416031069,
+      "length_ratio_to_rest": 0.9940920626102646,
+      "maximum_ring_radius_ratio_error": 1.1197265736839768e-07
+    },
+    "145": {
+      "centreline_arc_length_world": 0.38991342570961657,
+      "length_ratio_to_rest": 1.0,
+      "maximum_ring_radius_ratio_error": 0.0
+    }
+  }
+}

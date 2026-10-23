@@ -1,0 +1,460 @@
+"""Read-only preservation and seven-pose diagnostics for sleeve-weight R2.
+
+API: before = snapshot(scene); r1 = measure_motion(scene); edit weights;
+assert_preserved(before, snapshot(scene)); r2 = measure_motion(scene);
+comparison = compare_motion(r1, r2).  Store motion_report(r1/r2) in receipts:
+the captures retain only a private frame-1 coat vertex array for tolerance checks.
+All evaluators restore the caller's frame.  No render or native save is performed.
+"""
+import hashlib
+import json
+import math
+import struct
+
+FRAMES = (1, 37, 55, 73, 91, 109, 145)
+COAT = "R2_ContinuousCoat"
+FEET = ("R1_Boot_-1", "R1_Boot_1", "R2 curved sole -1", "R2 curved sole 1")
+TOLERANCE = 1e-5
+
+
+def _require(condition, message):
+    if not condition:
+        raise ValueError("Sleeve R2: " + message)
+
+
+def _plain(value):
+    import bpy
+    if value is None or isinstance(value, (str, int, float, bool)):
+        return value
+    if isinstance(value, bpy.types.ID):
+        return {"type": value.bl_rna.identifier, "name": value.name}
+    if isinstance(value, set):
+        return sorted(_plain(item) for item in value)
+    if hasattr(value, "items"):
+        return {str(key): _plain(item) for key, item in value.items()}
+    try:
+        return [_plain(item) for item in value]
+    except TypeError:
+        return str(value)
+
+
+def _rna(item):
+    """Stable scalar/array RNA settings, excluding pointers and collections."""
+    return {prop.identifier: _plain(getattr(item, prop.identifier))
+            for prop in item.bl_rna.properties
+            if prop.identifier != "rna_type" and not prop.is_readonly
+            and prop.type not in {"POINTER", "COLLECTION"}}
+
+
+def _digest(value):
+    return hashlib.sha256(json.dumps(value, sort_keys=True,
+        separators=(",", ":"), allow_nan=False).encode("utf-8")).hexdigest()
+
+
+def _matrix(value):
+    return [list(row) for row in value]
+
+
+def _vertex_hash(vertices):
+    digest = hashlib.sha256()
+    for vertex in vertices:
+        _require(all(math.isfinite(float(v)) for v in vertex), "Non-finite vertex")
+        digest.update(struct.pack("<3d", *vertex))
+    return digest.hexdigest()
+
+
+def _node_tree(tree):
+    if tree is None:
+        return None
+    return {"settings": _rna(tree), "nodes": [{
+        "settings": _rna(node), "type": node.bl_idname,
+        "inputs": [[socket.identifier, _plain(socket.default_value)]
+                   for socket in node.inputs if hasattr(socket, "default_value")],
+        "ramp": None if not hasattr(node, "color_ramp") else {
+            "settings": _rna(node.color_ramp),
+            "elements": [[element.position, list(element.color)]
+                         for element in node.color_ramp.elements]},
+        "group": _node_tree(node.node_tree) if node.type == "GROUP" else None,
+    } for node in sorted(tree.nodes, key=lambda node: node.name)],
+        "links": sorted([[link.from_node.name, link.from_socket.identifier,
+                          link.to_node.name, link.to_socket.identifier]
+                         for link in tree.links])}
+
+
+def _mesh_record(obj):
+    mesh = obj.data
+    topology = {"edges": [list(edge.vertices) for edge in mesh.edges],
+                "faces": [[list(poly.vertices), poly.material_index, poly.use_smooth]
+                          for poly in mesh.polygons]}
+    attributes = {}
+    for attribute in mesh.attributes:
+        # These are already represented exactly above/by source coordinates;
+        # edit selection is UI state, rather than a permitted mesh change.
+        if attribute.name in {"position", ".corner_vert", ".edge_verts"} or attribute.name.startswith(".select_"):
+            continue
+        attributes[attribute.name] = {"type": attribute.data_type,
+            "domain": attribute.domain,
+            "values_sha256": _digest([_rna(element) for element in attribute.data])}
+    group_names = {group.index: group.name for group in obj.vertex_groups}
+    preserved_weights = [[vertex.index,
+        [[group_names[group.group], float(group.weight)] for group in vertex.groups]]
+        for vertex in mesh.vertices if obj.name != COAT or vertex.co.x >= 0.0]
+    keys = None if mesh.shape_keys is None else {
+        "settings": _rna(mesh.shape_keys), "blocks": [{
+            "settings": _rna(key),
+            "coordinates_sha256": _vertex_hash([tuple(point.co) for point in key.data])}
+            for key in mesh.shape_keys.key_blocks]}
+    return {"name": mesh.name, "settings": _rna(mesh),
+        "coordinates_sha256": _vertex_hash([tuple(vertex.co) for vertex in mesh.vertices]),
+        "topology_sha256": _digest(topology), "attributes": attributes,
+        "counts": [len(mesh.vertices), len(mesh.edges), len(mesh.polygons)],
+        "materials": [mat.name if mat else None for mat in mesh.materials],
+        "group_definitions": [[group.index, group.name, group.lock_weight]
+                              for group in obj.vertex_groups],
+        "preserved_weight_vertex_count": len(preserved_weights),
+        "preserved_weights_sha256": _digest(preserved_weights), "shape_keys": keys}
+
+
+def _curves(action):
+    if hasattr(action, "fcurves"):
+        return [("legacy", curve) for curve in action.fcurves]
+    return [("%s/%s/%s" % (layer.name, strip_index, bag.slot_handle), curve)
+            for layer in action.layers for strip_index, strip in enumerate(layer.strips)
+            for bag in getattr(strip, "channelbags", []) for curve in bag.fcurves]
+
+
+def _action_record(action):
+    return {"settings": _rna(action), "curves": [{
+        "channel": channel, "data_path": curve.data_path, "array_index": curve.array_index,
+        "settings": _rna(curve), "group": curve.group.name if curve.group else None,
+        "modifiers": [_rna(modifier) for modifier in curve.modifiers],
+        "keyframes": [{"co": list(key.co), "handle_left": list(key.handle_left),
+                       "handle_right": list(key.handle_right), "settings": _rna(key)}
+                      for key in curve.keyframe_points],
+        "samples": [list(point.co) for point in curve.sampled_points],
+    } for channel, curve in _curves(action)]}
+
+
+def snapshot(scene):
+    """JSON-compatible preserved state; ONLY right-coat weights are excluded.
+
+    Right means source mesh local x < 0; x == 0 belongs to the protected left
+    set.  Group identities/order stay protected.  Call before output-camera or
+    render-setting adjustments, since studio and scene presentation are exact.
+    """
+    import bpy
+    previous_frame = scene.frame_current
+    try:
+        scene.frame_set(1)
+        bpy.context.view_layer.update()
+        objects = {}
+        for obj in sorted(scene.objects, key=lambda item: item.name):
+            record = {"type": obj.type, "settings": _rna(obj),
+                "matrix_world": _matrix(obj.matrix_world),
+                "matrix_local": _matrix(obj.matrix_local),
+                "matrix_basis": _matrix(obj.matrix_basis),
+                "matrix_parent_inverse": _matrix(obj.matrix_parent_inverse),
+                "parent": obj.parent.name if obj.parent else None,
+                "modifiers": [{"settings": _rna(modifier),
+                               "target": _plain(getattr(modifier, "object", None))}
+                              for modifier in obj.modifiers],
+                "constraints": [_rna(constraint) for constraint in obj.constraints],
+                "action": obj.animation_data.action.name if obj.animation_data and obj.animation_data.action else None,
+                "material_slots": [[slot.link, slot.material.name if slot.material else None]
+                                   for slot in obj.material_slots],
+                "custom_properties": {key: _plain(obj[key]) for key in obj.keys()}}
+            if obj.type == "MESH":
+                record["mesh"] = _mesh_record(obj)
+            elif obj.type in {"CAMERA", "LIGHT"}:
+                record["data"] = _rna(obj.data)
+                if obj.type == "CAMERA":
+                    record["dof"] = _rna(obj.data.dof)
+                if obj.type == "LIGHT":
+                    record["nodes"] = _node_tree(obj.data.node_tree)
+            elif obj.type == "ARMATURE":
+                record["data"] = _rna(obj.data)
+                record["bones"] = [{"settings": _rna(bone),
+                    "parent": bone.parent.name if bone.parent else None,
+                    "use_deform": bool(bone.use_deform), "use_connect": bool(bone.use_connect),
+                    "matrix_local": _matrix(bone.matrix_local),
+                    "head_local": list(bone.head_local), "tail_local": list(bone.tail_local)}
+                    for bone in obj.data.bones]
+                record["pose"] = [{"settings": _rna(bone),
+                    "matrix_basis": _matrix(bone.matrix_basis),
+                    "constraints": [_rna(constraint) for constraint in bone.constraints]}
+                    for bone in obj.pose.bones]
+            objects[obj.name] = record
+        return {"scope": "All preserved state; only local-x<0 coat weight memberships excluded",
+            "objects": objects,
+            "materials": {mat.name: {"settings": _rna(mat), "nodes": _node_tree(mat.node_tree)}
+                          for mat in bpy.data.materials},
+            "world": None if scene.world is None else {"name": scene.world.name,
+                "settings": _rna(scene.world), "nodes": _node_tree(scene.world.node_tree)},
+            "actions": {action.name: _action_record(action) for action in bpy.data.actions},
+            "collections": {collection.name: {"settings": _rna(collection),
+                "objects": sorted(obj.name for obj in collection.objects),
+                "children": sorted(child.name for child in collection.children)}
+                for collection in bpy.data.collections},
+            "camera": scene.camera.name if scene.camera else None,
+            "scene": _rna(scene), "render": _rna(scene.render),
+            "image_settings": _rna(scene.render.image_settings),
+            "view": _rna(scene.view_settings), "display": _rna(scene.display_settings),
+            "eevee": _rna(scene.eevee) if hasattr(scene, "eevee") else None,
+            "cycles": _rna(scene.cycles) if hasattr(scene, "cycles") else None}
+    finally:
+        scene.frame_set(previous_frame)
+        bpy.context.view_layer.update()
+
+
+def assert_preserved(before, after, helper_name=None):
+    """Exact preservation, optionally allowing ONE explicitly named helper.
+
+    The default remains strict.  The exception allows a Chest-child helper
+    with the original upperarm.R rest orientation, pivot (-.18,.018,.96), one
+    local/local half-strength rotation constraint, and one final coat group.
+    Existing bone/pose/group/action/material/studio records remain exact.
+    Snapshot stores constraint scalar settings; the build driver MUST also
+    verify actual COPY_ROTATION type and target identity on the live helper.
+    """
+    helper_check = None
+    if helper_name is not None:
+        import copy
+        _require(isinstance(helper_name, str) and bool(helper_name),
+                 "helper_name must be one exact, nonempty bone/group name")
+        reference_arms = [name for name, obj in before["objects"].items()
+                          if obj["type"] == "ARMATURE"]
+        candidate_arms = [name for name, obj in after["objects"].items()
+                          if obj["type"] == "ARMATURE"]
+        _require(len(reference_arms) == 1 and candidate_arms == reference_arms,
+                 "Helper exception requires the same single original armature")
+        arm_name = reference_arms[0]
+        old_arm, new_arm = before["objects"][arm_name], after["objects"][arm_name]
+        old_names = [bone["settings"]["name"] for bone in old_arm["bones"]]
+        new_helpers = [bone for bone in new_arm["bones"]
+                       if bone["settings"]["name"] == helper_name]
+        _require(helper_name not in old_names and len(new_helpers) == 1,
+                 "Expected exactly one genuinely new named helper bone")
+        helper = new_helpers[0]
+        upperarm = next((bone for bone in old_arm["bones"]
+                         if bone["settings"]["name"] == "upperarm.R"), None)
+        _require(upperarm is not None and helper["parent"] == "Chest",
+                 "Helper must be parented to the existing Chest bone")
+        _require(all(abs(a - b) <= 1e-6 for a, b in
+                     zip(helper["head_local"], (-.18, .018, .96))),
+                 "Helper rest pivot differs from the explicit allowed pivot")
+        _require(all(abs(helper["matrix_local"][row][column]
+                         - upperarm["matrix_local"][row][column]) <= 1e-5
+                     for row in range(3) for column in range(3)),
+                 "Helper rest orientation is not parallel to upperarm.R")
+        _require(helper["use_deform"] is True
+                 and helper["use_connect"] is False,
+                 "Helper must deform without a connected rest-joint edit")
+        poses = [pose for pose in new_arm["pose"]
+                 if pose["settings"]["name"] == helper_name]
+        _require(len(poses) == 1, "Expected one new helper pose entry")
+        helper_pose = poses[0]
+        _require(all(abs(helper_pose["matrix_basis"][row][column]
+                         - (1.0 if row == column else 0.0)) <= 1e-6
+                     for row in range(4) for column in range(4)),
+                 "Helper has an additional keyed/channel transform")
+        constraints = helper_pose["constraints"]
+        _require(len(constraints) == 1, "Helper must have exactly one driven constraint")
+        constraint = constraints[0]
+        _require(constraint.get("subtarget") == "upperarm.R"
+                 and constraint.get("owner_space") == "LOCAL"
+                 and constraint.get("target_space") == "LOCAL"
+                 and constraint.get("influence") == .5
+                 and constraint.get("mix_mode") == "REPLACE"
+                 and constraint.get("use_x") is True
+                 and constraint.get("use_y") is True
+                 and constraint.get("use_z") is True
+                 and constraint.get("invert_x") is False
+                 and constraint.get("invert_y") is False
+                 and constraint.get("invert_z") is False
+                 and constraint.get("mute") is False,
+                 "Helper constraint scalar settings differ from the allowed half-strength local rotation")
+        old_groups = before["objects"][COAT]["mesh"]["group_definitions"]
+        new_groups = after["objects"][COAT]["mesh"]["group_definitions"]
+        _require(len(new_groups) == len(old_groups) + 1
+                 and new_groups[:-1] == old_groups
+                 and new_groups[-1] == [len(old_groups), helper_name, False],
+                 "Only one final, unlocked coat group named exactly like the helper may be appended")
+        # Remove only the three validated new entries from a private copy;
+        # compare every original byte-derived/scalar record by the strict path.
+        after = copy.deepcopy(after)
+        normalised_arm = after["objects"][arm_name]
+        # Armature object dimensions are derived from its bone display bounds.
+        # The one validated added bone may expand that display-only envelope;
+        # matrices and every original bone/rest value remain exact below.
+        normalised_arm["settings"]["dimensions"] = old_arm["settings"]["dimensions"]
+        normalised_arm["bones"] = [bone for bone in normalised_arm["bones"]
+                                   if bone["settings"]["name"] != helper_name]
+        normalised_arm["pose"] = [pose for pose in normalised_arm["pose"]
+                                  if pose["settings"]["name"] != helper_name]
+        after["objects"][COAT]["mesh"]["group_definitions"] = new_groups[:-1]
+        helper_check = {"name": helper_name, "parent": "Chest",
+            "rest_pivot": [-.18, .018, .96], "rest_orientation": "upperarm.R_MATCH_WITHIN_1e-5",
+            "constraint_scalar_settings": "LOCAL_LOCAL_UPPERARM_R_HALF_STRENGTH_REPLACE",
+            "live_driver_required_checks": ["constraint.type == COPY_ROTATION",
+                                             "constraint.target is the existing original armature"],
+            "new_action_keys_allowed": False}
+    def difference(a, b, path):
+        if type(a) is not type(b):
+            return path + " [type]"
+        if isinstance(a, dict):
+            if a.keys() != b.keys():
+                return path + " [keys]"
+            return next((found for key in a
+                         if (found := difference(a[key], b[key], path + "/" + str(key)))), None)
+        if isinstance(a, list):
+            if len(a) != len(b):
+                return path + " [length]"
+            return next((found for index, (x, y) in enumerate(zip(a, b))
+                         if (found := difference(x, y, path + "/" + str(index)))), None)
+        return None if a == b else path
+    changed = difference(before, after, "snapshot")
+    _require(changed is None, "Forbidden preservation delta at " + str(changed))
+    return {"status": "EXACT_PRESERVATION_PASS", "snapshot_sha256": _digest(before),
+            "allowed_difference": "Only R2_ContinuousCoat vertices with source local x<0 weight memberships",
+            "explicit_single_helper_exception": helper_check}
+
+
+def _evaluated(obj, graph, topology=False):
+    evaluated = obj.evaluated_get(graph)
+    mesh = evaluated.to_mesh(preserve_all_data_layers=False, depsgraph=graph)
+    try:
+        vertices = [tuple(evaluated.matrix_world @ vertex.co) for vertex in mesh.vertices]
+        result = {"vertices": vertices, "vertex_sha256": _vertex_hash(vertices),
+                  "counts": [len(mesh.vertices), len(mesh.edges), len(mesh.polygons)]}
+        if topology:
+            result.update(edges=[tuple(edge.vertices) for edge in mesh.edges],
+                          polygons=[tuple(poly.vertices) for poly in mesh.polygons])
+        return result
+    finally:
+        evaluated.to_mesh_clear()
+
+
+def _distance(a, b):
+    return math.sqrt(sum((x - y) ** 2 for x, y in zip(a, b)))
+
+
+def _delta(a, b):
+    _require(len(a) == len(b), "Evaluated vertex count changed")
+    return max((_distance(x, y) for x, y in zip(a, b)), default=0.0)
+
+
+def _edge_stats(ratios):
+    ratios = sorted(ratios)
+    def quantile(q):
+        position = (len(ratios) - 1) * q
+        low, high = math.floor(position), math.ceil(position)
+        return ratios[low] + (ratios[high] - ratios[low]) * (position - low)
+    _require(bool(ratios), "No measurable coat edges")
+    return {"count": len(ratios), "min": ratios[0], "max": ratios[-1],
+        "quantiles": {str(q): quantile(q) for q in (.01, .05, .25, .5, .75, .95, .99)},
+        "compression_counts": {str(q): sum(r < q for r in ratios) for q in (.1, .25, .5)},
+        "stretch_counts": {str(q): sum(r > q for r in ratios) for q in (2, 3, 4)}}
+
+
+def _overlaps(geometry):
+    from mathutils import Vector
+    from mathutils.bvhtree import BVHTree
+    polygons = geometry["polygons"]
+    _require(len(polygons) <= 100000, "Coat BVH polygon budget exceeded")
+    tree = BVHTree.FromPolygons([Vector(vertex) for vertex in geometry["vertices"]],
+                               polygons, all_triangles=False, epsilon=0.0)
+    members = [set(poly) for poly in polygons]
+    return {(a, b) for a, b in tree.overlap(tree)
+            if a < b and not members[a].intersection(members[b])}
+
+
+def measure_motion(scene):
+    """Seven-frame actual evaluated measurements; no automatic visual verdict.
+
+    Capture outside-coat vertex digests for EXACT R1/R2 comparison.  Feet and
+    endpoint meshes also receive direct coordinate deltas (tolerance 1e-5).
+    """
+    import bpy
+    previous_frame = scene.frame_current
+    try:
+        asset = bpy.data.collections.get("R2_NEW_GNOME")
+        _require(asset is not None, "Character collection missing")
+        meshes = {obj.name: obj for obj in asset.all_objects if obj.type == "MESH"}
+        _require(COAT in meshes and all(name in meshes for name in FEET), "Required coat/feet missing")
+        scene.frame_set(1)
+        bpy.context.view_layer.update()
+        graph = bpy.context.evaluated_depsgraph_get()
+        rest = {name: _evaluated(obj, graph, name == COAT) for name, obj in meshes.items()}
+        rest_coat = rest[COAT]
+        rest_overlaps = _overlaps(rest_coat)
+        frames = {}
+        for frame in FRAMES:
+            scene.frame_set(frame)
+            bpy.context.view_layer.update()
+            graph = bpy.context.evaluated_depsgraph_get()
+            current = rest if frame == 1 else {
+                name: _evaluated(obj, graph, name == COAT) for name, obj in meshes.items()}
+            coat = current[COAT]
+            _require(coat["edges"] == rest_coat["edges"] and coat["polygons"] == rest_coat["polygons"],
+                     "Evaluated coat connectivity changed")
+            ratios, right_ratios, tiny = [], [], 0
+            for a, b in rest_coat["edges"]:
+                old = _distance(rest_coat["vertices"][a], rest_coat["vertices"][b])
+                if old <= 1e-9:
+                    tiny += 1
+                    continue
+                ratio = _distance(coat["vertices"][a], coat["vertices"][b]) / old
+                ratios.append(ratio)
+                if meshes[COAT].data.vertices[a].co.x < 0 or meshes[COAT].data.vertices[b].co.x < 0:
+                    right_ratios.append(ratio)
+            overlaps = _overlaps(coat)
+            foot_deltas = {name: _delta(rest[name]["vertices"], current[name]["vertices"])
+                           for name in FEET}
+            _require(max(foot_deltas.values()) <= TOLERANCE, "Foot/sole moves at frame " + str(frame))
+            endpoint = {name: _delta(rest[name]["vertices"], data["vertices"])
+                        for name, data in current.items()} if frame == 145 else None
+            if endpoint is not None:
+                _require(max(endpoint.values()) <= TOLERANCE, "Endpoint evaluated meshes do not close")
+            frames[str(frame)] = {"coat_edges": _edge_stats(ratios),
+                "right_region_edges": _edge_stats(right_ratios), "unmeasurably_short_rest_edges": tiny,
+                "bvh_candidate_pairs": len(overlaps), "bvh_added_vs_rest": len(overlaps - rest_overlaps),
+                "bvh_removed_vs_rest": len(rest_overlaps - overlaps),
+                "coat_vertex_sha256": coat["vertex_sha256"],
+                "outside_coat_evaluated": {name: {"counts": data["counts"],
+                    "vertex_sha256": data["vertex_sha256"]} for name, data in current.items() if name != COAT},
+                "foot_maximum_vertex_deltas_from_frame_1": foot_deltas,
+                "endpoint_maximum_vertex_deltas": endpoint}
+        return {"frames": frames, "sample_frames": list(FRAMES),
+            "coordinate_method": "Actual dependency-graph evaluated world mesh vertices",
+            "bvh_verdict": "Diagnostic non-adjacent overlap candidates; not a visual or intersection-free verdict",
+            "position_tolerance": TOLERANCE,
+            "_rest_coat_world_vertices": rest_coat["vertices"]}
+    finally:
+        scene.frame_set(previous_frame)
+        bpy.context.view_layer.update()
+
+
+def motion_report(capture):
+    """Return public JSON-compatible metrics without the private rest array."""
+    return {key: value for key, value in capture.items() if not key.startswith("_")}
+
+
+def compare_motion(reference, candidate):
+    """Assert protected R1/R2 evaluation exactness; report sleeve metric deltas."""
+    rest_delta = _delta(reference["_rest_coat_world_vertices"], candidate["_rest_coat_world_vertices"])
+    _require(rest_delta <= TOLERANCE, "Frame-1 coat evaluated surface changed beyond tolerance")
+    frames = {}
+    for frame in map(str, FRAMES):
+        r1, r2 = reference["frames"][frame], candidate["frames"][frame]
+        _require(r1["outside_coat_evaluated"] == r2["outside_coat_evaluated"],
+                 "Outside-coat evaluated mesh changed R1/R2 at frame " + frame)
+        frames[frame] = {"r1_max_edge_ratio": r1["coat_edges"]["max"],
+            "r2_max_edge_ratio": r2["coat_edges"]["max"],
+            "r1_min_edge_ratio": r1["coat_edges"]["min"], "r2_min_edge_ratio": r2["coat_edges"]["min"],
+            "r1_bvh_candidate_pairs": r1["bvh_candidate_pairs"],
+            "r2_bvh_candidate_pairs": r2["bvh_candidate_pairs"]}
+    return {"status": "PROTECTED_EVALUATED_COMPARISON_PASS", "frames": frames,
+        "all_outside_coat_meshes_including_head_lantern_and_feet": "EXACT_EVALUATED_VERTEX_DIGEST_MATCH_AT_ALL_7_FRAMES",
+        "rest_coat_maximum_world_vertex_delta": rest_delta,
+        "visual_underarm_cuff_elbow_acceptance": "PENDING_INDEPENDENT_VISUAL_REVIEW",
+        "human_android_runtime_acceptance": "PENDING"}

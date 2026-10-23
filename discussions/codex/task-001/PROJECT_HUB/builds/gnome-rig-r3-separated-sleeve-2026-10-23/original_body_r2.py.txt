@@ -1,0 +1,195 @@
+"""R2 fresh, unrigged storybook coat blockout; Blender 5.2, front = -Y.
+
+No predecessor geometry is loaded or sampled.  ``build_body`` constructs its
+own pear-shaped coat and curved sleeves and fuses their shoulder intersections.
+Only the optional ``api['cloth']`` material is used.
+"""
+
+import math
+import bpy
+from mathutils import Vector
+
+
+def _mesh_object(name, vertices, faces, collection):
+    mesh = bpy.data.meshes.new(name + "_Mesh")
+    mesh.from_pydata(vertices, [], faces)
+    mesh.update()
+    obj = bpy.data.objects.new(name, mesh)
+    collection.objects.link(obj)
+    return obj
+
+
+def _closed_rings(name, rings, collection):
+    count = len(rings[0])
+    vertices = [tuple(v) for ring in rings for v in ring]
+    faces = []
+    for row in range(len(rings) - 1):
+        for j in range(count):
+            k = (j + 1) % count
+            faces.append((row * count + j, row * count + k,
+                          (row + 1) * count + k, (row + 1) * count + j))
+    faces.append(tuple(reversed(range(count))))
+    faces.append(tuple((len(rings) - 1) * count + j for j in range(count)))
+    return _mesh_object(name, vertices, faces, collection)
+
+
+def _coat(prefix, collection):
+    # (height, half width, half depth).  R1's low narrow shoulder girdle is
+    # discarded.  The torso now rises underneath the beard: the upper body is
+    # a clothed shoulder slope rather than a thin exposed neck on a low bell.
+    profile = [
+        (.325, .245, .147), (.340, .267, .160),
+        (.360, .280, .173), (.395, .284, .180),
+        (.430, .279, .180), (.480, .267, .176),
+        (.510, .255, .171), (.560, .249, .168),
+        (.615, .249, .164), (.670, .250, .160),
+        (.725, .250, .154), (.780, .247, .148),
+        (.825, .238, .142), (.865, .225, .135),
+        (.900, .205, .128), (.930, .176, .118),
+        (.960, .145, .108), (.990, .126, .100),
+        (1.005, .116, .094),
+    ]
+    rings = []
+    for z, rx, ry in profile:
+        ring = []
+        for j in range(48):
+            angle = math.tau * j / 48
+            x = rx * math.cos(angle)
+            front = max(0.0, -math.sin(angle)) ** 3
+            # Two wide, shallow drapes, not a corrugated or high-frequency skin.
+            skirt = math.exp(-((z - .405) / .145) ** 2)
+            folds = (.008 * math.exp(-((x + .109 + .10 * (z - .4)) / .060) ** 2)
+                     + .006 * math.exp(-((x - .091 - .08 * (z - .4)) / .062) ** 2))
+            # A quiet forward chest broadens the clothed upper torso, while
+            # all details remain deliberately coarse for a silhouette study.
+            chest = .012 * math.exp(-((z - .755) / .155) ** 2)
+            y = .018 + ry * math.sin(angle) - front * (skirt * folds + chest)
+            ring.append((x, y, z))
+        rings.append(ring)
+    return _closed_rings(prefix + "_CoatCore", rings, collection)
+
+
+def _catmull(points, radii, samples_per_span=6):
+    points = [Vector(p) for p in points]
+    out = []
+    for i in range(len(points) - 1):
+        p0 = points[i - 1] if i else 2 * points[0] - points[1]
+        p1, p2 = points[i], points[i + 1]
+        p3 = points[i + 2] if i + 2 < len(points) else 2 * points[-1] - points[-2]
+        for k in range(samples_per_span):
+            t = k / samples_per_span
+            position = .5 * ((2 * p1) + (-p0 + p2) * t
+                            + (2 * p0 - 5 * p1 + 4 * p2 - p3) * t * t
+                            + (-p0 + 3 * p1 - 3 * p2 + p3) * t * t * t)
+            # A C1 radius profile avoids a visible cone/sausage seam at each
+            # path knot. Endpoint radii extrapolate to retain the authored
+            # end slope; clamp only numerical/overshoot negative widths.
+            r0 = radii[i - 1] if i else 2 * radii[0] - radii[1]
+            r1, r2 = radii[i], radii[i + 1]
+            r3 = radii[i + 2] if i + 2 < len(radii) else 2 * radii[-1] - radii[-2]
+            radius = max(1e-5, .5 * (
+                2 * r1 + (-r0 + r2) * t
+                + (2 * r0 - 5 * r1 + 4 * r2 - r3) * t * t
+                + (-r0 + 3 * r1 - 3 * r2 + r3) * t * t * t))
+            out.append((position, radius))
+    out.append((points[-1], radii[-1]))
+    return out
+
+
+def _sleeve(name, path, radii, collection):
+    samples = _catmull(path, radii)
+    rings = []
+    for i, (centre, radius) in enumerate(samples):
+        before = samples[max(0, i - 1)][0]
+        after = samples[min(len(samples) - 1, i + 1)][0]
+        tangent = (after - before).normalized()
+        across = Vector((0, 1, 0)).cross(tangent).normalized()
+        depth = tangent.cross(across).normalized()
+        ring = []
+        for j in range(24):
+            angle = math.tau * j / 24
+            # Mildly flattened cloth cross section, continuous through elbow.
+            point = centre + radius * (math.cos(angle) * across
+                                       + .91 * math.sin(angle) * depth)
+            ring.append(point)
+        rings.append(ring)
+    return _closed_rings(name, rings, collection)
+
+
+def build_body(api=None):
+    """Return a new unified coat and canonical hand attachment information.
+
+    ``api`` may contain ``collection`` and ``cloth``.  All coordinates are world
+    canonical for a roughly 1.6-unit-tall character, with feet near z=0.
+    Anatomical right is viewer-left (-X); anatomical left holds the lantern.
+    No old mesh, armature, action, file, or external resource is accessed.
+    """
+    api = api or {}
+    collection = api.get("collection") or bpy.context.collection
+    prefix = api.get("prefix", "NewGnome")
+
+    right_cuff = Vector((-.350, -.100, .680))
+    right_hand = Vector((-.390, -.160, .720))
+    left_cuff = Vector((.330, -.080, .620))
+    left_hand = Vector((.360, -.120, .590))
+    right_direction = (right_hand - right_cuff).normalized()
+    left_direction = (left_hand - left_cuff).normalized()
+
+    pieces = [_coat(prefix, collection)]
+    pieces.append(_sleeve(prefix + "_RightSleeve", [
+        (-.120, .018, .880), (-.200, .018, .860),
+        (-.253, .009, .824),
+        (-.295, -.005, .756), (-.312, -.039, .685),
+        (-.329, -.073, .668), tuple(right_cuff),
+    ], [.140, .126, .119, .108, .096, .084, .073], collection))
+    pieces.append(_sleeve(prefix + "_LeftSleeve", [
+        (.120, .018, .880), (.200, .018, .855),
+        (.254, .015, .812),
+        (.287, .006, .745), (.307, -.019, .679),
+        (.319, -.048, .646), tuple(left_cuff),
+    ], [.140, .126, .118, .106, .092, .080, .071], collection))
+
+    bpy.ops.object.select_all(action="DESELECT")
+    for obj in pieces:
+        obj.select_set(True)
+    bpy.context.view_layer.objects.active = pieces[0]
+    bpy.ops.object.join()
+    body = pieces[0]
+    body.name = prefix + "_ContinuousCoat"
+
+    # The shoulder volumes are genuinely fused, not hidden under round caps.
+    remesh = body.modifiers.new("New coat shoulder fusion", "REMESH")
+    remesh.mode = "VOXEL"
+    remesh.voxel_size = .007
+    remesh.use_smooth_shade = True
+    bpy.ops.object.modifier_apply(modifier=remesh.name)
+    smooth = body.modifiers.new("Broad cloth smoothing", "SMOOTH")
+    smooth.factor = .45
+    smooth.iterations = 3
+    bpy.ops.object.modifier_apply(modifier=smooth.name)
+    for polygon in body.data.polygons:
+        polygon.use_smooth = True
+    material = api.get("cloth", api.get("clay"))
+    if material is not None:
+        body.data.materials.clear()
+        body.data.materials.append(material)
+
+    return {
+        "body": body,
+        "objects": [body],
+        "neck_center": (0.0, .018, .990),
+        "shoulder_roots": {"right": (-.200, .018, .860),
+                           "left": (.200, .018, .855)},
+        "lantern_handle_top": (.365, -.132, .590),
+        "cuffs": {
+            "right": {"center": tuple(right_cuff),
+                      "direction": tuple(right_direction),
+                      "radius": .073, "hand_center": tuple(right_hand),
+                      "gesture": "open palm up and outward"},
+            "left": {"center": tuple(left_cuff),
+                     "direction": tuple(left_direction),
+                     "radius": .071, "hand_center": tuple(left_hand),
+                     "gesture": "four curled fingers around lantern handle",
+                     "lantern_handle_top": (.365, -.132, .590)},
+        },
+    }

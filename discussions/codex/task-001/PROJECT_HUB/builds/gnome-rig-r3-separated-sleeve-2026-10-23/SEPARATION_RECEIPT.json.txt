@@ -1,0 +1,30 @@
+{
+  "status": "SEPARATED_SLEEVE_PROBE_SAVED_REOPENED_RENDERED",
+  "native": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\Gnome_Rig_R3_Separated_Sleeve_2026-10-23\\native\\GNOME_R3_SEPARATED_SLEEVE_A.blend",
+  "native_sha256": "0335bcc275bfbc8e3b7d3ea43bde2fad6c8ece5281a750007290ef154ac8bffc",
+  "source": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\Gnome_Rig_R3_Separated_Sleeve_2026-10-23\\reference\\GNOME_RIG_R1_GREETING.blend",
+  "source_sha256": "43e9832811a89f9f4af660097f9b3abd69744f919f6179859763b00bdd0283be",
+  "source_unchanged": true,
+  "root_cause": "Original voxel union welded sleeve to torso, creating a deforming underarm web",
+  "user_clarification": "Sleeve separates from body under armpit when raised; attachment remains at shoulder",
+  "removed_old_coat_faces": 12157,
+  "left_coat_geometry_sha256_before_and_after": "f2be4829390ff3a230bf7dd50220caf5fbb0f7b3a524de25ea7513a791fd998d",
+  "protected_objects": 32,
+  "other_objects_and_materials": "EXACT_FINGERPRINT_MATCH_BEFORE_SAVE_AND_AFTER_REOPEN",
+  "new_objects": [
+    "R3_RightSleeve",
+    "R3_RightTorsoPatch"
+  ],
+  "sleeve_arc_length": 0.38991338245806356,
+  "forearm_blend_arc_interval": [
+    0.17,
+    0.29
+  ],
+  "new_bones": 0,
+  "original_bones": 10,
+  "actions": 1,
+  "helper_bone_or_corrective_modifier": false,
+  "pose_and_gesture": "INHERITED_UNCHANGED",
+  "visual_acceptance": "PENDING",
+  "game_integration": false
+}

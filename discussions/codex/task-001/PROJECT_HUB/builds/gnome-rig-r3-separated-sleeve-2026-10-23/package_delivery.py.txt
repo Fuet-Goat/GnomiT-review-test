@@ -1,0 +1,180 @@
+"""Freeze the native separated-sleeve candidate and own-task text transfer."""
+from pathlib import Path
+import hashlib, json, zipfile, base64, ast
+
+ROOT = Path(__file__).resolve().parents[1]
+REPO = Path('C:/Users/fruch/Documents/Codex/GnomiT/work/review_test_repo_2026_10_14')
+PREFIX = 'discussions/codex/task-001/PROJECT_HUB/builds/gnome-rig-r3-separated-sleeve-2026-10-23'
+ZIP = ROOT.parent / 'GNOMIT_RIG_R3_SEPARATED_SLEEVE_2026-10-23.zip'
+def sha(data): return hashlib.sha256(data).hexdigest()
+def write(path, text): path.write_text(text, encoding='utf-8', newline='\n')
+def dump(path, data): write(path, json.dumps(data, indent=2, ensure_ascii=False) + '\n')
+
+def main():
+    assert not ZIP.exists() and not (REPO/PREFIX).exists(), 'Immutable delivery destination already exists'
+    native = ROOT/'native/GNOME_R3_SEPARATED_SLEEVE_A.blend'
+    baseline = ROOT/'reference/GNOME_RIG_R1_GREETING.blend'
+    assert sha(native.read_bytes()) == '0335bcc275bfbc8e3b7d3ea43bde2fad6c8ece5281a750007290ef154ac8bffc'
+    assert sha(baseline.read_bytes()) == '43e9832811a89f9f4af660097f9b3abd69744f919f6179859763b00bdd0283be'
+    selector = Path('C:/Users/fruch/Documents/Codex/GnomiT_Playtests/CURRENT_GNOMIT.json')
+    assert sha(selector.read_bytes()) == 'e1f2f766c10d2b80267893e86ded85f42f6941266f7500c8658a06a9bf9474b3'
+    for path in (ROOT/'source').glob('*.py'): ast.parse(path.read_text(encoding='utf-8'), filename=str(path))
+    media = json.loads((ROOT/'documentation/MEDIA_RECEIPT.json').read_text(encoding='utf-8'))
+    assert all(row['decoded_duration_ms'] == 6000 for row in media['animations'].values())
+    lengths = json.loads((ROOT/'documentation/SLEEVE_LENGTH_RECEIPT.json').read_text(encoding='utf-8'))
+    ratios = [row['length_ratio_to_rest'] for row in lengths['frames'].values()]
+    visual = {
+        'reviewed_files': ['R1_R3_SLEEVE_KEYPOSES.png', 'R3_A_FRONT_001.png', 'R3_A_FRONT_073.png',
+                           'R3_A_UNDERARM_073.png', 'R3_A_SIDE_073.png', 'R3_A_REAR_073.png'],
+        'observation': 'Former stretched underarm web absent in inspected poses; open underside and covered shoulder.',
+        'remaining_limit': 'Faint faceted torso-patch transition below armpit and slightly angular rear attachment seam.',
+        'independent_agent_review': 'Same findings in actual five-pose sheet and side/rear frame73.',
+        'human_acceptance': 'PENDING', 'game_integration': False,
+        'not_claimed': ['watertight production topology', 'zero local strain', 'GLB/Godot parity', 'Android performance']}
+    dump(ROOT/'documentation/VISUAL_REVIEW.json', visual)
+    readme = '''GNOMIT — RIG R3: ОТДЕЛЕН РЪКАВ, 2026-10-23
+
+Отвори native/GNOME_R3_SEPARATED_SLEEVE_A.blend с Blender 5.2.2.
+Кадри 1–145, 24 fps. Поздравът е същият като R1. Вътре има START_HERE_R3_SEPARATION.
+За бърз преглед: outputs/R1_R3_SLEEVE_CLOSEUP.gif и R1_R3_GREETING.gif.
+В GIF-овете R1 е вляво, R3 вдясно; в листовете с пози R1 е горе, R3 долу.
+GIF се повтаря за удобно сравнение. Native анимацията е един поздрав, не нов вечен loop.
+
+Какво е поправено
+При вдигането на ръката ръкавът се отделя от тялото под мишницата, оставайки
+покрит при рамото. Премахната е общата заварена мрежа, която се разтягаше.
+Новият затворен ръкав припокрива рамото; локален торсов patch следва само Root/Chest.
+Дължината по централната линия в седем проверени пози е 99.22–100% от rest позата.
+Това не е твърдение за нулева локална деформация на всяко ребро.
+
+Запазено
+Оригиналните action keys/handles, rest bones, жест, амплитуда, 6 секунди, M2 материали,
+светлина и студийна камера. 32 защитени обекта са проверени. Няма нови кости.
+Старият файл е запазен byte-for-byte в reference/. Няма промяна на света или играта.
+
+Ограничения
+Остава леко фасетиран шев при локалния patch на палтото и ъгловата раменна сглобка.
+Това е визуален кандидат: човешкото приемане предстои. Не е интегриран в Godot,
+не е експортиран/проверен като GLB, няма Android измерване. Торсовите отворени краища
+се припокриват; пакетът не обявява production/watertight topology PASS.
+
+Източници и проверки
+source/build_split_probe.py е реално изпълненият Blender генератор; original_body_r2.py
+е запазеният аналитичен R2 източник на палтото/ръкава. Всички негови Python зависимости
+са стандартни или Blender API. Изпълнявай build само в ново копие без съществуващ native
+кандидат и с осигурени native/, outputs/, documentation/ и reference/ директории.
+verify_source_preservation.py, verify_motion.py и verify_centerline.py са реално изпълнени.
+Абсолютните работни пътища в receipts са исторически; след разархивиране използвай
+съответните native/ и reference/ файлове от пакета. Не презаписвай доказателствените файлове.
+render_motion.py използва проверени R1 кадри от предходната локална R2 директория,
+за да не ги рендерира повторно. Тези 576 сурови PNG кадъра не са в ZIP-а; хешовете им
+са в ANIMATION_RENDER.json и MEDIA_RECEIPT.json. Оригиналният R1 .blend е включен
+за независимо повторно рендериране. Еднакви camera/settings са описани в скрипта.
+compose_preview.py е Pillow композиция на истинските Blender кадри, без измислено движение.
+
+MANIFEST.json съдържа SHA-256 и размерите на всеки файл освен самия manifest.
+ZIP е проверен чрез повторно прочитане на всяка негова позиция. Външният .sha256.txt
+идентифицира целия архив. Публикуването и remote readback се записват след замразяването
+на този архив в отделни Git документи, без промяна на съдържанието му.
+'''
+    write(ROOT/'README_BG.txt', readme)
+    final = '''Ръкавът вече е отделен от тялото под мишницата и остава закрепен при рамото.
+Сравнението е от реален Blender render със същите оригинални движение и M2 материали.
+Остава малък видим шев към палтото. Това е изолиран кандидат; играта не е променена.
+Виж outputs/R1_R3_SLEEVE_CLOSEUP.gif. Източник, native .blend и проверки са включени.
+Човешко визуално приемане: PENDING.
+'''
+    write(ROOT/'FINAL_RESPONSE.txt', final)
+    provenance = {
+        'purpose': 'Human-authorised local underarm topology separation after weight-only R2 was insufficient',
+        'input_file': 'reference/GNOME_RIG_R1_GREETING.blend',
+        'input_sha256': sha(baseline.read_bytes()), 'input_source_commit': '1cbbe60b90806d9fb2d28d02db85da4cf7ddc9d4',
+        'output_file': 'native/GNOME_R3_SEPARATED_SLEEVE_A.blend', 'output_sha256': sha(native.read_bytes()),
+        'analytic_source': 'source/original_body_r2.py',
+        'analytic_original_path': 'Gnome_Concept_Form_R2_2026-10-22/source/new_body.py',
+        'creation': 'Procedural Blender Python; local right torso/sleeve reconstruction, ring-based bone weights',
+        'new_external_models_textures_or_downloads': False, 'raster_AI_generation': False,
+        'software': ['Blender 5.2.2', 'Python standard library', 'Pillow for native-render comparison'],
+        'materials': 'Original accepted M2 materials, unchanged',
+        'runtime_scope': 'Isolated Blender preview; no game edits, no merge',
+        'limitations': visual['not_claimed'], 'human_visual_acceptance': 'PENDING'}
+    dump(ROOT/'documentation/PROVENANCE.json', provenance)
+    files = [ROOT/'README_BG.txt', ROOT/'FINAL_RESPONSE.txt', native, baseline]
+    files += sorted((ROOT/'source').glob('*.py'))
+    files += sorted((ROOT/'outputs').glob('*.*'))
+    files += sorted(p for p in (ROOT/'documentation').glob('*') if p.is_file() and
+                    not p.name.startswith(('PACKAGE','PUBLISH','REMOTE','PUBLIC')))
+    files = sorted(set(files))
+    records = [{'path':p.relative_to(ROOT).as_posix(), 'bytes':p.stat().st_size,
+                'sha256':sha(p.read_bytes())} for p in files]
+    manifest_path = ROOT/'MANIFEST.json'
+    dump(manifest_path, {'schema':'gnomit-isolated-native-handoff-v1', 'files':records,
+        'human_visual_acceptance':'PENDING', 'scope':'Separated sleeve preview; no game integration'})
+    with zipfile.ZipFile(ZIP, 'x', compression=zipfile.ZIP_DEFLATED, compresslevel=6) as archive:
+        for path in [*files, manifest_path]: archive.write(path, path.relative_to(ROOT).as_posix())
+    with zipfile.ZipFile(ZIP) as archive:
+        assert archive.testzip() is None and len(archive.namelist()) == len(files)+1
+        for row in records:
+            data = archive.read(row['path']); assert len(data)==row['bytes'] and sha(data)==row['sha256']
+        assert archive.read('MANIFEST.json')==manifest_path.read_bytes()
+    data = ZIP.read_bytes()
+    write(ZIP.with_suffix('.sha256.txt'), sha(data)+'  '+ZIP.name+'\n')
+    target = REPO/PREFIX; target.mkdir(parents=True)
+    parts=[]; encoded=base64.b64encode(data)
+    for index,start in enumerate(range(0,len(encoded),2_000_000),1):
+        name='TRANSFER.part%03d.b64.txt'%index; chunk=encoded[start:start+2_000_000]
+        (target/name).write_bytes(chunk); parts.append({'path':name,'bytes':len(chunk),'sha256':sha(chunk)})
+    dump(target/'TRANSFER_MANIFEST.json.txt', {'zip_name':ZIP.name,'zip_bytes':len(data),
+        'zip_sha256':sha(data),'entries':len(files)+1,'parts':parts,'encoding':'base64 ASCII, concatenate in listed order then decode'})
+    for path in (ROOT/'source').glob('*.py'): (target/(path.name+'.txt')).write_bytes(path.read_bytes())
+    for path in (ROOT/'documentation').glob('*.json'):
+        if not path.name.startswith(('REMOTE','PUBLIC')): (target/(path.name+'.txt')).write_bytes(path.read_bytes())
+    (target/'README_BG.txt').write_bytes((ROOT/'README_BG.txt').read_bytes())
+    (target/'MANIFEST.json.txt').write_bytes(manifest_path.read_bytes())
+    report = '''GNOMIT — RIG R3: SEPARATED SLEEVE
+STATUS: NATIVE_CANDIDATE_RENDERED / HUMAN_VISUAL_ACCEPTANCE_PENDING
+
+User clarified that the raised sleeve must separate below the armpit instead of
+stretching a welded cloth web. This authorises the bounded local topology change.
+R1 input, R4 identity/M2 materials and original greeting retained. No game integration.
+
+Replaced only the right upper continuous-coat area (12157 faces removed) with an
+independent closed sleeve and body-only torso patch; shoulder surfaces overlap.
+No new bones/helper modifier. 32 original protected objects unchanged. Original
+left-coat geometry exact hash retained. Original action curves/handles, rest bones,
+materials, world and studio identity checked against the native input.
+
+Actual six-second 24fps comparison is rendered: full/close 144 source pairs each.
+R1 frames reused byte-for-byte from previously verified native renders; R3 newly
+rendered at identical cameras/settings. GIFs decode to 6000ms each (115 frames after
+identical holds coalesced). Palette quantisation is the only image degradation.
+
+Observed in front/oblique/side/rear stills and five pose comparison: former stretched
+underarm web absent, underside open and shoulder covered. Independent reviewer
+confirmed these observations. Faint faceted torso patch seam and angular rear
+attachment seam remain. No claim of finished production topology or human approval.
+
+Seven-pose centreline measurement with modifier correspondence preserved:
+length ratio to rest: %.9f..%.9f. This supports no gross sleeve elongation in those
+poses, not zero local strain. Evaluated edge ratios are .5717..2.1523 at the bend.
+Feet world movement 0; maximum cuff tracking delta ~1.49e-6. Endpoints return to rest.
+Torso-patch displacement ~.004241 follows inherited Chest breathing.
+
+Blender native reopened; sources compiled; originals/selector untouched; ZIP entries
+read back and checked. Full receipts and original native input are included.
+
+ZIP: %s
+BYTES: %d
+SHA256: %s
+Native SHA256: %s
+No main/grant/foreign report changes, no merge, no gameplay changes.
+Remote Git/media readback is recorded separately after publication.
+''' % (min(ratios), max(ratios),ZIP.name,len(data),sha(data),sha(native.read_bytes()))
+    write(target/'REPORT.txt',report)
+    assert sha(selector.read_bytes())=='e1f2f766c10d2b80267893e86ded85f42f6941266f7500c8658a06a9bf9474b3'
+    dump(ROOT/'documentation/PACKAGE_VERIFIED.json',{'zip':str(ZIP),'bytes':len(data),
+        'sha256':sha(data),'entries':len(files)+1,'transfer_parts':len(parts),
+        'all_entries_read_back':True,'selector_unchanged':True})
+    print(json.dumps({'zip':str(ZIP),'bytes':len(data),'sha256':sha(data),'entries':len(files)+1,'parts':len(parts)}))
+
+if __name__=='__main__': main()
