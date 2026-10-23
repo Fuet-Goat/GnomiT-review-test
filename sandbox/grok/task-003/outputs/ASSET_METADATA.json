@@ -1,0 +1,70 @@
+{
+ "asset": "GROK_T003_ENVIRONMENT",
+ "units": "metres, Blender Z-up (glTF exports Y-up)",
+ "object_count": 172,
+ "object_groups": {
+  "kept_from_current": 18,
+  "island": 8,
+  "boardwalk": 17,
+  "decoration": 54,
+  "grass": 24,
+  "mine": 26,
+  "trees": 25
+ },
+ "evaluated_triangles": 128262,
+ "materials": [
+  "Airy_brass",
+  "Airy_cream",
+  "Airy_lamp",
+  "Airy_red",
+  "Airy_white",
+  "Airy_wood",
+  "Airy_wood_dark",
+  "Grok_Bark",
+  "Grok_Crown_Leaf",
+  "Grok_Earth_Deep",
+  "Grok_Earth_Topsoil",
+  "Grok_Earth_Warm",
+  "Grok_Flower_Centre",
+  "Grok_Flower_Pink",
+  "Grok_Flower_White",
+  "Grok_Grass_Tuft",
+  "Grok_Grass_Tuft_Deep",
+  "Grok_Lantern_Glow",
+  "Grok_Lantern_Iron",
+  "Grok_Meadow_Ground",
+  "Grok_Meadow_Lip",
+  "Grok_Meadow_Sunlit",
+  "Grok_Mine_Dark_Interior",
+  "Grok_Moss",
+  "Grok_Stone",
+  "Grok_Stone_Shadow",
+  "Grok_Wood_Endgrain",
+  "Grok_Wood_Honey",
+  "Grok_Wood_Honey_Dark",
+  "Grok_Wood_Post"
+ ],
+ "camera": {
+  "name": "Portrait_Camera",
+  "type": "ORTHO",
+  "ortho_scale": 19.970230102539062,
+  "location": [
+   0.009729623794555664,
+   -28.828012466430664,
+   27.392305374145508
+  ],
+  "rotation_euler": [
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ "render_resolution": [
+  432,
+  960
+ ],
+ "pivots": "Tree roots at trunk base on meadow (z=0.62); post/plank geometry in world space under island root; Lantern_Pivot empty at portal lantern; route/anchors kept from current map",
+ "modifiers": "Subdivision (island, stones, trunks), Bevel (posts, portal timbers), Smooth (crowns) - kept live in .blend, applied on GLB export",
+ "params_json": "{\"seed\": 3003, \"island\": {\"a\": 3.9, \"b\": 10.3, \"n\": 2.15, \"lobe\": 0.04, \"top_z\": 0.78, \"lip_drop\": 0.16, \"earth_rings\": [[0.62, 1.0], [0.2, 1.006], [-0.7, 0.985], [-1.7, 0.93], [-2.6, 0.8], [-3.3, 0.58]], \"bottom_wave\": 0.35}, \"path\": {\"half_width\": 0.64, \"plank_pitch\": 0.4, \"gap\": 0.022, \"thickness\": 0.11, \"curb_radius\": 0.075, \"post_every\": 6, \"post_radius\": 0.13}, \"tree\": {\"crown_scale\": 1.45}, \"grass\": {\"min_path_clear\": 1.05, \"blades\": [12, 16]}}",
+ "gnome": "NOT in this file. Locked gnome_r3.glb is loaded separately by the unchanged Godot integration scripts."
+}

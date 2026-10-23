@@ -1,0 +1,1 @@
+Grok task-003 storybook environment challenger. Start with REPORT.md. Renders: sandbox/grok/task-003/outputs/. Source: sandbox/grok/task-003/source/ + art/. Isolated Godot preview: sandbox/grok/task-003/game/grok_preview.tscn (ISOLATED PREVIEW — NOT CAMPAIGN INTEGRATION).

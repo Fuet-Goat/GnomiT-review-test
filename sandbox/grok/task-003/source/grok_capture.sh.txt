@@ -1,0 +1,5 @@
+#!/bin/bash
+# usage: grok_capture.sh <res:// island glb or empty for current> <out.png>
+cd "$(dirname "$0")/../game"
+export LD_LIBRARY_PATH=/workspace/tools/lvp/root/usr/lib/x86_64-linux-gnu VK_ICD_FILENAMES=/workspace/tools/lvp/root/usr/share/vulkan/icd.d/lvp_icd.json
+GROK_ISLAND_GLB="$1" GROK_OUT="$2" timeout 900 /workspace/tools/Godot_v4.7.2-stable_linux.x86_64 --path . --script res://grok_tools/grok_capture.gd 2>&1 | grep -E "GROK_CAPTURE|ERROR|Forward"
