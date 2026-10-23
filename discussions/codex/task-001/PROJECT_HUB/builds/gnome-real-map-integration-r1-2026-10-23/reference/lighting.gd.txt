@@ -1,0 +1,47 @@
+extends "res://preview.gd"
+
+func _ready() -> void:
+	super._ready()
+	apply_lighting()
+
+func apply_lighting() -> void:
+	var environment: Environment=get_child(0).environment
+	environment.ambient_light_color=Color("e9edf2")
+	environment.ambient_light_energy=0.36
+	environment.ssao_radius=0.16
+	environment.ssao_intensity=1.15
+	environment.ssao_light_affect=0.3
+	var sky_material:=ProceduralSkyMaterial.new()
+	sky_material.sky_top_color=Color("aab8c9")
+	sky_material.sky_horizon_color=Color("f5f1e9")
+	sky_material.sky_curve=0.35
+	sky_material.sky_energy_multiplier=0.6
+	sky_material.ground_bottom_color=Color("4b4b4b")
+	sky_material.ground_horizon_color=Color("e8e5dd")
+	sky_material.ground_energy_multiplier=0.45
+	var sky:=Sky.new()
+	sky.sky_material=sky_material
+	sky.radiance_size=Sky.RADIANCE_SIZE_256
+	environment.sky=sky
+	environment.reflected_light_source=Environment.REFLECTION_SOURCE_SKY
+	for child in get_children():
+		if child is DirectionalLight3D:
+			child.rotation_degrees=Vector3(-40,-28,0)
+			child.light_color=Color("fff6ea")
+			child.light_energy=0.95
+			child.light_angular_distance=0.0
+			child.shadow_enabled=true
+			child.shadow_bias=0.04
+			child.shadow_normal_bias=1.5
+			child.shadow_opacity=0.5
+			child.shadow_blur=3.0
+			child.directional_shadow_max_distance=8
+		elif child is OmniLight3D:
+			if child.position.z>0:
+				child.light_color=Color("edf3ff")
+				child.light_energy=0.8
+				child.light_size=1.4
+			else:
+				child.light_color=Color("fff1df")
+				child.light_energy=1.0
+				child.light_size=1.1

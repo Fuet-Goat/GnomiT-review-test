@@ -1,0 +1,26 @@
+{
+  "source": "Actual Godot Forward+ renders; labels/crops/GIF composition only",
+  "world_and_master_colour_retouched": false,
+  "gif": {
+    "path": "GNOME_REAL_MAP_GREETING.gif",
+    "sha256": "8363264e9a7e3f35fa993fbc643b2874293f18ae58ace6fe4100c321f78ea113",
+    "bytes": 24935950,
+    "decoded_frames": 144,
+    "decoded_ms": 6000,
+    "review_loop_only": true,
+    "native_clip_is_finite": true,
+    "palette": 256
+  },
+  "crop": {
+    "source_rect": [
+      117,
+      686,
+      211,
+      780
+    ],
+    "scale": 4,
+    "method": "NEAREST",
+    "diagnostic_only": true
+  },
+  "human_map_context_acceptance": "PENDING"
+}

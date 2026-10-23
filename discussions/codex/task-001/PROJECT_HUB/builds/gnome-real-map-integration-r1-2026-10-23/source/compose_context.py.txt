@@ -1,0 +1,37 @@
+from pathlib import Path
+from PIL import Image, ImageDraw, ImageFont
+import hashlib,json
+ROOT=Path(__file__).resolve().parents[1]
+OUT=ROOT/'outputs'
+FONT=ImageFont.truetype('C:/Windows/Fonts/segoeui.ttf',20)
+def load(p):return Image.open(p).convert('RGB')
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+board=Image.new('RGB',(864,998),'#f2f0e6');d=ImageDraw.Draw(board)
+for i,(name,label) in enumerate([('A_CONTEXT_055.png','A · Original map guide'),('B_CONTEXT_055.png','B · Accepted R3 master')]):
+    im=load(OUT/name);assert im.size==(432,960)
+    board.paste(im,(432*i,38));d.text((432*i+12,6),label,font=FONT,fill='#203e37')
+board.save(OUT/'OLD_MASTER_CONTEXT.png')
+rect=(117,686,211,780)
+crop=Image.new('RGB',(800,470),'#f2f0e6');d=ImageDraw.Draw(crop)
+for i,(name,label) in enumerate([('A_WORLD_055.png','A · Original guide'),('B_WORLD_055.png','B · Accepted R3 master')]):
+    d.text((400*i+12,6),label,font=FONT,fill='#203e37')
+    crop.paste(load(OUT/name).crop(rect).resize((376,376),Image.Resampling.NEAREST),(400*i+12,42))
+d.text((12,432),'Diagnostic crop enlarged 4x · full map above is actual scale',font=FONT,fill='#203e37')
+crop.save(OUT/'CHARACTER_CONTEXT_CROPS.png')
+frames=[OUT/('MAP_MOTION_%04d.png'%i) for i in range(1,145)]
+atlas=Image.new('RGB',(1296,2880))
+for i,n in enumerate([1,19,37,55,73,91,109,127,144]):atlas.paste(load(frames[n-1]),(432*(i%3),960*(i//3)))
+palette=atlas.quantize(colors=256,method=Image.Quantize.MEDIANCUT)
+gifframes=[load(p).quantize(palette=palette,dither=Image.Dither.NONE) for p in frames]
+durations=[(round((i+1)*100/24)-round(i*100/24))*10 for i in range(144)]
+gif=OUT/'GNOME_REAL_MAP_GREETING.gif'
+assert not gif.exists()
+gifframes[0].save(gif,save_all=True,append_images=gifframes[1:],duration=durations,loop=0,disposal=2,optimize=False)
+with Image.open(gif) as im:
+    ms=0
+    for i in range(im.n_frames):im.seek(i);im.load();ms+=im.info['duration']
+    count=im.n_frames
+assert ms==6000
+receipt={'source':'Actual Godot Forward+ renders; labels/crops/GIF composition only','world_and_master_colour_retouched':False,'gif':{'path':gif.name,'sha256':sha(gif),'bytes':gif.stat().st_size,'decoded_frames':count,'decoded_ms':ms,'review_loop_only':True,'native_clip_is_finite':True,'palette':256},'crop':{'source_rect':rect,'scale':4,'method':'NEAREST','diagnostic_only':True},'human_map_context_acceptance':'PENDING'}
+(ROOT/'documentation/MEDIA_RECEIPT.json').write_text(json.dumps(receipt,indent=2)+'\n',encoding='utf-8')
+print(json.dumps(receipt,indent=2))

@@ -1,0 +1,136 @@
+{
+  "schema_version": 1,
+  "selected": "B",
+  "profiles": {
+    "BASELINE": {
+      "description": "Exact v011 lighting values; same geometry and camera.",
+      "background": "bfe5f2",
+      "ambient_color": "c4dbea",
+      "ambient_energy": 0.3,
+      "exposure": 0.9,
+      "ao_radius": 0.45,
+      "ao_intensity": 1.3,
+      "ao_light_affect": 0.3,
+      "key": {
+        "rotation": [
+          -48,
+          -35,
+          0
+        ],
+        "color": "fff0d5",
+        "energy": 0.95,
+        "angular_distance": 5.0
+      },
+      "fill": {
+        "rotation": [
+          -40,
+          125,
+          0
+        ],
+        "color": "c2ddfa",
+        "energy": 0.2
+      },
+      "lantern": {
+        "color": "ff8f38",
+        "energy": 1.7,
+        "range": 2.6,
+        "size": 0.2,
+        "rgb": [
+          1.0,
+          0.56,
+          0.22
+        ]
+      },
+      "interior": {
+        "color": "ff7d2b",
+        "energy": 1.8,
+        "range": 2.8,
+        "rgb": [
+          1.0,
+          0.49,
+          0.17
+        ]
+      }
+    },
+    "A": {
+      "description": "Soft warm daylight, restrained cool fill and local lantern light.",
+      "background": "bfe5f2",
+      "ambient_color": "c4dbea",
+      "ambient_energy": 0.24,
+      "exposure": 0.9,
+      "ao_radius": 0.45,
+      "ao_intensity": 1.3,
+      "ao_light_affect": 0.3,
+      "key": {
+        "rotation": [
+          -42,
+          -35,
+          0
+        ],
+        "color": "ffe4bc",
+        "energy": 1.03,
+        "angular_distance": 6.0
+      },
+      "fill": {
+        "rotation": [
+          -40,
+          125,
+          0
+        ],
+        "color": "c2ddfa",
+        "energy": 0.14
+      },
+      "lantern": {
+        "color": "ffac59",
+        "energy": 1.6,
+        "range": 2.4,
+        "size": 0.24
+      },
+      "interior": {
+        "color": "ffb45c",
+        "energy": 1.1,
+        "range": 2.5
+      }
+    },
+    "B": {
+      "description": "More directional golden light, less even ambient fill.",
+      "background": "bfe5f2",
+      "ambient_color": "c4dbea",
+      "ambient_energy": 0.2,
+      "exposure": 0.9,
+      "ao_radius": 0.45,
+      "ao_intensity": 1.3,
+      "ao_light_affect": 0.3,
+      "key": {
+        "rotation": [
+          -38,
+          -45,
+          0
+        ],
+        "color": "ffdcB0",
+        "energy": 1.08,
+        "angular_distance": 7.0
+      },
+      "fill": {
+        "rotation": [
+          -40,
+          125,
+          0
+        ],
+        "color": "c2ddfa",
+        "energy": 0.1
+      },
+      "lantern": {
+        "color": "ffac59",
+        "energy": 1.6,
+        "range": 2.4,
+        "size": 0.24
+      },
+      "interior": {
+        "color": "ffb45c",
+        "energy": 1.0,
+        "range": 2.4
+      }
+    }
+  }
+}

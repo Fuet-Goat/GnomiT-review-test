@@ -1,0 +1,146 @@
+from pathlib import Path
+import ast,base64,hashlib,json,shutil,zipfile
+ROOT=Path(__file__).resolve().parents[1]
+REPO=Path('C:/Users/fruch/Documents/Codex/GnomiT/work/review_test_repo_2026_10_14')
+PREFIX='discussions/codex/task-001/PROJECT_HUB/builds/gnome-real-map-integration-r1-2026-10-23'
+ZIP=ROOT.parent/'GNOMIT_REAL_MAP_INTEGRATION_R1_2026-10-23.zip'
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def digest(b):return hashlib.sha256(b).hexdigest()
+def write(p,s):p.write_text(s,encoding='utf-8',newline='\n')
+def dump(p,obj):write(p,json.dumps(obj,ensure_ascii=False,indent=2)+'\n')
+
+def main():
+    assert not ZIP.exists() and not (REPO/PREFIX).exists()
+    snap=json.loads((ROOT/'documentation/INPUT_SNAPSHOT.json').read_text())
+    for row in snap['map_files']:
+        original=Path(row['source']);copy=ROOT/row['copy']
+        assert original.read_bytes()==copy.read_bytes() and sha(copy)==row['sha256'] and copy.stat().st_size==row['bytes'],row['copy']
+    native=ROOT/'native/GNOME_R3_ACCEPTED.blend';glb=ROOT/'godot/assets/gnome_r3.glb'
+    assert sha(native)=='0335bcc275bfbc8e3b7d3ea43bde2fad6c8ece5281a750007290ef154ac8bffc'
+    assert sha(glb)==snap['glb_sha256']=='3b72702cb1c995d2553dddd4895a1e2327be14d5a22cc38a60a88603d47c529f'
+    master=Path(snap['master_source'])
+    assert (ROOT/'godot/assets/gnome_r3.glb.import').read_bytes()==(master/'godot/assets/gnome_r3.glb.import').read_bytes()
+    assert (ROOT/'reference/lighting.gd').read_bytes()==(master/'godot/lighting.gd').read_bytes()
+    assert sha(ROOT.parent/'CURRENT_GNOMIT.json')==snap['selector_sha256']
+    valid=json.loads((ROOT/'documentation/CONTEXT_VALIDATION.json').read_text())
+    assert valid['status']=='PASS' and not valid['failures'] and len(valid['checks'])==95 and len(valid['frames'])==144
+    for row in valid['frames']:assert sha(ROOT/'outputs'/('MAP_MOTION_%04d.png'%row['frame']))==row['sha256']
+    still=json.loads((ROOT/'documentation/CONTEXT_CAPTURE.json').read_text())
+    media=json.loads((ROOT/'documentation/MEDIA_RECEIPT.json').read_text())
+    assert media['gif']['decoded_ms']==6000
+    activation=ROOT.parent/'Grok_Task003_Activation_2026-10-23'
+    for name in ('PRE_MERGE.json','CHECKS.json','ACTIVATION_VERIFIED.json'):
+        shutil.copyfile(activation/name,ROOT/'documentation'/('GROK_'+name))
+    owner=json.loads((activation/'ACTIVATION_VERIFIED.json').read_text())
+    assert owner['main_grant_status']=='APPROVED' and owner['remote_main_bytes_verified']
+    shutil.copyfile(ROOT.parent/'activate_grok_task003_2026_10_23.py',ROOT/'source/activate_grok_task003.py')
+    grant=Path('C:/Users/fruch/Documents/Codex/GnomiT/work/owner_grok_task003_2026_10_23/tasks/grok/task-003.json')
+    shutil.copyfile(grant,ROOT/'documentation/GROK_TASK003_ACTIVE.json')
+    assert sha(grant)==owner['grant_sha256']
+    provenance={'scope':'Actual-map isolated placement/greeting context only; no game integration or art edits',
+        'master_source_commit':'9aa94c34dbb19bedbbf7a803163e87384ca68bd4','master_native_sha256':sha(native),'master_glb_sha256':sha(glb),
+        'world_source':snap['map_source'],'world_glb_sha256':sha(ROOT/'godot/assets/r3/airy_island.glb'),
+        'geometry_materials_textures_rig_animation_changed':False,'accepted_studio_lighting_changed':False,
+        'map_lighting':'Exact existing map profileB/ACES, not transplanted studioAgX; LightingR1B source frozen separately',
+        'new_sources':['integration.gd','integration_map.gd','master_guide.gd','integration.tscn','verification/context_stills.gd','verification/verify_capture.gd'],
+        'tool_involvement':'Codex authored isolated adapter/harness and actual Godot capture/check scripts; Python/Pillow composed labels/crops/GIF without retouching',
+        'new_AI_generated_images':False,'new_Blender_edits_or_export':False,'source_rights':'Inherited source/provenance; no new third-party art. This technical handoff does not independently clear all historical asset licences.',
+        'grok_grant':'Separate explicit owner activation only tasks/grok/task-003.json, PR8; not candidate artwork integration',
+        'human_context_acceptance':'PENDING','Android_performance':'NOT_MEASURED','campaign_gameplay':'NOT_TESTED'}
+    dump(ROOT/'documentation/PROVENANCE.json',provenance)
+    dump(ROOT/'documentation/ASSET_METADATA.json',{'master_triangles':874805,'master_vertices':445842,'embedded_images':24,
+        'master_scale':0.61279296875,'placement':'Same actual route s0.4, position(-1.201419,.850196,8.372768) as original guide',
+        'camera':'Exact inherited current map orthographic camera; 432x960 viewport',
+        'motion':'Original finite6second clip,24fps144frame capture; no walk authored',
+        'native_pivots_and_dimensions':'Unchanged in byte-identical accepted GLB/native source',
+        'delivery_format':'Editable accepted native blend plus exact accepted GLB and minimal runnable context project',
+        'runtime_readiness':'Visual master only; no Android optimisation or performance claim'})
+    dump(ROOT/'documentation/VISUAL_REVIEW.json',{'observed':'Actual A/B full map and4xdiagnostic crops inspected. Same island/path/mine/trees; new folded red cap/teal silhouette visible at original small scale. No obvious detached cuff/shoulder or floating feet in captured greeting.',
+        'limitations':['Face is tiny at actual map scale; enlarged crop is diagnostic only.','Map lighting is current world recipe, not the accepted studio lighting environment.','Existing world/UI are retained apart from preview footer and Settings hidden.','No authored walk; route navigation blocked.','Master874805triangles remains unoptimised.'],
+        'human_map_context_acceptance':'PENDING'})
+    write(ROOT/'README_BG.txt','''GNOMIT — REAL MAP CONTEXT R1 — 2026-10-23
+
+Отвори Launch_Map_Integration_R1.cmd или godot/project.godot с Godot4.7.2.
+Двигателят не е включен. Пробата предпочита monitor2, когато съществува.
+Бутони: Old guide / Master R3, Find / Replay, Reduced. Влаченето разглежда картата.
+
+КАКВО Е ГОТОВО
+Заключеният R4/M2/RigR3 master е поставен на действителната избрана карта,
+до къщичката, върху началото на дървената пътека. Същата позиция и yaw като
+стария герой; scale .61279296875 от приетата M2 map-scale проба.
+Светът, тревата, дърветата, мината, пътеката и оригиналната камера са точни копия.
+Двата съществуващи маркера1/2 са запазени. Нови нива не са създавани.
+
+СВЕТЛИНАТА Е КОНТЕКСТНА ПРОВЕРКА
+Картата използва оригиналния profileB/ACES. Заключеното studio LightingR1B е
+AgX и е запазено byte-identical в reference/lighting.gd. Не променяме глобалната
+светлина на картата, за да скрием разлика; това не е нов lighting approval.
+
+УМИШЛЕНО ОГРАНИЧЕНИЕ
+Master има поздрав, но няма authored walking clip/leg rig за ходене.
+Старият map gait изисква други Guide_* nodes. Затова тази проба блокира
+route taps/travel вместо да плъзга героя или да измисля походка. Самият оригинален
+map script остава непроменен, ограниченията са само в нов subclass.
+Няма campaign integration, промени в match3, save, audio, нива или селектора.
+Progress е временен in-memory stub без load/save. Собствен user directory.
+
+ДОКАЗАТЕЛСТВА
+95 автоматизирани контекстни проверки PASS: поставяне/камера/visibility,
+спиране на route travel, drag,10bones/rest endpoints, foot-node/root stability,
+finite greeting/replay/reduced motion/focus и midgreeting A/B/reset regressions.
+Foot node checks не са измерване на всички skinnedvertices/contact shadows.
+144 действителни Godot frames@24fps, GIF decoded6000ms. GIF се повтаря само
+за преглед; native animation е finite. GIF palette256 е загубна компресия.
+Raw144PNG са изключени от ZIP, технитеSHA са в CONTEXT_VALIDATION.json.
+Outputs включва full432x960 A/B, greeting, rest/reduced и diagnostic4xcrops.
+Няма измерена realtimeFPS, Android profile или човешки playtest.
+
+ПРОИЗХОД / ЗАПАЗВАНЕ
+MasterGLB и nativeblend са byte-identical. Нови Blender edits/exports няма.
+INPUT_SNAPSHOT идентифицира всички копирани mapinputs и проверените оригинали.
+Техническата документация не замества независим исторически лицензионен преглед.
+MANIFEST свързва съдържанието; externalSHA свързва ZIP. Remoteproof е отделен
+след създаването на неизменния ZIP.
+
+ОТДЕЛНО: GROK TASK003 Е АКТИВИРАН
+Main dabe1793398d9ceb6afcb0b459ba91e8687c6ac6, ownerPR8. Само новият grant.
+Task001/002 са непроменени. Добавен е required approved_at timestamp.
+Grok може да направи независим environment challenger, но не да пипа този
+master или да merge-ва/заменя приетата игра. Proof и точният grant са включени.
+
+СЛЕД ТАЗИ ПРОБА
+Човешка оценка в реалната карта е PENDING. Android optimisation се прави
+в отделно копие след визуален избор; master не се decimate-ва.
+''')
+    write(ROOT/'FINAL_RESPONSE.txt','Grok task-003 е APPROVED в main dabe1793398d9ceb6afcb0b459ba91e8687c6ac6 чрез PR8; само новият grant е променен. Отделната real-map context проба с приетия гном е готова:95checksPASS, оригинален6s поздрав, A/B и reducedmotion. Отвори Launch_Map_Integration_R1.cmd. Ходене/campaign integration/Android optimisation не са започнати; master и оригиналната игра са запазени. Human map-context acceptance PENDING.\n')
+    write(ROOT/'documentation/PROMPT_FOR_GROK_BG.txt','Прочети активния tasks/grok/task-003.json от main commit dabe1793398d9ceb6afcb0b459ba91e8687c6ac6. Работи само в codex/grok/task-003 и разрешените task003 папки. Прочети актуалните PROJECT_HUB front doors и избраната storybook референция. Направи един независим editable Blender/Godot environment challenger с еднаква432x960 comparisoncamera. Заключеният гном е само reference. Публикувай реални source/export/render/preview, REPORT, PROVENANCE, ASSET_METADATA, SHA256 MANIFEST; провери remote bytes и отвори DraftPR при writeдостъп. Без merge, промени по gameplay/current или самостоятелни grant промени. При липсващ инструмент/недостъпна картинка отбележи UNKNOWN, не измисляй validation.\n')
+    for p in (ROOT/'source').glob('*.py'):ast.parse(p.read_text(encoding='utf-8'),filename=str(p))
+    files=[ROOT/'README_BG.txt',ROOT/'FINAL_RESPONSE.txt',ROOT/'Launch_Map_Integration_R1.cmd',native]
+    files+=list((ROOT/'source').glob('*.py'))
+    files+=[p for p in (ROOT/'godot').rglob('*') if p.is_file() and '.godot' not in p.relative_to(ROOT/'godot').parts]
+    files+=[p for p in (ROOT/'documentation').glob('*') if p.is_file() and p.suffix in ('.json','.txt','.log') and not p.name.startswith(('PACKAGE','REMOTE','PUBLIC','PUBLISH'))]
+    files+=[p for p in (ROOT/'reference').glob('*') if p.is_file()]
+    files+=[p for p in (ROOT/'outputs').glob('*') if p.is_file() and not p.name.startswith('MAP_MOTION_')]
+    files=sorted(set(files));rows=[{'path':p.relative_to(ROOT).as_posix(),'bytes':p.stat().st_size,'sha256':sha(p)} for p in files]
+    manifest=ROOT/'MANIFEST.json';dump(manifest,{'files':rows,'context_human_acceptance':'PENDING','scope':'Isolated actual-map context and ownergrant activation receipts'})
+    with zipfile.ZipFile(ZIP,'x',zipfile.ZIP_DEFLATED,compresslevel=6) as z:
+        for p in [*files,manifest]:z.write(p,p.relative_to(ROOT).as_posix())
+    with zipfile.ZipFile(ZIP) as z:
+        assert z.testzip() is None and len(z.namelist())==len(files)+1
+        for row in rows:
+            b=z.read(row['path']);assert len(b)==row['bytes'] and digest(b)==row['sha256']
+    data=ZIP.read_bytes();write(ZIP.with_suffix('.sha256.txt'),digest(data)+'  '+ZIP.name+'\n')
+    target=REPO/PREFIX;target.mkdir(parents=True);encoded=base64.b64encode(data);parts=[]
+    for index,start in enumerate(range(0,len(encoded),2_000_000),1):
+        name='TRANSFER.part%03d.b64.txt'%index;chunk=encoded[start:start+2_000_000];(target/name).write_bytes(chunk)
+        parts.append({'path':name,'bytes':len(chunk),'sha256':digest(chunk)})
+    dump(target/'TRANSFER_MANIFEST.json.txt',{'zip_name':ZIP.name,'zip_bytes':len(data),'zip_sha256':digest(data),'entries':len(files)+1,'parts':parts})
+    for p in files:
+        if p.suffix in ('.py','.gd','.godot','.tscn','.import','.json','.txt','.cmd'):
+            dest=target/(p.relative_to(ROOT).as_posix()+'.txt');dest.parent.mkdir(parents=True,exist_ok=True);dest.write_bytes(p.read_bytes())
+    write(target/'REPORT.txt','GNOMIT REAL MAP CONTEXT R1\nSTATUS: ISOLATED_CONTEXT_READY_FOR_HUMAN_REVIEW\nExact accepted master placed in exact current map source. Same original camera/world lightingB/ACES. Accepted studioLightingR1B preserved separately. Master native/GLB/materials/rig/action unchanged. Old/masterA/B same routeposition/scale; finite6s greeting and reducedmotion. No walking clip: route travel blocked, no invented gait/slide. Memory-onlyprogressstub; originalselector/game unchanged.95checksPASS;144actualframes;GIF6000ms. RuntimeFPS/Android NOT_MEASURED. HumancontextacceptancePENDING. Separate explicit owner activation addedonlytasks/grok/task003.jsonviaPR8andmain dabe1793398d9ceb6afcb0b459ba91e8687c6ac6; existinggrantsunchanged. No artworkmerge/campaignchange.\nZIP '+ZIP.name+'\nBYTES '+str(len(data))+'\nSHA256 '+digest(data)+'\nENTRIES '+str(len(files)+1)+'\nSource/publicmedia readbacks follow separately.\n')
+    dump(ROOT/'documentation/PACKAGE_VERIFIED.json',{'zip':str(ZIP),'bytes':len(data),'sha256':digest(data),'entries':len(files)+1,'parts':len(parts),'all_entries_readback':True})
+    assert sha(ROOT.parent/'CURRENT_GNOMIT.json')==snap['selector_sha256']
+    print(json.dumps({'zip':str(ZIP),'bytes':len(data),'sha256':digest(data),'entries':len(files)+1,'parts':len(parts)},indent=2))
+
+if __name__=='__main__':main()

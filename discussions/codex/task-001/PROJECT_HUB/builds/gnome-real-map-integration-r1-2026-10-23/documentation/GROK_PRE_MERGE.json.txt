@@ -1,0 +1,13 @@
+{
+  "base": "d803005f3b123ca2b1ab617a37098a43c43b5da8",
+  "owner_branch": "codex/owner/approve-grok-task-003",
+  "head": "945bb6cfce1cadac906835eb410314036736bb17",
+  "pr": 8,
+  "pr_url": "https://github.com/Fuet-Goat/GnomiT-review-test/pull/8",
+  "grant_sha256": "3bbc5293ec55c5f6904443f58e60193310812c4a95229c99a435a0daeefb4d07",
+  "only_difference_from_supplied_JSON": "authorization.approved_at required by existing validator",
+  "baseline_verified": true,
+  "local_owner_scope": "PASS",
+  "remote_bytes_verified": true,
+  "task001_task002_unchanged": true
+}

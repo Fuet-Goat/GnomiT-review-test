@@ -1,0 +1,146 @@
+{
+  "map_source": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\R3_Trees_Reference_2026-10-22",
+  "map_files": [
+    {
+      "source": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\R3_Trees_Reference_2026-10-22\\assets\\r3\\airy_island.glb",
+      "copy": "godot/assets/r3/airy_island.glb",
+      "sha256": "26f4a9805bf3300ebaa5343dec6933ca236802671c2524a916a00a23e53c339b",
+      "bytes": 29738484
+    },
+    {
+      "source": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\R3_Trees_Reference_2026-10-22\\assets\\r3\\airy_island.glb.import",
+      "copy": "godot/assets/r3/airy_island.glb.import",
+      "sha256": "0a07d82f16dbaaf1cc9e4e4e003d36447fbb5a53ec4131f63c064a8bc946c2cc",
+      "bytes": 1157
+    },
+    {
+      "source": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\R3_Trees_Reference_2026-10-22\\assets\\r3\\airy_island_Airy_bark.png",
+      "copy": "godot/assets/r3/airy_island_Airy_bark.png",
+      "sha256": "16a1ec98b1ef5159434778d401b01375fe78bc9a141a3caa51c8cff32691c0d0",
+      "bytes": 36770
+    },
+    {
+      "source": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\R3_Trees_Reference_2026-10-22\\assets\\r3\\airy_island_Airy_bark.png.import",
+      "copy": "godot/assets/r3/airy_island_Airy_bark.png.import",
+      "sha256": "81023e4df5a31dcb8b7b2bac5cc3fe29e716ad1c0b25577f671edbf916f20a7c",
+      "bytes": 1043
+    },
+    {
+      "source": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\R3_Trees_Reference_2026-10-22\\assets\\r3\\airy_island_Airy_endgrain.png",
+      "copy": "godot/assets/r3/airy_island_Airy_endgrain.png",
+      "sha256": "e048f16dfcf0b8df0ebbc306bb1a000d5811794fd347be522018907320d1e39f",
+      "bytes": 57184
+    },
+    {
+      "source": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\R3_Trees_Reference_2026-10-22\\assets\\r3\\airy_island_Airy_endgrain.png.import",
+      "copy": "godot/assets/r3/airy_island_Airy_endgrain.png.import",
+      "sha256": "137717380b2d17d11471630915343d65cb2dd283f659e1ec02f55d7d837ddc25",
+      "bytes": 1055
+    },
+    {
+      "source": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\R3_Trees_Reference_2026-10-22\\assets\\r3\\airy_island_Airy_wood.png",
+      "copy": "godot/assets/r3/airy_island_Airy_wood.png",
+      "sha256": "fc439d6471305ec93fa09fc80008a6bf73c38af0930957b6c63525bb550964c2",
+      "bytes": 38683
+    },
+    {
+      "source": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\R3_Trees_Reference_2026-10-22\\assets\\r3\\airy_island_Airy_wood.png.import",
+      "copy": "godot/assets/r3/airy_island_Airy_wood.png.import",
+      "sha256": "f677ab02a85c6c0e359838f2249cc674ee63ad385b51244dcdeb0cf93e5559df",
+      "bytes": 1043
+    },
+    {
+      "source": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\R3_Trees_Reference_2026-10-22\\assets\\r3\\airy_island_Airy_wood_dark.png",
+      "copy": "godot/assets/r3/airy_island_Airy_wood_dark.png",
+      "sha256": "bf7b308ef09ac9aba7e8f82bc938255f2f0890136db69adf8a98237ca8052fb6",
+      "bytes": 28659
+    },
+    {
+      "source": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\R3_Trees_Reference_2026-10-22\\assets\\r3\\airy_island_Airy_wood_dark.png.import",
+      "copy": "godot/assets/r3/airy_island_Airy_wood_dark.png.import",
+      "sha256": "960a92a81053ca7f0bd0566d10535e7886d127e021554ff1b9da1273504e4931",
+      "bytes": 1057
+    },
+    {
+      "source": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\R3_Trees_Reference_2026-10-22\\assets\\r3\\airy_island_Airy_wood_light.png",
+      "copy": "godot/assets/r3/airy_island_Airy_wood_light.png",
+      "sha256": "5bad7a0aa083af863eba53c596a1bed3f714ce543186c88b4232bfdcd018f4bd",
+      "bytes": 42274
+    },
+    {
+      "source": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\R3_Trees_Reference_2026-10-22\\assets\\r3\\airy_island_Airy_wood_light.png.import",
+      "copy": "godot/assets/r3/airy_island_Airy_wood_light.png.import",
+      "sha256": "bb711c33e0a935483859f374e5c74a7cd7635d777776eb0a9d406de6979801bd",
+      "bytes": 1060
+    },
+    {
+      "source": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\R3_Trees_Reference_2026-10-22\\assets\\r3\\airy_island_grass_ground_baked.png",
+      "copy": "godot/assets/r3/airy_island_grass_ground_baked.png",
+      "sha256": "71185b8526a5af1cb9218f1a17b0b1386694516ce8e0d0e56cde8af2b1b62492",
+      "bytes": 772445
+    },
+    {
+      "source": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\R3_Trees_Reference_2026-10-22\\assets\\r3\\airy_island_grass_ground_baked.png.import",
+      "copy": "godot/assets/r3/airy_island_grass_ground_baked.png.import",
+      "sha256": "fd691cd2d448ebb50a40a33bd4a716942868517f233c9d0ade27788326427849",
+      "bytes": 1070
+    },
+    {
+      "source": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\R3_Trees_Reference_2026-10-22\\assets\\r3\\gnome_guide.glb",
+      "copy": "godot/assets/r3/gnome_guide.glb",
+      "sha256": "c5abfa4a4688d370966edcebf662e4d4692314ea3ea67f3180b1c5f60e3b9e16",
+      "bytes": 2665104
+    },
+    {
+      "source": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\R3_Trees_Reference_2026-10-22\\assets\\r3\\gnome_guide.glb.import",
+      "copy": "godot/assets/r3/gnome_guide.glb.import",
+      "sha256": "790a8b28701974cbebb3b1f821cd00f7f525d5354a9438165325887f8537b55b",
+      "bytes": 1158
+    },
+    {
+      "source": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\R3_Trees_Reference_2026-10-22\\assets\\r3\\lighting_v012.json",
+      "copy": "godot/assets/r3/lighting_v012.json",
+      "sha256": "10960ab40527705e5a9fb2fd4a485e5d3fd578a9c50d44f717aed84dcd9ea887",
+      "bytes": 2766
+    },
+    {
+      "source": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\R3_Trees_Reference_2026-10-22\\assets\\font.ttf",
+      "copy": "godot/assets/font.ttf",
+      "sha256": "f934d7142fb4784bf828da485b7dcbd90c0c80d514e9d49a5da0ed3a1ae2491d",
+      "bytes": 571240
+    },
+    {
+      "source": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\R3_Trees_Reference_2026-10-22\\assets\\font.ttf.import",
+      "copy": "godot/assets/font.ttf.import",
+      "sha256": "472bf55ca712f95aa6a1216bc1dfb4a11382505ce0426e2849dca7215ac216cc",
+      "bytes": 744
+    },
+    {
+      "source": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\R3_Trees_Reference_2026-10-22\\scripts\\r3\\island_map.gd",
+      "copy": "godot/scripts/r3/island_map.gd",
+      "sha256": "79bfbe44cc982787aa86ef70176e6335b1e08f1c86794c141476f8794bc795da",
+      "bytes": 17589
+    },
+    {
+      "source": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\R3_Trees_Reference_2026-10-22\\scripts\\r3\\island_route.gd",
+      "copy": "godot/scripts/r3/island_route.gd",
+      "sha256": "400c50a8b503a39a5dfb7ee1ae118fa853c7b3ffcdafac3fb1b621a6753eddfd",
+      "bytes": 2637
+    },
+    {
+      "source": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\R3_Trees_Reference_2026-10-22\\scripts\\r3\\r3_guide.gd",
+      "copy": "godot/scripts/r3/r3_guide.gd",
+      "sha256": "0a3c6a40a89dadba72d05ca2b6ef6adbb90b00b608e48d3de7e056da650af4c5",
+      "bytes": 6906
+    },
+    {
+      "source": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\R3_Trees_Reference_2026-10-22\\shaders\\reference_grass.gdshader",
+      "copy": "godot/shaders/reference_grass.gdshader",
+      "sha256": "c7b82792f02c7537aaf9c433d083c04d207191af71b97780130fef2093fdfe8b",
+      "bytes": 312
+    }
+  ],
+  "master_source": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\Gnome_Godot_Lighting_R1_2026-10-23",
+  "glb_sha256": "3b72702cb1c995d2553dddd4895a1e2327be14d5a22cc38a60a88603d47c529f",
+  "selector_sha256": "e1f2f766c10d2b80267893e86ded85f42f6941266f7500c8658a06a9bf9474b3"
+}

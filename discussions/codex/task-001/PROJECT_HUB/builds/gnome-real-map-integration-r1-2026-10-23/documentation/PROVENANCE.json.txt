@@ -1,0 +1,27 @@
+{
+  "scope": "Actual-map isolated placement/greeting context only; no game integration or art edits",
+  "master_source_commit": "9aa94c34dbb19bedbbf7a803163e87384ca68bd4",
+  "master_native_sha256": "0335bcc275bfbc8e3b7d3ea43bde2fad6c8ece5281a750007290ef154ac8bffc",
+  "master_glb_sha256": "3b72702cb1c995d2553dddd4895a1e2327be14d5a22cc38a60a88603d47c529f",
+  "world_source": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\R3_Trees_Reference_2026-10-22",
+  "world_glb_sha256": "26f4a9805bf3300ebaa5343dec6933ca236802671c2524a916a00a23e53c339b",
+  "geometry_materials_textures_rig_animation_changed": false,
+  "accepted_studio_lighting_changed": false,
+  "map_lighting": "Exact existing map profileB/ACES, not transplanted studioAgX; LightingR1B source frozen separately",
+  "new_sources": [
+    "integration.gd",
+    "integration_map.gd",
+    "master_guide.gd",
+    "integration.tscn",
+    "verification/context_stills.gd",
+    "verification/verify_capture.gd"
+  ],
+  "tool_involvement": "Codex authored isolated adapter/harness and actual Godot capture/check scripts; Python/Pillow composed labels/crops/GIF without retouching",
+  "new_AI_generated_images": false,
+  "new_Blender_edits_or_export": false,
+  "source_rights": "Inherited source/provenance; no new third-party art. This technical handoff does not independently clear all historical asset licences.",
+  "grok_grant": "Separate explicit owner activation only tasks/grok/task-003.json, PR8; not candidate artwork integration",
+  "human_context_acceptance": "PENDING",
+  "Android_performance": "NOT_MEASURED",
+  "campaign_gameplay": "NOT_TESTED"
+}
