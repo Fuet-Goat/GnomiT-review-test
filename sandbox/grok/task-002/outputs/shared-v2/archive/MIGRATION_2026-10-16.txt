@@ -1,0 +1,6 @@
+GNOMIT — GROK V1 ARCHIVE
+
+Original source commit: fca6459382878531deeaae31780be0ab0a0e4379.
+95 real Base64 parts plus original manifest moved unchanged from outputs/transfer/ to outputs/shared-v2/archive/legacy-base64/. Every file verified against the old Git blob ID before moving.
+The original decoded PNG bytes are now directly available under outputs/shared-v2/references/grok-v1/. Hashes match the original source manifest. They are historical/material references, not the common GPT master or current animation.
+Original reports and Git history are preserved. New shared-v2 handoffs go only under outputs/shared-v2/handoffs/.

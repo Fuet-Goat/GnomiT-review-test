@@ -1,0 +1,29 @@
+GNOMIT GROK ANIMATION R1
+Model: Grok Build
+Hub: 8ff2294ea6a32b00b0b5e16f3a2b06bf48b17819 reviews/ANIMATION_REVISION_R1_BG.txt
+Predecessor binaries: 0920acabe220e527d33dbf3311149fd0d2a47748
+
+WHAT CHANGED
+Cell 2 replaced. Cell 0's own two legs were rotated about their hips.
+Backpack-side leg swings forward and plants. Lantern-side leg swings back and the heel rises.
+No full-body mirror. Face, hat, coat, backpack, belt and lantern hand stay the cell 0 pixels.
+Cell 1 passing now lifts the backpack-side boot. The lantern-side boot stays planted.
+Cells 3 and 5 were kept. They already read as opposite rear contacts.
+Cell 4 was not replaced. A lift of the rear foot cut a hole in the support sole, so the original close-feet passing remains.
+
+REGISTRATION
+Upper-body centroid alpha>=128 rows 80..299 aligned to cell 0.
+dx from cell 0: [0.0, -0.337, -0.337, 0.165, -0.39, -0.338]
+Previous jumps were about +49px and -61px. Those hops are gone.
+Support sole y is 466. Sole x is measured, not forced to 256.
+Sheet is in-place. No root travel is baked in.
+Heights alpha>0: [440, 444, 444, 440, 440, 440] (440+/-8).
+
+KEY
+Pixels with crushed green and mixed red/blue key color were zeroed, including the old rim under the passing boot.
+Hat red was not deleted.
+
+PREVIEW
+16 frames x 250ms = 4000ms. Order 0,1,2,1 twice then 3,4,5,4 twice.
+Shadow is the Stage A asset, shifted once under the shared root, same every frame.
+Label ART PREVIEW. Not a runtime.

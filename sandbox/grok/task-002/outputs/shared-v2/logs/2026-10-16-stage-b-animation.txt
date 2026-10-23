@@ -1,0 +1,9 @@
+GNOMIT GROK STAGE B LOG
+model: Grok Build
+source_handoff_commit: 0a2b6e3d2736d8c787026718205e15dee8a6fc0f
+master_sha256: 895a1ccf8c17e756e3bc05810cceaf48ec1732d7e90e0428f1c0523e6157004d
+
+Frames were image-edited from that master on a flat magenta field, then keyed in code.
+Rear poses are separate back views. They were not made by flipping the front cells.
+The front opposite-contact edit kept returning the same lantern-side lead foot, so cell 2 is recorded as a failure.
+walk_sheet.png has no baked shadow. walk_preview.gif composites the Stage A shadow under the frames and is not a Godot runtime.
