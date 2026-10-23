@@ -1,0 +1,45 @@
+{
+  "status": "PUBLIC_ORIGINAL_M1_IMAGES_AND_ZIP_ANONYMOUSLY_VERIFIED",
+  "source_commit": "4516403b6dc0a4e2fc98b0305359a9020ae5c598",
+  "release_url": "https://github.com/Fuet-Goat/GnomiT-review-test/releases/tag/gnome-r3-visual-review-2026-10-22",
+  "release_id": 421180109,
+  "previous_assets_unchanged": true,
+  "assets": [
+    {
+      "name": "M1_MATERIAL_COMPARISON.png",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/gnome-r3-visual-review-2026-10-22/M1_MATERIAL_COMPARISON.png",
+      "bytes": 708354,
+      "sha256": "5884439dfa4d2710b025ceec1382e7e11d32376e99821246339b8b6c9faa7ffb",
+      "anonymous_http": 200,
+      "remote_bytes_sha256": "PASS"
+    },
+    {
+      "name": "M1_FACE_DETAIL.png",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/gnome-r3-visual-review-2026-10-22/M1_FACE_DETAIL.png",
+      "bytes": 484266,
+      "sha256": "10d969a2128a210bab6f81ad87b5805aa4c8ac768b840b434bdda02f09afdea9",
+      "anonymous_http": 200,
+      "remote_bytes_sha256": "PASS"
+    },
+    {
+      "name": "M1_MAP_SCALE.png",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/gnome-r3-visual-review-2026-10-22/M1_MAP_SCALE.png",
+      "bytes": 633045,
+      "sha256": "b9fc3294037750558e6d1fb10d3eaffd1b10dabcac5b4f20bbe83b9a53b6901b",
+      "anonymous_http": 200,
+      "remote_bytes_sha256": "PASS"
+    },
+    {
+      "name": "GNOMIT_R4_MATERIALS_M1_2026-10-23.zip",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/gnome-r3-visual-review-2026-10-22/GNOMIT_R4_MATERIALS_M1_2026-10-23.zip",
+      "bytes": 16821452,
+      "sha256": "c616f0f3d3d3837d143cee3fa72498cef9cd941eef29e35dcdf425998b2bd54b",
+      "anonymous_http": 200,
+      "remote_bytes_sha256": "PASS"
+    }
+  ],
+  "human_form": "ACCEPTED_R4",
+  "human_materials": "PENDING",
+  "rig_animation": "NOT_STARTED",
+  "game_integration": false
+}
