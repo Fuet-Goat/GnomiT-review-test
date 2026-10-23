@@ -1,0 +1,27 @@
+"""Apply the bounded multi-pose diagnostic only; visual status remains HOLD."""
+from pathlib import Path
+import json
+from sleeve_weights_D_DIAGNOSTIC import apply_sleeve_weights as base_repair,_weight_snapshot,_snapshot_hash
+def apply_sleeve_weights(coat,rig):
+    original=_weight_snapshot(coat)
+    receipt=base_repair(coat,rig)
+    data=json.loads(Path(__file__).with_name('pose_candidate_weights.json').read_text())
+    assert len(coat.data.vertices)==data['vertex_count']
+    assert [g.name for g in coat.vertex_groups]==data['group_names']
+    for key,memberships in data['right_weights'].items():
+        index=int(key);assert coat.data.vertices[index].co.x<0
+        for group in coat.vertex_groups:group.remove([index])
+        for name,weight in memberships:
+            assert 0<=weight<=1
+            coat.vertex_groups[name].add([index],weight,'REPLACE')
+        assert abs(sum(weight for name,weight in memberships)-1)<2e-6
+    final=_weight_snapshot(coat)
+    left=[v.index for v in coat.data.vertices if v.co.x>=0]
+    assert _snapshot_hash(original,left)==_snapshot_hash(final,left)
+    changed=[i for i in range(len(final)) if final[i]!=original[i]]
+    return {'status':'VISUAL_HOLD_NOT_ACCEPTED','postprocess':'Bounded multi-pose strain and curvature optimisation with smooth weight-field changes',
+                    'weight_data':'pose_candidate_weights.json','optimisation_native_sha256':data['source_native_sha256'],
+                    'blender_corrective_modifier_used':False,'human_visual_acceptance':'PENDING','local_visual_review':'HOLD_UNDERARM_WEB_AND_SHOULDER_DIMPLE',
+                    'helper':receipt['helper'],'helper_bones':1,'preserve_volume':True,
+                    'initial_D_repair':receipt,'final_changed_weight_vertices':len(changed),
+                    'final_left_weight_sha256_before':_snapshot_hash(original,left),'final_left_weight_sha256_after':_snapshot_hash(final,left)}

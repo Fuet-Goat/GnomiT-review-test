@@ -1,0 +1,113 @@
+"""One self-contained review handoff; exact ZIP CRC and every manifest hash checked."""
+from pathlib import Path
+import json,hashlib,zipfile,base64
+ROOT=Path(__file__).resolve().parents[1]
+REPO=Path('C:/Users/fruch/Documents/Codex/GnomiT/work/review_test_repo_2026_10_14')
+PREFIX='discussions/codex/task-001/PROJECT_HUB/builds/gnome-rig-r2-sleeve-2026-10-23'
+ZIP=ROOT.parent/'GNOMIT_RIG_R2_SLEEVE_2026-10-23.zip'
+def sha(data):return hashlib.sha256(data).hexdigest()
+def write(path,text):path.write_bytes(text.encode('utf-8'))
+def dump(path,data):write(path,json.dumps(data,indent=2,ensure_ascii=False)+'\n')
+def main():
+    assert not ZIP.exists()
+    receipt=json.loads((ROOT/'documentation/RIG_R2_RECEIPT.json').read_text())
+    media=json.loads((ROOT/'documentation/MEDIA_RECEIPT.json').read_text())
+    renders={name:json.loads((ROOT/'documentation'/('RENDER_'+name+'.json')).read_text()) for name in ('R1','R2')}
+    for kind in ('full_camera','close_camera','threequarter_camera'):assert renders['R1'][kind]==renders['R2'][kind],kind
+    assert receipt['source_unchanged'] and receipt['m2_unchanged']
+    assert sha(Path(receipt['native']).read_bytes())==receipt['native_sha256']
+    assert all(row['decoded_duration_ms']==6000 for row in media['animations'].values())
+    selector=ROOT.parent/'CURRENT_GNOMIT.json';selector_sha=sha(selector.read_bytes())
+    assert selector_sha=='e1f2f766c10d2b80267893e86ded85f42f6941266f7500c8658a06a9bf9474b3'
+    rows=receipt['motion_comparison']['frames']
+    table='\n'.join('frame '+frame+': R1 min/max %.6f / %.6f -> R2 %.6f / %.6f; BVH %d -> %d'%(rows[frame]['r1_min_edge_ratio'],rows[frame]['r1_max_edge_ratio'],rows[frame]['r2_min_edge_ratio'],rows[frame]['r2_max_edge_ratio'],rows[frame]['r1_bvh_candidate_pairs'],rows[frame]['r2_bvh_candidate_pairs']) for frame in ('37','55','73','91','109'))
+    write(ROOT/'README_BG.txt','''GNOMIT — RIG R2: САМО ДЕФОРМАЦИЯ НА МАХАЩИЯ РЪКАВ — 2026-10-23
+
+ЧОВЕШКО РЕШЕНИЕ: R4 FORM ACCEPTED / M2 MATERIALS ACCEPTED.
+RIG R1 NOT ACCEPTED заради прищипване; тази проба запазва неговия жест.
+СТАТУС НА R2: REPAIR_NOT_ACHIEVED / VISUAL_HOLD. Това НЕ е завършена поправка.
+
+ВИЖ ПЪРВО:
+outputs/R1_R2_SLEEVE_CLOSEUP.gif — един и същ близък план R1/R2, 6 секунди.
+outputs/R1_R2_GREETING.gif — същото пълно движение от еднаква камера.
+outputs/R1_R2_GREETING_KEYPOSES.png и R1_R2_SLEEVE_KEYPOSES.png — 37/55/73/91/109.
+outputs/R1_SLEEVE_3Q_055.png,073.png срещу съответните R2 кадри — един и същ 3/4.
+outputs/RIG_R2_REDUCED_MOTION.png — непроменен действителен R2 frame1.
+
+NATIVE / ВЪЗПРОИЗВЕЖДАНЕ:
+native/GNOME_RIG_R2_SLEEVE_CANDIDATE_HOLD.blend е неприетият диагностичен кандидат. Вътрешният START_HERE_RIG_R2
+описва промяната. Оригиналните rig/action имена умишлено пазят RigR1 префикса:
+самите стари кости, rest pose, ключове, дръжки, амплитуда и timing са запазени.
+reference/GNOME_RIG_R1_GREETING.blend и GNOME_M2_FINISH.blend са точните,
+непроменени входове. Това прави основната skinning проба самостоятелна.
+За повторно изграждане ползвай нова папка с source/ и reference/, празни native/,
+documentation/,outputs/,frames/. Blender5.2.2LTS --background --factory-startup
+--disable-autoexec --python-exit-code 1 --python source/build_r2.py.
+После render_comparison.py -- R1, -- R2; накрая Python+Pillow source/compose_r2.py.
+Предадените резултати са защитени от презаписване. 576 локални source PNG не се
+дублират в ZIP; техните SHA-256 са в render/media receipts. GIF-ите са сглобени
+само от реалните Blender PNG, с обща палитра; няма image_gen/измислено движение.
+
+ОБХВАТ:
+Само weights на десния ръкав и преходите му; броят на разрешените helper bones
+е записан в RIG_R2_RECEIPT.json. Един помощен deform bone е разрешен от човека
+само при техническа необходимост; ако е използван, той следва вече съществуващото
+рамо и няма собствена нова animation curve. Preserve Volume остава включен.
+Не се променят source vertices/topology, M2 материали/палитра, основни кости/rest,
+криви/timing/амплитуда, глава/брада/шапка/ръце/обувки/фенер, камера/осветление.
+Всички запазени свойства се сравняват преди save и след reopen. Изключението
+за helper се валидира по точен pivot/rest basis/parent/constraint/group.
+Всяка друга разлика спира build-а. Лявата половина на coat weights е запазена.
+
+ИЗМЕРВАНИЯ НА ДЕЙСТВИТЕЛНИ EVALUATED ВЪРХОВЕ:
+'''+table+'''
+
+Останалите mesh-ове имат точно еднакви evaluated coordinate hashes R1/R2 при
+всичките 7 проверени кадъра. Обувки/подметки стоят неподвижни; frame1/145 са
+сравнени директно с приетия M2 rest при толеранс1e-5. Същото движение е 6s@24fps;
+кадър145 е дублираният проверен край, GIF ползва кадри1..144. GIF може да слее
+идентични неподвижни кадри; декодираната продължителност е проверена6000ms.
+BVH overlap са диагностични кандидати, НЕ доказателство за липса на пресичания.
+Промяната в min/max не е художествен PASS. Човешката оценка е основната.
+
+ПРОЧЕТИ documentation/VISUAL_REVIEW.txt за действително видените ограничения.
+RIG R2 HUMAN ACCEPTANCE:PENDING. Не е production/Godot/Android/performance pass.
+Няма blink, facial rig, ново движение, game integration, merge или промяна на main.
+Няма промяна на селектора, M2/R1 входовете, старите пакети или чужди доклади.
+''')
+    write(ROOT/'FINAL_RESPONSE.txt','REPAIR NOT ACHIEVED / VISUAL HOLD. Rig R2 diagnostic candidate; R4 form/M2 finish and original motion preserved.\n'+table+'\nHuman visual acceptance pending. See the paired full/close-up GIFs and VISUAL_REVIEW.txt.\n')
+    dump(ROOT/'documentation/PROVENANCE.json',{'date':'2026-10-23','input_handoff_commit':'1cbbe60b90806d9fb2d28d02db85da4cf7ddc9d4',
+        'r1_sha256':receipt['source_sha256'],'m2_sha256':receipt['m2_sha256'],'r2_sha256':receipt['native_sha256'],
+        'tools':['Blender5.2.2LTS/Python API','Blender bundled NumPy','Python/Pillow'],
+        'new_work':'Right sleeve weight field and the recorded minimal deform helper only',
+        'external_assets':[],'textures_mesh_sources_downloaded':False,'accepted_form_and_materials':'PRESERVED',
+        'new_animation_curves':0,'helpers_added':receipt['helpers_added'],'front':'-Y','canonical_units':'Blender metres',
+        'animation_endpoints':[1,145],'fps':24,'preview_frames':[1,144],'runtime_integration':False,
+        'human_visual_acceptance':'PENDING','legal_note':'Factual source record; no new exclusivity guarantee'})
+    dump(ROOT/'documentation/SELECTOR_PROTECTION.json',{'sha256':selector_sha,'game_integration':False})
+    files=[]
+    for folder in ('source','reference','documentation'):
+        files += [p for p in (ROOT/folder).rglob('*') if p.is_file() and '__pycache__' not in p.parts
+                  and not p.name.startswith(('PUBLIC_','REMOTE_','PACKAGE','PUBLISH'))]
+    files += [p for p in (ROOT/'outputs').glob('*') if p.is_file() and p.name.startswith(('R1_R2_','R1_SLEEVE_3Q_','R2_SLEEVE_3Q_','RIG_R2_REDUCED'))]
+    files += [ROOT/'README_BG.txt',ROOT/'FINAL_RESPONSE.txt',Path(receipt['native'])]
+    manifest={p.relative_to(ROOT).as_posix():{'bytes':p.stat().st_size,'sha256':sha(p.read_bytes())} for p in sorted(set(files))}
+    dump(ROOT/'MANIFEST.json',manifest);files.append(ROOT/'MANIFEST.json')
+    with zipfile.ZipFile(ZIP,'x',zipfile.ZIP_DEFLATED,compresslevel=6) as archive:
+        for path in sorted(set(files)):archive.write(path,path.relative_to(ROOT).as_posix())
+    with zipfile.ZipFile(ZIP) as archive:
+        assert archive.testzip() is None and len(archive.namelist())==len(manifest)+1
+        for name,row in manifest.items():
+            data=archive.read(name);assert len(data)==row['bytes'] and sha(data)==row['sha256']
+    target=REPO/PREFIX;target.mkdir(parents=True,exist_ok=False)
+    encoded=base64.b64encode(ZIP.read_bytes());parts=[]
+    for offset in range(0,len(encoded),2_000_000):
+        name=f'TRANSFER.part{offset//2_000_000+1:03d}.b64.txt';data=encoded[offset:offset+2_000_000]
+        (target/name).write_bytes(data);parts.append({'path':name,'bytes':len(data),'sha256':sha(data)})
+    transfer={'zip_name':ZIP.name,'zip_bytes':ZIP.stat().st_size,'zip_sha256':sha(ZIP.read_bytes()),'zip_entries':len(manifest)+1,'parts':parts}
+    dump(target/'TRANSFER_MANIFEST.json.txt',transfer)
+    for name in ('RIG_R2_RECEIPT.json','MEDIA_RECEIPT.json','PROVENANCE.json'):(target/(name+'.txt')).write_bytes((ROOT/'documentation'/name).read_bytes())
+    for path in (ROOT/'source').glob('*.py'):(target/(path.name+'.txt')).write_bytes(path.read_bytes())
+    write(target/'REPORT.txt',(ROOT/'README_BG.txt').read_text(encoding='utf-8')+'\n'+(ROOT/'documentation/VISUAL_REVIEW.txt').read_text(encoding='utf-8')+'\nZIP CRC/every manifest SHA PASS. Exact remote readback follows publication.\n')
+    print(json.dumps(transfer,indent=2))
+if __name__=='__main__':main()

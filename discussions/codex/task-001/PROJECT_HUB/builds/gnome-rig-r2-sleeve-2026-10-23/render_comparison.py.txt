@@ -1,0 +1,64 @@
+"""Matched native R1/R2 renders; only the diagnostic close-up camera differs from the full view."""
+from pathlib import Path
+import sys,json,hashlib,shutil
+import bpy
+from mathutils import Vector
+ROOT=Path(__file__).resolve().parents[1]
+PREVIOUS=ROOT.parent/'Gnome_M2_Rig_R1_2026-10-23'
+R1=ROOT/'reference/GNOME_RIG_R1_GREETING.blend'
+R1_SHA='43e9832811a89f9f4af660097f9b3abd69744f919f6179859763b00bdd0283be'
+def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
+def dump(path,data):path.write_bytes((json.dumps(data,indent=2)+'\n').encode())
+def settings(scene):
+    return {'camera':scene.camera.name,'matrix':[list(row) for row in scene.camera.matrix_world],
+            'ortho_scale':scene.camera.data.ortho_scale,'engine':scene.render.engine,
+            'fps':scene.render.fps,'view_transform':scene.view_settings.view_transform,
+            'look':scene.view_settings.look,'exposure':scene.view_settings.exposure,'gamma':scene.view_settings.gamma}
+def closeup(scene,side=False):
+    target=Vector((-.29,-.08,.79));cam=scene.camera
+    cam.location=target+Vector((-3,-4,.65) if side else (0,-5,.34))
+    cam.rotation_euler=(target-cam.location).to_track_quat('-Z','Y').to_euler()
+    cam.data.ortho_scale=.69
+    scene.render.resolution_x=480;scene.render.resolution_y=480
+    bpy.context.view_layer.update()
+def sequence(scene,prefix):
+    scene.frame_start=1;scene.frame_end=144;scene.render.resolution_percentage=100
+    scene.render.image_settings.file_format='PNG';scene.render.filepath=str(ROOT/'frames'/prefix)
+    assert scene.render.fps==24
+    assert 'FINISHED' in bpy.ops.render.render(animation=True)
+def main(version):
+    assert version in ('R1','R2') and sha(R1)==R1_SHA
+    source=R1 if version=='R1' else Path(json.loads((ROOT/'documentation/RIG_R2_RECEIPT.json').read_text())['native'])
+    expected=R1_SHA if version=='R1' else json.loads((ROOT/'documentation/RIG_R2_RECEIPT.json').read_text())['native_sha256']
+    assert sha(source)==expected
+    bpy.ops.wm.open_mainfile(filepath=str(source));scene=bpy.context.scene
+    full=settings(scene)
+    reuse=version=='R1' and (PREVIOUS/'documentation/ANIMATION_RENDER.json').exists() and (PREVIOUS/'frames/greeting_0144.png').exists()
+    if reuse:
+        prior=json.loads((PREVIOUS/'documentation/ANIMATION_RENDER.json').read_text())
+        assert prior['native_sha256']==R1_SHA and prior['resolution']==[480,672]
+        for frame in range(1,145):
+            name='greeting_%04d.png'%frame;path=PREVIOUS/'frames'/name
+            assert sha(path)==prior['frame_sha256'][name]
+            target=ROOT/'frames'/('R1_%04d.png'%frame);assert not target.exists();shutil.copyfile(path,target)
+    else:
+        scene.render.resolution_x=480;scene.render.resolution_y=672
+        assert not list((ROOT/'frames').glob(version+'_*.png'))
+        sequence(scene,version+'_')
+    closeup(scene);close=settings(scene)
+    sequence(scene,'CLOSE_'+version+'_')
+    closeup(scene,True);threequarter=settings(scene)
+    for frame in (55,73):
+        scene.frame_set(frame);scene.render.filepath=str(ROOT/'outputs'/('%s_SLEEVE_3Q_%03d.png'%(version,frame)))
+        assert 'FINISHED' in bpy.ops.render.render(write_still=True)
+    assert sha(source)==expected and sha(R1)==R1_SHA
+    paths=sorted((ROOT/'frames').glob(version+'_*.png'))+sorted((ROOT/'frames').glob('CLOSE_'+version+'_*.png'))
+    assert len(paths)==288
+    dump(ROOT/'documentation'/('RENDER_'+version+'.json'),{'version':version,'source':str(source),'source_sha256':expected,
+        'source_unchanged':True,'frames_per_sequence':144,'fps':24,'seconds':6,
+        'full_resolution':[480,672],'close_resolution':[480,480],
+        'full_camera':full,'close_camera':close,'threequarter_camera':threequarter,
+        'r1_full_sequence':'Byte-identical reuse of original native R1 renders' if reuse else ('Fresh native render' if version=='R1' else None),
+        'frame_sha256':{p.name:sha(p) for p in paths},'native_saved':False})
+    print(version+'_COMPARISON_RENDER_COMPLETE',flush=True)
+if __name__=='__main__':main(sys.argv[sys.argv.index('--')+1])

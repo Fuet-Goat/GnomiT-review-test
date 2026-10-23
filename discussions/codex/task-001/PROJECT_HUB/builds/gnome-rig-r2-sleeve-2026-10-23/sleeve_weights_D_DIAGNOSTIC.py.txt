@@ -1,0 +1,197 @@
+"""R2 sleeve-only skinning repair, keeping the accepted motion and form.
+
+Uses the existing coat's surface graph and one authorised shoulder-cap helper.
+Original bones, action, geometry, materials and modifiers remain unchanged.
+Canonical front is -Y, right is -X.
+"""
+import struct
+import hashlib
+
+import numpy as np
+import bpy
+
+
+GROUPS = ("Root", "Chest", "upperarm.R", "forearm.R")
+HELPER = 'RigR2_ShoulderCapSupport.R'
+
+
+def _cap_helper(rig):
+    """One cap-support bone; existing action/bones/rest matrices untouched."""
+    assert HELPER not in rig.data.bones
+    bpy.ops.object.select_all(action='DESELECT')
+    rig.select_set(True)
+    bpy.context.view_layer.objects.active = rig
+    bpy.ops.object.mode_set(mode='EDIT')
+    reference = rig.data.edit_bones['upperarm.R']
+    bone = rig.data.edit_bones.new(HELPER)
+    bone.head = (-.18, .018, .96)
+    bone.tail = bone.head + (reference.tail - reference.head)
+    bone.roll = reference.roll
+    bone.parent = rig.data.edit_bones['Chest']
+    bone.use_connect = False
+    bpy.ops.object.mode_set(mode='OBJECT')
+    pose = rig.pose.bones[HELPER]
+    pose.rotation_mode = 'QUATERNION'
+    constraint = pose.constraints.new('COPY_ROTATION')
+    constraint.name = 'RigR2_HalfShoulderRotation'
+    constraint.target = rig
+    constraint.subtarget = 'upperarm.R'
+    constraint.target_space = 'LOCAL'
+    constraint.owner_space = 'LOCAL'
+    constraint.mix_mode = 'REPLACE'
+    constraint.influence = .5
+    return {'name': HELPER, 'head': [-.18, .018, .96],
+            'parent': 'Chest', 'parallel_rest_basis': 'upperarm.R',
+            'constraint': constraint.name, 'copy_rotation': 'upperarm.R LOCAL/LOCAL influence0.5',
+            'original_action': 'UNCHANGED; helper has no animation channels'}
+
+
+def _smooth(a, b, value):
+    t = max(0., min(1., (value - a) / (b - a)))
+    return t * t * (3. - 2. * t)
+
+
+def _weight_snapshot(coat):
+    return [tuple((int(g.group), float(g.weight)) for g in v.groups)
+            for v in coat.data.vertices]
+
+
+def _snapshot_hash(snapshot, indices):
+    h = hashlib.sha256()
+    for i in indices:
+        h.update(struct.pack('<II', i, len(snapshot[i])))
+        for group, weight in snapshot[i]:
+            h.update(struct.pack('<If', group, weight))
+    return h.hexdigest()
+
+
+def apply_sleeve_weights(coat, rig=None):
+    """Repair only the right sleeve field; return JSON-compatible evidence."""
+    assert coat.name == "R2_ContinuousCoat" and coat.type == "MESH"
+    assert [g.name for g in coat.vertex_groups] == [
+        'Root', 'Chest', 'upperarm.R', 'forearm.R', 'upperarm.L', 'forearm.L']
+    modifiers = [m for m in coat.modifiers if m.type == 'ARMATURE']
+    assert len(modifiers) == 1 and modifiers[0].use_deform_preserve_volume
+    if rig is not None:
+        assert modifiers[0].object == rig
+    else:
+        rig = modifiers[0].object
+    original = _weight_snapshot(coat)
+    n = len(original)
+    coordinates = np.array([tuple(v.co) for v in coat.data.vertices], dtype=np.float64)
+    to_root = coat.parent.matrix_world.inverted() @ coat.matrix_world
+    # The pinned coat is already canonical, but respect its unchanged local
+    # transform when selecting the right sleeve field.
+    coordinates = np.array([tuple(to_root @ v.co) for v in coat.data.vertices], dtype=np.float64)
+    x, y, z = coordinates.T
+    old = np.zeros((n, 4), dtype=np.float64)
+    group_ids = {coat.vertex_groups[name].index: k for k, name in enumerate(GROUPS)}
+    for i, memberships in enumerate(original):
+        for group, weight in memberships:
+            if group in group_ids:
+                old[i, group_ids[group]] = weight
+
+    # Only the right upper garment and its shoulder/underarm transition.
+    # All centre/left, lower hem and the non-sleeve low torso are Dirichlet
+    # boundaries retaining their original Root/Chest breathing blend exactly.
+    repair = (x < -.03) & (z > .54)
+    torso_anchor = (x > -.20) & (z < .80)
+    writable = repair & ~torso_anchor
+    wrist = np.array((-.350, -.100, .680))
+    wrist_distance = np.linalg.norm(coordinates - wrist, axis=1)
+    # Use the actual R2 terminal sleeve tangent/cap plane. A spherical anchor
+    # incorrectly included low proximal sleeve points 73mm behind that cap,
+    # forcing a direct Root->forearm gradient and inflating an underarm web.
+    terminal = np.array((-.021, -.027, .012))
+    terminal /= np.linalg.norm(terminal)
+    cuff_plane = (coordinates - wrist) @ terminal
+    cuff = writable & (cuff_plane > -.023) & (wrist_distance < .098) & (x < -.25)
+    # The outer shoulder is an upper-arm anchor. The intervening surface
+    # solves continuously rather than branching at nearest-segment bisectors.
+    # This intermediate upperarm shell separates the torso-root solution
+    # from distal forearm, rather than letting forearm weights diffuse into
+    # the torso. It follows the accepted elbow/proximal sleeve surface.
+    shoulder = (writable & (x < -.295) & (z > .69) &
+                (cuff_plane < -.065) & ~cuff)
+    # R1's old oblique mask also bound the neck's inner shoulder to the arm.
+    # This is the actual .04x compression/overlap site. It belongs to Chest;
+    # the surface solve carries that anchor smoothly toward the outer sleeve.
+    neck = writable & (x > -.23) & (z > .955)
+    fixed = ~writable | cuff | shoulder | neck
+    values = old.copy()
+    values[cuff] = (0., 0., 0., 1.)
+    values[shoulder] = (0., 0., 1., 0.)
+    values[neck] = (0., 1., 0., 0.)
+
+    edges = np.array([tuple(e.vertices) for e in coat.data.edges], dtype=np.int32)
+    starts = np.concatenate((edges[:, 0], edges[:, 1]))
+    ends = np.concatenate((edges[:, 1], edges[:, 0]))
+    lengths = np.linalg.norm(coordinates[starts] - coordinates[ends], axis=1)
+    conductance = 1. / np.maximum(lengths, .001)
+    degree = np.bincount(starts, weights=conductance, minlength=n)
+    assert np.all(degree > 0)
+    free = np.flatnonzero(~fixed)
+    residual = float('inf')
+    iterations = 0
+    for iteration in range(3400):
+        next_values = np.column_stack([
+            np.bincount(starts, weights=conductance * values[ends, k], minlength=n) / degree
+            for k in range(4)])
+        residual = float(np.max(np.abs(next_values[free] - values[free])))
+        values[free] = next_values[free]
+        iterations = iteration + 1
+        if residual < 2e-7:
+            break
+    # Hard constraints remain exact; normalise only vertices in this field.
+    targets = np.flatnonzero(writable)
+    values[targets] = np.maximum(values[targets], 0.)
+    values[targets] /= values[targets].sum(axis=1)[:, None]
+    groups = [coat.vertex_groups[name] for name in GROUPS]
+    helper_metadata = _cap_helper(rig)
+    helper_group = coat.vertex_groups.new(name=HELPER)
+    # The lower-body/C cuff solution stays exact. Only upper cap transitions
+    # from the original low pivot to the raised support pivot, continuously.
+    cap_t = np.clip((z - .84) / (.96 - .84), 0., 1.)
+    cap_mask = cap_t * cap_t * (3. - 2. * cap_t)
+    changed = []
+    for i in targets.tolist():
+        desired = [float(w) for w in values[i]]
+        helper_weight = desired[2] * float(cap_mask[i])
+        desired[2] -= helper_weight
+        if helper_weight > 1e-8 or max(abs(desired[k] - old[i, k]) for k in range(4)) > 2e-7:
+            for group in groups:
+                group.remove([i])
+            for group, weight in zip(groups, desired):
+                if weight > 1e-8:
+                    group.add([i], weight, 'REPLACE')
+            if helper_weight > 1e-8:
+                helper_group.add([i], helper_weight, 'REPLACE')
+            changed.append(i)
+    final = _weight_snapshot(coat)
+    left_indices = np.flatnonzero(x >= 0).tolist()
+    outside = np.flatnonzero(~writable).tolist()
+    assert _snapshot_hash(original, left_indices) == _snapshot_hash(final, left_indices)
+    assert _snapshot_hash(original, outside) == _snapshot_hash(final, outside)
+    assert changed
+    maximum_error = max(abs(sum(w for _g, w in final[i]) - 1.) for i in changed)
+    assert maximum_error < 2e-6
+    pts = coordinates[changed]
+    return {
+        'method': 'inverse-edge-length surface-graph harmonic Dirichlet weights',
+        'group_names': list(GROUPS) + [HELPER], 'new_groups': 1, 'helper_bones': 1,
+        'helper': helper_metadata,
+        'preserve_volume': True, 'changed_vertex_count': len(changed),
+        'changed_canonical_bounds': {'min': pts.min(axis=0).tolist(), 'max': pts.max(axis=0).tolist()},
+        'left_unchanged_vertex_count': len(left_indices),
+        'left_weights_sha256_before': _snapshot_hash(original, left_indices),
+        'left_weights_sha256_after': _snapshot_hash(final, left_indices),
+        'outside_field_unchanged_vertex_count': len(outside),
+        'outside_field_weights_sha256_before': _snapshot_hash(original, outside),
+        'outside_field_weights_sha256_after': _snapshot_hash(final, outside),
+        'maximum_weight_sum_error': maximum_error,
+        'harmonic_iterations': iterations, 'harmonic_maximum_step_residual': residual,
+        'forearm_cuff_anchors': int(np.count_nonzero(cuff)),
+        'upperarm_shoulder_anchors': int(np.count_nonzero(shoulder)),
+        'chest_inner_shoulder_anchors': int(np.count_nonzero(neck)),
+        'free_surface_vertices': len(free),
+    }

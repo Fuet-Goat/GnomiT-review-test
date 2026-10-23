@@ -1,0 +1,75 @@
+GNOMIT — RIG R2: САМО ДЕФОРМАЦИЯ НА МАХАЩИЯ РЪКАВ — 2026-10-23
+
+ЧОВЕШКО РЕШЕНИЕ: R4 FORM ACCEPTED / M2 MATERIALS ACCEPTED.
+RIG R1 NOT ACCEPTED заради прищипване; тази проба запазва неговия жест.
+СТАТУС НА R2: REPAIR_NOT_ACHIEVED / VISUAL_HOLD. Това НЕ е завършена поправка.
+
+ВИЖ ПЪРВО:
+outputs/R1_R2_SLEEVE_CLOSEUP.gif — един и същ близък план R1/R2, 6 секунди.
+outputs/R1_R2_GREETING.gif — същото пълно движение от еднаква камера.
+outputs/R1_R2_GREETING_KEYPOSES.png и R1_R2_SLEEVE_KEYPOSES.png — 37/55/73/91/109.
+outputs/R1_SLEEVE_3Q_055.png,073.png срещу съответните R2 кадри — един и същ 3/4.
+outputs/RIG_R2_REDUCED_MOTION.png — непроменен действителен R2 frame1.
+
+NATIVE / ВЪЗПРОИЗВЕЖДАНЕ:
+native/GNOME_RIG_R2_SLEEVE_CANDIDATE_HOLD.blend е неприетият диагностичен кандидат. Вътрешният START_HERE_RIG_R2
+описва промяната. Оригиналните rig/action имена умишлено пазят RigR1 префикса:
+самите стари кости, rest pose, ключове, дръжки, амплитуда и timing са запазени.
+reference/GNOME_RIG_R1_GREETING.blend и GNOME_M2_FINISH.blend са точните,
+непроменени входове. Това прави основната skinning проба самостоятелна.
+За повторно изграждане ползвай нова папка с source/ и reference/, празни native/,
+documentation/,outputs/,frames/. Blender5.2.2LTS --background --factory-startup
+--disable-autoexec --python-exit-code 1 --python source/build_r2.py.
+После render_comparison.py -- R1, -- R2; накрая Python+Pillow source/compose_r2.py.
+Предадените резултати са защитени от презаписване. 576 локални source PNG не се
+дублират в ZIP; техните SHA-256 са в render/media receipts. GIF-ите са сглобени
+само от реалните Blender PNG, с обща палитра; няма image_gen/измислено движение.
+
+ОБХВАТ:
+Само weights на десния ръкав и преходите му; броят на разрешените helper bones
+е записан в RIG_R2_RECEIPT.json. Един помощен deform bone е разрешен от човека
+само при техническа необходимост; ако е използван, той следва вече съществуващото
+рамо и няма собствена нова animation curve. Preserve Volume остава включен.
+Не се променят source vertices/topology, M2 материали/палитра, основни кости/rest,
+криви/timing/амплитуда, глава/брада/шапка/ръце/обувки/фенер, камера/осветление.
+Всички запазени свойства се сравняват преди save и след reopen. Изключението
+за helper се валидира по точен pivot/rest basis/parent/constraint/group.
+Всяка друга разлика спира build-а. Лявата половина на coat weights е запазена.
+
+ИЗМЕРВАНИЯ НА ДЕЙСТВИТЕЛНИ EVALUATED ВЪРХОВЕ:
+frame 37: R1 min/max 0.487721 / 2.720973 -> R2 0.550166 / 1.983101; BVH 0 -> 0
+frame 55: R1 min/max 0.079867 / 4.612334 -> R2 0.317671 / 3.138971; BVH 164 -> 0
+frame 73: R1 min/max 0.045847 / 4.461304 -> R2 0.322840 / 3.051274; BVH 147 -> 0
+frame 91: R1 min/max 0.040399 / 4.368718 -> R2 0.356737 / 2.999082; BVH 150 -> 0
+frame 109: R1 min/max 0.221696 / 3.423993 -> R2 0.476144 / 2.416452; BVH 0 -> 0
+
+Останалите mesh-ове имат точно еднакви evaluated coordinate hashes R1/R2 при
+всичките 7 проверени кадъра. Обувки/подметки стоят неподвижни; frame1/145 са
+сравнени директно с приетия M2 rest при толеранс1e-5. Същото движение е 6s@24fps;
+кадър145 е дублираният проверен край, GIF ползва кадри1..144. GIF може да слее
+идентични неподвижни кадри; декодираната продължителност е проверена6000ms.
+BVH overlap са диагностични кандидати, НЕ доказателство за липса на пресичания.
+Промяната в min/max не е художествен PASS. Човешката оценка е основната.
+
+ПРОЧЕТИ documentation/VISUAL_REVIEW.txt за действително видените ограничения.
+RIG R2 HUMAN ACCEPTANCE:PENDING. Не е production/Godot/Android/performance pass.
+Няма blink, facial rig, ново движение, game integration, merge или промяна на main.
+Няма промяна на селектора, M2/R1 входовете, старите пакети или чужди доклади.
+
+VISUAL RESULT: HOLD / REPAIR_NOT_ACHIEVED.
+R4 form and M2 finish remain human-accepted. The revised native is a diagnostic,
+not an accepted Rig R2. Actual front and matched three-quarter PNGs were viewed.
+Cuff pinching improved, but an unnatural underarm web and a small shoulder-cap
+silhouette dimple remain. Better edge ratios or zero sampled BVH candidates do
+not satisfy the human no-rubber/no-pinching criteria.
+Weight-only A/B/C, helper D/E and native CorrectiveSmooth F were measured.
+B/C/D/F retained visible defects; E and unconstrained pose optimisation created
+new local strain. F was not adopted and is not in the held final native.
+The held candidate uses one permitted cap support bone plus bounded multi-pose
+strain/curvature optimisation, with original animation and source meshes kept.
+No new blink, animation amplitude reduction, game changes or integration.
+Next proposal is local sleeve/underarm topology/deformation-flow work while
+preserving the accepted outer rest appearance; NOT a redesign of the gnome.
+That proposed topology work has NOT been executed or approved by this report.
+
+ZIP CRC/every manifest SHA PASS. Exact remote readback follows publication.

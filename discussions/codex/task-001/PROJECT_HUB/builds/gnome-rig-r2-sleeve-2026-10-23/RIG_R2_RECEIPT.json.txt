@@ -1,0 +1,4102 @@
+{
+  "status": "REPAIR_NOT_ACHIEVED_CANDIDATE_SAVED_REOPENED",
+  "visual_review": "HOLD_UNDERARM_WEB_AND_SHOULDER_DIMPLE",
+  "source": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\Gnome_Rig_R2_Sleeve_2026-10-23\\reference\\GNOME_RIG_R1_GREETING.blend",
+  "source_commit": "1cbbe60b90806d9fb2d28d02db85da4cf7ddc9d4",
+  "source_sha256": "43e9832811a89f9f4af660097f9b3abd69744f919f6179859763b00bdd0283be",
+  "source_unchanged": true,
+  "m2_sha256": "ceab58183d8abee88e56731795ab13751661966ef9ef85c05de015d494d0fb2e",
+  "m2_unchanged": true,
+  "native": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\Gnome_Rig_R2_Sleeve_2026-10-23\\native\\GNOME_RIG_R2_SLEEVE_CANDIDATE_HOLD.blend",
+  "native_sha256": "960953832b5963192c13d0fbf78f6800fdb80aee7d83447eb9aee207215d23ad",
+  "repair": {
+    "status": "VISUAL_HOLD_NOT_ACCEPTED",
+    "postprocess": "Bounded multi-pose strain and curvature optimisation with smooth weight-field changes",
+    "weight_data": "pose_candidate_weights.json",
+    "optimisation_native_sha256": "c9e8c955a791c3fe55bde8c9f287413192901d7a40dde08e37c753adda0209b7",
+    "blender_corrective_modifier_used": false,
+    "human_visual_acceptance": "PENDING",
+    "local_visual_review": "HOLD_UNDERARM_WEB_AND_SHOULDER_DIMPLE",
+    "helper": {
+      "name": "RigR2_ShoulderCapSupport.R",
+      "head": [
+        -0.18,
+        0.018,
+        0.96
+      ],
+      "parent": "Chest",
+      "parallel_rest_basis": "upperarm.R",
+      "constraint": "RigR2_HalfShoulderRotation",
+      "copy_rotation": "upperarm.R LOCAL/LOCAL influence0.5",
+      "original_action": "UNCHANGED; helper has no animation channels"
+    },
+    "helper_bones": 1,
+    "preserve_volume": true,
+    "initial_D_repair": {
+      "method": "inverse-edge-length surface-graph harmonic Dirichlet weights",
+      "group_names": [
+        "Root",
+        "Chest",
+        "upperarm.R",
+        "forearm.R",
+        "RigR2_ShoulderCapSupport.R"
+      ],
+      "new_groups": 1,
+      "helper_bones": 1,
+      "helper": {
+        "name": "RigR2_ShoulderCapSupport.R",
+        "head": [
+          -0.18,
+          0.018,
+          0.96
+        ],
+        "parent": "Chest",
+        "parallel_rest_basis": "upperarm.R",
+        "constraint": "RigR2_HalfShoulderRotation",
+        "copy_rotation": "upperarm.R LOCAL/LOCAL influence0.5",
+        "original_action": "UNCHANGED; helper has no animation channels"
+      },
+      "preserve_volume": true,
+      "changed_vertex_count": 9574,
+      "changed_canonical_bounds": {
+        "min": [
+          -0.40499210357666016,
+          -0.1425434648990631,
+          0.5400180220603943
+        ],
+        "max": [
+          -0.030789021402597427,
+          0.16179409623146057,
+          1.0122239589691162
+        ]
+      },
+      "left_unchanged_vertex_count": 19000,
+      "left_weights_sha256_before": "448a97d4385126409d6d72d3078bda1b126b2ed00a05e725016bd7a87135257a",
+      "left_weights_sha256_after": "448a97d4385126409d6d72d3078bda1b126b2ed00a05e725016bd7a87135257a",
+      "outside_field_unchanged_vertex_count": 28237,
+      "outside_field_weights_sha256_before": "8b8a34d770c9521a2d87002627038a7547bc5679742a36ec36c8062211814d59",
+      "outside_field_weights_sha256_after": "8b8a34d770c9521a2d87002627038a7547bc5679742a36ec36c8062211814d59",
+      "maximum_weight_sum_error": 4.842877388000488e-08,
+      "harmonic_iterations": 3400,
+      "harmonic_maximum_step_residual": 1.7715112269334199e-06,
+      "forearm_cuff_anchors": 1013,
+      "upperarm_shoulder_anchors": 626,
+      "chest_inner_shoulder_anchors": 1539,
+      "free_surface_vertices": 7041
+    },
+    "final_changed_weight_vertices": 9574,
+    "final_left_weight_sha256_before": "448a97d4385126409d6d72d3078bda1b126b2ed00a05e725016bd7a87135257a",
+    "final_left_weight_sha256_after": "448a97d4385126409d6d72d3078bda1b126b2ed00a05e725016bd7a87135257a"
+  },
+  "preservation_before_save": {
+    "status": "EXACT_PRESERVATION_PASS",
+    "snapshot_sha256": "0a7c3ce0f5b7ed05fc9921d071094361bf33326acfe819eeebc4f8a44529279d",
+    "allowed_difference": "Only R2_ContinuousCoat vertices with source local x<0 weight memberships",
+    "explicit_single_helper_exception": {
+      "name": "RigR2_ShoulderCapSupport.R",
+      "parent": "Chest",
+      "rest_pivot": [
+        -0.18,
+        0.018,
+        0.96
+      ],
+      "rest_orientation": "upperarm.R_MATCH_WITHIN_1e-5",
+      "constraint_scalar_settings": "LOCAL_LOCAL_UPPERARM_R_HALF_STRENGTH_REPLACE",
+      "live_driver_required_checks": [
+        "constraint.type == COPY_ROTATION",
+        "constraint.target is the existing original armature"
+      ],
+      "new_action_keys_allowed": false
+    }
+  },
+  "preservation_after_reopen": {
+    "status": "EXACT_PRESERVATION_PASS",
+    "snapshot_sha256": "0a7c3ce0f5b7ed05fc9921d071094361bf33326acfe819eeebc4f8a44529279d",
+    "allowed_difference": "Only R2_ContinuousCoat vertices with source local x<0 weight memberships",
+    "explicit_single_helper_exception": {
+      "name": "RigR2_ShoulderCapSupport.R",
+      "parent": "Chest",
+      "rest_pivot": [
+        -0.18,
+        0.018,
+        0.96
+      ],
+      "rest_orientation": "upperarm.R_MATCH_WITHIN_1e-5",
+      "constraint_scalar_settings": "LOCAL_LOCAL_UPPERARM_R_HALF_STRENGTH_REPLACE",
+      "live_driver_required_checks": [
+        "constraint.type == COPY_ROTATION",
+        "constraint.target is the existing original armature"
+      ],
+      "new_action_keys_allowed": false
+    }
+  },
+  "m2_vs_r1_rest_max_vertex_deltas": {
+    "R2_ContinuousCoat": 9.071674691055656e-08,
+    "R2_OneSweptBeard": 0.0,
+    "R2 moustache -1": 0.0,
+    "R2 moustache 1": 0.0,
+    "R2 smile": 0.0,
+    "R1_FoldedCapBand": 0.0,
+    "R2 broad folded collar -1": 0.0,
+    "R2 broad folded collar 1": 0.0,
+    "R2 trouser -1": 0.0,
+    "R1_Boot_-1": 0.0,
+    "R2 curved sole -1": 0.0,
+    "R2 trouser 1": 0.0,
+    "R1_Boot_1": 0.0,
+    "R2 curved sole 1": 0.0,
+    "R2_OpenInvitationHand": 8.940696716308594e-08,
+    "R2_LanternGripHand": 3.725290298461914e-08,
+    "R1_LanternBlockout": 6.365778852490731e-08,
+    "R2 lantern handle": 6.006850114687196e-08,
+    "R3_OneFoldStorybookCap": 0.0,
+    "R4_ContinuousFacialPlanes": 0.0,
+    "R4 inset eye -1": 0.0,
+    "R4 pupil -1": 0.0,
+    "R4 soft brow -1": 0.0,
+    "R4 inset eye 1": 0.0,
+    "R4 pupil 1": 0.0,
+    "R4 soft brow 1": 0.0
+  },
+  "m2_vs_r2_rest_max_vertex_deltas": {
+    "R2_ContinuousCoat": 1.999200562387517e-07,
+    "R2_OneSweptBeard": 0.0,
+    "R2 moustache -1": 0.0,
+    "R2 moustache 1": 0.0,
+    "R2 smile": 0.0,
+    "R1_FoldedCapBand": 0.0,
+    "R2 broad folded collar -1": 0.0,
+    "R2 broad folded collar 1": 0.0,
+    "R2 trouser -1": 0.0,
+    "R1_Boot_-1": 0.0,
+    "R2 curved sole -1": 0.0,
+    "R2 trouser 1": 0.0,
+    "R1_Boot_1": 0.0,
+    "R2 curved sole 1": 0.0,
+    "R2_OpenInvitationHand": 8.940696716308594e-08,
+    "R2_LanternGripHand": 3.725290298461914e-08,
+    "R1_LanternBlockout": 6.365778852490731e-08,
+    "R2 lantern handle": 6.006850114687196e-08,
+    "R3_OneFoldStorybookCap": 0.0,
+    "R4_ContinuousFacialPlanes": 0.0,
+    "R4 inset eye -1": 0.0,
+    "R4 pupil -1": 0.0,
+    "R4 soft brow -1": 0.0,
+    "R4 inset eye 1": 0.0,
+    "R4 pupil 1": 0.0,
+    "R4 soft brow 1": 0.0
+  },
+  "m2_vs_reopened_r2_rest_max_vertex_deltas": {
+    "R2_ContinuousCoat": 1.999200562387517e-07,
+    "R2_OneSweptBeard": 0.0,
+    "R2 moustache -1": 0.0,
+    "R2 moustache 1": 0.0,
+    "R2 smile": 0.0,
+    "R1_FoldedCapBand": 0.0,
+    "R2 broad folded collar -1": 0.0,
+    "R2 broad folded collar 1": 0.0,
+    "R2 trouser -1": 0.0,
+    "R1_Boot_-1": 0.0,
+    "R2 curved sole -1": 0.0,
+    "R2 trouser 1": 0.0,
+    "R1_Boot_1": 0.0,
+    "R2 curved sole 1": 0.0,
+    "R2_OpenInvitationHand": 8.940696716308594e-08,
+    "R2_LanternGripHand": 3.725290298461914e-08,
+    "R1_LanternBlockout": 6.365778852490731e-08,
+    "R2 lantern handle": 6.006850114687196e-08,
+    "R3_OneFoldStorybookCap": 0.0,
+    "R4_ContinuousFacialPlanes": 0.0,
+    "R4 inset eye -1": 0.0,
+    "R4 pupil -1": 0.0,
+    "R4 soft brow -1": 0.0,
+    "R4 inset eye 1": 0.0,
+    "R4 pupil 1": 0.0,
+    "R4 soft brow 1": 0.0
+  },
+  "m2_vs_reopened_r2_end_max_vertex_deltas": {
+    "R2_ContinuousCoat": 1.999200562387517e-07,
+    "R2_OneSweptBeard": 0.0,
+    "R2 moustache -1": 0.0,
+    "R2 moustache 1": 0.0,
+    "R2 smile": 0.0,
+    "R1_FoldedCapBand": 0.0,
+    "R2 broad folded collar -1": 0.0,
+    "R2 broad folded collar 1": 0.0,
+    "R2 trouser -1": 0.0,
+    "R1_Boot_-1": 0.0,
+    "R2 curved sole -1": 0.0,
+    "R2 trouser 1": 0.0,
+    "R1_Boot_1": 0.0,
+    "R2 curved sole 1": 0.0,
+    "R2_OpenInvitationHand": 8.940696716308594e-08,
+    "R2_LanternGripHand": 3.725290298461914e-08,
+    "R1_LanternBlockout": 6.365778852490731e-08,
+    "R2 lantern handle": 6.006850114687196e-08,
+    "R3_OneFoldStorybookCap": 0.0,
+    "R4_ContinuousFacialPlanes": 0.0,
+    "R4 inset eye -1": 0.0,
+    "R4 pupil -1": 0.0,
+    "R4 soft brow -1": 0.0,
+    "R4 inset eye 1": 0.0,
+    "R4 pupil 1": 0.0,
+    "R4 soft brow 1": 0.0
+  },
+  "motion_comparison": {
+    "status": "PROTECTED_EVALUATED_COMPARISON_PASS",
+    "frames": {
+      "1": {
+        "r1_max_edge_ratio": 1.0,
+        "r2_max_edge_ratio": 1.0,
+        "r1_min_edge_ratio": 1.0,
+        "r2_min_edge_ratio": 1.0,
+        "r1_bvh_candidate_pairs": 0,
+        "r2_bvh_candidate_pairs": 0
+      },
+      "37": {
+        "r1_max_edge_ratio": 2.7209731034264255,
+        "r2_max_edge_ratio": 1.9831009052777715,
+        "r1_min_edge_ratio": 0.487721177389233,
+        "r2_min_edge_ratio": 0.5501664995781206,
+        "r1_bvh_candidate_pairs": 0,
+        "r2_bvh_candidate_pairs": 0
+      },
+      "55": {
+        "r1_max_edge_ratio": 4.612334463577301,
+        "r2_max_edge_ratio": 3.1389707314863573,
+        "r1_min_edge_ratio": 0.07986685959418362,
+        "r2_min_edge_ratio": 0.31767064044943955,
+        "r1_bvh_candidate_pairs": 164,
+        "r2_bvh_candidate_pairs": 0
+      },
+      "73": {
+        "r1_max_edge_ratio": 4.461304445904314,
+        "r2_max_edge_ratio": 3.0512743003205416,
+        "r1_min_edge_ratio": 0.04584684132811463,
+        "r2_min_edge_ratio": 0.32284030736758407,
+        "r1_bvh_candidate_pairs": 147,
+        "r2_bvh_candidate_pairs": 0
+      },
+      "91": {
+        "r1_max_edge_ratio": 4.368718238869236,
+        "r2_max_edge_ratio": 2.999082052212493,
+        "r1_min_edge_ratio": 0.04039867231248168,
+        "r2_min_edge_ratio": 0.3567366829130347,
+        "r1_bvh_candidate_pairs": 150,
+        "r2_bvh_candidate_pairs": 0
+      },
+      "109": {
+        "r1_max_edge_ratio": 3.4239934986740845,
+        "r2_max_edge_ratio": 2.4164519440981365,
+        "r1_min_edge_ratio": 0.22169589688805266,
+        "r2_min_edge_ratio": 0.47614445831812185,
+        "r1_bvh_candidate_pairs": 0,
+        "r2_bvh_candidate_pairs": 0
+      },
+      "145": {
+        "r1_max_edge_ratio": 1.0,
+        "r2_max_edge_ratio": 1.0,
+        "r1_min_edge_ratio": 1.0,
+        "r2_min_edge_ratio": 1.0,
+        "r1_bvh_candidate_pairs": 0,
+        "r2_bvh_candidate_pairs": 0
+      }
+    },
+    "all_outside_coat_meshes_including_head_lantern_and_feet": "EXACT_EVALUATED_VERTEX_DIGEST_MATCH_AT_ALL_7_FRAMES",
+    "rest_coat_maximum_world_vertex_delta": 1.7881393432617188e-07,
+    "visual_underarm_cuff_elbow_acceptance": "PENDING_INDEPENDENT_VISUAL_REVIEW",
+    "human_android_runtime_acceptance": "PENDING"
+  },
+  "r1_samples": {
+    "frames": {
+      "1": {
+        "coat_edges": {
+          "count": 76908,
+          "min": 1.0,
+          "max": 1.0,
+          "quantiles": {
+            "0.01": 1.0,
+            "0.05": 1.0,
+            "0.25": 1.0,
+            "0.5": 1.0,
+            "0.75": 1.0,
+            "0.95": 1.0,
+            "0.99": 1.0
+          },
+          "compression_counts": {
+            "0.1": 0,
+            "0.25": 0,
+            "0.5": 0
+          },
+          "stretch_counts": {
+            "2": 0,
+            "3": 0,
+            "4": 0
+          }
+        },
+        "right_region_edges": {
+          "count": 39059,
+          "min": 1.0,
+          "max": 1.0,
+          "quantiles": {
+            "0.01": 1.0,
+            "0.05": 1.0,
+            "0.25": 1.0,
+            "0.5": 1.0,
+            "0.75": 1.0,
+            "0.95": 1.0,
+            "0.99": 1.0
+          },
+          "compression_counts": {
+            "0.1": 0,
+            "0.25": 0,
+            "0.5": 0
+          },
+          "stretch_counts": {
+            "2": 0,
+            "3": 0,
+            "4": 0
+          }
+        },
+        "unmeasurably_short_rest_edges": 0,
+        "bvh_candidate_pairs": 0,
+        "bvh_added_vs_rest": 0,
+        "bvh_removed_vs_rest": 0,
+        "coat_vertex_sha256": "961ece26685acc151055d6740ed341cbc1df750e8c784c72bc5e6f0335e60e03",
+        "outside_coat_evaluated": {
+          "R2_OneSweptBeard": {
+            "counts": [
+              51714,
+              103424,
+              51712
+            ],
+            "vertex_sha256": "1297c018429adc20d639b5d7f74ac08c2fa46c968d1bd2d62af4bf0cfa5719a8"
+          },
+          "R2 moustache -1": {
+            "counts": [
+              3138,
+              6272,
+              3136
+            ],
+            "vertex_sha256": "afd8c64c3b1f304d657b94058e4136fe8d4dd30b752fd58a2a70b8d21eef1894"
+          },
+          "R2 moustache 1": {
+            "counts": [
+              3138,
+              6272,
+              3136
+            ],
+            "vertex_sha256": "4e630f368fe4639d3030d2de67f5b738a154155a046d67d50e538762401a2bbe"
+          },
+          "R2 smile": {
+            "counts": [
+              2114,
+              4224,
+              2112
+            ],
+            "vertex_sha256": "076e69ac94da8614861de3536de94d845763c4e9fccbd2529632543e26e6e62c"
+          },
+          "R1_FoldedCapBand": {
+            "counts": [
+              2690,
+              5376,
+              2688
+            ],
+            "vertex_sha256": "3d8c1c3c03794db0545bf89dc97450885a2c611154f12f53ab211a528477cf63"
+          },
+          "R2 broad folded collar -1": {
+            "counts": [
+              282,
+              560,
+              280
+            ],
+            "vertex_sha256": "9e8130f1bf47bd0427124edc466c9625bcb4e78fabbc2aff2f4ab622969f4919"
+          },
+          "R2 broad folded collar 1": {
+            "counts": [
+              282,
+              560,
+              280
+            ],
+            "vertex_sha256": "e7a0671d825a04dff21f3c4ff5e67cf5a11b119a5505b39aa5d568bcbf25896e"
+          },
+          "R2 trouser -1": {
+            "counts": [
+              610,
+              1248,
+              640
+            ],
+            "vertex_sha256": "3180c47acb88c85776a27ff63c5f43478ab67daff008c98683ea2d7e8bf51531"
+          },
+          "R1_Boot_-1": {
+            "counts": [
+              13712,
+              27420,
+              13710
+            ],
+            "vertex_sha256": "cf5a00c83238b79ed9c4a5f6e61675b8a982c9efad4800ee87556708a83e3f0d"
+          },
+          "R2 curved sole -1": {
+            "counts": [
+              2690,
+              5376,
+              2688
+            ],
+            "vertex_sha256": "49fa5895e9c12dae7f661d2b43c6f68aea9dcd108878ad8074d2a419c9ea4226"
+          },
+          "R2 trouser 1": {
+            "counts": [
+              610,
+              1248,
+              640
+            ],
+            "vertex_sha256": "b9df489d784a21346166c31e630848d19a9f08869111b6b03d3414175d4aad96"
+          },
+          "R1_Boot_1": {
+            "counts": [
+              13712,
+              27420,
+              13710
+            ],
+            "vertex_sha256": "2f3fcc129e342c099160afdf30d06afe78ebc4a3997a60d3fa89ae1b24a1a9e7"
+          },
+          "R2 curved sole 1": {
+            "counts": [
+              2690,
+              5376,
+              2688
+            ],
+            "vertex_sha256": "919725ff7d3e63f1839cb09a96c21e48dfa8e72d820eef3c41c21f0bfc15f913"
+          },
+          "R2_OpenInvitationHand": {
+            "counts": [
+              13356,
+              26708,
+              13354
+            ],
+            "vertex_sha256": "022e28c7451ecf40b0fe2dd703a349534d60e157a3864be9e27d14878f844013"
+          },
+          "R2_LanternGripHand": {
+            "counts": [
+              12064,
+              24136,
+              12068
+            ],
+            "vertex_sha256": "344bbb8d1a36def583ae2529c4713c80a4db3338e5639584a93c3e6c26ce92af"
+          },
+          "R1_LanternBlockout": {
+            "counts": [
+              96,
+              192,
+              98
+            ],
+            "vertex_sha256": "926d93319ba95fe1ec6ddbee0d183720d398db807c347134c5d6ab92d816c08d"
+          },
+          "R2 lantern handle": {
+            "counts": [
+              4162,
+              8320,
+              4160
+            ],
+            "vertex_sha256": "8901c8c72ae92a17d0f461f78afcf5426c975c3275dc81094692ce8d0fe624f7"
+          },
+          "R3_OneFoldStorybookCap": {
+            "counts": [
+              66050,
+              132096,
+              66048
+            ],
+            "vertex_sha256": "cc6dd1676ce51528854431cb4284c163c0a09515503e457a372f2f155ef0adf0"
+          },
+          "R4_ContinuousFacialPlanes": {
+            "counts": [
+              205872,
+              411732,
+              205866
+            ],
+            "vertex_sha256": "f13de704785c53e98c2182b3c6f08101edb7dc1b480652c42bf58d8ac6464906"
+          },
+          "R4 inset eye -1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "bc26e5514050e4225f1d6c5eac28ec839dae4da49bd2763ca7256ecba13832c5"
+          },
+          "R4 pupil -1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "d482cccbc5c6b0b0eefc097eadfb6afbc56de0a5ab298c6a49c2bfb27a0bf4cd"
+          },
+          "R4 soft brow -1": {
+            "counts": [
+              2354,
+              4704,
+              2352
+            ],
+            "vertex_sha256": "31ed46af0a5d43bd81bf02a9a7557af6975801159cb067d0aaaff20354153dce"
+          },
+          "R4 inset eye 1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "3d53461ef6301c88e772fbeb6c1021082543d0c643abb021803770f1d1ccd2f2"
+          },
+          "R4 pupil 1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "d60e21c388dff2c6025d1303632469cbee79250dfedcfed26d64f27b9b54092f"
+          },
+          "R4 soft brow 1": {
+            "counts": [
+              2354,
+              4704,
+              2352
+            ],
+            "vertex_sha256": "e07dd244a0c80e3d2a076446ec50abdf3e582c5f964779ab5d43fbfce730749c"
+          }
+        },
+        "foot_maximum_vertex_deltas_from_frame_1": {
+          "R1_Boot_-1": 0.0,
+          "R1_Boot_1": 0.0,
+          "R2 curved sole -1": 0.0,
+          "R2 curved sole 1": 0.0
+        },
+        "endpoint_maximum_vertex_deltas": null
+      },
+      "37": {
+        "coat_edges": {
+          "count": 76908,
+          "min": 0.487721177389233,
+          "max": 2.7209731034264255,
+          "quantiles": {
+            "0.01": 0.8047568009362692,
+            "0.05": 0.972857889775373,
+            "0.25": 0.9999988865833616,
+            "0.5": 1.0,
+            "0.75": 1.0002618789606021,
+            "0.95": 1.0834852363052574,
+            "0.99": 1.7356658261378395
+          },
+          "compression_counts": {
+            "0.1": 0,
+            "0.25": 0,
+            "0.5": 5
+          },
+          "stretch_counts": {
+            "2": 429,
+            "3": 0,
+            "4": 0
+          }
+        },
+        "right_region_edges": {
+          "count": 39059,
+          "min": 0.487721177389233,
+          "max": 2.7209731034264255,
+          "quantiles": {
+            "0.01": 0.7604910369544262,
+            "0.05": 0.8871895184982411,
+            "0.25": 0.999999808163315,
+            "0.5": 1.000000102692957,
+            "0.75": 1.00373328162686,
+            "0.95": 1.283367117006899,
+            "0.99": 2.0503732112137314
+          },
+          "compression_counts": {
+            "0.1": 0,
+            "0.25": 0,
+            "0.5": 5
+          },
+          "stretch_counts": {
+            "2": 429,
+            "3": 0,
+            "4": 0
+          }
+        },
+        "unmeasurably_short_rest_edges": 0,
+        "bvh_candidate_pairs": 0,
+        "bvh_added_vs_rest": 0,
+        "bvh_removed_vs_rest": 0,
+        "coat_vertex_sha256": "fc3eeaa51920c2ce47ef8fe3dff9d18cb2b551da0007b6f1548405f587ad41fd",
+        "outside_coat_evaluated": {
+          "R2_OneSweptBeard": {
+            "counts": [
+              51714,
+              103424,
+              51712
+            ],
+            "vertex_sha256": "c20f59cd1f0948152452f9e00979650f93902469415749dc00c8e6d4a1da5c8f"
+          },
+          "R2 moustache -1": {
+            "counts": [
+              3138,
+              6272,
+              3136
+            ],
+            "vertex_sha256": "33fc9ac9086b5d09dc6e43f599774cb6c1d7c7a117bdf46f50a228a5d3b8e6df"
+          },
+          "R2 moustache 1": {
+            "counts": [
+              3138,
+              6272,
+              3136
+            ],
+            "vertex_sha256": "24ec9417e1b619e031340c896160657b663f21422ff665c8e93dfa26b53f85ed"
+          },
+          "R2 smile": {
+            "counts": [
+              2114,
+              4224,
+              2112
+            ],
+            "vertex_sha256": "c8ba92a65cff2bd1d05cb5031b60f465d2a2fbd3a033183ea52a360be32148fe"
+          },
+          "R1_FoldedCapBand": {
+            "counts": [
+              2690,
+              5376,
+              2688
+            ],
+            "vertex_sha256": "f8fa5fdd0c3a4c1a8afafedc201f81bb9ce6b6cc978593cebf0cd7b01f3fe65a"
+          },
+          "R2 broad folded collar -1": {
+            "counts": [
+              282,
+              560,
+              280
+            ],
+            "vertex_sha256": "8b45fdfaa0c66678377b0f114271e207ae31355ca9e6340c0b572563ec18215e"
+          },
+          "R2 broad folded collar 1": {
+            "counts": [
+              282,
+              560,
+              280
+            ],
+            "vertex_sha256": "a6dbce8a428bd3d1e4185b6fadc43c59488e3ef088c5e814cf41f2e5f3885560"
+          },
+          "R2 trouser -1": {
+            "counts": [
+              610,
+              1248,
+              640
+            ],
+            "vertex_sha256": "3180c47acb88c85776a27ff63c5f43478ab67daff008c98683ea2d7e8bf51531"
+          },
+          "R1_Boot_-1": {
+            "counts": [
+              13712,
+              27420,
+              13710
+            ],
+            "vertex_sha256": "cf5a00c83238b79ed9c4a5f6e61675b8a982c9efad4800ee87556708a83e3f0d"
+          },
+          "R2 curved sole -1": {
+            "counts": [
+              2690,
+              5376,
+              2688
+            ],
+            "vertex_sha256": "49fa5895e9c12dae7f661d2b43c6f68aea9dcd108878ad8074d2a419c9ea4226"
+          },
+          "R2 trouser 1": {
+            "counts": [
+              610,
+              1248,
+              640
+            ],
+            "vertex_sha256": "b9df489d784a21346166c31e630848d19a9f08869111b6b03d3414175d4aad96"
+          },
+          "R1_Boot_1": {
+            "counts": [
+              13712,
+              27420,
+              13710
+            ],
+            "vertex_sha256": "2f3fcc129e342c099160afdf30d06afe78ebc4a3997a60d3fa89ae1b24a1a9e7"
+          },
+          "R2 curved sole 1": {
+            "counts": [
+              2690,
+              5376,
+              2688
+            ],
+            "vertex_sha256": "919725ff7d3e63f1839cb09a96c21e48dfa8e72d820eef3c41c21f0bfc15f913"
+          },
+          "R2_OpenInvitationHand": {
+            "counts": [
+              13356,
+              26708,
+              13354
+            ],
+            "vertex_sha256": "6733280e158ad7b09314c4714b2df34649e1ab82b06606a40d714151e7279e16"
+          },
+          "R2_LanternGripHand": {
+            "counts": [
+              12064,
+              24136,
+              12068
+            ],
+            "vertex_sha256": "51cb92ac4eb24fd54f0f3407f17af173715356cf95f98ad2c559a63d8afdec16"
+          },
+          "R1_LanternBlockout": {
+            "counts": [
+              96,
+              192,
+              98
+            ],
+            "vertex_sha256": "f83bc9360bc3d13ae2bd0845c50cf5496eabcc74fc54e148f5df6130364b11a8"
+          },
+          "R2 lantern handle": {
+            "counts": [
+              4162,
+              8320,
+              4160
+            ],
+            "vertex_sha256": "f321d57b32c420f2d260f4f275618edbbc438dc9304462e327bdf4b8352b0336"
+          },
+          "R3_OneFoldStorybookCap": {
+            "counts": [
+              66050,
+              132096,
+              66048
+            ],
+            "vertex_sha256": "037e8a9f5fa701c280774cd0497cf0e8837021cbd7132bc633b119da5ce35a95"
+          },
+          "R4_ContinuousFacialPlanes": {
+            "counts": [
+              205872,
+              411732,
+              205866
+            ],
+            "vertex_sha256": "60092c8d3cf11f04e1a4770c1b4c5d95dfa51bb76234b2c1d81a7711d1e806cd"
+          },
+          "R4 inset eye -1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "6436b841a5095ca7ac3035fec21cceb9bcc65b1965ba3d68cd0ed201a43a3b7a"
+          },
+          "R4 pupil -1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "6564c0343d353b44eeda3ff44eb510fea6371a47216ebf0e7bb7a2dc3be9db26"
+          },
+          "R4 soft brow -1": {
+            "counts": [
+              2354,
+              4704,
+              2352
+            ],
+            "vertex_sha256": "0c614b4b07da64901bc7cf88a06544ff823f511a4689d072dc0f51116973adcc"
+          },
+          "R4 inset eye 1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "de4d8c835983e050e69b8e4b048d07315c6ee483e639d5ce493a08dc7afcfc60"
+          },
+          "R4 pupil 1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "c7bf3f12bfc1bf1774536bf077a15a673e34e31f7f4c04ccc216764f456ccb8c"
+          },
+          "R4 soft brow 1": {
+            "counts": [
+              2354,
+              4704,
+              2352
+            ],
+            "vertex_sha256": "4daee175d5d51918f0f663d12ebab02c803e71dd16c4be247d543c9fe0804302"
+          }
+        },
+        "foot_maximum_vertex_deltas_from_frame_1": {
+          "R1_Boot_-1": 0.0,
+          "R1_Boot_1": 0.0,
+          "R2 curved sole -1": 0.0,
+          "R2 curved sole 1": 0.0
+        },
+        "endpoint_maximum_vertex_deltas": null
+      },
+      "55": {
+        "coat_edges": {
+          "count": 76908,
+          "min": 0.07986685959418362,
+          "max": 4.612334463577301,
+          "quantiles": {
+            "0.01": 0.6762730143915892,
+            "0.05": 0.9621447624068242,
+            "0.25": 0.9999984945198259,
+            "0.5": 1.0,
+            "0.75": 1.0004992180933474,
+            "0.95": 1.2104620558935038,
+            "0.99": 2.626360357163396
+          },
+          "compression_counts": {
+            "0.1": 4,
+            "0.25": 26,
+            "0.5": 166
+          },
+          "stretch_counts": {
+            "2": 1454,
+            "3": 506,
+            "4": 129
+          }
+        },
+        "right_region_edges": {
+          "count": 39059,
+          "min": 0.07986685959418362,
+          "max": 4.612334463577301,
+          "quantiles": {
+            "0.01": 0.6017662153028367,
+            "0.05": 0.8111655116420683,
+            "0.25": 0.9999999143043321,
+            "0.5": 1.0000002820369938,
+            "0.75": 1.0079822269164496,
+            "0.95": 1.702837630785014,
+            "0.99": 3.2552013790465573
+          },
+          "compression_counts": {
+            "0.1": 4,
+            "0.25": 26,
+            "0.5": 166
+          },
+          "stretch_counts": {
+            "2": 1454,
+            "3": 506,
+            "4": 129
+          }
+        },
+        "unmeasurably_short_rest_edges": 0,
+        "bvh_candidate_pairs": 164,
+        "bvh_added_vs_rest": 164,
+        "bvh_removed_vs_rest": 0,
+        "coat_vertex_sha256": "81b5c1fc0ea28a5495a2efed4d3dcaf0b8ffb7b99a3d3e7ddb678b69d739b02d",
+        "outside_coat_evaluated": {
+          "R2_OneSweptBeard": {
+            "counts": [
+              51714,
+              103424,
+              51712
+            ],
+            "vertex_sha256": "4c564b9a95542934396efa32c0a125085582e740e6e5496140ea180b98fe9400"
+          },
+          "R2 moustache -1": {
+            "counts": [
+              3138,
+              6272,
+              3136
+            ],
+            "vertex_sha256": "9d546a8b5ab294c403d617df25c637f57072c476184b84b3a1459295a0d450ff"
+          },
+          "R2 moustache 1": {
+            "counts": [
+              3138,
+              6272,
+              3136
+            ],
+            "vertex_sha256": "e79c9c8ca6f50f85c34aec57e921bca088fd2f2b158996f8744989f48d6e45e7"
+          },
+          "R2 smile": {
+            "counts": [
+              2114,
+              4224,
+              2112
+            ],
+            "vertex_sha256": "b8c5de67a55551f9c06dc5235387feddedad87bdfe3f22666ba521d5c14d02d6"
+          },
+          "R1_FoldedCapBand": {
+            "counts": [
+              2690,
+              5376,
+              2688
+            ],
+            "vertex_sha256": "0e3185ef8e5493dc6292bce28edb2342cf38f73c675d2e1c5325e370d59f7d6b"
+          },
+          "R2 broad folded collar -1": {
+            "counts": [
+              282,
+              560,
+              280
+            ],
+            "vertex_sha256": "00da9bd644bd9d1585dafad4d0178bcb48cdc45b2296085ad0444189a878f149"
+          },
+          "R2 broad folded collar 1": {
+            "counts": [
+              282,
+              560,
+              280
+            ],
+            "vertex_sha256": "78cd87e3d3409a36a294e5cbd2110476237f6820e32397a4891b1162d14610f4"
+          },
+          "R2 trouser -1": {
+            "counts": [
+              610,
+              1248,
+              640
+            ],
+            "vertex_sha256": "3180c47acb88c85776a27ff63c5f43478ab67daff008c98683ea2d7e8bf51531"
+          },
+          "R1_Boot_-1": {
+            "counts": [
+              13712,
+              27420,
+              13710
+            ],
+            "vertex_sha256": "cf5a00c83238b79ed9c4a5f6e61675b8a982c9efad4800ee87556708a83e3f0d"
+          },
+          "R2 curved sole -1": {
+            "counts": [
+              2690,
+              5376,
+              2688
+            ],
+            "vertex_sha256": "49fa5895e9c12dae7f661d2b43c6f68aea9dcd108878ad8074d2a419c9ea4226"
+          },
+          "R2 trouser 1": {
+            "counts": [
+              610,
+              1248,
+              640
+            ],
+            "vertex_sha256": "b9df489d784a21346166c31e630848d19a9f08869111b6b03d3414175d4aad96"
+          },
+          "R1_Boot_1": {
+            "counts": [
+              13712,
+              27420,
+              13710
+            ],
+            "vertex_sha256": "2f3fcc129e342c099160afdf30d06afe78ebc4a3997a60d3fa89ae1b24a1a9e7"
+          },
+          "R2 curved sole 1": {
+            "counts": [
+              2690,
+              5376,
+              2688
+            ],
+            "vertex_sha256": "919725ff7d3e63f1839cb09a96c21e48dfa8e72d820eef3c41c21f0bfc15f913"
+          },
+          "R2_OpenInvitationHand": {
+            "counts": [
+              13356,
+              26708,
+              13354
+            ],
+            "vertex_sha256": "01d4fdf2633b6c1b2a8c040ff75eebaca1a33d33092ace7b2f2db5a53ec350f8"
+          },
+          "R2_LanternGripHand": {
+            "counts": [
+              12064,
+              24136,
+              12068
+            ],
+            "vertex_sha256": "1b1a30888a679cbf39b77e02eb107d156eb37bbde4bab43df995da030fde96d7"
+          },
+          "R1_LanternBlockout": {
+            "counts": [
+              96,
+              192,
+              98
+            ],
+            "vertex_sha256": "05df01555959655754249349e1acd1c441a0f6a8a71393054d3c81ccd4c5710c"
+          },
+          "R2 lantern handle": {
+            "counts": [
+              4162,
+              8320,
+              4160
+            ],
+            "vertex_sha256": "b92a4498e7bd8c0e98910800921f29af59309b978acd4d7438df17264ce8efca"
+          },
+          "R3_OneFoldStorybookCap": {
+            "counts": [
+              66050,
+              132096,
+              66048
+            ],
+            "vertex_sha256": "09b5797af0b8e851619d97450b9724d3354f7349e7544f91af656a652646613b"
+          },
+          "R4_ContinuousFacialPlanes": {
+            "counts": [
+              205872,
+              411732,
+              205866
+            ],
+            "vertex_sha256": "9d50c64fef87d206c8d09affa2355625c2cfdad7211f6c15529181a258580617"
+          },
+          "R4 inset eye -1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "d9e0c36a60101984c5d18f18b814df036252ca178246eac7f8b0e1dff6c91293"
+          },
+          "R4 pupil -1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "a73b586f39e2819fb6529cf0312b1f08c7baa04c281b6a436c0e6b450a8ade57"
+          },
+          "R4 soft brow -1": {
+            "counts": [
+              2354,
+              4704,
+              2352
+            ],
+            "vertex_sha256": "4dcbdd47380cfa345858aefa475b854f10862c9f92a93661f3e356bcb8946087"
+          },
+          "R4 inset eye 1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "2be64d3fa25b790848cc613cf4cb7f973ffa2ec88913c15d5d8a6d47288e996f"
+          },
+          "R4 pupil 1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "45ac4a3deadcc286c1e0755812301de4d516c4028117df26ebde03648f0af9dd"
+          },
+          "R4 soft brow 1": {
+            "counts": [
+              2354,
+              4704,
+              2352
+            ],
+            "vertex_sha256": "1d22da3ebc838f5cdcb9b63c1ac6f9a4ccfef88eeb93623a9667f882f395ce39"
+          }
+        },
+        "foot_maximum_vertex_deltas_from_frame_1": {
+          "R1_Boot_-1": 0.0,
+          "R1_Boot_1": 0.0,
+          "R2 curved sole -1": 0.0,
+          "R2 curved sole 1": 0.0
+        },
+        "endpoint_maximum_vertex_deltas": null
+      },
+      "73": {
+        "coat_edges": {
+          "count": 76908,
+          "min": 0.04584684132811463,
+          "max": 4.461304445904314,
+          "quantiles": {
+            "0.01": 0.679517030153327,
+            "0.05": 0.9613383915932895,
+            "0.25": 0.9999995633667677,
+            "0.5": 1.0,
+            "0.75": 1.000334287275134,
+            "0.95": 1.1985079117481803,
+            "0.99": 2.553829515887143
+          },
+          "compression_counts": {
+            "0.1": 7,
+            "0.25": 27,
+            "0.5": 157
+          },
+          "stretch_counts": {
+            "2": 1402,
+            "3": 467,
+            "4": 102
+          }
+        },
+        "right_region_edges": {
+          "count": 39059,
+          "min": 0.04584684132811463,
+          "max": 4.461304445904314,
+          "quantiles": {
+            "0.01": 0.6084803342307368,
+            "0.05": 0.8144262426447119,
+            "0.25": 0.9999999603343852,
+            "0.5": 1.00000021857652,
+            "0.75": 1.0033698755755665,
+            "0.95": 1.6666097250653995,
+            "0.99": 3.1638671283774205
+          },
+          "compression_counts": {
+            "0.1": 7,
+            "0.25": 27,
+            "0.5": 157
+          },
+          "stretch_counts": {
+            "2": 1402,
+            "3": 467,
+            "4": 102
+          }
+        },
+        "unmeasurably_short_rest_edges": 0,
+        "bvh_candidate_pairs": 147,
+        "bvh_added_vs_rest": 147,
+        "bvh_removed_vs_rest": 0,
+        "coat_vertex_sha256": "3c0589e551b04ecbb0b7219e2b2599cc833fda76e671f53c9a8c1eb37c0cd287",
+        "outside_coat_evaluated": {
+          "R2_OneSweptBeard": {
+            "counts": [
+              51714,
+              103424,
+              51712
+            ],
+            "vertex_sha256": "5480bf08f062583fb2a4fe618d3ffafda4f93dd3ee97dc453272a85e993c94c2"
+          },
+          "R2 moustache -1": {
+            "counts": [
+              3138,
+              6272,
+              3136
+            ],
+            "vertex_sha256": "fec26f996c6b71a8553a645ecf03a7ca815365cea382f2fc5a880ecd2548a3cc"
+          },
+          "R2 moustache 1": {
+            "counts": [
+              3138,
+              6272,
+              3136
+            ],
+            "vertex_sha256": "07ed6b301ed02b2a8e907a114c3b8068e3fbc1efec9352ee1d7e456bd06dde7e"
+          },
+          "R2 smile": {
+            "counts": [
+              2114,
+              4224,
+              2112
+            ],
+            "vertex_sha256": "5433e32e715501d83ca307186ed6a896ad3e348cfd600c9942243a9177586cb3"
+          },
+          "R1_FoldedCapBand": {
+            "counts": [
+              2690,
+              5376,
+              2688
+            ],
+            "vertex_sha256": "f59b62ccef6bf78c39618fbfae9b6c18a6b79d1d9c6cdd1d62c7b61004c3db1e"
+          },
+          "R2 broad folded collar -1": {
+            "counts": [
+              282,
+              560,
+              280
+            ],
+            "vertex_sha256": "d198081887f9b91d1bdcf2f4418352e9f984800178eaa3637073e475509f2886"
+          },
+          "R2 broad folded collar 1": {
+            "counts": [
+              282,
+              560,
+              280
+            ],
+            "vertex_sha256": "61147d53bc729770966b1128d06887458cf324b335633b9d54cedcb3e84bcdc4"
+          },
+          "R2 trouser -1": {
+            "counts": [
+              610,
+              1248,
+              640
+            ],
+            "vertex_sha256": "3180c47acb88c85776a27ff63c5f43478ab67daff008c98683ea2d7e8bf51531"
+          },
+          "R1_Boot_-1": {
+            "counts": [
+              13712,
+              27420,
+              13710
+            ],
+            "vertex_sha256": "cf5a00c83238b79ed9c4a5f6e61675b8a982c9efad4800ee87556708a83e3f0d"
+          },
+          "R2 curved sole -1": {
+            "counts": [
+              2690,
+              5376,
+              2688
+            ],
+            "vertex_sha256": "49fa5895e9c12dae7f661d2b43c6f68aea9dcd108878ad8074d2a419c9ea4226"
+          },
+          "R2 trouser 1": {
+            "counts": [
+              610,
+              1248,
+              640
+            ],
+            "vertex_sha256": "b9df489d784a21346166c31e630848d19a9f08869111b6b03d3414175d4aad96"
+          },
+          "R1_Boot_1": {
+            "counts": [
+              13712,
+              27420,
+              13710
+            ],
+            "vertex_sha256": "2f3fcc129e342c099160afdf30d06afe78ebc4a3997a60d3fa89ae1b24a1a9e7"
+          },
+          "R2 curved sole 1": {
+            "counts": [
+              2690,
+              5376,
+              2688
+            ],
+            "vertex_sha256": "919725ff7d3e63f1839cb09a96c21e48dfa8e72d820eef3c41c21f0bfc15f913"
+          },
+          "R2_OpenInvitationHand": {
+            "counts": [
+              13356,
+              26708,
+              13354
+            ],
+            "vertex_sha256": "c00c06ffdca00927fc8f9ecd5d9bcdc5cba7aba4e935e61c991434b18205d9fe"
+          },
+          "R2_LanternGripHand": {
+            "counts": [
+              12064,
+              24136,
+              12068
+            ],
+            "vertex_sha256": "67ea9c8e4f06a74c40ebd3c1858c6d57f79eb0a6e99ee2b2fc1ce2a19e13f671"
+          },
+          "R1_LanternBlockout": {
+            "counts": [
+              96,
+              192,
+              98
+            ],
+            "vertex_sha256": "68d7695838cf584786db6a28e988e365843d49b92f2894e3f5ebbab05b7ea906"
+          },
+          "R2 lantern handle": {
+            "counts": [
+              4162,
+              8320,
+              4160
+            ],
+            "vertex_sha256": "99fdfe453b7f79f52718585050e60083f54c899a9e864cbe6c29a8a96980c754"
+          },
+          "R3_OneFoldStorybookCap": {
+            "counts": [
+              66050,
+              132096,
+              66048
+            ],
+            "vertex_sha256": "7853f03e49dff792e0f2cb2c5dcb8a17f2b09b5f7c6afb1eb2eed2b11917184b"
+          },
+          "R4_ContinuousFacialPlanes": {
+            "counts": [
+              205872,
+              411732,
+              205866
+            ],
+            "vertex_sha256": "2feec550a5654ea9d7d65dca225e782df549241c66f3c0f00284aedd0d6052ec"
+          },
+          "R4 inset eye -1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "6175117af970a4b50fa99ec98458fd4bf5b9b32a87fa986592e4c11757e08dc2"
+          },
+          "R4 pupil -1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "4a414b67648c50a60c31d19083264ad9fbcfc2731cc0635e160ed9fdacbfa17a"
+          },
+          "R4 soft brow -1": {
+            "counts": [
+              2354,
+              4704,
+              2352
+            ],
+            "vertex_sha256": "3f75e7473b3e457fad94ddafdd8edbcb4e2bf9b5b992bca641ce566ec7f8b11d"
+          },
+          "R4 inset eye 1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "e4069e365a3dad5274017d98ad5f36f0694451786282068c5247727dbc3ba9d9"
+          },
+          "R4 pupil 1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "b0a7c0dd2e8870a6f04e7bdfa5336130b4f656b5497f9f9a398c48389d670f10"
+          },
+          "R4 soft brow 1": {
+            "counts": [
+              2354,
+              4704,
+              2352
+            ],
+            "vertex_sha256": "074f7810c936cb77a9ee3ad47ca33399c0f5f309a250c2afefdb5ad308bccace"
+          }
+        },
+        "foot_maximum_vertex_deltas_from_frame_1": {
+          "R1_Boot_-1": 0.0,
+          "R1_Boot_1": 0.0,
+          "R2 curved sole -1": 0.0,
+          "R2 curved sole 1": 0.0
+        },
+        "endpoint_maximum_vertex_deltas": null
+      },
+      "91": {
+        "coat_edges": {
+          "count": 76908,
+          "min": 0.04039867231248168,
+          "max": 4.368718238869236,
+          "quantiles": {
+            "0.01": 0.6926114769797274,
+            "0.05": 0.9622948447212661,
+            "0.25": 0.9999991198444037,
+            "0.5": 1.0,
+            "0.75": 1.0003536254592476,
+            "0.95": 1.1966324025988093,
+            "0.99": 2.5211704476087724
+          },
+          "compression_counts": {
+            "0.1": 7,
+            "0.25": 27,
+            "0.5": 154
+          },
+          "stretch_counts": {
+            "2": 1368,
+            "3": 438,
+            "4": 77
+          }
+        },
+        "right_region_edges": {
+          "count": 39059,
+          "min": 0.04039867231248168,
+          "max": 4.368718238869236,
+          "quantiles": {
+            "0.01": 0.612342156916419,
+            "0.05": 0.819501533731434,
+            "0.25": 0.9999999281105842,
+            "0.5": 1.0000002135534172,
+            "0.75": 1.004452037768464,
+            "0.95": 1.6518708064914833,
+            "0.99": 3.112054154920119
+          },
+          "compression_counts": {
+            "0.1": 7,
+            "0.25": 27,
+            "0.5": 154
+          },
+          "stretch_counts": {
+            "2": 1368,
+            "3": 438,
+            "4": 77
+          }
+        },
+        "unmeasurably_short_rest_edges": 0,
+        "bvh_candidate_pairs": 150,
+        "bvh_added_vs_rest": 150,
+        "bvh_removed_vs_rest": 0,
+        "coat_vertex_sha256": "9496cd7d0d21bee1e6dea8d5968cac2e2ebff7c1b8e7e594800af4c60524e4fe",
+        "outside_coat_evaluated": {
+          "R2_OneSweptBeard": {
+            "counts": [
+              51714,
+              103424,
+              51712
+            ],
+            "vertex_sha256": "fbb63ee7b260694642372cb29e7ee80de26c093082d28e98f486643adfb38f7c"
+          },
+          "R2 moustache -1": {
+            "counts": [
+              3138,
+              6272,
+              3136
+            ],
+            "vertex_sha256": "0c101a220b33f2bb78c1c2f0a349bde6265a98038f261ef3b4b970c4ea757958"
+          },
+          "R2 moustache 1": {
+            "counts": [
+              3138,
+              6272,
+              3136
+            ],
+            "vertex_sha256": "7b6ae0584c33fffe9f75d6d67139b52e548b136b9aabf52b9681c85bdcf18457"
+          },
+          "R2 smile": {
+            "counts": [
+              2114,
+              4224,
+              2112
+            ],
+            "vertex_sha256": "f86c4960f858748a9f5ae6897afb2020147ca2cf7e3d59c86760d403dd0071cd"
+          },
+          "R1_FoldedCapBand": {
+            "counts": [
+              2690,
+              5376,
+              2688
+            ],
+            "vertex_sha256": "d9cda52b6225f0678a80aa6f1c07749228904af1a6178007da447fb0fd019174"
+          },
+          "R2 broad folded collar -1": {
+            "counts": [
+              282,
+              560,
+              280
+            ],
+            "vertex_sha256": "680b2077b660b74386ce98731ac21fc5cfe850b90a603dbc3cd4257e910575dd"
+          },
+          "R2 broad folded collar 1": {
+            "counts": [
+              282,
+              560,
+              280
+            ],
+            "vertex_sha256": "a97372004669e72da30e72a9b7c40dc3d7f81cf48c7541b2e37b579be7143f50"
+          },
+          "R2 trouser -1": {
+            "counts": [
+              610,
+              1248,
+              640
+            ],
+            "vertex_sha256": "3180c47acb88c85776a27ff63c5f43478ab67daff008c98683ea2d7e8bf51531"
+          },
+          "R1_Boot_-1": {
+            "counts": [
+              13712,
+              27420,
+              13710
+            ],
+            "vertex_sha256": "cf5a00c83238b79ed9c4a5f6e61675b8a982c9efad4800ee87556708a83e3f0d"
+          },
+          "R2 curved sole -1": {
+            "counts": [
+              2690,
+              5376,
+              2688
+            ],
+            "vertex_sha256": "49fa5895e9c12dae7f661d2b43c6f68aea9dcd108878ad8074d2a419c9ea4226"
+          },
+          "R2 trouser 1": {
+            "counts": [
+              610,
+              1248,
+              640
+            ],
+            "vertex_sha256": "b9df489d784a21346166c31e630848d19a9f08869111b6b03d3414175d4aad96"
+          },
+          "R1_Boot_1": {
+            "counts": [
+              13712,
+              27420,
+              13710
+            ],
+            "vertex_sha256": "2f3fcc129e342c099160afdf30d06afe78ebc4a3997a60d3fa89ae1b24a1a9e7"
+          },
+          "R2 curved sole 1": {
+            "counts": [
+              2690,
+              5376,
+              2688
+            ],
+            "vertex_sha256": "919725ff7d3e63f1839cb09a96c21e48dfa8e72d820eef3c41c21f0bfc15f913"
+          },
+          "R2_OpenInvitationHand": {
+            "counts": [
+              13356,
+              26708,
+              13354
+            ],
+            "vertex_sha256": "87502fa8d93d3f17db058615589e72a5472582db252d6e7af6b248a366017db4"
+          },
+          "R2_LanternGripHand": {
+            "counts": [
+              12064,
+              24136,
+              12068
+            ],
+            "vertex_sha256": "21a387c1114d2a34385b90d154f1026f3f66876a86a1fcf459ae0c936c60f91f"
+          },
+          "R1_LanternBlockout": {
+            "counts": [
+              96,
+              192,
+              98
+            ],
+            "vertex_sha256": "2ff67aa613202230fcdd51a2182b54de23ef7743f90a0df1091fae432657925f"
+          },
+          "R2 lantern handle": {
+            "counts": [
+              4162,
+              8320,
+              4160
+            ],
+            "vertex_sha256": "2af6ff67865d4225757b229fff7e81f04e0a0857ea49f74e425fb7675f0c28bd"
+          },
+          "R3_OneFoldStorybookCap": {
+            "counts": [
+              66050,
+              132096,
+              66048
+            ],
+            "vertex_sha256": "dd542f3c166a564021cb16d9f67055478a93421f0f8f2f04538edcd8337c6889"
+          },
+          "R4_ContinuousFacialPlanes": {
+            "counts": [
+              205872,
+              411732,
+              205866
+            ],
+            "vertex_sha256": "979cd8d1ab6ad0b2f6f0ad31a118a62997f3e847082e84c0a48bde9f80430b40"
+          },
+          "R4 inset eye -1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "fc5a41e3e031702065946d416963eda809e65d7f3b55bedc728b3c5abb6e911e"
+          },
+          "R4 pupil -1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "f1b5b12c5e0e781fbc44f53ab73c015fc4a8e8a42c4d1cc9f9a5c14e1b611410"
+          },
+          "R4 soft brow -1": {
+            "counts": [
+              2354,
+              4704,
+              2352
+            ],
+            "vertex_sha256": "2cd0ec46767f9d48e4ccc0075ccf9b820148792b68cba8f512159c0ff8a73b85"
+          },
+          "R4 inset eye 1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "2df3c2255c107c0439e232d6e569ce3500819a4ce9f4821948fb946207e15c3a"
+          },
+          "R4 pupil 1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "0d3d8e5dcc07ec0f03c27fc58dc1ac3c80f033d5de5a2d8a029f33cf1bce64f1"
+          },
+          "R4 soft brow 1": {
+            "counts": [
+              2354,
+              4704,
+              2352
+            ],
+            "vertex_sha256": "cddd0982964c6e35a92a44a1d550ea0d5f8cca2e7c8a2c9483fd6f2bff704df9"
+          }
+        },
+        "foot_maximum_vertex_deltas_from_frame_1": {
+          "R1_Boot_-1": 0.0,
+          "R1_Boot_1": 0.0,
+          "R2 curved sole -1": 0.0,
+          "R2 curved sole 1": 0.0
+        },
+        "endpoint_maximum_vertex_deltas": null
+      },
+      "109": {
+        "coat_edges": {
+          "count": 76908,
+          "min": 0.22169589688805266,
+          "max": 3.4239934986740845,
+          "quantiles": {
+            "0.01": 0.7512835428303861,
+            "0.05": 0.9668777246498262,
+            "0.25": 0.9999986425933601,
+            "0.5": 1.0,
+            "0.75": 1.000349848469423,
+            "0.95": 1.1317389994819522,
+            "0.99": 2.0762966398819866
+          },
+          "compression_counts": {
+            "0.1": 0,
+            "0.25": 7,
+            "0.5": 54
+          },
+          "stretch_counts": {
+            "2": 855,
+            "3": 131,
+            "4": 0
+          }
+        },
+        "right_region_edges": {
+          "count": 39059,
+          "min": 0.22169589688805266,
+          "max": 3.4239934986740845,
+          "quantiles": {
+            "0.01": 0.6826352260756425,
+            "0.05": 0.8531738257375472,
+            "0.25": 0.9999998503499394,
+            "0.5": 1.0000001650902697,
+            "0.75": 1.0053326064810477,
+            "0.95": 1.4418912014931624,
+            "0.99": 2.506872999701073
+          },
+          "compression_counts": {
+            "0.1": 0,
+            "0.25": 7,
+            "0.5": 54
+          },
+          "stretch_counts": {
+            "2": 855,
+            "3": 131,
+            "4": 0
+          }
+        },
+        "unmeasurably_short_rest_edges": 0,
+        "bvh_candidate_pairs": 0,
+        "bvh_added_vs_rest": 0,
+        "bvh_removed_vs_rest": 0,
+        "coat_vertex_sha256": "99153e304a55720ad4c2a896ef14580d9246e4b634b1a6bfeddc31b24e420e8c",
+        "outside_coat_evaluated": {
+          "R2_OneSweptBeard": {
+            "counts": [
+              51714,
+              103424,
+              51712
+            ],
+            "vertex_sha256": "b6ae9b9ca9da332476ea54b2f1ec6dd01b3a3b43e820a8784a4d6b981e86901d"
+          },
+          "R2 moustache -1": {
+            "counts": [
+              3138,
+              6272,
+              3136
+            ],
+            "vertex_sha256": "a5869bac4658921681c430c6886adf416068be39990a46f833d2e049d33256fe"
+          },
+          "R2 moustache 1": {
+            "counts": [
+              3138,
+              6272,
+              3136
+            ],
+            "vertex_sha256": "644256af5cc58569c1d57ccbe99f1de23e8cf5ab0bd9217130927ed37c1e3498"
+          },
+          "R2 smile": {
+            "counts": [
+              2114,
+              4224,
+              2112
+            ],
+            "vertex_sha256": "4d2479d7eacd74f164e8aa633f81e90cde6137433565dc892ddddd87c46f67d6"
+          },
+          "R1_FoldedCapBand": {
+            "counts": [
+              2690,
+              5376,
+              2688
+            ],
+            "vertex_sha256": "7613ffb602bc29814c185e40b967e14e7a20e7e601ae57d38830f3c1a3c36cf2"
+          },
+          "R2 broad folded collar -1": {
+            "counts": [
+              282,
+              560,
+              280
+            ],
+            "vertex_sha256": "9493ff2e20b630ef2632c3ce48a9e4cb30e929742211af1c235b833c72f42ecd"
+          },
+          "R2 broad folded collar 1": {
+            "counts": [
+              282,
+              560,
+              280
+            ],
+            "vertex_sha256": "0f9b619bea5eceb500eb952e2e60c43bb1d99dae7322f1e1dbb4ec56d80affba"
+          },
+          "R2 trouser -1": {
+            "counts": [
+              610,
+              1248,
+              640
+            ],
+            "vertex_sha256": "3180c47acb88c85776a27ff63c5f43478ab67daff008c98683ea2d7e8bf51531"
+          },
+          "R1_Boot_-1": {
+            "counts": [
+              13712,
+              27420,
+              13710
+            ],
+            "vertex_sha256": "cf5a00c83238b79ed9c4a5f6e61675b8a982c9efad4800ee87556708a83e3f0d"
+          },
+          "R2 curved sole -1": {
+            "counts": [
+              2690,
+              5376,
+              2688
+            ],
+            "vertex_sha256": "49fa5895e9c12dae7f661d2b43c6f68aea9dcd108878ad8074d2a419c9ea4226"
+          },
+          "R2 trouser 1": {
+            "counts": [
+              610,
+              1248,
+              640
+            ],
+            "vertex_sha256": "b9df489d784a21346166c31e630848d19a9f08869111b6b03d3414175d4aad96"
+          },
+          "R1_Boot_1": {
+            "counts": [
+              13712,
+              27420,
+              13710
+            ],
+            "vertex_sha256": "2f3fcc129e342c099160afdf30d06afe78ebc4a3997a60d3fa89ae1b24a1a9e7"
+          },
+          "R2 curved sole 1": {
+            "counts": [
+              2690,
+              5376,
+              2688
+            ],
+            "vertex_sha256": "919725ff7d3e63f1839cb09a96c21e48dfa8e72d820eef3c41c21f0bfc15f913"
+          },
+          "R2_OpenInvitationHand": {
+            "counts": [
+              13356,
+              26708,
+              13354
+            ],
+            "vertex_sha256": "6d0ecaf48f1282ce3979b8e34a8281ab426b001e5a24506415ad8955a091d44e"
+          },
+          "R2_LanternGripHand": {
+            "counts": [
+              12064,
+              24136,
+              12068
+            ],
+            "vertex_sha256": "1a80849272a01f72157c8b10a1ecf5359843b5fdaf5bd7fb9f05659804d33796"
+          },
+          "R1_LanternBlockout": {
+            "counts": [
+              96,
+              192,
+              98
+            ],
+            "vertex_sha256": "e67a7e2eba4abd167f2c4bd1fd5bd6eb3f2a21d10ab877096d205ba0883e51a4"
+          },
+          "R2 lantern handle": {
+            "counts": [
+              4162,
+              8320,
+              4160
+            ],
+            "vertex_sha256": "cd81dc165b02201706d843fafc75109a4733934b5f8937fb15be4c2a32f41acd"
+          },
+          "R3_OneFoldStorybookCap": {
+            "counts": [
+              66050,
+              132096,
+              66048
+            ],
+            "vertex_sha256": "1dd98972b00aded0848c3e2c375ac5adeeba68839be4ef2b9f99c6c931fc39e2"
+          },
+          "R4_ContinuousFacialPlanes": {
+            "counts": [
+              205872,
+              411732,
+              205866
+            ],
+            "vertex_sha256": "72c68d6331504aa22bae0b238613b89629934ac248c78bf7a89f54cc8a867af9"
+          },
+          "R4 inset eye -1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "5c79a94f9c2640adf3e6a1f202f24e45897ee9977be65e5832ef96f82103dce6"
+          },
+          "R4 pupil -1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "a4cd274780fd4ec29c4245be05bfad704c4563189b9cae3a5245b5a3457dcffc"
+          },
+          "R4 soft brow -1": {
+            "counts": [
+              2354,
+              4704,
+              2352
+            ],
+            "vertex_sha256": "e2ca43c79c4a3d5261b47b4ca5d1bbd31cccaa91bb5b2bd45942f7c0f52f3bfe"
+          },
+          "R4 inset eye 1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "8951616346fba07ad4ab898971c806fcfce03e71a3d1ff89cc755bbaf43c76f1"
+          },
+          "R4 pupil 1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "2cd2347c6eac1c1ed01aa2d9b675aed44343fecb0d08aba04d744e9ab8e0336f"
+          },
+          "R4 soft brow 1": {
+            "counts": [
+              2354,
+              4704,
+              2352
+            ],
+            "vertex_sha256": "80cf357f63858873329d31fc7da82f72267682574c70313db6125588275b4cff"
+          }
+        },
+        "foot_maximum_vertex_deltas_from_frame_1": {
+          "R1_Boot_-1": 0.0,
+          "R1_Boot_1": 0.0,
+          "R2 curved sole -1": 0.0,
+          "R2 curved sole 1": 0.0
+        },
+        "endpoint_maximum_vertex_deltas": null
+      },
+      "145": {
+        "coat_edges": {
+          "count": 76908,
+          "min": 1.0,
+          "max": 1.0,
+          "quantiles": {
+            "0.01": 1.0,
+            "0.05": 1.0,
+            "0.25": 1.0,
+            "0.5": 1.0,
+            "0.75": 1.0,
+            "0.95": 1.0,
+            "0.99": 1.0
+          },
+          "compression_counts": {
+            "0.1": 0,
+            "0.25": 0,
+            "0.5": 0
+          },
+          "stretch_counts": {
+            "2": 0,
+            "3": 0,
+            "4": 0
+          }
+        },
+        "right_region_edges": {
+          "count": 39059,
+          "min": 1.0,
+          "max": 1.0,
+          "quantiles": {
+            "0.01": 1.0,
+            "0.05": 1.0,
+            "0.25": 1.0,
+            "0.5": 1.0,
+            "0.75": 1.0,
+            "0.95": 1.0,
+            "0.99": 1.0
+          },
+          "compression_counts": {
+            "0.1": 0,
+            "0.25": 0,
+            "0.5": 0
+          },
+          "stretch_counts": {
+            "2": 0,
+            "3": 0,
+            "4": 0
+          }
+        },
+        "unmeasurably_short_rest_edges": 0,
+        "bvh_candidate_pairs": 0,
+        "bvh_added_vs_rest": 0,
+        "bvh_removed_vs_rest": 0,
+        "coat_vertex_sha256": "961ece26685acc151055d6740ed341cbc1df750e8c784c72bc5e6f0335e60e03",
+        "outside_coat_evaluated": {
+          "R2_OneSweptBeard": {
+            "counts": [
+              51714,
+              103424,
+              51712
+            ],
+            "vertex_sha256": "1297c018429adc20d639b5d7f74ac08c2fa46c968d1bd2d62af4bf0cfa5719a8"
+          },
+          "R2 moustache -1": {
+            "counts": [
+              3138,
+              6272,
+              3136
+            ],
+            "vertex_sha256": "afd8c64c3b1f304d657b94058e4136fe8d4dd30b752fd58a2a70b8d21eef1894"
+          },
+          "R2 moustache 1": {
+            "counts": [
+              3138,
+              6272,
+              3136
+            ],
+            "vertex_sha256": "4e630f368fe4639d3030d2de67f5b738a154155a046d67d50e538762401a2bbe"
+          },
+          "R2 smile": {
+            "counts": [
+              2114,
+              4224,
+              2112
+            ],
+            "vertex_sha256": "076e69ac94da8614861de3536de94d845763c4e9fccbd2529632543e26e6e62c"
+          },
+          "R1_FoldedCapBand": {
+            "counts": [
+              2690,
+              5376,
+              2688
+            ],
+            "vertex_sha256": "3d8c1c3c03794db0545bf89dc97450885a2c611154f12f53ab211a528477cf63"
+          },
+          "R2 broad folded collar -1": {
+            "counts": [
+              282,
+              560,
+              280
+            ],
+            "vertex_sha256": "9e8130f1bf47bd0427124edc466c9625bcb4e78fabbc2aff2f4ab622969f4919"
+          },
+          "R2 broad folded collar 1": {
+            "counts": [
+              282,
+              560,
+              280
+            ],
+            "vertex_sha256": "e7a0671d825a04dff21f3c4ff5e67cf5a11b119a5505b39aa5d568bcbf25896e"
+          },
+          "R2 trouser -1": {
+            "counts": [
+              610,
+              1248,
+              640
+            ],
+            "vertex_sha256": "3180c47acb88c85776a27ff63c5f43478ab67daff008c98683ea2d7e8bf51531"
+          },
+          "R1_Boot_-1": {
+            "counts": [
+              13712,
+              27420,
+              13710
+            ],
+            "vertex_sha256": "cf5a00c83238b79ed9c4a5f6e61675b8a982c9efad4800ee87556708a83e3f0d"
+          },
+          "R2 curved sole -1": {
+            "counts": [
+              2690,
+              5376,
+              2688
+            ],
+            "vertex_sha256": "49fa5895e9c12dae7f661d2b43c6f68aea9dcd108878ad8074d2a419c9ea4226"
+          },
+          "R2 trouser 1": {
+            "counts": [
+              610,
+              1248,
+              640
+            ],
+            "vertex_sha256": "b9df489d784a21346166c31e630848d19a9f08869111b6b03d3414175d4aad96"
+          },
+          "R1_Boot_1": {
+            "counts": [
+              13712,
+              27420,
+              13710
+            ],
+            "vertex_sha256": "2f3fcc129e342c099160afdf30d06afe78ebc4a3997a60d3fa89ae1b24a1a9e7"
+          },
+          "R2 curved sole 1": {
+            "counts": [
+              2690,
+              5376,
+              2688
+            ],
+            "vertex_sha256": "919725ff7d3e63f1839cb09a96c21e48dfa8e72d820eef3c41c21f0bfc15f913"
+          },
+          "R2_OpenInvitationHand": {
+            "counts": [
+              13356,
+              26708,
+              13354
+            ],
+            "vertex_sha256": "022e28c7451ecf40b0fe2dd703a349534d60e157a3864be9e27d14878f844013"
+          },
+          "R2_LanternGripHand": {
+            "counts": [
+              12064,
+              24136,
+              12068
+            ],
+            "vertex_sha256": "344bbb8d1a36def583ae2529c4713c80a4db3338e5639584a93c3e6c26ce92af"
+          },
+          "R1_LanternBlockout": {
+            "counts": [
+              96,
+              192,
+              98
+            ],
+            "vertex_sha256": "926d93319ba95fe1ec6ddbee0d183720d398db807c347134c5d6ab92d816c08d"
+          },
+          "R2 lantern handle": {
+            "counts": [
+              4162,
+              8320,
+              4160
+            ],
+            "vertex_sha256": "8901c8c72ae92a17d0f461f78afcf5426c975c3275dc81094692ce8d0fe624f7"
+          },
+          "R3_OneFoldStorybookCap": {
+            "counts": [
+              66050,
+              132096,
+              66048
+            ],
+            "vertex_sha256": "cc6dd1676ce51528854431cb4284c163c0a09515503e457a372f2f155ef0adf0"
+          },
+          "R4_ContinuousFacialPlanes": {
+            "counts": [
+              205872,
+              411732,
+              205866
+            ],
+            "vertex_sha256": "f13de704785c53e98c2182b3c6f08101edb7dc1b480652c42bf58d8ac6464906"
+          },
+          "R4 inset eye -1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "bc26e5514050e4225f1d6c5eac28ec839dae4da49bd2763ca7256ecba13832c5"
+          },
+          "R4 pupil -1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "d482cccbc5c6b0b0eefc097eadfb6afbc56de0a5ab298c6a49c2bfb27a0bf4cd"
+          },
+          "R4 soft brow -1": {
+            "counts": [
+              2354,
+              4704,
+              2352
+            ],
+            "vertex_sha256": "31ed46af0a5d43bd81bf02a9a7557af6975801159cb067d0aaaff20354153dce"
+          },
+          "R4 inset eye 1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "3d53461ef6301c88e772fbeb6c1021082543d0c643abb021803770f1d1ccd2f2"
+          },
+          "R4 pupil 1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "d60e21c388dff2c6025d1303632469cbee79250dfedcfed26d64f27b9b54092f"
+          },
+          "R4 soft brow 1": {
+            "counts": [
+              2354,
+              4704,
+              2352
+            ],
+            "vertex_sha256": "e07dd244a0c80e3d2a076446ec50abdf3e582c5f964779ab5d43fbfce730749c"
+          }
+        },
+        "foot_maximum_vertex_deltas_from_frame_1": {
+          "R1_Boot_-1": 0.0,
+          "R1_Boot_1": 0.0,
+          "R2 curved sole -1": 0.0,
+          "R2 curved sole 1": 0.0
+        },
+        "endpoint_maximum_vertex_deltas": {
+          "R2_ContinuousCoat": 0.0,
+          "R2_OneSweptBeard": 0.0,
+          "R2 moustache -1": 0.0,
+          "R2 moustache 1": 0.0,
+          "R2 smile": 0.0,
+          "R1_FoldedCapBand": 0.0,
+          "R2 broad folded collar -1": 0.0,
+          "R2 broad folded collar 1": 0.0,
+          "R2 trouser -1": 0.0,
+          "R1_Boot_-1": 0.0,
+          "R2 curved sole -1": 0.0,
+          "R2 trouser 1": 0.0,
+          "R1_Boot_1": 0.0,
+          "R2 curved sole 1": 0.0,
+          "R2_OpenInvitationHand": 0.0,
+          "R2_LanternGripHand": 0.0,
+          "R1_LanternBlockout": 0.0,
+          "R2 lantern handle": 0.0,
+          "R3_OneFoldStorybookCap": 0.0,
+          "R4_ContinuousFacialPlanes": 0.0,
+          "R4 inset eye -1": 0.0,
+          "R4 pupil -1": 0.0,
+          "R4 soft brow -1": 0.0,
+          "R4 inset eye 1": 0.0,
+          "R4 pupil 1": 0.0,
+          "R4 soft brow 1": 0.0
+        }
+      }
+    },
+    "sample_frames": [
+      1,
+      37,
+      55,
+      73,
+      91,
+      109,
+      145
+    ],
+    "coordinate_method": "Actual dependency-graph evaluated world mesh vertices",
+    "bvh_verdict": "Diagnostic non-adjacent overlap candidates; not a visual or intersection-free verdict",
+    "position_tolerance": 1e-05
+  },
+  "r2_samples": {
+    "frames": {
+      "1": {
+        "coat_edges": {
+          "count": 76908,
+          "min": 1.0,
+          "max": 1.0,
+          "quantiles": {
+            "0.01": 1.0,
+            "0.05": 1.0,
+            "0.25": 1.0,
+            "0.5": 1.0,
+            "0.75": 1.0,
+            "0.95": 1.0,
+            "0.99": 1.0
+          },
+          "compression_counts": {
+            "0.1": 0,
+            "0.25": 0,
+            "0.5": 0
+          },
+          "stretch_counts": {
+            "2": 0,
+            "3": 0,
+            "4": 0
+          }
+        },
+        "right_region_edges": {
+          "count": 39059,
+          "min": 1.0,
+          "max": 1.0,
+          "quantiles": {
+            "0.01": 1.0,
+            "0.05": 1.0,
+            "0.25": 1.0,
+            "0.5": 1.0,
+            "0.75": 1.0,
+            "0.95": 1.0,
+            "0.99": 1.0
+          },
+          "compression_counts": {
+            "0.1": 0,
+            "0.25": 0,
+            "0.5": 0
+          },
+          "stretch_counts": {
+            "2": 0,
+            "3": 0,
+            "4": 0
+          }
+        },
+        "unmeasurably_short_rest_edges": 0,
+        "bvh_candidate_pairs": 0,
+        "bvh_added_vs_rest": 0,
+        "bvh_removed_vs_rest": 0,
+        "coat_vertex_sha256": "5a4658d76eded30c478d26f1e0c2558492f66a3fab728be65a942b1077e3ed99",
+        "outside_coat_evaluated": {
+          "R2_OneSweptBeard": {
+            "counts": [
+              51714,
+              103424,
+              51712
+            ],
+            "vertex_sha256": "1297c018429adc20d639b5d7f74ac08c2fa46c968d1bd2d62af4bf0cfa5719a8"
+          },
+          "R2 moustache -1": {
+            "counts": [
+              3138,
+              6272,
+              3136
+            ],
+            "vertex_sha256": "afd8c64c3b1f304d657b94058e4136fe8d4dd30b752fd58a2a70b8d21eef1894"
+          },
+          "R2 moustache 1": {
+            "counts": [
+              3138,
+              6272,
+              3136
+            ],
+            "vertex_sha256": "4e630f368fe4639d3030d2de67f5b738a154155a046d67d50e538762401a2bbe"
+          },
+          "R2 smile": {
+            "counts": [
+              2114,
+              4224,
+              2112
+            ],
+            "vertex_sha256": "076e69ac94da8614861de3536de94d845763c4e9fccbd2529632543e26e6e62c"
+          },
+          "R1_FoldedCapBand": {
+            "counts": [
+              2690,
+              5376,
+              2688
+            ],
+            "vertex_sha256": "3d8c1c3c03794db0545bf89dc97450885a2c611154f12f53ab211a528477cf63"
+          },
+          "R2 broad folded collar -1": {
+            "counts": [
+              282,
+              560,
+              280
+            ],
+            "vertex_sha256": "9e8130f1bf47bd0427124edc466c9625bcb4e78fabbc2aff2f4ab622969f4919"
+          },
+          "R2 broad folded collar 1": {
+            "counts": [
+              282,
+              560,
+              280
+            ],
+            "vertex_sha256": "e7a0671d825a04dff21f3c4ff5e67cf5a11b119a5505b39aa5d568bcbf25896e"
+          },
+          "R2 trouser -1": {
+            "counts": [
+              610,
+              1248,
+              640
+            ],
+            "vertex_sha256": "3180c47acb88c85776a27ff63c5f43478ab67daff008c98683ea2d7e8bf51531"
+          },
+          "R1_Boot_-1": {
+            "counts": [
+              13712,
+              27420,
+              13710
+            ],
+            "vertex_sha256": "cf5a00c83238b79ed9c4a5f6e61675b8a982c9efad4800ee87556708a83e3f0d"
+          },
+          "R2 curved sole -1": {
+            "counts": [
+              2690,
+              5376,
+              2688
+            ],
+            "vertex_sha256": "49fa5895e9c12dae7f661d2b43c6f68aea9dcd108878ad8074d2a419c9ea4226"
+          },
+          "R2 trouser 1": {
+            "counts": [
+              610,
+              1248,
+              640
+            ],
+            "vertex_sha256": "b9df489d784a21346166c31e630848d19a9f08869111b6b03d3414175d4aad96"
+          },
+          "R1_Boot_1": {
+            "counts": [
+              13712,
+              27420,
+              13710
+            ],
+            "vertex_sha256": "2f3fcc129e342c099160afdf30d06afe78ebc4a3997a60d3fa89ae1b24a1a9e7"
+          },
+          "R2 curved sole 1": {
+            "counts": [
+              2690,
+              5376,
+              2688
+            ],
+            "vertex_sha256": "919725ff7d3e63f1839cb09a96c21e48dfa8e72d820eef3c41c21f0bfc15f913"
+          },
+          "R2_OpenInvitationHand": {
+            "counts": [
+              13356,
+              26708,
+              13354
+            ],
+            "vertex_sha256": "022e28c7451ecf40b0fe2dd703a349534d60e157a3864be9e27d14878f844013"
+          },
+          "R2_LanternGripHand": {
+            "counts": [
+              12064,
+              24136,
+              12068
+            ],
+            "vertex_sha256": "344bbb8d1a36def583ae2529c4713c80a4db3338e5639584a93c3e6c26ce92af"
+          },
+          "R1_LanternBlockout": {
+            "counts": [
+              96,
+              192,
+              98
+            ],
+            "vertex_sha256": "926d93319ba95fe1ec6ddbee0d183720d398db807c347134c5d6ab92d816c08d"
+          },
+          "R2 lantern handle": {
+            "counts": [
+              4162,
+              8320,
+              4160
+            ],
+            "vertex_sha256": "8901c8c72ae92a17d0f461f78afcf5426c975c3275dc81094692ce8d0fe624f7"
+          },
+          "R3_OneFoldStorybookCap": {
+            "counts": [
+              66050,
+              132096,
+              66048
+            ],
+            "vertex_sha256": "cc6dd1676ce51528854431cb4284c163c0a09515503e457a372f2f155ef0adf0"
+          },
+          "R4_ContinuousFacialPlanes": {
+            "counts": [
+              205872,
+              411732,
+              205866
+            ],
+            "vertex_sha256": "f13de704785c53e98c2182b3c6f08101edb7dc1b480652c42bf58d8ac6464906"
+          },
+          "R4 inset eye -1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "bc26e5514050e4225f1d6c5eac28ec839dae4da49bd2763ca7256ecba13832c5"
+          },
+          "R4 pupil -1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "d482cccbc5c6b0b0eefc097eadfb6afbc56de0a5ab298c6a49c2bfb27a0bf4cd"
+          },
+          "R4 soft brow -1": {
+            "counts": [
+              2354,
+              4704,
+              2352
+            ],
+            "vertex_sha256": "31ed46af0a5d43bd81bf02a9a7557af6975801159cb067d0aaaff20354153dce"
+          },
+          "R4 inset eye 1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "3d53461ef6301c88e772fbeb6c1021082543d0c643abb021803770f1d1ccd2f2"
+          },
+          "R4 pupil 1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "d60e21c388dff2c6025d1303632469cbee79250dfedcfed26d64f27b9b54092f"
+          },
+          "R4 soft brow 1": {
+            "counts": [
+              2354,
+              4704,
+              2352
+            ],
+            "vertex_sha256": "e07dd244a0c80e3d2a076446ec50abdf3e582c5f964779ab5d43fbfce730749c"
+          }
+        },
+        "foot_maximum_vertex_deltas_from_frame_1": {
+          "R1_Boot_-1": 0.0,
+          "R1_Boot_1": 0.0,
+          "R2 curved sole -1": 0.0,
+          "R2 curved sole 1": 0.0
+        },
+        "endpoint_maximum_vertex_deltas": null
+      },
+      "37": {
+        "coat_edges": {
+          "count": 76908,
+          "min": 0.5501664995781206,
+          "max": 1.9831009052777715,
+          "quantiles": {
+            "0.01": 0.8119171009567375,
+            "0.05": 0.9796342639761785,
+            "0.25": 0.9999984597888268,
+            "0.5": 1.0,
+            "0.75": 1.0002344207623244,
+            "0.95": 1.0676459505452465,
+            "0.99": 1.4108783064199808
+          },
+          "compression_counts": {
+            "0.1": 0,
+            "0.25": 0,
+            "0.5": 0
+          },
+          "stretch_counts": {
+            "2": 0,
+            "3": 0,
+            "4": 0
+          }
+        },
+        "right_region_edges": {
+          "count": 39059,
+          "min": 0.5501664995781206,
+          "max": 1.9831009052777715,
+          "quantiles": {
+            "0.01": 0.7751905283757661,
+            "0.05": 0.9053622999404083,
+            "0.25": 0.999999152450223,
+            "0.5": 1.0,
+            "0.75": 1.0035742638129679,
+            "0.95": 1.2528827110843082,
+            "0.99": 1.528451427948116
+          },
+          "compression_counts": {
+            "0.1": 0,
+            "0.25": 0,
+            "0.5": 0
+          },
+          "stretch_counts": {
+            "2": 0,
+            "3": 0,
+            "4": 0
+          }
+        },
+        "unmeasurably_short_rest_edges": 0,
+        "bvh_candidate_pairs": 0,
+        "bvh_added_vs_rest": 0,
+        "bvh_removed_vs_rest": 0,
+        "coat_vertex_sha256": "152e1e163a87786d4cf7d49b69d93dade1b403d70dcccf1af908938a2909116e",
+        "outside_coat_evaluated": {
+          "R2_OneSweptBeard": {
+            "counts": [
+              51714,
+              103424,
+              51712
+            ],
+            "vertex_sha256": "c20f59cd1f0948152452f9e00979650f93902469415749dc00c8e6d4a1da5c8f"
+          },
+          "R2 moustache -1": {
+            "counts": [
+              3138,
+              6272,
+              3136
+            ],
+            "vertex_sha256": "33fc9ac9086b5d09dc6e43f599774cb6c1d7c7a117bdf46f50a228a5d3b8e6df"
+          },
+          "R2 moustache 1": {
+            "counts": [
+              3138,
+              6272,
+              3136
+            ],
+            "vertex_sha256": "24ec9417e1b619e031340c896160657b663f21422ff665c8e93dfa26b53f85ed"
+          },
+          "R2 smile": {
+            "counts": [
+              2114,
+              4224,
+              2112
+            ],
+            "vertex_sha256": "c8ba92a65cff2bd1d05cb5031b60f465d2a2fbd3a033183ea52a360be32148fe"
+          },
+          "R1_FoldedCapBand": {
+            "counts": [
+              2690,
+              5376,
+              2688
+            ],
+            "vertex_sha256": "f8fa5fdd0c3a4c1a8afafedc201f81bb9ce6b6cc978593cebf0cd7b01f3fe65a"
+          },
+          "R2 broad folded collar -1": {
+            "counts": [
+              282,
+              560,
+              280
+            ],
+            "vertex_sha256": "8b45fdfaa0c66678377b0f114271e207ae31355ca9e6340c0b572563ec18215e"
+          },
+          "R2 broad folded collar 1": {
+            "counts": [
+              282,
+              560,
+              280
+            ],
+            "vertex_sha256": "a6dbce8a428bd3d1e4185b6fadc43c59488e3ef088c5e814cf41f2e5f3885560"
+          },
+          "R2 trouser -1": {
+            "counts": [
+              610,
+              1248,
+              640
+            ],
+            "vertex_sha256": "3180c47acb88c85776a27ff63c5f43478ab67daff008c98683ea2d7e8bf51531"
+          },
+          "R1_Boot_-1": {
+            "counts": [
+              13712,
+              27420,
+              13710
+            ],
+            "vertex_sha256": "cf5a00c83238b79ed9c4a5f6e61675b8a982c9efad4800ee87556708a83e3f0d"
+          },
+          "R2 curved sole -1": {
+            "counts": [
+              2690,
+              5376,
+              2688
+            ],
+            "vertex_sha256": "49fa5895e9c12dae7f661d2b43c6f68aea9dcd108878ad8074d2a419c9ea4226"
+          },
+          "R2 trouser 1": {
+            "counts": [
+              610,
+              1248,
+              640
+            ],
+            "vertex_sha256": "b9df489d784a21346166c31e630848d19a9f08869111b6b03d3414175d4aad96"
+          },
+          "R1_Boot_1": {
+            "counts": [
+              13712,
+              27420,
+              13710
+            ],
+            "vertex_sha256": "2f3fcc129e342c099160afdf30d06afe78ebc4a3997a60d3fa89ae1b24a1a9e7"
+          },
+          "R2 curved sole 1": {
+            "counts": [
+              2690,
+              5376,
+              2688
+            ],
+            "vertex_sha256": "919725ff7d3e63f1839cb09a96c21e48dfa8e72d820eef3c41c21f0bfc15f913"
+          },
+          "R2_OpenInvitationHand": {
+            "counts": [
+              13356,
+              26708,
+              13354
+            ],
+            "vertex_sha256": "6733280e158ad7b09314c4714b2df34649e1ab82b06606a40d714151e7279e16"
+          },
+          "R2_LanternGripHand": {
+            "counts": [
+              12064,
+              24136,
+              12068
+            ],
+            "vertex_sha256": "51cb92ac4eb24fd54f0f3407f17af173715356cf95f98ad2c559a63d8afdec16"
+          },
+          "R1_LanternBlockout": {
+            "counts": [
+              96,
+              192,
+              98
+            ],
+            "vertex_sha256": "f83bc9360bc3d13ae2bd0845c50cf5496eabcc74fc54e148f5df6130364b11a8"
+          },
+          "R2 lantern handle": {
+            "counts": [
+              4162,
+              8320,
+              4160
+            ],
+            "vertex_sha256": "f321d57b32c420f2d260f4f275618edbbc438dc9304462e327bdf4b8352b0336"
+          },
+          "R3_OneFoldStorybookCap": {
+            "counts": [
+              66050,
+              132096,
+              66048
+            ],
+            "vertex_sha256": "037e8a9f5fa701c280774cd0497cf0e8837021cbd7132bc633b119da5ce35a95"
+          },
+          "R4_ContinuousFacialPlanes": {
+            "counts": [
+              205872,
+              411732,
+              205866
+            ],
+            "vertex_sha256": "60092c8d3cf11f04e1a4770c1b4c5d95dfa51bb76234b2c1d81a7711d1e806cd"
+          },
+          "R4 inset eye -1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "6436b841a5095ca7ac3035fec21cceb9bcc65b1965ba3d68cd0ed201a43a3b7a"
+          },
+          "R4 pupil -1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "6564c0343d353b44eeda3ff44eb510fea6371a47216ebf0e7bb7a2dc3be9db26"
+          },
+          "R4 soft brow -1": {
+            "counts": [
+              2354,
+              4704,
+              2352
+            ],
+            "vertex_sha256": "0c614b4b07da64901bc7cf88a06544ff823f511a4689d072dc0f51116973adcc"
+          },
+          "R4 inset eye 1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "de4d8c835983e050e69b8e4b048d07315c6ee483e639d5ce493a08dc7afcfc60"
+          },
+          "R4 pupil 1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "c7bf3f12bfc1bf1774536bf077a15a673e34e31f7f4c04ccc216764f456ccb8c"
+          },
+          "R4 soft brow 1": {
+            "counts": [
+              2354,
+              4704,
+              2352
+            ],
+            "vertex_sha256": "4daee175d5d51918f0f663d12ebab02c803e71dd16c4be247d543c9fe0804302"
+          }
+        },
+        "foot_maximum_vertex_deltas_from_frame_1": {
+          "R1_Boot_-1": 0.0,
+          "R1_Boot_1": 0.0,
+          "R2 curved sole -1": 0.0,
+          "R2 curved sole 1": 0.0
+        },
+        "endpoint_maximum_vertex_deltas": null
+      },
+      "55": {
+        "coat_edges": {
+          "count": 76908,
+          "min": 0.31767064044943955,
+          "max": 3.1389707314863573,
+          "quantiles": {
+            "0.01": 0.6411118869057656,
+            "0.05": 0.9632454476755631,
+            "0.25": 0.9999980087174123,
+            "0.5": 1.0,
+            "0.75": 1.0004562012931189,
+            "0.95": 1.1806299197378263,
+            "0.99": 1.9150190474411943
+          },
+          "compression_counts": {
+            "0.1": 0,
+            "0.25": 0,
+            "0.5": 199
+          },
+          "stretch_counts": {
+            "2": 617,
+            "3": 16,
+            "4": 0
+          }
+        },
+        "right_region_edges": {
+          "count": 39059,
+          "min": 0.31767064044943955,
+          "max": 3.1389707314863573,
+          "quantiles": {
+            "0.01": 0.5720353608463358,
+            "0.05": 0.8333807971717211,
+            "0.25": 0.9999994682327881,
+            "0.5": 1.0000000003254552,
+            "0.75": 1.0076188204867695,
+            "0.95": 1.6073407327474234,
+            "0.99": 2.202403051839219
+          },
+          "compression_counts": {
+            "0.1": 0,
+            "0.25": 0,
+            "0.5": 199
+          },
+          "stretch_counts": {
+            "2": 617,
+            "3": 16,
+            "4": 0
+          }
+        },
+        "unmeasurably_short_rest_edges": 0,
+        "bvh_candidate_pairs": 0,
+        "bvh_added_vs_rest": 0,
+        "bvh_removed_vs_rest": 0,
+        "coat_vertex_sha256": "67a0e4f3adc20d23709b3a1ad0439f2ca8c96981ef78dfa8293224cfcdb2b22a",
+        "outside_coat_evaluated": {
+          "R2_OneSweptBeard": {
+            "counts": [
+              51714,
+              103424,
+              51712
+            ],
+            "vertex_sha256": "4c564b9a95542934396efa32c0a125085582e740e6e5496140ea180b98fe9400"
+          },
+          "R2 moustache -1": {
+            "counts": [
+              3138,
+              6272,
+              3136
+            ],
+            "vertex_sha256": "9d546a8b5ab294c403d617df25c637f57072c476184b84b3a1459295a0d450ff"
+          },
+          "R2 moustache 1": {
+            "counts": [
+              3138,
+              6272,
+              3136
+            ],
+            "vertex_sha256": "e79c9c8ca6f50f85c34aec57e921bca088fd2f2b158996f8744989f48d6e45e7"
+          },
+          "R2 smile": {
+            "counts": [
+              2114,
+              4224,
+              2112
+            ],
+            "vertex_sha256": "b8c5de67a55551f9c06dc5235387feddedad87bdfe3f22666ba521d5c14d02d6"
+          },
+          "R1_FoldedCapBand": {
+            "counts": [
+              2690,
+              5376,
+              2688
+            ],
+            "vertex_sha256": "0e3185ef8e5493dc6292bce28edb2342cf38f73c675d2e1c5325e370d59f7d6b"
+          },
+          "R2 broad folded collar -1": {
+            "counts": [
+              282,
+              560,
+              280
+            ],
+            "vertex_sha256": "00da9bd644bd9d1585dafad4d0178bcb48cdc45b2296085ad0444189a878f149"
+          },
+          "R2 broad folded collar 1": {
+            "counts": [
+              282,
+              560,
+              280
+            ],
+            "vertex_sha256": "78cd87e3d3409a36a294e5cbd2110476237f6820e32397a4891b1162d14610f4"
+          },
+          "R2 trouser -1": {
+            "counts": [
+              610,
+              1248,
+              640
+            ],
+            "vertex_sha256": "3180c47acb88c85776a27ff63c5f43478ab67daff008c98683ea2d7e8bf51531"
+          },
+          "R1_Boot_-1": {
+            "counts": [
+              13712,
+              27420,
+              13710
+            ],
+            "vertex_sha256": "cf5a00c83238b79ed9c4a5f6e61675b8a982c9efad4800ee87556708a83e3f0d"
+          },
+          "R2 curved sole -1": {
+            "counts": [
+              2690,
+              5376,
+              2688
+            ],
+            "vertex_sha256": "49fa5895e9c12dae7f661d2b43c6f68aea9dcd108878ad8074d2a419c9ea4226"
+          },
+          "R2 trouser 1": {
+            "counts": [
+              610,
+              1248,
+              640
+            ],
+            "vertex_sha256": "b9df489d784a21346166c31e630848d19a9f08869111b6b03d3414175d4aad96"
+          },
+          "R1_Boot_1": {
+            "counts": [
+              13712,
+              27420,
+              13710
+            ],
+            "vertex_sha256": "2f3fcc129e342c099160afdf30d06afe78ebc4a3997a60d3fa89ae1b24a1a9e7"
+          },
+          "R2 curved sole 1": {
+            "counts": [
+              2690,
+              5376,
+              2688
+            ],
+            "vertex_sha256": "919725ff7d3e63f1839cb09a96c21e48dfa8e72d820eef3c41c21f0bfc15f913"
+          },
+          "R2_OpenInvitationHand": {
+            "counts": [
+              13356,
+              26708,
+              13354
+            ],
+            "vertex_sha256": "01d4fdf2633b6c1b2a8c040ff75eebaca1a33d33092ace7b2f2db5a53ec350f8"
+          },
+          "R2_LanternGripHand": {
+            "counts": [
+              12064,
+              24136,
+              12068
+            ],
+            "vertex_sha256": "1b1a30888a679cbf39b77e02eb107d156eb37bbde4bab43df995da030fde96d7"
+          },
+          "R1_LanternBlockout": {
+            "counts": [
+              96,
+              192,
+              98
+            ],
+            "vertex_sha256": "05df01555959655754249349e1acd1c441a0f6a8a71393054d3c81ccd4c5710c"
+          },
+          "R2 lantern handle": {
+            "counts": [
+              4162,
+              8320,
+              4160
+            ],
+            "vertex_sha256": "b92a4498e7bd8c0e98910800921f29af59309b978acd4d7438df17264ce8efca"
+          },
+          "R3_OneFoldStorybookCap": {
+            "counts": [
+              66050,
+              132096,
+              66048
+            ],
+            "vertex_sha256": "09b5797af0b8e851619d97450b9724d3354f7349e7544f91af656a652646613b"
+          },
+          "R4_ContinuousFacialPlanes": {
+            "counts": [
+              205872,
+              411732,
+              205866
+            ],
+            "vertex_sha256": "9d50c64fef87d206c8d09affa2355625c2cfdad7211f6c15529181a258580617"
+          },
+          "R4 inset eye -1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "d9e0c36a60101984c5d18f18b814df036252ca178246eac7f8b0e1dff6c91293"
+          },
+          "R4 pupil -1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "a73b586f39e2819fb6529cf0312b1f08c7baa04c281b6a436c0e6b450a8ade57"
+          },
+          "R4 soft brow -1": {
+            "counts": [
+              2354,
+              4704,
+              2352
+            ],
+            "vertex_sha256": "4dcbdd47380cfa345858aefa475b854f10862c9f92a93661f3e356bcb8946087"
+          },
+          "R4 inset eye 1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "2be64d3fa25b790848cc613cf4cb7f973ffa2ec88913c15d5d8a6d47288e996f"
+          },
+          "R4 pupil 1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "45ac4a3deadcc286c1e0755812301de4d516c4028117df26ebde03648f0af9dd"
+          },
+          "R4 soft brow 1": {
+            "counts": [
+              2354,
+              4704,
+              2352
+            ],
+            "vertex_sha256": "1d22da3ebc838f5cdcb9b63c1ac6f9a4ccfef88eeb93623a9667f882f395ce39"
+          }
+        },
+        "foot_maximum_vertex_deltas_from_frame_1": {
+          "R1_Boot_-1": 0.0,
+          "R1_Boot_1": 0.0,
+          "R2 curved sole -1": 0.0,
+          "R2 curved sole 1": 0.0
+        },
+        "endpoint_maximum_vertex_deltas": null
+      },
+      "73": {
+        "coat_edges": {
+          "count": 76908,
+          "min": 0.32284030736758407,
+          "max": 3.0512743003205416,
+          "quantiles": {
+            "0.01": 0.6516499587530791,
+            "0.05": 0.9639877791031655,
+            "0.25": 0.9999993176422305,
+            "0.5": 1.0,
+            "0.75": 1.0003145406376608,
+            "0.95": 1.1698009921249046,
+            "0.99": 1.8762574196198314
+          },
+          "compression_counts": {
+            "0.1": 0,
+            "0.25": 0,
+            "0.5": 177
+          },
+          "stretch_counts": {
+            "2": 555,
+            "3": 6,
+            "4": 0
+          }
+        },
+        "right_region_edges": {
+          "count": 39059,
+          "min": 0.32284030736758407,
+          "max": 3.0512743003205416,
+          "quantiles": {
+            "0.01": 0.5838875001185136,
+            "0.05": 0.8373988136220695,
+            "0.25": 0.9999994874454761,
+            "0.5": 1.0000000000037879,
+            "0.75": 1.0034059270523783,
+            "0.95": 1.5785642392882258,
+            "0.99": 2.152023892139953
+          },
+          "compression_counts": {
+            "0.1": 0,
+            "0.25": 0,
+            "0.5": 177
+          },
+          "stretch_counts": {
+            "2": 555,
+            "3": 6,
+            "4": 0
+          }
+        },
+        "unmeasurably_short_rest_edges": 0,
+        "bvh_candidate_pairs": 0,
+        "bvh_added_vs_rest": 0,
+        "bvh_removed_vs_rest": 0,
+        "coat_vertex_sha256": "0e274888f75d718821a7df7bc61a52c4d0278cb328f013a0af2f2ee52b59c600",
+        "outside_coat_evaluated": {
+          "R2_OneSweptBeard": {
+            "counts": [
+              51714,
+              103424,
+              51712
+            ],
+            "vertex_sha256": "5480bf08f062583fb2a4fe618d3ffafda4f93dd3ee97dc453272a85e993c94c2"
+          },
+          "R2 moustache -1": {
+            "counts": [
+              3138,
+              6272,
+              3136
+            ],
+            "vertex_sha256": "fec26f996c6b71a8553a645ecf03a7ca815365cea382f2fc5a880ecd2548a3cc"
+          },
+          "R2 moustache 1": {
+            "counts": [
+              3138,
+              6272,
+              3136
+            ],
+            "vertex_sha256": "07ed6b301ed02b2a8e907a114c3b8068e3fbc1efec9352ee1d7e456bd06dde7e"
+          },
+          "R2 smile": {
+            "counts": [
+              2114,
+              4224,
+              2112
+            ],
+            "vertex_sha256": "5433e32e715501d83ca307186ed6a896ad3e348cfd600c9942243a9177586cb3"
+          },
+          "R1_FoldedCapBand": {
+            "counts": [
+              2690,
+              5376,
+              2688
+            ],
+            "vertex_sha256": "f59b62ccef6bf78c39618fbfae9b6c18a6b79d1d9c6cdd1d62c7b61004c3db1e"
+          },
+          "R2 broad folded collar -1": {
+            "counts": [
+              282,
+              560,
+              280
+            ],
+            "vertex_sha256": "d198081887f9b91d1bdcf2f4418352e9f984800178eaa3637073e475509f2886"
+          },
+          "R2 broad folded collar 1": {
+            "counts": [
+              282,
+              560,
+              280
+            ],
+            "vertex_sha256": "61147d53bc729770966b1128d06887458cf324b335633b9d54cedcb3e84bcdc4"
+          },
+          "R2 trouser -1": {
+            "counts": [
+              610,
+              1248,
+              640
+            ],
+            "vertex_sha256": "3180c47acb88c85776a27ff63c5f43478ab67daff008c98683ea2d7e8bf51531"
+          },
+          "R1_Boot_-1": {
+            "counts": [
+              13712,
+              27420,
+              13710
+            ],
+            "vertex_sha256": "cf5a00c83238b79ed9c4a5f6e61675b8a982c9efad4800ee87556708a83e3f0d"
+          },
+          "R2 curved sole -1": {
+            "counts": [
+              2690,
+              5376,
+              2688
+            ],
+            "vertex_sha256": "49fa5895e9c12dae7f661d2b43c6f68aea9dcd108878ad8074d2a419c9ea4226"
+          },
+          "R2 trouser 1": {
+            "counts": [
+              610,
+              1248,
+              640
+            ],
+            "vertex_sha256": "b9df489d784a21346166c31e630848d19a9f08869111b6b03d3414175d4aad96"
+          },
+          "R1_Boot_1": {
+            "counts": [
+              13712,
+              27420,
+              13710
+            ],
+            "vertex_sha256": "2f3fcc129e342c099160afdf30d06afe78ebc4a3997a60d3fa89ae1b24a1a9e7"
+          },
+          "R2 curved sole 1": {
+            "counts": [
+              2690,
+              5376,
+              2688
+            ],
+            "vertex_sha256": "919725ff7d3e63f1839cb09a96c21e48dfa8e72d820eef3c41c21f0bfc15f913"
+          },
+          "R2_OpenInvitationHand": {
+            "counts": [
+              13356,
+              26708,
+              13354
+            ],
+            "vertex_sha256": "c00c06ffdca00927fc8f9ecd5d9bcdc5cba7aba4e935e61c991434b18205d9fe"
+          },
+          "R2_LanternGripHand": {
+            "counts": [
+              12064,
+              24136,
+              12068
+            ],
+            "vertex_sha256": "67ea9c8e4f06a74c40ebd3c1858c6d57f79eb0a6e99ee2b2fc1ce2a19e13f671"
+          },
+          "R1_LanternBlockout": {
+            "counts": [
+              96,
+              192,
+              98
+            ],
+            "vertex_sha256": "68d7695838cf584786db6a28e988e365843d49b92f2894e3f5ebbab05b7ea906"
+          },
+          "R2 lantern handle": {
+            "counts": [
+              4162,
+              8320,
+              4160
+            ],
+            "vertex_sha256": "99fdfe453b7f79f52718585050e60083f54c899a9e864cbe6c29a8a96980c754"
+          },
+          "R3_OneFoldStorybookCap": {
+            "counts": [
+              66050,
+              132096,
+              66048
+            ],
+            "vertex_sha256": "7853f03e49dff792e0f2cb2c5dcb8a17f2b09b5f7c6afb1eb2eed2b11917184b"
+          },
+          "R4_ContinuousFacialPlanes": {
+            "counts": [
+              205872,
+              411732,
+              205866
+            ],
+            "vertex_sha256": "2feec550a5654ea9d7d65dca225e782df549241c66f3c0f00284aedd0d6052ec"
+          },
+          "R4 inset eye -1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "6175117af970a4b50fa99ec98458fd4bf5b9b32a87fa986592e4c11757e08dc2"
+          },
+          "R4 pupil -1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "4a414b67648c50a60c31d19083264ad9fbcfc2731cc0635e160ed9fdacbfa17a"
+          },
+          "R4 soft brow -1": {
+            "counts": [
+              2354,
+              4704,
+              2352
+            ],
+            "vertex_sha256": "3f75e7473b3e457fad94ddafdd8edbcb4e2bf9b5b992bca641ce566ec7f8b11d"
+          },
+          "R4 inset eye 1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "e4069e365a3dad5274017d98ad5f36f0694451786282068c5247727dbc3ba9d9"
+          },
+          "R4 pupil 1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "b0a7c0dd2e8870a6f04e7bdfa5336130b4f656b5497f9f9a398c48389d670f10"
+          },
+          "R4 soft brow 1": {
+            "counts": [
+              2354,
+              4704,
+              2352
+            ],
+            "vertex_sha256": "074f7810c936cb77a9ee3ad47ca33399c0f5f309a250c2afefdb5ad308bccace"
+          }
+        },
+        "foot_maximum_vertex_deltas_from_frame_1": {
+          "R1_Boot_-1": 0.0,
+          "R1_Boot_1": 0.0,
+          "R2 curved sole -1": 0.0,
+          "R2 curved sole 1": 0.0
+        },
+        "endpoint_maximum_vertex_deltas": null
+      },
+      "91": {
+        "coat_edges": {
+          "count": 76908,
+          "min": 0.3567366829130347,
+          "max": 2.999082052212493,
+          "quantiles": {
+            "0.01": 0.6581809174075921,
+            "0.05": 0.9645176041469786,
+            "0.25": 0.9999987334789116,
+            "0.5": 1.0,
+            "0.75": 1.0003228409288634,
+            "0.95": 1.1649132434065783,
+            "0.99": 1.857248237417125
+          },
+          "compression_counts": {
+            "0.1": 0,
+            "0.25": 0,
+            "0.5": 160
+          },
+          "stretch_counts": {
+            "2": 527,
+            "3": 0,
+            "4": 0
+          }
+        },
+        "right_region_edges": {
+          "count": 39059,
+          "min": 0.3567366829130347,
+          "max": 2.999082052212493,
+          "quantiles": {
+            "0.01": 0.5912903812928425,
+            "0.05": 0.8412504433248963,
+            "0.25": 0.9999994305692836,
+            "0.5": 1.0000000027067186,
+            "0.75": 1.0043887674207703,
+            "0.95": 1.563847789782931,
+            "0.99": 2.122854346892176
+          },
+          "compression_counts": {
+            "0.1": 0,
+            "0.25": 0,
+            "0.5": 160
+          },
+          "stretch_counts": {
+            "2": 527,
+            "3": 0,
+            "4": 0
+          }
+        },
+        "unmeasurably_short_rest_edges": 0,
+        "bvh_candidate_pairs": 0,
+        "bvh_added_vs_rest": 0,
+        "bvh_removed_vs_rest": 0,
+        "coat_vertex_sha256": "d55c4aaf05a9432432f7859637e1e2d23f9517750a8d1042091f6bee20751626",
+        "outside_coat_evaluated": {
+          "R2_OneSweptBeard": {
+            "counts": [
+              51714,
+              103424,
+              51712
+            ],
+            "vertex_sha256": "fbb63ee7b260694642372cb29e7ee80de26c093082d28e98f486643adfb38f7c"
+          },
+          "R2 moustache -1": {
+            "counts": [
+              3138,
+              6272,
+              3136
+            ],
+            "vertex_sha256": "0c101a220b33f2bb78c1c2f0a349bde6265a98038f261ef3b4b970c4ea757958"
+          },
+          "R2 moustache 1": {
+            "counts": [
+              3138,
+              6272,
+              3136
+            ],
+            "vertex_sha256": "7b6ae0584c33fffe9f75d6d67139b52e548b136b9aabf52b9681c85bdcf18457"
+          },
+          "R2 smile": {
+            "counts": [
+              2114,
+              4224,
+              2112
+            ],
+            "vertex_sha256": "f86c4960f858748a9f5ae6897afb2020147ca2cf7e3d59c86760d403dd0071cd"
+          },
+          "R1_FoldedCapBand": {
+            "counts": [
+              2690,
+              5376,
+              2688
+            ],
+            "vertex_sha256": "d9cda52b6225f0678a80aa6f1c07749228904af1a6178007da447fb0fd019174"
+          },
+          "R2 broad folded collar -1": {
+            "counts": [
+              282,
+              560,
+              280
+            ],
+            "vertex_sha256": "680b2077b660b74386ce98731ac21fc5cfe850b90a603dbc3cd4257e910575dd"
+          },
+          "R2 broad folded collar 1": {
+            "counts": [
+              282,
+              560,
+              280
+            ],
+            "vertex_sha256": "a97372004669e72da30e72a9b7c40dc3d7f81cf48c7541b2e37b579be7143f50"
+          },
+          "R2 trouser -1": {
+            "counts": [
+              610,
+              1248,
+              640
+            ],
+            "vertex_sha256": "3180c47acb88c85776a27ff63c5f43478ab67daff008c98683ea2d7e8bf51531"
+          },
+          "R1_Boot_-1": {
+            "counts": [
+              13712,
+              27420,
+              13710
+            ],
+            "vertex_sha256": "cf5a00c83238b79ed9c4a5f6e61675b8a982c9efad4800ee87556708a83e3f0d"
+          },
+          "R2 curved sole -1": {
+            "counts": [
+              2690,
+              5376,
+              2688
+            ],
+            "vertex_sha256": "49fa5895e9c12dae7f661d2b43c6f68aea9dcd108878ad8074d2a419c9ea4226"
+          },
+          "R2 trouser 1": {
+            "counts": [
+              610,
+              1248,
+              640
+            ],
+            "vertex_sha256": "b9df489d784a21346166c31e630848d19a9f08869111b6b03d3414175d4aad96"
+          },
+          "R1_Boot_1": {
+            "counts": [
+              13712,
+              27420,
+              13710
+            ],
+            "vertex_sha256": "2f3fcc129e342c099160afdf30d06afe78ebc4a3997a60d3fa89ae1b24a1a9e7"
+          },
+          "R2 curved sole 1": {
+            "counts": [
+              2690,
+              5376,
+              2688
+            ],
+            "vertex_sha256": "919725ff7d3e63f1839cb09a96c21e48dfa8e72d820eef3c41c21f0bfc15f913"
+          },
+          "R2_OpenInvitationHand": {
+            "counts": [
+              13356,
+              26708,
+              13354
+            ],
+            "vertex_sha256": "87502fa8d93d3f17db058615589e72a5472582db252d6e7af6b248a366017db4"
+          },
+          "R2_LanternGripHand": {
+            "counts": [
+              12064,
+              24136,
+              12068
+            ],
+            "vertex_sha256": "21a387c1114d2a34385b90d154f1026f3f66876a86a1fcf459ae0c936c60f91f"
+          },
+          "R1_LanternBlockout": {
+            "counts": [
+              96,
+              192,
+              98
+            ],
+            "vertex_sha256": "2ff67aa613202230fcdd51a2182b54de23ef7743f90a0df1091fae432657925f"
+          },
+          "R2 lantern handle": {
+            "counts": [
+              4162,
+              8320,
+              4160
+            ],
+            "vertex_sha256": "2af6ff67865d4225757b229fff7e81f04e0a0857ea49f74e425fb7675f0c28bd"
+          },
+          "R3_OneFoldStorybookCap": {
+            "counts": [
+              66050,
+              132096,
+              66048
+            ],
+            "vertex_sha256": "dd542f3c166a564021cb16d9f67055478a93421f0f8f2f04538edcd8337c6889"
+          },
+          "R4_ContinuousFacialPlanes": {
+            "counts": [
+              205872,
+              411732,
+              205866
+            ],
+            "vertex_sha256": "979cd8d1ab6ad0b2f6f0ad31a118a62997f3e847082e84c0a48bde9f80430b40"
+          },
+          "R4 inset eye -1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "fc5a41e3e031702065946d416963eda809e65d7f3b55bedc728b3c5abb6e911e"
+          },
+          "R4 pupil -1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "f1b5b12c5e0e781fbc44f53ab73c015fc4a8e8a42c4d1cc9f9a5c14e1b611410"
+          },
+          "R4 soft brow -1": {
+            "counts": [
+              2354,
+              4704,
+              2352
+            ],
+            "vertex_sha256": "2cd0ec46767f9d48e4ccc0075ccf9b820148792b68cba8f512159c0ff8a73b85"
+          },
+          "R4 inset eye 1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "2df3c2255c107c0439e232d6e569ce3500819a4ce9f4821948fb946207e15c3a"
+          },
+          "R4 pupil 1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "0d3d8e5dcc07ec0f03c27fc58dc1ac3c80f033d5de5a2d8a029f33cf1bce64f1"
+          },
+          "R4 soft brow 1": {
+            "counts": [
+              2354,
+              4704,
+              2352
+            ],
+            "vertex_sha256": "cddd0982964c6e35a92a44a1d550ea0d5f8cca2e7c8a2c9483fd6f2bff704df9"
+          }
+        },
+        "foot_maximum_vertex_deltas_from_frame_1": {
+          "R1_Boot_-1": 0.0,
+          "R1_Boot_1": 0.0,
+          "R2 curved sole -1": 0.0,
+          "R2 curved sole 1": 0.0
+        },
+        "endpoint_maximum_vertex_deltas": null
+      },
+      "109": {
+        "coat_edges": {
+          "count": 76908,
+          "min": 0.47614445831812185,
+          "max": 2.4164519440981365,
+          "quantiles": {
+            "0.01": 0.7402960828161661,
+            "0.05": 0.9726398532362615,
+            "0.25": 0.9999981136899141,
+            "0.5": 1.0,
+            "0.75": 1.0003150890267691,
+            "0.95": 1.1077837402432713,
+            "0.99": 1.5996725709852782
+          },
+          "compression_counts": {
+            "0.1": 0,
+            "0.25": 0,
+            "0.5": 1
+          },
+          "stretch_counts": {
+            "2": 130,
+            "3": 0,
+            "4": 0
+          }
+        },
+        "right_region_edges": {
+          "count": 39059,
+          "min": 0.47614445831812185,
+          "max": 2.4164519440981365,
+          "quantiles": {
+            "0.01": 0.6910419046222336,
+            "0.05": 0.8739802196779715,
+            "0.25": 0.9999991473711441,
+            "0.5": 1.0,
+            "0.75": 1.0050688147480946,
+            "0.95": 1.3850700242314469,
+            "0.99": 1.781126152051242
+          },
+          "compression_counts": {
+            "0.1": 0,
+            "0.25": 0,
+            "0.5": 1
+          },
+          "stretch_counts": {
+            "2": 130,
+            "3": 0,
+            "4": 0
+          }
+        },
+        "unmeasurably_short_rest_edges": 0,
+        "bvh_candidate_pairs": 0,
+        "bvh_added_vs_rest": 0,
+        "bvh_removed_vs_rest": 0,
+        "coat_vertex_sha256": "48084d0aa2ab63cfb4a4077d57f5ca3653a1153c3cc393bd456a92e72387ea1f",
+        "outside_coat_evaluated": {
+          "R2_OneSweptBeard": {
+            "counts": [
+              51714,
+              103424,
+              51712
+            ],
+            "vertex_sha256": "b6ae9b9ca9da332476ea54b2f1ec6dd01b3a3b43e820a8784a4d6b981e86901d"
+          },
+          "R2 moustache -1": {
+            "counts": [
+              3138,
+              6272,
+              3136
+            ],
+            "vertex_sha256": "a5869bac4658921681c430c6886adf416068be39990a46f833d2e049d33256fe"
+          },
+          "R2 moustache 1": {
+            "counts": [
+              3138,
+              6272,
+              3136
+            ],
+            "vertex_sha256": "644256af5cc58569c1d57ccbe99f1de23e8cf5ab0bd9217130927ed37c1e3498"
+          },
+          "R2 smile": {
+            "counts": [
+              2114,
+              4224,
+              2112
+            ],
+            "vertex_sha256": "4d2479d7eacd74f164e8aa633f81e90cde6137433565dc892ddddd87c46f67d6"
+          },
+          "R1_FoldedCapBand": {
+            "counts": [
+              2690,
+              5376,
+              2688
+            ],
+            "vertex_sha256": "7613ffb602bc29814c185e40b967e14e7a20e7e601ae57d38830f3c1a3c36cf2"
+          },
+          "R2 broad folded collar -1": {
+            "counts": [
+              282,
+              560,
+              280
+            ],
+            "vertex_sha256": "9493ff2e20b630ef2632c3ce48a9e4cb30e929742211af1c235b833c72f42ecd"
+          },
+          "R2 broad folded collar 1": {
+            "counts": [
+              282,
+              560,
+              280
+            ],
+            "vertex_sha256": "0f9b619bea5eceb500eb952e2e60c43bb1d99dae7322f1e1dbb4ec56d80affba"
+          },
+          "R2 trouser -1": {
+            "counts": [
+              610,
+              1248,
+              640
+            ],
+            "vertex_sha256": "3180c47acb88c85776a27ff63c5f43478ab67daff008c98683ea2d7e8bf51531"
+          },
+          "R1_Boot_-1": {
+            "counts": [
+              13712,
+              27420,
+              13710
+            ],
+            "vertex_sha256": "cf5a00c83238b79ed9c4a5f6e61675b8a982c9efad4800ee87556708a83e3f0d"
+          },
+          "R2 curved sole -1": {
+            "counts": [
+              2690,
+              5376,
+              2688
+            ],
+            "vertex_sha256": "49fa5895e9c12dae7f661d2b43c6f68aea9dcd108878ad8074d2a419c9ea4226"
+          },
+          "R2 trouser 1": {
+            "counts": [
+              610,
+              1248,
+              640
+            ],
+            "vertex_sha256": "b9df489d784a21346166c31e630848d19a9f08869111b6b03d3414175d4aad96"
+          },
+          "R1_Boot_1": {
+            "counts": [
+              13712,
+              27420,
+              13710
+            ],
+            "vertex_sha256": "2f3fcc129e342c099160afdf30d06afe78ebc4a3997a60d3fa89ae1b24a1a9e7"
+          },
+          "R2 curved sole 1": {
+            "counts": [
+              2690,
+              5376,
+              2688
+            ],
+            "vertex_sha256": "919725ff7d3e63f1839cb09a96c21e48dfa8e72d820eef3c41c21f0bfc15f913"
+          },
+          "R2_OpenInvitationHand": {
+            "counts": [
+              13356,
+              26708,
+              13354
+            ],
+            "vertex_sha256": "6d0ecaf48f1282ce3979b8e34a8281ab426b001e5a24506415ad8955a091d44e"
+          },
+          "R2_LanternGripHand": {
+            "counts": [
+              12064,
+              24136,
+              12068
+            ],
+            "vertex_sha256": "1a80849272a01f72157c8b10a1ecf5359843b5fdaf5bd7fb9f05659804d33796"
+          },
+          "R1_LanternBlockout": {
+            "counts": [
+              96,
+              192,
+              98
+            ],
+            "vertex_sha256": "e67a7e2eba4abd167f2c4bd1fd5bd6eb3f2a21d10ab877096d205ba0883e51a4"
+          },
+          "R2 lantern handle": {
+            "counts": [
+              4162,
+              8320,
+              4160
+            ],
+            "vertex_sha256": "cd81dc165b02201706d843fafc75109a4733934b5f8937fb15be4c2a32f41acd"
+          },
+          "R3_OneFoldStorybookCap": {
+            "counts": [
+              66050,
+              132096,
+              66048
+            ],
+            "vertex_sha256": "1dd98972b00aded0848c3e2c375ac5adeeba68839be4ef2b9f99c6c931fc39e2"
+          },
+          "R4_ContinuousFacialPlanes": {
+            "counts": [
+              205872,
+              411732,
+              205866
+            ],
+            "vertex_sha256": "72c68d6331504aa22bae0b238613b89629934ac248c78bf7a89f54cc8a867af9"
+          },
+          "R4 inset eye -1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "5c79a94f9c2640adf3e6a1f202f24e45897ee9977be65e5832ef96f82103dce6"
+          },
+          "R4 pupil -1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "a4cd274780fd4ec29c4245be05bfad704c4563189b9cae3a5245b5a3457dcffc"
+          },
+          "R4 soft brow -1": {
+            "counts": [
+              2354,
+              4704,
+              2352
+            ],
+            "vertex_sha256": "e2ca43c79c4a3d5261b47b4ca5d1bbd31cccaa91bb5b2bd45942f7c0f52f3bfe"
+          },
+          "R4 inset eye 1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "8951616346fba07ad4ab898971c806fcfce03e71a3d1ff89cc755bbaf43c76f1"
+          },
+          "R4 pupil 1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "2cd2347c6eac1c1ed01aa2d9b675aed44343fecb0d08aba04d744e9ab8e0336f"
+          },
+          "R4 soft brow 1": {
+            "counts": [
+              2354,
+              4704,
+              2352
+            ],
+            "vertex_sha256": "80cf357f63858873329d31fc7da82f72267682574c70313db6125588275b4cff"
+          }
+        },
+        "foot_maximum_vertex_deltas_from_frame_1": {
+          "R1_Boot_-1": 0.0,
+          "R1_Boot_1": 0.0,
+          "R2 curved sole -1": 0.0,
+          "R2 curved sole 1": 0.0
+        },
+        "endpoint_maximum_vertex_deltas": null
+      },
+      "145": {
+        "coat_edges": {
+          "count": 76908,
+          "min": 1.0,
+          "max": 1.0,
+          "quantiles": {
+            "0.01": 1.0,
+            "0.05": 1.0,
+            "0.25": 1.0,
+            "0.5": 1.0,
+            "0.75": 1.0,
+            "0.95": 1.0,
+            "0.99": 1.0
+          },
+          "compression_counts": {
+            "0.1": 0,
+            "0.25": 0,
+            "0.5": 0
+          },
+          "stretch_counts": {
+            "2": 0,
+            "3": 0,
+            "4": 0
+          }
+        },
+        "right_region_edges": {
+          "count": 39059,
+          "min": 1.0,
+          "max": 1.0,
+          "quantiles": {
+            "0.01": 1.0,
+            "0.05": 1.0,
+            "0.25": 1.0,
+            "0.5": 1.0,
+            "0.75": 1.0,
+            "0.95": 1.0,
+            "0.99": 1.0
+          },
+          "compression_counts": {
+            "0.1": 0,
+            "0.25": 0,
+            "0.5": 0
+          },
+          "stretch_counts": {
+            "2": 0,
+            "3": 0,
+            "4": 0
+          }
+        },
+        "unmeasurably_short_rest_edges": 0,
+        "bvh_candidate_pairs": 0,
+        "bvh_added_vs_rest": 0,
+        "bvh_removed_vs_rest": 0,
+        "coat_vertex_sha256": "5a4658d76eded30c478d26f1e0c2558492f66a3fab728be65a942b1077e3ed99",
+        "outside_coat_evaluated": {
+          "R2_OneSweptBeard": {
+            "counts": [
+              51714,
+              103424,
+              51712
+            ],
+            "vertex_sha256": "1297c018429adc20d639b5d7f74ac08c2fa46c968d1bd2d62af4bf0cfa5719a8"
+          },
+          "R2 moustache -1": {
+            "counts": [
+              3138,
+              6272,
+              3136
+            ],
+            "vertex_sha256": "afd8c64c3b1f304d657b94058e4136fe8d4dd30b752fd58a2a70b8d21eef1894"
+          },
+          "R2 moustache 1": {
+            "counts": [
+              3138,
+              6272,
+              3136
+            ],
+            "vertex_sha256": "4e630f368fe4639d3030d2de67f5b738a154155a046d67d50e538762401a2bbe"
+          },
+          "R2 smile": {
+            "counts": [
+              2114,
+              4224,
+              2112
+            ],
+            "vertex_sha256": "076e69ac94da8614861de3536de94d845763c4e9fccbd2529632543e26e6e62c"
+          },
+          "R1_FoldedCapBand": {
+            "counts": [
+              2690,
+              5376,
+              2688
+            ],
+            "vertex_sha256": "3d8c1c3c03794db0545bf89dc97450885a2c611154f12f53ab211a528477cf63"
+          },
+          "R2 broad folded collar -1": {
+            "counts": [
+              282,
+              560,
+              280
+            ],
+            "vertex_sha256": "9e8130f1bf47bd0427124edc466c9625bcb4e78fabbc2aff2f4ab622969f4919"
+          },
+          "R2 broad folded collar 1": {
+            "counts": [
+              282,
+              560,
+              280
+            ],
+            "vertex_sha256": "e7a0671d825a04dff21f3c4ff5e67cf5a11b119a5505b39aa5d568bcbf25896e"
+          },
+          "R2 trouser -1": {
+            "counts": [
+              610,
+              1248,
+              640
+            ],
+            "vertex_sha256": "3180c47acb88c85776a27ff63c5f43478ab67daff008c98683ea2d7e8bf51531"
+          },
+          "R1_Boot_-1": {
+            "counts": [
+              13712,
+              27420,
+              13710
+            ],
+            "vertex_sha256": "cf5a00c83238b79ed9c4a5f6e61675b8a982c9efad4800ee87556708a83e3f0d"
+          },
+          "R2 curved sole -1": {
+            "counts": [
+              2690,
+              5376,
+              2688
+            ],
+            "vertex_sha256": "49fa5895e9c12dae7f661d2b43c6f68aea9dcd108878ad8074d2a419c9ea4226"
+          },
+          "R2 trouser 1": {
+            "counts": [
+              610,
+              1248,
+              640
+            ],
+            "vertex_sha256": "b9df489d784a21346166c31e630848d19a9f08869111b6b03d3414175d4aad96"
+          },
+          "R1_Boot_1": {
+            "counts": [
+              13712,
+              27420,
+              13710
+            ],
+            "vertex_sha256": "2f3fcc129e342c099160afdf30d06afe78ebc4a3997a60d3fa89ae1b24a1a9e7"
+          },
+          "R2 curved sole 1": {
+            "counts": [
+              2690,
+              5376,
+              2688
+            ],
+            "vertex_sha256": "919725ff7d3e63f1839cb09a96c21e48dfa8e72d820eef3c41c21f0bfc15f913"
+          },
+          "R2_OpenInvitationHand": {
+            "counts": [
+              13356,
+              26708,
+              13354
+            ],
+            "vertex_sha256": "022e28c7451ecf40b0fe2dd703a349534d60e157a3864be9e27d14878f844013"
+          },
+          "R2_LanternGripHand": {
+            "counts": [
+              12064,
+              24136,
+              12068
+            ],
+            "vertex_sha256": "344bbb8d1a36def583ae2529c4713c80a4db3338e5639584a93c3e6c26ce92af"
+          },
+          "R1_LanternBlockout": {
+            "counts": [
+              96,
+              192,
+              98
+            ],
+            "vertex_sha256": "926d93319ba95fe1ec6ddbee0d183720d398db807c347134c5d6ab92d816c08d"
+          },
+          "R2 lantern handle": {
+            "counts": [
+              4162,
+              8320,
+              4160
+            ],
+            "vertex_sha256": "8901c8c72ae92a17d0f461f78afcf5426c975c3275dc81094692ce8d0fe624f7"
+          },
+          "R3_OneFoldStorybookCap": {
+            "counts": [
+              66050,
+              132096,
+              66048
+            ],
+            "vertex_sha256": "cc6dd1676ce51528854431cb4284c163c0a09515503e457a372f2f155ef0adf0"
+          },
+          "R4_ContinuousFacialPlanes": {
+            "counts": [
+              205872,
+              411732,
+              205866
+            ],
+            "vertex_sha256": "f13de704785c53e98c2182b3c6f08101edb7dc1b480652c42bf58d8ac6464906"
+          },
+          "R4 inset eye -1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "bc26e5514050e4225f1d6c5eac28ec839dae4da49bd2763ca7256ecba13832c5"
+          },
+          "R4 pupil -1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "d482cccbc5c6b0b0eefc097eadfb6afbc56de0a5ab298c6a49c2bfb27a0bf4cd"
+          },
+          "R4 soft brow -1": {
+            "counts": [
+              2354,
+              4704,
+              2352
+            ],
+            "vertex_sha256": "31ed46af0a5d43bd81bf02a9a7557af6975801159cb067d0aaaff20354153dce"
+          },
+          "R4 inset eye 1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "3d53461ef6301c88e772fbeb6c1021082543d0c643abb021803770f1d1ccd2f2"
+          },
+          "R4 pupil 1": {
+            "counts": [
+              922,
+              1880,
+              960
+            ],
+            "vertex_sha256": "d60e21c388dff2c6025d1303632469cbee79250dfedcfed26d64f27b9b54092f"
+          },
+          "R4 soft brow 1": {
+            "counts": [
+              2354,
+              4704,
+              2352
+            ],
+            "vertex_sha256": "e07dd244a0c80e3d2a076446ec50abdf3e582c5f964779ab5d43fbfce730749c"
+          }
+        },
+        "foot_maximum_vertex_deltas_from_frame_1": {
+          "R1_Boot_-1": 0.0,
+          "R1_Boot_1": 0.0,
+          "R2 curved sole -1": 0.0,
+          "R2 curved sole 1": 0.0
+        },
+        "endpoint_maximum_vertex_deltas": {
+          "R2_ContinuousCoat": 0.0,
+          "R2_OneSweptBeard": 0.0,
+          "R2 moustache -1": 0.0,
+          "R2 moustache 1": 0.0,
+          "R2 smile": 0.0,
+          "R1_FoldedCapBand": 0.0,
+          "R2 broad folded collar -1": 0.0,
+          "R2 broad folded collar 1": 0.0,
+          "R2 trouser -1": 0.0,
+          "R1_Boot_-1": 0.0,
+          "R2 curved sole -1": 0.0,
+          "R2 trouser 1": 0.0,
+          "R1_Boot_1": 0.0,
+          "R2 curved sole 1": 0.0,
+          "R2_OpenInvitationHand": 0.0,
+          "R2_LanternGripHand": 0.0,
+          "R1_LanternBlockout": 0.0,
+          "R2 lantern handle": 0.0,
+          "R3_OneFoldStorybookCap": 0.0,
+          "R4_ContinuousFacialPlanes": 0.0,
+          "R4 inset eye -1": 0.0,
+          "R4 pupil -1": 0.0,
+          "R4 soft brow -1": 0.0,
+          "R4 inset eye 1": 0.0,
+          "R4 pupil 1": 0.0,
+          "R4 soft brow 1": 0.0
+        }
+      }
+    },
+    "sample_frames": [
+      1,
+      37,
+      55,
+      73,
+      91,
+      109,
+      145
+    ],
+    "coordinate_method": "Actual dependency-graph evaluated world mesh vertices",
+    "bvh_verdict": "Diagnostic non-adjacent overlap candidates; not a visual or intersection-free verdict",
+    "position_tolerance": 1e-05
+  },
+  "human_decisions": {
+    "form_R4": "ACCEPTED",
+    "materials_M2": "ACCEPTED",
+    "Rig_R1": "NOT_ACCEPTED_SLEEVE_PINCHING",
+    "Rig_R2": "PENDING_VISUAL_ACCEPTANCE"
+  },
+  "original_animation": "EXACT_KEYS_HANDLES_TIMING_AMPLITUDE_REST_BONES_PRESERVED",
+  "helpers_added": 1,
+  "game_integration": false,
+  "android_performance": "NOT_MEASURED"
+}

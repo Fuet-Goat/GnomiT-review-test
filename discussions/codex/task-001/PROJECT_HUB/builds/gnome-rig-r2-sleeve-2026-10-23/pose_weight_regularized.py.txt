@@ -1,0 +1,112 @@
+"""Diagnostic bounded multi-pose strain optimisation; original geometry/action frozen."""
+import bpy, numpy as np, importlib.util, json
+from pathlib import Path
+from mathutils import Vector
+BASE=Path(__file__).resolve().parents[1]
+SPEC=importlib.util.spec_from_file_location('D',BASE/'source/sleeve_weights_D_DIAGNOSTIC.py')
+D=importlib.util.module_from_spec(SPEC);SPEC.loader.exec_module(D)
+NAMES=['Root','Chest','upperarm.R','forearm.R',D.HELPER]
+
+def cross(a,b): return np.cross(a,b)
+def deformed(w,p,qs,ds):
+    q=w@qs;d=w@ds;norm=np.linalg.norm(q,axis=1)[:,None]
+    q=q/norm;d=d/norm
+    v=q[:,1:];qw=q[:,:1]
+    return p+2*cross(v,cross(v,p)+qw*p)+2*(qw*d[:,1:]-d[:,:1]*v+cross(v,d[:,1:]))
+
+def main():
+    bpy.ops.wm.open_mainfile(filepath=str(BASE.parent/'Gnome_M2_Rig_R1_2026-10-23/native/GNOME_RIG_R1_GREETING.blend'))
+    scene=bpy.context.scene;c=bpy.data.objects['R2_ContinuousCoat'];rig=bpy.data.objects['RigR1_GnomeArmature']
+    scene.frame_set(1);D.apply_sleeve_weights(c,rig)
+    p=np.array([v.co[:] for v in c.data.vertices]);n=len(p)
+    w=np.zeros((n,5));ids={c.vertex_groups[name].index:k for k,name in enumerate(NAMES)}
+    for v in c.data.vertices:
+        for g in v.groups:
+            if g.group in ids:w[v.index,ids[g.group]]=g.weight
+    edges=np.array([e.vertices[:] for e in c.data.edges]);a,b=edges.T
+    full_a,full_b=a.copy(),b.copy()
+    rest=np.linalg.norm(p[a]-p[b],axis=1)
+    # Original left-arm groups remain outside this optimisation field.
+    active=(p[:,0]<-.04)&(p[:,2]>.60)&(p[:,2]<1.04)&(w[:,2:].sum(axis=1)>.003)&(w[:,3]<.999)
+    active &= ~((p[:,0]>-.20)&(p[:,2]<.80))
+    selected=active[a]|active[b];a=a[selected];b=b[selected];rest=rest[selected]
+    data=[];errors=[]
+    for frame in [55,73,91]:
+        scene.frame_set(frame);bpy.context.view_layer.update();qs=[];ds=[]
+        for name in NAMES:
+            matrix=rig.pose.bones[name].matrix @ rig.data.bones[name].matrix_local.inverted()
+            quat=matrix.to_quaternion();quat.normalize()
+            if quat.w<0:quat.negate()
+            q=np.array(quat[:]);t=np.array(matrix.translation[:]);dv=.5*(q[0]*t+np.cross(t,q[1:]));dw=-.5*np.dot(t,q[1:])
+            qs.append(q);ds.append(np.r_[dw,dv])
+        qs=np.array(qs);ds=np.array(ds);data.append((qs,ds))
+        dg=bpy.context.evaluated_depsgraph_get();ob=c.evaluated_get(dg);mesh=ob.to_mesh();actual=np.array([v.co[:] for v in mesh.vertices]);ob.to_mesh_clear()
+        pred=deformed(w,p,qs,ds);errors.append(float(np.max(np.linalg.norm(pred[active]-actual[active],axis=1))))
+    if max(errors)>.0001:raise RuntimeError('DQ model mismatch '+str(errors))
+    initial=w.copy();m=np.zeros_like(w);v=np.zeros_like(w);history=[]
+    graph_a=np.r_[full_a,full_b];graph_b=np.r_[full_b,full_a]
+    degree=np.bincount(graph_a,minlength=n)
+    best=w.copy();best_objective=float('inf')
+    def assess(weights):
+        loss=0.;minimum=100.;maximum=0.
+        for qs,ds in data:
+            out=deformed(weights,p,qs,ds);ratio=np.linalg.norm(out[a]-out[b],axis=1)/rest
+            loss+=float(np.mean(np.log(np.maximum(ratio,.01))**2))
+            minimum=min(minimum,float(ratio.min()));maximum=max(maximum,float(ratio.max()))
+        return loss,minimum,maximum
+    startloss,startmin,startmax=assess(w)
+    best_objective=startloss
+    # Hard caps on optimiser iterations; all optimisation stays in memory.
+    for iteration in range(70):
+        grad=np.zeros_like(w);objective=0.
+        for qs,ds in data:
+            pos=deformed(w,p,qs,ds);delta=pos[a]-pos[b];length=np.linalg.norm(delta,axis=1)
+            ratio=length/rest
+            # Symmetric log strain; 20x compression is as costly as20x stretch.
+            log=np.log(np.maximum(ratio,.01));objective+=float(np.mean(log*log))
+            derivative=2*log[:,None]*delta/np.maximum(length[:,None]**2,1e-10)
+            pg=np.zeros_like(pos);np.add.at(pg,a,derivative);np.add.at(pg,b,-derivative)
+            for k in range(5):
+                test=w.copy();test[:,k]+=.0001
+                jac=(deformed(test,p,qs,ds)-pos)/.0001
+                grad[:,k]+=np.sum(pg*jac,axis=1)
+        # Smooth weights suppress narrow oscillations and moving cap spikes.
+        diff=w[a]-w[b];sg=np.zeros_like(w);np.add.at(sg,a,diff);np.add.at(sg,b,-diff)
+        grad += .20*sg + .03*(w-initial)
+        grad[~active]=0
+        m=.9*m+.1*grad;v=.999*v+.001*grad*grad
+        step=.0015*(m/(1-.9**(iteration+1)))/(np.sqrt(v/(1-.999**(iteration+1)))+1e-8)
+        trial=w.copy();trial[active]-=step[active]
+        delta=trial-initial;delta[~active]=0
+        # Optimise a smooth displacement of the original weight field, rather
+        # than independent per-vertex weights that can create normal ripples.
+        for diffusion in range(18):
+            mean=np.column_stack([np.bincount(graph_a,weights=delta[graph_b,k],minlength=n)/degree for k in range(5)])
+            delta[active]=.5*delta[active]+.5*mean[active];delta[~active]=0
+        trial=initial+delta;trial[active]=np.maximum(trial[active],0)
+        trial[active]/=trial[active].sum(axis=1)[:,None]
+        score,low,high=assess(trial)
+        # No optimisation iterate may exchange lower average strain for a
+        # catastrophic new outlier; the inherited peak must not grow.
+        if high<=startmax*1.02 and low>=startmin*.95:
+            w=trial
+            if score<best_objective:best_objective=score;best=w.copy()
+        if iteration%10==0:print('REGULARIZED',iteration,score,low,high,'best',best_objective,flush=True)
+        if iteration%10==0:history.append([iteration,objective]);print('POSE_REGULARIZED',iteration,objective,flush=True)
+    w=best
+    for i in np.flatnonzero(active):
+        for k,name in enumerate(NAMES):
+            c.vertex_groups[name].add([int(i)],float(w[i,k]),'REPLACE')
+    scene.frame_set(73);bpy.context.view_layer.update()
+    # Own diagnostic names only; root decides whether anything is promotable.
+    scene.render.resolution_x=600;scene.render.resolution_y=840;scene.render.resolution_percentage=100
+    scene.render.filepath=str(BASE/'outputs/POSE_REGULARIZED_FRONT_073.png');bpy.ops.render.render(write_still=True)
+    target=Vector((-.275,-.02,.79));cam=scene.camera;cam.location=target+Vector((-2.8,-5.,.7));cam.rotation_euler=(target-cam.location).to_track_quat('-Z','Y').to_euler();cam.data.ortho_scale=.87
+    scene.render.resolution_x=scene.render.resolution_y=680;scene.render.filepath=str(BASE/'outputs/POSE_REGULARIZED_SLEEVE_073.png');bpy.ops.render.render(write_still=True)
+    final=[]
+    for frame,(qs,ds) in zip([55,73,91],data):
+        pos=deformed(w,p,qs,ds);rat=np.linalg.norm(pos[a]-pos[b],axis=1)/rest
+        final.append({'frame':frame,'min':float(rat.min()),'max':float(rat.max()),'q01':float(np.quantile(rat,.01)),'q99':float(np.quantile(rat,.99))})
+    (BASE/'documentation/POSE_WEIGHT_REGULARIZED_DIAG.json').write_text(json.dumps({'dq_match_error_m':errors,'active_vertices':int(active.sum()),'objective_history':history,'final':final,'status':'DIAGNOSTIC_ONLY'},indent=2))
+    bpy.ops.wm.save_as_mainfile(filepath=str(BASE/'native/POSE_WEIGHT_REGULARIZED_DIAGNOSTIC.blend'))
+if __name__=='__main__':main()

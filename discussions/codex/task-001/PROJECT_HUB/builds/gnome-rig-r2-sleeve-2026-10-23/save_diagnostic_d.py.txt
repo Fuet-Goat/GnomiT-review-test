@@ -1,0 +1,22 @@
+"""Preserve best skinning-only diagnostic D as VISUAL_HOLD, never as accepted R2."""
+from pathlib import Path
+import sys,json,hashlib
+import bpy
+ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'source'))
+from sleeve_weights_D_DIAGNOSTIC import apply_sleeve_weights
+from validate_sleeve_r2 import snapshot,assert_preserved
+source=ROOT/'reference/GNOME_RIG_R1_GREETING.blend'
+assert hashlib.sha256(source.read_bytes()).hexdigest()=='43e9832811a89f9f4af660097f9b3abd69744f919f6179859763b00bdd0283be'
+target=ROOT/'native/DIAGNOSTIC_D_VISUAL_HOLD.blend';assert not target.exists()
+bpy.ops.wm.open_mainfile(filepath=str(source));scene=bpy.context.scene;scene.frame_set(1)
+before=snapshot(scene);rig=bpy.data.objects['RigR1_GnomeArmature']
+repair=apply_sleeve_weights(bpy.data.objects['R2_ContinuousCoat'],rig)
+bpy.context.view_layer.update()
+assert rig.pose.bones[repair['helper']['name']].constraints[0].type=='COPY_ROTATION'
+assert rig.pose.bones[repair['helper']['name']].constraints[0].target==rig
+guard=assert_preserved(before,snapshot(scene),helper_name=repair['helper']['name'])
+bpy.data.texts.new('VISUAL_HOLD_NOT_ACCEPTED').write('Diagnostic D. Better edge ratios, but visible shoulder spike and underarm rubber-like web remain. NOT accepted. Original motion/form/materials preserved; one helper bone. Do not integrate or treat as the requested successful Rig R2.\n')
+bpy.context.preferences.filepaths.save_version=0
+bpy.ops.wm.save_as_mainfile(filepath=str(target),check_existing=False)
+(ROOT/'documentation/DIAGNOSTIC_D_PRESERVATION.json').write_bytes((json.dumps({'status':'VISUAL_HOLD_NOT_ACCEPTED','repair':repair,'preservation':guard,'native':str(target),'native_sha256':hashlib.sha256(target.read_bytes()).hexdigest()},indent=2)+'\n').encode())
+print('DIAGNOSTIC_D_SAVED_NOT_ACCEPTED',flush=True)

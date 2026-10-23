@@ -1,0 +1,96 @@
+"""Pinned R1 -> sleeve-only candidate diagnostics; no native save."""
+from pathlib import Path
+import hashlib
+import json
+import sys
+
+import bpy
+from mathutils import Vector
+
+ROOT = Path(__file__).resolve().parents[1]
+R1 = ROOT.parent / 'Gnome_M2_Rig_R1_2026-10-23'
+SOURCE = R1 / 'native/GNOME_RIG_R1_GREETING.blend'
+EXPECTED = '43e9832811a89f9f4af660097f9b3abd69744f919f6179859763b00bdd0283be'
+sys.path.insert(0, str(ROOT / 'source'))
+sys.path.insert(0, str(R1 / 'source'))
+from sleeve_weights import apply_sleeve_weights
+from validate_rig import _evaluated_geometry, _distance, _coat_intersection_candidates
+
+
+def measure(coat, scene, baseline):
+    records = []
+    for frame in (37, 55, 73, 91, 109):
+        scene.frame_set(frame)
+        bpy.context.view_layer.update()
+        current = _evaluated_geometry(coat, bpy.context.evaluated_depsgraph_get(), True)
+        ratios = []
+        for a, b in baseline['edges']:
+            old = _distance(baseline['vertices'][a], baseline['vertices'][b])
+            if old > 1e-9:
+                ratios.append((_distance(current['vertices'][a], current['vertices'][b]) / old, a, b))
+        high = max(ratios)
+        low = min(ratios)
+        records.append({'frame': frame, 'minimum_edge_ratio': low[0], 'maximum_edge_ratio': high[0],
+                        'worst_stretched_edge_indices': list(high[1:]),
+                        'worst_compressed_edge_indices': list(low[1:]),
+                        'worst_rest_coordinates': [baseline['vertices'][high[1]], baseline['vertices'][high[2]]],
+                        'compressed_rest_coordinates': [baseline['vertices'][low[1]], baseline['vertices'][low[2]]],
+                        'compressed_vertex_weights': [{coat.vertex_groups[g.group].name: float(g.weight)
+                              for g in coat.data.vertices[i].groups} for i in low[1:]],
+                        'bvh': _coat_intersection_candidates(current)})
+    return records
+
+
+def renders(scene, prefix):
+    cam = scene.camera
+    original = cam.matrix_world.copy()
+    original_scale = cam.data.ortho_scale
+    dimensions = scene.render.resolution_x, scene.render.resolution_y
+    scene.render.resolution_x, scene.render.resolution_y = 600, 840
+    scene.render.resolution_percentage = 100
+    for frame in (55, 73):
+        scene.frame_set(frame)
+        scene.render.filepath = str(ROOT / f'outputs/{prefix}_FRONT_{frame:03d}.png')
+        bpy.ops.render.render(write_still=True)
+    # Identical close 3/4 camera for both versions; studio illumination frozen.
+    target = Vector((-.275, -.02, .79))
+    cam.location = target + Vector((-2.8, -5., .7))
+    cam.rotation_euler = (target - cam.location).to_track_quat('-Z', 'Y').to_euler()
+    cam.data.ortho_scale = .87
+    scene.render.resolution_x = scene.render.resolution_y = 680
+    for frame in (55, 73):
+        scene.frame_set(frame)
+        scene.render.filepath = str(ROOT / f'outputs/{prefix}_SLEEVE_THREE_QUARTER_{frame:03d}.png')
+        bpy.ops.render.render(write_still=True)
+    cam.matrix_world = original
+    cam.data.ortho_scale = original_scale
+    scene.render.resolution_x, scene.render.resolution_y = dimensions
+
+
+def main():
+    assert hashlib.sha256(SOURCE.read_bytes()).hexdigest() == EXPECTED
+    (ROOT / 'outputs').mkdir(exist_ok=True)
+    (ROOT / 'documentation').mkdir(exist_ok=True)
+    bpy.ops.wm.open_mainfile(filepath=str(SOURCE))
+    scene = bpy.context.scene
+    coat = bpy.data.objects['R2_ContinuousCoat']
+    scene.frame_set(1)
+    bpy.context.view_layer.update()
+    baseline = _evaluated_geometry(coat, bpy.context.evaluated_depsgraph_get(), True)
+    before = measure(coat, scene, baseline)
+    print('R1_BASELINE ' + json.dumps(before), flush=True)
+    if '--baseline-render' in sys.argv:
+        renders(scene, 'R1_BASELINE')
+    metadata = apply_sleeve_weights(coat, bpy.data.objects['RigR1_GnomeArmature'])
+    after = measure(coat, scene, baseline)
+    print('R2_CANDIDATE ' + json.dumps({'weights': metadata, 'samples': after}), flush=True)
+    if '--no-render' not in sys.argv:
+        renders(scene, 'R2_CANDIDATE')
+    assert hashlib.sha256(SOURCE.read_bytes()).hexdigest() == EXPECTED
+    (ROOT / 'documentation/SLEEVE_DIAGNOSTIC.json').write_text(
+        json.dumps({'source': str(SOURCE), 'source_sha256_unchanged': EXPECTED,
+                    'weights': metadata, 'baseline': before, 'candidate': after}, indent=2) + '\n', encoding='utf-8')
+
+
+if __name__ == '__main__':
+    main()

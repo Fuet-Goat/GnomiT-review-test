@@ -1,0 +1,63 @@
+"""One F diagnostic: archived D + native CorrectiveSmooth; no native save."""
+from pathlib import Path
+import hashlib
+import importlib.util
+import json
+import sys
+
+import bpy
+
+ROOT = Path(__file__).resolve().parents[1]
+R1 = ROOT.parent / 'Gnome_M2_Rig_R1_2026-10-23'
+SOURCE = R1 / 'native/GNOME_RIG_R1_GREETING.blend'
+STATIC = R1 / 'native/GNOME_M2_FINISH.blend'
+EXPECTED = '43e9832811a89f9f4af660097f9b3abd69744f919f6179859763b00bdd0283be'
+STATIC_EXPECTED = 'ceab58183d8abee88e56731795ab13751661966ef9ef85c05de015d494d0fb2e'
+sys.path.insert(0, str(ROOT / 'source'))
+sys.path.insert(0, str(R1 / 'source'))
+from corrective_deformation import apply_corrective_deformation
+from diagnose_sleeve import measure, renders
+from validate_rig import _evaluated_geometry, _max_vertex_delta
+
+
+def main():
+    assert hashlib.sha256(SOURCE.read_bytes()).hexdigest() == EXPECTED
+    assert hashlib.sha256(STATIC.read_bytes()).hexdigest() == STATIC_EXPECTED
+    bpy.ops.wm.open_mainfile(filepath=str(STATIC))
+    static_objects = [obj for obj in bpy.data.collections['R2_NEW_GNOME'].objects if obj.type == 'MESH']
+    graph = bpy.context.evaluated_depsgraph_get()
+    static = {obj.name: _evaluated_geometry(obj, graph)['vertices'] for obj in static_objects}
+    bpy.ops.wm.open_mainfile(filepath=str(SOURCE))
+    scene = bpy.context.scene
+    coat = bpy.data.objects['R2_ContinuousCoat']
+    scene.frame_set(1)
+    bpy.context.view_layer.update()
+    baseline = _evaluated_geometry(coat, bpy.context.evaluated_depsgraph_get(), True)
+    spec = importlib.util.spec_from_file_location('archived_D', ROOT / 'source/sleeve_weights_D_DIAGNOSTIC.py')
+    archived = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(archived)
+    d_metadata = archived.apply_sleeve_weights(coat, bpy.data.objects['RigR1_GnomeArmature'])
+    d_measurements = measure(coat, scene, baseline)
+    f_metadata = apply_corrective_deformation(coat, scene)
+    scene.frame_set(1)
+    bpy.context.view_layer.update()
+    graph = bpy.context.evaluated_depsgraph_get()
+    neutral = {name: _max_vertex_delta(verts, _evaluated_geometry(bpy.data.objects[name], graph)['vertices'])
+               for name, verts in static.items()}
+    assert max(neutral.values()) < 1e-5, neutral
+    # Mask is exactly zero at left vertices by construction. Independent
+    # native-build protection checks remain separate from this one diagnostic.
+    f_measurements = measure(coat, scene, baseline)
+    renders(scene, 'R2_CANDIDATE_F')
+    assert hashlib.sha256(SOURCE.read_bytes()).hexdigest() == EXPECTED
+    assert hashlib.sha256(STATIC.read_bytes()).hexdigest() == STATIC_EXPECTED
+    result = {'status': 'DIAGNOSTIC_ONLY_NOT_ACCEPTED', 'source_sha256': EXPECTED,
+              'static_sha256': STATIC_EXPECTED, 'd_weights': d_metadata,
+              'corrective': f_metadata, 'frame1_max_vertex_deltas_to_static_m2': neutral,
+              'd_measurements': d_measurements, 'f_measurements': f_measurements}
+    (ROOT / 'documentation/CORRECTIVE_F_DIAGNOSTIC.json').write_text(json.dumps(result, indent=2) + '\n', encoding='utf-8')
+    print('CORRECTIVE_F ' + json.dumps(result), flush=True)
+
+
+if __name__ == '__main__':
+    main()
