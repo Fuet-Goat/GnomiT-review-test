@@ -1,0 +1,35 @@
+{
+  "source_commit": "324448e1f4aaeceb0c03f283744b1e7d5ed21574",
+  "existing_assets_unchanged": true,
+  "existing_asset_count": 35,
+  "media": [
+    {
+      "name": "GNOMIT_REAL_MAP_R3_GREETING.gif",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/gnome-r3-visual-review-2026-10-22/GNOMIT_REAL_MAP_R3_GREETING.gif",
+      "bytes": 24935950,
+      "sha256": "8363264e9a7e3f35fa993fbc643b2874293f18ae58ace6fe4100c321f78ea113",
+      "anonymous_readback_byte_identical": true
+    },
+    {
+      "name": "GNOMIT_REAL_MAP_OLD_MASTER.png",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/gnome-r3-visual-review-2026-10-22/GNOMIT_REAL_MAP_OLD_MASTER.png",
+      "bytes": 853597,
+      "sha256": "79181d3e90f965b2dd6e6c03586918ae61f1b84c2fbce37f4ba01c7300f28f1c",
+      "anonymous_readback_byte_identical": true
+    },
+    {
+      "name": "GNOMIT_REAL_MAP_CHARACTER_CROPS.png",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/gnome-r3-visual-review-2026-10-22/GNOMIT_REAL_MAP_CHARACTER_CROPS.png",
+      "bytes": 57989,
+      "sha256": "8b2ca81d45238876ac7504b231db76353e489bcb0f612dcedbaf9f253f22910c",
+      "anonymous_readback_byte_identical": true
+    },
+    {
+      "name": "GNOMIT_REAL_MAP_INTEGRATION_R1_2026-10-23.zip",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/gnome-r3-visual-review-2026-10-22/GNOMIT_REAL_MAP_INTEGRATION_R1_2026-10-23.zip",
+      "bytes": 76144710,
+      "sha256": "9ec51b98900ba292b33a937b905ea70a273c7e75d9a1b80fd4aa0cf183d03e54",
+      "anonymous_readback_byte_identical": true
+    }
+  ]
+}
