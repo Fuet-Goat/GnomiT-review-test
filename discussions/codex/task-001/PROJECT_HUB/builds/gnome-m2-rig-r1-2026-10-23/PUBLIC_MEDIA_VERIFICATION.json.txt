@@ -1,0 +1,42 @@
+{
+  "source_commit": "7f0c9c6613670774bf14306cec6e5955805c842a",
+  "existing_assets_unchanged": true,
+  "existing_asset_count": 10,
+  "media": [
+    {
+      "name": "GNOMIT_M1_M2_FINISH_COMPARISON.png",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/gnome-r3-visual-review-2026-10-22/GNOMIT_M1_M2_FINISH_COMPARISON.png",
+      "bytes": 579603,
+      "sha256": "dad0e936ae7cb766c52049407272c065ee51ca3746f3cf99381c2d7c812157f4",
+      "anonymous_readback_byte_identical": true
+    },
+    {
+      "name": "GNOMIT_RIG_R1_GREETING.gif",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/gnome-r3-visual-review-2026-10-22/GNOMIT_RIG_R1_GREETING.gif",
+      "bytes": 7324597,
+      "sha256": "9e47dfad8e6c3d23035faab3fedcaf0b173cdd650b37ac248d5c797b097c18eb",
+      "anonymous_readback_byte_identical": true
+    },
+    {
+      "name": "GNOMIT_RIG_R1_KEYPOSES.png",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/gnome-r3-visual-review-2026-10-22/GNOMIT_RIG_R1_KEYPOSES.png",
+      "bytes": 319955,
+      "sha256": "ed25389f8f58e4fe48cdd1909e5224f58cce4b073b5a8a844a73accf18d80e64",
+      "anonymous_readback_byte_identical": true
+    },
+    {
+      "name": "GNOMIT_M2_MAP_SCALE.png",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/gnome-r3-visual-review-2026-10-22/GNOMIT_M2_MAP_SCALE.png",
+      "bytes": 633038,
+      "sha256": "d0c1b5a7da2177ef8e2979fd75764b5c5eedc0069abf41601e0055ea05bd1f86",
+      "anonymous_readback_byte_identical": true
+    },
+    {
+      "name": "GNOMIT_M2_FINISH_RIG_R1_2026-10-23.zip",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/gnome-r3-visual-review-2026-10-22/GNOMIT_M2_FINISH_RIG_R1_2026-10-23.zip",
+      "bytes": 38394316,
+      "sha256": "6f72dccb0f0374903b87388d7ae3637c5ce39270882ebbb884248d903516fe35",
+      "anonymous_readback_byte_identical": true
+    }
+  ]
+}
