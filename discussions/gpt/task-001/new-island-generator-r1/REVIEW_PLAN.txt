@@ -1,0 +1,56 @@
+# Airy Island Source Proposal Review Plan
+
+For the later implementer: this is a review plan, not execution authority.
+Goal: native editable island following the middle panel, less ground clutter.
+Architecture: seven self-contained Blender Python modules plus one settings file.
+Tech stack: bpy, mathutils and Python standard library only.
+Spec: input commit 3928d49c29698672cd87585531479dfd113f80a2, GENERATOR_CONTRACT_BG.txt.
+
+GLOBAL CONSTRAINTS
+No old mesh/layout/camera or reference-image plane as terrain. No gnome, UI,
+gameplay, sounds or animation. No network, subprocess, package installation or
+purchases. New absolute output directory. Existing directories must be refused.
+Stage A never imports or executes the source. Only text validation is performed.
+
+REVIEW FOCUS
+1. Existing output, relative path, loaded user scene: fail without modifying them.
+2. Tight road bend: prevent intersecting rectangular boards, inspect outer seams.
+3. Portrait crop: all crown and earth bounds fit at 432x960 and 864x1920.
+4. Packed textures and colour: no missing PNG; verify save/reopen and GLB import.
+5. Small decoration: exclusion zones and marker clearance remain visibly open.
+
+TASK 1 - RECEIPT AND MATERIALIZATION (future owner-authorized review)
+Files: all SOURCE/*.py.txt and SOURCE/scene_settings.json.txt.
+[ ] Verify DELIVERY_MANIFEST entries against exact remote bytes.
+[ ] In a new folder, map every SOURCE/<name>.py.txt to <name>.py and json.txt to json.
+[ ] Confirm seven local imports and one settings file. No EXAMPLES_ONLY import.
+[ ] Review build_scene.main for absolute-new-path and background/factory guards.
+Expected: same byte contents, only filenames changed; nothing executed yet.
+
+TASK 2 - SINGLE NATIVE DRAFT (not done here)
+Entry: build_scene.main(); input: settings + --seed + --output + --render-mode draft.
+[ ] Read all material generation and filesystem operations first.
+[ ] After explicit execution authority, run the exact contract in README_BG.txt.
+[ ] Existing output directory must fail before scene reset/output overwriting.
+[ ] Relative output must fail; direct open-session execution must fail.
+[ ] On valid new output, collect actual BUILD_RECEIPT and stdout; preserve failures.
+[ ] Check ten collections, Road_Centerline/Level_1_Anchor/Level_2_Anchor, and separate
+    planks, posts, trunks, crowns, mine stones and timbers in the saved source.
+[ ] Read geometry metadata; inspect overlap rejection or gap warnings, not counts alone.
+[ ] Inspect hollow doorway from portrait and front views, no threshold void or occluder.
+
+TASK 3 - REOPEN, GLB AND VISUAL ACCEPTANCE (not done here)
+[ ] Reopen the produced .blend in a clean local process; render same camera/settings.
+[ ] Decode both actual PNGs if final mode selected; check exact pixel dimensions.
+[ ] Reimport GLB separately; inspect normals, UV grain direction, material colours,
+    retained names and anchor transforms after Blender Z-up -> glTF Y-up conversion.
+[ ] Compare PRIMARY middle panel, ignoring its frame/title/crown: elongated island,
+    two bends, mine upper-right, mushroom left, crown fullness, soft materials.
+[ ] Review quiet lawns and less decoration, without flattening into low-poly art.
+[ ] Mark Blender build, render observation, GLB reimport and human approval separately.
+[ ] Any correction becomes a preserved new proposal/output version. No auto-merge.
+
+KNOWN LIMITATION
+No static checker can decide whether this generator looks close enough to the
+reference. Similarity, good topology after modifiers, material perception and
+runtime performance require the later real Blender/render/engine stages.

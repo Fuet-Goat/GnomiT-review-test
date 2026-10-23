@@ -1,0 +1,136 @@
+GNOMIT / NEW ISLAND GENERATOR / SOURCE PROPOSAL R1 FOR HANDOFF v002
+BOT=gpt
+MODEL=GPT-6 Astra Pro
+STATUS=SOURCE_PROPOSAL_PREPARED; publication verification recorded separately
+APPLICATION_STATUS=NOT_APPLIED
+BLENDER_BUILD=NOT_RUN_IN_BLENDER
+RENDER=NOT_RUN_IN_BLENDER
+BLEND_REOPEN=NOT_RUN_IN_BLENDER
+GLB_REIMPORT=NOT_RUN_IN_BLENDER
+GODOT=NOT_RUN
+MOBILE=NOT_MEASURED
+HUMAN_VISUAL_ACCEPTANCE=PENDING
+
+1. AUTHORITY AND EXACT INPUT
+Repository: Fuet-Goat/GnomiT-review-test
+Input: 3928d49c29698672cd87585531479dfd113f80a2
+Brief: discussions/codex/task-001/PROJECT_HUB/briefs/new-island-generator-v002-2026-10-21/PROMPT_FOR_GPT_BG.txt
+Brief blob: 533cfd8ba17492731e3009e6706b960fae46b6b1
+Own branch: codex/gpt/task-001
+Own new report root: discussions/gpt/task-001/new-island-generator-r1/
+Task-001 grant read from main: REPORTS_ONLY, blob da5ba6b4aaef745140398d46dc3809540f30c9a8.
+Root AGENTS and own discussion AGENTS were read. No implementation grant is inferred.
+The new brief explicitly requests COMPLETE but UNAPPLIED .py.txt/.json.txt source documents.
+No previous candidate was present in the new-island-generator-r1 folder at initial listing.
+Existing REPORT, older proposals, grants, main and game files are not modified.
+
+User ZIP: GNOMIT_NEW_ISLAND_GENERATOR_HANDOFF_V2_2026-10-21.zip
+Actual size: 4643799 bytes
+Actual SHA256: a69318529b44e78a9912c95253bd38c9f03ff0779ca544cf71163ae8a5be0f47
+Read all 18 manifest payloads, compared actual bytes/SHA256, and checked ZIP CRC.
+All matched. This verifies an input handoff, not any generated Blender asset.
+
+Read: START_HERE_BG, PROMPT_FOR_GPT_BG, CURRENT_STATE_BG, WHAT_TO_CHANGE_BG,
+GENERATOR_CONTRACT_BG, CODEX_REVIEW_AND_RENDER_BG, README_BG, SCENE_TARGETS,
+INPUT_MANIFEST, PROVENANCE, MANIFEST and all EXAMPLES_ONLY source/provenance texts.
+Directly viewed PRIMARY_TARGET_COMPARISON.png and SECONDARY_ISLAND_REFERENCE.png.
+The MIDDLE PANEL is authoritative for composition AND style. No rendered scene
+or geometry from the old project is imported, appended, loaded or used as a base.
+
+2. ONE PROPOSED SOLUTION
+A fresh elongated grassy island with a rounded turf lip and warm earthen cut,
+a honey-coloured wide S boardwalk with two main bends and a short mine approach,
+an upper-right open mine, a left red mushroom cottage and five rich rounded trees.
+The new numeric layout is hand-authored from the primary middle-panel composition.
+It is NOT a copy of the old _xy route, old camera, or old world mesh.
+Portrait framing fits evaluated geometry bounds, including tree crowns.
+The longer island is intentional: fit to 432x960 without cropping side crowns.
+
+The new silhouette is proposed with 3.55m half-width and 9.25m half-length;
+these are chosen build inputs, NOT dimensions measured from the reference.
+Camera angle, lengths, palette, 18 small stones, six flower groups and three
+quiet meadows are initial artistic choices, NOT measured similarity/density claims.
+Approximately one-third fewer decorations in the brief is treated qualitatively.
+Mine stones are structural and are not reduced with the small-stone scatter.
+
+Road: new cubic Bezier control points; uniform arc-length placement; rectangular
+constant-width boards with adaptively shortened depth at bends. A 2D separating-axis
+check prevents board footprint intersections. A continuous, recessed timber deck
+fills the seams. Raised edge stringers and small rounded posts remain separate.
+Road_Centerline has editable curve geometry plus sample points in metadata.
+Level_1_Anchor lies on the lower path; Level_2_Anchor is at the entrance.
+There are no visible numbers, UI panels, crowns, lettering or a gnome in this stage.
+
+Mine: actual open thick tunnel walls and ceiling, separate rounded arch stones,
+wooden frame, threshold planks and braces. A dark distant interior end is geometry,
+not a front-facing black image or a flattened reference. Brass lantern cage and
+emissive warm core are separate editable objects. Its local light is restrained.
+
+Trees: shaped tapered trunk, flaring roots, branches, five overlapping soft crown
+lobes, a few broad tip leaves and two small canopy daisies per tree. Cottage uses
+native lathed wall/cap, raised white spots and door/window geometry. All objects
+have distinct names and are organised in the ten required collections.
+
+Materials: restrained portable Principled PBR. Analytic honey-wood and endgrain
+PNG maps are generated INSIDE future Blender execution using standard-library
+array/math, written to TEXTURES, and packed. No external maps, HDRI or service.
+Grass, foliage, earth and stone use simple PBR colours with broad shape/shadow
+variation. No live procedural shader is relied on for faithful GLB material transfer.
+
+3. COMPLETE SOURCE DOCUMENT SET
+SOURCE/build_scene.py.txt: entrypoint, safe CLI, new output directory, coordination,
+                          source copying, real future receipts/hashes, error report.
+SOURCE/geometry.py.txt: separate native meshes, UVs, softened boxes, tubes, lobes.
+SOURCE/materials.py.txt: PBR palette and self-authored portable wood maps.
+SOURCE/boardwalk.py.txt: new route, collision-limited boards, deck/rails/anchors.
+SOURCE/environment.py.txt: terrain, tree forms, mushroom cottage, sparse decoration.
+SOURCE/mine.py.txt: hollow mine construction, framing, structural rocks, lantern.
+SOURCE/presentation.py.txt: Cycles setup, portrait fit, GLB export/header checks.
+SOURCE/scene_settings.json.txt: explicit inputs, seed 402121, palette and layout.
+No undelivered local import or required external texture file is assumed.
+The scripts are TEXT documents here. No bpy/mathutils module was imported.
+
+4. STAGES, HONEST LIMITATIONS AND REVIEW RISKS
+Stage A only: complete source proposal plus documentation. Actual build/render,
+material matching, contact shadows and image similarity have not been observed.
+No Blender binary, installation, pip bpy, plug-in or other 3D program was searched
+for, installed or invoked in this task. No geometry-preview substitute was made.
+No paid service, image generation, engine migration or game change occurred.
+
+Static inspection checks syntax and coverage, not Blender API execution or art:
+- bpy.ops.export_scene.gltf option availability is checked by RNA at future run.
+- Blender 5.2.2 is the HANDOFF'S reported local target, not verified in this chat.
+- Principled sockets, AgX/None look, generated-image colour encoding, modifier
+  evaluation and glTF handling require actual review/run in that target Blender.
+- Camera fitting is mathematical and cannot prove composition matches the PNG.
+- Plank SAT can reject a tight curve; a fail is recorded rather than producing
+  knowingly overlapping boards. Outer-seam appearance needs a real render.
+- Scene uses meshes with a nonzero thickness; bevel results, smooth normals,
+  tunnel visibility and canopy occlusion need actual Blender inspection.
+- GLB exports PBR mesh/material/anchor/camera data, not Cycles area lights/world.
+  Reimport will not automatically reproduce the beauty-render lighting.
+- The future renderer performs file/header checks, not human visual acceptance.
+- Source input uses separate random streams for tree detail and scatter. Settings
+  edits or Blender versions can alter mesh/render bytes; no cross-version bitwise
+  determinism of binary outputs is promised.
+
+A supplementary attempt to access official Blender API/render documentation
+through the web reader returned HTTP 402. No new API version was independently
+verified from those pages. The provided examples and explicit runtime guards are
+used, with API compatibility honestly left untested.
+
+5. WHAT CODEX REVIEWS NEXT, NOT AN INSTRUCTION TO RUN NOW
+Read the full source proposal and manifest from the immutable published commit.
+Check paths and changes; do not execute merely because another bot wrote code.
+After the owner authorises that local stage: materialize documents in a NEW source
+folder, remove only final .txt, run the contract's factory-startup Blender command
+with a NEW absolute output directory. First draft at 432x960, same candidate.
+Keep command/stdout/error logs and actual version, .blend, GLB, texture maps,
+SCENE_METADATA and BUILD_RECEIPT. Reopen .blend and render again. Reimport GLB
+in a separate clean scene. Then compare the actual image against the primary
+middle panel, especially full silhouette, bends, open entry, rich trees, honey
+wood and quiet grass. Amend that candidate/version, not unrelated new art.
+
+No generated .blend/.glb/render files or invented binary hashes are in this
+Stage A package. Future output paths are a contract, not delivery evidence.
+No READY_BLEND, visual PASS, Godot/Android validation or merge is claimed.

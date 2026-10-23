@@ -1,0 +1,167 @@
+"""UNAPPLIED SOURCE PROPOSAL. Do not execute before owner/Codex source review.
+
+Later, INSIDE Blender with --background --factory-startup --disable-autoexec:
+--python ABS_SOURCE/build_scene.py -- --output ABS_NEW_DIR --seed 402121
+--render-mode none|draft|final
+No network, external processes, add-on installation or old asset loading.
+"""
+from __future__ import annotations
+import argparse
+import hashlib
+import json
+from pathlib import Path
+import random
+import shutil
+import sys
+import traceback
+import bpy
+
+SOURCE=Path(__file__).resolve().parent
+if str(SOURCE) not in sys.path:sys.path.insert(0,str(SOURCE))
+import geometry
+import materials
+import environment
+import boardwalk
+import mine
+import presentation
+
+
+def write_json(path,data):
+    path.write_text(json.dumps(data,ensure_ascii=False,indent=2,allow_nan=False)+'\n',encoding='utf-8')
+
+
+def hash_file(path):
+    h=hashlib.sha256()
+    with path.open('rb') as stream:
+        for block in iter(lambda:stream.read(1024*1024),b''):h.update(block)
+    return {'bytes':path.stat().st_size,'sha256':h.hexdigest()}
+
+
+def validate(config):
+    required={'terrain','road','mine','cottage','trees','decoration','camera','render','palette'}
+    if not required<=config.keys():raise ValueError('Required settings missing')
+    if config.get('asset_name')!='gnomit_airy_island_v001':raise ValueError('Unexpected output asset name')
+    if not (config['terrain']['half_length']>config['terrain']['half_width']>0):raise ValueError('Invalid elongated island dimensions')
+    if config['road']['half_width']<=0 or config['road']['gap']<=0:raise ValueError('Invalid boardwalk dimensions')
+    if config['road']['min_plank_depth']>=config['road']['target_spacing']:raise ValueError('Minimum plank depth exceeds spacing')
+    if len(config['road']['bezier_segments'])!=4:raise ValueError('Expected four connected curves for the new route')
+    if config['render']['device']!='CPU':raise ValueError('Portable default requires CPU; any GPU change needs local reviewer decision')
+    if config['render']['engine']!='CYCLES':raise ValueError('This proposal targets Cycles')
+    for key in ('draft_samples','final_samples'):
+        if not 1<=int(config['render'][key])<=2048:raise ValueError('Invalid sample count')
+
+
+def main():
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--output',type=Path,required=True)
+    parser.add_argument('--seed',type=int,default=None)
+    parser.add_argument('--render-mode',choices=('none','draft','final'),default='none')
+    args=parser.parse_args(sys.argv[sys.argv.index('--')+1:] if '--' in sys.argv else [])
+    if not bpy.app.background or '--factory-startup' not in sys.argv:
+        raise RuntimeError('Use a separate --background --factory-startup process, never an open user scene')
+    if bpy.data.filepath:raise RuntimeError('Refusing to replace an existing loaded .blend')
+    if not args.output.is_absolute():raise ValueError('--output must be absolute')
+    output=args.output.resolve()
+    if output.exists():raise FileExistsError('Output must be a NEW directory: '+str(output))
+    config=json.loads((SOURCE/'scene_settings.json').read_text(encoding='utf-8'))
+    validate(config)
+    seed=config['seed'] if args.seed is None else args.seed
+    config['seed']=seed
+    output.mkdir(parents=True,exist_ok=False)
+    for folder in ('EXPORT','TEXTURES','RENDERS','SOURCE'): (output/folder).mkdir()
+    receipt={'kind':'BLENDER_BUILD_ATTEMPT','status':'STARTED','seed':seed,
+             'blender_version':bpy.app.version_string,
+             'build_hash':bpy.app.build_hash.decode('utf-8','replace'),
+             'render_mode':args.render_mode,'argv':sys.argv,
+             'visual_acceptance':'PENDING','glb_reimport':'NOT_RUN','godot':'NOT_RUN','mobile':'NOT_MEASURED',
+             'warnings':[],'outputs':{}}
+    write_json(output/'BUILD_RECEIPT.json',receipt)
+    try:
+        # This only clears the fresh, explicitly requested background process.
+        bpy.ops.wm.read_factory_settings(use_empty=True)
+        bpy.context.preferences.filepaths.save_version=0  # Fresh output only, no .blend1 duplicate.
+        scene=bpy.context.scene;scene.name='GnomiT_Airy_Island_v001'
+        cols=geometry.collections(scene)
+        root=geometry.empty('GnomiT_Airy_Island_v001',cols['TERRAIN'])
+        mats=materials.build(config['palette'],output/'TEXTURES')
+        ground=environment.terrain(cols,root,mats,config['terrain'])
+        route,road_info=boardwalk.build(scene,cols,root,mats,config,ground.height,receipt['warnings'])
+        mine_info=mine.build(cols,root,mats,config,ground)
+        # Separate deterministic streams prevent scattering changes from changing the trees.
+        tree_rng=random.Random(seed+101)
+        for spec in config['trees']:environment.tree(spec,cols,root,mats,ground,tree_rng)
+        environment.cottage(config['cottage'],cols,root,mats,ground)
+        decoration=environment.decorate(cols,root,mats,config,ground,route,random.Random(seed+307),receipt['warnings'])
+        presentation.configure(scene,cols,config)
+        scene.cycles.seed=abs(seed)%2147483647
+        camera_info=presentation.fit_camera(scene,cols,config['camera'])
+        geometry_info=presentation.geometry_metadata(scene)
+        if root.location.length>0:raise RuntimeError('Root must retain identity transform')
+        # Future portable file paths; originals in .blend are additionally packed.
+        for image in bpy.data.images:
+            if image.name.startswith('Airy_'):
+                if not image.packed_file:raise RuntimeError('Unpacked authored texture '+image.name)
+                image.filepath='//TEXTURES/'+Path(image.filepath_raw).name
+        source_manifest={}
+        names=('build_scene.py','geometry.py','materials.py','environment.py','boardwalk.py','mine.py','presentation.py','scene_settings.json')
+        for name in names:
+            src=SOURCE/name
+            if not src.is_file():raise FileNotFoundError('Incomplete materialized proposal: '+name)
+            shutil.copyfile(src,output/'SOURCE'/name)
+            source_manifest['SOURCE/'+name]=hash_file(src)
+        write_json(output/'SETTINGS_USED.json',config)
+        write_json(output/'PROVENANCE.json',{
+            'status':'Generated from unapplied GPT proposal only after local approval',
+            'authoring':'GPT-6 Astra Pro wrote proposed Python; local operator and Blender execute it',
+            'reference_commit':'3928d49c29698672cd87585531479dfd113f80a2',
+            'primary_image_sha256':'a7d9b4f82fe73a2e5ab641261b9cbc14765e6360c9c108ab7ee9a51b0bc84add',
+            'reference_rights':'UNKNOWN; user-supplied reference is not redistributed as authored art',
+            'geometry':'New native procedural objects; no legacy .blend/GLB/mesh loaded',
+            'textures':'Analytic maps from included materials.py; no external image input',
+            'example_context':'Legacy EXAMPLES_ONLY reviewed for UV/packing/export ideas, no old layout/route imported',
+            'exclusive_ownership_or_legal_clearance':'NOT_ASSERTED','sources':source_manifest})
+        metadata={'kind':'ACTUAL_BUILD_MEASUREMENTS_NOT_ART_APPROVAL','seed':seed,'geometry':geometry_info,
+                  'road':road_info,'mine':mine_info,'decoration':decoration,'camera':camera_info,
+                  'collections':list(cols),'coordinate_system':'Blender right-handed metres Z-up; GLB Y-up conversion by exporter',
+                  'animation':'NONE; static geometry candidate only','material_policy':'PBR colours/textures; Cycles lighting is not GLB lighting'}
+        metadata['glb']=presentation.export_glb(scene,output/'EXPORT'/'gnomit_airy_island_v001.glb')
+        write_json(output/'SCENE_METADATA.json',metadata)
+        scene.cycles.samples=config['render']['draft_samples'] if args.render_mode=='draft' else config['render']['final_samples']
+        blend=output/'gnomit_airy_island_v001.blend'
+        result=bpy.ops.wm.save_as_mainfile(filepath=str(blend),check_existing=True)
+        if 'FINISHED' not in result or not blend.is_file():raise RuntimeError('Blend save failed')
+        receipt['renders']=[]
+        if args.render_mode in ('draft','final'):
+            samples=config['render']['draft_samples'] if args.render_mode=='draft' else config['render']['final_samples']
+            receipt['renders'].append(presentation.render(scene,output/'RENDERS'/'01_BEAUTY_432x960.png',432,960,samples))
+        if args.render_mode=='final':
+            receipt['renders'].append(presentation.render(scene,output/'RENDERS'/'02_BEAUTY_864x1920.png',864,1920,config['render']['final_samples']))
+        scene.render.resolution_x=432;scene.render.resolution_y=960
+        scene.render.filepath='//RENDERS/01_BEAUTY_432x960.png'
+        bpy.ops.wm.save_as_mainfile(filepath=str(blend),check_existing=False)
+        (output/'README_BG.txt').write_text(
+            'Blender build candidate. Visual acceptance is PENDING.\n'
+            'Compare actual renders against the middle panel only.\n'
+            'Reopen .blend and rerender, then reimport GLB in a fresh scene.\n'
+            'GLB does not contain Cycles area-light/world rendering.\n'
+            'SOURCE contains editable scripts; SETTINGS_USED.json records the seed.\n'
+            'No game, audio, save, progress or animation was produced.\n',encoding='utf-8')
+        receipt['status']='BUILT_EXPORTED_UNASSESSED'
+        receipt['blend_reopen']='NOT_RUN'
+        for file in sorted(output.rglob('*')):
+            if file.is_file() and file.name not in ('BUILD_RECEIPT.json','OUTPUT_MANIFEST.json'):
+                receipt['outputs'][file.relative_to(output).as_posix()]=hash_file(file)
+        write_json(output/'BUILD_RECEIPT.json',receipt)
+        manifest={p.relative_to(output).as_posix():hash_file(p) for p in sorted(output.rglob('*'))
+                  if p.is_file() and p.name!='OUTPUT_MANIFEST.json'}
+        write_json(output/'OUTPUT_MANIFEST.json',{'excludes_self':True,'files':manifest})
+        print(json.dumps({'status':receipt['status'],'output':str(output),'visual_acceptance':'PENDING'}))
+    except Exception as exc:
+        receipt['status']='FAILED';receipt['error']=repr(exc)
+        receipt['traceback']=traceback.format_exc()
+        write_json(output/'BUILD_RECEIPT.json',receipt)
+        raise
+
+
+if __name__=='__main__':
+    main()

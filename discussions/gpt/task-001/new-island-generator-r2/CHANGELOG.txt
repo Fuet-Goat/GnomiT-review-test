@@ -1,0 +1,47 @@
+R2 CHANGELOG AGAINST 02_CODEX_NORMALS_FIX/SOURCE
+Source equality of the reconstructed base is recorded in BASE_RECONSTRUCTION.
+The earlier GPT exact version and Codex normal-fix version are preserved.
+
+UNCHANGED BYTE-FOR-BYTE
+SOURCE/geometry.py.txt: primitive/UV helpers.
+SOURCE/materials.py.txt: portable PBR, analytic packed wood/endgrain textures.
+
+SOURCE/boardwalk.py.txt
+- Retain Codex underdeck face reversal exactly once.
+- Replace one fixed count + depth-only shrinking with a bounded count/depth search.
+- Keep all-pair SAT with conservative distance culling and final recheck.
+- Reject too-thin boards; enforce a strict outer-seam and bevel-adjusted budget.
+- Return rejected-candidate diagnostics and actual metrics at a future build.
+- Use honey wood underneath and a shallower recess; reduce visible pin repetition.
+
+SOURCE/environment.py.txt
+- Add a broad top dome; deeper shoulder/body/closed-bottom profile and gentle
+  column rhythm, not additional scattered stones.
+- Rebalance crown lobes and leaf tips around sculpted trunks.
+- Raise cottage roof/spots/lip together over taller walls, larger framed door.
+- Leave existing bounded placement/exclusion algorithms intact.
+
+SOURCE/mine.py.txt
+- Replace spherical arch stones with nine closed rounded-edge voussoir meshes.
+- Use differently proportioned beveled blocks for supporting wall/roof stones.
+- Retain open tunnel geometry, inner frames, threshold and separate lamp.
+
+SOURCE/presentation.py.txt
+- Separate blue camera-ray background from neutral ambient illumination.
+- Read light powers from settings, retain existing Cycles/color-management/export.
+- Camera angle/margin change via settings; geometry-fit algorithm is unchanged.
+
+SOURCE/build_scene.py.txt
+- Validate added R2 settings and reject a relaxed seam budget.
+- Include R2 review/base provenance in the actual future receipt.
+- No new executable, network, dependency, external scene loading or exporter.
+
+SOURCE/scene_settings.json.txt
+- New smoother control points and joint board dimensions/limits.
+- Deeper soil, 43-degree proposed view, stronger green/honey/gray/sky palette.
+- Relocate the same mine/cottage/five trees for that route; fewer small scatter
+  targets, not a new concept or additional objects used to hide weak shapes.
+- Preserve seed and all original output names.
+
+All values above are proposed inputs; none are measured R2 Blender results.
+The local textual diff was inspected against the verified base; full source files are delivered.

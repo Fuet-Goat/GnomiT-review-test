@@ -1,0 +1,86 @@
+"""NOT_APPLIED: portable Principled PBR and self-authored UV wood maps.
+No external textures, HDRI, downloads or image-generation service are needed.
+"""
+from __future__ import annotations
+import math
+from array import array
+import bpy
+
+
+def linear(c):
+    return c/12.92 if c<=0.04045 else ((c+0.055)/1.055)**2.4
+
+
+def rgb(hex_color):
+    h=hex_color.lstrip('#')
+    return tuple(linear(int(h[i:i+2],16)/255.0) for i in (0,2,4))
+
+
+def create_map(name, output, base_hex, endgrain=False, size=256):
+    """Generate low-contrast colour, save PNG and pack it in the .blend.
+    Pixel colour-space handling follows the supplied technical example;
+    a Blender save/reopen and glTF reimport colour check is still required.
+    """
+    base=[int(base_hex.lstrip('#')[i:i+2],16)/255 for i in (0,2,4)]
+    pixels=array('f')
+    for y in range(size):
+        v=y/(size-1)
+        for x in range(size):
+            u=x/(size-1)
+            if endgrain:
+                radius=math.hypot(u-0.48,(v-0.52)*1.07)
+                band=(0.5+0.5*math.cos(104*radius+0.6*math.sin(12*u)))**8
+                shade=1.02-0.12*band
+            else:
+                phase=math.tau*(12*v+0.065*math.sin(6*u)+0.04*math.sin(17*u+v))
+                band=(0.5+0.5*math.cos(phase))**16
+                knot=math.exp(-(((u-0.72)/0.105)**2+((v-0.37)/0.17)**2))
+                shade=1.02-0.10*band-0.065*knot+0.01*math.sin(70*v+10*u)
+            pixels.extend([linear(max(0,min(1,c*shade))) for c in base]+[1.0])
+    image=bpy.data.images.new(name,width=size,height=size,alpha=True)
+    image.colorspace_settings.name='sRGB'
+    image.pixels.foreach_set(pixels); image.update()
+    image.filepath_raw=str(output/(name+'.png'))
+    image.file_format='PNG'; image.save(); image.pack()
+    image['origin']='Analytic colour map authored by this generator; no external image'
+    return image
+
+
+def material(name, hex_color, roughness=0.58, metallic=0.0, emission=0.0, image=None):
+    m=bpy.data.materials.new(name); m.use_nodes=True
+    m.diffuse_color=(*rgb(hex_color),1.0)
+    p=m.node_tree.nodes.get('Principled BSDF')
+    if p is None: raise RuntimeError('Principled BSDF missing')
+    p.inputs['Base Color'].default_value=m.diffuse_color
+    p.inputs['Roughness'].default_value=roughness
+    p.inputs['Metallic'].default_value=metallic
+    if 'IOR' in p.inputs: p.inputs['IOR'].default_value=1.45
+    if emission:
+        if 'Emission Color' not in p.inputs or 'Emission Strength' not in p.inputs:
+            raise RuntimeError('Required Principled emission sockets unavailable')
+        p.inputs['Emission Color'].default_value=(*rgb(hex_color),1)
+        p.inputs['Emission Strength'].default_value=emission
+    if image:
+        tex=m.node_tree.nodes.new('ShaderNodeTexImage'); tex.image=image
+        tex.interpolation='Linear'; tex.extension='REPEAT'
+        m.node_tree.links.new(tex.outputs['Color'],p.inputs['Base Color'])
+    m['source']='Native portable PBR; renderer lighting is not baked into GLB'
+    return m
+
+
+def build(palette, textures_dir):
+    texture_names=('wood','wood_light','wood_dark','bark')
+    maps={key:create_map('Airy_'+key,textures_dir,palette[key]) for key in texture_names}
+    maps['endgrain']=create_map('Airy_endgrain',textures_dir,palette['wood_light'],True)
+    mats={}
+    for key,value in palette.items():
+        rough=0.62
+        if key in texture_names: rough=0.46 if key!='bark' else 0.7
+        elif key.startswith('leaf'): rough=0.49
+        elif key=='red': rough=0.4
+        elif key=='brass': rough=0.42
+        elif key.startswith('soil'): rough=0.86
+        metal=0.35 if key in ('brass','iron') else 0.0
+        mats[key]=material('Airy_'+key,value,rough,metal,2.0 if key=='lamp' else 0.0,maps.get(key))
+    mats['endgrain']=material('Airy_Endgrain',palette['wood_light'],0.49,image=maps['endgrain'])
+    return mats

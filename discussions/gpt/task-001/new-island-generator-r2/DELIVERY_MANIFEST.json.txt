@@ -1,0 +1,97 @@
+{
+  "kind": "UNAPPLIED_R2_TEXT_SOURCE",
+  "excludes_self": true,
+  "future_binary_hashes": "NOT_AVAILABLE; no new binaries created",
+  "files": [
+    {
+      "path": "BASE_RECONSTRUCTION.json.txt",
+      "bytes": 1344,
+      "sha256": "c43c74f6e52c8ce63f5ad72f75a5f54471086f7bf77f1bc988b21afacbe440cb",
+      "git_blob_sha1": "978d9612b6420b03edfddfd7c1122e4f2b0fd97b"
+    },
+    {
+      "path": "CHANGELOG.txt",
+      "bytes": 2493,
+      "sha256": "0f73a170e2a7da767c712df48db25f5972ef54bcf194b1c29290f0093520ab39",
+      "git_blob_sha1": "0bd5972ade6b27bb2bbcf1f1ea8a3dbbd5986d8d"
+    },
+    {
+      "path": "PROVENANCE.json.txt",
+      "bytes": 2671,
+      "sha256": "0cc4f448aa5b97f71cf408bfff8c2bb402c264975229b59a525d6992e723ace1",
+      "git_blob_sha1": "e8026c004850abac7531c9a23adb0e8b502e5b67"
+    },
+    {
+      "path": "README_BG.txt",
+      "bytes": 2435,
+      "sha256": "84ce749aaf6372485a842988e7be8d318d185aef673a839f9e45301a117deb86",
+      "git_blob_sha1": "87867577fb268dbc45131c002365a073a3eb048b"
+    },
+    {
+      "path": "REPORT.txt",
+      "bytes": 7118,
+      "sha256": "0e04dc4e7fadedf26ed035dfb492547dccff8cd67e87ecd93ae979630a2f6215",
+      "git_blob_sha1": "9f31a3d2445d800910877a9fe6705c149912e63c"
+    },
+    {
+      "path": "REVIEW_PLAN.txt",
+      "bytes": 1566,
+      "sha256": "1f491b41280774f45f6fa532affeeda8097f97c7ad352a327511d7a138980241",
+      "git_blob_sha1": "b746a30c55df28f84d043e049d7e93cf3e35b779"
+    },
+    {
+      "path": "SOURCE/boardwalk.py.txt",
+      "bytes": 9961,
+      "sha256": "f143de084142f171d029de07fdf72c60872bb2a0063946a419a57b6a0ec30333",
+      "git_blob_sha1": "66081dd5b354d0928c54261f3b333664365b938d"
+    },
+    {
+      "path": "SOURCE/build_scene.py.txt",
+      "bytes": 11173,
+      "sha256": "d424110a5f54dcce012592da3f09009711bfb3289328d6e8bfd11c5b078594ce",
+      "git_blob_sha1": "6043f90f7710c713932de453aca1c1431317a8e5"
+    },
+    {
+      "path": "SOURCE/environment.py.txt",
+      "bytes": 11640,
+      "sha256": "ab959e1b6043348b97029cc9d2dd1ddf59cd31961dc5a89de4ca64e6aa1a6941",
+      "git_blob_sha1": "da15ce19c34815ee47d98961ef1681e35358aa4c"
+    },
+    {
+      "path": "SOURCE/geometry.py.txt",
+      "bytes": 7449,
+      "sha256": "5b4ed5846a26fc46062d8b1c158130625b4eb5d5a2ae8691e9c6f61e9837b130",
+      "git_blob_sha1": "dc6537e9f8fb01eb2f3bfb4cbf97519ef18ffb2e"
+    },
+    {
+      "path": "SOURCE/materials.py.txt",
+      "bytes": 3846,
+      "sha256": "5d56f408bc7ff7522fb54d96ee76bdc57be3a00fdeab37ad35b0e3d944ca8c66",
+      "git_blob_sha1": "0e8501a857cac88f4c42fbc7d74d8f9b36c48896"
+    },
+    {
+      "path": "SOURCE/mine.py.txt",
+      "bytes": 6943,
+      "sha256": "13e26f83ad5a9b30b9c2c2cb99b33609e2ee1824618eee0700115a520e78a170",
+      "git_blob_sha1": "c45f494ee1aadec0552998b740ecdd7102e4e3d7"
+    },
+    {
+      "path": "SOURCE/presentation.py.txt",
+      "bytes": 9552,
+      "sha256": "9efaa599772f8485f222dcb93bd089fce111ceeef51f083eb2a6836c8f39eab7",
+      "git_blob_sha1": "994c69bcfc36e8a21a1fcf282e6d48b1e787c861"
+    },
+    {
+      "path": "SOURCE/scene_settings.json.txt",
+      "bytes": 4596,
+      "sha256": "9b009f8113a63045e815686027801bb79c798cdc4f0d68d763719831ead32efc",
+      "git_blob_sha1": "e9f78247a5ffa9353aed76106501ed2710e6643c"
+    },
+    {
+      "path": "STATIC_REVIEW.json.txt",
+      "bytes": 3611,
+      "sha256": "695fdb76f2ce1537bde60baeef933b19ca59d4e8075e892f902cd32d01d28b98",
+      "git_blob_sha1": "80c20db70d2605c837a72f0e8ad445a9b0c308c7"
+    }
+  ]
+}

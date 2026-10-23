@@ -1,0 +1,178 @@
+"""NOT_APPLIED: native editable mesh helpers; no legacy scene imports.
+
+All geometry below is a proposed construction, not an executed model.
+Dimensions are local, in metres. Positive Z is up, front is negative Y.
+"""
+from __future__ import annotations
+import math
+import bpy
+from mathutils import Vector
+
+COLLECTIONS = ('TERRAIN', 'BOARDWALK', 'MINE', 'TREES', 'PLANTS',
+               'ROCKS', 'LANTERN', 'LIGHTS', 'CAMERAS', 'ANCHORS')
+
+
+def collections(scene):
+    result = {}
+    for name in COLLECTIONS:
+        c = bpy.data.collections.new(name)
+        scene.collection.children.link(c)
+        result[name] = c
+    return result
+
+
+def empty(name, collection, location=(0, 0, 0), parent=None):
+    obj = bpy.data.objects.new(name, None)
+    collection.objects.link(obj)
+    obj.location = location
+    obj.empty_display_type = 'PLAIN_AXES'
+    obj.empty_display_size = 0.12
+    if parent is not None:
+        obj.parent = parent
+    return obj
+
+
+def box_uv(mesh):
+    """Local dominant-axis UVs; longest dimension follows texture U."""
+    if not mesh.vertices:
+        return
+    lo = [min(v.co[a] for v in mesh.vertices) for a in range(3)]
+    span = [max(max(v.co[a] for v in mesh.vertices)-lo[a], 1e-6) for a in range(3)]
+    uv = mesh.uv_layers.new(name='UVMap')
+    for face in mesh.polygons:
+        normal_axis = max(range(3), key=lambda a: abs(face.normal[a]))
+        axes = sorted((a for a in range(3) if a != normal_axis),
+                      key=lambda a: span[a], reverse=True)
+        for li in face.loop_indices:
+            co = mesh.vertices[mesh.loops[li].vertex_index].co
+            uv.data[li].uv = tuple((co[a]-lo[a])/span[a] for a in axes)
+
+
+def mesh_object(name, verts, faces, collection, material=None,
+                smooth=False, bevel=0.0, parent=None):
+    me = bpy.data.meshes.new(name + '_Mesh')
+    me.from_pydata(verts, [], faces)
+    me.update()
+    obj = bpy.data.objects.new(name, me)
+    collection.objects.link(obj)
+    if parent is not None:
+        obj.parent = parent
+    if material is not None:
+        me.materials.append(material)
+    for polygon in me.polygons:
+        polygon.use_smooth = smooth
+    box_uv(me)
+    if bevel > 0:
+        mod = obj.modifiers.new('Soft_Crafted_Edges', 'BEVEL')
+        mod.width, mod.segments = bevel, 3
+        mod.limit_method = 'ANGLE'
+        mod.angle_limit = math.radians(28)
+        mod.use_clamp_overlap = True
+    obj['asset_proposal'] = 'airy_island_v001'
+    obj['geometry_origin'] = 'New native procedural construction; no imported mesh'
+    return obj
+
+
+def box(name, loc, dims, collection, material, bevel=0.035, parent=None):
+    x, y, z = (float(d)/2 for d in dims)
+    verts = [(a*x, b*y, c*z) for c in (-1,1) for b in (-1,1) for a in (-1,1)]
+    faces = [(0,2,3,1),(4,5,7,6),(0,1,5,4),(2,6,7,3),(0,4,6,2),(1,3,7,5)]
+    obj = mesh_object(name, verts, faces, collection, material, bevel=bevel, parent=parent)
+    obj.location = loc
+    return obj
+
+
+def ellipsoid(name, loc, radii, collection, material, phase=0.0,
+              irregularity=0.04, parent=None, segments=28, rings=18):
+    """Smooth broad asymmetric lobes, not noisy faceting or a flat billboard."""
+    rx, ry, rz = radii
+    verts = [(0, 0, rz)]
+    for j in range(1, rings):
+        phi = math.pi*j/rings
+        sp, cp = math.sin(phi), math.cos(phi)
+        for i in range(segments):
+            theta = math.tau*i/segments
+            bulge = 1+irregularity*(0.65*math.sin(3*theta+phase)*sp**2
+                                   +0.35*math.sin(5*phi+theta+phase))
+            verts.append((rx*sp*math.cos(theta)*bulge,
+                          ry*sp*math.sin(theta)*bulge, rz*cp))
+    bottom = len(verts)
+    verts.append((0,0,-rz))
+    faces = [(0,1+i,1+(i+1)%segments) for i in range(segments)]
+    for j in range(rings-2):
+        for i in range(segments):
+            a=1+j*segments+i; b=1+j*segments+(i+1)%segments
+            faces.append((a,a+segments,b+segments,b))
+    start=1+(rings-2)*segments
+    faces += [(start+i,bottom,start+(i+1)%segments) for i in range(segments)]
+    obj=mesh_object(name,verts,faces,collection,material,smooth=True,parent=parent)
+    obj.location=loc
+    return obj
+
+
+def tube(name, points, radii, collection, material, parent=None, sides=12):
+    """Parallel-transport frames reduce twist on curved trunks and stringers."""
+    p=[Vector(v) for v in points]
+    if len(p)<2 or len(p)!=len(radii) or any(r<=0 for r in radii):
+        raise ValueError('tube needs >=2 points and positive radius per point')
+    verts=[]; previous=None
+    for j,center in enumerate(p):
+        tangent=(p[min(j+1,len(p)-1)]-p[max(0,j-1)])
+        if tangent.length<1e-8:
+            raise ValueError('Repeated tube point')
+        tangent.normalize()
+        ref=Vector((0,0,1)) if abs(tangent.z)<0.9 else Vector((1,0,0))
+        u=(ref-tangent*ref.dot(tangent)).normalized()
+        if previous is not None:
+            projected=previous-tangent*previous.dot(tangent)
+            if projected.length>1e-5: u=projected.normalized()
+        v=tangent.cross(u).normalized(); previous=u
+        for k in range(sides):
+            angle=math.tau*k/sides
+            verts.append(tuple(center+radii[j]*(u*math.cos(angle)+v*math.sin(angle))))
+    faces=[]
+    for j in range(len(p)-1):
+        for k in range(sides):
+            a=j*sides+k; b=j*sides+(k+1)%sides
+            faces.append((a,b,b+sides,a+sides))
+    faces.append(tuple(reversed(range(sides))))
+    faces.append(tuple((len(p)-1)*sides+k for k in range(sides)))
+    return mesh_object(name,verts,faces,collection,material,smooth=True,parent=parent)
+
+
+def cylinder(name, loc, radius, height, collection, material, parent=None, bevel=0.02):
+    # Flat caps are kept flat; bevel produces the edge highlight.
+    n=24
+    verts=[(radius*math.cos(math.tau*i/n),radius*math.sin(math.tau*i/n),z)
+           for z in (-height/2,height/2) for i in range(n)]
+    faces=[(i,(i+1)%n,(i+1)%n+n,i+n) for i in range(n)]
+    faces += [tuple(reversed(range(n))),tuple(range(n,2*n))]
+    obj=mesh_object(name,verts,faces,collection,material,bevel=bevel,parent=parent)
+    obj.location=loc
+    for poly in obj.data.polygons[:n]: poly.use_smooth=True
+    return obj
+
+
+def leaf(name, start, end, width, collection, material, parent=None):
+    a,b=Vector(start),Vector(end); delta=b-a
+    if delta.length<1e-6: raise ValueError('Leaf endpoints coincide')
+    obj=ellipsoid(name,tuple((a+b)/2),(width,delta.length/2,width*0.22),
+                  collection,material,irregularity=0.04,parent=parent,segments=16,rings=12)
+    obj.rotation_euler=delta.to_track_quat('Y','Z').to_euler()
+    return obj
+
+
+def lathe(name, profile, collection, material, parent=None, segments=48):
+    """Profile runs bottom-to-top; radii must be positive, end caps supplied."""
+    if len(profile)<2 or any(r<=0 for r,z in profile):
+        raise ValueError('Lathe needs a positive-radius profile')
+    verts=[(r*math.cos(math.tau*i/segments),r*math.sin(math.tau*i/segments),z)
+           for r,z in profile for i in range(segments)]
+    faces=[]
+    for j in range(len(profile)-1):
+        for i in range(segments):
+            a=j*segments+i; b=j*segments+(i+1)%segments
+            faces.append((a,b,b+segments,a+segments))
+    faces += [tuple(reversed(range(segments))),
+              tuple((len(profile)-1)*segments+i for i in range(segments))]
+    return mesh_object(name,verts,faces,collection,material,smooth=True,parent=parent)

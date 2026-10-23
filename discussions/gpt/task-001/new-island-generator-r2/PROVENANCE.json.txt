@@ -1,0 +1,69 @@
+{
+  "kind": "UNAPPLIED_R2_SOURCE_DOCUMENTS",
+  "authoring": {
+    "bot": "gpt",
+    "model": "GPT-6 Astra Pro",
+    "effort": "UNKNOWN",
+    "human": "Specified three corrections and retained middle-panel direction",
+    "ai": "Proposed source-text changes; no 3D/art service used",
+    "date": "2026-10-21"
+  },
+  "review_commit": "51fe9874f5b0f6cb129dd945b0d1ab2336fe1892",
+  "parent_source_commit": "a55cce4a0f0ba879615e6661f861159c7edfa785",
+  "base": "02_CODEX_NORMALS_FIX/SOURCE, reconstructed from verified prior source bytes plus literal patch; matching published hashes",
+  "codex_patch": {
+    "path": "NORMALS_FIX.patch.txt",
+    "blob": "efd9000a5162c461ee363a18d7f9daba1ef0d453",
+    "retained": true
+  },
+  "native_review_zip": {
+    "sha256_reported": "ea0d100aa44ed88cfb6759e82d05f69c3fe70574712ec41583beed3c5e5aaaa0",
+    "bytes_reported": 13445640,
+    "download": "FAILED_DNS; not decoded/not visually inspected"
+  },
+  "visual_reference": {
+    "path": "PRIMARY_TARGET_COMPARISON.png",
+    "sha256": "a7d9b4f82fe73a2e5ab641261b9cbc14765e6360c9c108ab7ee9a51b0bc84add",
+    "viewed": true,
+    "authority": "middle panel",
+    "source": "Previously supplied v002 handoff ZIP",
+    "embedded_in_generator_or_redistributed": false,
+    "rights": "UNKNOWN; retained prior provenance gaps"
+  },
+  "dependencies": [
+    "bpy",
+    "mathutils",
+    "Python standard library"
+  ],
+  "new_external_dependencies": [],
+  "target_version": "Blender 5.2.2 LTS per Codex native report; no local Blender invocation",
+  "proposal_seed": 402121,
+  "new_meshes_or_textures_created": false,
+  "rights": {
+    "parent_AI_source": "Prior GPT source text supplied by owner; exclusive rights not asserted",
+    "Codex_normal_fix": "Owner-supplied source correction; no independent licence clearance",
+    "references_and_old_examples": "UNKNOWN where not documented in earlier provenance",
+    "new_proposed_source": "AI-assisted text revision, no claim of exclusive ownership or closed historic rights"
+  },
+  "preservation": "No old V3 scene, source, game, grant, main or foreign branch edited",
+  "actual_operations": [
+    "Read permitted Git text sources",
+    "Read prior ZIP bytes and manifest",
+    "View primary reference PNG",
+    "Reconstruct corrected source as text and compare SHA-256",
+    "Write complete unapplied R2 documents",
+    "Parse AST/JSON without executing proposed modules",
+    "Create text-only delivery hashes"
+  ],
+  "unperformed": [
+    "Blender discovery/install",
+    "bpy import",
+    "generator/geometry execution",
+    "render",
+    "blend reopen",
+    "GLB export/reimport",
+    "Godot",
+    "mobile",
+    "human visual approval"
+  ]
+}

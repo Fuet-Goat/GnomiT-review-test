@@ -1,0 +1,38 @@
+{
+  "method": "Preserved prior source ZIP plus literal Codex NORMALS_FIX.patch; matched declared corrected-source bytes/SHA-256",
+  "boardwalk_sha256": "2c4030e61efa3117e88efa494353fdfae47f13ebc32f3eb0d23934b8243157c6",
+  "files": {
+    "presentation.py.txt": {
+      "bytes": 8719,
+      "sha256": "510354e0d6918a50830bafde12d86ddf597283c96a696f296d6930e4dfdaa7f2"
+    },
+    "geometry.py.txt": {
+      "bytes": 7449,
+      "sha256": "5b4ed5846a26fc46062d8b1c158130625b4eb5d5a2ae8691e9c6f61e9837b130"
+    },
+    "build_scene.py.txt": {
+      "bytes": 10355,
+      "sha256": "134b5377c430c59573b5df4fa268242f1f9f95c86917cdc39d460d7d6551a583"
+    },
+    "environment.py.txt": {
+      "bytes": 10889,
+      "sha256": "fd87659523f84add81e962dbb6d1099606e4f6d73e3796a9fcc6c9031896fd8d"
+    },
+    "boardwalk.py.txt": {
+      "bytes": 8614,
+      "sha256": "2c4030e61efa3117e88efa494353fdfae47f13ebc32f3eb0d23934b8243157c6"
+    },
+    "mine.py.txt": {
+      "bytes": 6287,
+      "sha256": "7913e84f442879d44777030a5d78fda8310b0beb05b6281e3583604ddfb9065c"
+    },
+    "materials.py.txt": {
+      "bytes": 3846,
+      "sha256": "5d56f408bc7ff7522fb54d96ee76bdc57be3a00fdeab37ad35b0e3d944ca8c66"
+    },
+    "scene_settings.json.txt": {
+      "bytes": 4233,
+      "sha256": "2d3d2cfb230af5254e4c0f23844ab15bd88cdfe6376ab1c16a08f903d8207036"
+    }
+  }
+}

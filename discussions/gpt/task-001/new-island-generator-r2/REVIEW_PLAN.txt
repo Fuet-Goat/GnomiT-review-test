@@ -1,0 +1,20 @@
+R2 CODEX REVIEW CHECKLIST / FUTURE CHECKS, NOT RESULTS
+1. Verify all text hashes and the base reconstruction. Keep R1/native originals.
+2. Review all seven modules and new settings against the declared base; no missing imports.
+3. In a separately authorized clean Blender process/new output, build draft.
+   Record actual Blender version, process exit code, stdout and FAILED receipt.
+4. Read road diagnostics: actual spacing/count, minimum depth ratio, worst seam,
+   visible-seam bound and zero SAT intersections. Inspect actual bevelled joints.
+   Check no new side gaps in the real deck at curvature extrema.
+5. Check underdeck signed volume after evaluation and after GLB import, retaining
+   the Codex correction. Check new mine wedge and terrain normals, closed edges,
+   nondegenerate faces and no light-leaking roof/slab gaps.
+6. Open the saved blend with autoexec disabled; render both a 53-degree control
+   and proposed 43-degree composition. Count geometry, do not infer it from code.
+   Compare complete silhouette/soil depth, exposed cottage door/wall, mine void,
+   tree hierarchy, honey wood, neutral stone and blue sky against middle panel.
+7. No obstruction of Road_Centerline or Level_1/2 anchors; GLB reimport preserves
+   expected names/transforms and all maps. Lighting is deliberately not exported.
+8. Recheck source/output absolute-path refusal and existing-directory refusal.
+9. No Godot/game/mobile/art acceptance claimed from successful Blender process.
+10. Human judges actual images; preserve all iterations, never merge automatically.
