@@ -1,0 +1,56 @@
+from pathlib import Path
+import hashlib,json,shutil
+from PIL import Image,ImageDraw,ImageFont
+ROOT=Path(__file__).resolve().parents[1];OUT=ROOT/'outputs';REF=ROOT/'reference'
+OLD=ROOT.parent/'Gnome_R3_Godot_Preview_2026-10-23'
+FONT=ImageFont.truetype('C:/Windows/Fonts/segoeui.ttf',20)
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def load(p):return Image.open(p).convert('RGB')
+def text(draw,xy,value):draw.text(xy,value,font=FONT,fill='#253a36')
+assert sha(ROOT/'godot/assets/gnome_r3.glb')==sha(OLD/'godot/assets/gnome_r3.glb')=='3b72702cb1c995d2553dddd4895a1e2327be14d5a22cc38a60a88603d47c529f'
+assert sha(ROOT/'godot/preview.gd')==sha(OLD/'godot/preview.gd')
+assert sha(ROOT/'godot/assets/gnome_r3.glb.import')==sha(OLD/'godot/assets/gnome_r3.glb.import')
+still=json.loads((ROOT/'documentation/STILL_CAPTURE.json').read_text(encoding='utf-8'))
+assert len({row['camera'] for row in still['records']})==1
+shutil.copyfile(ROOT.parent/'Gnome_M2_Rig_R1_2026-10-23/outputs/M2_MAP_SCALE.png',REF/'BLENDER_M2_MAP_SCALE.png')
+for frame in (1,55):
+    files=[REF/('BLENDER_M2_%03d.png'%frame),OUT/('A_FULL_%03d.png'%frame),OUT/('B_FULL_%03d.png'%frame)]
+    board=Image.new('RGB',(1440,710),'#f4f2ea');draw=ImageDraw.Draw(board)
+    for col,(p,label) in enumerate(zip(files,['Blender M2 / R3','Godot A - accepted transport','Godot B - Lighting R1'])):
+        image=load(p);assert image.size==(480,672)
+        text(draw,(col*480+10,7),label);board.paste(image,(col*480,38))
+    board.save(OUT/('M2_A_B_%03d.png'%frame))
+    if frame==55:
+        board.crop((480,0,1440,710)).save(OUT/'LIGHTING_A_B.png')
+face_rect=(132,150,354,372)
+face=Image.new('RGB',(666,260),'#f4f2ea');draw=ImageDraw.Draw(face)
+for col,(p,label) in enumerate(zip([REF/'BLENDER_M2_001.png',OUT/'A_FULL_001.png',OUT/'B_FULL_001.png'],['M2 Blender','A - Godot baseline','B - Lighting R1'])):
+    text(draw,(col*222+5,7),label);face.paste(load(p).crop(face_rect),(col*222,38))
+face.save(OUT/'FACE_M2_A_B.png')
+map_rect=(108,676,214,782)
+maps=Image.new('RGB',(666,176),'#f4f2ea');draw=ImageDraw.Draw(maps)
+for col,(p,label) in enumerate(zip([REF/'BLENDER_M2_MAP_SCALE.png',OUT/'A_MAP_SCALE.png',OUT/'B_MAP_SCALE.png'],['M2 prior-world crop','A - isolated map size','B - isolated map size'])):
+    text(draw,(col*222+4,6),label)
+    maps.paste(load(p).crop(map_rect),(col*222+58,48))
+maps.save(OUT/'MAP_SIZE_1_TO_1.png')
+source_frames=[OUT/('B_MOTION_%04d.png'%i) for i in range(1,145)]
+atlas=Image.new('RGB',(1440,2016))
+for i,frame in enumerate((1,19,37,55,73,91,109,127,144)):atlas.paste(load(source_frames[frame-1]),(480*(i%3),672*(i//3)))
+palette=atlas.quantize(colors=256,method=Image.Quantize.MEDIANCUT)
+frames=[load(p).quantize(palette=palette,dither=Image.Dither.NONE) for p in source_frames]
+durations=[(round((i+1)*100/24)-round(i*100/24))*10 for i in range(144)]
+gif=OUT/'GODOT_LIGHTING_R1_GREETING.gif';assert not gif.exists()
+frames[0].save(gif,save_all=True,append_images=frames[1:],duration=durations,loop=0,disposal=2,optimize=False)
+with Image.open(gif) as decoded:
+    count=decoded.n_frames;total=0
+    for i in range(count):decoded.seek(i);decoded.load();total+=decoded.info['duration']
+assert total==6000
+checks={'status':'LIGHTING_ONLY_HASH_AND_CAPTURE_CHECKS_PASS','unchanged_glb_sha256':sha(ROOT/'godot/assets/gnome_r3.glb'),
+    'unchanged_controls_camera_source_sha256':sha(ROOT/'godot/preview.gd'),'unchanged_import_config_sha256':sha(ROOT/'godot/assets/gnome_r3.glb.import'),
+    'full_AB_camera_transform_identical':True,'native_material_animation_skinning_payload_byte_identical':True,
+    'new_shader_texture_bakes':False,'face_crop':{'rect':face_rect,'resizing':False,'source':'same full viewport'},
+    'map_crop':{'rect':map_rect,'resizing':False,'context':'Historical M2 world crop vs isolated actualGodot controls, not integrated campaign'},
+    'gif':{'file':gif.name,'bytes':gif.stat().st_size,'sha256':sha(gif),'decoded_frames':count,'decoded_ms':total,'loops_only_for_review':True,'lossy_palette':256},
+    'source_frames':{p.name:sha(p) for p in source_frames},'human_lighting_acceptance':'PENDING'}
+(ROOT/'documentation/FREEZE_MEDIA_RECEIPT.json').write_text(json.dumps(checks,indent=2)+'\n',encoding='utf-8')
+print(json.dumps({k:v for k,v in checks.items() if k!='source_frames'}))

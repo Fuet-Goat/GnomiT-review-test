@@ -1,0 +1,33 @@
+{
+	"method": "Actual Godot viewport; identical model/camera/time per pair",
+	"records": [
+		{
+			"camera": "[X: (1.0, 0.0, 0.0), Y: (0.0, 0.997696, -0.067843), Z: (0.0, 0.067843, 0.997696), O: (0.0, 1.14, 5.0)]",
+			"file": "res://../outputs/A_FULL_001.png",
+			"profile": "A",
+			"sha256": "711849cfcb54ad349e9f1583c1641c05d6b2582cd0a7f4d354964864d747bd35",
+			"time": 0.0
+		},
+		{
+			"camera": "[X: (1.0, 0.0, 0.0), Y: (0.0, 0.997696, -0.067843), Z: (0.0, 0.067843, 0.997696), O: (0.0, 1.14, 5.0)]",
+			"file": "res://../outputs/A_FULL_055.png",
+			"profile": "A",
+			"sha256": "edc013499d8c212ac2dbae8b55fe4340887fbff4d8e10a251b99633a7b98cb13",
+			"time": 2.25
+		},
+		{
+			"camera": "[X: (1.0, 0.0, 0.0), Y: (0.0, 0.997696, -0.067843), Z: (0.0, 0.067843, 0.997696), O: (0.0, 1.14, 5.0)]",
+			"file": "res://../outputs/B_FULL_001.png",
+			"profile": "B",
+			"sha256": "174fd34011852e5cacddaef06046c3a53761a6e8aca98abe6a457bfd2c09d8f7",
+			"time": 0.0
+		},
+		{
+			"camera": "[X: (1.0, 0.0, 0.0), Y: (0.0, 0.997696, -0.067843), Z: (0.0, 0.067843, 0.997696), O: (0.0, 1.14, 5.0)]",
+			"file": "res://../outputs/B_FULL_055.png",
+			"profile": "B",
+			"sha256": "02f3320a8c57c57997f9f8c1b5dcfc9be8dc34ac2a34e83afdf1250367e35a6e",
+			"time": 2.25
+		}
+	]
+}

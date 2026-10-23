@@ -1,0 +1,22 @@
+GNOMIT — GODOT LIGHTING R1
+STATUS: LIGHTING_CANDIDATE_READY_FOR_HUMAN_CHOICE
+Accepted R4/M2/RigR3/GLB/control baseline retained. Only lighting.gd subclass changes
+Environment/key/fill/rim/shadows. preview.gd and glb/import bytes exact predecessor.
+Candidate B: neutral ambient + reflection sky, rebalanced sources, moderated PCF
+shadows. AgX unchanged. PCSS noisy diagnostic rejected; no TAA/retouch workaround.
+Actual Godot rest/peak, face crops and isolated map-size controls captured.
+M2 Blender reference included. All comparisons preserve source pixels/camera within
+paired views. Map rendering uses documented prior M2 placement, matching map camera;
+inferred static projected height41.48631889197188px, not a campaign integration claim.
+Actual importer joint/rest/foot validation PASS; finite greeting/Replay/Reduced Motion
+assertions PASS. GIF decoded6000ms; raw source hashes retained. No new blink or bakes.
+Root visual review: more neutral cream/skin, clearer teal/cap volume and ground contact.
+Known: lantern remains simple warm pane; boot reflections conspicuous; old seam remains.
+Human lighting choice PENDING. No materials/geometry/weights/animation/camera/control
+edits, no game/main/grant edits, no merge, no Android optimisation.
+ZIP: GNOMIT_GODOT_LIGHTING_R1_2026-10-23.zip
+BYTES: 33713355
+SHA256: fb62fdf4c24c1af1805ae89cf59984df4f456fd14518a0d800bf30ef0649b029
+ENTRIES: 113
+
+All ZIP entries read back and checked. Remote/public-media proofs follow separately.

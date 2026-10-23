@@ -1,0 +1,9 @@
+@echo off
+setlocal
+set "GNOMIT_GODOT=C:\Tools\Godot\4.7.2\engine\Godot_v4.7.2-stable_win64.exe"
+if not exist "%GNOMIT_GODOT%" (
+  echo Install Godot4.7.2 or update GNOMIT_GODOT in this file.
+  pause
+  exit /b 1
+)
+start "" "%GNOMIT_GODOT%" --path "%~dp0godot"
