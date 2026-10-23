@@ -1,0 +1,49 @@
+{
+  "source_commit": "21e3995196bbf0d2d62df30eec1409fd199a980d",
+  "existing_assets_unchanged": true,
+  "existing_asset_count": 29,
+  "media": [
+    {
+      "name": "GNOMIT_GODOT_LIGHTING_R1_GREETING.gif",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/gnome-r3-visual-review-2026-10-22/GNOMIT_GODOT_LIGHTING_R1_GREETING.gif",
+      "bytes": 5199211,
+      "sha256": "b209961d0f75b6e5403a41b0793c9406fde7648126a91121b48f0bcb3693c575",
+      "anonymous_readback_byte_identical": true
+    },
+    {
+      "name": "GNOMIT_GODOT_LIGHTING_R1_A_B.png",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/gnome-r3-visual-review-2026-10-22/GNOMIT_GODOT_LIGHTING_R1_A_B.png",
+      "bytes": 230551,
+      "sha256": "c162299acc7329d6f51314dcd6d5f9ab9dbfe5d342e0cb149466850ae2bc3c15",
+      "anonymous_readback_byte_identical": true
+    },
+    {
+      "name": "GNOMIT_GODOT_LIGHTING_R1_M2_A_B.png",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/gnome-r3-visual-review-2026-10-22/GNOMIT_GODOT_LIGHTING_R1_M2_A_B.png",
+      "bytes": 517897,
+      "sha256": "e4250e2de0b52510446b500ef49347791bb1e6fc985182d6e39b41a85cee7a48",
+      "anonymous_readback_byte_identical": true
+    },
+    {
+      "name": "GNOMIT_GODOT_LIGHTING_R1_FACE.png",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/gnome-r3-visual-review-2026-10-22/GNOMIT_GODOT_LIGHTING_R1_FACE.png",
+      "bytes": 134473,
+      "sha256": "d93d1b63577e486375cb440e90bdfadcc2c939f3cb0da4bab857f516132d581d",
+      "anonymous_readback_byte_identical": true
+    },
+    {
+      "name": "GNOMIT_GODOT_LIGHTING_R1_MAP_SIZE.png",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/gnome-r3-visual-review-2026-10-22/GNOMIT_GODOT_LIGHTING_R1_MAP_SIZE.png",
+      "bytes": 38272,
+      "sha256": "7f929a1cd03af00b1d3a78df7e03c5c2ac0de59c89dc970720be88c8011638ec",
+      "anonymous_readback_byte_identical": true
+    },
+    {
+      "name": "GNOMIT_GODOT_LIGHTING_R1_2026-10-23.zip",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/gnome-r3-visual-review-2026-10-22/GNOMIT_GODOT_LIGHTING_R1_2026-10-23.zip",
+      "bytes": 33713355,
+      "sha256": "fb62fdf4c24c1af1805ae89cf59984df4f456fd14518a0d800bf30ef0649b029",
+      "anonymous_readback_byte_identical": true
+    }
+  ]
+}
