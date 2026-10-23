@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "material": "GnomiT_Grass_Runtime_Baked",
+  "base_color_texcoord": 1,
+  "correct_planar_uv_index": 1,
+  "wrong_original_uv_index": 0,
+  "final_glb_sha256": "5c9d8344245549ed2182723c5662016bff5a69386d5b11e457ba85332b729c4b",
+  "visual_check": "Actual final runtime PNG inspected; black perimeter from old UV binding removed. Prior failed image/asset retained locally in native/PRE_UV_BINDING_FIX."
+}

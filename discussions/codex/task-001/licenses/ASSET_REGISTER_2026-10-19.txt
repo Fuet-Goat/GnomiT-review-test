@@ -1,0 +1,919 @@
+{
+  "schema": 1,
+  "client_date": "2026-10-19",
+  "measured_utc": "2026-10-18T23:59:55.906593+00:00",
+  "game_root": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\MegaVolcanoMountain_2026-10-19",
+  "scope": "Every non-.import file under assets of the isolated Mountain Volcano lab, not a full campaign/repository/code audit.",
+  "limitations": [
+    "No game execution/import/export or media changes.",
+    "Static resource reachability is not proof an asset was displayed or played.",
+    "No legal clearance inferred from a hash, an AI label, a supplied reference, or a historical author claim.",
+    "Prior reference files were hashed, not copied into the deliverable."
+  ],
+  "assets": [
+    {
+      "path": "assets/first_crystals/cave_background_v1.png",
+      "bytes": 2183669,
+      "sha256": "3d3141f299507f6668f04987c201660b852969d9a7d6afc42d01c45b9c7ad5b4",
+      "type": "image",
+      "static_usage": "LITERAL_RESOURCE_REACHABLE",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "UNKNOWN",
+      "rights_status": "SOURCE_LICENSE_NOT_DOCUMENTED",
+      "evidence": [],
+      "dependencies": [],
+      "next_action": "Locate original author/source and rights evidence before release; do not infer rights from possession."
+    },
+    {
+      "path": "assets/first_crystals/gems_atlas_v1.png",
+      "bytes": 2242029,
+      "sha256": "96077491d9d067466bdc7ca557e31bee9fe5ef1f545af1b9365250e567e06a1d",
+      "type": "image",
+      "static_usage": "NO_LITERAL_REACHABILITY_PROVEN",
+      "export_status": "EXCLUDED_BY_PRESET",
+      "provenance": "UNKNOWN",
+      "rights_status": "SOURCE_LICENSE_NOT_DOCUMENTED",
+      "evidence": [],
+      "dependencies": [],
+      "next_action": "Locate original author/source and rights evidence before release; do not infer rights from possession."
+    },
+    {
+      "path": "assets/first_crystals/treasures_atlas_v2.png",
+      "bytes": 1916351,
+      "sha256": "27541f44e67dc6673c691c337d498f82948201f4967481f2c9d4e852f77679b6",
+      "type": "image",
+      "static_usage": "NO_LITERAL_REACHABILITY_PROVEN",
+      "export_status": "EXCLUDED_BY_PRESET",
+      "provenance": "UNKNOWN",
+      "rights_status": "SOURCE_LICENSE_NOT_DOCUMENTED",
+      "evidence": [],
+      "dependencies": [],
+      "next_action": "Locate original author/source and rights evidence before release; do not infer rights from possession."
+    },
+    {
+      "path": "assets/first_crystals/treasures_atlas_v3.png",
+      "bytes": 2068980,
+      "sha256": "bbd9c8b70e0ff46cd2eebca17d766580b29a96b303fc9964faf3f55ce5ad9ba8",
+      "type": "image",
+      "static_usage": "NO_LITERAL_REACHABILITY_PROVEN",
+      "export_status": "EXCLUDED_BY_PRESET",
+      "provenance": "UNKNOWN",
+      "rights_status": "SOURCE_LICENSE_NOT_DOCUMENTED",
+      "evidence": [],
+      "dependencies": [],
+      "next_action": "Locate original author/source and rights evidence before release; do not infer rights from possession."
+    },
+    {
+      "path": "assets/font.ttf",
+      "bytes": 571240,
+      "sha256": "f934d7142fb4784bf828da485b7dcbd90c0c80d514e9d49a5da0ed3a1ae2491d",
+      "type": "font",
+      "static_usage": "LITERAL_RESOURCE_REACHABLE",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "SFNT_IDENTITY_AND_EMBEDDED_LICENSE_VERIFIED",
+      "rights_status": "OFL_1_1_DOCUMENTED_NOTICE_REQUIRED",
+      "evidence": [
+        "evidence/FONT_NAME_TABLE.json",
+        "assets/NunitoSans-OFL.txt"
+      ],
+      "dependencies": [],
+      "next_action": "Keep OFL/copyright with the shipped font. Verify inclusion/readability in final export; no export was built in this audit."
+    },
+    {
+      "path": "assets/gnome.png",
+      "bytes": 1662640,
+      "sha256": "176420aac7da1f97ba741258e11a83f4d7b6530748b2e07afa3639aecc8e3bb7",
+      "type": "image",
+      "static_usage": "NO_LITERAL_REACHABILITY_PROVEN",
+      "export_status": "EXCLUDED_BY_PRESET",
+      "provenance": "UNKNOWN",
+      "rights_status": "SOURCE_LICENSE_NOT_DOCUMENTED",
+      "evidence": [],
+      "dependencies": [],
+      "next_action": "Locate original author/source and rights evidence before release; do not infer rights from possession."
+    },
+    {
+      "path": "assets/match.wav",
+      "bytes": 12392,
+      "sha256": "def389e5c027ace59b201e0b93fb348ff24ef546c9dcb1596e08bff92020c061",
+      "type": "audio",
+      "static_usage": "NO_LITERAL_REACHABILITY_PROVEN",
+      "export_status": "EXCLUDED_BY_PRESET",
+      "provenance": "UNKNOWN",
+      "rights_status": "SOURCE_LICENSE_NOT_DOCUMENTED",
+      "evidence": [],
+      "dependencies": [],
+      "next_action": "Locate original author/source and rights evidence before release; do not infer rights from possession."
+    },
+    {
+      "path": "assets/NunitoSans-OFL.txt",
+      "bytes": 4486,
+      "sha256": "f22dcf7224df30722ce6c3257c33a9ea965d8a523cac976e9c5ac02eb59920a1",
+      "type": "support_document",
+      "static_usage": "NO_LITERAL_REACHABILITY_PROVEN",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "BUNDLED_EVIDENCE_DOCUMENT",
+      "rights_status": "SUPPORT_DOCUMENT_NOT_MEDIA_CLEARANCE",
+      "evidence": [],
+      "dependencies": [],
+      "next_action": "Preserve with the related media; document presence does not clear other assets."
+    },
+    {
+      "path": "assets/select.wav",
+      "bytes": 5776,
+      "sha256": "b5faa573a4057b98d7b994c73dd77c5fd103e5b9f62b1825c408d619e623a3b9",
+      "type": "audio",
+      "static_usage": "NO_LITERAL_REACHABILITY_PROVEN",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "UNKNOWN",
+      "rights_status": "SOURCE_LICENSE_NOT_DOCUMENTED",
+      "evidence": [],
+      "dependencies": [],
+      "next_action": "Locate original author/source and rights evidence before release; do not infer rights from possession."
+    },
+    {
+      "path": "assets/sfx/elements/earthquake_stones_v1.wav",
+      "bytes": 127934,
+      "sha256": "590a68abb33743b1ea6d5c86f85dd6cc331cbf915fb9f36e61580d1b8e099071",
+      "type": "audio",
+      "static_usage": "LITERAL_RESOURCE_REACHABLE",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "REPRODUCED_EXACT_BYTES",
+      "rights_status": "OWN_SYNTHESIS_NO_EXTERNAL_SAMPLE_FOUND",
+      "evidence": [
+        "evidence/AUDIO_REPRODUCTION.json",
+        "tools/build_fusion_earthquake_audio.py"
+      ],
+      "dependencies": [],
+      "next_action": "Retain synthesis code/seed and authorship record; recheck only if inputs or bytes change."
+    },
+    {
+      "path": "assets/sfx/elements/elements_quiet_short_v1.wav",
+      "bytes": 15920,
+      "sha256": "af248c4586538890719119c5fea51e0ce9e246cf719011b1fd932b3eb31da786",
+      "type": "audio",
+      "static_usage": "LITERAL_RESOURCE_REACHABLE",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "REPRODUCED_EXACT_BYTES",
+      "rights_status": "OWN_SYNTHESIS_NO_EXTERNAL_SAMPLE_FOUND",
+      "evidence": [
+        "evidence/AUDIO_REPRODUCTION.json",
+        "tools/build_fusion_earthquake_audio.py"
+      ],
+      "dependencies": [],
+      "next_action": "Retain synthesis code/seed and authorship record; recheck only if inputs or bytes change."
+    },
+    {
+      "path": "assets/sfx/elements/fusion_gravity_v1.wav",
+      "bytes": 163214,
+      "sha256": "7c643a4bef093f491d6cdc6d56d0c4be4f486d6dcdc07207d96142dd0ab1302d",
+      "type": "audio",
+      "static_usage": "NO_LITERAL_REACHABILITY_PROVEN",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "REPRODUCED_EXACT_BYTES",
+      "rights_status": "OWN_SYNTHESIS_NO_EXTERNAL_SAMPLE_FOUND",
+      "evidence": [
+        "evidence/AUDIO_REPRODUCTION.json",
+        "tools/build_fusion_earthquake_audio.py"
+      ],
+      "dependencies": [],
+      "next_action": "Retain synthesis code/seed and authorship record; recheck only if inputs or bytes change."
+    },
+    {
+      "path": "assets/sfx/elements/fusion_material_v2.wav",
+      "bytes": 247004,
+      "sha256": "42eca2b5f8769d5ff67db83f2f41d6ef41e91876c0a31ff2c3084551f368ad69",
+      "type": "audio",
+      "static_usage": "LITERAL_RESOURCE_REACHABLE",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "REPRODUCED_EXACT_BYTES",
+      "rights_status": "OWN_SYNTHESIS_NO_EXTERNAL_SAMPLE_FOUND",
+      "evidence": [
+        "evidence/AUDIO_REPRODUCTION.json",
+        "tools/build_black_hole_material_audio_v2.py"
+      ],
+      "dependencies": [],
+      "next_action": "Retain synthesis code/seed and authorship record; recheck only if inputs or bytes change."
+    },
+    {
+      "path": "assets/sfx/lightning/storm_cartoon_v1.wav",
+      "bytes": 282284,
+      "sha256": "6d231b86864c703e417282b9379698adc3577ef47eb1a4903f36577b9fd2a8c7",
+      "type": "audio",
+      "static_usage": "NO_LITERAL_REACHABILITY_PROVEN",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "HISTORICAL_RECEIPT_HASH_MATCH_NOT_REPRODUCED",
+      "rights_status": "SYNTHESIS_CLAIM_DOCUMENTED_NOT_REPRODUCED",
+      "evidence": [
+        "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\MagicAnimations_2026-10-17\\verification\\lightning_audio_assets.json"
+      ],
+      "dependencies": [],
+      "next_action": "Recover original generator/session or retain independent author confirmation; receipt alone is not fresh synthesis proof."
+    },
+    {
+      "path": "assets/sfx/lightning/storm_cartoon_v2.wav",
+      "bytes": 282284,
+      "sha256": "bd3ecf606774106f0426800e475c33e97b2d15d6b16433bed306b5da23ee3ddc",
+      "type": "audio",
+      "static_usage": "LITERAL_RESOURCE_REACHABLE",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "REPRODUCED_EXACT_BYTES",
+      "rights_status": "OWN_SYNTHESIS_NO_EXTERNAL_SAMPLE_FOUND",
+      "evidence": [
+        "evidence/AUDIO_REPRODUCTION.json",
+        "tools/build_lightning_audio.py"
+      ],
+      "dependencies": [],
+      "next_action": "Retain synthesis code/seed and authorship record; recheck only if inputs or bytes change."
+    },
+    {
+      "path": "assets/sfx/lightning/storm_short_v1.wav",
+      "bytes": 15920,
+      "sha256": "4ef3ab02c180016bc205f659b4155c62c052a8e4df317f84c8a39e39689badd5",
+      "type": "audio",
+      "static_usage": "LITERAL_RESOURCE_REACHABLE",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "HISTORICAL_RECEIPT_HASH_MATCH_NOT_REPRODUCED",
+      "rights_status": "SYNTHESIS_CLAIM_DOCUMENTED_NOT_REPRODUCED",
+      "evidence": [
+        "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\MagicAnimations_2026-10-17\\verification\\lightning_audio_assets.json"
+      ],
+      "dependencies": [],
+      "next_action": "Recover original generator/session or retain independent author confirmation; receipt alone is not fresh synthesis proof."
+    },
+    {
+      "path": "assets/sfx/reward_rules/fusion_10_10_soft_v1.wav",
+      "bytes": 493964,
+      "sha256": "bbd8fc607a45292b43c5dafb4e949bb6f784a5dbd41016ff9b3e2637fb12ebed",
+      "type": "audio",
+      "static_usage": "DYNAMIC_AUDIO_PATH_IN_REACHABLE_REWARD_RULES_BANK",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "REPRODUCED_EXACT_BYTES",
+      "rights_status": "OWN_SYNTHESIS_NO_EXTERNAL_SAMPLE_FOUND",
+      "evidence": [
+        "evidence/AUDIO_REPRODUCTION.json",
+        "tools/build_reward_rules_audio.py"
+      ],
+      "dependencies": [],
+      "next_action": "Retain synthesis code/seed and authorship record; recheck only if inputs or bytes change."
+    },
+    {
+      "path": "assets/sfx/reward_rules/fusion_6_10_soft_v1.wav",
+      "bytes": 493964,
+      "sha256": "d1c54a133812655412269831aad325fa8b16b21411e284579ed106afbc839076",
+      "type": "audio",
+      "static_usage": "DYNAMIC_AUDIO_PATH_IN_REACHABLE_REWARD_RULES_BANK",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "REPRODUCED_EXACT_BYTES",
+      "rights_status": "OWN_SYNTHESIS_NO_EXTERNAL_SAMPLE_FOUND",
+      "evidence": [
+        "evidence/AUDIO_REPRODUCTION.json",
+        "tools/build_reward_rules_audio.py"
+      ],
+      "dependencies": [],
+      "next_action": "Retain synthesis code/seed and authorship record; recheck only if inputs or bytes change."
+    },
+    {
+      "path": "assets/sfx/reward_rules/fusion_6_6_soft_v1.wav",
+      "bytes": 493964,
+      "sha256": "4da029773bf66834ca4a5d93154d641d43c9c4ff96efe060e8beff3ed9a04782",
+      "type": "audio",
+      "static_usage": "DYNAMIC_AUDIO_PATH_IN_REACHABLE_REWARD_RULES_BANK",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "REPRODUCED_EXACT_BYTES",
+      "rights_status": "OWN_SYNTHESIS_NO_EXTERNAL_SAMPLE_FOUND",
+      "evidence": [
+        "evidence/AUDIO_REPRODUCTION.json",
+        "tools/build_reward_rules_audio.py"
+      ],
+      "dependencies": [],
+      "next_action": "Retain synthesis code/seed and authorship record; recheck only if inputs or bytes change."
+    },
+    {
+      "path": "assets/sfx/reward_rules/fusion_6_9_soft_v1.wav",
+      "bytes": 493964,
+      "sha256": "5cd7b0e8a59190af0f5ef89c9a7e1703de4e70650f39b1e9a8bb24f9e98400b1",
+      "type": "audio",
+      "static_usage": "DYNAMIC_AUDIO_PATH_IN_REACHABLE_REWARD_RULES_BANK",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "REPRODUCED_EXACT_BYTES",
+      "rights_status": "OWN_SYNTHESIS_NO_EXTERNAL_SAMPLE_FOUND",
+      "evidence": [
+        "evidence/AUDIO_REPRODUCTION.json",
+        "tools/build_reward_rules_audio.py"
+      ],
+      "dependencies": [],
+      "next_action": "Retain synthesis code/seed and authorship record; recheck only if inputs or bytes change."
+    },
+    {
+      "path": "assets/sfx/reward_rules/fusion_9_10_soft_v1.wav",
+      "bytes": 493964,
+      "sha256": "ca9ee0bda217b0cfc7b329853ba575035d7ae149e51489b61e7e411c6ad9218e",
+      "type": "audio",
+      "static_usage": "DYNAMIC_AUDIO_PATH_IN_REACHABLE_REWARD_RULES_BANK",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "REPRODUCED_EXACT_BYTES",
+      "rights_status": "OWN_SYNTHESIS_NO_EXTERNAL_SAMPLE_FOUND",
+      "evidence": [
+        "evidence/AUDIO_REPRODUCTION.json",
+        "tools/build_reward_rules_audio.py"
+      ],
+      "dependencies": [],
+      "next_action": "Retain synthesis code/seed and authorship record; recheck only if inputs or bytes change."
+    },
+    {
+      "path": "assets/sfx/reward_rules/fusion_9_9_soft_v1.wav",
+      "bytes": 493964,
+      "sha256": "7893bd5c6d89fce8a41e018ceae4cda1c74c683bc42d846b0db1887c73fbfa0c",
+      "type": "audio",
+      "static_usage": "DYNAMIC_AUDIO_PATH_IN_REACHABLE_REWARD_RULES_BANK",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "REPRODUCED_EXACT_BYTES",
+      "rights_status": "OWN_SYNTHESIS_NO_EXTERNAL_SAMPLE_FOUND",
+      "evidence": [
+        "evidence/AUDIO_REPRODUCTION.json",
+        "tools/build_reward_rules_audio.py"
+      ],
+      "dependencies": [],
+      "next_action": "Retain synthesis code/seed and authorship record; recheck only if inputs or bytes change."
+    },
+    {
+      "path": "assets/sfx/reward_rules/reward_birth_soft_v1.wav",
+      "bytes": 44144,
+      "sha256": "4b424d949d554ba572f63260d2ee3bb158d8a2d0fc50842be75ebd18426dffb9",
+      "type": "audio",
+      "static_usage": "DYNAMIC_AUDIO_PATH_IN_REACHABLE_REWARD_RULES_BANK",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "REPRODUCED_EXACT_BYTES",
+      "rights_status": "OWN_SYNTHESIS_NO_EXTERNAL_SAMPLE_FOUND",
+      "evidence": [
+        "evidence/AUDIO_REPRODUCTION.json",
+        "tools/build_reward_rules_audio.py"
+      ],
+      "dependencies": [],
+      "next_action": "Retain synthesis code/seed and authorship record; recheck only if inputs or bytes change."
+    },
+    {
+      "path": "assets/sfx/stone_break_full_v1.wav",
+      "bytes": 185298,
+      "sha256": "9e573bc03b5f427614005774116ef3c84cfa5b9ba486440871331d0d54ac307f",
+      "type": "audio",
+      "static_usage": "LITERAL_RESOURCE_REACHABLE",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "USER_DESCRIBED_BREAK_REFERENCE_LINEAGE_NOT_BYTE_PROVEN",
+      "rights_status": "SOURCE_RECORDING_RIGHTS_UNRESOLVED",
+      "evidence": [
+        "evidence/USER_AUDIO_REFERENCES.json",
+        "scripts/rock_audio.gd",
+        "tools/build_volcano_audio.py"
+      ],
+      "dependencies": [],
+      "next_action": "Recover exact edit recipe/source identity and permission. User filename mentions Fortnite; that alone neither proves identity nor grants a game license."
+    },
+    {
+      "path": "assets/sfx/stone_break_v1.wav",
+      "bytes": 60076,
+      "sha256": "b122dd28955f51fe4ea8d7db8cd9d53fd3a569de02ca8429b8a9eb2adb60f6e8",
+      "type": "audio",
+      "static_usage": "NO_LITERAL_REACHABILITY_PROVEN",
+      "export_status": "EXCLUDED_BY_PRESET",
+      "provenance": "UNKNOWN",
+      "rights_status": "SOURCE_LICENSE_NOT_DOCUMENTED",
+      "evidence": [],
+      "dependencies": [],
+      "next_action": "Locate original author/source and rights evidence before release; do not infer rights from possession."
+    },
+    {
+      "path": "assets/sfx/stone_break_v2.wav",
+      "bytes": 10662,
+      "sha256": "00bea1bced131b1565429109de2c75ca4bf6aa719e078bac1047898da57124f5",
+      "type": "audio",
+      "static_usage": "NO_LITERAL_REACHABILITY_PROVEN",
+      "export_status": "EXCLUDED_BY_PRESET",
+      "provenance": "UNKNOWN",
+      "rights_status": "SOURCE_LICENSE_NOT_DOCUMENTED",
+      "evidence": [],
+      "dependencies": [],
+      "next_action": "Locate original author/source and rights evidence before release; do not infer rights from possession."
+    },
+    {
+      "path": "assets/sfx/stone_move_cartoon_selected_v1.ogg",
+      "bytes": 7360,
+      "sha256": "45ac41d8bbf97f713ba5d979ffd497b63a79f530acf3d4c73eb591832880c8b9",
+      "type": "audio",
+      "static_usage": "LITERAL_RESOURCE_REACHABLE",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "EXACT_MATCH_USER_REFERENCE_EDIT",
+      "rights_status": "SOURCE_RECORDING_RIGHTS_UNRESOLVED",
+      "evidence": [
+        "evidence/USER_AUDIO_REFERENCES.json",
+        "evidence/move_provenance"
+      ],
+      "dependencies": [],
+      "next_action": "Obtain original creator license permitting game redistribution and edits, or replace with original foley."
+    },
+    {
+      "path": "assets/sfx/stone_move_mid_soft_v1.wav",
+      "bytes": 44366,
+      "sha256": "d205cf45a27c556998c4d02c64b3870b41380ae76035f2bad0b167272139722b",
+      "type": "audio",
+      "static_usage": "NO_LITERAL_REACHABILITY_PROVEN",
+      "export_status": "EXCLUDED_BY_PRESET",
+      "provenance": "UNKNOWN",
+      "rights_status": "SOURCE_LICENSE_NOT_DOCUMENTED",
+      "evidence": [],
+      "dependencies": [],
+      "next_action": "Locate original author/source and rights evidence before release; do not infer rights from possession."
+    },
+    {
+      "path": "assets/sfx/stone_move_short_soft_v1.wav",
+      "bytes": 31054,
+      "sha256": "1744ac35f1200bd8219197f7a585fc478f3f326785589be2e406745c7a667bcc",
+      "type": "audio",
+      "static_usage": "NO_LITERAL_REACHABILITY_PROVEN",
+      "export_status": "EXCLUDED_BY_PRESET",
+      "provenance": "UNKNOWN",
+      "rights_status": "SOURCE_LICENSE_NOT_DOCUMENTED",
+      "evidence": [],
+      "dependencies": [],
+      "next_action": "Locate original author/source and rights evidence before release; do not infer rights from possession."
+    },
+    {
+      "path": "assets/sfx/stone_move_v1.wav",
+      "bytes": 42414,
+      "sha256": "db6039cb201e2cdc51c3e1fd4849d92492a5fef025731ef2a0260c1ce1fb74c8",
+      "type": "audio",
+      "static_usage": "NO_LITERAL_REACHABILITY_PROVEN",
+      "export_status": "EXCLUDED_BY_PRESET",
+      "provenance": "UNKNOWN",
+      "rights_status": "SOURCE_LICENSE_NOT_DOCUMENTED",
+      "evidence": [],
+      "dependencies": [],
+      "next_action": "Locate original author/source and rights evidence before release; do not infer rights from possession."
+    },
+    {
+      "path": "assets/sfx/stone_move_v2.wav",
+      "bytes": 14190,
+      "sha256": "1bda455077d0ff829ff0aeb2882f7faf31aa9b510fab96636034ae677f37d286",
+      "type": "audio",
+      "static_usage": "NO_LITERAL_REACHABILITY_PROVEN",
+      "export_status": "EXCLUDED_BY_PRESET",
+      "provenance": "UNKNOWN",
+      "rights_status": "SOURCE_LICENSE_NOT_DOCUMENTED",
+      "evidence": [],
+      "dependencies": [],
+      "next_action": "Locate original author/source and rights evidence before release; do not infer rights from possession."
+    },
+    {
+      "path": "assets/sfx/tornado/tornado_cartoon_magic_v1.wav",
+      "bytes": 250532,
+      "sha256": "c599537fb85b98f7bb11432eda5b4657915150b327f70b19dd2233fc9711fa53",
+      "type": "audio",
+      "static_usage": "LITERAL_RESOURCE_REACHABLE",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "REPRODUCED_EXACT_BYTES",
+      "rights_status": "OWN_SYNTHESIS_NO_EXTERNAL_SAMPLE_FOUND",
+      "evidence": [
+        "evidence/AUDIO_REPRODUCTION.json",
+        "tools/build_tornado_audio.py"
+      ],
+      "dependencies": [],
+      "next_action": "Retain synthesis code/seed and authorship record; recheck only if inputs or bytes change."
+    },
+    {
+      "path": "assets/sfx/tornado/tornado_soft_short_v1.wav",
+      "bytes": 19448,
+      "sha256": "55a20721ee57df1b8a39b93995281792c812bba5e1587b55272188f2b112e193",
+      "type": "audio",
+      "static_usage": "LITERAL_RESOURCE_REACHABLE",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "REPRODUCED_EXACT_BYTES",
+      "rights_status": "OWN_SYNTHESIS_NO_EXTERNAL_SAMPLE_FOUND",
+      "evidence": [
+        "evidence/AUDIO_REPRODUCTION.json",
+        "tools/build_tornado_audio.py"
+      ],
+      "dependencies": [],
+      "next_action": "Retain synthesis code/seed and authorship record; recheck only if inputs or bytes change."
+    },
+    {
+      "path": "assets/sfx/volcano/eruption_soft_v1.wav",
+      "bytes": 81188,
+      "sha256": "3ba1530e006b39b3e20af8683085cb2f1ffb7db4ad26051d6fa683434b38f9e4",
+      "type": "audio",
+      "static_usage": "LITERAL_RESOURCE_REACHABLE",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "REPRODUCED_EXACT_BYTES",
+      "rights_status": "OWN_SYNTHESIS_NO_EXTERNAL_SAMPLE_FOUND",
+      "evidence": [
+        "evidence/AUDIO_REPRODUCTION.json",
+        "tools/build_volcano_audio.py"
+      ],
+      "dependencies": [],
+      "next_action": "Retain synthesis code/seed and authorship record; recheck only if inputs or bytes change."
+    },
+    {
+      "path": "assets/sfx/volcano/gnomit_volcano_cartoon_eruption.mp3",
+      "bytes": 16724,
+      "sha256": "165bba4707d48883e96d1c7626400e36a454e206469d58b3b21ec9c536fda27c",
+      "type": "audio",
+      "static_usage": "LITERAL_RESOURCE_REACHABLE",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "USER_GROK_DELIVERED_CLIP_AUTHORSHIP_NOT_DOCUMENTED",
+      "rights_status": "SOURCE_RECORDING_RIGHTS_UNRESOLVED",
+      "evidence": [],
+      "dependencies": [],
+      "next_action": "Obtain creation method, original source, provider/tool terms and creator permission, or replace with an original cue."
+    },
+    {
+      "path": "assets/sfx/volcano/lava_flight_soft_v1.wav",
+      "bytes": 26504,
+      "sha256": "9451170e02e409789852074b013989807bb55d55a6fb1a0e76064c2a8828f903",
+      "type": "audio",
+      "static_usage": "LITERAL_RESOURCE_REACHABLE",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "REPRODUCED_EXACT_BYTES",
+      "rights_status": "OWN_SYNTHESIS_NO_EXTERNAL_SAMPLE_FOUND",
+      "evidence": [
+        "evidence/AUDIO_REPRODUCTION.json",
+        "tools/build_volcano_audio.py"
+      ],
+      "dependencies": [],
+      "next_action": "Retain synthesis code/seed and authorship record; recheck only if inputs or bytes change."
+    },
+    {
+      "path": "assets/sfx/volcano/magma_impact_burn_v1.wav",
+      "bytes": 63548,
+      "sha256": "39c9ebfd6313cb00aa30f6d3b45d9096fc3c94b6c9a3cf49f904b8ed46b38364",
+      "type": "audio",
+      "static_usage": "LITERAL_RESOURCE_REACHABLE",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "REPRODUCED_EXACT_BYTES",
+      "rights_status": "DERIVED_SAMPLE_RIGHTS_UNRESOLVED",
+      "evidence": [
+        "evidence/AUDIO_REPRODUCTION.json",
+        "tools/build_volcano_audio.py"
+      ],
+      "dependencies": [
+        "assets/sfx/stone_break_full_v1.wav"
+      ],
+      "next_action": "Clear the source break recording or replace this derivative with a new original recording/synthesis before release."
+    },
+    {
+      "path": "assets/shared_v2/contact_shadow.png",
+      "bytes": 7824,
+      "sha256": "d87d66aab4d1183c48c54b023f90e7ff2b07eb1d8e0ee125f5c5b15b43082057",
+      "type": "image",
+      "static_usage": "NO_LITERAL_REACHABILITY_PROVEN",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "UNKNOWN",
+      "rights_status": "SOURCE_LICENSE_NOT_DOCUMENTED",
+      "evidence": [],
+      "dependencies": [],
+      "next_action": "Locate original author/source and rights evidence before release; do not infer rights from possession."
+    },
+    {
+      "path": "assets/shared_v2/hero_master.png",
+      "bytes": 238352,
+      "sha256": "895a1ccf8c17e756e3bc05810cceaf48ec1732d7e90e0428f1c0523e6157004d",
+      "type": "image",
+      "static_usage": "LITERAL_RESOURCE_REACHABLE",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "UNKNOWN",
+      "rights_status": "SOURCE_LICENSE_NOT_DOCUMENTED",
+      "evidence": [],
+      "dependencies": [],
+      "next_action": "Locate original author/source and rights evidence before release; do not infer rights from possession."
+    },
+    {
+      "path": "assets/shared_v2/walk_sheet.png",
+      "bytes": 881007,
+      "sha256": "b03cfaf1022ee72367a820c262dec8f8d7730ce94a5d6f729ce81275505cefda",
+      "type": "image",
+      "static_usage": "NO_LITERAL_REACHABILITY_PROVEN",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "UNKNOWN",
+      "rights_status": "SOURCE_LICENSE_NOT_DOCUMENTED",
+      "evidence": [],
+      "dependencies": [],
+      "next_action": "Locate original author/source and rights evidence before release; do not infer rights from possession."
+    },
+    {
+      "path": "assets/storybook/descending_world_v1.png",
+      "bytes": 2867280,
+      "sha256": "7fdb2d06aaffd2ee2e8fb2f3a7a794e615ee7242535fdc78ae39010589048297",
+      "type": "image",
+      "static_usage": "NO_LITERAL_REACHABILITY_PROVEN",
+      "export_status": "EXCLUDED_BY_PRESET",
+      "provenance": "UNKNOWN",
+      "rights_status": "SOURCE_LICENSE_NOT_DOCUMENTED",
+      "evidence": [],
+      "dependencies": [],
+      "next_action": "Locate original author/source and rights evidence before release; do not infer rights from possession."
+    },
+    {
+      "path": "assets/storybook/descending_world_v2.png",
+      "bytes": 2743119,
+      "sha256": "6d1db0d6a8f810568ffc4713a42dbf1b3551a171e0fa54c05d0c61c464be2049",
+      "type": "image",
+      "static_usage": "LITERAL_RESOURCE_REACHABLE",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "UNKNOWN",
+      "rights_status": "SOURCE_LICENSE_NOT_DOCUMENTED",
+      "evidence": [],
+      "dependencies": [],
+      "next_action": "Locate original author/source and rights evidence before release; do not infer rights from possession."
+    },
+    {
+      "path": "assets/storybook/gnome_lantern_cutout_v3.png",
+      "bytes": 1631921,
+      "sha256": "d68bc1873723d2b6751fb05c4680dd13d43926be88818601bcff2961816e8da2",
+      "type": "image",
+      "static_usage": "NO_LITERAL_REACHABILITY_PROVEN",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "UNKNOWN",
+      "rights_status": "SOURCE_LICENSE_NOT_DOCUMENTED",
+      "evidence": [],
+      "dependencies": [],
+      "next_action": "Locate original author/source and rights evidence before release; do not infer rights from possession."
+    },
+    {
+      "path": "assets/storybook/gnome_lantern_poses_v1.png",
+      "bytes": 2288423,
+      "sha256": "7ae18c272b49ac5c4b2c9497c0d708fc3d596a9a493ddb7c058530132c54f446",
+      "type": "image",
+      "static_usage": "NO_LITERAL_REACHABILITY_PROVEN",
+      "export_status": "EXCLUDED_BY_PRESET",
+      "provenance": "UNKNOWN",
+      "rights_status": "SOURCE_LICENSE_NOT_DOCUMENTED",
+      "evidence": [],
+      "dependencies": [],
+      "next_action": "Locate original author/source and rights evidence before release; do not infer rights from possession."
+    },
+    {
+      "path": "assets/storybook/gnome_lantern_poses_v2.png",
+      "bytes": 2270450,
+      "sha256": "969fb63b915164fea1499c6be9fab8f43ab8af9da4832e06e87c4899de9053b9",
+      "type": "image",
+      "static_usage": "NO_LITERAL_REACHABILITY_PROVEN",
+      "export_status": "EXCLUDED_BY_PRESET",
+      "provenance": "UNKNOWN",
+      "rights_status": "SOURCE_LICENSE_NOT_DOCUMENTED",
+      "evidence": [],
+      "dependencies": [],
+      "next_action": "Locate original author/source and rights evidence before release; do not infer rights from possession."
+    },
+    {
+      "path": "assets/storybook/gnome_slice_walk_v1.png",
+      "bytes": 2195950,
+      "sha256": "b73f19278c9791bd44b33296511085353abe471d3ce5c2f753a077e47ba7df62",
+      "type": "image",
+      "static_usage": "NO_LITERAL_REACHABILITY_PROVEN",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "UNKNOWN",
+      "rights_status": "SOURCE_LICENSE_NOT_DOCUMENTED",
+      "evidence": [],
+      "dependencies": [],
+      "next_action": "Locate original author/source and rights evidence before release; do not infer rights from possession."
+    },
+    {
+      "path": "assets/storybook/gnome_walk_atlas_v1.png",
+      "bytes": 1562761,
+      "sha256": "f383d64e6f853b764468bbaae394eb9143136c397ea105acc778bff83604455a",
+      "type": "image",
+      "static_usage": "LITERAL_RESOURCE_REACHABLE",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "UNKNOWN",
+      "rights_status": "SOURCE_LICENSE_NOT_DOCUMENTED",
+      "evidence": [],
+      "dependencies": [],
+      "next_action": "Locate original author/source and rights evidence before release; do not infer rights from possession."
+    },
+    {
+      "path": "assets/storybook/side_gnomes_v1.png",
+      "bytes": 1629578,
+      "sha256": "0a0fa09ed33b7afa89bdee503241233455d9833f4b2dcc99dbe9fc536219627b",
+      "type": "image",
+      "static_usage": "LITERAL_RESOURCE_REACHABLE",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "UNKNOWN",
+      "rights_status": "SOURCE_LICENSE_NOT_DOCUMENTED",
+      "evidence": [],
+      "dependencies": [],
+      "next_action": "Locate original author/source and rights evidence before release; do not infer rights from possession."
+    },
+    {
+      "path": "assets/storybook/soil_goal.svg",
+      "bytes": 1063,
+      "sha256": "ab4fb873e93af5f05f8fe378188f9ad0a10e2b6bed1bc3ebda810f6dd0ab3b77",
+      "type": "image",
+      "static_usage": "LITERAL_RESOURCE_REACHABLE",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "UNKNOWN",
+      "rights_status": "SOURCE_LICENSE_NOT_DOCUMENTED",
+      "evidence": [],
+      "dependencies": [],
+      "next_action": "Locate original author/source and rights evidence before release; do not infer rights from possession."
+    },
+    {
+      "path": "assets/storybook/treasures_v4.png",
+      "bytes": 2042938,
+      "sha256": "fa58ce349165e6c37d409ad3c7876a5c201ddf7d0723417961ec682b636197e0",
+      "type": "image",
+      "static_usage": "LITERAL_RESOURCE_REACHABLE",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "UNKNOWN",
+      "rights_status": "SOURCE_LICENSE_NOT_DOCUMENTED",
+      "evidence": [],
+      "dependencies": [],
+      "next_action": "Locate original author/source and rights evidence before release; do not infer rights from possession."
+    },
+    {
+      "path": "assets/storybook/ui_materials_v1.png",
+      "bytes": 2461261,
+      "sha256": "daba04ef5dbe8f4bea7544329d3902a743bf041576cd8cbe77ac4004eceb9da4",
+      "type": "image",
+      "static_usage": "LITERAL_RESOURCE_REACHABLE",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "UNKNOWN",
+      "rights_status": "SOURCE_LICENSE_NOT_DOCUMENTED",
+      "evidence": [],
+      "dependencies": [],
+      "next_action": "Locate original author/source and rights evidence before release; do not infer rights from possession."
+    },
+    {
+      "path": "assets/vfx/black_hole/black_hole_core_v2.png",
+      "bytes": 1910081,
+      "sha256": "035c8650327cae9c84b8e8b611ce18f6e3b88fedbb46e24de951c218b0b9d6ce",
+      "type": "image",
+      "static_usage": "LITERAL_RESOURCE_REACHABLE",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "GENERATED_SOURCE_BYTES_MATCH",
+      "rights_status": "GENERATED_ART_INPUT_RIGHTS_REVIEW_PENDING",
+      "evidence": [
+        "evidence/GENERATED_ART_PROVENANCE.json",
+        "assets/vfx/black_hole/MATERIAL_V2_METADATA.json"
+      ],
+      "dependencies": [],
+      "next_action": "Preserve prompts/tool/source identity and review every reference input. AI output provenance is not blanket third-party clearance."
+    },
+    {
+      "path": "assets/vfx/black_hole/GENERATION_PROMPT_V2.txt",
+      "bytes": 1921,
+      "sha256": "46feae0b14df03ad906c2a6a357939b520f9aef9772a85e938bb6c12a9049d6e",
+      "type": "support_document",
+      "static_usage": "NO_LITERAL_REACHABILITY_PROVEN",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "BUNDLED_EVIDENCE_DOCUMENT",
+      "rights_status": "SUPPORT_DOCUMENT_NOT_MEDIA_CLEARANCE",
+      "evidence": [],
+      "dependencies": [],
+      "next_action": "Preserve with the related media; document presence does not clear other assets."
+    },
+    {
+      "path": "assets/vfx/black_hole/MATERIAL_V2_METADATA.json",
+      "bytes": 682,
+      "sha256": "73b82dbcd8be6439cd0a4fc2af2f841de2be6b26ba1d34948ebb48f4a1301e09",
+      "type": "support_document",
+      "static_usage": "NO_LITERAL_REACHABILITY_PROVEN",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "BUNDLED_EVIDENCE_DOCUMENT",
+      "rights_status": "SUPPORT_DOCUMENT_NOT_MEDIA_CLEARANCE",
+      "evidence": [],
+      "dependencies": [],
+      "next_action": "Preserve with the related media; document presence does not clear other assets."
+    },
+    {
+      "path": "assets/vfx/mountain_volcano_body_v2.png",
+      "bytes": 1462674,
+      "sha256": "6726a3b3c7c79fae6b4685077f8c917eaac1cecf1a2176371ff9227a0156d8d1",
+      "type": "image",
+      "static_usage": "LITERAL_RESOURCE_REACHABLE",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "GENERATED_SOURCE_BYTES_MATCH",
+      "rights_status": "GENERATED_ART_INPUT_RIGHTS_REVIEW_PENDING",
+      "evidence": [
+        "evidence/GENERATED_ART_PROVENANCE.json",
+        "verification/IMAGEGEN_PROMPT.txt"
+      ],
+      "dependencies": [],
+      "next_action": "Preserve prompts/tool/source identity and review every reference input. AI output provenance is not blanket third-party clearance."
+    },
+    {
+      "path": "assets/vfx/volcano/ash_puff.png",
+      "bytes": 1119153,
+      "sha256": "13dbb9000304e6230daa49ffd56f2e759707277a75648631e79f7ae96a7823cd",
+      "type": "image",
+      "static_usage": "NO_LITERAL_REACHABILITY_PROVEN",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "GENERATED_SOURCE_BYTES_MATCH",
+      "rights_status": "GENERATED_ART_INPUT_RIGHTS_REVIEW_PENDING",
+      "evidence": [
+        "evidence/GENERATED_ART_PROVENANCE.json",
+        "assets/vfx/volcano/MATERIALS.json"
+      ],
+      "dependencies": [],
+      "next_action": "Preserve prompts/tool/source identity and review every reference input. AI output provenance is not blanket third-party clearance."
+    },
+    {
+      "path": "assets/vfx/volcano/FIRE_GENERATION_PROMPT.txt",
+      "bytes": 1474,
+      "sha256": "bbb84f19bdc35018271859fc882b64ace510117965c4dbcd5f98d67c51b08ea4",
+      "type": "support_document",
+      "static_usage": "NO_LITERAL_REACHABILITY_PROVEN",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "BUNDLED_EVIDENCE_DOCUMENT",
+      "rights_status": "SUPPORT_DOCUMENT_NOT_MEDIA_CLEARANCE",
+      "evidence": [],
+      "dependencies": [],
+      "next_action": "Preserve with the related media; document presence does not clear other assets."
+    },
+    {
+      "path": "assets/vfx/volcano/GENERATION_PROMPTS.txt",
+      "bytes": 2825,
+      "sha256": "ad920ef80d198e8d6978983a4c943d58a4da620fe3850e93ee9cf7538899f2da",
+      "type": "support_document",
+      "static_usage": "NO_LITERAL_REACHABILITY_PROVEN",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "BUNDLED_EVIDENCE_DOCUMENT",
+      "rights_status": "SUPPORT_DOCUMENT_NOT_MEDIA_CLEARANCE",
+      "evidence": [],
+      "dependencies": [],
+      "next_action": "Preserve with the related media; document presence does not clear other assets."
+    },
+    {
+      "path": "assets/vfx/volcano/impact_dust.png",
+      "bytes": 1560121,
+      "sha256": "be07b75b7bcd86f4720b422b11f4aef583879395199b5abcf7d48b9e45112881",
+      "type": "image",
+      "static_usage": "NO_LITERAL_REACHABILITY_PROVEN",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "GENERATED_SOURCE_BYTES_MATCH",
+      "rights_status": "GENERATED_ART_INPUT_RIGHTS_REVIEW_PENDING",
+      "evidence": [
+        "evidence/GENERATED_ART_PROVENANCE.json",
+        "assets/vfx/volcano/MATERIALS.json"
+      ],
+      "dependencies": [],
+      "next_action": "Preserve prompts/tool/source identity and review every reference input. AI output provenance is not blanket third-party clearance."
+    },
+    {
+      "path": "assets/vfx/volcano/lava_flame.png",
+      "bytes": 892449,
+      "sha256": "c44ea2aa05e0d681f61956a84a6d6262e109ef52227985cdf707f33cc43f7c81",
+      "type": "image",
+      "static_usage": "NO_LITERAL_REACHABILITY_PROVEN",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "GENERATED_SOURCE_BYTES_MATCH",
+      "rights_status": "GENERATED_ART_INPUT_RIGHTS_REVIEW_PENDING",
+      "evidence": [
+        "evidence/GENERATED_ART_PROVENANCE.json",
+        "assets/vfx/volcano/MATERIALS.json"
+      ],
+      "dependencies": [],
+      "next_action": "Preserve prompts/tool/source identity and review every reference input. AI output provenance is not blanket third-party clearance."
+    },
+    {
+      "path": "assets/vfx/volcano/magma_pebble.png",
+      "bytes": 1232022,
+      "sha256": "1de6a6be56a3f714a8de53cceb96018f196a5cff3ebd9414e6a4a5d64e6d397d",
+      "type": "image",
+      "static_usage": "NO_LITERAL_REACHABILITY_PROVEN",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "GENERATED_SOURCE_BYTES_MATCH",
+      "rights_status": "GENERATED_ART_INPUT_RIGHTS_REVIEW_PENDING",
+      "evidence": [
+        "evidence/GENERATED_ART_PROVENANCE.json",
+        "assets/vfx/volcano/MATERIALS.json"
+      ],
+      "dependencies": [],
+      "next_action": "Preserve prompts/tool/source identity and review every reference input. AI output provenance is not blanket third-party clearance."
+    },
+    {
+      "path": "assets/vfx/volcano/MATERIALS.json",
+      "bytes": 2757,
+      "sha256": "3c5079cd348c4b19510e83ce289e4359a81943146cdaa76b8c2eca3a1e3e76ee",
+      "type": "support_document",
+      "static_usage": "NO_LITERAL_REACHABILITY_PROVEN",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "BUNDLED_EVIDENCE_DOCUMENT",
+      "rights_status": "SUPPORT_DOCUMENT_NOT_MEDIA_CLEARANCE",
+      "evidence": [],
+      "dependencies": [],
+      "next_action": "Preserve with the related media; document presence does not clear other assets."
+    },
+    {
+      "path": "assets/victory.wav",
+      "bytes": 41938,
+      "sha256": "43e31b883d719de5282df86f91bb7c1923eda38a25854beecf98b0dfa792041a",
+      "type": "audio",
+      "static_usage": "NO_LITERAL_REACHABILITY_PROVEN",
+      "export_status": "NOT_EXCLUDED_ACTUAL_EXPORT_NOT_TESTED",
+      "provenance": "UNKNOWN",
+      "rights_status": "SOURCE_LICENSE_NOT_DOCUMENTED",
+      "evidence": [],
+      "dependencies": [],
+      "next_action": "Locate original author/source and rights evidence before release; do not infer rights from possession."
+    }
+  ]
+}

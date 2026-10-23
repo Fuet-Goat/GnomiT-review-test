@@ -1,0 +1,25 @@
+"""Read-only original bones/actions/materials/world check; split geometry is the authorised delta."""
+from pathlib import Path
+import sys,json
+import bpy
+ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'source'))
+from reference_checks import snapshot
+from evidence import sha
+source=ROOT/'reference/GNOME_RIG_R1_GREETING.blend'
+receipt=json.loads((ROOT/'documentation/SEPARATION_RECEIPT.json').read_text());native=Path(receipt['native'])
+bpy.ops.wm.open_mainfile(filepath=str(source));before=snapshot(bpy.context.scene)
+bpy.ops.wm.open_mainfile(filepath=str(native));after=snapshot(bpy.context.scene)
+for name in ('actions','materials','world','camera','render','image_settings','view','display','eevee','cycles'):
+    assert before[name]==after[name],name
+rig='RigR1_GnomeArmature';assert before['objects'][rig]==after['objects'][rig],'Original rig/bone state changed'
+for name,obj in before['objects'].items():
+    if name=='R2_ContinuousCoat':continue
+    assert obj==after['objects'][name],'Unrequested object changed: '+name
+assert set(after['objects'])-set(before['objects'])=={'R3_RightSleeve','R3_RightTorsoPatch'}
+assert sha(source)==receipt['source_sha256'] and sha(native)==receipt['native_sha256']
+proof={'status':'ORIGINAL_ACTION_KEYS_REST_BONES_STUDIO_MATERIALS_EXACT_MATCH','protected_original_objects':len(before['objects'])-1,
+    'allowed_topology_change':'Right upper coat faces + separate sleeve + torso patch',
+    'original_actions':list(before['actions']),'new_action_keys':0,'new_bones':0,
+    'source_sha256':sha(source),'native_sha256':sha(native),'human_visual_acceptance':'PENDING','game_integration':False}
+(ROOT/'documentation/SOURCE_PRESERVATION.json').write_bytes((json.dumps(proof,indent=2)+'\n').encode())
+print(json.dumps(proof),flush=True)

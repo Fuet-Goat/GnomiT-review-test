@@ -1,0 +1,11 @@
+CODEX VISUAL REVIEW —2026-10-22
+Directly observed both full432x960 native renders,both native512x512 details,
+and04_FULL_D_E.png/05_DETAIL_D_E.png. Samecamera/light. Detail8xrender density,
+not interpolation. D widthpower0.8 versus E1.6,one shape variable changed.
+VISUAL-JUDGMENT:E has earlier narrowing toward base/tip and a slimmer curved
+silhouette in the central close group. Leaf tips also look more pointed.
+The broad middle span/radial tuft arrangement remain,so the plant/rosette
+reading is reduced only partly. This is not reference parity or a whole-map win.
+The12tuft difference is small in the full frame. Unselected grass stays identical.
+Candidate E is for human comparison. No global rollout or next art stage started.
+Human choice PENDING;Godot/Android/performance NOT_MEASURED for this probe.

@@ -1,0 +1,9 @@
+{
+  "status": "FRESH_ZIP_EXTRACT_COLD_IMPORT_PASS",
+  "cache_copied": false,
+  "native_blend_autoimport_ignored": true,
+  "log_sha256": "2f8369a01e7631ec48b061d26286374d7bdde0826bf003cff3f00d35a9d65cc9",
+  "no_error_lines": true,
+  "runtime_smoke_checks": 34,
+  "human_acceptance": "PENDING"
+}

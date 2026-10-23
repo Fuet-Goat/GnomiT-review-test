@@ -1,0 +1,32 @@
+SOURCE-VERIFIED — local v006 derived from v005, 2026-10-21
+
+Material ids: 0 Ruby,1 Amethyst,2 Gold ore,3 Diamond,4 Emerald,5 Pearl.
+All six ordinary materials currently share matching/removal rules.
+Reference: scripts/lab/material_power_board.gd:MINERAL_NAMES;
+scripts/lab/material_power_core.gd:_material_snapshot,material_at.
+Power identity is already separate from mineral_kind. Different new material
+conditions are a requested future mechanic, not a feature already implemented.
+
+Soil: an underlay beneath a piece. An ordinary matched removal sets soil HP
+to zero (all current layers), not universally -1. Ref:_apply_match_terrain.
+Distinct orthogonally adjacent runes lose one HP per such match wave.
+Rune: blocking stone, released only at zero HP. Current authored campaign
+starts soil/runes at1HP; multihit3/2/1 exists in the developer Black Hole lab.
+
+Black Hole: one direct hit per actual cell; soil and rune layers each lose1HP,
+gaps excluded, surviving runes retained. Waiting powers are swallowed inertly.
+Ref:material_power_core.gd:_apply_atomic_power. This rule is authoritative for
+existing layers; the application to a future protected mineral must be explicit.
+Subsequent ordinary cascades are separate events.
+
+Current v006 presentation: numbered soil badges and existing rune pips.
+Six orange cells become three showing2/1/1. All current game rules unchanged.
+
+Tutorial: scripts/tutorial/power_tutorial.gd supports only Volcano, two pages.
+main.gd:POWER_INTRODUCTIONS={entry:volcano}. Seen flags are session RAM, not save.
+First soil:hollow(Level2); first rune:rune(preparation following Level7).
+There is no existing automatic lesson for every mineral/obstacle.
+
+User recording and desktop screenshot were viewed locally; not redistributed.
+Two delegated read-only source reviews corroborated damage/tutorial integration.
+Their source analysis is not human gameplay acceptance or future-rule testing.

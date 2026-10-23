@@ -1,0 +1,65 @@
+GNOMIT — РЕЗУЛТАТ ОТ ПРОВЕРКАТА И ПОДГОТОВКАТА / 19.10.2026
+
+ОДИТЪТ И ПОДГОТОВКАТА СА ГОТОВИ; ЦЕЛИЯТ ПРОЕКТ НЕ Е ОБЯВЕН ЗА ПРАВНО ИЗЧИСТЕН.
+Няма финален избран Android/AAB baseline. Не е публикувано нищо в Google Play.
+
+ИЗМЕРЕНО
+- 119 арт/model/font файла /34 различни hashes в конкретните шест корена.
+- 198 самостоятелни аудиофайла /37 различни hashes в конкретните осем корена.
+- 9 project roots в dependency/source прегледа,26 инвентарни реда.
+- Всички317 оригинални media instances са повторно прочетени и hash-овете им
+  съвпадат. Стари assets, saves, private/main и game code не са променени.
+- Това не е пълно сканиране на цялата история/ZIP/контейнери/всички стари forks.
+
+НАМЕРЕНИ СА РЕАЛНИ ПРИОРИТЕТИ
+1. MOVE от meme запис, BREAK от Fortnite-labelled запис и производен magma
+   impact:3 точни hashes/18 копия. Няма намерен нужният sample license.
+   Подготвени са3 нови scratch procedural WAV кандидата, generator/seed/manifest
+   и конкретен source patch. Те не са интегрирани и чакат човешко прослушване.
+   Изригването и полетът от стария volcano генератор са отделен синтез;
+   не ги обявяваме автоматично за sample-derived.
+2. Има13 уникални наследени картинки без пълна file-level следа в първия scope,
+   плюс други provider/input въпроси. Допълнителният ограничен преглед на3
+   исторически metadata файла не затвори тези13 пропуска. Има следи за употреба
+   и prompt, но не пълна origin/permission верига. UNKNOWN не е присъда.
+3. Grok V4 има документиран математически синтез и exact output; текущият план
+   е SuperGrok. Остават historical feature records и конкретните договорни
+   permission/attribution въпроси, не доказана обща забрана за работа с Grok.
+4. Публикуваните bpy scripts имат отделен лицензен въпрос. Не е направено
+   автоматично прелицензиране на скриптовете или game source.
+5. Nunito Sans и пълният OFL са налични в sources. Реално са извлечени19
+   desktop Godot licence texts/102copyright entries. Комплектът е подготвен,
+   но Android template/AAB inclusion още не е проверен.
+
+ГОТОВО ЗА ПОЛЗВАНЕ
+policy/GROK_WORK_RULES_BG.txt — каква работа и входове се дават на Grok.
+policy/ONE_PROMPT_FOR_GROK_BG.txt — общ рамков prompt; не дава сам нов grant.
+policy/TASK_INPUT_AND_DELIVERY_TEMPLATE.json — задължителни входове/доказателства.
+policy/KNOWN_SAMPLE_RELEASE_HOLDS.json —3 точни стари SHA групи за изключване
+без нужни права. Не съдържа присъда за нарушение.
+candidate/audio/ —3 нови sample-free кандидата с технически проверки.
+candidate/patches/ — конкретни промени по source paths, но НЕ приложени.
+candidate/LEGAL_NOTICES/ — реални notices за подготвяне на release пакета.
+policy/QUESTIONS_FOR_GEMINI_BG.txt —3 конкретни правни уточнения, а не70 общи.
+policy/PROVIDER_CLARIFICATION_DRAFT_EN.txt — чернова за доставчика, НЕ изпратена.
+
+КАКВО ОСТАВА ДО ДЕЙСТВИТЕЛНО ЗАТВАРЯНЕ
+Избор на един интегриран baseline; доказване/замяна/изключване на точните
+неизяснени assets; човешко приемане и внедряване на заместителите; конкретно
+решение за bpy source и provider условията; notice/privacy/store проверки на
+реалния Android export. Виж audit/RELEASE_BLOCKERS.csv и RELEASE_CHECKLIST.
+
+ЦЕЛТА „МОЯ ИГРА“
+Контролираш проекта и собствените права, а engine/font/library остават по лиценз.
+AI output possession/contractual ownership не гарантира изключителна copyright
+закрила. Не е нужно да сменяме всичко само защото е AI; нужна е честна верига
+за конкретния файл и приложимите входни/договорни права.
+
+ПРОВЕРКА СЕГА, ПОДДРЪЖКА ПОСЛЕ
+Тази подготовка намалява риска от късни подмени. При нови assets/dependencies/
+tools/условия се актуализират засегнатите записи, а преди release се сверява
+целият точен manifest. Никой audit не обещава, че бъдещи промени няма да трябват.
+
+Не са купувани инструменти, сменяни акаунти, публикувани лични данни или
+изпращани писма. Изпълнени са изолирани audit scripts, празен Godot notice
+probe и нов генератор на кандидатни звуци; не твърдим „без изпълнение“ изобщо.

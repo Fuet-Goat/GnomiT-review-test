@@ -1,0 +1,24 @@
+GNOMIT — GROK R1 EXPORT CLOSURE (NO NEW DRAWING)
+Read current PROJECT_HUB/TASK_QUEUE and reviews/STAGE_B_R1_REVIEW_2026-10-17.txt on codex/codex/task-001. Verify existing APPROVED tasks/grok/task-002.json from main. Own branch codex/grok/task-002 and approved own roots only. Same art-only scope, no game execution/edits, grants, helper or merge.
+
+FREEZE ART BYTES
+Master commit:0a2b6e3d2736d8c787026718205e15dee8a6fc0f, master SHA-256895a1ccf8c17e756e3bc05810cceaf48ec1732d7e90e0428f1c0523e6157004d.
+R1 sheet commit:463a9bb709e7aed459f2e4a861ed02e58b48b802, sheet SHA-256b03cfaf1022ee72367a820c262dec8f8d7730ce94a5d6f729ce81275505cefda.
+Readback predecessor:f3cfba7e39c59988f0a96a40719589c1cc6f2c24. Keep these PNG bytes identical. No image generation, new pose, high rear lift, palette change or another hero variant.
+
+CLOSE TWO ISSUES
+A. Regenerate metadata measurements from the FINAL EXPORTED sheet, after any cleanup. Actual alpha>0 bounds are:
+cell0[65,28,375,466], cell1[64,24,374,467], cell2[64,24,374,467], cell3[56,27,347,467], cell4[57,27,345,467], cell5[56,27,346,466].
+Heights438,443,443,440,440,439 all meet440+/-8. Do not silently repeat pre-export440/444 values. Declare exact thresholds and exclusive boundaries. Recompute centroids and clearly name the visual registration marker.
+Your virtual rig/ground datum can lie in transparency, but do not call it a measured opaque sole. Either measure a genuine support heel/sole region from the correct leg and phase, or label the coordinates as authored virtual anchors and leave physical support unverified. Do not infer planted-foot correctness from the lowest alpha pixel or bottom-row median alone.
+
+B. Define one coordinate system joining original idle to walk and fixed shadow.
+Raw idle upper-body x centroid258.96113175779726 vs walk0 209.13257463789535 means simply using identical canvas origin or idle foot anchor for both raw sprites produces a visible shift. Your current16-frame preview contains no idle and cannot prove this transition.
+Record idle origin/root/anchor, walking origin/root/anchor, per-state draw offsets, and whether offsets are already baked into pixels. Show an explicit draw equation such as sprite_top_left = world_reference + state_draw_offset - state_anchor*scale, with units and signs. Do not apply registration twice or move the shadow separately at a state change. A visual root can be authored from the measured body marker; do not claim it is an anatomical pelvis.
+Assemble one3–5s ART PREVIEW idle -> front cycle -> rear cycle -> idle using unchanged master and unchanged sheet and the same world reference/fixed shadow. Annotate ART PREVIEW. This is a deterministic export/layout demonstration, not runtime or a new art generation.
+
+DELIVER THROUGH GIT
+Update animation_metadata.json, walk_preview.gif, ANIMATION_HANDOFF.json and own WORK_STATUS/REPORT. Keep predecessor history. Verify frozen master/sheet hashes before/after and independently read new exact-commit bytes back. State rear passing remains low and accepted for a rough prototype; do not regenerate cell4 solely for a higher lift.
+Return READY_FOR_CODEX_CHECK only with actual published metadata/preview and exact commit. Do not claim Godot acceptance or send ZIP/files through the human. If the coordinate transform is unresolved, record it without a fictitious PASS.
+
+Mode recommendation: Grok Build (metadata/assembly only); next Codex closure check GPT-6.1 Sol / High, publication/hash-only Medium.

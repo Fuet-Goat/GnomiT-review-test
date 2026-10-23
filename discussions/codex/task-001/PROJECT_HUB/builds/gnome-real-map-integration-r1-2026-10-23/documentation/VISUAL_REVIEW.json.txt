@@ -1,0 +1,11 @@
+{
+  "observed": "Actual A/B full map and4xdiagnostic crops inspected. Same island/path/mine/trees; new folded red cap/teal silhouette visible at original small scale. No obvious detached cuff/shoulder or floating feet in captured greeting.",
+  "limitations": [
+    "Face is tiny at actual map scale; enlarged crop is diagnostic only.",
+    "Map lighting is current world recipe, not the accepted studio lighting environment.",
+    "Existing world/UI are retained apart from preview footer and Settings hidden.",
+    "No authored walk; route navigation blocked.",
+    "Master874805triangles remains unoptimised."
+  ],
+  "human_map_context_acceptance": "PENDING"
+}

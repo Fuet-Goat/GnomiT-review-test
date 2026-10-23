@@ -1,0 +1,23 @@
+{
+  "asset": "CARPET_PATCH_G.blend",
+  "format": "native Blender",
+  "runtime_ready": false,
+  "static_preview": true,
+  "animation_fps": null,
+  "new_blades": 9257,
+  "new_patch_groups": 1430,
+  "whole_body_tuft_count": "UNKNOWN; old value historical only",
+  "body_transform": "identity inherited",
+  "full_preview_px": [
+    432,
+    960
+  ],
+  "detail_px": [
+    512,
+    512
+  ],
+  "detail_density": 4,
+  "packed_images": 5,
+  "linked_libraries": 0,
+  "candidate_sha256": "5baeaadab55c144fd554cbae9122db30d3ce6104b41b3a48b9eaa301635b0260"
+}

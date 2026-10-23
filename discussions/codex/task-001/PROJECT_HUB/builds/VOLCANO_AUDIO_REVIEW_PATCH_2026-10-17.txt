@@ -1,0 +1,1027 @@
+LITERAL SOURCE PROPOSAL — TEXT ONLY; NOT APPLIED TO GOVERNED GAME
+Base: local fiery Volcano lab described in a247888. New WAVs are reproducible
+with tools/build_volcano_audio.py and the unchanged accepted stone sample.
+
+--- before/scripts/lab/natural_power_lab.gd
++++ after/scripts/lab/natural_power_lab.gd
+@@ -3,9 +3,11 @@
+ const LabBoard = preload("res://scripts/lab/magic_volcano_board.gd")
+ const Art = preload("res://scripts/story_art.gd")
+ const RockAudio = preload("res://scripts/rock_audio.gd")
++const VolcanoAudio = preload("res://scripts/lab/volcano_audio.gd")
+ const Background = preload("res://assets/first_crystals/cave_background_v1.png")
+ var core
+ var stone_audio
++var volcano_audio
+ var last_result:Dictionary = {}
+ var board
+ var scenario := "volcano"
+@@ -88,7 +90,8 @@
+ 	board.custom_minimum_size = Vector2(300,350)
+ 	stack.add_child(board)
+ 	stone_audio = RockAudio.new();add_child(stone_audio)
+-	board.foley_requested.connect(stone_audio.play_cue)
++	volcano_audio = VolcanoAudio.new();add_child(volcano_audio)
++	board.foley_requested.connect(_on_board_foley)
+ 	board.swap_requested.connect(_on_swap)
+ 	board.power_started.connect(_on_power_started)
+ 	var info := PanelContainer.new();info.add_theme_stylebox_override("panel",Art.panel(Color("c9d6bd")));info.custom_minimum_size.y = 100;stack.add_child(info)
+@@ -112,6 +115,7 @@
+ 	var label := _label(value,13);label.size_flags_horizontal = Control.SIZE_EXPAND_FILL;label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER;parent.add_child(label);return label
+ 
+ func reset_scenario(value:String) -> void:
++	if is_instance_valid(volcano_audio): volcano_audio.stop_all()
+ 	_generation += 1;_resolving = false;scenario = value;last_result.clear()
+ 	core = LabCore.new();core.setup_lab(scenario,seed_value)
+ 	board.setup(core,reduced.button_pressed)
+@@ -155,6 +159,9 @@
+ 		helper.text = "Try another power above, or Reset to replay the same stones."
+ 
+ func _on_power_started(power:String,targets:Array) -> void:
++	# A signal listener may have skipped/reset the event before this handler.
++	if power == "volcano" and _has_painted_volcano_event():
++		volcano_audio.begin(targets,board.reduced_motion)
+ 	match power:
+ 		"volcano": effect_label.text = "VOLCANO · " + str(targets.size()) + " MAGMA HITS";helper.text = "Watch burning lava scorch the marked cells." if painted_toggle.button_pressed else "Watch the marked stones — one magma pebble per target."
+ 		"tornado_h": effect_label.text = "TORNADO · ROW SWEEP";helper.text = "The wind continues on the far side of each gap."
+@@ -162,8 +169,26 @@
+ 		"black_hole": effect_label.text = "BLACK HOLE";helper.text = "Gems are absorbed. Soil and runes survive the pull; later matches may hit them."
+ 
+ func skip_effect() -> void:
++	if is_instance_valid(volcano_audio): volcano_audio.stop_all()
+ 	if not _resolving: return
+ 	_generation += 1
+ 	board.finish_now()
+ 	_resolving = false;_update_stats();_update_controls()
+ 	helper.text = "Animation skipped. The same resolved board is shown."
++
++func _has_painted_volcano_event() -> bool:
++	return is_instance_valid(board) and board.painted_volcano and not board._power_event.is_empty() and board._power_epoch == board._epoch and String(board._power_event.get("power","")) == "volcano"
++
++func _process(_delta:float) -> void:
++	if not is_instance_valid(volcano_audio) or not volcano_audio.event_active: return
++	if _has_painted_volcano_event(): volcano_audio.sync_progress(board._power_t)
++	else: volcano_audio.finish_event()
++
++func _on_board_foley(kind:String,strength:float = 1.0) -> void:
++	# The painted impacts already have a full stone body and fire tail. Suppress
++	# only their old end bang; cascades and all baseline powers retain their cues.
++	if kind == "break" and _has_painted_volcano_event() and is_instance_valid(volcano_audio) and volcano_audio.event_active: return
++	stone_audio.play_cue(kind,strength)
++
++func _exit_tree() -> void:
++	if is_instance_valid(volcano_audio): volcano_audio.stop_all()
+
+--- /dev/null
++++ after/scripts/lab/volcano_audio.gd
+@@ -0,0 +1,129 @@
++extends Node
++## Presentation-only cues follow the board's existing normalized event clock.
++## No timers, delayed callbacks or gameplay RNG; stop_all cancels immediately.
++
++const VOICES := 12
++const BUS_NAME := "GnomiT Volcano Foley"
++const FLIGHT_START := 0.23
++const IMPACT_START := 0.65
++const STAGGER := 0.055
++const STREAM_PATHS := {
++	"eruption":"res://assets/sfx/volcano/eruption_soft_v1.wav",
++	"flight":"res://assets/sfx/volcano/lava_flight_soft_v1.wav",
++	"impact":"res://assets/sfx/volcano/magma_impact_burn_v1.wav",
++}
++
++var players: Array[AudioStreamPlayer] = []
++var streams: Dictionary = {}
++var cue_log: Array = []
++var event_active := false
++var _targets: Array = []
++var _reduced := false
++var _next_flight := 0
++var _next_impact := 0
++var _next_voice := 0
++var _last_t := 0.0
++var _event_id := 0
++
++func _ready() -> void:
++	_prepare_audio()
++
++func _prepare_audio() -> void:
++	# Buffer/file loading also works before Godot has imported the new WAVs.
++	for kind in STREAM_PATHS:
++		if streams.has(kind) or not FileAccess.file_exists(STREAM_PATHS[kind]): continue
++		var stream := AudioStreamWAV.load_from_file(STREAM_PATHS[kind])
++		if stream != null and stream.get_length() > 0.0: streams[kind] = stream
++	if not players.is_empty(): return
++	if AudioServer.get_bus_index(BUS_NAME) < 0:
++		AudioServer.add_bus()
++		var index := AudioServer.bus_count-1
++		AudioServer.set_bus_name(index,BUS_NAME)
++		AudioServer.set_bus_volume_db(index,-2.0)
++		var limiter := AudioEffectHardLimiter.new()
++		limiter.ceiling_db = -6.0
++		AudioServer.add_bus_effect(index,limiter)
++	for voice in VOICES:
++		var player := AudioStreamPlayer.new()
++		player.bus = BUS_NAME
++		add_child(player)
++		players.append(player)
++
++func asset_status() -> Dictionary:
++	_prepare_audio()
++	var missing: Array = []
++	var lengths: Dictionary = {}
++	for kind in STREAM_PATHS:
++		if not streams.has(kind): missing.append(STREAM_PATHS[kind])
++		else: lengths[kind] = streams[kind].get_length()
++	return {"ready":missing.is_empty(),"missing":missing,"lengths":lengths}
++
++func begin(targets: Array, reduced: bool) -> void:
++	stop_all()
++	_prepare_audio()
++	if streams.size() != STREAM_PATHS.size():
++		push_warning("Volcano audio assets unavailable; retaining baseline stone foley.")
++		return
++	_event_id += 1
++	_targets = targets.duplicate()
++	_reduced = reduced
++	event_active = true
++	if reduced:
++		# One short, softer breath; never the normal eruption/impact soundtrack.
++		_play_cue("reduced","flight",-1,-1,0.0,-19.0,1.0)
++	else:
++		_play_cue("eruption","eruption",-1,-1,0.0,-8.5,0.98)
++
++func sync_progress(t: float) -> void:
++	if not event_active or _reduced: return
++	_last_t = maxf(_last_t,clampf(t,0.0,1.0))
++	# Five or fewer authoritative targets: every launch precedes the first hit.
++	# Catch up once when a rendered frame crosses more than one threshold.
++	while _next_flight < _targets.size():
++		var threshold := FLIGHT_START+float(_next_flight)*STAGGER
++		if _last_t < threshold: break
++		var ordinal := _next_flight
++		_next_flight += 1
++		var pitch := 1.0+float(ordinal%3)*0.02
++		_play_cue("flight","flight",int(_targets[ordinal]),ordinal,threshold,-13.0,pitch)
++	while _next_impact < _targets.size():
++		var threshold := IMPACT_START+float(_next_impact)*STAGGER
++		if _last_t < threshold: break
++		var ordinal := _next_impact
++		_next_impact += 1
++		var pitch := 0.94+float(posmod(ordinal*7,11))*0.01
++		_play_cue("impact","impact",int(_targets[ordinal]),ordinal,threshold,-12.0,pitch)
++
++func finish_event() -> void:
++	# Leave already playing stone/crackle tails intact after normal VFX expiry.
++	# Clearing the schedule prevents any later frame from starting another cue.
++	event_active = false
++	_targets.clear()
++	_next_flight = 0
++	_next_impact = 0
++
++func stop_all() -> void:
++	finish_event()
++	_last_t = 0.0
++	_next_voice = 0
++	for player in players: player.stop()
++
++func _play_cue(kind: String, stream_kind: String, target: int, ordinal: int, threshold: float, volume_db: float, pitch: float) -> void:
++	if not streams.has(stream_kind) or players.is_empty(): return
++	var slot := _next_voice
++	for offset in players.size():
++		var candidate := (_next_voice+offset)%players.size()
++		if not players[candidate].playing:
++			slot = candidate
++			break
++	var player: AudioStreamPlayer = players[slot]
++	_next_voice = (slot+1)%players.size()
++	player.stop()
++	player.stream = streams[stream_kind]
++	player.pitch_scale = pitch
++	player.volume_db = volume_db
++	player.play()
++	cue_log.append({"kind":kind,"target":target,"ordinal":ordinal,"progress":_last_t,"threshold":threshold,"reduced":_reduced,"pitch_scale":pitch,"volume_db":volume_db,"event_id":_event_id,"voice":slot})
++
++func _exit_tree() -> void:
++	stop_all()
+
+--- /dev/null
++++ after/tools/build_volcano_audio.py
+@@ -0,0 +1,115 @@
++"""Reproducible local foley, using the accepted stone break plus soft synthesis.
++
++No downloaded or provider-generated recordings. NumPy + stdlib only. Source
++stone audio is read without modification; all new sounds are separate files.
++"""
++from pathlib import Path
++import hashlib
++import json
++import wave
++import numpy as np
++
++ROOT = Path(__file__).resolve().parents[1]
++RATE = 44100
++RNG = np.random.default_rng(17102026)
++
++
++def noise(n, low, high):
++    raw = RNG.normal(size=n)
++    hz = np.fft.rfftfreq(n, 1 / RATE)
++    mask = (1 - np.exp(-(hz / low) ** 4)) * np.exp(-(hz / high) ** 4)
++    band = np.fft.irfft(np.fft.rfft(raw) * mask, n=n)
++    return band / max(np.sqrt(np.mean(band ** 2)), 1e-9)
++
++
++def envelope(n, attack, decay):
++    t = np.arange(n) / RATE
++    env = (1 - np.exp(-t / attack)) * np.exp(-t / decay)
++    # Smooth end, including exact zero endpoints, to avoid clicky cutoffs.
++    fade = min(int(RATE * .075), n // 3)
++    env[-fade:] *= np.linspace(1, 0, fade) ** 2
++    env[0] = env[-1] = 0
++    return env
++
++
++def write_sound(name, x, peak):
++    x = np.tanh(x * .65)
++    x *= peak / max(float(np.max(np.abs(x))), 1e-9)
++    x[0] = x[-1] = 0
++    pcm = np.round(x * 32767).astype('<i2')
++    path = ROOT / 'assets/sfx/volcano' / name
++    path.parent.mkdir(parents=True, exist_ok=True)
++    with wave.open(str(path), 'wb') as out:
++        out.setparams((1, 2, RATE, len(pcm), 'NONE', 'not compressed'))
++        out.writeframes(pcm.tobytes())
++    return {
++        'path': path.relative_to(ROOT).as_posix(), 'bytes': path.stat().st_size,
++        'sha256': hashlib.sha256(path.read_bytes()).hexdigest(),
++        'seconds': len(x) / RATE, 'sample_rate': RATE, 'channels': 1,
++        'peak_dbfs': float(20 * np.log10(np.max(np.abs(pcm)) / 32768)),
++        'rms_dbfs': float(20 * np.log10(np.sqrt(np.mean((pcm / 32768.) ** 2)))),
++        'last_10ms_rms': float(np.sqrt(np.mean((pcm[-441:] / 32768.) ** 2))),
++    }
++
++
++def main():
++    source = ROOT / 'assets/sfx/stone_break_full_v1.wav'
++    with wave.open(str(source), 'rb') as inp:
++        assert inp.getparams()[:3] == (1, 2, RATE)
++        stone = np.frombuffer(inp.readframes(inp.getnframes()), '<i2').astype(float) / 32768
++    files = []
++
++    n = round(.92 * RATE)
++    t = np.arange(n) / RATE
++    # Warm rising pressure, airy release and a soft low thump, without a sharp
++    # explosion transient or piercing tonal chime.
++    rumble = noise(n, 45, 720) * (1 + .17 * np.sin(2 * np.pi * 17 * t))
++    breath = noise(n, 320, 2900)
++    swell = (1 - np.exp(-t / .045)) * np.exp(-t / .24)
++    low = np.sin(2 * np.pi * (85 * t - 25 * t ** 2)) * np.exp(-t / .17)
++    x = (.34 * rumble + .16 * breath) * swell + .19 * low
++    x *= envelope(n, .009, .85)
++    files.append(write_sound('eruption_soft_v1.wav', x, .67))
++
++    n = round(.30 * RATE)
++    t = np.arange(n) / RATE
++    # Small hot pebble crossing the air; a broad breath rather than a whistle.
++    x = (.26 * noise(n, 230, 2800) + .09 * noise(n, 80, 650))
++    x *= np.sin(np.pi * t / .30) ** 1.6
++    x *= envelope(n, .008, .70)
++    files.append(write_sound('lava_flight_soft_v1.wav', x, .39))
++
++    n = round(.72 * RATE)
++    t = np.arange(n) / RATE
++    # Keep the body of the user's chosen break, softened above 4.8 kHz. This
++    # is not just a tiny click: gritty fragments continue under a fire tail.
++    stone_part = stone[:n].copy()
++    hz = np.fft.rfftfreq(n, 1 / RATE)
++    stone_part = np.fft.irfft(np.fft.rfft(stone_part) * np.exp(-(hz / 4800) ** 4), n=n)
++    stone_part /= max(float(np.sqrt(np.mean(stone_part ** 2))), 1e-9)
++    body = .31 * stone_part * envelope(n, .003, .40)
++    thud = .17 * np.sin(2 * np.pi * (155 * t - 55 * t ** 2)) * envelope(n, .002, .075)
++    fire = .045 * noise(n, 400, 3900) * envelope(n, .050, .31)
++    crackles = np.zeros(n)
++    for at, strength in [(.035,.10),(.090,.09),(.16,.07),(.255,.05),(.37,.035),(.49,.018)]:
++        length = round(.035 * RATE)
++        start = round(at * RATE)
++        crackles[start:start+length] += strength * noise(length, 600, 4200) * envelope(length,.001,.008)
++    x = body + thud + fire + crackles
++    # Entire fragment body and fire finish smoothly, with no rough final snap.
++    x[-round(.12 * RATE):] *= np.linspace(1, 0, round(.12 * RATE)) ** 2
++    files.append(write_sound('magma_impact_burn_v1.wav', x, .60))
++
++    report = {
++        'method': 'local deterministic NumPy synthesis plus accepted stone-break foley',
++        'seed': 17102026, 'source': source.relative_to(ROOT).as_posix(),
++        'source_sha256': hashlib.sha256(source.read_bytes()).hexdigest(),
++        'source_modified': False, 'human_listening_acceptance': 'PENDING', 'files': files,
++    }
++    target = ROOT / 'verification/volcano_audio_assets.json'
++    target.write_text(json.dumps(report, indent=2) + '\n', encoding='utf-8')
++    print(json.dumps(report, indent=2))
++
++
++if __name__ == '__main__':
++    main()
+
+--- /dev/null
++++ after/tools/extract_movie_audio.py
+@@ -0,0 +1,418 @@
++"""Extract header-described integer PCM from AVI/AVIX movies without a codec tool.
++
++Usage: python tools/extract_movie_audio.py movie.avi audio.wav --stats audio.json
++Use --stream N when the AVI declares more than one audio stream. Existing output
++files are never replaced. Only the selected stream's movi/rec audio is extracted;
++AVI stream start times, edit lists, and inter-stream mixing are not synthesized.
++
++Supported: little-endian PCM (8/16/24/32-bit), including PCM WAVEFORMATEXTENSIBLE.
++The WAV uses a conventional PCM header and preserves the original sample bytes;
++an extensible source's channel mask/valid-bit metadata remains in the JSON report.
++Compressed audio, floating-point audio, RF64 output, and damaged media are rejected.
++A complete final idx1 extending past an under-declared outer RIFF size is accepted
++with an explicit warning; media chunk boundaries remain strictly checked.
++Container references: https://learn.microsoft.com/en-us/windows/win32/directshow/avi-riff-file-reference
++"""
++
++from __future__ import annotations
++
++import argparse
++from dataclasses import asdict, dataclass, field
++import hashlib
++import json
++import math
++from pathlib import Path
++import struct
++import sys
++from typing import BinaryIO, Iterator
++import wave
++
++
++class AudioExtractionError(ValueError):
++    """Invalid AVI, unavailable audio, or unsupported audio format."""
++
++
++@dataclass(frozen=True)
++class Chunk:
++    tag: bytes
++    offset: int
++    size: int
++    list_type: bytes | None = None
++
++    @property
++    def end(self) -> int:
++        return self.offset + self.size
++
++
++@dataclass(frozen=True)
++class AudioStream:
++    index: int
++    scale: int
++    rate: int
++    start: int
++    length: int
++    sample_size: int
++    format_tag: int
++    channels: int
++    sample_rate: int
++    byte_rate: int
++    block_align: int
++    bits_per_sample: int
++    format_bytes: bytes = field(repr=False)
++
++    def metadata(self) -> dict:
++        return {key: value for key, value in asdict(self).items()
++                if key != "format_bytes"}
++
++
++@dataclass(frozen=True)
++class PCMFormat:
++    channels: int
++    sample_rate: int
++    sample_width: int
++    bits_per_sample: int
++    valid_bits_per_sample: int
++    block_align: int
++    channel_mask: int | None
++
++
++@dataclass(frozen=True)
++class AVIInfo:
++    source_bytes: int
++    segments: tuple[str, ...]
++    audio_streams: tuple[AudioStream, ...]
++    audio_chunks: tuple[tuple[int, Chunk], ...]
++    container_warnings: tuple[str, ...]
++
++
++def _read_at(source: BinaryIO, offset: int, size: int) -> bytes:
++    source.seek(offset)
++    data = source.read(size)
++    if len(data) != size:
++        raise AudioExtractionError(f"Truncated AVI at byte {offset}: need {size} bytes")
++    return data
++
++
++def iter_chunks(source: BinaryIO, start: int, end: int) -> Iterator[Chunk]:
++    """Yield direct RIFF children, checking lengths and word-alignment padding."""
++    cursor = start
++    while cursor < end:
++        if end - cursor < 8:
++            raise AudioExtractionError(f"Incomplete RIFF chunk header at byte {cursor}")
++        tag, size = struct.unpack("<4sI", _read_at(source, cursor, 8))
++        offset = cursor + 8
++        padded_end = offset + size + (size & 1)
++        if padded_end > end:
++            raise AudioExtractionError(f"Chunk {tag!r} at byte {cursor} exceeds its container")
++        kind = None
++        if tag in (b"LIST", b"RIFF"):
++            if size < 4:
++                raise AudioExtractionError(f"Short {tag!r} container at byte {cursor}")
++            kind = _read_at(source, offset, 4)
++        yield Chunk(tag, offset, size, kind)
++        cursor = padded_end
++
++
++def _children(source: BinaryIO, chunk: Chunk) -> Iterator[Chunk]:
++    return iter_chunks(source, chunk.offset + 4, chunk.end)
++
++
++def _segments(source: BinaryIO, size: int) -> tuple[list[Chunk], tuple[str, ...]]:
++    try:
++        return list(iter_chunks(source, 0, size)), ()
++    except AudioExtractionError as original_error:
++        # Godot's recorded AVI can under-declare only the outer size: its final
++        # idx1 is complete, but the RIFF size lands within that index. Validate
++        # every direct child against actual EOF before accepting this one case.
++        if size < 12:
++            raise
++        tag, declared_size, kind = struct.unpack("<4sI4s", _read_at(source, 0, 12))
++        declared_end = declared_size + 8
++        if tag != b"RIFF" or kind != b"AVI " or not 12 <= declared_end < size:
++            raise
++        try:
++            children = list(iter_chunks(source, 12, size))
++        except AudioExtractionError:
++            raise original_error
++        if (not children or children[-1].tag != b"idx1"
++                or children[-1].end != size
++                or not children[-1].offset - 8 < declared_end < children[-1].end
++                or any(child.end > declared_end or child.tag == b"RIFF" for child in children[:-1])):
++            raise original_error
++        warning = (f"Outer RIFF size ends {size - declared_end} bytes before EOF inside "
++                   "a complete final idx1; index ignored, media boundaries validated")
++        return [Chunk(b"RIFF", 8, size - 8, b"AVI ")], (warning,)
++
++
++def _audio_streams(source: BinaryIO, hdrl: Chunk) -> tuple[AudioStream, ...]:
++    streams = []
++    stream_lists = [chunk for chunk in _children(source, hdrl)
++                    if chunk.tag == b"LIST" and chunk.list_type == b"strl"]
++    for index, stream_list in enumerate(stream_lists):
++        chunks = list(_children(source, stream_list))
++        headers = [chunk for chunk in chunks if chunk.tag == b"strh"]
++        if len(headers) != 1 or headers[0].size < 4:
++            raise AudioExtractionError(f"Stream {index} needs one valid strh header")
++        header = _read_at(source, headers[0].offset, headers[0].size)
++        if header[:4] != b"auds":
++            continue
++        # Godot writes the 48-byte variant without the optional rcFrame tail.
++        if len(header) < 48:
++            raise AudioExtractionError(f"Audio stream {index} has a short strh header")
++        formats = [chunk for chunk in chunks if chunk.tag == b"strf"]
++        if len(formats) != 1 or formats[0].size < 16:
++            raise AudioExtractionError(f"Audio stream {index} needs one valid strf header")
++        fmt = _read_at(source, formats[0].offset, formats[0].size)
++        tag, channels, sample_rate, byte_rate, align, bits = struct.unpack_from("<HHIIHH", fmt)
++        scale, rate, start, length = struct.unpack_from("<IIII", header, 20)
++        sample_size = struct.unpack_from("<I", header, 44)[0]
++        streams.append(AudioStream(index, scale, rate, start, length, sample_size,
++                                   tag, channels, sample_rate, byte_rate, align, bits, fmt))
++    return tuple(streams)
++
++
++def _movi_audio(source: BinaryIO, container: Chunk, in_movi: bool = False,
++                depth: int = 0) -> Iterator[tuple[int, Chunk]]:
++    if depth > 64:
++        raise AudioExtractionError("RIFF nesting exceeds 64 containers")
++    for chunk in _children(source, container):
++        if chunk.tag == b"LIST":
++            yield from _movi_audio(source, chunk,
++                                   in_movi or chunk.list_type == b"movi", depth + 1)
++        elif in_movi and chunk.tag[2:] == b"wb":
++            prefix = chunk.tag[:2]
++            if len(prefix) != 2 or any(value not in b"0123456789ABCDEFabcdef" for value in prefix):
++                raise AudioExtractionError(f"Unsupported audio stream chunk ID {chunk.tag!r}")
++            # AVI's MAKEAVICKID/StreamFromFOURCC use two hexadecimal digits.
++            yield int(prefix, 16), chunk
++
++
++def inspect_avi(path: str | Path) -> AVIInfo:
++    """Inspect all AVI/AVIX RIFF segments, stream headers, and movi audio spans."""
++    path = Path(path)
++    with path.open("rb") as source:
++        size = source.seek(0, 2)
++        segments, warnings = _segments(source, size)
++        if not segments or segments[0].tag != b"RIFF" or segments[0].list_type != b"AVI ":
++            raise AudioExtractionError("Input must begin with a RIFF AVI segment")
++        for index, segment in enumerate(segments):
++            if segment.tag != b"RIFF" or segment.list_type not in (b"AVI ", b"AVIX"):
++                raise AudioExtractionError("Expected only RIFF AVI/AVIX segments at file level")
++            if index and segment.list_type != b"AVIX":
++                raise AudioExtractionError("Only AVIX continuation segments may follow the first AVI")
++        headers = [chunk for chunk in _children(source, segments[0])
++                   if chunk.tag == b"LIST" and chunk.list_type == b"hdrl"]
++        if len(headers) != 1:
++            raise AudioExtractionError("AVI needs exactly one hdrl list in its first segment")
++        streams = _audio_streams(source, headers[0])
++        audio = tuple(item for segment in segments for item in _movi_audio(source, segment))
++        known = {stream.index for stream in streams}
++        unknown = sorted({index for index, _ in audio} - known)
++        if unknown:
++            raise AudioExtractionError(f"Audio chunks have no matching auds stream header: {unknown}")
++        return AVIInfo(size, tuple(segment.list_type.decode("ascii").strip()
++                                   for segment in segments), streams, audio, warnings)
++
++
++def pcm_format(stream: AudioStream) -> PCMFormat:
++    """Validate the selected WAVEFORMAT(EX/TENSIBLE); never guess a codec."""
++    fmt = stream.format_bytes
++    valid_bits = stream.bits_per_sample
++    mask = None
++    if len(fmt) == 17:
++        raise AudioExtractionError("Incomplete WAVEFORMATEX extension length")
++    if len(fmt) >= 18:
++        extra = struct.unpack_from("<H", fmt, 16)[0]
++        if 18 + extra > len(fmt):
++            raise AudioExtractionError("WAVEFORMATEX extension exceeds strf size")
++    if stream.format_tag == 0xFFFE:
++        if len(fmt) < 40 or extra < 22:
++            raise AudioExtractionError("Incomplete WAVEFORMATEXTENSIBLE PCM header")
++        valid_bits, mask = struct.unpack_from("<HI", fmt, 18)
++        pcm_guid = bytes.fromhex("0100000000001000800000aa00389b71")
++        if fmt[24:40] != pcm_guid:
++            raise AudioExtractionError("WAVEFORMATEXTENSIBLE subtype is not integer PCM")
++    elif stream.format_tag != 1:
++        raise AudioExtractionError(
++            f"Unsupported audio format tag 0x{stream.format_tag:04x}; integer PCM is required")
++    bits = stream.bits_per_sample
++    if bits not in (8, 16, 24, 32):
++        raise AudioExtractionError(f"Unsupported PCM container width: {bits} bits")
++    if not 1 <= valid_bits <= bits:
++        raise AudioExtractionError(f"Invalid PCM valid-bit count: {valid_bits}")
++    if not 1 <= stream.channels <= 65535 or stream.sample_rate <= 0:
++        raise AudioExtractionError("PCM channel count and sample rate must be positive")
++    width = bits // 8
++    align = width * stream.channels
++    if stream.block_align != align or stream.byte_rate != stream.sample_rate * align:
++        raise AudioExtractionError("PCM block alignment/byte rate disagrees with its strf format")
++    return PCMFormat(stream.channels, stream.sample_rate, width, bits, valid_bits, align, mask)
++
++
++def decode_pcm(data: bytes, fmt: PCMFormat) -> Iterator[int]:
++    """Decode interleaved little-endian samples to signed integer valid bits."""
++    if len(data) % fmt.block_align:
++        raise AudioExtractionError("PCM payload ends in a partial sample frame")
++    width = fmt.sample_width
++    shift = fmt.bits_per_sample - fmt.valid_bits_per_sample
++    for offset in range(0, len(data), width):
++        raw = data[offset:offset + width]
++        value = raw[0] - 128 if width == 1 else int.from_bytes(raw, "little", signed=True)
++        if shift and value & ((1 << shift) - 1):
++            raise AudioExtractionError("PCM sample has nonzero bits outside its declared valid bits")
++        yield value >> shift
++
++
++class PCMStats:
++    """Streaming exact sample counts and sums; floats only for derived levels."""
++
++    def __init__(self, fmt: PCMFormat):
++        self.fmt = fmt
++        self.counts = [0] * fmt.channels
++        self.nonzero = [0] * fmt.channels
++        self.clipped = [0] * fmt.channels
++        self.peaks = [0] * fmt.channels
++        self.squares = [0] * fmt.channels
++        self.sums = [0] * fmt.channels
++
++    def update(self, data: bytes) -> None:
++        floor = -(1 << (self.fmt.valid_bits_per_sample - 1))
++        ceiling = -floor - 1
++        for index, sample in enumerate(decode_pcm(data, self.fmt)):
++            channel = index % self.fmt.channels
++            self.counts[channel] += 1
++            self.nonzero[channel] += sample != 0
++            self.clipped[channel] += sample in (floor, ceiling)
++            self.peaks[channel] = max(self.peaks[channel], abs(sample))
++            self.squares[channel] += sample * sample
++            self.sums[channel] += sample
++
++    def report(self) -> dict:
++        full_scale = 1 << (self.fmt.valid_bits_per_sample - 1)
++
++        def levels(count: int, nonzero: int, clipped: int, peak: int,
++                   squares: int, sample_sum: int) -> dict:
++            rms = math.sqrt(squares / count) / full_scale if count else 0.0
++            return {"sample_count": count, "nonzero_samples": nonzero,
++                    "clipped_samples": clipped, "peak_integer": peak,
++                    "peak_normalized": peak / full_scale, "rms_normalized": rms,
++                    "rms_dbfs": 20 * math.log10(rms) if rms else None,
++                    "mean_normalized": sample_sum / count / full_scale if count else 0.0}
++
++        channels = [levels(*values) for values in zip(self.counts, self.nonzero,
++                    self.clipped, self.peaks, self.squares, self.sums)]
++        combined = levels(sum(self.counts), sum(self.nonzero), sum(self.clipped),
++                          max(self.peaks), sum(self.squares), sum(self.sums))
++        return {**combined, "per_channel": channels}
++
++
++def extract_audio(source_path: str | Path, output_path: str | Path,
++                  stats_path: str | Path | None = None, stream_index: int | None = None) -> dict:
++    """Write one selected stream as PCM WAV and return measurements of its bytes."""
++    source_path, output_path = Path(source_path).resolve(), Path(output_path).resolve()
++    stats_path = Path(stats_path).resolve() if stats_path is not None else None
++    destinations = [output_path] + ([stats_path] if stats_path is not None else [])
++    if len(set(destinations + [source_path])) != len(destinations) + 1:
++        raise AudioExtractionError("Input AVI, output WAV, and output JSON must be distinct paths")
++    for path in destinations:
++        if path.exists():
++            raise AudioExtractionError(f"Refusing to replace existing output: {path}")
++        if not path.parent.is_dir():
++            raise AudioExtractionError(f"Output directory does not exist: {path.parent}")
++    original = source_path.stat()
++    info = inspect_avi(source_path)
++    streams = {stream.index: stream for stream in info.audio_streams}
++    if not streams:
++        raise AudioExtractionError("AVI declares no audio stream")
++    if stream_index is None:
++        if len(streams) != 1:
++            raise AudioExtractionError(f"Multiple audio streams {sorted(streams)}; select one with --stream")
++        stream_index = next(iter(streams))
++    if stream_index not in streams:
++        raise AudioExtractionError(f"No audio stream {stream_index}; available: {sorted(streams)}")
++    stream = streams[stream_index]
++    fmt = pcm_format(stream)
++    chunks = [chunk for index, chunk in info.audio_chunks if index == stream_index]
++    total = sum(chunk.size for chunk in chunks)
++    if not total:
++        raise AudioExtractionError(f"Audio stream {stream_index} has no PCM payload")
++    if total % fmt.block_align:
++        raise AudioExtractionError("Combined audio payload ends in a partial PCM sample frame")
++    if total + (total & 1) > 0xFFFFFFFF - 36:
++        raise AudioExtractionError("Audio exceeds conventional RIFF WAV size; RF64 is unsupported")
++    stats = PCMStats(fmt)
++    pcm_hash = hashlib.sha256()
++    created = []
++    try:
++        with source_path.open("rb") as source, output_path.open("xb") as destination:
++            created.append(output_path)
++            with wave.open(destination, "wb") as wav:
++                wav.setparams((fmt.channels, fmt.sample_width, fmt.sample_rate,
++                               total // fmt.block_align, "NONE", "not compressed"))
++                carry = b""
++                for chunk in chunks:
++                    cursor, remaining = chunk.offset, chunk.size
++                    while remaining:
++                        amount = min(remaining, 1024 * 1024)
++                        data = carry + _read_at(source, cursor, amount)
++                        complete = len(data) - len(data) % fmt.block_align
++                        carry = data[complete:]
++                        data = data[:complete]
++                        stats.update(data)
++                        pcm_hash.update(data)
++                        wav.writeframesraw(data)
++                        cursor += amount
++                        remaining -= amount
++            if total & 1:
++                # wave omits RIFF's final word-alignment pad for odd data sizes.
++                # The pad belongs to RIFF, not to the data chunk/sample frames.
++                destination.seek(0, 2)
++                destination.write(b"\0")
++                destination.seek(4)
++                destination.write(struct.pack("<I", 36 + total + 1))
++        current = source_path.stat()
++        if (original.st_size, original.st_mtime_ns) != (current.st_size, current.st_mtime_ns):
++            raise AudioExtractionError("Input AVI changed during extraction")
++        with output_path.open("rb") as result:
++            wav_hash = hashlib.file_digest(result, "sha256").hexdigest()
++        report = {"source_avi": str(source_path), "output_wav": str(output_path),
++                  "source_bytes": info.source_bytes, "riff_segments": list(info.segments),
++                  "container_warnings": list(info.container_warnings),
++                  "audio_streams": [item.metadata() for item in info.audio_streams],
++                  "selected_stream": stream_index, "source_format": asdict(fmt),
++                  "wav_encoding": "integer PCM; original sample bytes; conventional PCM header",
++                  "audio_chunk_count": len(chunks), "pcm_bytes": total,
++                  "sample_frames": total // fmt.block_align,
++                  "duration_seconds": total / fmt.block_align / fmt.sample_rate,
++                  "pcm_sha256": pcm_hash.hexdigest(), "wav_sha256": wav_hash,
++                  "wav_bytes": output_path.stat().st_size, "statistics": stats.report()}
++        if stats_path is not None:
++            with stats_path.open("x", encoding="utf-8", newline="\n") as destination:
++                created.append(stats_path)
++                json.dump(report, destination, indent=2, allow_nan=False)
++                destination.write("\n")
++        return report
++    except BaseException:
++        for path in reversed(created):
++            path.unlink(missing_ok=True)
++        raise
++
++
++def main(argv: list[str] | None = None) -> int:
++    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
++    parser.add_argument("input_avi", type=Path)
++    parser.add_argument("output_wav", type=Path)
++    parser.add_argument("--stats", type=Path, help="Optional JSON measurements file")
++    parser.add_argument("--stream", type=int, help="Audio stream's actual zero-based strl index")
++    args = parser.parse_args(argv)
++    try:
++        report = extract_audio(args.input_avi, args.output_wav, args.stats, args.stream)
++    except (AudioExtractionError, OSError, wave.Error, struct.error) as error:
++        print(f"Audio extraction failed: {error}", file=sys.stderr)
++        return 2
++    print(json.dumps(report, indent=2, allow_nan=False))
++    return 0
++
++
++if __name__ == "__main__":
++    raise SystemExit(main())
+
+--- /dev/null
++++ after/tests/test_volcano_audio.gd
+@@ -0,0 +1,222 @@
++extends SceneTree
++## Exercise the real audio manager, seeded event, and lab cancellation paths.
++
++const AUDIO_PATH := "res://scripts/lab/volcano_audio.gd"
++const CORE_PATH := "res://scripts/lab/natural_power_core.gd"
++const LAB_PATH := "res://scripts/lab/natural_power_lab.gd"
++var checks := 0
++var failures: Array[String] = []
++var cases: Array[String] = []
++var normal_cues: Array = []
++
++func _initialize() -> void:
++	call_deferred("run")
++
++func check(value: bool, message: String) -> void:
++	checks += 1
++	if not value:
++		failures.append(message)
++		print("FAIL: " + message)
++
++func canonical(value: Variant) -> String:
++	return JSON.stringify(JSON.parse_string(JSON.stringify(value)), "", true)
++
++func core_state(core) -> Dictionary:
++	return {
++		"cols":core.cols, "rows":core.rows, "grid":core.grid.duplicate(),
++		"floor":core.floor.duplicate(), "runes":core.runes.duplicate(),
++		"moves_left":core.moves_left, "initial_moves":core.initial_moves,
++		"collected":core.collected, "collect_kind":core.collect_kind,
++		"collect_goal":core.collect_goal, "won":core.won, "lost":core.lost,
++		"goal":core._goal, "black_hole_used":core.black_hole_used,
++		"fixture_pair":core.fixture_pair.duplicate(),
++		"rng_seed_int64":str(core._rng.seed), "rng_state_int64":str(core._rng.state),
++	}
++
++func playing_count(manager) -> int:
++	var count := 0
++	for player in manager.players:
++		if player.playing:
++			count += 1
++	return count
++
++func make_manager():
++	var audio_script = load(AUDIO_PATH)
++	check(audio_script != null and audio_script.can_instantiate(), "Volcano audio manager loads")
++	if audio_script == null or not audio_script.can_instantiate():
++		return null
++	var manager = audio_script.new()
++	root.add_child(manager)
++	for method in ["begin", "sync_progress", "finish_event", "stop_all"]:
++		check(manager.has_method(method), "Audio manager exposes " + method)
++	return manager
++
++func verify_assets(manager) -> void:
++	cases.append("assets")
++	check(manager.players.size() == 12, "Audio voice pool stays bounded to twelve players")
++	for key in ["eruption", "flight", "impact"]:
++		var stream = manager.streams.get(key)
++		check(stream is AudioStreamWAV, key + " uses a real decoded WAV")
++		if not stream is AudioStreamWAV:
++			continue
++		check(stream.mix_rate > 0 and not stream.data.is_empty(), key + " has sample rate and PCM data")
++		check(stream.get_length() > 0.05 and stream.get_length() < 1.5, key + " is a short bounded cue")
++		check(stream.data.count(0) < stream.data.size(), key + " contains nonzero audio samples")
++
++func verify_schedule(manager, targets: Array) -> void:
++	cases.append("normal_schedule_duplicates_and_finish")
++	manager.cue_log.clear()
++	manager.begin(targets, false)
++	check(manager.cue_log.size() == 1 and manager.cue_log[0].kind == "eruption", "Begin emits exactly one eruption")
++	manager.sync_progress(0.2299)
++	check(manager.cue_log.size() == 1, "No flight cue precedes actual flight start")
++	manager.sync_progress(0.2301)
++	check(manager.cue_log.size() == 2 and manager.cue_log.back().kind == "flight", "First flight starts at progress 0.23")
++	var first_flight := canonical(manager.cue_log)
++	manager.sync_progress(0.2301)
++	manager.sync_progress(0.1)
++	check(canonical(manager.cue_log) == first_flight, "Duplicate and backward ticks cannot replay cues")
++	manager.sync_progress(0.6499)
++	check(manager.cue_log.size() == 1 + targets.size(), "All staggered flights precede first impact")
++	manager.sync_progress(0.6501)
++	check(manager.cue_log.size() == 2 + targets.size() and manager.cue_log.back().kind == "impact", "First impact starts at progress 0.65")
++	manager.sync_progress(1.0)
++	manager.sync_progress(1.0)
++	normal_cues = manager.cue_log.duplicate(true)
++	check(normal_cues.size() == 1 + targets.size() * 2, "Every actual target gets exactly one flight and one impact")
++	if normal_cues.size() == 1 + targets.size() * 2:
++		var event_id: int = normal_cues[0].event_id
++		var previous_threshold := -1.0
++		for cue in normal_cues:
++			check(int(cue.event_id) == event_id and not bool(cue.reduced), "Normal cue belongs to this normal event")
++			check(float(cue.threshold) >= previous_threshold, "Cue thresholds follow event order")
++			previous_threshold = float(cue.threshold)
++		for ordinal in range(targets.size()):
++			for definition in [["flight", 1 + ordinal, 0.23], ["impact", 1 + targets.size() + ordinal, 0.65]]:
++				var cue: Dictionary = normal_cues[int(definition[1])]
++				check(cue.kind == definition[0] and int(cue.target) == int(targets[ordinal]) and int(cue.ordinal) == ordinal, "Cue maps to the actual target and ordinal")
++				check(absf(float(cue.threshold) - (float(definition[2]) + ordinal * 0.055)) < 0.00001, "Cue threshold matches the visual flight or impact stagger")
++	var voices_before := playing_count(manager)
++	manager.finish_event()
++	manager.sync_progress(1.0)
++	check(not manager.event_active and manager.cue_log == normal_cues, "Normal finish prevents all late emissions")
++	check(playing_count(manager) == voices_before, "Normal finish lets already-started short tails finish")
++
++func verify_stop(manager, targets: Array) -> void:
++	cases.append("stop_all")
++	manager.begin(targets, false)
++	manager.sync_progress(0.7)
++	check(playing_count(manager) > 0, "Cancellation test has active audio voices")
++	manager.stop_all()
++	var stopped := canonical(manager.cue_log)
++	manager.sync_progress(1.0)
++	await create_timer(0.05).timeout
++	check(not manager.event_active and playing_count(manager) == 0, "Stop cancels scheduling and every active voice")
++	check(canonical(manager.cue_log) == stopped, "Stopped event emits no delayed cue")
++
++func verify_reduced(manager, targets: Array) -> void:
++	cases.append("reduced_motion")
++	manager.begin(targets, false)
++	manager.sync_progress(0.7)
++	check(playing_count(manager) > 1, "Reduced replacement begins with an active normal soundtrack")
++	manager.cue_log.clear()
++	manager.begin(targets, true)
++	check(playing_count(manager) == 1, "Reduced begin stops old normal voices before its single short cue")
++	for progress in [0.23, 0.45, 0.65, 0.87, 1.0, 1.0]:
++		manager.sync_progress(progress)
++	check(manager.cue_log.size() == 1, "Reduced motion emits only one cue")
++	if manager.cue_log.size() == 1:
++		var cue: Dictionary = manager.cue_log[0]
++		check(cue.kind == "reduced" and bool(cue.reduced), "Reduced cue is identified explicitly")
++		check(not normal_cues.is_empty() and float(cue.volume_db) < float(normal_cues[0].volume_db), "Reduced cue is quieter than normal eruption")
++		var voice: int = int(cue.voice)
++		check(voice >= 0 and voice < manager.players.size(), "Reduced receipt identifies its actual voice")
++		if voice >= 0 and voice < manager.players.size():
++			check(manager.players[voice].stream.get_length() < manager.streams.eruption.get_length(), "Reduced cue uses a shorter source than normal eruption")
++	manager.finish_event()
++	manager.sync_progress(1.0)
++	await create_timer(0.4).timeout
++	check(manager.cue_log.size() == 1 and playing_count(manager) == 0, "Reduced cue ends without late normal emissions")
++
++func wait_for_live_flight(app) -> bool:
++	var deadline := Time.get_ticks_msec() + 4000
++	while Time.get_ticks_msec() < deadline:
++		if app.volcano_audio.event_active and app.board._power_t >= 0.26:
++			return true
++		await process_frame
++	return false
++
++func verify_lab_cancellation() -> void:
++	var lab_script = load(LAB_PATH)
++	check(lab_script != null and lab_script.can_instantiate(), "Actual lab loads with Volcano audio integration")
++	if lab_script == null or not lab_script.can_instantiate():
++		return
++	var app = lab_script.new()
++	root.add_child(app)
++	app.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
++	await process_frame
++	await process_frame
++	var manager = app.get("volcano_audio")
++	check(manager != null, "Actual lab owns its separate Volcano audio manager")
++	if manager == null:
++		app.queue_free()
++		await process_frame
++		return
++	for action in ["skip", "reset"]:
++		cases.append("lab_" + action)
++		app.reduced.button_pressed = false
++		app.reset_scenario("volcano")
++		var original_core = app.core
++		app._on_swap(int(app.core.fixture_pair[0]), int(app.core.fixture_pair[1]))
++		var active := await wait_for_live_flight(app)
++		check(active and playing_count(manager) > 0, "Actual lab " + action + " begins with active flight audio")
++		var resolved := canonical(core_state(original_core))
++		if action == "skip":
++			app.skip_effect()
++		else:
++			app.reset_scenario("volcano")
++		var current := canonical(core_state(app.core))
++		var stopped := canonical(manager.cue_log)
++		check(not manager.event_active and playing_count(manager) == 0, "Actual lab " + action + " immediately stops every audio voice")
++		await create_timer(1.2).timeout
++		manager.sync_progress(1.0)
++		check(not manager.event_active and playing_count(manager) == 0 and canonical(manager.cue_log) == stopped, "Actual lab " + action + " cannot emit stale cues after old animation timers expire")
++		check(canonical(core_state(original_core)) == resolved, "Actual lab " + action + " preserves the resolved original Core and RNG")
++		check(canonical(core_state(app.core)) == current, "Actual lab " + action + " leaves the displayed Core and RNG unchanged")
++	app.queue_free()
++	await process_frame
++
++func finish() -> void:
++	print("VOLCANO_AUDIO " + JSON.stringify({"status":"PASS" if failures.is_empty() else "FAIL", "checks":checks, "failures":failures, "cases":cases, "normal_cues":normal_cues}))
++	quit(0 if failures.is_empty() else 1)
++
++func run() -> void:
++	var manager = make_manager()
++	if manager == null:
++		finish()
++		return
++	verify_assets(manager)
++	var core = load(CORE_PATH).new()
++	core.setup_lab("volcano", 42)
++	var result: Dictionary = core.try_swap(int(core.fixture_pair[0]), int(core.fixture_pair[1]))
++	var event: Dictionary = {}
++	for item in result.events:
++		if String(item.get("type", "")) == "natural_power":
++			event = item
++	check(not event.is_empty() and event.get("power", "") == "volcano", "Tests use an actual seeded Volcano Core event")
++	if event.is_empty():
++		manager.queue_free()
++		finish()
++		return
++	var targets: Array = event.targets.duplicate()
++	var committed := canonical(core_state(core))
++	var transaction := canonical(result)
++	verify_schedule(manager, targets)
++	await verify_stop(manager, targets)
++	await verify_reduced(manager, targets)
++	check(canonical(core_state(core)) == committed and canonical(result) == transaction, "All audio operations preserve the entire real Core transaction and RNG")
++	manager.stop_all()
++	manager.queue_free()
++	await process_frame
++	await verify_lab_cancellation()
++	finish()
+
+--- before/tests/capture_painted_volcano.gd
++++ after/tests/capture_painted_volcano.gd
+@@ -13,6 +13,7 @@
+ var app
+ var output := ""
+ var mode := ""
++var audio_pass := false
+ var failures: Array[String] = []
+ var observations: Array = []
+ var frame_observations: Array = []
+@@ -279,6 +280,14 @@
+ 	finish_capture(comparison)
+ 
+ func finish_capture(comparison: Dictionary) -> void:
++	if audio_pass and app != null:
++		var volcano_audio = app.get("volcano_audio")
++		check(volcano_audio != null, "Audio-pass capture exposes the actual Volcano audio manager")
++		if volcano_audio != null:
++			var cues: Variant = volcano_audio.get("cue_log")
++			check(cues is Array, "Actual Volcano audio manager exposes its cue log")
++			if cues is Array:
++				write_json(output + "/volcano_" + mode + "_AUDIO_CUES.json", cues.duplicate(true))
+ 	var receipt := {
+ 		"status": "PASS" if failures.is_empty() else "FAIL", "failures": failures,
+ 		"mode": mode, "seed": 42, "fixture_pair": [25, 26], "actual_targets": active_targets,
+@@ -410,7 +419,8 @@
+ 
+ func run() -> void:
+ 	var arguments := OS.get_cmdline_user_args()
+-	var output_resource_path := "res://outputs/fire" if "--fire-pass" in arguments else "res://outputs"
++	audio_pass = "--audio-pass" in arguments
++	var output_resource_path := "res://outputs/volcano_audio" if audio_pass else ("res://outputs/fire" if "--fire-pass" in arguments else "res://outputs")
+ 	output = ProjectSettings.globalize_path(output_resource_path)
+ 	check(DirAccess.make_dir_recursive_absolute(output) == OK, "Output directory exists")
+ 	start_frame = Engine.get_process_frames()
+
+--- before/README_MAGIC_ANIMATIONS.txt
++++ after/README_MAGIC_ANIMATIONS.txt
+@@ -4,8 +4,12 @@
+ 
+ Painted is enabled by default and selects the improved Volcano: glowing lava stones fly with fire tails, then leave a brief scorch on each hit cell. The scorch is visual only; it causes no ongoing damage. Turn Painted off for the baseline Volcano reference. This changes only the rendering style: it does not reset the board, reroll the seed, spend a move, or change the resolved result. The toggle is disabled while an effect resolves. Horizontal Tornado, vertical Tornado, and Black Hole retain their baseline VFX.
+ 
+-Drag the highlighted special to its neighboring highlighted stone. For Black Hole, swap the adjacent whirlwind and volcano. Reset restores the same seed. Skip effect and Reduced motion preserve the game result. Existing icons and audio are retained.
++Drag the highlighted special to its neighboring highlighted stone. For Black Hole, swap the adjacent whirlwind and volcano. Reset restores the same seed. Skip effect and Reduced motion preserve the game result. Existing icons and ordinary stone audio are retained.
++
++Painted Volcano also has three synchronized sounds: a warm eruption, short lava-flight breaths, and stone impacts with crumbling fragments and a soft fire tail. Each flight and impact follows the actual animation progress and resolved target order. Reset and Skip stop these sounds; Reduced motion uses one short quiet cue. Painted OFF retains the previous audio reference. New WAV assets are in assets/sfx/volcano; tools/build_volcano_audio.py records their reproducible local synthesis and accepted stone-break input in verification/volcano_audio_assets.json. These are a first sound pass, awaiting human listening feedback.
+ 
+ The capture harness accepts --fire-pass after the Godot user-argument separator. This saves all JSON verification receipts and PNG captures under outputs/fire, preserving the prior outputs. Alongside charge, flight, and hits, 04b_burn captures the brief burn near power progress 0.76. The native gesture, nine parity cases, 432x960 viewport, and 210-frame capture remain unchanged.
+ 
++Use --audio-pass for fresh evidence under outputs/volcano_audio. Native AVI contains the game mix; the extracted WAV preview comes from that actual movie audio, not from a separately assembled soundtrack. GIF previews are silent. The recording's fixed 30 fps is not a performance measurement.
++
+ This is a separate local test fixture, not campaign rewards or final balance. No personal or campaign save is read or written. The current project default scene is the lab; the launcher uses that scene directly.
+

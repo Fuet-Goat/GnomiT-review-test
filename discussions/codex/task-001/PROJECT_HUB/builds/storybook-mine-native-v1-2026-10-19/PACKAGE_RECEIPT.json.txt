@@ -1,0 +1,9 @@
+{
+  "path": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\StorybookMine_2026-10-19_HANDOFF\\GNOMIT_STORYBOOK_MINE_V1.zip",
+  "bytes": 11082238,
+  "sha256": "78d63a7fb004f7faa468fe777d80794866c70b797aed4e45339ffdaae6ac6422",
+  "entries": 43,
+  "zip_integrity": "PASS",
+  "exact_file_readback": "PASS",
+  "uncompressed_bytes": 17635100
+}

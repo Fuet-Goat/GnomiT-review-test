@@ -1,0 +1,82 @@
+"""F diagnostic: native pose-aware corrective smoothing after D skinning.
+
+This is an evaluated Blender deformation modifier, not a source-mesh edit.
+Its animated result is not assumed to survive ordinary glTF/GLB export.
+"""
+import bpy
+import importlib.util
+from pathlib import Path
+
+
+MASK = 'RigR2_CorrectiveSleeveMask.R'
+MODIFIER = 'RigR2_PoseAwareSleeveCorrective'
+
+
+def apply_sleeve_repair(coat, rig=None):
+    """Combined D weights/helper + one F corrective; no E code is loaded."""
+    archived_path = Path(__file__).with_name('sleeve_weights_D_DIAGNOSTIC.py')
+    spec = importlib.util.spec_from_file_location('RigR2_D_weight_repair', archived_path)
+    archived = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(archived)
+    weights = archived.apply_sleeve_weights(coat, rig)
+    corrective = apply_corrective_deformation(coat)
+    return {'status': 'F_NATIVE_DIAGNOSTIC_VISUAL_ACCEPTANCE_PENDING',
+            'weights': weights, 'helper': weights['helper'],
+            'helper_bones': weights['helper_bones'],
+            'helper_name': weights['helper']['name'],
+            'corrective': corrective, 'nonbone_mask_groups': [MASK],
+            'glb_limitation': corrective['glb_limitation']}
+
+
+def _smooth(a, b, value):
+    t = max(0., min(1., (value - a) / (b - a)))
+    return t * t * (3. - 2. * t)
+
+
+def apply_corrective_deformation(coat, scene=None):
+    scene = scene or bpy.context.scene
+    assert coat.name == 'R2_ContinuousCoat'
+    assert coat.vertex_groups.get(MASK) is None
+    assert not any(mod.type == 'CORRECTIVE_SMOOTH' for mod in coat.modifiers)
+    arms = [mod for mod in coat.modifiers if mod.type == 'ARMATURE']
+    assert len(arms) == 1 and arms[0].use_deform_preserve_volume
+    mask = coat.vertex_groups.new(name=MASK)
+    to_root = coat.parent.matrix_world.inverted() @ coat.matrix_world
+    count = 0
+    for vertex in coat.data.vertices:
+        x, _y, z = to_root @ vertex.co
+        influence = _smooth(.01, .16, -x) * _smooth(.45, .60, z)
+        if influence > 1e-8:
+            mask.add([vertex.index], influence, 'REPLACE')
+            count += 1
+    corrective = coat.modifiers.new(MODIFIER, 'CORRECTIVE_SMOOTH')
+    corrective.factor = .6
+    corrective.iterations = 20
+    corrective.smooth_type = 'LENGTH_WEIGHTED'
+    corrective.rest_source = 'BIND'
+    corrective.use_only_smooth = False
+    corrective.use_pin_boundary = False
+    corrective.vertex_group = mask.name
+    scene.frame_set(1)
+    bpy.context.view_layer.update()
+    bpy.ops.object.select_all(action='DESELECT')
+    coat.select_set(True)
+    bpy.context.view_layer.objects.active = coat
+    assert 'FINISHED' in bpy.ops.object.correctivesmooth_bind(modifier=corrective.name)
+    bpy.context.view_layer.update()
+    assert corrective.is_bind
+    return {
+        'status': 'DIAGNOSTIC_NATIVE_DEFORMATION_ONLY',
+        'name': corrective.name, 'modifier': corrective.name, 'type': corrective.type,
+        'stack_position': list(coat.modifiers).index(corrective),
+        'after_armature': list(coat.modifiers).index(corrective) > list(coat.modifiers).index(arms[0]),
+        'factor': .6, 'iterations': 20, 'smooth_type': 'LENGTH_WEIGHTED',
+        'rest_source': 'BIND', 'bound_frame': 1, 'is_bind': bool(corrective.is_bind),
+        'bound': bool(corrective.is_bind),
+        'use_only_smooth': False, 'use_pin_boundary': False,
+        'mask_group': mask.name, 'mask_weighted_vertices': count,
+        'mask_zero': 'canonical x>=0 and z<=.45; smooth transition elsewhere',
+        'source_mesh_vertices_topology': 'UNCHANGED',
+        'original_action_and_bones': 'UNCHANGED_BY_THIS_MODULE',
+        'glb_limitation': 'CorrectiveSmooth is a native evaluated Blender modifier; ordinary skeletal glTF/GLB export is not assumed to retain its animated deformation. Runtime needs a separately authorised baked/corrective solution.',
+    }

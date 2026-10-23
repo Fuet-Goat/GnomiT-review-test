@@ -1,0 +1,61 @@
+"""Bounded actual evaluated coat diagnostic and raised-pose render; no save."""
+from pathlib import Path
+import json
+import sys
+
+import bpy
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / 'source'))
+from evidence import render, sha
+from rig_greeting import build_rig_and_action
+from validate_rig import _evaluated_geometry, _distance
+
+
+def main():
+    source = ROOT / 'native/GNOME_M2_FINISH.blend'
+    expected = 'ceab58183d8abee88e56731795ab13751661966ef9ef85c05de015d494d0fb2e'
+    assert sha(source) == expected
+    bpy.ops.wm.open_mainfile(filepath=str(source))
+    scene = bpy.context.scene
+    asset = bpy.data.collections['R2_NEW_GNOME']
+    build_rig_and_action(asset, bpy.data.objects['R2_GnomeRoot'])
+    coat = bpy.data.objects['R2_ContinuousCoat']
+    scene.frame_set(1)
+    bpy.context.view_layer.update()
+    rest = _evaluated_geometry(coat, bpy.context.evaluated_depsgraph_get(), True)
+    weights = {v.index: {coat.vertex_groups[g.group].name: float(g.weight)
+                         for g in v.groups} for v in coat.data.vertices}
+    records = []
+    for frame in (19, 37, 49, 55, 73, 91, 109, 127, 145):
+        scene.frame_set(frame)
+        bpy.context.view_layer.update()
+        current = _evaluated_geometry(coat, bpy.context.evaluated_depsgraph_get(), True)
+        ratios = []
+        for a, b in rest['edges']:
+            old = _distance(rest['vertices'][a], rest['vertices'][b])
+            if old > 1e-9:
+                new = _distance(current['vertices'][a], current['vertices'][b])
+                ratios.append((new / old, a, b, old, new))
+        ratios.sort(reverse=True)
+        maximum, a, b, old, new = ratios[0]
+        record = {'frame': frame, 'maximum_edge_ratio': maximum,
+                  'minimum_edge_ratio': min(item[0] for item in ratios),
+                  'worst_edge': {'indices': [a, b], 'rest_length': old, 'posed_length': new,
+                                 'rest_coordinates': [rest['vertices'][a], rest['vertices'][b]],
+                                 'weights': [weights[a], weights[b]]}}
+        records.append(record)
+        print('COAT_DIAGNOSTIC ' + json.dumps(record), flush=True)
+    scene.frame_set(49)
+    scene.render.resolution_x = 600
+    scene.render.resolution_y = 840
+    scene.render.resolution_percentage = 100
+    render('DIAGNOSTIC_RIG_R1_POSE_049.png')
+    assert sha(source) == expected
+    (ROOT / 'documentation/DIAGNOSTIC_RIG_R1.json').write_text(
+        json.dumps({'source_sha256_unchanged': expected, 'samples': records}, indent=2) + '\n',
+        encoding='utf-8')
+
+
+if __name__ == '__main__':
+    main()

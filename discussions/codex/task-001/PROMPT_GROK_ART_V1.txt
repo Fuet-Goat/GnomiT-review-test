@@ -1,0 +1,34 @@
+BOT=grok
+
+GNOMIT — TASK-002: СЪЗДАЙ ЕДИН СОБСТВЕН ХУДОЖЕСТВЕН ВАРИАНТ
+
+Хранилище: https://github.com/Fuet-Goat/GnomiT-review-test
+Твой клон: codex/grok/task-002
+Твои папки за нови материали: sandbox/grok/task-002/art/ и sandbox/grok/task-002/outputs/
+Твой доклад: discussions/grok/task-002/REPORT.txt
+Grant: tasks/grok/task-002.json от MAIN.
+
+Първо провери grant от main. Ако липсва или още е само в Draft PR, не започвай създаване/запис на материали. Кажи, че чакаш owner да активира точно task-002; можеш да запишеш тази информация в стария си разрешен task-001 текстов доклад. Не одобрявай собствен grant.
+
+След активиране на APPROVED task-002: прочети root AGENTS.md, своя grant и общата художествена задача:
+https://github.com/Fuet-Goat/GnomiT-review-test/blob/codex/codex/task-001/discussions/codex/task-001/ART_VARIANT_COMMON_BRIEF.txt
+Пакет със задачите и петте изображения:
+https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/first-bend-review-v1/GNOMIT_CHARACTER_VARIANT_TASKS_V1_2026-10-14.zip
+
+Ние вече имаме твоето текстово ревю. Този път искаме визуален вариант, ако имаш инструменти за изображения — не ново ревю на същата дъска. Работи сам; не изпращай задачи на други ботове и не създавай помощни агенти.
+
+Направи ЕДИН вариант на гнома, вписан в настоящия приказен фон. Запази червената шапка, бялата брада, синьо/зеленикавото палто, кафявите обувки и фенера. Намали усещането за изрязана лепенка чрез светлина, ръбове, перспектива, материали и стабилно стъпване. Сам избери своята интерпретация, в рамките на общия brief.
+
+Върни минимум: сцена 432x960; близък кадър; прозрачен full-body idle PNG; собствен REPORT.txt. Ако можеш, добави до шест walk кадъра и кратък GIF/WebM, ясно означени като художествена проба. Не представяй статична рисунка или генерирано видео за работещ Godot запис. Ако инструментите не позволяват анимация, отбележи го.
+
+Примери:
+Предпочитан от човека стил: https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/first-bend-review-v1/GNOMIT_USER_STORYBOOK_STYLE_REFERENCE.png
+Текуща реална сцена за сравнение: https://raw.githubusercontent.com/Fuet-Goat/GnomiT-review-test/5add419dfc7fd73bd6d9ee837b2ba620ee5e8b81/media/current/01_START.png
+Фиксиран чист фон: https://raw.githubusercontent.com/Fuet-Goat/GnomiT-review-test/5add419dfc7fd73bd6d9ee837b2ba620ee5e8b81/baseline/game/assets/storybook/descending_world_v2.png
+Сегашната начална походка, която подобряваме: https://raw.githubusercontent.com/Fuet-Goat/GnomiT-review-test/5add419dfc7fd73bd6d9ee837b2ba620ee5e8b81/baseline/game/assets/storybook/gnome_slice_walk_v1.png
+
+Не редактирай проектен код, сцени, настройки, звук, match-3, прогрес, старите game копия или чужди папки. Не стартирай Godot и не интегрирай PNG в играта. Сега сравняваме художествени материали. Записвай само в точните си task-002 папки; ако grant е стеснен допълнително, спазвай него.
+
+Доклад: идея; реално създадени файлове и използвани инструменти; осветление/материали; размери и foot anchors; проверки; какво липсва; commit/Draft PR; следващо предложение. При наличен write инструмент — Draft PR само към тестовото repo, без merge. Без write инструмент върни самите файлове/ZIP в чата за качване от собственика; не искай credentials и не твърди, че си качил.
+
+Един вариант и един бъдещ кръг поправки след избор. Не чакай единодушие и не произвеждай безкрайни версии. Ако нямаш image tools, върни точен кратък art brief и честен статус, вместо да измисляш готов вариант.

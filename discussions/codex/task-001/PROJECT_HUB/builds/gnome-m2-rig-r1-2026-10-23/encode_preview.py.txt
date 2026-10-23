@@ -1,0 +1,127 @@
+"""Compose labelled evidence and encode actual Blender PNGs; no scene edits."""
+from pathlib import Path
+import hashlib
+import json
+import shutil
+from PIL import Image, ImageDraw, ImageFont
+
+ROOT = Path(__file__).resolve().parents[1]
+OUT = ROOT / 'outputs'
+FPS, INPUT_COUNT = 24, 144
+ANIMATION_SIZE = (480, 672)
+
+
+def digest(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def font(size):
+    path = Path('C:/Windows/Fonts/segoeui.ttf')
+    return ImageFont.truetype(str(path), size) if path.exists() else ImageFont.load_default()
+
+
+def record(path):
+    with Image.open(path) as im:
+        dimensions = list(im.size)
+    return {'file': str(path.relative_to(ROOT)), 'bytes': path.stat().st_size,
+            'sha256': digest(path), 'dimensions': dimensions}
+
+
+def montage(inputs, labels, target, panel_size, header_height):
+    """Whole-frame panels, equal framing, with labels outside source pixels."""
+    assert len(inputs) == len(labels)
+    sheet = Image.new('RGB', (panel_size[0] * len(inputs), panel_size[1] + header_height), '#f4f2ea')
+    draw = ImageDraw.Draw(sheet)
+    sources = []
+    for index, (path, label) in enumerate(zip(inputs, labels)):
+        with Image.open(path) as source:
+            image = source.convert('RGB')
+            assert image.size == (600, 840), (path, image.size)
+            if image.size != panel_size:
+                image = image.resize(panel_size, Image.Resampling.LANCZOS)
+        x = index * panel_size[0]
+        sheet.paste(image, (x, header_height))
+        draw.text((x + 12, 8), label, font=font(22 if panel_size[0] >= 600 else 18), fill='#253a36')
+        sources.append(record(path))
+    sheet.save(target)
+    return {'output': record(target), 'source_images': sources, 'panel_dimensions': list(panel_size),
+            'crop': 'NONE: whole original frames', 'resize': 'NONE' if panel_size == (600, 840) else 'identical LANCZOS for all panels',
+            'labels_outside_original_image': True}
+
+
+def main():
+    frames = [ROOT / 'frames' / ('greeting_%04d.png' % frame) for frame in range(1, INPUT_COUNT + 1)]
+    assert set((ROOT / 'frames').glob('greeting_*.png')) == set(frames), 'Expected exactly greeting_0001.png through greeting_0144.png'
+    keyframes = (1, 49, 73, 109, 145)
+    poses = [OUT / ('RIG_R1_POSE_%03d.png' % frame) for frame in keyframes]
+    required = frames + poses + [OUT / 'M1_BASELINE_FRONT.png', OUT / 'M2_FRONT.png']
+    assert all(path.is_file() for path in required), 'A source render is missing'
+    targets = [OUT / name for name in ('RIG_R1_GREETING.gif', 'M1_M2_FINISH_COMPARISON.png',
+               'RIG_R1_KEYPOSES.png', 'RIG_R1_REDUCED_MOTION.png')]
+    receipt_path = ROOT / 'documentation/GIF_RECEIPT.json'
+    assert not any(path.exists() for path in targets + [receipt_path]), 'Refusing to replace existing evidence'
+
+    images = []
+    frame_records = []
+    for path in frames:
+        with Image.open(path) as source:
+            assert source.size == ANIMATION_SIZE, (path, source.size)
+            images.append(source.convert('RGB'))
+        frame_records.append(record(path))
+
+    # One palette learned from distributed real frames; no per-frame re-quantising palette.
+    sample_indices = sorted(set(round(index * (INPUT_COUNT - 1) / 8) for index in range(9)))
+    sample_size = (ANIMATION_SIZE[0] // 2, ANIMATION_SIZE[1] // 2)
+    sample = Image.new('RGB', (sample_size[0] * 3, sample_size[1] * 3))
+    for index, frame_index in enumerate(sample_indices):
+        sample.paste(images[frame_index].resize(sample_size, Image.Resampling.LANCZOS),
+                     ((index % 3) * sample_size[0], (index // 3) * sample_size[1]))
+    palette = sample.quantize(colors=256, method=Image.Quantize.MEDIANCUT, dither=Image.Dither.NONE)
+    indexed = [image.quantize(palette=palette, dither=Image.Dither.NONE) for image in images]
+    palette_bytes = bytes(indexed[0].getpalette())
+    assert all(bytes(image.getpalette()) == palette_bytes for image in indexed)
+    durations = [(round((index + 1) * 100 / FPS) - round(index * 100 / FPS)) * 10
+                 for index in range(INPUT_COUNT)]
+    assert sum(durations) == 6000 and set(durations) == {40, 50}
+    indexed[0].save(targets[0], save_all=True, append_images=indexed[1:], duration=durations,
+                    loop=0, optimize=False, disposal=2)
+    decoded_durations = []
+    with Image.open(targets[0]) as gif:
+        assert gif.size == ANIMATION_SIZE and gif.info.get('loop') == 0
+        decoded_count = gif.n_frames
+        for index in range(decoded_count):
+            gif.seek(index)
+            gif.load()
+            decoded_durations.append(int(gif.info.get('duration', 0)))
+    assert sum(decoded_durations) == 6000
+
+    comparison = montage(required[-2:], ['M1 - accepted palette', 'M2 - softer material highlights'],
+                         targets[1], (600, 840), 46)
+    pose_sheet = montage(poses, ['Frame %d | %.1f s' % (frame, (frame - 1) / FPS) for frame in keyframes],
+                         targets[2], (300, 420), 38)
+    shutil.copyfile(frames[0], targets[3])
+    assert digest(frames[0]) == digest(targets[3]), 'Reduced-motion still must be byte-identical to actual rest frame'
+    receipt = {
+        'status': 'ENCODED_FROM_NATIVE_BLENDER_PNGS_DECODE_VERIFIED',
+        'animation': record(targets[0]), 'input_frame_count': INPUT_COUNT,
+        'source_fps': FPS, 'source_frame_range': [1, 144], 'duration_ms': 6000,
+        'requested_gif_frame_durations_ms': durations, 'decoded_gif_frame_count': decoded_count,
+        'decoded_gif_frame_durations_ms': decoded_durations, 'decoded_duration_ms': sum(decoded_durations),
+        'identical_frames_may_be_coalesced_by_encoder': True,
+        'loop': 'infinite', 'palette': {'colours': 256, 'shared': True, 'sample_frames': [i + 1 for i in sample_indices],
+           'method': 'MEDIANCUT', 'dither': 'NONE', 'lossy_gif_colour_quantisation': True,
+           'palette_sha256': hashlib.sha256(palette_bytes).hexdigest()},
+        'no_synthetic_motion_or_image_generation': True,
+        'source_pngs_unmodified': True, 'original_png_frames': frame_records,
+        'material_comparison': comparison, 'keypose_sheet': pose_sheet,
+        'reduced_motion': {'output': record(targets[3]), 'source': record(frames[0]), 'byte_identical': True},
+        'human_animation_acceptance': 'PENDING', 'game_integration': False,
+        'android_performance': 'NOT_MEASURED'
+    }
+    receipt_path.write_bytes((json.dumps(receipt, indent=2) + '\n').encode('utf-8'))
+    print(json.dumps({'status': receipt['status'], 'gif': str(targets[0]),
+                      'decoded_frame_count': decoded_count, 'decoded_duration_ms': sum(decoded_durations)}))
+
+
+if __name__ == '__main__':
+    main()

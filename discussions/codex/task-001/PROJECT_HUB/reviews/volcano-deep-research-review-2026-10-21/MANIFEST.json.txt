@@ -1,0 +1,56 @@
+{
+  "date": "2026-10-21",
+  "files": [
+    {
+      "path": "BASELINE_CODE_AUDIT.txt",
+      "bytes": 3879,
+      "sha256": "2cf7f2305839b6c3531254fc33b990fcc1dd9297dd6a02d37636e5a56f2e58a3"
+    },
+    {
+      "path": "CODE_IDENTITY.json",
+      "bytes": 2461,
+      "sha256": "b541a8f7704b4df338ddf4b94cc2b694b9e321a4b6c94d9975da9b0f065fd9c5"
+    },
+    {
+      "path": "EXTRACTED_DOCUMENT.txt",
+      "bytes": 51157,
+      "sha256": "4bd37e70a6c82a0c249f8c6e99dcd9ed6bf2649d3039d6e561f0e33c5eec1215"
+    },
+    {
+      "path": "FINAL_RESPONSE.txt",
+      "bytes": 1063,
+      "sha256": "f9fb4726801a278d1bd374d2e29d2da8f489b128602661864677304730ff84ea"
+    },
+    {
+      "path": "input/GnomiT_ от първия ход до самостоятелното използване на Volcano през първите пет минути.docx",
+      "bytes": 31205,
+      "sha256": "4845ae5f2f67dad378ba1b00ae7f5ef9b49036900db3151c00c2fff4e7f5b09b"
+    },
+    {
+      "path": "INPUT_RECEIPT.json",
+      "bytes": 1620,
+      "sha256": "c709e5462b1dcff00dbd43bf61613c4e95336dde10308f60e483694913572dae"
+    },
+    {
+      "path": "README.txt",
+      "bytes": 858,
+      "sha256": "d9d85c16082b57caf66e06d986fff7de210406ec7a70f6918d8d8cd8a51b6100"
+    },
+    {
+      "path": "REPORT.txt",
+      "bytes": 9453,
+      "sha256": "44bf0cced4ca6f62601b602dfd253c6b93b6801f62ebb224e430b11efa5ab650"
+    },
+    {
+      "path": "SOURCE_AUDIT_BG.txt",
+      "bytes": 7423,
+      "sha256": "0cb043b7dd19d6b23408186665d1f2d360c33b6e12b25b615f1f13e96d1a99bd"
+    },
+    {
+      "path": "STORYBOARD_AND_TRIAL_BG.txt",
+      "bytes": 9848,
+      "sha256": "a5927464ac15852558e8578b25581669300ed57b2fc4225b8e38bfd6569b8d11"
+    }
+  ],
+  "note": "Manifest excludes itself."
+}

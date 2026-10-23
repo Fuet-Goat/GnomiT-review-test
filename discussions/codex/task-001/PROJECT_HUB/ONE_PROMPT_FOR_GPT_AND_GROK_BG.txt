@@ -1,0 +1,729 @@
+АКТУАЛНО — CODEX v002 GNOME GREETING ART PREVIEW / 20.10.2026
+Visible separate Codex candidate now exists; not an external GPT task003 result.
+Read builds/codex-gnome-greeting-v002-2026-10-20/README_BG.txt.
+Editable Blender source/generator/GLB,10 nativePNG+2 comparison layouts,
+250-frame30fps silent nativeMP4, provenance/metadata/rebuild and full105-entryZIP.
+50 native runtime checks PASS;1290non-guide objects/camera and190campaign
+resources unchanged. Fresh cache-free import/start PASS. Desktopv002 registered.
+Currentv001 pointer/gameplay/audio/progress unchanged; human art acceptance pending.
+GPT may review/use this source as an additional reference within its own task003
+scope; do not overwrite Codex candidate. Existing grants/branches stay separate.
+No art merge or new gameplay task. Recommendation GPT-6.1 Sol / High.
+Old sections below are preserved history.
+
+АКТУАЛНО — GPT TASK-003 Е APPROVED / 20.10.2026
+Owner PR #7 merged: main d803005f3b123ca2b1ab617a37098a43c43b5da8.
+Only tasks/gpt/task-003.json added; required Scope boundary SUCCESS + independent PASS.
+GPT: start selected gnome idle -> greet -> settle prototype on codex/gpt/task-003.
+Read actual grant from main and reviews/gpt-gnome-task003-active-2026-10-20/CONTINUE_GPT_BG.txt.
+Own art/source/preview/outputs/report folders only; exact source and preview documentation required.
+Current v001/world/gameplay/audio/progress unchanged; artwork not yet accepted/integrated.
+Grok authority unchanged. Earlier PENDING notes below are preserved history.
+Recommendation GPT-6.1 Sol / High for technical integration.
+
+АКТУАЛНО — ТВОРЧЕСКА ART + ANIMATION ПРОБА · 20.10.2026
+User wants the bot to improve art/animation using its own artistic judgment.
+Read reviews/art-animation-creative-pass-2026-10-20/ONE_PROMPT_FOR_GPT_AND_GROK_BG.txt.
+This new request is for one coherent usable prototype, not only a review.
+Existing current-project-review package remains immutable evidence/reference.
+Current old task-002 grants do not cover native Blender/world/Godot changes;
+read OWNER_GRANT_SCOPE_REQUIRED.txt. No grant is activated by this document.
+Within an actually matching approved scope, small artistic choices need no
+repeated per-colour/per-frame approval. Source/preview/provenance remain required.
+Recommendation GPT-6.1 Sol / High. Prior sections below are preserved history.
+
+АКТУАЛНО — ГАЛЕРИЯ + ОБЩА ЗАДАЧА ЗА ПРЕГЛЕД · 20.10.2026
+Прочети reviews/current-project-review-2026-10-20/README.txt и общия prompt там.
+70 оригинални PNG:15 actual-campaign scripted и55 controlled power fixtures.
+2 native MP4 без звук;29 оригинални audio cues; текущ source и metadata.
+Пълната runnable v001 + editable Blender вече са в pinned GAME_REFERENCE.
+DOWNLOAD_REVIEW.py.txt сваля/декодира и проверява точните bytes/SHA/manifest;
+--with-game включва и вече публикувания game пакет. Не пуска игра/скриптове.
+GPT/Grok: собствен REPORTS_ONLY преглед + ЕДНО конкретно предложение и STOP.
+Без нова реализация или арт вариант преди човешко задание/приложим grant.
+За разрешени бъдещи добавки са нужни попълнени REPORT/PROVENANCE/
+ASSET_METADATA/MANIFEST: произход, source/генератор, настройки, условия,
+възпроизвеждане, хешове, проверки и ограничения. UNKNOWN вместо измислени права.
+Документацията не създава ownership/лиценз. RightsCleanup остава отворен.
+Текущата игра не е променена; няма нов v002, private/main/grant edit или merge.
+Препоръка за този преглед: GPT-6.1 Sol / High.
+Старите раздели долу са запазена история.
+
+АКТУАЛНО — BLENDER СВЯТ 1/2 + ПЪРВИ VOLCANO · 20.10.2026
+Новият Blender свят вече е началният екран на реалната кампания.
+1пътека -> First Crystals +2 tutorial страници; победа ->2вход ->Root Passage.
+Прочети builds/NATIVE_MINE_CAMPAIGN_TUTORIAL_2026-10-20.txt и съответната папка.
+45tutorial+18real-win-flow+185manualVolcano проверки PASS; human PENDING.
+Стара карта не се показва при новия нормален старт. V3 standalone е история.
+GPT/Grok: само собствен REPORTS_ONLY преглед; без runtime/код/grants/merge.
+Модел/effort: GPT-6.1 Sol / High. Старите статуси долу са история.
+
+АКТУАЛНО — STORYBOOK MINE V3 WORLD / GUIDE · 20.10.2026
+TOPIC=STORYBOOK_MINE_V3_WORLD_GUIDE_2026-10-20
+Прочети builds/STORYBOOK_MINE_V3_WORLD_GUIDE_2026-10-20.txt и
+builds/storybook-mine-v3-world-guide-2026-10-20/README_REVIEW_BG.txt.
+Пълният native ZIP е lossless Base64 attachment с точни bytes/SHA и 92 файла.
+По-четим вход, медени дъски, живи локални детайли, водач с махане/кимане/мигане.
+Source PASS; 51 runtime проверки и fresh-import PASS; 36 tracks / 7 guide.
+HUMAN_ART_PENDING. Един екран е отчетен: index 0; monitor 2 е предпочитание.
+Само интро: 1/2 НЕ стартират кампанията. Campaign pointer остава непипнат.
+Предишният Campaign Powers статус долу е история, не замяна от този арт build.
+GPT/Grok: собствен REPORTS_ONLY review, до 3 видими/source поправки.
+Без нов арт/код/runtime без grant, други REPORT-и, main, permissions или merge.
+RightsCleanup ограниченията остават. Препоръка GPT-6.1 Sol / High.
+Старите раздели и първоначалните им bytes са запазени след този нов раздел.
+
+АКТУАЛНО — CAMPAIGN POWERS / 20.10.2026
+Новите награди и Godot ефекти вече са свързани в нормалните нива.
+Прочети builds/CAMPAIGN_POWERS_2026-10-20.txt и builds/campaign-powers-2026-10-20/.
+136 integration +48 audio проверки PASS; човешко приемане PENDING.
+Blender мината е отделна. RightsCleanup въпросите остават отворени.
+GPT/Grok: собствен REPORTS_ONLY source review; без runtime/код/grants/merge.
+Препоръка GPT-6.1 Sol / High. Старите раздели долу са история.
+
+АКТУАЛНО — RIGHTS / PROVENANCE CLEANUP · 19.10.2026
+Прочети reviews/rights-cleanup-2026-10-19/README.txt и FINDINGS_AND_NEXT_STEPS_BG.txt.
+317 media instances проверени;3 sample-derived звука/18копия;13 арт evidence gaps.
+Подготвени са scratch replacements, неприложен patch и notices в локален owner ZIP.
+NOT_READY_FOR_GOOGLE_PLAY; няма обещание за изключителна собственост/all-clear.
+Правилата са GROK_WORK_RULES_BG.txt; общият review prompt е
+reviews/rights-cleanup-2026-10-19/ONE_PROMPT_FOR_GPT_AND_GROK_BG.txt.
+GPT/Grok: само собствен REPORTS_ONLY преглед/съществуващи origin доказателства.
+Без нов арт/код/runtime/grants/main/merge. Предишните арт раздели са история.
+Препоръка GPT-6.1 Sol / High; няма автоматично превключване.
+
+АКТУАЛНО — MINE V2 + GUIDE + ELEMENT LETTERING · 19.10.2026
+Прочети builds/STORYBOOK_MINE_V2_GUIDE_LOGO_2026-10-19.txt и
+builds/storybook-mine-v2-guide-logo-2026-10-19/. Пълен nativeZIP катоBase64.
+Има32равнидъски,малъкмахаштгном,1подход/2вход,въведения и новоGnomiTлого.
+i=факла,T=кирка. Новият човешки артbrief е вART_DIRECTION_BG.txt.
+HUMAN_ART_PENDING; няма match3launch/saveintegration илиmerge.
+GPT/Grok: само собствен REPORTS_ONLY преглед,до3конкретнивидимикорекции.
+TOPIC=STORYBOOK_MINE_V2_GUIDE_LOGO_2026-10-19. Безновивариантибезобхват.
+Препоръка GPT-6.1 Sol / High. Старите раздели долу остават история.
+
+АКТУАЛНО — STORYBOOK MINE NATIVE V1 · 19.10.2026
+Реален Blender->GLB->Godot кандидат. ART_TARGET_PARTIAL; човешко приемане PENDING.
+Прочети builds/STORYBOOK_MINE_NATIVE_V1_2026-10-19.txt и папката
+builds/storybook-mine-native-v1-2026-10-19/. Пълен native ZIP като Base64 text attachment.
+За GPT/Grok: само READ/REPORTS_ONLY рецензия в собствения task-001 REPORT,
+TOPIC=STORYBOOK_MINE_NATIVE_V1_2026-10-19, до3 конкретни видими корекции.
+Не генерирайте нова карта/герой и не обявявайте художествено приемане по runtime PASS.
+Повърхностна мина -> подземни10+Boss остава канон. Днес monitor2.
+Препоръка GPT-6.1 Sol / High. Старите раздели долу са история.
+
+АКТУАЛНО — CANDY MAP SOURCE REVIEW · 19.10.2026
+SOURCE_VERIFIED / ART_TARGET_NOT_MET / NOT_INTEGRATED.
+Прочети reviews/CANDY_MAP_SOURCE_REVIEW_2026-10-19.txt и
+reviews/candy-map-14a5d52-2026-10-19/REVIEW_BG.txt.
+Точният .blend е валиден, но действителният original-camera render е
+начален blockout и не възпроизвежда показания художествен образец.
+Има actual render/source/audit ZIP като lossless Base64 text attachment.
+За GPT/Grok: REPORTS_ONLY отговор, до3 конкретни поправки; без нов арт/код/runtime/merge.
+Surface mine -> underground10+Boss остава канон. Днес monitor2.
+GPT-6.1 Sol / High. Старите раздели долу са история.
+
+АКТУАЛНО — SURFACE MINE -> UNDERGROUND CHAPTER · 19.10.2026
+Дизайн: зелен вход на мина + малък водач; вътре 10 поднива + Boss.
+Чети designs/SURFACE_MINE_CHAPTER_2026-10-19.txt и
+designs/mine-chapter-2026-10-19/MINE_CHAPTER_PLAN_BG.txt.
+Статус DESIGN_ONLY; първо вход -> подземна карта -> ниво1 цели/PLAY.
+Няма нова готова глава, tutorial система или интегриран campaign power Core.
+Предложеният график на уроците не е човешки одобрен.
+За GPT/Grok: един REPORTS_ONLY design review, до 3 приоритета; без runtime/код/merge.
+Днешен display override: monitor2 / Godot screen1, заменя monitor1.
+Blender+Godot остават; art proof е предишно доказателство, не новата игрова карта.
+GPT-6.1 Sol / High; Grok Build. Старите раздели долу са история.
+
+АКТУАЛНО — BLENDER / GODOT ART PROOF · 19.10.2026
+Първа 3D проба на обем/материали; човешко художествено приемане PENDING.
+Прочети builds/BLENDER_ART_PROOF_2026-10-19.txt и
+builds/blender-art-proof-2026-10-19/TRANSFER_MANIFEST.txt.
+Човекът отхвърли плоската 2D геометрична посока; не я приемайте за финал.
+Blender→GLB→Godot работи, но рисуваният детайл още е недостатъчен.
+За GPT/Grok: един REPORTS_ONLY visual/source review, до 3 приоритета.
+Ако media не е видяна, NOT_OBSERVED. Без код/нов арт/runtime/merge.
+GPT-6.1 Sol / High; Grok Build. Старите раздели по-долу са история.
+
+АКТУАЛНО — ALIVE EXPERIENCE PC PILOT / 19.10.2026
+LOCAL_PILOT_READY / HUMAN_ART_REVIEW_PENDING / NO_MERGE
+
+Човекът разреши изпълнение; новото изолирано AliveExperience копие вече
+работи. Има same-hero blink/clear/victory, локална светлина и кратък
+lamp-to-mine bridge. 54 integration проверки и 3 native replay captures
+PASS. Control/candidate използват същите входни кадри и запазват Core.
+Това е първа проба, не финално художествено/телефонно приемане.
+
+ПРОЧЕТИ ПЪРВО:
+builds/ALIVE_EXPERIENCE_PILOT_2026-10-19.txt
+builds/alive-experience-2026-10-19/README_REVIEW_BG.txt
+builds/alive-experience-2026-10-19/TRANSFER_MANIFEST.txt
+Пътищата са относителни спрямо PROJECT_HUB. Реалните проект/PNG/MP4 байтове
+са в text-only lossless transfer; има ред, bytes/SHA и няма placeholders.
+
+За GPT/Grok: по едно действително visual/source ревю на кандидата в
+собствения REPORT. До 3 поправки с кадър/таймкод; ако не е гледано,
+NOT_OBSERVED. Не повтаряйте стария R1, не чакайте нов art handoff и не
+генерирайте нов герой/звук/код. Сега scope е REPORTS_ONLY без runtime.
+Само този актуален раздел задава следващото ревю; старите prompts долу
+са история. Няма grants/main/чужди files/merge промени. Git не пуска чатове.
+Настройка: GPT-6.1 Sol / High; Grok Build, текущ модел.
+
+--- HISTORY (original bytes retained below) ---
+
+АКТУАЛНО — ALIVE_EXPERIENCE_R1_2026-10-19 / CODEX SYNTHESIS / 19.10.2026
+СТАТУС: DESIGN_RECOMMENDATION / IMPLEMENTATION_NOT_STARTED
+
+GPT R1/R2 са прочетени от 3f46493ddd6efce4b2bfc15f6ff580372c644b4a.
+Grok R1 е прочетен от 0dc48c4cea0959542fd6ca066e77a8659c1fdf5c; Grok R2 още няма.
+И двамата независимо предпочитат Godot-only за първата проба; Codex приема.
+Blender остава за доказан бъдещ asset недостиг, не като начална зависимост.
+За evidence Codex приема кратко actual начало/първи ход + отделна реална
+победа. Не нагласяме seed/Core, за да поберем победа в 15 s.
+
+Прочети designs/ALIVE_EXPERIENCE_CODEX_SYNTHESIS_2026-10-19_BG.txt
+(относително спрямо PROJECT_HUB). Там са минималните материали, sequence,
+критерии и ограничения. Нужните blink/lantern позиции не са вече готов арт.
+True Candy clean-start/Level 1 остава NOT_OBSERVED от всички.
+
+Няма нова implementation задача или разрешение в този синтез. Scope:
+REPORTS_ONLY. Grok може да добави един R2 само при съществено възражение;
+GPT няма нужда да повтаря R1/R2. Няма game edits, generation, install,
+purchase, grant промяна, runtime тест или merge. Няма пълен тристранен
+sign-off или човешко художествено приемане. R3 за engine избора не е нужен.
+Git не стартира чатове. Настройка: GPT-6.1 Sol / High; Grok Build.
+
+--- HISTORY (preserved bytes below) ---
+
+АКТУАЛНО — ALIVE_EXPERIENCE_R1_2026-10-19
+СТАТУС: DISCUSSION_ONLY / CODEX_INITIAL_PROPOSAL / PEER_RESPONSES_PENDING
+
+Човешка цел: живо изживяване още ПРЕДИ ниво 1, през селцето и картата,
+избора, влизането в мината и първите обикновени ходове. Не само големи сили.
+Нова обща тема; засега няма отговор/съгласие на GPT и Grok по нея.
+
+Прочети от текущия codex/codex/task-001:
+designs/ALIVE_EXPERIENCE_R1_2026-10-19_BG.txt
+designs/ALIVE_EXPERIENCE_SOURCE_NOTES_2026-10-19.txt
+designs/ALIVE_EXPERIENCE_TOOLCHAIN_SOURCES_2026-10-19.txt
+Пътищата са относителни спрямо този PROJECT_HUB.
+
+Само текстов R1 в собствения REPORT по task-001 REPORTS_ONLY. После един
+R2 по действителен peer commit; R3 само при съществена разлика. Няма game
+промени, генериране на art/audio, installs, purchase, grants или merge.
+GPT: ART OWNER. Grok: ANIMATION OWNER. Codex: INTEGRATION OWNER.
+Предварителен избор за оспорване: Godot runtime + Blender за assets;
+Spine е възможна 2D алтернатива, Unity миграция няма доказан blocker сега.
+
+Candy: локалният запис е Level 12361; точен clean-start преди Level 1
+НЕ е видян тук. Browser е disabled. R1 трябва да посочи действително
+наблюдение с версия/URL/таймкодове или NOT_OBSERVED. Metadata не е гледане.
+Последната V4 реализация е 411d8b44e5c0fbf006fbf29b0cc8522cd7185aae;
+тя е Mountain audio lab, не нова реализация на началото/цялото ниво 1.
+Git публикацията не стартира другите чатове: изпрати им общия prompt.
+
+Настройка за тази задача: GPT-6.1 Sol / High; Grok Build, текущ модел.
+
+ОБЩ ПРОМПТ ЗА GPT И GROK — ALIVE_EXPERIENCE_R1_2026-10-19
+
+Работим по ЕДИН GnomiT проект. Целта е живот още преди ниво 1 и в нормалните
+ходове, не още един отделен голям ефект. Запази своята GPT ART OWNER или
+Grok ANIMATION OWNER роля; ако самоличността ти е неясна, не пиши чужд REPORT.
+
+Repo: https://github.com/Fuet-Goat/GnomiT-review-test
+1. Прочети AGENTS.md и tasks/<bot>/task-001.json от актуалния main.
+   Активният scope е REPORTS_ONLY. Не чакай APPROVED implementation grant.
+2. От codex/codex/task-001 вземи актуалния commit и запиши точния SHA.
+   Прочети discussions/codex/task-001/PROJECT_HUB/designs/
+   ALIVE_EXPERIENCE_R1_2026-10-19_BG.txt,
+   ALIVE_EXPERIENCE_SOURCE_NOTES_2026-10-19.txt и
+   ALIVE_EXPERIENCE_TOOLCHAIN_SOURCES_2026-10-19.txt.
+3. Изпълни R1: отговори на седемте въпроса и предложи ЕДИН собствен вариант
+   за начало->жива карта->избор->влизане->първи ход->победа. Включи периода
+   ПРЕДИ ниво 1. Оцени Godot-only/Blender/Spine/Unity с конкретна полза.
+4. Ако можеш, действително прегледай clean-start Candy Crush до първите ходове
+   вLevel 1; запиши URL/платформа/версия/таймкодове и какво си видял.
+   Предоставеният стар запис показваLevel 12361. Не го наричайLevel 1.
+   Ако нямаш визуален достъп, посочи NOT_OBSERVED и работи по наличния код/
+   материал. Не представяй metadata, реклама, хешове или чуждо описание за гледане.
+5. Публикувай R1 като НОВ раздел с темата в собствения
+   discussions/<bot>/task-001/REPORT.txt, без да триеш историята.
+   Commit и push само в codex/<bot>/task-001; провери remote readback.
+6. След своя R1 прочети последния действителен R1 на другия bot. Ако е наличен,
+   добави ЕДИН R2 peer response с точния peer commit: приемам/оспорвам/какво
+   ще реши разликата. Ако липсва, завърши без празен status commit/polling loop.
+   Следващото човешко съобщение може да поднови R2. Няма автоматичен консенсус.
+
+Сега НЕ генерирай art/audio/анимации, НЕ пускай Godot/тестове/генератори,
+НЕ променяй game/grants/main/чужди папки, НЕ инсталирай/купувай софтуер и
+НЕ прави merge. Това е дизайн/преглед; реална сравнима проба е отделна задача.
+Върни: роля, тема, реално видени източници, до 3 приоритета, избран pipeline,
+реални разлики, commit/REPORT линк. Не твърди, че чакащ човек или друг bot
+вече е одобрил предложението. Не е нужно един и същ отговор в нов документ.
+
+Препоръка за GPT/Codex: GPT-6.1 Sol / High. Grok: Build, текущ модел.
+
+--- HISTORY (preserved original bytes below) ---
+
+АКТУАЛНО — MOUNTAIN VOLCANO V2 /19.10.2026
+
+Човекът поиска истински планински вулкан по новата снимка, в стила на играта.
+В нов изолиран MegaVolcanoMountain lab големият body вече е отделен RGBA
+спрайт на скалиста планина,кратер и лава по склоновете,а не уголемена иконка.
+Движат се малки лавови езици,тъмен дим,едно изригване и горящи късове от
+действителния кратер. Ширина3.55клетки; aspectиalpha са запазени. Edge plume
+headroom/blast са ограничени към дъската. Texture е imported preload.
+
+Един нов PNG от built-in imagegen;точният prompt/референции/bytes/SHA са
+описани в receipt. Няма Python image editing. Всички364 predecessor файла
+са непроменени; само project.godot е различен в новото копие. Coreиaudio са
+byte-identical; не се твърди нов Core тест.33реални presentation/audio/cancel
+и synthetic edge geometry проверки PASS. Актуален9s native Godot432×960/30fps
+запис PASS,един actual swap/един Mega event; PCMненулев без цифров clipping.
+Това не е човешко художествено/звуково одобрение или Android/performance тест.
+
+Виж builds/MOUNTAIN_VOLCANO_PASS_2026-10-19.txt и буквалния
+builds/MOUNTAIN_VOLCANO_REVIEW_PATCH_2026-10-19.txt. Те са само text в Git;
+PNG/AVI са в локалния ZIP. Не твърдете визуален преглед по хешове/receipt.
+Без нов grant,main,merge,промяна на campaign/save или чужди REPORT-и.
+Препоръка: GPT-6.1 Sol / High; Grok Build.
+
+GPT/Grok: main AGENTS/grant; само собствен task-001 REPORT. Прочети
+новия Mountain receipt+literal patch на точния Codex commit. Дай до3static
+дефекта или „няма намерен static blocker“. PNG е локален,не твърди че си го
+видял. Няма изпълнение/редакция на играта,тестове,grant илиmerge от това ревю.
+
+--- HISTORY ---
+
+АКТУАЛНО — MEGA VOLCANO4+4 / РАБОТЕЩА PC ПРОБА /19.10.2026
+
+След уточнение от човека: старото4+4 задействане РАБОТИ. Новата задача е
+по-добра комбинирана анимация: ЕДИН голям вулкан вместо две отделни изригвания,
+със силата на ТРИ обикновени. Това е внедрено само в нов локален MegaVolcano
+lab върху MaterialRewards. Всички351 предходни source/asset файла са запазени.
+Единствената промяна в съществуващ файл на копието е project.godot.
+
+Двата source икона се сливат; една2.4s анимация изстрелва по-големи горящи
+магмени късове и показва попадение/счупване/догаряне. Три истински3..5 бюджета
+дават9..15различни ordinary цели, capped според наличните. Seed42 дава13.
+Единичният Volcano,4+5и5+5 са с exact predecessor events/state/RNG в проверките.
+Няма нов постоянен Mega tile; няма нов арт/звуков файл. Един съществуващ
+eruption clip + тихи синхронни полети/удари;24voices пазят дългия eruption.
+
+76Core +29реални board/audio/cancel проверки PASS. Актуален9s native Godot
+запис432×960/30fps PASS; един actual mouse swap/една сила; ненулев48kHzPCM
+без digital clipping. Stills merge/eruption/impact/burn са видени. Това НЕ е
+човешко художествено/звуково приемане, Android или performance тест.
+
+Виж builds/MEGA_VOLCANO_PASS_2026-10-19.txt и буквалния
+builds/MEGA_VOLCANO_REVIEW_PATCH_2026-10-19.txt. Те стъпват върху предходния
+MATERIAL_REWARDS_REVIEW_PATCH, също публикуван като текст. Git има само
+собствени отчетни документи/patch; без native code/binary upload,main илиmerge.
+Другите усилени комбинации и Landslide polish чакат; първо човешки преглед
+на този вулкан. Препоръка: GPT-6.1 Sol / High; Grok Build.
+
+GPT/Grok: Прочети main AGENTS/grant. Само собствен task-001 REPORT.
+Прегледай новия MEGA receipt+literal patch и необходимия Material predecessor
+patch на точния Codex commit. До3конкретни static дефекта/контрапримера или
+„няма намерен static blocker“. Не твърди че си видял/чул локални binaries от
+текстов receipt. Без game edits/tests/imports/merge. Запази историята.
+
+--- HISTORY ---
+
+ОБЩ ПРОМПТ ЗА GPT И GROK — MATERIAL REWARDS РАБОТЕЩА ПРОБА
+
+Repo https://github.com/Fuet-Goat/GnomiT-review-test
+Прочети AGENTS.md и собствения task-001 grant от main. Само собствен REPORT
+на codex/<bot>/task-001; без game edits, изпълнение, тестове, grant или merge.
+Вземи точния нов Codex commit и прочети PROJECT_HUB/builds/
+MATERIAL_REWARDS_PASS_2026-10-19.txt и MATERIAL_REWARDS_REVIEW_PATCH_2026-10-19.txt
+под discussions/codex/task-001/. Това е literal source patch за изолирана PC
+проба. Бинарните записи са локални; не твърди, че си видял кадри/чул звук от
+текстов receipt. Провери реалния код, не само отчетения брой тестове.
+
+Дай един кратък peer review: до3 конкретни дефекта/контрапримера с функция и
+ред от patch. При липса кажи „няма намерен static blocker“, без автоматично
+художествено или Android одобрение. Особено: преместена стара сила + нов anchor;
+stationary catalyst; каскадна награда чака manual swap; immutable IDs/goal once;
+5+5 поглъща другите сили inert; no-spawn drain/safe-fill; ray stop при anchor.
+Публикувай в собствения REPORT, запази историята и дай immutable commit линк.
+Не чакайте един друг и не пускайте празни статус commits. При липса на Git
+достъп кажи ограничението. GPT: GPT-6.1 Sol / High. Grok: Build.
+
+
+--- HISTORY ---
+
+ОБЩ КРАТЪК ПРОМПТ ЗА GPT И GROK — MATERIAL POWER R3 ЗАТВАРЯНЕ
+
+Repo: https://github.com/Fuet-Goat/GnomiT-review-test
+Прочети AGENTS.md и собствения task-001 grant от main. Само собствен REPORT
+в codex/<bot>/task-001; без игрови редакции, тестове, grants или merge.
+
+От codex/codex/task-001 прочети точния commit на НОВИЯ документ:
+discussions/codex/task-001/PROJECT_HUB/designs/MATERIAL_POWER_MATCHING_R3_CLOSURE_2026-10-19.txt
+
+Codex прочете пълните GPT0efb2976 и Grok2d66127 R2. За първата проба GPT вече
+приема Grok: чакащи сили участват с материала си само в начални PLAYER matches;
+автоматичните ordinary каскади могат да раждат награди, но не ползват силите
+за пасивно изчистване на съседни камъни. Не представяй стария GPT вариант като
+още отворено несъгласие. Материалът на retained anchor не се събира.
+
+НОВО ЧОВЕШКО РЕШЕНИЕ: Black Hole ПОГЛЪЩА и другите чакащи бонуси ИНЕРТНО,
+без техните отделни ефекти. Изрично е избран този вариант. Условието остава
+пряка умишлена размяна5+5; нищо не се пуска от раждане или съседство.
+
+Дай ЕДИН кратък R3_ACK или ONE_COUNTEREXAMPLE по конкретния contract:
+1. Дедупликация по реални участници, не координати: нов refill на същите
+   места може законно да роди бонус; старият компонент не се изплаща пак.
+2. При техническия guard: довършване на ordinary matches БЕЗ refill, после
+   ограничено safe fill само на празните клетки; пазим IDs и всяка награда.
+   В brief-а има мярка за край и доказателство за шестте материала. Посочи
+   точен контрапример, ако има; не замествай с „спираме с неразрешен match“.
+3. Отчетът изрично предлага премахнатият реален материал да брои по1,
+   включително BH-погълнатите сили, но не retained anchor. Това е Codex
+   предложение, не човешко счетоводно решение; посочи конкретна разлика.
+
+Добави MATERIAL_POWER_MATCHING_R3_CLOSURE_2026-10-19 / R3_ACK или
+ONE_COUNTEREXAMPLE в собствения REPORT. Запази историята; commit/push/readback.
+Не започвай нов общ план. Не чакай другия в polling loop. Ако вече си дал
+отговор на същия точен вход, не прави празен повторен commit.
+Върни: ACK/контрапример, commit, REPORT линк и до3 точни оставащи въпроса.
+ACK е дизайн, не проведен Godot тест или разрешение за реализация.
+GPT: GPT-6.1 Sol / High. Grok: Build. Промптът не сменя настройките.
+
+
+--- HISTORY ---
+
+ОБЩ ПРОМПТ ЗА GPT И GROK — R2: БОНУС СЛЕД ПАДАНЕ, РЪЧНО ИЗПОЛЗВАНЕ
+
+Git: https://github.com/Fuet-Goat/GnomiT-review-test
+Провери реалната си роля, AGENTS.md и собствения task-001 grant от main.
+Работи само в собствения REPORT.txt / codex/<bot>/task-001 при REPORTS_ONLY.
+
+Прочети НОВИЯ brief от codex/codex/task-001 и запиши точния входен commit:
+discussions/codex/task-001/PROJECT_HUB/designs/MATERIAL_POWER_MATCHING_R2_HUMAN_CORRECTION_2026-10-19.txt
+
+ЧОВЕКЪТ УТОЧНИ И ПОТВЪРДИ С ПРИМЕР:
+След чупене и падане 4 обикновени руди образуват Volcano. Той остава на дъската,
+без сам да изригне. Играчът може да продължи да играе и избира кога да хване
+ТОЗИ Volcano и да го размени със съседен камък. Тогава той се задейства.
+Права петица образува Storm, която също чака преместване от играча.
+
+Това заменя старото „каскадите не раждат бонуси“. Не възстановявай предишния
+отговор за автоматично задействане: след него човекът поиска пример и потвърди
+именно горното. Не превръщай чакането в защита само до края на рождения ход.
+Две кацнали една до друга петични сили не правят автоматично Black Hole.
+Фиксираното пряко 5+5 сливане и таблицата 4/5/T/L остават.
+
+Прочети точните R1 входове в brief-а. GPT ec779c93 и Grok9a4146fa са прочетени;
+нито един стар R1 вече не е пълното текущо правило. Не повтаряй общото ревю.
+
+Добави ЕДИН R2_RESPONSE в своя REPORT с:
+1. ACK на потвърденото каскадно раждане и изчакване за ръчно използване.
+2. Един съвместим отговор за неподвижна чакаща сила в по-късен цветен match.
+3. Събиране/почва/руни: материалът в новия anchor не е събран. Отдели го от
+   изразходване на старата способност; разгледай едно и също old/new място.
+4. Прогрес при повече от две каскадно родени сили: без автоматично задействане,
+   без повторна награда за вече обработен match и без скрита загуба на бонуси.
+Покажи резултатите за masksA-F от brief-а; те са примери, не проведени тестове.
+Дай до три конкретни оставащи разлики. Ако другият има действителен R2,
+прочети точния му commit и добави един PEER_RESPONSE; иначе приключи.
+
+Запази историята, commit/push/readback само на своя текст. Без код, Godot,
+тестове, арт/звук, grants, main, merge, polling или празни status commits.
+ACK по дизайна не е внедряване или проведен gameplay тест.
+Върни: правило, commit, REPORT линк и до три разлики.
+GPT: GPT-6.1 Sol / High. Grok: Build. Текстът не сменя настройките.
+
+
+--- HISTORY ---
+
+ОБЩ ПРОМПТ ЗА GPT И GROK — MATERIAL_POWER_MATCHING_R1_2026-10-19
+
+Работим по GnomiT в https://github.com/Fuet-Goat/GnomiT-review-test.
+Определи реалната си идентичност. Прочети AGENTS.md и актуалния собствен
+tasks/<bot>/task-001.json от main. Това е текстово обсъждане в съществуващия
+task-001 REPORTS_ONLY, не нова задача за арт или реализация.
+
+Прочети от клона codex/codex/task-001 двата НОВИ документа:
+discussions/codex/task-001/PROJECT_HUB/designs/MATERIAL_POWER_MATCHING_R1_2026-10-19.txt
+discussions/codex/task-001/PROJECT_HUB/designs/MATERIAL_POWER_MATCHING_SOURCE_CONTEXT_2026-10-19.txt
+Запиши точния входен commit. Текущата реализация за сравнение е literal patch:
+discussions/codex/task-001/PROJECT_HUB/builds/REWARD_RULES_REVIEW_PATCH_2026-10-18.txt
+
+ЧОВЕШКАТА ИДЕЯ
+Съществуваща сила да запазва материала си и да се брои в ново съвпадение.
+Например [рубин,рубин,стар рубинов Volcano,рубин] позволява старо изригване
+и нов Volcano. При права петица се печели Storm. Материалът НЕ определя
+вида сила: четворка рубини и четворка златна руда и двете дават Volcano.
+Това още НЕ е внедрено. Предишният код разпознава само обикновени минерали.
+
+ВЪПРОСЪТ
+Трябва ли да преосмислим предишната схема, или да запазим 4/5/T/L и да
+подредим материала, задействането и раждането като отделни стъпки?
+
+Дай ЕДНО независимо предложение. Отговори на Q1-Q7 и masksA-H от brief-а:
+- размяна сила–камък без съвпадение: остава ли директното задействане;
+- стари сили в началната комбинация, включително неподвижните;
+- каскади със стара цветна сила: активиране, инертно изчистване или друго;
+- защита на новородената сила от стария ефект И от последваща каскада;
+- една награда на компонента, един ход, без двойни цели/почва/руни/събиране;
+- четима едновременна маркировка за материал, сила и петичен произход.
+
+Запази отделно фиксираното правило: само пряка съседна размяна на ДВЕ вече
+съществуващи петични сили прави Black Hole. Общ цветен ред с две такива сили
+не я създава автоматично. За 4+4/4+5 също има отделна договорена комбинация.
+Не приписвай на текущия код новия материал и не твърди, че само цвят в арта
+решава matcher/resolve. Не разширявай is_ordinary без анализ на ефектите.
+
+Добави MATERIAL_POWER_MATCHING_R1_2026-10-19 / INDEPENDENT_RESPONSE само в
+discussions/<bot>/task-001/REPORT.txt, на собствения codex/<bot>/task-001.
+Запази историята. При активно разрешение направи commit/push и провери remote.
+Ако има отговор на другия по ТОЗИ въпрос, прочети точния му commit и добави
+един PEER_RESPONSE. Ако няма, публикувай своето и приключи без polling.
+
+Без игрови редакции, тестове, картинки, звук, grants, main или merge.
+Не обявявай консенсус, реализация или runtime/Android проверка от текстово ревю.
+В чата върни: предложеното правило, до3 разлики, commit и REPORT линк.
+
+За GPT: GPT-6.1 Sol / High. За Grok: Build.
+Промптът не превключва настройките.
+
+
+--- HISTORY ---
+
+ОБЩ ПРОМПТ ЗА GPT И GROK — REWARD RULES IMPLEMENTATION REVIEW
+
+Git hub: https://github.com/Fuet-Goat/GnomiT-review-test
+
+Определи истинската си роля. Прочети AGENTS.md и актуалния собствен
+task-001 grant от main. Работи в собствения си клон и REPORT.txt.
+
+От клона codex/codex/task-001 прочети двата НОВИ файла:
+discussions/codex/task-001/PROJECT_HUB/builds/REWARD_RULES_PASS_2026-10-18.txt
+discussions/codex/task-001/PROJECT_HUB/builds/REWARD_RULES_REVIEW_PATCH_2026-10-18.txt
+Запиши точния входен commit.
+
+Това е реална отделна локална Godot PC проба, а не само дизайн. В Git има
+текстов receipt и literal patch. PNG/AVI/WAV и native GD файловете остават
+local+ZIP според REPORTS_ONLY. Не твърди, че си видял видео или изпълнил
+проекта, ако разполагаш само с текста. Посочи границите на своя преглед.
+
+Прегледай тези четири области:
+1. Валидна четворка, права петица, T или L създава една подходяща сила.
+   Каскадите не раждат сили; запазената клетка не се брои като премахната.
+2. Произходът следва token при swap, gravity и shuffle. Две съседни сили
+   с петичен произход, включително еднакви, дават една Black Hole.
+3. 4+4 и 4+5 имат общ resolve, без двойни щети, междинен refill,
+   повторно появяване на премахнати цели или дублирани goal сигнали.
+4. Skip, Reset и reduced motion не променят resolved Core/RNG и не
+   оставят закъснели звуци или ефекти след прекъсване.
+
+Дай до три конкретни дефекта с file:function и контрапример или кажи,
+че не намираш. Не отваряй избора на engine или цялата таблица без дефект.
+Literal plus не е представен като stable pre-swap fixture. Extended T е
+реална шесторка T; plus/7plus се проверяват като detector masks.
+Не обявявай човешки/Android тест, пълен консенсус или разрешение за кампания.
+
+Запази историята. Добави REWARD_RULES_IMPLEMENTED_2026-10-18 / PEER_REVIEW
+само в discussions/<bot>/task-001/REPORT.txt. При разрешение направи
+commit/push и провери remote байтовете. Без промени по код, арт, звук,
+grants, чужди файлове или main; без merge и празни status commits.
+Не чакай другия бот в polling loop.
+
+Върни: вердикт, commit, REPORT линк и до три находки/ограничения.
+Ако достъпът липсва, посочи точно какво не си успял да прочетеш.
+
+Препоръка за GPT: GPT-6.1 Sol / High. За Grok: Build.
+Текстът не превключва модела или effort.
+
+
+--- HISTORY ---
+
+ОБЩ КРАТЪК ПРОМПТ ЗА GPT И GROK — ФИНАЛНО R2 УТОЧНЕНИЕ
+
+Хранилище: https://github.com/Fuet-Goat/GnomiT-review-test
+Провери AGENTS.md и tasks/<bot>/task-001.json от main. Само собствен текстов
+REPORT в собствения codex/<bot>/task-001; без игрови промени, тестове и merge.
+
+От codex/codex/task-001 прочети точния commit на:
+discussions/codex/task-001/PROJECT_HUB/designs/REWARD_R2_CODEX_PEER_SYNTHESIS_2026-10-18.txt
+
+Codex прочете GPT ecfce495 и Grok4d2ea20. Приема общото предложение:
+без нови сили от каскади в първата версия; при4+5 петичната сила определя
+целите първа, Volcano избира от оставащите; общ resolve/refill; без скрит
+постоянен лимит една Black Hole. Човешкото5+5→Black Hole е фиксирано.
+
+Остава точно един механичен въпрос: по-големи T/L/plus фигури.
+Codex избира правилото на GPT: валидна петична подформа НЕ губи tier5,
+когато добавим шести или седми matched камък.
+Приоритет: права5+→Storm;T/plus→Tornado;L→Landslide;права4→Volcano;
+иначе нормално изчистване. Една награда от една same-colour matched компонента.
+Самият общ брой6/7 не е автоматична петица. Прочети точните masksA–F в синтеза.
+
+Дай ЕДИН кратък PEER_ACK или ONE_COUNTEREXAMPLE по masksA–F и този приоритет.
+Ако не си съгласен, посочи точния mask/очакван резултат и защо. Не започвай
+нов общ план. Позицията на петте резки остава за визуална проба при432x960.
+
+Добави REWARD_COMBINATIONS_R2_2026-10-18 / FINAL_PEER_ACK в собствения
+discussions/<bot>/task-001/REPORT.txt. Запази историята; commit/push и провери
+remote байтовете. Не променяй чужди отчети или grants. ACK не е разрешение
+за реализация и не е проведен game test. Ако вече си отговорил на точно този
+синтез, не прави повторен празен commit. Не чакай другия бот в polling loop.
+
+В чата върни: ACK/COUNTEREXAMPLE, commit, REPORT линк, една оставаща разлика.
+Препоръка: GPT-6.1 Sol / High; Grok Build. Промптът не сменя настройките.
+
+
+--- HISTORY ---
+
+ОБЩ ПРОМПТ ЗА GPT И GROK — REWARD_COMBINATIONS_R2_2026-10-18
+
+Работим по GnomiT: един проект и общ Git hub.
+Хранилище: https://github.com/Fuet-Goat/GnomiT-review-test
+
+Определи реалната си идентичност — GPT или Grok. Прочети AGENTS.md и
+актуалния tasks/<bot>/task-001.json от main. Остани в собствения клон
+codex/<bot>/task-001 и собственото discussions/<bot>/task-001/REPORT.txt.
+
+Прочети НОВИЯ brief от клона codex/codex/task-001, а не от стария main:
+discussions/codex/task-001/PROJECT_HUB/designs/REWARD_COMBINATIONS_R2_2026-10-18.txt
+Прочети и PROJECT_HUB/builds/BLACK_HOLE_MATERIAL_V2_PASS_2026-10-18.txt
+от същия Codex hub. Запиши точния входен commit.
+
+ФИКСИРАНО ЧОВЕШКО РЕШЕНИЕ:
+Два вече създадени съседни бонуса от ПЕТИЦИ, разменени помежду си,
+правят Черна дупка. Важат и две еднакви петични сили. 4+4 и 4+5 не я
+създават. Това заменя старото Tornado+Volcano условие. Не го прегласуваме.
+Автоматично създаване на бонусите от match-ове още НЕ е реализирано.
+Последният клип е демонстрация на анимацията със стария поставен fixture.
+
+CODEX ПРЕДЛОЖЕНИЕ ЗА ПРЕГЛЕД:
+4 в линия → Volcano; 5 в линия → Storm; T-петица → Tornado;
+L-петица → Landslide. T и L остават различни.
+4+4 → двойно изригване с различни цели, доколкото има налични минерали.
+4+5 → двете съставни сили, общ resolve без refill между тях.
+5+5 → Черна дупка, която заменя двата отделни ефекта.
+
+Дай ЕДНО независимо кратко предложение:
+1. Таблица 3/4/права 5/T5/L5 и 4+4/4+5/5+5.
+2. До три конкретни корекции с причина.
+3. Точни правила за припокрити форми, 6+ и кръстове: една награда от
+   една компонента, избор на форма/позиция. Кажи дали каскадите раждат сили.
+4. Един видим знак за петичния произход, който се запазва след падане;
+   материали и последователност при сливането на реалните две сили.
+5. Четири проверими сценария: 4+5 не дава Black Hole; 5+5 дава;
+   преместен петичен бонус запазва произхода; overlap без двойни щети.
+6. Нужен ли е старият веднъж-на-опит guard след по-трудното условие 5+5?
+
+Добави раздел REWARD_COMBINATIONS_R2_2026-10-18 / INDEPENDENT_RESPONSE
+в собствения REPORT.txt. Запази старите раздели. Само разрешени текстови
+отчети, commit/push и проверка на remote байтовете. Без празни status commits.
+Не прави игрови код, арт, анимации, grant/main/чужди промени или merge.
+
+Ако другият вече е отговорил, прочети точния му commit и добави един
+PEER_RESPONSE. Не пренаписвай независимото си предложение. Ако няма
+отговор, публикувай своето и приключи; не чакай в polling loop.
+
+В чата върни: статус, точен commit, REPORT линк и до три отворени разлики.
+Не твърди консенсус или реален runtime/Android тест, който не си извършил.
+
+Препоръка за GPT/Codex review: GPT-6.1 Sol / High.
+За Grok: работещият Build режим. Текстът не превключва модела/effort.
+
+
+--- HISTORY ---
+
+АКТУАЛНО — BLACK HOLE MATERIAL V2 / BLENDER,18.10.2026
+Реални рисувани камъчета+вятър→постепенна Черна дупка→засмукване. Нативен Godot запис9s/432x960;72нови+290предишни проверки PASS. Blender5.2.2LTS инсталиран и проверен,но този ефект е Godot,не Blender-render. Виж builds/BLACK_HOLE_MATERIAL_V2_PASS_2026-10-18.txt и REVIEW_PATCH.
+НОВО ЧОВЕШКО РЕШЕНИЕ: два бонуса от ПЕТИЦИ→Черна дупка. Замества старото T+V предложение. Записът е предишен предварително поставен T+V VFX fixture,не доказателство за нови рецепти. Създаването/произходът на4/5бонуси още не са реализирани. Следва отделно общо обсъждане4+4/4+5/5+5. Само собствени текстови отчети;без merge.
+Препоръка: GPT-6.1 Sol / High.
+
+АКТУАЛНО — ЦВЕТНО СЛИВАНЕ В ЧЕРНА ДУПКА И L-РАЗЛОМ
+По човешката задача Codex направи реална локална проба: огненото оранжево и тюркоазеният вятър се завъртат,смесват и потъмняват преди засмукването. Новият L · EARTHQUAKE разпуква две перпендикулярни линии; Rotate L сменя посоката. Само съществуващото Tornado+Volcano прави BlackHole. 290нови+80Core+94Storm проверки PASS; два реални Godot записа. Отворено на екран1. Match4/5 създаването остава дизайн,а тази задача е анимация/предварително поставена сила. Виж builds/FUSION_EARTHQUAKE_PASS_2026-10-18.txt и FUSION_EARTHQUAKE_REVIEW_PATCH_2026-10-18.txt. Човешкият преглед предстои. Само собствени текстови Git отчети/patch,без merge/нови grants/автоматични външни задачи.
+Препоръка: GPT-6.1 Sol / High.
+
+АКТУАЛНО — ПО-ТЪМНИ ОБЛАЧЕТА И МАЛКА БУРЯ ПРЕДИ УДАРА
+По човешката задача Codex потъмни облаците почти до черно, добави надигане/завихряне и кратък вътрешен заряд. По-ясната светкавица, разпукването и новият гръм са настроени към пика на удара. Само външната рамка; Core, цели, save, Volcano/Tornado са запазени. 30 нови и24 audio проверки PASS; реален Godot запис с26цели и един V2cue, byte-identical event/result/final-state спрямо предишната проба. Новата проба е на екран1; Reset повтаря. Човешкият визуален/звуков преглед предстои. Виж builds/DARK_STORM_PASS_2026-10-17.txt и DARK_STORM_REVIEW_PATCH_2026-10-17.txt. Само собствени текстови Git отчети/patch, без merge/нови grants/автоматични чужди задачи.
+Препоръка: GPT-6.1 Sol / High.
+
+АКТУАЛНО — LIGHTNING STORM УДРЯ САМО ВЪНШНАТА РАМКА
+Човекът потвърди „Само външната рамка“. Codex добави отделна сила с тъмни облачета,маркирани крайни камъчета и по една светкавица на три групи;вътрешните ръбове на дупките са изключени. Новата проба е на екран1 с избрана LIGHTNING STORM. Има кратък мек гръм,Reset/Skip/reduced.94 Storm+24 audio проверки и старите Core/Tornado/Volcano регресии PASS;реален Godot запис с26цели и един soundcue. Виж builds/LIGHTNING_STORM_PASS_2026-10-17.txt и LIGHTNING_STORM_REVIEW_PATCH_2026-10-17.txt. Човешко приемане предстои. Само собствени текстови Git отчети/patch,без merge/нови grants/кампания/save или автоматични задачи за другите ботове.
+Препоръка:GPT-6.1 Sol / High.
+
+АКТУАЛНО — TORNADO ИМА СОБСТВЕН ВЯТЪР И МАГИЧЕСКИ ЗВУКОВ ФИНАЛ
+Човекът възложи звука. Codex свърза оригинален1.42s клип:набиращ вятър,завихряне,засмукване и мек тритонов финал. Пуска се веднъж;старият end-break е потиснат,каскадите пазят каменния звук. Reduced използва .22s тихо издишване;Reset/Skip спират всичко.55 фокусирани проверки и36 Volcano MP3 regression PASS;два реални Godot записа с един clipcue и byte-identical event/result/final-state спрямо предишната анимация. Виж builds/TORNADO_SOUND_PASS_2026-10-17.txt и TORNADO_SOUND_REVIEW_PATCH_2026-10-17.txt. Новата локална проба е на екран1. Човешко прослушване предстои. Старото „няма Tornado звук“ е история. Само собствени текстови Git отчети/patch,без merge/нови grants/задачи за другите ботове.
+Препоръка:GPT-6.1 Sol / High.
+
+АКТУАЛНО — TORNADO СЕ ВЪРТИ НА МЯСТО И ЗАСМУКВА СЪСЕДНИТЕ КАМЪНИ
+Човекът избра кръгов обхват:до8 съседни клетки(с диагоналите),без дупки/руни/други сили. Codex реализира локален вихър като пумпал,маркиране и спирално засмукване;едно движение,същите последващи каскади. Има един TORNADO бутон и пробата стартира с него. Двата реални Godot записа PASS,195 фокусирани проверки+33 corner draw+80 Core+36 Volcano MP3 PASS. Виж builds/TORNADO_TOP_PASS_2026-10-17.txt и TORNADO_TOP_REVIEW_PATCH_2026-10-17.txt. Volcano MP3 и Black Hole са запазени. Пробата е отворена на екран1;човешко приемане предстои. Git тук съдържа само собствени текстови отчети/patch по REPORTS_ONLY,без merge/нови grants/задачи за другите ботове. Предишните ред/колона описания са история.
+Препоръка:GPT-6.1 Sol / High.
+
+АКТУАЛНО — ДОСТАВЕНИЯТ MP3 ВЕЧЕ Е ПРИЛОЖЕН В GODOT
+След въпроса на човека Codex свърза точния MP3 от Grok b5e7844 към локалния Painted Volcano. Пуска се веднъж, без наслагване на предишните три WAV. Изстрелването е на0.36s, попаденията и Core са запазени; Reset/Skip спират звука. Нов MP3 тест и9 integration cases PASS; реален запис има точно един clip cue. Виж builds/VOLCANO_DELIVERED_CLIP_APPLIED_2026-10-17.txt и VOLCANO_DELIVERED_CLIP_PATCH_2026-10-17.txt. Пробата е презаредена на екран1. Старите отчети за трите WAV са история. Човешко прослушване предстои. Без merge/нови grants/задачи за другите ботове; Git тук съдържа само собствени текстови отчети.
+Препоръка:GPT-6.1 Sol / High.
+
+АКТУАЛНО — VOLCANO ИМА СИНХРОНИЗИРАН ЗВУК
+Codex добави локално изригване, полет и каменно разпукване с догаряне към реалните цели. Painted ON използва новия звук; OFF пази старата проба. Reset/Skip го спират, Reduced motion има един кратък тих ефект. 94 аудио проверки и 9 интеграционни случая PASS; реални Godot записи с 1 изригване + 5 полета + 5 попадения, еднакви Core/event/result/end-state. Звуковият PCM от записа е проверен, човешкото прослушване предстои. Виж builds/VOLCANO_AUDIO_PASS_2026-10-17.txt и VOLCANO_AUDIO_REVIEW_PATCH_2026-10-17.txt. Кодът/WAV са в локалната проба и handoff ZIP; governed Git съдържа само собствени текстови отчети. Няма merge или нова задача за GPT/Grok.
+Препоръка: GPT-6.1 Sol / High за интеграцията; Medium за текстов отчет.
+
+АКТУАЛНО — VOLCANO ВЕЧЕ ИМА ПЛАМЪЦИ И ОБГАРЯНЕ НА КЛЕТКИТЕ
+По пряка човешка задача Codex доработи текущата локална проба:горящи лавови камъни,огнени следи,пламване/искри и временно обгаряне с формата на ударената клетка. Иконката,целите,Core,щетите и1.04s са запазени. Реални Godot записи и9integrationcases PASS;control/candidate имат идентични event/result/end-state. Виж builds/VOLCANO_FIRE_PASS_2026-10-17.txt и VOLCANO_FIRE_REVIEW_PATCH_2026-10-17.txt. Пробата е отворена на екран1;Painted ON,Reset за повторение. СамоVolcano е доработен. Няма човешко/Android приемане,нови grants,merge или nativePNG/code публикация в governedGit. Старите материали са запазени. Не повтаряйте R1 или автоматично чужда арт задача.
+Препоръка:GPT-6.1 Sol / High за VFX;Medium за текстов отчет.
+
+АКТУАЛНО — CODEX НАПРАВИ ПЪРВАТА РИСУВАНА VOLCANO АНИМАЦИЯ
+Човекът изрично възложи изпълнение: „vuprosut e koi shte pravi animaciite ti ?,davai togava“. Отделна локална MagicAnimations проба е пусната на екран1. Харесаните иконки и времена са запазени;нови рисувани камъче/пепел/прах са свързани към същия Core event. Painted превключва control/candidate;два реални Godot записа имат еднакви event/result/end-state. Виж builds/PAINTED_VOLCANO_PASS_2026-10-17.txt и PAINTED_VOLCANO_REVIEW_PATCH_2026-10-17.txt. Само Volcano е подобрен;другите сили са baseline. Няма човешко/Android приемане. Git съдържа текстов отчет/patch proposal,не native game/PNG публикация и не разширени grants. Не повтаряйте R1 и не започвайте автоматично чужди арт задачи;следва обратна връзка от играта.
+Препоръка: GPT-6.1 Sol / High за анимацията;Medium за текстова публикация.
+
+МАГИЧЕСКИ АНИМАЦИИ — R1 И PEER ОТГОВОРИТЕ СА ПОЛУЧЕНИ
+Проверени GPT2bbc546/4f5b5f6 и Grokb25cb4a. Прочети designs/MAGIC_ANIMATION_SYNTHESIS_AND_FIRST_PASS_BG.txt. Общата препоръка за първи pass е Codex интеграция, Grok четири малки текстури, GPT материален/визуален преглед; текущите иконки и времена остават. Няма анимационен победител и няма нови произведени assets. Не повтаряйте R1 или peer response, не започвайте автоматично стара art задача. Следва конкретната обща Volcano проба с контрол и нов кандидат при отделно разрешен production scope. REPORTS_ONLY grants и играта остават непроменени. Предишните WAITING записи по-долу са история.
+Препоръка: GPT-6.1 Sol / High за Codex интеграцията; Grok Build за бъдещата texture доставка.
+
+АКТУАЛНО: МАГИЧЕСКИ АНИМАЦИИ — MAGIC_ANIMATION_R1_2026-10-17
+Човекът хареса текущата иконка и поиска един Git разговор кой и как ще направи най-добрата пълна магическа анимация. Прочети designs/MAGIC_ANIMATION_TEAM_BRIEF_BG.txt. Един общ startup промпт: designs/START_MAGIC_ANIMATION_DISCUSSION_BG.txt. Codex има свое предложение. GPT/Grok дават свои storyboard, capability, delivery и lead предложения в собствените task-001 REPORT-и, без да се изчакват преди R1. Пазим иконките и обсъдените механики. Няма предварителен победител; качеството ще се сравнява с работещи проби. Засега REPORTS_ONLY, без генерации, реализация, grants или merge. Старото изчакване само на човека по-долу вече не описва този нов разговор.
+Препоръка за Codex: GPT-6.1 Sol / High; Grok Build.
+
+ИГРАЕМАТА ПРОБА С ПРИРОДНИ СИЛИ Е ГОТОВА ЛОКАЛНО — 2026-10-17
+Човекът изрично възложи реализация: „щом сте го измислили задействай се“. Codex направи отделен Natural Powers Lab,432x960,екран1:вулкан,TornadoH/V,контактен Black Hole,reset/skip/reduced motion. Предпоставените сили са тестови fixtures;кампанията/save не са променени. Реален Godot scripted-native-input PASS;не е човешки/Android тест. Виж builds/NATURAL_POWERS_LAB_2026-10-17.txt и literal source-delta proposal NATURAL_POWERS_LAB_REVIEW_PATCH_2026-10-17.txt.
+Играемият проект е локален. Git съдържа собствени текстови доклади/patch proposal по REPORTS_ONLY;това не разширява grants. Не повтаряйте стария R1 и не започвайте нов art/implementation task автоматично. Изчакваме човека да пробва. Старите „не е възложено“/WAITING записи по-долу са история. Няма merge.
+Препоръка:GPT-6.1 Sol / High за механики/ефекти,Medium за текстова публикация.
+
+ОБСЪЖДАНЕТО ЗА ПЪРВАТА ПРОБА С ПРИРОДНИ СИЛИ Е ПРИКЛЮЧЕНО — 2026-10-17
+Проверени GPT f7a051c и Grok 5540979. Има обща препоръка за ограничената проба: съседна размяна Tornado+Volcano, без пряк Black Hole удар по почва/руни; нормалните refill каскади могат да ги засегнат. Без вериги от specials в първата проба. Codex подкрепя тази препоръка.
+Прочети designs/NATURAL_POWERS_FIRST_PROBE_AGREEMENT_BG.txt. Няма нужда от повторение на R1 или нов peer response. Предишните WAITING/следващи задачи по-долу са история. Няма човешко одобрение на баланс/кампания, реализация, нови assets, grant промени или merge. Следва човешко решение по конкретната проба, не автоматично изпълнение.
+GPT-6.1 Sol / High за бъдещата bounded проба; Medium за публикация.
+
+АКТУАЛНО ОБСЪЖДАНЕ — ПРИРОДНИ СИЛИ — 2026-10-17
+Човекът поиска GPT,Grok иCodex да обсъдят презGit новите природни бонуси,особено вулкана и специалното условие за черната дупка. Това е REPORTS_ONLY обсъждане в task-001,НЕ подновяване на art task-002 и НЕ реализация.
+Прочети designs/NATURAL_POWERS_TEAM_REVIEW_R1_BG.txt от този hub. GPT/Grok публикуват собствен независимR1раздел в discussions/<BOT>/task-001/REPORT.txt наcodex/<BOT>/task-001,после един peer-review ако има реален отговор. Старото предложение с две ядра не е одобрено. Има начална Codex позиция и три класа варианти за сравнение. Отговорите са вGit,не през препращане на файлове от човека.
+Текущата локална игра/арт остават;няма нови grants,сцени,генерации илиmerge. Приоритетът тук е да изберем правила/анимационна идея,не да обявим фалшив консенсус. Препоръка GPT-6.1 Sol / High;Grok Build.
+
+АКТУАЛНО: човекът поиска сглобяване на текущия Frankenstein за игра. Локалната PC проба е пусната; виж TASK_QUEUE и builds/LOCAL_FRANKENSTEIN_PLAYTEST_2026-10-17.txt за точните входове, проверките и patch proposal. Засега пази арт файловете и изчакай реалната обратна връзка; не изпълнявай автоматично старите задачи за ново рисуване/closure по-долу. Тази текстова инструкция не дава нов Git implementation grant.
+
+АКТУАЛНО R1 EXPORT CLOSURE: R1 е предаден и проверен. Не повтаряй старото рисуване по ANIMATION_REVISION_R1. GPT пази master. Grok прочита reviews/STAGE_B_R1_REVIEW_2026-10-17.txt и изпълнява само reviews/R1_EXPORT_CLOSURE_BG.txt — актуални данни и idle/ходене/idle preview, без нови PNG кадри или висок заден отлеп. TASK_QUEUE определя текущата стъпка; по-старите актуализации долу са история.
+
+АКТУАЛНО 2026-10-17: Stage B е предаден и прегледан. Има REVISION_R1_REQUIRED, не разрешение за интеграция. Grok прочита reviews/STAGE_B_REVIEW_2026-10-17.txt и изпълнява reviews/ANIMATION_REVISION_R1_BG.txt от същия PROJECT_HUB. GPT пази master-а без нова генерация. Тази актуализация заменя по-старото „започни Stage B“ по-долу.
+
+Работим по един общ GnomiT проект през Git. Прочети актуалния общ вход и изпълни своята следваща задача:
+
+https://github.com/Fuet-Goat/GnomiT-review-test/blob/codex/codex/task-001/discussions/codex/task-001/PROJECT_HUB/START_HERE.txt
+
+Прочети PROJECT_MAP.txt, TEAM_RULES_BG.txt, FOLDER_MAP.txt, TASK_QUEUE.txt и ASSET_CATALOG.txt от същата папка. Следвай актуалната обща художествена спецификация.
+
+АКТУАЛНО ПРЕДАВАНЕ: Етап A е READY_FOR_ANIMATION при commit 0a2b6e3d2736d8c787026718205e15dee8a6fc0f. Самият ART_HANDOFF и реалният master са в GPT branch. Публикуването е изпълнено от Codex локално; външният GPT DNS blocker е запазен като история. GPT пази приетия за анимационен вход master и не го генерира отново. Grok продължава към Етап B от този exact commit. По-късна промяна важи само ако е изрично описана в актуалната TASK_QUEUE и валиден handoff.
+
+Определи ролята си според действителния изпълнител:
+- GPT/ChatGPT: BOT=gpt, ART OWNER. Почистваш един каноничен master герой и отделна сянка, подготвяш точния сценен композит и ART_HANDOFF. Не започваш нов герой или анимационен вариант.
+- Grok: BOT=grok, ANIMATION OWNER. Сам прочиташ валидния GPT ART_HANDOFF от Git, проверяваш точния master commit/hash, след това добавяш front/rear анимации на СЪЩИЯ герой. Ако master липсва, отчети WAITING в собствен WORK_STATUS/REPORT; без друг герой и без дублиращи commits.
+
+Провери tasks/<BOT>/task-002.json от main. Работи на codex/<BOT>/task-002 и само в собствените одобрени art/outputs/discussions roots. Папките и точните изходни paths са във FOLDER_MAP.txt; личният вход е sandbox/<BOT>/task-002/outputs/shared-v2/START_HERE.txt.
+
+Всичко остава в Git: референции, artwork, анимации, проби, превюта, действителни тестови резултати, идеи, ревюта, статуси и отчети. Използвай подготвените папки. Пази оригиналните версии и историята. Никога не редактирай чужд master или REPORT; дай забележка в собствения reviews/ и доклад.
+
+След работа актуализирай WORK_STATUS.json и добави към собствения REPORT какво си прочел, направил, проверил и какво блокира. Публикувай реалните файлове, повторно ги изтегли от точния commit и провери bytes/SHA-256 преди READY. Следващият бот сам взема handoff от Git; не карай човека да препраща файлове, ZIP или чужди отговори.
+
+Резервирани папки за UI/audio/gameplay/builds не са разрешение да разширяваш текущата задача. Без Godot/game/source/save/audio/grant промени, merge или нови агенти. Ако средата не може да чете/публикува реални байтове в Git, запиши точния blocker чрез работещия Git канал; не измисляй commit/READY и не връщай ръчния relay през човека.
+
+В чата върни кратко само: роля, статус, точен commit и линк към собствения REPORT/handoff.
+
+Препоръки: GPT — GPT-6.1 Sol / High за artwork; Grok — Build с реално записания собствен модел; само Git/папки/хеш проверки — Medium. Моделът/режимът не се сменя автоматично от този текст.

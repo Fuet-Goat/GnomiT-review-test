@@ -1,0 +1,12 @@
+INDEPENDENT READ-ONLY REVIEW — original_sfx_review
+Reviewed four WAVs, metadata, comparison strip and generator directly. No files modified.
+No blocking technical signal issue found. PCM16/mono/48kHz; zero clipping;
+zero boundaries; low DC; exact file/PCM hash matches. No external sample inputs.
+Durations .24/.78/1.62/.76 seconds. Peaks -9.222/-4.500/-4.000/-5.000 dBFS.
+The break's fragments become very quiet after approximately .53 seconds; its
+container length does not mean all .78 seconds have equally present debris.
+Volcano magical ending is quieter than the blast; audibility in the actual
+game mix remains a listening question. Whole-file RMS is biased by decay/container
+length. First 100ms move/break RMS approximately -22.27/-16.11 dBFS supports the
+intended softer foreground movement. Actual material realism and artistic quality
+require user listening. This review is signal/code inspection, not a human test.

@@ -1,0 +1,14 @@
+{
+  "status": "ORIGINAL_ACTION_KEYS_REST_BONES_STUDIO_MATERIALS_EXACT_MATCH",
+  "protected_original_objects": 32,
+  "allowed_topology_change": "Right upper coat faces + separate sleeve + torso patch",
+  "original_actions": [
+    "RigR1_SoftGreeting_6s_24fps"
+  ],
+  "new_action_keys": 0,
+  "new_bones": 0,
+  "source_sha256": "43e9832811a89f9f4af660097f9b3abd69744f919f6179859763b00bdd0283be",
+  "native_sha256": "0335bcc275bfbc8e3b7d3ea43bde2fad6c8ece5281a750007290ef154ac8bffc",
+  "human_visual_acceptance": "PENDING",
+  "game_integration": false
+}

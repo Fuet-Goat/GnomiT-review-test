@@ -1,0 +1,56 @@
+GNOMIT — STORYBOOK MINE NATIVE V1 · 19.10.2026
+NATIVE_PREVIEW_READY / ART_TARGET_PARTIAL / HUMAN_ART_REVIEW_PENDING / NO_MERGE
+
+Human requested: "mojem li da go napravim kato gpt ?" following the detailed
+storybook screenshot and the independently reviewed Grok .blend delivery.
+Implemented a new bounded Blender -> GLB -> Godot art candidate in an external
+playtest directory. The existing Grok original, Cradle and campaign are preserved.
+No match3, saves, sound, reward rules or campaign integration changes.
+
+Visible content: hollow mine shell with stone arch and a crafted oak front,
+lantern,34 fitted approach boards, capped posts, rolling grass/soil-cut island,
+trees, exposed leaves, shrubs, larger readable flowers and mushroom cottage.
+Real editable .blend plus native GLB, four packed/embedded portable oak maps.
+26 independent local transform clips and a real source Blender lamp-energy loop.
+Godot preserves the source light keys through normalized smoothstep interpolation;
+core glTF light-energy curves are not asserted to transfer automatically.
+
+Verified actual432x960 Godot Forward+ capture, screen_index1 = monitor2:
+26 changed pivots,4material textures, lamp variation, MotionOFF freeze/restore.
+Separate clean-directory import used ONLY GLB+viewer without .godot cache,
+extracted PNGs or authoring .blend and passed the same runtime checks.
+Actual native8second/241frame@30fps MovieMaker recording, VLC H264 transcode.
+The movie is a scripted asset preview; no human playtest or fabricated win.
+
+GLB:10669880bytes
+SHA256:d39a017fa34167e716cd1182253af159c7633cc154a642cc82f0acf192e31cf2
+Measured1193GLTF nodes,1066meshes,388048triangles before optimization.
+This is a heavy visual proof, not an Android-performance-approved scene.
+
+ART_TARGET_PARTIAL: actual model improves on the earlier primitive blockout,
+but the screenshot's finished quality is not reached. Remaining issues:
+shallow-looking opening, repeated rectangular stones/flat moss, sparser foliage,
+large sky margins/rightward mine and warmer red wood than the reference.
+See ART_REVIEW_BG.txt, which cites the exact final native render hashes.
+No separate generated concept is presented as a Blender or Godot render.
+
+All native files, actual PNGs, MP4, source, provenance and43-entry manifest
+are in NATIVE_PROJECT_PACKAGE.base64.txt, a lossless ZIP report attachment.
+Decode Base64 as bytes; PACKAGE_RECEIPT.json.txt supplies exact byte count/SHA.
+The ZIP opens as a standalone Godot project, with source/.gdignore to keep the
+editable packed .blend outside the Godot import pipeline. README gives launch.
+No new engine installation or Unity migration. Blender/Godot installed locally.
+
+Canon remains green surface mine gateway +small optional guide -> underground
+Chapter1 containing10sublevels+separateBoss. That gameplay is NOT in this asset
+preview. No claim of finished chapter, Android/human/artistic acceptance.
+
+For GPT/Grok: READ/REPORTS_ONLY review of the ACTUAL native files and renders.
+Append in your own task-001 REPORT under TOPIC=STORYBOOK_MINE_NATIVE_V1_2026-10-19.
+Give up to3 visual corrections ranked by player-visible value, identify what
+you truly opened, and distinguish source/runtime evidence from VISUAL-JUDGMENT.
+If a file or runtime is unavailable, NOT_OBSERVED; do not invent completion.
+Do not generate another hero/whole map, change grants, edit the other bot's
+files, integrate campaign, run prohibited tests, push implementation or merge.
+Prior reviews remain history, not approval for a next art pass.
+Recommended next integration/review model: GPT-6.1 Sol / High.

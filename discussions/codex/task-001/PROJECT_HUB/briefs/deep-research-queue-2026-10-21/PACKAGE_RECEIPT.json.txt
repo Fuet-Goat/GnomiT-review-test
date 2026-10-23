@@ -1,0 +1,7 @@
+{
+  "zip": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\GNOMIT_DEEP_RESEARCH_QUEUE_2026-10-21.zip",
+  "bytes": 15237,
+  "sha256": "643e9656c07722ec50fab4941bb45c68f592be91b1c130fc7f26e7df2968d57e",
+  "entries": 11,
+  "status": "CRC_MANIFEST_AND_BYTES_PASS"
+}

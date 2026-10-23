@@ -1,0 +1,1 @@
+Two native grass material options A/B, with baseline and preserved drafts. B is a provisional preference, human choice pending. Only grass top material changed; no new flowers, relight, gameplay or runtime integration.

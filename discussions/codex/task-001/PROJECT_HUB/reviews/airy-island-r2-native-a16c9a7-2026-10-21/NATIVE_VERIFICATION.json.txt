@@ -1,0 +1,307 @@
+{
+  "status": "R2_NATIVE_REOPEN_CONTROL_AND_GLB_REIMPORT_PASS",
+  "source_commit": "a16c9a71e21233ce9d48eeb8ae20ac56bf1500d2",
+  "blender_version": "5.2.2 LTS",
+  "input_sha256": {
+    "gnomit_airy_island_v001.blend": "22c059ba6fb0b083357b497b20a7e3b03c257aa679ab4e273b37d36dd993be2e",
+    "EXPORT\\gnomit_airy_island_v001.glb": "04dac414cf57baa36dde56286482748abf6987a14127b2b6ded6d519291a5657"
+  },
+  "output_guards": [
+    {
+      "output_argument": "relative_r2_guard_output",
+      "expected": "ValueError",
+      "actual": "ValueError",
+      "message": "--output must be absolute"
+    },
+    {
+      "output_argument": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\AiryIsland_GPT_R2_Exact_v001",
+      "expected": "FileExistsError",
+      "actual": "FileExistsError",
+      "message": "Output must be a NEW directory: C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\AiryIsland_GPT_R2_Exact_v001"
+    }
+  ],
+  "blend_reopen": {
+    "status": "PASS",
+    "geometry": {
+      "mesh_objects": 580,
+      "evaluated_triangles": 205350,
+      "bounds_min": [
+        -4.079174995422363,
+        -10.544461250305176,
+        -1.8300000429153442
+      ],
+      "bounds_max": [
+        4.247926235198975,
+        10.04887866973877,
+        4.322673797607422
+      ],
+      "important_evaluated_signed_volumes_local_m3": {
+        "Island_Grass_Cap": 37.67479186997247,
+        "Island_Warm_Earth_Cut": 278.30028295758626,
+        "Continuous_Timber_Underdeck": 3.527947577319768,
+        "Mine_Arch_Stone_00": 0.10247236639224866,
+        "Mine_Arch_Stone_01": 0.12892537741087534,
+        "Mine_Arch_Stone_02": 0.10826598931861611,
+        "Mine_Arch_Stone_03": 0.11216977363703447,
+        "Mine_Arch_Stone_04": 0.13729433102201888,
+        "Mine_Arch_Stone_05": 0.11493402582626736,
+        "Mine_Arch_Stone_06": 0.09757268604904915,
+        "Mine_Arch_Stone_07": 0.12274964344275457,
+        "Mine_Arch_Stone_08": 0.1158011104651667
+      },
+      "important_base_topology": {
+        "Island_Grass_Cap": {
+          "boundary_edges": 0,
+          "nonmanifold_edges": 0,
+          "base_signed_volume_local_m3": 37.67479186997247
+        },
+        "Island_Warm_Earth_Cut": {
+          "boundary_edges": 0,
+          "nonmanifold_edges": 0,
+          "base_signed_volume_local_m3": 278.30028295758626
+        },
+        "Continuous_Timber_Underdeck": {
+          "boundary_edges": 0,
+          "nonmanifold_edges": 0,
+          "base_signed_volume_local_m3": 3.5281182192402976
+        },
+        "Mine_Arch_Stone_00": {
+          "boundary_edges": 0,
+          "nonmanifold_edges": 0,
+          "base_signed_volume_local_m3": 0.11007814217979708
+        },
+        "Mine_Arch_Stone_01": {
+          "boundary_edges": 0,
+          "nonmanifold_edges": 0,
+          "base_signed_volume_local_m3": 0.13703638152219355
+        },
+        "Mine_Arch_Stone_02": {
+          "boundary_edges": 0,
+          "nonmanifold_edges": 0,
+          "base_signed_volume_local_m3": 0.11584876306975883
+        },
+        "Mine_Arch_Stone_03": {
+          "boundary_edges": 0,
+          "nonmanifold_edges": 0,
+          "base_signed_volume_local_m3": 0.11979998291159673
+        },
+        "Mine_Arch_Stone_04": {
+          "boundary_edges": 0,
+          "nonmanifold_edges": 0,
+          "base_signed_volume_local_m3": 0.1453828935045749
+        },
+        "Mine_Arch_Stone_05": {
+          "boundary_edges": 0,
+          "nonmanifold_edges": 0,
+          "base_signed_volume_local_m3": 0.122562604645888
+        },
+        "Mine_Arch_Stone_06": {
+          "boundary_edges": 0,
+          "nonmanifold_edges": 0,
+          "base_signed_volume_local_m3": 0.10485695508153486
+        },
+        "Mine_Arch_Stone_07": {
+          "boundary_edges": 0,
+          "nonmanifold_edges": 0,
+          "base_signed_volume_local_m3": 0.13071937602944672
+        },
+        "Mine_Arch_Stone_08": {
+          "boundary_edges": 0,
+          "nonmanifold_edges": 0,
+          "base_signed_volume_local_m3": 0.1237718022045253
+        }
+      }
+    },
+    "packed_images": [
+      "Airy_bark",
+      "Airy_endgrain",
+      "Airy_wood",
+      "Airy_wood_dark",
+      "Airy_wood_light"
+    ],
+    "actual_camera_bounds": [
+      0.04500001668930054,
+      0.05972747132182121,
+      0.9549999833106995,
+      0.9402722716331482
+    ]
+  },
+  "glb_reimport": {
+    "status": "PASS",
+    "geometry": {
+      "mesh_objects": 580,
+      "evaluated_triangles": 205350,
+      "bounds_min": [
+        -4.079174995422363,
+        -10.544461250305176,
+        -1.8300000429153442
+      ],
+      "bounds_max": [
+        4.247926235198975,
+        10.04887866973877,
+        4.322673797607422
+      ],
+      "important_evaluated_signed_volumes_local_m3": {
+        "Continuous_Timber_Underdeck": 3.527947577319768,
+        "Island_Grass_Cap": 37.67479186997247,
+        "Island_Warm_Earth_Cut": 278.3002829575863,
+        "Mine_Arch_Stone_00": 0.10247236639224866,
+        "Mine_Arch_Stone_01": 0.12892537741087534,
+        "Mine_Arch_Stone_02": 0.10826598931861611,
+        "Mine_Arch_Stone_03": 0.11216977363703447,
+        "Mine_Arch_Stone_04": 0.13729433102201888,
+        "Mine_Arch_Stone_05": 0.11493402582626736,
+        "Mine_Arch_Stone_06": 0.09757268604904915,
+        "Mine_Arch_Stone_07": 0.12274964344275457,
+        "Mine_Arch_Stone_08": 0.1158011104651667
+      },
+      "important_base_topology": {
+        "Continuous_Timber_Underdeck": {
+          "boundary_edges": 20648,
+          "nonmanifold_edges": 20648,
+          "base_signed_volume_local_m3": 3.527947577319768
+        },
+        "Island_Grass_Cap": {
+          "boundary_edges": 448,
+          "nonmanifold_edges": 448,
+          "base_signed_volume_local_m3": 37.67479186997247
+        },
+        "Island_Warm_Earth_Cut": {
+          "boundary_edges": 962,
+          "nonmanifold_edges": 962,
+          "base_signed_volume_local_m3": 278.3002829575863
+        },
+        "Mine_Arch_Stone_00": {
+          "boundary_edges": 384,
+          "nonmanifold_edges": 384,
+          "base_signed_volume_local_m3": 0.10247236639224866
+        },
+        "Mine_Arch_Stone_01": {
+          "boundary_edges": 384,
+          "nonmanifold_edges": 384,
+          "base_signed_volume_local_m3": 0.12892537741087534
+        },
+        "Mine_Arch_Stone_02": {
+          "boundary_edges": 384,
+          "nonmanifold_edges": 384,
+          "base_signed_volume_local_m3": 0.10826598931861611
+        },
+        "Mine_Arch_Stone_03": {
+          "boundary_edges": 384,
+          "nonmanifold_edges": 384,
+          "base_signed_volume_local_m3": 0.11216977363703447
+        },
+        "Mine_Arch_Stone_04": {
+          "boundary_edges": 384,
+          "nonmanifold_edges": 384,
+          "base_signed_volume_local_m3": 0.13729433102201888
+        },
+        "Mine_Arch_Stone_05": {
+          "boundary_edges": 384,
+          "nonmanifold_edges": 384,
+          "base_signed_volume_local_m3": 0.11493402582626736
+        },
+        "Mine_Arch_Stone_06": {
+          "boundary_edges": 384,
+          "nonmanifold_edges": 384,
+          "base_signed_volume_local_m3": 0.09757268604904915
+        },
+        "Mine_Arch_Stone_07": {
+          "boundary_edges": 384,
+          "nonmanifold_edges": 384,
+          "base_signed_volume_local_m3": 0.12274964344275457
+        },
+        "Mine_Arch_Stone_08": {
+          "boundary_edges": 384,
+          "nonmanifold_edges": 384,
+          "base_signed_volume_local_m3": 0.1158011104651667
+        }
+      }
+    },
+    "max_bounds_error_m": 0.0,
+    "max_anchor_error_m": 0.0,
+    "images": [
+      {
+        "name": "Airy_bark",
+        "size": [
+          256,
+          256
+        ],
+        "packed": true
+      },
+      {
+        "name": "Airy_endgrain",
+        "size": [
+          256,
+          256
+        ],
+        "packed": true
+      },
+      {
+        "name": "Airy_wood",
+        "size": [
+          256,
+          256
+        ],
+        "packed": true
+      },
+      {
+        "name": "Airy_wood_dark",
+        "size": [
+          256,
+          256
+        ],
+        "packed": true
+      },
+      {
+        "name": "Airy_wood_light",
+        "size": [
+          256,
+          256
+        ],
+        "packed": true
+      }
+    ]
+  },
+  "control_53deg": {
+    "camera": {
+      "name": "Portrait_Camera.001",
+      "type": "ORTHO",
+      "sensor_fit": "VERTICAL",
+      "location": [
+        0.08437561988830566,
+        -23.799638748168945,
+        31.879295349121094
+      ],
+      "rotation_euler_radians": [
+        0.645771861076355,
+        -0.0,
+        0.0
+      ],
+      "ortho_scale": 21.320232061239388,
+      "projected_geometry_bounds_normalized": [
+        0.06603032535972059,
+        0.0449999860215769,
+        0.9339696746402795,
+        0.954999986021577
+      ],
+      "margin_input": 0.045,
+      "framing_check": "Mathematical bounds only; actual rendered framing still needs observation"
+    },
+    "render": {
+      "path": "R2_CONTROL_53deg_432x960.png",
+      "width": 432,
+      "height": 960,
+      "samples": 48,
+      "operator_finished": true,
+      "png_header_verified": true,
+      "visual_acceptance": "PENDING_HUMAN_REVIEW"
+    },
+    "scope": "Same R2 geometry, materials, lighting, seed and48samples. Only camera elevation changes; camera fitting recomputed at same R2 margin."
+  },
+  "elapsed_seconds": 12.061895847320557,
+  "inputs_unchanged": true,
+  "godot": "NOT_RUN",
+  "android": "NOT_RUN",
+  "human_art_acceptance": "PENDING"
+}

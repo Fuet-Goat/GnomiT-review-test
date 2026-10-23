@@ -1,0 +1,79 @@
+GNOMIT — CODEX R3: TREES / MINE / LIGHT POLISH
+Date:2026-10-21 Europe/Sofia
+Status:NATIVE_R3_POLISH_VERIFIED / HUMAN_ART_ACCEPTANCE_PENDING / NOT_INTEGRATED
+Base:GPT R2 source a16c9a71e21233ce9d48eeb8ae20ac56bf1500d2;
+native review0989c3c820aa2988c52c86afa3768eabd2d84ba8.
+Human authorized the next bounded polish with davai after the R2 status.
+
+WHAT CHANGED
+Trees: each tree now has ONE closed native editable crown. Five overlapping
+analytic ellipsoid ray envelopes form a continuous softly lobed surface, with
+a polynomial smooth maximum. No external mesh or remesh add-on. Original five
+tree transforms, trunks, roots, branches and single RNG phase draw remain.
+The existing daisies follow the real surface; one two-leaf sprig replaces the
+old detached thin tip leaves. Warm bark and restrained leaf sheen support volume.
+Mine: nine irregular beveled arch stones, eight rounded angular buttress stones,
+four varied roof boulders, thicker softened portal timbers and sparse moss.
+Same doorway transform, hollow shell and threshold/route location. A real amber
+point light reveals depth inside the mine; no neon outline or particles.
+Lighting: broad warm key, restrained fill, Medium High Contrast AgX look and
+modest exposure. Tree/stone/moss/sky palette refined. Existing wood/grass/red/
+cream palette values unchanged; global lighting still changes their appearance.
+
+ACTUAL ITERATIONS
+DRAFT01_PRESERVED is the complete first native48sample build: its crown was
+coherent but too smooth. One source refinement made the lobes clearer, added
+the attached leaf pair and slightly reduced exposure/stone brightness.
+R3_SELECTED is the final candidate for this bounded task:192samples, actual
+432x960 and864x1920 renders, native.blend and embedded-texture GLB.
+The directory word Final identifies the selected iteration, not human approval.
+Previous R1/R2 worlds, all old shortcuts and the first R3 attempt are retained.
+
+PRESERVATION PROVED
+geometry.py, boardwalk.py and presentation.py are byte-identical to GPT R2.
+Environment functions other than tree are unchanged. Terrain/road/mine/cottage/
+tree-spec/decoration/camera setting blocks match R2 exactly. No added ground
+scatter or changed path/anchors. The native verifier freshly loaded R2 and R3:
+353 protected objects have identical hashes of local vertices, polygon
+topology and world matrices in TERRAIN/BOARDWALK/PLANTS/ROCKS/ANCHORS.
+Material appearance may change; this is a geometry/placement preservation check.
+Camera43degree settings retained; automatic fitting is recomputed, not locked.
+
+NATIVE CHECKS ACTUALLY PERFORMED
+Blender5.2.2 LTS d13f752e3b9c; background factory startup, autoexec disabled,
+Python failure exit1. Selected build exit0 and complete output receipt.
+Saved.blend opened in a fresh process and192sample432x960 rerender completed.
+Turf/earth/underdeck/nine arch stones/five crowns:17 selected meshes have closed
+base topology and positive signed volume before modifiers and after evaluation.
+GLB imported in a fresh empty scene:542meshes,208514evaluated triangles;
+native bounds and three anchor translations match with maximum error0m.
+Five packed256x256 authored maps survive; route/level/camera names preserved.
+Relative-output and existing-directory guards refused as expected. Native
+.blend/GLB input hashes unchanged by verification. PNGs fully decoded.
+The R2 verifier was adapted with protected-geometry and five-crown checks;
+both native build and full verifier exited0. Blender retained its tiny shutdown
+notice of1 unfreed block/0.000023MB after import; recorded, not mobile profiling.
+
+OBSERVED QUALITY AND LIMITS
+Read-only art review viewed real R2 and R3: coherent lobed trees, clearer trunks,
+rounded mine mound, warm entrance and brighter directional light. No visible
+road obstruction or floating geometry was found. Highlights are somewhat more
+glossy, especially the west tree; human preference still decides final acceptance.
+This remains a static procedural art candidate. No gnome/animation, game launch,
+Godot integration, Android test, save/progression/audio/reward work or merge.
+PBR geometry exports; Cycles world/lights/AgX look are not embedded in GLB.
+Inherited tunnel bottom-cap winding and unchecked second-save return are minor
+source notes retained from the base. No unrelated fixes were bundled; actual
+saved scene and required geometry were verified for this run.
+
+PROVENANCE / DELIVERY
+Codex-authored derivative of documented GPT R2. Included complete selected and
+draft sources/settings, base hashes, literal patch, logs, verification, actual
+renders, reference, manifest and native outputs. No asset downloading or external
+art/code inputs added. User reference's original provenance remains UNKNOWN;
+this documentation records evidence, not exclusive ownership/legal clearance.
+Archive is report transport in Codex's own REPORTS_ONLY Git document root.
+No grants/main/private game/Cradle/other bot files changed; no merge.
+New Blender shortcut:Desktop/GnomiT Samples/Art Previews/
+Airy Island Codex R3 - Tree Mine Light Polish.lnk. Latest game launcher unchanged.
+Next art task setting if requested:GPT-6.1 Sol / High.

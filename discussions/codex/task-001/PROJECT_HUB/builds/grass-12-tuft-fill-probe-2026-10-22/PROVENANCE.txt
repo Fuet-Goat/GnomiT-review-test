@@ -1,0 +1,104 @@
+NATIVE-ONLY 12-TUFT PROBE — PROVENANCE AND LIMITS
+Derived from selected v014 pinned input SHA-256 d763d19318e47bf4801f4e3bc8cfedef9b99791b092ac88cf30bd508f92137b4; Blender5.2.2 LTS.
+AI-assisted original procedural leaf-copy rotation: 12 existing 2–4-leaf body tufts gain three leaves each (5–7 final).
+New leaves clone each selected tuft's old profiles, heights, widths and colours, rotating around existing exact roots.
+7554 old blades +36 =7590. Body tuft density remains 2559. Old vertex/edge/loop/face/colour prefix unchanged.
+Edge grass and all 648 non-body scene records, materials, camera and lighting are protected.
+Old cell keys use floor(root/.16); original unjittered centres are unavailable. Root means are estimates; old roots do not move.
+Footprint checks sample every new vertex from above; camera checks test root visibility. This is not triangle-level or leaf-leaf collision proof.
+No outside assets downloaded. The inherited scene/material provenance remains applicable; this is not a legal ownership guarantee.
+No Godot/game integration, current-selector/shortcut changes or global rollout. Human choice PENDING; Android/performance NOT_MEASURED.
+The included V013_GRASS_GENERATOR_READONLY.py.txt is readable source only. Do not run it: it loads older v012.
+Comparison 02 preserves native pixels. Comparison 03 uses only identical source crops, 4x nearest-neighbour magnification and labels.
+Comparison 06 contains actual Blender border renders at 8x pixel density, not interpolated pixels; native sources were not saved.
+Blender and Godot keep separate inherited lighting rigs. Native/runtime image parity is NOT_CLAIMED.
+Crop source coordinates (right/bottom exclusive): {"foreground": [307, 706, 371, 770], "inner_bend": [61, 428, 125, 492], "quiet_transition": [275, 462, 339, 526]}
+Visual judgement is in documentation/VISUAL_REVIEW.txt; no automatic visual-win verdict is made.
+Exact current file byte counts and SHA-256:
+[
+  {
+    "path": "native/V014_SELECTED_INPUT.blend",
+    "bytes": 19663930,
+    "sha256": "d763d19318e47bf4801f4e3bc8cfedef9b99791b092ac88cf30bd508f92137b4"
+  },
+  {
+    "path": "native/TWELVE_TUFTS_PLUS_THREE.blend",
+    "bytes": 19682133,
+    "sha256": "565ef994f53900d63995c8618c5099bb7d90788ece3415d675d4d3ed5e373869"
+  },
+  {
+    "path": "tools/build_probe.py",
+    "bytes": 15317,
+    "sha256": "a5236b57514843c8308761e10d7ea5b4a021bc6417ca0bd00bce09c4be162708"
+  },
+  {
+    "path": "tools/guard_utils.py",
+    "bytes": 10802,
+    "sha256": "1ec5055c90347cbc688013c97d02723bd5d7bb3e7541b0b958f9b84b3e6e6fa9"
+  },
+  {
+    "path": "tools/finalize_probe.py",
+    "bytes": 11786,
+    "sha256": "a0cb920dd54c1dadd49c82d75e1020135415cd654575e73566e1d4eb648c53ea"
+  },
+  {
+    "path": "tools/V013_GRASS_GENERATOR_READONLY.py.txt",
+    "bytes": 22159,
+    "sha256": "d859494f88722f2f9012e9800eab0e1e7c609780a8ea5cdf97197dcdc2ca1b18"
+  },
+  {
+    "path": "outputs/00_A_V014_CONTROL_432x960.png",
+    "bytes": 721794,
+    "sha256": "49e2065fbd8db3b61eee683b6211b03b4a73a878598df93528953ab49cc73503"
+  },
+  {
+    "path": "outputs/01_B_12_FULLER_TUFTS_432x960.png",
+    "bytes": 721828,
+    "sha256": "782850ede559c26880d11962f3090165a3b8017e33e1cdbdd6293593bd1b26a4"
+  },
+  {
+    "path": "outputs/02_FULL_BEFORE_AFTER.png",
+    "bytes": 622879,
+    "sha256": "596ab82209ce3a4896c67f5237f7994478ee237ea5559fa095ecf0115258241b"
+  },
+  {
+    "path": "outputs/03_THREE_ZONE_DETAILS.png",
+    "bytes": 87285,
+    "sha256": "fd83375cde0a82b5c95fc33f17971f9d72dccf4ab960d9d22894374acadc7df1"
+  },
+  {
+    "path": "outputs/04_A_NATIVE_DETAIL_8X.png",
+    "bytes": 414525,
+    "sha256": "89a40c9dbd517c3db7fae14fb60e15bbfac492e0ec9c67a2275e1e90da659a96"
+  },
+  {
+    "path": "outputs/05_B_NATIVE_DETAIL_8X.png",
+    "bytes": 417493,
+    "sha256": "a49728a6998de83945d9d2352606e064169f39f1a8962767b52531301caf68f2"
+  },
+  {
+    "path": "outputs/06_NATIVE_DETAIL_BEFORE_AFTER.png",
+    "bytes": 469087,
+    "sha256": "c17e87eb8b3e6ab780fd1a74c7be7a64a5ac5e00bd467416403985e0d36fc921"
+  },
+  {
+    "path": "tools/render_native_detail.py",
+    "bytes": 2323,
+    "sha256": "b33f2f5a880517a6dacbfacc3cd80acb5cec79a3e2342a733f99cf20c549dcf3"
+  },
+  {
+    "path": "documentation/NATIVE_DETAIL_RECEIPT.json",
+    "bytes": 1006,
+    "sha256": "ff63ab16716404bd3d44ca20da75799a62d9fa12ba98efc4ffc2888cd7c90f72"
+  },
+  {
+    "path": "documentation/PROBE_RECEIPT.json",
+    "bytes": 11216,
+    "sha256": "c59e0ae580bb77c308b586a2d689e92f05440d5c7edd2f9423fb15a1485165db"
+  },
+  {
+    "path": "documentation/VISUAL_REVIEW.txt",
+    "bytes": 1650,
+    "sha256": "472594da0db89f679eafd01ee0f7101b5c1753caf68319b9140a74af3ab6dd41"
+  }
+]

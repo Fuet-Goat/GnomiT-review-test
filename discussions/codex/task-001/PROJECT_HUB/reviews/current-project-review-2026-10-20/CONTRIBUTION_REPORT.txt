@@ -1,0 +1,9 @@
+ACTUAL HANDOFF CONTRIBUTION / 20.10.2026
+
+User request: publish remaining current project materials and screenshots to Git for peer review; require documented provenance and reproduction for future reusable contributions.
+
+Changes: added external capture drivers,70 original PNG,2 encoded native videos, source snapshot,29 byte-copied source sounds, gallery, metadata and contribution templates. Game source/assets remain unchanged against the pinned59,743,347-byte v001 package. No private-game/grant/main/merge changes.
+
+Verified locally: both final capture receipts PASS; all70 PNG identities/dimensions; both MP4 full-decode PASS; actual campaign seed1 victory and native-map2 unlock. Every power-demo board is labelled CONTROLLED_LAB_FIXTURE. No Human/Android/performance/listening acceptance. ZIP CRC and all included bytes/SHA are checked after packaging. Git publication requires separate remote receipt.
+
+Known limits: larger underground map and later introduction levels remain future work; native world is an unoptimized art prototype; original-asset licence/lineage gaps are inherited and not resolved by taking screenshots. Source provenance evidence must be checked before reuse/release.

@@ -1,0 +1,99 @@
+{
+  "status": "PINNED_HTTP_FULL_ARCHIVE_AND_REPORTS_VERIFIED",
+  "publication_commit": "e75f8d231957d9ba3372b0c2d303351eedd9a21a",
+  "archive_proof": {
+    "status": "EXACT_COMMIT_ARCHIVE_AND_ALL_ENTRY_HASHES_PASS",
+    "commit": "e75f8d231957d9ba3372b0c2d303351eedd9a21a",
+    "bytes": 18360875,
+    "sha256": "3a8f31a0dead4d38ac4880d8bfc8304a43e5324f17e2d9a13415cbf867c74118",
+    "entries": 47,
+    "packages": [
+      "HANDOFF"
+    ],
+    "executed_project_code": false
+  },
+  "outer_documents_verified": [
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/START_HERE.txt",
+      "bytes": 67490,
+      "sha256": "a801dbb629e50d15e1a82a6fbd857a465a3ef5894972d1f1d1d38e11ecbb82b1"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-home-start-composition-2026-10-21/COMPOSITION_RECEIPT.json.txt",
+      "bytes": 5307,
+      "sha256": "c7b775dd789c5d90b899a827f9efa4d621aae45d6dd58fcbd349372d0bf10276"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-home-start-composition-2026-10-21/DOWNLOAD_COMPOSITION.py.txt",
+      "bytes": 3462,
+      "sha256": "9a9224f4dd99f353f82e71fd3d53d71a365c5ab215313df4e028c702d14758ec"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-home-start-composition-2026-10-21/EXISTING_MATERIALS.json.txt",
+      "bytes": 164,
+      "sha256": "484f5f7239a1d600365851f30b1a14c0835657364b6a7f42e43f9f262a63fa44"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-home-start-composition-2026-10-21/FINAL_RESPONSE.txt",
+      "bytes": 213,
+      "sha256": "56ff3a00072c1bc393641e98943b77c36280e80121e042e527dafdace417d270"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-home-start-composition-2026-10-21/GIT_SCOPE_CHECK.json.txt",
+      "bytes": 2005,
+      "sha256": "0d4c7b8647c0bc9ce64a223dd23b9e99e684f438770f3accac5f770a21db597d"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-home-start-composition-2026-10-21/NATIVE_REOPEN_AND_REIMPORT.json.txt",
+      "bytes": 687,
+      "sha256": "db975fdd93f49f772a5cc0ec80838377ae074f64d74d858d3bd860668356f5e6"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-home-start-composition-2026-10-21/PACKAGE_RECEIPT.json.txt",
+      "bytes": 340,
+      "sha256": "88d47d69fb52365e587ce660b1e001d32bfb155ae61b04a4a6edfe70b061eb44"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-home-start-composition-2026-10-21/PIXEL_AND_ORIGINALS_CHECK.json.txt",
+      "bytes": 1409,
+      "sha256": "32257dfe846b074953e4abe3d979b375d6fa079ac60afa2b902ac020be5f4bd2"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-home-start-composition-2026-10-21/PROMPT_FOR_GPT_BG.txt",
+      "bytes": 1997,
+      "sha256": "1e6319961bf29a313709750f3ad4ebd7f95320b2a9bd76777a92cabb4d5d3580"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-home-start-composition-2026-10-21/PROVENANCE.json.txt",
+      "bytes": 1100,
+      "sha256": "b7c08c967cd719c104febaab8f4769c438ded2b4c06e1d38a2d44ccbd0485d8e"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-home-start-composition-2026-10-21/README.txt",
+      "bytes": 4117,
+      "sha256": "f4c8b3db2b0181d1bc46b2baf4b4e0ec9c744780dd9018ad5863a98c729f9279"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-home-start-composition-2026-10-21/README_BG.txt",
+      "bytes": 4117,
+      "sha256": "f4c8b3db2b0181d1bc46b2baf4b4e0ec9c744780dd9018ad5863a98c729f9279"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-home-start-composition-2026-10-21/REPORT.txt",
+      "bytes": 1754,
+      "sha256": "484e01617013d7904b1ea33dd37d823e15431a05ae3b1af13f4c27cf0ae5a744"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-home-start-composition-2026-10-21/START_HERE_BG.txt",
+      "bytes": 1602,
+      "sha256": "03541f89968c373313589c3b46f25be0695e470ccf0194666d5225d6a4b73110"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-home-start-composition-2026-10-21/ZIP_MANIFEST.json.txt",
+      "bytes": 7716,
+      "sha256": "3e04a06600b69ac712ee7400c27d81521becee77a9afc22bae59e0f990aeecfb"
+    }
+  ],
+  "selected_blend_sha256": "5dd1234c888e8498ecfd1c58726c74a137dd26defd30fc9b690d985839544d3c",
+  "meaning": "Delivery proof only. Local native Blender build/reopen/render/GLB reimport completed separately; human visual approval and Godot/Android acceptance remain pending."
+}

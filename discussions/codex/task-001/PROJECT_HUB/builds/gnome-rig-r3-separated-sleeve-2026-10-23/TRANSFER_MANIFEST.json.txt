@@ -1,0 +1,194 @@
+{
+  "zip_name": "GNOMIT_RIG_R3_SEPARATED_SLEEVE_2026-10-23.zip",
+  "zip_bytes": 54314847,
+  "zip_sha256": "39ad4b08f55e08d4645057ad303592dbe9d6548912727990df7a02ad63d77638",
+  "entries": 46,
+  "parts": [
+    {
+      "path": "TRANSFER.part001.b64.txt",
+      "bytes": 2000000,
+      "sha256": "b26ebf40f1e7d12c33483ce91008d3bb5a1b011a7bd0620851938b2f08de374f"
+    },
+    {
+      "path": "TRANSFER.part002.b64.txt",
+      "bytes": 2000000,
+      "sha256": "e9a9d4f0d666f50cea40e0aa49b5a1360a98b0e24a1886bd75dee85438cb8a47"
+    },
+    {
+      "path": "TRANSFER.part003.b64.txt",
+      "bytes": 2000000,
+      "sha256": "0a7910a218ae7eb57a423f7407914dda585d0b6fb762090d7dc7a1c298b9f187"
+    },
+    {
+      "path": "TRANSFER.part004.b64.txt",
+      "bytes": 2000000,
+      "sha256": "cc4ea74bce119a48b984f4b5e728307181e6e7fb1c72aaf58bd5bc622dc33973"
+    },
+    {
+      "path": "TRANSFER.part005.b64.txt",
+      "bytes": 2000000,
+      "sha256": "0bce1c4b95761f1be768178572f58bfbab73c0ef6cdaf7591fb052041eabc3b8"
+    },
+    {
+      "path": "TRANSFER.part006.b64.txt",
+      "bytes": 2000000,
+      "sha256": "95b36dce31908b7fd275407835f797c1da6ab18832c39338080633e561c2eda7"
+    },
+    {
+      "path": "TRANSFER.part007.b64.txt",
+      "bytes": 2000000,
+      "sha256": "999d80f4ecc1b7b8f26f9d7f96334ac2f3ee87c64e48482dcbf1b0a3dc2144d0"
+    },
+    {
+      "path": "TRANSFER.part008.b64.txt",
+      "bytes": 2000000,
+      "sha256": "d02c716b3a1959eb682982cba56781574b1626d2cc000b8965874a9c1e1a36db"
+    },
+    {
+      "path": "TRANSFER.part009.b64.txt",
+      "bytes": 2000000,
+      "sha256": "d9054cb1c207a098069ce54b13636baff3888e4241bcfa3c52d6e586569b08b8"
+    },
+    {
+      "path": "TRANSFER.part010.b64.txt",
+      "bytes": 2000000,
+      "sha256": "2049551e2d8e9481d508fed6734d2aced186d1367713749bc451d5b333be3d3b"
+    },
+    {
+      "path": "TRANSFER.part011.b64.txt",
+      "bytes": 2000000,
+      "sha256": "8465c2208a12e54dcd9685fce0498a3a7733d89d735e05da123e2fae2bf27abf"
+    },
+    {
+      "path": "TRANSFER.part012.b64.txt",
+      "bytes": 2000000,
+      "sha256": "e223f1ca2e168fd646b7ef65e16f9b41d81123b369bac060f378355ba5d39714"
+    },
+    {
+      "path": "TRANSFER.part013.b64.txt",
+      "bytes": 2000000,
+      "sha256": "f0bd230e3373733911925bc388006a9d0f92d898ae04ece879e45ff4cf66bc60"
+    },
+    {
+      "path": "TRANSFER.part014.b64.txt",
+      "bytes": 2000000,
+      "sha256": "f719bf42509183231a1f228a83b00f19524b232156746be4b7a89478b5b283e3"
+    },
+    {
+      "path": "TRANSFER.part015.b64.txt",
+      "bytes": 2000000,
+      "sha256": "9f23587d62dcd7d9051263a4d0bb2a5698cd083cf128d8fb195f85f623eb4cb1"
+    },
+    {
+      "path": "TRANSFER.part016.b64.txt",
+      "bytes": 2000000,
+      "sha256": "c12e89ee72a3bfb36d959aec5b15e747b9545dfc66862e3af852acd409e32b50"
+    },
+    {
+      "path": "TRANSFER.part017.b64.txt",
+      "bytes": 2000000,
+      "sha256": "7be25bad93a1d0aaba13e4f7fa6fec684fdb78c5c2a2ce356c29cd4fde35014e"
+    },
+    {
+      "path": "TRANSFER.part018.b64.txt",
+      "bytes": 2000000,
+      "sha256": "bccf67395ff982b93071f8323bf21dad0443edfd2f45b36bd2b3ed510cbbfcae"
+    },
+    {
+      "path": "TRANSFER.part019.b64.txt",
+      "bytes": 2000000,
+      "sha256": "328b33929326abc39ea3bfc13ece5f16343139527b7eddea4af89d095b88eb6c"
+    },
+    {
+      "path": "TRANSFER.part020.b64.txt",
+      "bytes": 2000000,
+      "sha256": "ae2a8fbc8f9f06cdf6751a7ba936061560d7d34b5c1318973c4bb4e846833983"
+    },
+    {
+      "path": "TRANSFER.part021.b64.txt",
+      "bytes": 2000000,
+      "sha256": "05878634a48596120ed0ef185b18392a5ba099d4d4b57bc162996440a1df28d3"
+    },
+    {
+      "path": "TRANSFER.part022.b64.txt",
+      "bytes": 2000000,
+      "sha256": "9ba8a9a984b7065154585c4d6ba2d5edfaa8cdb58f766150eb69e45406919714"
+    },
+    {
+      "path": "TRANSFER.part023.b64.txt",
+      "bytes": 2000000,
+      "sha256": "94bccf58a02fd6b89d5d82917ee2b8802ae39551e851f286d8a0b662eec981a0"
+    },
+    {
+      "path": "TRANSFER.part024.b64.txt",
+      "bytes": 2000000,
+      "sha256": "9cb51c154806965fe749fa9a97c0d0a68af435054d2c326422b1a8f1c2b2754b"
+    },
+    {
+      "path": "TRANSFER.part025.b64.txt",
+      "bytes": 2000000,
+      "sha256": "7a876468879aebb0b78161c323bc2f3b079327d368f65b89f42043612406f719"
+    },
+    {
+      "path": "TRANSFER.part026.b64.txt",
+      "bytes": 2000000,
+      "sha256": "6af299c18ca701a9d3bc730160aa2f40c64845c997e61519e071d24070fda69f"
+    },
+    {
+      "path": "TRANSFER.part027.b64.txt",
+      "bytes": 2000000,
+      "sha256": "28fac1e8a9462f0ae82c2d4e5b393533ae4f8c48253470ec81d057d202120ba2"
+    },
+    {
+      "path": "TRANSFER.part028.b64.txt",
+      "bytes": 2000000,
+      "sha256": "0438a3b157a2aafad7e6920252b749b300eebbf824dc4039444c65ba625f724e"
+    },
+    {
+      "path": "TRANSFER.part029.b64.txt",
+      "bytes": 2000000,
+      "sha256": "5ac352206f60bddac0590bb6c6ad2a4db5a106d3ea5ee6165f99d42b1a85d7bd"
+    },
+    {
+      "path": "TRANSFER.part030.b64.txt",
+      "bytes": 2000000,
+      "sha256": "89b5485e3ad511036431055c9a64a298d146e3e3e2088f5c975e3639e5781286"
+    },
+    {
+      "path": "TRANSFER.part031.b64.txt",
+      "bytes": 2000000,
+      "sha256": "2b0cf492f4c8742796f4da2f53aa9545daec56b4a1d7e540e78bc4316312f232"
+    },
+    {
+      "path": "TRANSFER.part032.b64.txt",
+      "bytes": 2000000,
+      "sha256": "212b1e54bf7a7d783c69ce655b04a3650f9d93cbcca834446a977fd6f7f22de3"
+    },
+    {
+      "path": "TRANSFER.part033.b64.txt",
+      "bytes": 2000000,
+      "sha256": "2286e85681b5d07802a223d70cdd5380b7f656a2262bc628cec666def0fc10b1"
+    },
+    {
+      "path": "TRANSFER.part034.b64.txt",
+      "bytes": 2000000,
+      "sha256": "776a5b5b075ed60fda7747954420adf2e7c729311a65e5a26bd48c1bd1cabfea"
+    },
+    {
+      "path": "TRANSFER.part035.b64.txt",
+      "bytes": 2000000,
+      "sha256": "eac4cee59f38fa9abfce22c6d65906068114c89e7c62a58c439898b436516ab5"
+    },
+    {
+      "path": "TRANSFER.part036.b64.txt",
+      "bytes": 2000000,
+      "sha256": "c8f54554c21616c8a9fdd8b03ae2cc1328ee25f27d3a75a3691c719d8b45d4f3"
+    },
+    {
+      "path": "TRANSFER.part037.b64.txt",
+      "bytes": 419796,
+      "sha256": "9e4951c547e00f86628b6079ece38265ed187dd606d17b52457e506220cbf461"
+    }
+  ],
+  "encoding": "base64 ASCII, concatenate in listed order then decode"
+}

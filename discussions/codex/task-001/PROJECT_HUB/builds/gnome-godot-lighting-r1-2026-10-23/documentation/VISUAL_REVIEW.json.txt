@@ -1,0 +1,12 @@
+{
+  "root_review": "Final actual A/B still, rest, greeting, face, map-size controls and sleeve still inspected.",
+  "observed": "B beard/skin are more neutral, broad teal highlights read better, cap folds retained, ground contact is visible.",
+  "independent_review_before_final_shadow_moderation": "Same features noted; conspicuous cast shadow and boot reflections noted; no sleeve hole/detachment/cuff gap.",
+  "final_shadow_moderation": "PCF shadow opacity0.5/blur3; root inspected final captures. No PCSS/TAA change.",
+  "remaining_limitations": [
+    "Lantern remains a simple baked warm pane; lighting pass does not redesign it.",
+    "Boot reflections remain conspicuous; no material roughness altered.",
+    "Map controls are isolated studio at prior M2 placement/camera, not current campaign integration."
+  ],
+  "human_lighting_choice": "PENDING"
+}

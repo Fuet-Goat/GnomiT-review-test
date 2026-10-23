@@ -1,0 +1,63 @@
+CURRENT LOCAL SOURCE INVENTORY — CODE-VERIFIED, NOT RUNTIME-VERIFIED
+Date: 2026-10-21. No game launch/import/test or source edits.
+Primary local copy: BlackHoleVisibleLayers_2026-10-21 (v006).
+R3_Island_Journey_2026-10-21 has byte-identical audited scripts but is WIP.
+See CODE_IDENTITY.json for exact paths, bytes and SHA-256.
+
+scripts/tutorial/power_tutorial.gd:_refresh_page, lines 172–178
+Page 1 title: Create a Volcano
+Page 1 copy: Match 4 minerals of the same kind in one straight line. They leave a Volcano on the board.
+Page 1 action: Next
+Page 2 title: Let it erupt!
+Page 2 copy: Move the Volcano or match its mineral to erupt. Burning rocks hit 3–5 scattered minerals.
+Page 2 action: Play Level 1
+Two pages, back/next arrows; no animation-completion/time prerequisite.
+_input:197–207: ui_cancel dismisses either page; no visible Skip button.
+Android Back routing: NOT_OBSERVED.
+
+scripts/tutorial/volcano_mini_animation.gd
+Lines 8–9: 5.8 s repeating cycle, example targets [0,4,12].
+configure/_process:24–40: reset time on configure; hidden/unfocused stops advance.
+Reduced motion uses static illustrations. _refresh_phase:42–62 teaches
+adjacent movement; creation ends with 'A Volcano is ready for your next move'.
+_draw_eruption:151–166 demonstrates DIRECT MOVE, not a material-match trigger.
+There is no Core/reward execution or audio in this teaching illustration.
+Three example targets do not prove RNG behavior or exactly three total removals.
+
+scripts/main.gd
+14: introduction schedule only entry→volcano; 17: session-only seen dictionary.
+start_level:347–372, _begin_entry:663–681: setup board/Core first, then lesson
+after entry transition or immediately if no transition.
+show_power_tutorial:379–401: blocks input/actions through application _paused,
+marks seen when OPENED, not when completed. This is not a persistent completion.
+_on_swap:423–447: ignores paused input; board animation follows Core resolution.
+show_pause:557–572: Volcano Guide reopens lesson on intro level, same board/Core;
+Try Again is separate. No gnome dialogue is implemented in the current lesson.
+Final Play Level 1 resumes the already-prepared board; naming is a possible
+usability issue, NOT a measured confusion and not fixed in this review.
+
+scripts/lab/material_power_core.gd:try_swap:207–287
+267–272: existing stationary Volcano included in a manual material match can
+become a source. Mere remote same-material matching is insufficient.
+280–283: direct moved power can activate with NO material match.
+285: match and source resolution coexist. Intentional endpoint pair recipes
+retain separate ownership; matching powers by color is not a direct pair.
+_resolve_cascades:569+: cascade births wait; birth events waiting_for_player.
+
+scripts/lab/reward_rules_core.gd:_power_component:314–328
+Whole-grid ordinary candidates minus exclusions, budget RNG 3–5, sample without
+replacement, capped by candidate count. No distance/radius requirement.
+material_power_core.gd:_power_component:464–487 additionally excludes reserved
+anchors/nonordinary targets. Gaps/runes/waiting powers are not ordinary targets.
+_apply_atomic_power:517–529 includes source removal separately; therefore
+3–5 scattered targets != total disappearing objects in the resolution/cascades.
+Layer semantics are power-specific: direct ordinary target floor damage here
+is −1; material-match terrain/rune adjacency is handled separately at 332+.
+Do not infer universal Black Hole behavior for Volcano or every future object.
+
+scripts/levels.gd:25–26
+entry has empty target_cells and rune_cells. Natural level-1 layer observation
+is not guaranteed or currently provided; defer it or use a separate common probe.
+
+Review boundary: source inspection does not prove current rendered timing,
+actual input reliability, Android Back/accessibility or learner comprehension.

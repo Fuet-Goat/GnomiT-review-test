@@ -1,0 +1,60 @@
+"""One bounded roughness pass on M1; accepted form/palette/studio frozen."""
+from pathlib import Path
+import sys,json,copy
+import bpy
+from mathutils import Vector
+ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'source'))
+from evidence import sha,fingerprint,digest,material_record,render,detail
+SOURCE=ROOT.parent/'Gnome_R4_Materials_M1_2026-10-23/native/GNOME_M1_COLORED_R4.blend'
+EXPECTED='366649c61e802c32ba5b08b5537e211d67edade2b284f78ec53a6494b16036e6'
+TARGETS={'M1 teal wool coat':.70,'M1 teal folded collar':.72,'M1 soft cherry cloth':.65,
+         'M1 folded cherry hem':.68,'M1 cream beard and brows':.70,'M1 brown leather boots':.50}
+
+def without_finish(record):
+    out=copy.deepcopy(record)
+    for n in TARGETS:
+        out[n]['nodes']=[node for node in out[n]['nodes'] if node['type'] not in ('ShaderNodeTexNoise','ShaderNodeMapRange')]
+        for node in out[n]['nodes']:
+            if node['type']=='ShaderNodeBsdfPrincipled':node['inputs']=[item for item in node['inputs'] if item[0]!='Roughness']
+    return out
+
+def main():
+    assert bpy.app.background and sha(SOURCE)==EXPECTED
+    native=ROOT/'native/GNOME_M2_FINISH.blend';assert not native.exists()
+    bpy.ops.wm.open_mainfile(filepath=str(SOURCE));scene=bpy.context.scene
+    render('M1_BASELINE_FRONT.png')
+    protected={o.name:fingerprint(o) for o in bpy.data.objects}
+    before=material_record();links_before={m.name:sorted((l.from_node.name,l.from_socket.identifier,l.to_node.name,l.to_socket.identifier) for l in m.node_tree.links) for m in bpy.data.materials if m.node_tree}
+    for name,value in TARGETS.items():
+        mat=bpy.data.materials[name];nodes=mat.node_tree.nodes
+        bsdf=next(n for n in nodes if n.bl_idname=='ShaderNodeBsdfPrincipled')
+        for link in list(bsdf.inputs['Roughness'].links):mat.node_tree.links.remove(link)
+        bsdf.inputs['Roughness'].default_value=value
+        for node in list(nodes):
+            if node.bl_idname in ('ShaderNodeTexNoise','ShaderNodeMapRange'):nodes.remove(node)
+    after=material_record();assert without_finish(before)==without_finish(after),'Palette or non-finish shader values changed'
+    for mat in bpy.data.materials:
+        if mat.node_tree:
+            assert not any(n.bl_idname in ('ShaderNodeTexNoise','ShaderNodeBump') for n in mat.node_tree.nodes),'Visible noise/bump retained'
+        if mat.name not in TARGETS and mat.node_tree:assert sorted((l.from_node.name,l.from_socket.identifier,l.to_node.name,l.to_socket.identifier) for l in mat.node_tree.links)==links_before[mat.name]
+    for o in bpy.data.objects:assert fingerprint(o)==protected[o.name],'Shape/pose/studio changed: '+o.name
+    assert not bpy.data.actions and not any(o.type=='ARMATURE' for o in bpy.data.objects)
+    text=bpy.data.texts.new('START_HERE_M2');text.write('M2 is one roughness-only pass. Accepted R4 form and M1 palette/studio are frozen. Coat.70,collar.72,cap.65,band.68,beard.70,boots.50. Skin/bronze/lantern and beard gradient unchanged. No noise/bump. Static comparison preserved separately before rig/action.\n')
+    bpy.context.preferences.filepaths.save_version=0
+    assert 'FINISHED' in bpy.ops.wm.save_as_mainfile(filepath=str(native),check_existing=False)
+    render('M2_FRONT.png');cam=scene.camera;old=(cam.location.copy(),cam.rotation_euler.copy(),cam.scale.copy());target=Vector((0,0,.8))
+    cam.location=target+Vector((3,-4,.65));cam.rotation_euler=(target-cam.location).to_track_quat('-Z','Y').to_euler()
+    render('M2_THREE_QUARTER.png');cam.location,cam.rotation_euler,cam.scale=old
+    detail('M2_FACE_DETAIL.png')
+    bpy.ops.wm.open_mainfile(filepath=str(native))
+    for o in bpy.data.objects:assert fingerprint(o)==protected[o.name],'Protected state changed after reopen: '+o.name
+    assert without_finish(before)==without_finish(material_record()) and sha(SOURCE)==EXPECTED
+    receipt={'status':'STATIC_M2_SAVED_REOPENED_RENDERED','source':str(SOURCE),'source_sha256':EXPECTED,'source_unchanged':sha(SOURCE)==EXPECTED,
+        'native':str(native),'native_sha256':sha(native),'roughness_targets':TARGETS,'skin_roughness':.53,'bronze_unchanged':True,
+        'palette_and_non_finish_values':'EXACT_MATCH','protected_objects':len(protected),'geometry_pose_modifiers_material_slots_studio':'EXACT_MATCH',
+        'protected_object_fingerprints':{n:digest(v) for n,v in protected.items()},'noise_bump_nodes':0,
+        'actions':0,'armatures':0,'form':'HUMAN_ACCEPTED_R4','palette':'HUMAN_ACCEPTED_M1',
+        'finish':'ONE_M2_CANDIDATE_FOR_MOTION_PROBE','human_finish_review':'PENDING','game_integration':False}
+    (ROOT/'documentation/M2_RECEIPT.json').write_bytes((json.dumps(receipt,indent=2,ensure_ascii=False)+'\n').encode())
+    print('M2_COMPLETE '+json.dumps({k:v for k,v in receipt.items() if k!='protected_object_fingerprints'}),flush=True)
+if __name__=='__main__':main()

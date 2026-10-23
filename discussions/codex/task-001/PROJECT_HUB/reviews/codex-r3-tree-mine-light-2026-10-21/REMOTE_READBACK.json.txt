@@ -1,0 +1,120 @@
+{
+  "status": "REMOTE_TEXT_AND_FULL_ARCHIVE_READBACK_PASS",
+  "publication_commit": "d1ed5aa1dc0794531ef4f9e0ec9e597116647ff7",
+  "text_files_verified": [
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/START_HERE.txt",
+      "bytes": 61462,
+      "sha256": "fdbdfb7fd2daca266425e2a67e9942cc6e6dd09d7608f40f05573bab0d711820"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/codex-r3-tree-mine-light-2026-10-21/BASE_RECEIPT.json.txt",
+      "bytes": 1490,
+      "sha256": "8743be2a0a25732e3ab3485136616b2e2c61dd2c970a6b85f9eed7c285c24842"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/codex-r3-tree-mine-light-2026-10-21/DELEGATED_REVIEW.txt",
+      "bytes": 623,
+      "sha256": "8af178de8b52ce732e2dfff49f912d0abfafa1f1f2705c01cd393fe374c481a0"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/codex-r3-tree-mine-light-2026-10-21/DOWNLOAD_REVIEW.py.txt",
+      "bytes": 2576,
+      "sha256": "35856cb7f9515c4f159fc999e7e0e4b07dd762dd6d815ef52b7be77f179cdcc7"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/codex-r3-tree-mine-light-2026-10-21/FINAL_RESPONSE.txt",
+      "bytes": 869,
+      "sha256": "7907a0ad83c28e32619cbb9f9660e838adc115f067655febcf61dec92e20b73f"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/codex-r3-tree-mine-light-2026-10-21/GIT_SCOPE_CHECK.json.txt",
+      "bytes": 202,
+      "sha256": "618dd2b2ef1abbb1b49db15e9ca69ca740889ebc960a6b69bb63fbe874331f04"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/codex-r3-tree-mine-light-2026-10-21/HANDOFF_REVIEW.txt",
+      "bytes": 889,
+      "sha256": "e8af9649c0794ef75c06e5aa6bd2f828ad195a994bb3e418b660d229e6e887a7"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/codex-r3-tree-mine-light-2026-10-21/IMAGE_DECODE.json.txt",
+      "bytes": 347,
+      "sha256": "58349fa373d7a5ee0ffa38303ea19919d53aae2f607834e63f75ca7f7728ea9f"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/codex-r3-tree-mine-light-2026-10-21/MEASUREMENTS.json.txt",
+      "bytes": 1523,
+      "sha256": "c5fa3b7711ab1870d5ec9451e6f352ef5ad19193d4611d8b64c2f5cedc468ff1"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/codex-r3-tree-mine-light-2026-10-21/NATIVE_VERIFICATION.json.txt",
+      "bytes": 77022,
+      "sha256": "b7e5595589509bb5b53d7213889a6997489d8b0d6f3bee541818eee81df49b1c"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/codex-r3-tree-mine-light-2026-10-21/PACKAGE_RECEIPT.json.txt",
+      "bytes": 338,
+      "sha256": "1349ee4bcd39e5f4d582ec93627824d6276940918305bc4cdd62027ee29ff08d"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/codex-r3-tree-mine-light-2026-10-21/PATCH_FORMAT_NOTE.txt",
+      "bytes": 459,
+      "sha256": "4c7a0bebf081500435239c361dc47a883f2ebed502b607784aa019f8a7c4378c"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/codex-r3-tree-mine-light-2026-10-21/PROGRESS.txt",
+      "bytes": 915,
+      "sha256": "8ef7d3681aad240627fa00562519af9fb9778ddeb171066d1f4255d39ffe90bf"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/codex-r3-tree-mine-light-2026-10-21/PROVENANCE.json.txt",
+      "bytes": 1259,
+      "sha256": "a955605b29f6893419724ac14d67f341dd17a4bda67347dda94322af9595272b"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/codex-r3-tree-mine-light-2026-10-21/README.txt",
+      "bytes": 1247,
+      "sha256": "60eb8887eadc556dbd44d5144ae8f52d40c499edb9c5907080083bc88b81c7cb"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/codex-r3-tree-mine-light-2026-10-21/REPORT.txt",
+      "bytes": 5146,
+      "sha256": "ce6b946adabc8c90bfe71b407a7b7c5945176031aad5c43da8f6c30018ec1d98"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/codex-r3-tree-mine-light-2026-10-21/REVIEW_PROMPT_FOR_GPT_GROK_BG.txt",
+      "bytes": 1277,
+      "sha256": "e5ab26425c6728ead46a26bd0d8de12c5175d241ee8735494762e3557f4a502c"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/codex-r3-tree-mine-light-2026-10-21/SOURCE_CHANGES.patch.txt",
+      "bytes": 18923,
+      "sha256": "5781acea345e17dd3615457fbb464bed0a61a515e1530e19b32dfa0baff92c72"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/codex-r3-tree-mine-light-2026-10-21/SOURCE_RECEIPT.json.txt",
+      "bytes": 2133,
+      "sha256": "09760d08d7172d888bb3d81f1cdbf263ddb48e0c2529c77f4227e7ff119076de"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/codex-r3-tree-mine-light-2026-10-21/START_HERE_BG.txt",
+      "bytes": 1326,
+      "sha256": "7334926581ab372a59301fb8104f8905fdfe37254eb450ab74c5b064dda09a27"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/codex-r3-tree-mine-light-2026-10-21/ZIP_MANIFEST.json.txt",
+      "bytes": 11876,
+      "sha256": "ca64d6301d71c28822e3ec081d20744e6f84624f1097d9782541f8565ac10098"
+    }
+  ],
+  "archive": {
+    "status": "REMOTE_DOWNLOAD_AND_ARCHIVE_PASS",
+    "source_commit": "d1ed5aa1dc0794531ef4f9e0ec9e597116647ff7",
+    "zip_sha256": "63ef3f9523295210e9213d31b0635b9290e1bc2d33a41ed91e56297032f3ad21",
+    "bytes": 16833817,
+    "entries": 71,
+    "project_code_executed": false
+  },
+  "meaning": "Pinned HTTP download, decode, CRC and all71 manifest entry checks passed. Source/project code not executed by downloader. Native build/reopen/protected353geometry/GLB checks were completed separately. Human visual acceptance and integration remain pending."
+}

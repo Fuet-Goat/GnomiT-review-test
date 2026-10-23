@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "glb_sha256": "d39a017fa34167e716cd1182253af159c7633cc154a642cc82f0acf192e31cf2",
+  "glb_bytes": 10669880,
+  "nodes": 1193,
+  "meshes": 1066,
+  "triangle_indices_total": 388048,
+  "embedded_images": 4,
+  "external_image_uris": [],
+  "gltf_animation_clips": 26,
+  "native_runtime_status": "PASS",
+  "fresh_import_status": "PASS",
+  "fresh_import_definition": "New directory, GLB and viewer only; no .godot cache, extracted textures or Blender source copied. Godot extracted all4 images and rendered successfully.",
+  "limitations": [
+    "Artistic comparison is partial, not target accepted",
+    "Heavy unoptimized visual prototype, no Android/performance acceptance",
+    "Core glTF does not preserve lamp energy animation; source-key interpolation is implemented in native viewer",
+    "No campaign state or match3 loaded"
+  ]
+}

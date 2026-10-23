@@ -1,0 +1,4457 @@
+{
+  "blender_version": "5.2.2 LTS",
+  "source_scene": "Scene",
+  "object_counts": {
+    "MESH": 94,
+    "CURVE": 1,
+    "EMPTY": 12,
+    "LIGHT": 2,
+    "CAMERA": 1
+  },
+  "objects": [
+    {
+      "name": "Ground_Board",
+      "type": "MESH",
+      "parent": null,
+      "data": "Cube",
+      "location": [
+        0.0,
+        -0.20000000298023224,
+        -0.41999998688697815
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        6.400000095367432,
+        5.300000190734863,
+        0.550000011920929
+      ],
+      "dimensions": [
+        12.800000190734863,
+        10.600000381469727,
+        1.100000023841858
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [
+        {
+          "name": "Round",
+          "type": "BEVEL"
+        },
+        {
+          "name": "Soft",
+          "type": "SUBSURF"
+        }
+      ],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Ground_SoilRim",
+      "type": "MESH",
+      "parent": null,
+      "data": "Cube.001",
+      "location": [
+        0.0,
+        -0.20000000298023224,
+        -0.7200000286102295
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        6.150000095367432,
+        5.050000190734863,
+        0.18000000715255737
+      ],
+      "dimensions": [
+        12.300000190734863,
+        10.100000381469727,
+        0.36000001430511475
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [
+        {
+          "name": "Round",
+          "type": "BEVEL"
+        },
+        {
+          "name": "Soft",
+          "type": "SUBSURF"
+        }
+      ],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Gumdrop_00",
+      "type": "MESH",
+      "parent": null,
+      "data": "Gumdrop_Pink_Shared",
+      "location": [
+        -2.4000000953674316,
+        -3.200000047683716,
+        0.11999999731779099
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        0.8500000238418579,
+        0.8500000238418579,
+        0.8500000238418579
+      ],
+      "dimensions": [
+        0.3556956946849823,
+        0.37400001287460327,
+        0.19522801041603088
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Gumdrop_01",
+      "type": "MESH",
+      "parent": null,
+      "data": "Gumdrop_Mint_Shared",
+      "location": [
+        -0.30000001192092896,
+        -3.5999999046325684,
+        0.11999999731779099
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0299999713897705,
+        1.0299999713897705,
+        0.8500000238418579
+      ],
+      "dimensions": [
+        0.43101945519447327,
+        0.45319998264312744,
+        0.19522801041603088
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Gumdrop_02",
+      "type": "MESH",
+      "parent": null,
+      "data": "Gumdrop_Lemon_Shared",
+      "location": [
+        1.0,
+        -3.0999999046325684,
+        0.11999999731779099
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.2100000381469727,
+        1.2100000381469727,
+        0.8500000238418579
+      ],
+      "dimensions": [
+        0.5063432455062866,
+        0.5324000120162964,
+        0.19522801041603088
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Gumdrop_03",
+      "type": "MESH",
+      "parent": null,
+      "data": "Gumdrop_Pink_Shared",
+      "location": [
+        3.0,
+        -2.5999999046325684,
+        0.11999999731779099
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.3899999856948853,
+        1.3899999856948853,
+        0.8500000238418579
+      ],
+      "dimensions": [
+        0.5816670060157776,
+        0.6115999817848206,
+        0.19522801041603088
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Gumdrop_04",
+      "type": "MESH",
+      "parent": null,
+      "data": "Gumdrop_Mint_Shared",
+      "location": [
+        3.0999999046325684,
+        -0.20000000298023224,
+        0.11999999731779099
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        0.8500000238418579,
+        0.8500000238418579,
+        0.8500000238418579
+      ],
+      "dimensions": [
+        0.3556956946849823,
+        0.37400001287460327,
+        0.19522801041603088
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Gumdrop_05",
+      "type": "MESH",
+      "parent": null,
+      "data": "Gumdrop_Lemon_Shared",
+      "location": [
+        2.5999999046325684,
+        0.800000011920929,
+        0.11999999731779099
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0299999713897705,
+        1.0299999713897705,
+        0.8500000238418579
+      ],
+      "dimensions": [
+        0.43101945519447327,
+        0.45319998264312744,
+        0.19522801041603088
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Gumdrop_06",
+      "type": "MESH",
+      "parent": null,
+      "data": "Gumdrop_Pink_Shared",
+      "location": [
+        -2.5999999046325684,
+        -0.800000011920929,
+        0.11999999731779099
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.2100000381469727,
+        1.2100000381469727,
+        0.8500000238418579
+      ],
+      "dimensions": [
+        0.5063432455062866,
+        0.5324000120162964,
+        0.19522801041603088
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Gumdrop_07",
+      "type": "MESH",
+      "parent": null,
+      "data": "Gumdrop_Mint_Shared",
+      "location": [
+        -2.200000047683716,
+        1.2000000476837158,
+        0.11999999731779099
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.3899999856948853,
+        1.3899999856948853,
+        0.8500000238418579
+      ],
+      "dimensions": [
+        0.5816670060157776,
+        0.6115999817848206,
+        0.19522801041603088
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Gumdrop_08",
+      "type": "MESH",
+      "parent": null,
+      "data": "Gumdrop_Lemon_Shared",
+      "location": [
+        0.800000011920929,
+        1.5,
+        0.11999999731779099
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        0.8500000238418579,
+        0.8500000238418579,
+        0.8500000238418579
+      ],
+      "dimensions": [
+        0.3556956946849823,
+        0.37400001287460327,
+        0.19522801041603088
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Gumdrop_09",
+      "type": "MESH",
+      "parent": null,
+      "data": "Gumdrop_Pink_Shared",
+      "location": [
+        -0.800000011920929,
+        2.200000047683716,
+        0.11999999731779099
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0299999713897705,
+        1.0299999713897705,
+        0.8500000238418579
+      ],
+      "dimensions": [
+        0.43101945519447327,
+        0.45319998264312744,
+        0.19522801041603088
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Gumdrop_10",
+      "type": "MESH",
+      "parent": null,
+      "data": "Gumdrop_Mint_Shared",
+      "location": [
+        3.200000047683716,
+        2.5999999046325684,
+        0.11999999731779099
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.2100000381469727,
+        1.2100000381469727,
+        0.8500000238418579
+      ],
+      "dimensions": [
+        0.5063432455062866,
+        0.5324000120162964,
+        0.19522801041603088
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Gumdrop_11",
+      "type": "MESH",
+      "parent": null,
+      "data": "Gumdrop_Lemon_Shared",
+      "location": [
+        -3.9000000953674316,
+        -0.800000011920929,
+        0.11999999731779099
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.3899999856948853,
+        1.3899999856948853,
+        0.8500000238418579
+      ],
+      "dimensions": [
+        0.5816670060157776,
+        0.6115999817848206,
+        0.19522801041603088
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "PATH_Guide",
+      "type": "CURVE",
+      "parent": null,
+      "data": "PATH_Curve",
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        3.9709925651550293,
+        7.0,
+        0.02000001072883606
+      ],
+      "hide_render": true,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "PATH_Planks",
+      "type": "EMPTY",
+      "parent": null,
+      "data": null,
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Plank_00",
+      "type": "MESH",
+      "parent": "PATH_Planks",
+      "data": "PLANK_Shared",
+      "location": [
+        -0.8958333134651184,
+        -3.9582176208496094,
+        0.18000000715255737
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.9243870377540588
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.949999988079071,
+        0.3400000035762787,
+        0.07999999821186066
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Plank_01",
+      "type": "MESH",
+      "parent": "PATH_Planks",
+      "data": "PLANK_Shared",
+      "location": [
+        -0.36249998211860657,
+        -3.565624952316284,
+        0.18000000715255737
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.9472212195396423
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.949999988079071,
+        0.3400000035762787,
+        0.07999999821186066
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Plank_02",
+      "type": "MESH",
+      "parent": "PATH_Planks",
+      "data": "PLANK_Shared",
+      "location": [
+        0.20833337306976318,
+        -3.154282331466675,
+        0.18000000715255737
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.9455721378326416
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.9499999284744263,
+        0.3399999737739563,
+        0.07999999821186066
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Plank_03",
+      "type": "MESH",
+      "parent": "PATH_Planks",
+      "data": "PLANK_Shared",
+      "location": [
+        0.7916667461395264,
+        -2.7228007316589355,
+        0.18000000715255737
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.9224873781204224
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.949999988079071,
+        0.3400000035762787,
+        0.07999999821186066
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Plank_04",
+      "type": "MESH",
+      "parent": "PATH_Planks",
+      "data": "PLANK_Shared",
+      "location": [
+        1.3625001907348633,
+        -2.269791603088379,
+        0.18000000715255737
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.8772827386856079
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.949999988079071,
+        0.3400000035762787,
+        0.07999999821186066
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Plank_05",
+      "type": "MESH",
+      "parent": "PATH_Planks",
+      "data": "PLANK_Shared",
+      "location": [
+        1.8958336114883423,
+        -1.79386568069458,
+        0.18000000715255737
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.8060786128044128
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.949999988079071,
+        0.3400000035762787,
+        0.07999999821186066
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Plank_07",
+      "type": "MESH",
+      "parent": "PATH_Planks",
+      "data": "PLANK_Shared",
+      "location": [
+        2.1761574745178223,
+        -1.374189853668213,
+        0.18000000715255737
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.14769849181175232
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.949999988079071,
+        0.3400000035762787,
+        0.07999999821186066
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Plank_08",
+      "type": "MESH",
+      "parent": "PATH_Planks",
+      "data": "PLANK_Shared",
+      "location": [
+        1.9854166507720947,
+        -1.0760416984558105,
+        0.18000000715255737
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        -1.0572422742843628
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.949999988079071,
+        0.3400000035762787,
+        0.07999999821186066
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Plank_09",
+      "type": "MESH",
+      "parent": "PATH_Planks",
+      "data": "PLANK_Shared",
+      "location": [
+        1.3905093669891357,
+        -0.8549768924713135,
+        0.18000000715255737
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        -1.3153272867202759
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.9499999284744263,
+        0.3399999737739563,
+        0.07999999821186066
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Plank_10",
+      "type": "MESH",
+      "parent": "PATH_Planks",
+      "data": "PLANK_Shared",
+      "location": [
+        0.5553241968154907,
+        -0.651273250579834,
+        0.18000000715255737
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        -1.3450886011123657
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.9499999284744263,
+        0.3399999737739563,
+        0.07999999821186066
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Plank_11",
+      "type": "MESH",
+      "parent": "PATH_Planks",
+      "data": "PLANK_Shared",
+      "location": [
+        -0.3562498092651367,
+        -0.4052084684371948,
+        0.18000000715255737
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        -1.2697398662567139
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.949999988079071,
+        0.3400000035762787,
+        0.07999999821186066
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Plank_12",
+      "type": "MESH",
+      "parent": "PATH_Planks",
+      "data": "PLANK_Shared",
+      "location": [
+        -1.1803237199783325,
+        -0.05706034600734711,
+        0.18000000715255737
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        -1.0602221488952637
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.949999988079071,
+        0.3400000035762787,
+        0.07999999821186066
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Plank_14",
+      "type": "MESH",
+      "parent": "PATH_Planks",
+      "data": "PLANK_Shared",
+      "location": [
+        -1.6324074268341064,
+        0.3541666269302368,
+        0.18000000715255737
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        -0.3836302161216736
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.949999988079071,
+        0.3400000035762787,
+        0.07999999821186066
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Plank_15",
+      "type": "MESH",
+      "parent": "PATH_Planks",
+      "data": "PLANK_Shared",
+      "location": [
+        -1.558333396911621,
+        0.7708332538604736,
+        0.18000000715255737
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.6347293257713318
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.949999988079071,
+        0.3400000035762787,
+        0.07999999821186066
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Plank_16",
+      "type": "MESH",
+      "parent": "PATH_Planks",
+      "data": "PLANK_Shared",
+      "location": [
+        -1.0759259462356567,
+        1.2041665315628052,
+        0.18000000715255737
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.9752923250198364
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.949999988079071,
+        0.3400000035762787,
+        0.07999999821186066
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Plank_17",
+      "type": "MESH",
+      "parent": "PATH_Planks",
+      "data": "PLANK_Shared",
+      "location": [
+        -0.32407402992248535,
+        1.6541664600372314,
+        0.18000000715255737
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        1.077179193496704
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.949999988079071,
+        0.3400000035762787,
+        0.07999999821186066
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Plank_18",
+      "type": "MESH",
+      "parent": "PATH_Planks",
+      "data": "PLANK_Shared",
+      "location": [
+        0.5583335161209106,
+        2.120833158493042,
+        0.18000000715255737
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        1.0910536050796509
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.9499999284744263,
+        0.3399999737739563,
+        0.07999999821186066
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Plank_19",
+      "type": "MESH",
+      "parent": "PATH_Planks",
+      "data": "PLANK_Shared",
+      "location": [
+        1.4324078559875488,
+        2.6041665077209473,
+        0.18000000715255737
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        1.0387334823608398
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.949999988079071,
+        0.3400000035762787,
+        0.07999999821186066
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_00",
+      "type": "EMPTY",
+      "parent": null,
+      "data": null,
+      "location": [
+        -3.5,
+        2.799999952316284,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        0.9520000219345093,
+        0.9520000219345093,
+        0.9520000219345093
+      ],
+      "dimensions": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_00_Trunk",
+      "type": "MESH",
+      "parent": "Tree_00",
+      "data": "TREE_Trunk_Shared",
+      "location": [
+        0.0,
+        0.0,
+        0.5799999833106995
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.304639995098114,
+        0.304639995098114,
+        1.0947999954223633
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_00_Canopy",
+      "type": "MESH",
+      "parent": "Tree_00",
+      "data": "TREE_CanopyLight_Shared",
+      "location": [
+        0.0,
+        0.0,
+        1.4500000476837158
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.6881094574928284,
+        0.7235199809074402,
+        0.7235199809074402
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_00_Dot_0",
+      "type": "MESH",
+      "parent": "Tree_00",
+      "data": "TREE_Sprinkle_Shared",
+      "location": [
+        0.3499999940395355,
+        0.10000000149011612,
+        1.7999999523162842
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.11920896172523499,
+        0.113373301923275,
+        0.13328000903129578
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_00_Dot_1",
+      "type": "MESH",
+      "parent": "Tree_00",
+      "data": "TREE_Sprinkle_Shared",
+      "location": [
+        -0.2800000011920929,
+        0.2199999988079071,
+        1.6699999570846558
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.11920896172523499,
+        0.113373301923275,
+        0.13328000903129578
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_00_Dot_2",
+      "type": "MESH",
+      "parent": "Tree_00",
+      "data": "TREE_Sprinkle_Shared",
+      "location": [
+        0.05000000074505806,
+        -0.3199999928474426,
+        1.9299999475479126
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.11920896172523499,
+        0.113373301923275,
+        0.13328000903129578
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_00_Dot_3",
+      "type": "MESH",
+      "parent": "Tree_00",
+      "data": "TREE_Sprinkle_Shared",
+      "location": [
+        0.2199999988079071,
+        0.2800000011920929,
+        1.5700000524520874
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.11920896172523499,
+        0.113373301923275,
+        0.13328000903129578
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_01",
+      "type": "EMPTY",
+      "parent": null,
+      "data": null,
+      "location": [
+        -3.700000047683716,
+        0.4000000059604645,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.086400032043457,
+        1.086400032043457,
+        1.086400032043457
+      ],
+      "dimensions": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_01_Trunk",
+      "type": "MESH",
+      "parent": "Tree_01",
+      "data": "TREE_Trunk_Shared",
+      "location": [
+        0.0,
+        0.0,
+        0.5799999833106995
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.3476479947566986,
+        0.3476479947566986,
+        1.2493599653244019
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_01_Canopy",
+      "type": "MESH",
+      "parent": "Tree_01",
+      "data": "TREE_Canopy_Shared",
+      "location": [
+        0.0,
+        0.0,
+        1.4500000476837158
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        1.5644160509109497,
+        1.5644160509109497,
+        1.2828212976455688
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_01_Dot_0",
+      "type": "MESH",
+      "parent": "Tree_01",
+      "data": "TREE_Sprinkle_Shared",
+      "location": [
+        0.3499999940395355,
+        0.10000000149011612,
+        1.7999999523162842
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.13603846728801727,
+        0.12937894463539124,
+        0.1520960032939911
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_01_Dot_1",
+      "type": "MESH",
+      "parent": "Tree_01",
+      "data": "TREE_Sprinkle_Shared",
+      "location": [
+        -0.2800000011920929,
+        0.2199999988079071,
+        1.6699999570846558
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.13603846728801727,
+        0.12937894463539124,
+        0.1520960032939911
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_01_Dot_2",
+      "type": "MESH",
+      "parent": "Tree_01",
+      "data": "TREE_Sprinkle_Shared",
+      "location": [
+        0.05000000074505806,
+        -0.3199999928474426,
+        1.9299999475479126
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.13603846728801727,
+        0.12937894463539124,
+        0.1520960032939911
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_01_Dot_3",
+      "type": "MESH",
+      "parent": "Tree_01",
+      "data": "TREE_Sprinkle_Shared",
+      "location": [
+        0.2199999988079071,
+        0.2800000011920929,
+        1.5700000524520874
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.13603846728801727,
+        0.12937894463539124,
+        0.1520960032939911
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_02",
+      "type": "EMPTY",
+      "parent": null,
+      "data": null,
+      "location": [
+        -3.299999952316284,
+        -2.200000047683716,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.2208000421524048,
+        1.2208000421524048,
+        1.2208000421524048
+      ],
+      "dimensions": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_02_Trunk",
+      "type": "MESH",
+      "parent": "Tree_02",
+      "data": "TREE_Trunk_Shared",
+      "location": [
+        0.0,
+        0.0,
+        0.5799999833106995
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.3906559944152832,
+        0.3906559944152832,
+        1.40392005443573
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_02_Canopy",
+      "type": "MESH",
+      "parent": "Tree_02",
+      "data": "TREE_CanopyLight_Shared",
+      "location": [
+        0.0,
+        0.0,
+        1.4500000476837158
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.8823991417884827,
+        0.9278080463409424,
+        0.9278080463409424
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_02_Dot_0",
+      "type": "MESH",
+      "parent": "Tree_02",
+      "data": "TREE_Sprinkle_Shared",
+      "location": [
+        0.3499999940395355,
+        0.10000000149011612,
+        1.7999999523162842
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.15286795794963837,
+        0.14538459479808807,
+        0.1709120124578476
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_02_Dot_1",
+      "type": "MESH",
+      "parent": "Tree_02",
+      "data": "TREE_Sprinkle_Shared",
+      "location": [
+        -0.2800000011920929,
+        0.2199999988079071,
+        1.6699999570846558
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.15286795794963837,
+        0.14538459479808807,
+        0.1709120124578476
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_02_Dot_2",
+      "type": "MESH",
+      "parent": "Tree_02",
+      "data": "TREE_Sprinkle_Shared",
+      "location": [
+        0.05000000074505806,
+        -0.3199999928474426,
+        1.9299999475479126
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.15286795794963837,
+        0.14538459479808807,
+        0.1709120124578476
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_02_Dot_3",
+      "type": "MESH",
+      "parent": "Tree_02",
+      "data": "TREE_Sprinkle_Shared",
+      "location": [
+        0.2199999988079071,
+        0.2800000011920929,
+        1.5700000524520874
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.15286795794963837,
+        0.14538459479808807,
+        0.1709120124578476
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_03",
+      "type": "EMPTY",
+      "parent": null,
+      "data": null,
+      "location": [
+        3.4000000953674316,
+        1.2999999523162842,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        0.9520000219345093,
+        0.9520000219345093,
+        0.9520000219345093
+      ],
+      "dimensions": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_03_Trunk",
+      "type": "MESH",
+      "parent": "Tree_03",
+      "data": "TREE_Trunk_Shared",
+      "location": [
+        0.0,
+        0.0,
+        0.5799999833106995
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.304639995098114,
+        0.304639995098114,
+        1.0947999954223633
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_03_Canopy",
+      "type": "MESH",
+      "parent": "Tree_03",
+      "data": "TREE_Canopy_Shared",
+      "location": [
+        0.0,
+        0.0,
+        1.4500000476837158
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        1.370880126953125,
+        1.370880126953125,
+        1.1241216659545898
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_03_Dot_0",
+      "type": "MESH",
+      "parent": "Tree_03",
+      "data": "TREE_Sprinkle_Shared",
+      "location": [
+        0.3499999940395355,
+        0.10000000149011612,
+        1.7999999523162842
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.11920896172523499,
+        0.113373301923275,
+        0.13328000903129578
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_03_Dot_1",
+      "type": "MESH",
+      "parent": "Tree_03",
+      "data": "TREE_Sprinkle_Shared",
+      "location": [
+        -0.2800000011920929,
+        0.2199999988079071,
+        1.6699999570846558
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.11920896172523499,
+        0.113373301923275,
+        0.13328000903129578
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_03_Dot_2",
+      "type": "MESH",
+      "parent": "Tree_03",
+      "data": "TREE_Sprinkle_Shared",
+      "location": [
+        0.05000000074505806,
+        -0.3199999928474426,
+        1.9299999475479126
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.11920896172523499,
+        0.113373301923275,
+        0.13328000903129578
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_03_Dot_3",
+      "type": "MESH",
+      "parent": "Tree_03",
+      "data": "TREE_Sprinkle_Shared",
+      "location": [
+        0.2199999988079071,
+        0.2800000011920929,
+        1.5700000524520874
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.11920896172523499,
+        0.113373301923275,
+        0.13328000903129578
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_04",
+      "type": "EMPTY",
+      "parent": null,
+      "data": null,
+      "location": [
+        3.5999999046325684,
+        -1.600000023841858,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.086400032043457,
+        1.086400032043457,
+        1.086400032043457
+      ],
+      "dimensions": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_04_Trunk",
+      "type": "MESH",
+      "parent": "Tree_04",
+      "data": "TREE_Trunk_Shared",
+      "location": [
+        0.0,
+        0.0,
+        0.5799999833106995
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.3476479947566986,
+        0.3476479947566986,
+        1.2493599653244019
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_04_Canopy",
+      "type": "MESH",
+      "parent": "Tree_04",
+      "data": "TREE_CanopyLight_Shared",
+      "location": [
+        0.0,
+        0.0,
+        1.4500000476837158
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.7852542996406555,
+        0.8256640434265137,
+        0.8256640434265137
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_04_Dot_0",
+      "type": "MESH",
+      "parent": "Tree_04",
+      "data": "TREE_Sprinkle_Shared",
+      "location": [
+        0.3499999940395355,
+        0.10000000149011612,
+        1.7999999523162842
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.13603846728801727,
+        0.12937894463539124,
+        0.1520960032939911
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_04_Dot_1",
+      "type": "MESH",
+      "parent": "Tree_04",
+      "data": "TREE_Sprinkle_Shared",
+      "location": [
+        -0.2800000011920929,
+        0.2199999988079071,
+        1.6699999570846558
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.13603846728801727,
+        0.12937894463539124,
+        0.1520960032939911
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_04_Dot_2",
+      "type": "MESH",
+      "parent": "Tree_04",
+      "data": "TREE_Sprinkle_Shared",
+      "location": [
+        0.05000000074505806,
+        -0.3199999928474426,
+        1.9299999475479126
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.13603846728801727,
+        0.12937894463539124,
+        0.1520960032939911
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_04_Dot_3",
+      "type": "MESH",
+      "parent": "Tree_04",
+      "data": "TREE_Sprinkle_Shared",
+      "location": [
+        0.2199999988079071,
+        0.2800000011920929,
+        1.5700000524520874
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.13603846728801727,
+        0.12937894463539124,
+        0.1520960032939911
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_05",
+      "type": "EMPTY",
+      "parent": null,
+      "data": null,
+      "location": [
+        2.4000000953674316,
+        -3.5,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.2208000421524048,
+        1.2208000421524048,
+        1.2208000421524048
+      ],
+      "dimensions": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_05_Trunk",
+      "type": "MESH",
+      "parent": "Tree_05",
+      "data": "TREE_Trunk_Shared",
+      "location": [
+        0.0,
+        0.0,
+        0.5799999833106995
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.3906559944152832,
+        0.3906559944152832,
+        1.40392005443573
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_05_Canopy",
+      "type": "MESH",
+      "parent": "Tree_05",
+      "data": "TREE_Canopy_Shared",
+      "location": [
+        0.0,
+        0.0,
+        1.4500000476837158
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        1.757952094078064,
+        1.757952094078064,
+        1.4415208101272583
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_05_Dot_0",
+      "type": "MESH",
+      "parent": "Tree_05",
+      "data": "TREE_Sprinkle_Shared",
+      "location": [
+        0.3499999940395355,
+        0.10000000149011612,
+        1.7999999523162842
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.15286795794963837,
+        0.14538459479808807,
+        0.1709120124578476
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_05_Dot_1",
+      "type": "MESH",
+      "parent": "Tree_05",
+      "data": "TREE_Sprinkle_Shared",
+      "location": [
+        -0.2800000011920929,
+        0.2199999988079071,
+        1.6699999570846558
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.15286795794963837,
+        0.14538459479808807,
+        0.1709120124578476
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_05_Dot_2",
+      "type": "MESH",
+      "parent": "Tree_05",
+      "data": "TREE_Sprinkle_Shared",
+      "location": [
+        0.05000000074505806,
+        -0.3199999928474426,
+        1.9299999475479126
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.15286795794963837,
+        0.14538459479808807,
+        0.1709120124578476
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_05_Dot_3",
+      "type": "MESH",
+      "parent": "Tree_05",
+      "data": "TREE_Sprinkle_Shared",
+      "location": [
+        0.2199999988079071,
+        0.2800000011920929,
+        1.5700000524520874
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.15286795794963837,
+        0.14538459479808807,
+        0.1709120124578476
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_06",
+      "type": "EMPTY",
+      "parent": null,
+      "data": null,
+      "location": [
+        -0.20000000298023224,
+        3.5,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        0.9520000219345093,
+        0.9520000219345093,
+        0.9520000219345093
+      ],
+      "dimensions": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_06_Trunk",
+      "type": "MESH",
+      "parent": "Tree_06",
+      "data": "TREE_Trunk_Shared",
+      "location": [
+        0.0,
+        0.0,
+        0.5799999833106995
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.304639995098114,
+        0.304639995098114,
+        1.0947999954223633
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_06_Canopy",
+      "type": "MESH",
+      "parent": "Tree_06",
+      "data": "TREE_CanopyLight_Shared",
+      "location": [
+        0.0,
+        0.0,
+        1.4500000476837158
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.6881094574928284,
+        0.7235199809074402,
+        0.7235199809074402
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_06_Dot_0",
+      "type": "MESH",
+      "parent": "Tree_06",
+      "data": "TREE_Sprinkle_Shared",
+      "location": [
+        0.3499999940395355,
+        0.10000000149011612,
+        1.7999999523162842
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.11920896172523499,
+        0.113373301923275,
+        0.13328000903129578
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_06_Dot_1",
+      "type": "MESH",
+      "parent": "Tree_06",
+      "data": "TREE_Sprinkle_Shared",
+      "location": [
+        -0.2800000011920929,
+        0.2199999988079071,
+        1.6699999570846558
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.11920896172523499,
+        0.113373301923275,
+        0.13328000903129578
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_06_Dot_2",
+      "type": "MESH",
+      "parent": "Tree_06",
+      "data": "TREE_Sprinkle_Shared",
+      "location": [
+        0.05000000074505806,
+        -0.3199999928474426,
+        1.9299999475479126
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.11920896172523499,
+        0.113373301923275,
+        0.13328000903129578
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_06_Dot_3",
+      "type": "MESH",
+      "parent": "Tree_06",
+      "data": "TREE_Sprinkle_Shared",
+      "location": [
+        0.2199999988079071,
+        0.2800000011920929,
+        1.5700000524520874
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.11920896172523499,
+        0.113373301923275,
+        0.13328000903129578
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_07",
+      "type": "EMPTY",
+      "parent": null,
+      "data": null,
+      "location": [
+        0.4000000059604645,
+        -1.2000000476837158,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.086400032043457,
+        1.086400032043457,
+        1.086400032043457
+      ],
+      "dimensions": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_07_Trunk",
+      "type": "MESH",
+      "parent": "Tree_07",
+      "data": "TREE_Trunk_Shared",
+      "location": [
+        0.0,
+        0.0,
+        0.5799999833106995
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.3476479947566986,
+        0.3476479947566986,
+        1.2493599653244019
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_07_Canopy",
+      "type": "MESH",
+      "parent": "Tree_07",
+      "data": "TREE_Canopy_Shared",
+      "location": [
+        0.0,
+        0.0,
+        1.4500000476837158
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        1.5644160509109497,
+        1.5644160509109497,
+        1.2828212976455688
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_07_Dot_0",
+      "type": "MESH",
+      "parent": "Tree_07",
+      "data": "TREE_Sprinkle_Shared",
+      "location": [
+        0.3499999940395355,
+        0.10000000149011612,
+        1.7999999523162842
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.13603846728801727,
+        0.12937894463539124,
+        0.1520960032939911
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_07_Dot_1",
+      "type": "MESH",
+      "parent": "Tree_07",
+      "data": "TREE_Sprinkle_Shared",
+      "location": [
+        -0.2800000011920929,
+        0.2199999988079071,
+        1.6699999570846558
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.13603846728801727,
+        0.12937894463539124,
+        0.1520960032939911
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_07_Dot_2",
+      "type": "MESH",
+      "parent": "Tree_07",
+      "data": "TREE_Sprinkle_Shared",
+      "location": [
+        0.05000000074505806,
+        -0.3199999928474426,
+        1.9299999475479126
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.13603846728801727,
+        0.12937894463539124,
+        0.1520960032939911
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Tree_07_Dot_3",
+      "type": "MESH",
+      "parent": "Tree_07",
+      "data": "TREE_Sprinkle_Shared",
+      "location": [
+        0.2199999988079071,
+        0.2800000011920929,
+        1.5700000524520874
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.13603846728801727,
+        0.12937894463539124,
+        0.1520960032939911
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Cottage",
+      "type": "EMPTY",
+      "parent": null,
+      "data": null,
+      "location": [
+        -2.3499999046325684,
+        1.850000023841858,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Cottage_Wall",
+      "type": "MESH",
+      "parent": "Cottage",
+      "data": "Cylinder",
+      "location": [
+        -2.549999952316284,
+        2.1500000953674316,
+        0.550000011920929
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        0.0
+      ],
+      "scale": [
+        0.699999988079071,
+        0.699999988079071,
+        0.550000011920929
+      ],
+      "dimensions": [
+        1.399999976158142,
+        1.399999976158142,
+        1.100000023841858
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Cottage_CherryCap",
+      "type": "MESH",
+      "parent": "Cottage",
+      "data": "Sphere",
+      "location": [
+        -2.549999952316284,
+        2.1500000953674316,
+        1.25
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        0.0
+      ],
+      "scale": [
+        0.949999988079071,
+        0.949999988079071,
+        0.6200000047683716
+      ],
+      "dimensions": [
+        1.8999989032745361,
+        1.8999992609024048,
+        1.2400000095367432
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Cottage_Door",
+      "type": "MESH",
+      "parent": "Cottage",
+      "data": "Cube.002",
+      "location": [
+        -2.549999952316284,
+        1.53000009059906,
+        0.3799999952316284
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        0.0
+      ],
+      "scale": [
+        0.2199999988079071,
+        0.05999999865889549,
+        0.3199999928474426
+      ],
+      "dimensions": [
+        0.4399999976158142,
+        0.11999999731779099,
+        0.6399999856948853
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [
+        {
+          "name": "Round",
+          "type": "BEVEL"
+        },
+        {
+          "name": "Soft",
+          "type": "SUBSURF"
+        }
+      ],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Cottage_Spot_0",
+      "type": "MESH",
+      "parent": "Cottage",
+      "data": "Sphere.001",
+      "location": [
+        -2.8999998569488525,
+        1.8000000715255737,
+        1.350000023841858
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        0.0
+      ],
+      "scale": [
+        0.11999999731779099,
+        0.07999999821186066,
+        0.10000000149011612
+      ],
+      "dimensions": [
+        0.23999984562397003,
+        0.15999993681907654,
+        0.20000000298023224
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Cottage_Spot_1",
+      "type": "MESH",
+      "parent": "Cottage",
+      "data": "Sphere.002",
+      "location": [
+        -2.1499998569488525,
+        1.8000000715255737,
+        1.2200000286102295
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        0.0
+      ],
+      "scale": [
+        0.11999999731779099,
+        0.07999999821186066,
+        0.10000000149011612
+      ],
+      "dimensions": [
+        0.23999984562397003,
+        0.15999993681907654,
+        0.20000000298023224
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Cottage_Spot_2",
+      "type": "MESH",
+      "parent": "Cottage",
+      "data": "Sphere.003",
+      "location": [
+        -2.5,
+        1.8000000715255737,
+        1.4800000190734863
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        0.0
+      ],
+      "scale": [
+        0.11999999731779099,
+        0.07999999821186066,
+        0.10000000149011612
+      ],
+      "dimensions": [
+        0.23999984562397003,
+        0.15999993681907654,
+        0.20000000298023224
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Cottage_Spot_3",
+      "type": "MESH",
+      "parent": "Cottage",
+      "data": "Sphere.004",
+      "location": [
+        -2.700000047683716,
+        1.8000000715255737,
+        1.149999976158142
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        0.0
+      ],
+      "scale": [
+        0.11999999731779099,
+        0.07999999821186066,
+        0.10000000149011612
+      ],
+      "dimensions": [
+        0.23999984562397003,
+        0.15999993681907654,
+        0.20000000298023224
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Mine",
+      "type": "EMPTY",
+      "parent": null,
+      "data": null,
+      "location": [
+        1.5499999523162842,
+        3.25,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.15000000596046448
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Mine_Boulder",
+      "type": "MESH",
+      "parent": "Mine",
+      "data": "Sphere.005",
+      "location": [
+        2.1500000953674316,
+        3.3000001907348633,
+        0.8500000238418579
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        0.0
+      ],
+      "scale": [
+        1.25,
+        1.0499999523162842,
+        0.8500000238418579
+      ],
+      "dimensions": [
+        2.4999985694885254,
+        2.099999189376831,
+        1.7000000476837158
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Mine_Mouth",
+      "type": "MESH",
+      "parent": "Mine",
+      "data": "Sphere.006",
+      "location": [
+        2.1500000953674316,
+        2.6000001430511475,
+        0.6200000047683716
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        0.0
+      ],
+      "scale": [
+        0.550000011920929,
+        0.2800000011920929,
+        0.41999998688697815
+      ],
+      "dimensions": [
+        1.0999993085861206,
+        0.5599998235702515,
+        0.8399999737739563
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Mine_Post_L",
+      "type": "MESH",
+      "parent": "Mine",
+      "data": "Cylinder.001",
+      "location": [
+        1.6700000762939453,
+        2.8000001907348633,
+        0.550000011920929
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        0.0
+      ],
+      "scale": [
+        0.07999999821186066,
+        0.07999999821186066,
+        0.550000011920929
+      ],
+      "dimensions": [
+        0.1599999964237213,
+        0.1599999964237213,
+        1.100000023841858
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Mine_Post_R",
+      "type": "MESH",
+      "parent": "Mine",
+      "data": "Cylinder.002",
+      "location": [
+        2.630000114440918,
+        2.8000001907348633,
+        0.550000011920929
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        0.0
+      ],
+      "scale": [
+        0.07999999821186066,
+        0.07999999821186066,
+        0.550000011920929
+      ],
+      "dimensions": [
+        0.1599999964237213,
+        0.1599999964237213,
+        1.100000023841858
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Mine_Beam",
+      "type": "MESH",
+      "parent": "Mine",
+      "data": "Cube.003",
+      "location": [
+        2.1500000953674316,
+        2.8000001907348633,
+        1.1200000047683716
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        0.0
+      ],
+      "scale": [
+        0.6200000047683716,
+        0.07999999821186066,
+        0.07000000029802322
+      ],
+      "dimensions": [
+        1.2400000095367432,
+        0.1599999964237213,
+        0.14000000059604645
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [
+        {
+          "name": "Round",
+          "type": "BEVEL"
+        },
+        {
+          "name": "Soft",
+          "type": "SUBSURF"
+        }
+      ],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Mine_Lantern",
+      "type": "MESH",
+      "parent": "Mine",
+      "data": "Sphere.007",
+      "location": [
+        2.0,
+        2.7300000190734863,
+        0.9200000166893005
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        0.0
+      ],
+      "scale": [
+        0.11999999731779099,
+        0.11999999731779099,
+        0.14000000059604645
+      ],
+      "dimensions": [
+        0.23999984562397003,
+        0.2399999052286148,
+        0.2800000011920929
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": {
+        "action": "Mine_LanternAction",
+        "drivers": 0,
+        "nla_tracks": 0
+      },
+      "data_animation": null
+    },
+    {
+      "name": "Mine_LanternHook",
+      "type": "MESH",
+      "parent": "Mine",
+      "data": "Cylinder.003",
+      "location": [
+        -0.15000000596046448,
+        -0.41999998688697815,
+        1.0800000429153442
+      ],
+      "rotation": [
+        0.0,
+        -0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        2.0,
+        2.0,
+        2.0
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Sun_Soft",
+      "type": "LIGHT",
+      "parent": null,
+      "data": "Sun",
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.8377580642700195,
+        0.0,
+        -0.6108652353286743
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Fill_Sky",
+      "type": "LIGHT",
+      "parent": null,
+      "data": "Fill",
+      "location": [
+        -4.0,
+        -3.0,
+        6.0
+      ],
+      "rotation": [
+        1.0471975803375244,
+        0.0,
+        -0.3490658402442932
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Camera",
+      "type": "CAMERA",
+      "parent": null,
+      "data": "HeroCamera",
+      "location": [
+        7.400000095367432,
+        -8.600000381469727,
+        6.800000190734863
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    },
+    {
+      "name": "Camera_Target",
+      "type": "EMPTY",
+      "parent": null,
+      "data": null,
+      "location": [
+        0.15000000596046448,
+        -0.15000000596046448,
+        0.3499999940395355
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "hide_render": false,
+      "hide_viewport": false,
+      "modifiers": [],
+      "animation": null,
+      "data_animation": null
+    }
+  ],
+  "meshes": [
+    {
+      "name": "Cube",
+      "users": 1,
+      "vertices": 8,
+      "polygons": 6,
+      "uv_layers": [
+        "UVMap"
+      ],
+      "objects": [
+        "Ground_Board"
+      ]
+    },
+    {
+      "name": "Cube.001",
+      "users": 1,
+      "vertices": 8,
+      "polygons": 6,
+      "uv_layers": [
+        "UVMap"
+      ],
+      "objects": [
+        "Ground_SoilRim"
+      ]
+    },
+    {
+      "name": "Cube.002",
+      "users": 1,
+      "vertices": 8,
+      "polygons": 6,
+      "uv_layers": [
+        "UVMap"
+      ],
+      "objects": [
+        "Cottage_Door"
+      ]
+    },
+    {
+      "name": "Cube.003",
+      "users": 1,
+      "vertices": 8,
+      "polygons": 6,
+      "uv_layers": [
+        "UVMap"
+      ],
+      "objects": [
+        "Mine_Beam"
+      ]
+    },
+    {
+      "name": "Cylinder",
+      "users": 1,
+      "vertices": 48,
+      "polygons": 26,
+      "uv_layers": [
+        "UVMap"
+      ],
+      "objects": [
+        "Cottage_Wall"
+      ]
+    },
+    {
+      "name": "Cylinder.001",
+      "users": 1,
+      "vertices": 48,
+      "polygons": 26,
+      "uv_layers": [
+        "UVMap"
+      ],
+      "objects": [
+        "Mine_Post_L"
+      ]
+    },
+    {
+      "name": "Cylinder.002",
+      "users": 1,
+      "vertices": 48,
+      "polygons": 26,
+      "uv_layers": [
+        "UVMap"
+      ],
+      "objects": [
+        "Mine_Post_R"
+      ]
+    },
+    {
+      "name": "Cylinder.003",
+      "users": 1,
+      "vertices": 48,
+      "polygons": 26,
+      "uv_layers": [
+        "UVMap"
+      ],
+      "objects": [
+        "Mine_LanternHook"
+      ]
+    },
+    {
+      "name": "Gumdrop_Lemon_Shared",
+      "users": 4,
+      "vertices": 42,
+      "polygons": 80,
+      "uv_layers": [],
+      "objects": [
+        "Gumdrop_02",
+        "Gumdrop_05",
+        "Gumdrop_08",
+        "Gumdrop_11"
+      ]
+    },
+    {
+      "name": "Gumdrop_Mint_Shared",
+      "users": 4,
+      "vertices": 42,
+      "polygons": 80,
+      "uv_layers": [],
+      "objects": [
+        "Gumdrop_01",
+        "Gumdrop_04",
+        "Gumdrop_07",
+        "Gumdrop_10"
+      ]
+    },
+    {
+      "name": "Gumdrop_Pink_Shared",
+      "users": 4,
+      "vertices": 42,
+      "polygons": 80,
+      "uv_layers": [],
+      "objects": [
+        "Gumdrop_00",
+        "Gumdrop_03",
+        "Gumdrop_06",
+        "Gumdrop_09"
+      ]
+    },
+    {
+      "name": "PLANK_Shared",
+      "users": 18,
+      "vertices": 32,
+      "polygons": 30,
+      "uv_layers": [],
+      "objects": [
+        "Plank_00",
+        "Plank_01",
+        "Plank_02",
+        "Plank_03",
+        "Plank_04",
+        "Plank_05",
+        "Plank_07",
+        "Plank_08",
+        "Plank_09",
+        "Plank_10",
+        "Plank_11",
+        "Plank_12",
+        "Plank_14",
+        "Plank_15",
+        "Plank_16",
+        "Plank_17",
+        "Plank_18",
+        "Plank_19"
+      ]
+    },
+    {
+      "name": "Sphere",
+      "users": 1,
+      "vertices": 482,
+      "polygons": 512,
+      "uv_layers": [
+        "UVMap"
+      ],
+      "objects": [
+        "Cottage_CherryCap"
+      ]
+    },
+    {
+      "name": "Sphere.001",
+      "users": 1,
+      "vertices": 482,
+      "polygons": 512,
+      "uv_layers": [
+        "UVMap"
+      ],
+      "objects": [
+        "Cottage_Spot_0"
+      ]
+    },
+    {
+      "name": "Sphere.002",
+      "users": 1,
+      "vertices": 482,
+      "polygons": 512,
+      "uv_layers": [
+        "UVMap"
+      ],
+      "objects": [
+        "Cottage_Spot_1"
+      ]
+    },
+    {
+      "name": "Sphere.003",
+      "users": 1,
+      "vertices": 482,
+      "polygons": 512,
+      "uv_layers": [
+        "UVMap"
+      ],
+      "objects": [
+        "Cottage_Spot_2"
+      ]
+    },
+    {
+      "name": "Sphere.004",
+      "users": 1,
+      "vertices": 482,
+      "polygons": 512,
+      "uv_layers": [
+        "UVMap"
+      ],
+      "objects": [
+        "Cottage_Spot_3"
+      ]
+    },
+    {
+      "name": "Sphere.005",
+      "users": 1,
+      "vertices": 482,
+      "polygons": 512,
+      "uv_layers": [
+        "UVMap"
+      ],
+      "objects": [
+        "Mine_Boulder"
+      ]
+    },
+    {
+      "name": "Sphere.006",
+      "users": 1,
+      "vertices": 482,
+      "polygons": 512,
+      "uv_layers": [
+        "UVMap"
+      ],
+      "objects": [
+        "Mine_Mouth"
+      ]
+    },
+    {
+      "name": "Sphere.007",
+      "users": 1,
+      "vertices": 482,
+      "polygons": 512,
+      "uv_layers": [
+        "UVMap"
+      ],
+      "objects": [
+        "Mine_Lantern"
+      ]
+    },
+    {
+      "name": "TREE_Canopy_Shared",
+      "users": 4,
+      "vertices": 162,
+      "polygons": 320,
+      "uv_layers": [],
+      "objects": [
+        "Tree_01_Canopy",
+        "Tree_03_Canopy",
+        "Tree_05_Canopy",
+        "Tree_07_Canopy"
+      ]
+    },
+    {
+      "name": "TREE_CanopyLight_Shared",
+      "users": 4,
+      "vertices": 42,
+      "polygons": 80,
+      "uv_layers": [],
+      "objects": [
+        "Tree_00_Canopy",
+        "Tree_02_Canopy",
+        "Tree_04_Canopy",
+        "Tree_06_Canopy"
+      ]
+    },
+    {
+      "name": "TREE_Sprinkle_Shared",
+      "users": 32,
+      "vertices": 12,
+      "polygons": 20,
+      "uv_layers": [],
+      "objects": [
+        "Tree_00_Dot_0",
+        "Tree_00_Dot_1",
+        "Tree_00_Dot_2",
+        "Tree_00_Dot_3",
+        "Tree_01_Dot_0",
+        "Tree_01_Dot_1",
+        "Tree_01_Dot_2",
+        "Tree_01_Dot_3",
+        "Tree_02_Dot_0",
+        "Tree_02_Dot_1",
+        "Tree_02_Dot_2",
+        "Tree_02_Dot_3",
+        "Tree_03_Dot_0",
+        "Tree_03_Dot_1",
+        "Tree_03_Dot_2",
+        "Tree_03_Dot_3",
+        "Tree_04_Dot_0",
+        "Tree_04_Dot_1",
+        "Tree_04_Dot_2",
+        "Tree_04_Dot_3",
+        "Tree_05_Dot_0",
+        "Tree_05_Dot_1",
+        "Tree_05_Dot_2",
+        "Tree_05_Dot_3",
+        "Tree_06_Dot_0",
+        "Tree_06_Dot_1",
+        "Tree_06_Dot_2",
+        "Tree_06_Dot_3",
+        "Tree_07_Dot_0",
+        "Tree_07_Dot_1",
+        "Tree_07_Dot_2",
+        "Tree_07_Dot_3"
+      ]
+    },
+    {
+      "name": "TREE_Trunk_Shared",
+      "users": 8,
+      "vertices": 32,
+      "polygons": 18,
+      "uv_layers": [],
+      "objects": [
+        "Tree_00_Trunk",
+        "Tree_01_Trunk",
+        "Tree_02_Trunk",
+        "Tree_03_Trunk",
+        "Tree_04_Trunk",
+        "Tree_05_Trunk",
+        "Tree_06_Trunk",
+        "Tree_07_Trunk"
+      ]
+    }
+  ],
+  "materials": [
+    {
+      "name": "Candy_CaramelWood",
+      "users": 4,
+      "diffuse": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "nodes": [
+        {
+          "name": "Principled BSDF",
+          "type": "ShaderNodeBsdfPrincipled",
+          "Base Color": [
+            0.8600000143051147,
+            0.5199999809265137,
+            0.20000000298023224,
+            1.0
+          ],
+          "Roughness": 0.3400000035762787,
+          "Metallic": 0.0,
+          "Emission Color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Strength": 0.0,
+          "Coat Weight": 0.6200000047683716
+        },
+        {
+          "name": "Material Output",
+          "type": "ShaderNodeOutputMaterial"
+        }
+      ],
+      "animation": null,
+      "node_animation": null
+    },
+    {
+      "name": "Candy_CaveMouth",
+      "users": 1,
+      "diffuse": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "nodes": [
+        {
+          "name": "Principled BSDF",
+          "type": "ShaderNodeBsdfPrincipled",
+          "Base Color": [
+            0.11999999731779099,
+            0.14000000059604645,
+            0.1599999964237213,
+            1.0
+          ],
+          "Roughness": 0.6000000238418579,
+          "Metallic": 0.0,
+          "Emission Color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Strength": 0.0,
+          "Coat Weight": 0.05000000074505806
+        },
+        {
+          "name": "Material Output",
+          "type": "ShaderNodeOutputMaterial"
+        }
+      ],
+      "animation": null,
+      "node_animation": null
+    },
+    {
+      "name": "Candy_Cherry",
+      "users": 1,
+      "diffuse": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "nodes": [
+        {
+          "name": "Principled BSDF",
+          "type": "ShaderNodeBsdfPrincipled",
+          "Base Color": [
+            0.8199999928474426,
+            0.12999999523162842,
+            0.2199999988079071,
+            1.0
+          ],
+          "Roughness": 0.2199999988079071,
+          "Metallic": 0.0,
+          "Emission Color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Strength": 0.0,
+          "Coat Weight": 0.8500000238418579
+        },
+        {
+          "name": "Material Output",
+          "type": "ShaderNodeOutputMaterial"
+        }
+      ],
+      "animation": null,
+      "node_animation": null
+    },
+    {
+      "name": "Candy_Cream",
+      "users": 1,
+      "diffuse": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "nodes": [
+        {
+          "name": "Principled BSDF",
+          "type": "ShaderNodeBsdfPrincipled",
+          "Base Color": [
+            0.9800000190734863,
+            0.9200000166893005,
+            0.8199999928474426,
+            1.0
+          ],
+          "Roughness": 0.30000001192092896,
+          "Metallic": 0.0,
+          "Emission Color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Strength": 0.0,
+          "Coat Weight": 0.550000011920929
+        },
+        {
+          "name": "Material Output",
+          "type": "ShaderNodeOutputMaterial"
+        }
+      ],
+      "animation": null,
+      "node_animation": null
+    },
+    {
+      "name": "Candy_Grass",
+      "users": 1,
+      "diffuse": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "nodes": [
+        {
+          "name": "Principled BSDF",
+          "type": "ShaderNodeBsdfPrincipled",
+          "Base Color": [
+            0.36000001430511475,
+            0.7799999713897705,
+            0.3400000035762787,
+            1.0
+          ],
+          "Roughness": 0.41999998688697815,
+          "Metallic": 0.0,
+          "Emission Color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Strength": 0.0,
+          "Coat Weight": 0.25
+        },
+        {
+          "name": "Material Output",
+          "type": "ShaderNodeOutputMaterial"
+        }
+      ],
+      "animation": null,
+      "node_animation": null
+    },
+    {
+      "name": "Candy_GumdropLemon",
+      "users": 1,
+      "diffuse": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "nodes": [
+        {
+          "name": "Principled BSDF",
+          "type": "ShaderNodeBsdfPrincipled",
+          "Base Color": [
+            0.9800000190734863,
+            0.8399999737739563,
+            0.2199999988079071,
+            1.0
+          ],
+          "Roughness": 0.1599999964237213,
+          "Metallic": 0.0,
+          "Emission Color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Strength": 0.0,
+          "Coat Weight": 0.949999988079071
+        },
+        {
+          "name": "Material Output",
+          "type": "ShaderNodeOutputMaterial"
+        }
+      ],
+      "animation": null,
+      "node_animation": null
+    },
+    {
+      "name": "Candy_GumdropMint",
+      "users": 1,
+      "diffuse": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "nodes": [
+        {
+          "name": "Principled BSDF",
+          "type": "ShaderNodeBsdfPrincipled",
+          "Base Color": [
+            0.4000000059604645,
+            0.8799999952316284,
+            0.7200000286102295,
+            1.0
+          ],
+          "Roughness": 0.1599999964237213,
+          "Metallic": 0.0,
+          "Emission Color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Strength": 0.0,
+          "Coat Weight": 0.949999988079071
+        },
+        {
+          "name": "Material Output",
+          "type": "ShaderNodeOutputMaterial"
+        }
+      ],
+      "animation": null,
+      "node_animation": null
+    },
+    {
+      "name": "Candy_GumdropPink",
+      "users": 1,
+      "diffuse": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "nodes": [
+        {
+          "name": "Principled BSDF",
+          "type": "ShaderNodeBsdfPrincipled",
+          "Base Color": [
+            0.949999988079071,
+            0.41999998688697815,
+            0.5799999833106995,
+            1.0
+          ],
+          "Roughness": 0.1599999964237213,
+          "Metallic": 0.0,
+          "Emission Color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Strength": 0.0,
+          "Coat Weight": 0.949999988079071
+        },
+        {
+          "name": "Material Output",
+          "type": "ShaderNodeOutputMaterial"
+        }
+      ],
+      "animation": null,
+      "node_animation": null
+    },
+    {
+      "name": "Candy_Lantern",
+      "users": 1,
+      "diffuse": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "nodes": [
+        {
+          "name": "Principled BSDF",
+          "type": "ShaderNodeBsdfPrincipled",
+          "Base Color": [
+            1.0,
+            0.7200000286102295,
+            0.2800000011920929,
+            1.0
+          ],
+          "Roughness": 0.11999999731779099,
+          "Metallic": 0.0,
+          "Emission Color": [
+            1.0,
+            0.6200000047683716,
+            0.18000000715255737,
+            1.0
+          ],
+          "Emission Strength": 8.0,
+          "Coat Weight": 0.20000000298023224
+        },
+        {
+          "name": "Material Output",
+          "type": "ShaderNodeOutputMaterial"
+        }
+      ],
+      "animation": null,
+      "node_animation": null
+    },
+    {
+      "name": "Candy_Leaf",
+      "users": 1,
+      "diffuse": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "nodes": [
+        {
+          "name": "Principled BSDF",
+          "type": "ShaderNodeBsdfPrincipled",
+          "Base Color": [
+            0.2800000011920929,
+            0.7400000095367432,
+            0.30000001192092896,
+            1.0
+          ],
+          "Roughness": 0.2800000011920929,
+          "Metallic": 0.0,
+          "Emission Color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Strength": 0.0,
+          "Coat Weight": 0.699999988079071
+        },
+        {
+          "name": "Material Output",
+          "type": "ShaderNodeOutputMaterial"
+        }
+      ],
+      "animation": null,
+      "node_animation": null
+    },
+    {
+      "name": "Candy_LeafLight",
+      "users": 1,
+      "diffuse": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "nodes": [
+        {
+          "name": "Principled BSDF",
+          "type": "ShaderNodeBsdfPrincipled",
+          "Base Color": [
+            0.6200000047683716,
+            0.8799999952316284,
+            0.3400000035762787,
+            1.0
+          ],
+          "Roughness": 0.25999999046325684,
+          "Metallic": 0.0,
+          "Emission Color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Strength": 0.0,
+          "Coat Weight": 0.75
+        },
+        {
+          "name": "Material Output",
+          "type": "ShaderNodeOutputMaterial"
+        }
+      ],
+      "animation": null,
+      "node_animation": null
+    },
+    {
+      "name": "Candy_Rock",
+      "users": 1,
+      "diffuse": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "nodes": [
+        {
+          "name": "Principled BSDF",
+          "type": "ShaderNodeBsdfPrincipled",
+          "Base Color": [
+            0.6200000047683716,
+            0.699999988079071,
+            0.7400000095367432,
+            1.0
+          ],
+          "Roughness": 0.3799999952316284,
+          "Metallic": 0.0,
+          "Emission Color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Strength": 0.0,
+          "Coat Weight": 0.3499999940395355
+        },
+        {
+          "name": "Material Output",
+          "type": "ShaderNodeOutputMaterial"
+        }
+      ],
+      "animation": null,
+      "node_animation": null
+    },
+    {
+      "name": "Candy_SoilRim",
+      "users": 1,
+      "diffuse": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "nodes": [
+        {
+          "name": "Principled BSDF",
+          "type": "ShaderNodeBsdfPrincipled",
+          "Base Color": [
+            0.6200000047683716,
+            0.4000000059604645,
+            0.23999999463558197,
+            1.0
+          ],
+          "Roughness": 0.550000011920929,
+          "Metallic": 0.0,
+          "Emission Color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Strength": 0.0,
+          "Coat Weight": 0.10000000149011612
+        },
+        {
+          "name": "Material Output",
+          "type": "ShaderNodeOutputMaterial"
+        }
+      ],
+      "animation": null,
+      "node_animation": null
+    },
+    {
+      "name": "Candy_Spot",
+      "users": 4,
+      "diffuse": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "nodes": [
+        {
+          "name": "Principled BSDF",
+          "type": "ShaderNodeBsdfPrincipled",
+          "Base Color": [
+            0.9800000190734863,
+            0.9700000286102295,
+            0.9399999976158142,
+            1.0
+          ],
+          "Roughness": 0.20000000298023224,
+          "Metallic": 0.0,
+          "Emission Color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Strength": 0.0,
+          "Coat Weight": 0.800000011920929
+        },
+        {
+          "name": "Material Output",
+          "type": "ShaderNodeOutputMaterial"
+        }
+      ],
+      "animation": null,
+      "node_animation": null
+    },
+    {
+      "name": "Candy_Sprinkle",
+      "users": 1,
+      "diffuse": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "nodes": [
+        {
+          "name": "Principled BSDF",
+          "type": "ShaderNodeBsdfPrincipled",
+          "Base Color": [
+            0.9800000190734863,
+            0.7799999713897705,
+            0.18000000715255737,
+            1.0
+          ],
+          "Roughness": 0.18000000715255737,
+          "Metallic": 0.0,
+          "Emission Color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Strength": 0.0,
+          "Coat Weight": 0.8999999761581421
+        },
+        {
+          "name": "Material Output",
+          "type": "ShaderNodeOutputMaterial"
+        }
+      ],
+      "animation": null,
+      "node_animation": null
+    },
+    {
+      "name": "Candy_WoodDark",
+      "users": 3,
+      "diffuse": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "nodes": [
+        {
+          "name": "Principled BSDF",
+          "type": "ShaderNodeBsdfPrincipled",
+          "Base Color": [
+            0.550000011920929,
+            0.30000001192092896,
+            0.12999999523162842,
+            1.0
+          ],
+          "Roughness": 0.4000000059604645,
+          "Metallic": 0.0,
+          "Emission Color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "Emission Strength": 0.0,
+          "Coat Weight": 0.30000001192092896
+        },
+        {
+          "name": "Material Output",
+          "type": "ShaderNodeOutputMaterial"
+        }
+      ],
+      "animation": null,
+      "node_animation": null
+    }
+  ],
+  "actions": [
+    {
+      "name": "Mine_LanternAction",
+      "frame_range": [
+        1.0,
+        36.0
+      ],
+      "slots": 1
+    }
+  ],
+  "text_blocks": [
+    "START_HERE"
+  ],
+  "cameras": [
+    {
+      "name": "Camera",
+      "type": "PERSP",
+      "ortho_scale": 6.0,
+      "lens": 42.0
+    }
+  ],
+  "active_camera": "Camera",
+  "render": {
+    "engine": "CYCLES",
+    "resolution": [
+      720,
+      960
+    ],
+    "percent": 100,
+    "fps": 24,
+    "start": 1,
+    "end": 36,
+    "view_transform": "AgX",
+    "look": "None"
+  },
+  "external_images": [],
+  "linked_libraries": [],
+  "autoexec_fail": false,
+  "autoexec_fail_message": "",
+  "inspection_scope": "Read existing scene and START_HERE as data. Auto-execution disabled. No embedded text script executed, no source save."
+}

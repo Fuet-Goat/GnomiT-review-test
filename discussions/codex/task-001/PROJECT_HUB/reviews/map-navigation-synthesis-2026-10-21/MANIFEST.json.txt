@@ -1,0 +1,65 @@
+{
+  "files": [
+    {
+      "path": "CODE_EVIDENCE.txt",
+      "bytes": 652,
+      "sha256": "243c80d7290d551573bece408ca2f85ca95c4fc8009ce6b68a4c6e26f1a93ed0"
+    },
+    {
+      "path": "COMMON_FOLLOWUP_FOR_GPT_GROK_BG.txt",
+      "bytes": 2344,
+      "sha256": "2c80fd51a58682262b134989446de67c29721031122e2c208d1e49be7f212448"
+    },
+    {
+      "path": "DECISION_MATRIX.json",
+      "bytes": 1156,
+      "sha256": "fe0b64e9f7fd490f836e5334ef554352854159cf48663731d356b1cc6f91a56d"
+    },
+    {
+      "path": "FINAL_RESPONSE.txt",
+      "bytes": 888,
+      "sha256": "3f96d6a86bd418d0e1c3bf618d96bbe78b21df7022dc0bbb41fbe8cca26ba1dd"
+    },
+    {
+      "path": "INPUT_RECEIPT.json",
+      "bytes": 1260,
+      "sha256": "6e992dc57307263dc88b540c3b64edfd6445ab42518456d1be47873d9223c410"
+    },
+    {
+      "path": "INPUTS/CODEX_ORIGINAL_REPORT.txt",
+      "bytes": 12487,
+      "sha256": "7a3af4a11d300725a5b52fed823ed7485b6ac9fa220ac824b5686d9bbc256e40"
+    },
+    {
+      "path": "INPUTS/GPT_REPORT.txt",
+      "bytes": 28621,
+      "sha256": "64bd15ba9f82a92407e06d7b809fc3298c1a688e8443687346b4f960e4999988"
+    },
+    {
+      "path": "INPUTS/GROK_REPORT_FULL_HISTORY.txt",
+      "bytes": 75456,
+      "sha256": "6571d52c09ce84178cd4ff58e5cec991a79f585402aca28d80e1c5b4d6cabf84"
+    },
+    {
+      "path": "INTERNAL_REVIEW.txt",
+      "bytes": 480,
+      "sha256": "2092e17916d3cf3f24b784830a661fa13158780323c43221ec6bb06e9d6f9e70"
+    },
+    {
+      "path": "README.txt",
+      "bytes": 656,
+      "sha256": "09353e6f679e6d8d32075600a26e317d5cad2adb51f5e2952742728ff57a6df6"
+    },
+    {
+      "path": "START_HERE_BG.txt",
+      "bytes": 688,
+      "sha256": "567c927122f9f1fbfd36d2106680a48f05131526159f060b8e987c0ebae153b3"
+    },
+    {
+      "path": "SYNTHESIS_BG.txt",
+      "bytes": 11996,
+      "sha256": "d6191a1c9d92daa3ee7c87be8457550310e5b4012b1d5473d583578575cfdc4f"
+    }
+  ],
+  "note": "Manifest excludes itself."
+}

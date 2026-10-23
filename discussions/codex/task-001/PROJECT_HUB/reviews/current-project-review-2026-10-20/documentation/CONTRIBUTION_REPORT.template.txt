@@ -1,0 +1,66 @@
+GNOMIT CONTRIBUTION / REVIEW REPORT — TEMPLATE_NOT_A_RESULT
+
+Идентичност
+Contribution/report ID: <уникално ID; без лични данни>
+Автор/участник и роля: <human / GPT / Grok / tool; действителна версия или UNKNOWN>
+Дата и час + timezone: UNKNOWN
+Режим: REPORTS_ONLY | AUTHORIZED_IMPLEMENTATION
+Потребителско разрешение/grant, точен източник и обхват: UNKNOWN
+Front-door/AGENTS/grants прочетени: <път + версия/хеш + прочетена секция>
+Repo/working root: UNKNOWN
+Base commit и начин на проверка: NOT_MEASURED
+Branch/worktree/начално dirty състояние, ако е разрешено да се провери: NOT_MEASURED
+Предходен отчет/принос/manifest и hash: UNKNOWN
+
+Цел и текущо разбиране
+Проблем/нужда и кой резултат е полезен: <конкретно>
+Наблюдавано текущо поведение: <твърдение + точен файл:функция/ред или capture>
+Етикет на всяко твърдение: CODE-VERIFIED | INFERRED | VISUAL-JUDGMENT | UNKNOWN
+Какво не беше достъпно/проверено: <изрично>
+Само за REPORTS_ONLY — ЕДНО предложение:
+  Задача и очакван резултат: <конкретно>
+  Предложени файлове/папки и извънобхватни системи: <точно>
+  Предложени проверки, среда и STOP: <точно; това не е разрешение>
+
+Реални промени — само след действително разрешение
+Начин на връзка с разрешението: UNKNOWN
+Списък: <път | added/modified/deleted | цел | предходен hash | нов hash>
+Преди/след поведение и проверимо доказателство: <точно>
+Result commit, ако е разрешен и създаден; иначе NOT_CREATED: NOT_CREATED
+Несвързани съществуващи промени/обхвати: <наблюдавани; не ги присвоявай>
+PROVENANCE/ASSET_METADATA/MANIFEST записи за всеки нов/променен файл: <пътища/IDs>
+За изтрит файл запази предходния запис/източник и причината; не изтривай историята.
+
+Възпроизводимост
+Инструменти и точни версии: UNKNOWN
+Редактируем source, scripts, prompts, seeds, refs: <път + bytes/hash или UNKNOWN>
+Build/export/import/run: <точни команди, работна папка, параметри и ред>
+Нужни зависимости и безопасна конфигурация: <път/версия; без secrets>
+Липсващи prerequisites и NOT_RUN стъпки: <точно>
+
+Изпълнени проверки — един ред/запис за всяка
+ID | команда/действие | SCRIPTED/FIXTURE/HUMAN | среда/устройство/версия |
+начална сцена/данни | очаквано | реален резултат + exit | log/capture + hash
+<няма изпълнени проверки: NOT_RUN; не попълвай очакван резултат като реален>
+Captures: <ID | screenshot/video/audio | SCRIPTED/FIXTURE/HUMAN | как е създаден |
+дата | source commit | сцена | fixture/save | резолюция/FPS/audio | път + hash>
+Реална победа/отключване проверени ли са и как: NOT_MEASURED
+Human visual/listening приемане: NOT_MEASURED
+Android/mobile/performance измерване (device, workload, renderer, метод): NOT_MEASURED
+Не приравнявай автоматизация/fixture/capture с човешка оценка или реална победа.
+
+Произход и повторна употреба
+PROVENANCE записи и външни материали/зависимости: <IDs/пътища>
+Лиценз/атрибуция/условия и доказателства: UNKNOWN
+Неизяснени условия или липсващ source/seed: <точно>
+Оценка на условията: UNKNOWN; този отчет не създава ownership и не заменя terms.
+
+Финален пакет и ограничения
+Окончателен manifest (точни bytes/SHA-256) и изключения: <път>
+Readback/JSON parse/manifest validation, реално изпълнени: NOT_RUN
+Известни ограничения, регресии и рискове: <конкретно>
+Недостигнати/неизмерени проверки: <NOT_MEASURED/NOT_RUN + причина>
+Локален резултат: <REPORT_READY / IMPLEMENTED_UNVERIFIED / VERIFIED_WITH_LIMITS>
+Независим преглед/приемане от потребителя: PENDING
+Следваща нужда от решение/разрешение: <конкретно или NONE>
+STOP: <точната достигната граница; без автоматично следваща задача>

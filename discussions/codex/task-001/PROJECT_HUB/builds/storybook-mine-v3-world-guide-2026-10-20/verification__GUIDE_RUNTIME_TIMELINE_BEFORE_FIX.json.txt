@@ -1,0 +1,103 @@
+{
+	"checks": 51,
+	"failures": [
+		"Native eye closes/reopens at 0.7917s",
+		"Native eye closes/reopens at 0.7917s",
+		"Native eye closes/reopens at 0.9167s",
+		"Native eye closes/reopens at 0.9167s",
+		"Native eye closes/reopens at 4.3333s",
+		"Native eye closes/reopens at 4.3333s",
+		"Native eye closes/reopens at 4.4583s",
+		"Native eye closes/reopens at 4.4583s",
+		"Six-second guide loop closes"
+	],
+	"human_art_acceptance": "PENDING",
+	"method": "Explicit seek sampling of the actual imported GLB merged Animation; continuous playback is supplied separately in native movie.",
+	"model_sha256": "976c25bca02051bb974ae795c40cb702d533eab5917bd029351b8d8b3e913072",
+	"samples": [
+		{
+			"eye_openness": [
+				1.0,
+				1.0
+			],
+			"hand_changed": false,
+			"head_changed": false,
+			"seconds": 0.0
+		},
+		{
+			"eye_openness": [
+				0.517500042915344,
+				0.517500042915344
+			],
+			"hand_changed": true,
+			"head_changed": true,
+			"seconds": 0.791666666666667
+		},
+		{
+			"eye_openness": [
+				0.706925868988037,
+				0.706925868988037
+			],
+			"hand_changed": true,
+			"head_changed": true,
+			"seconds": 0.916666666666667
+		},
+		{
+			"eye_openness": [
+				0.999999940395355,
+				0.999999940395355
+			],
+			"hand_changed": true,
+			"head_changed": true,
+			"seconds": 1.5
+		},
+		{
+			"eye_openness": [
+				0.999999940395355,
+				0.999999940395355
+			],
+			"hand_changed": true,
+			"head_changed": true,
+			"seconds": 2.5
+		},
+		{
+			"eye_openness": [
+				0.517499685287476,
+				0.517499685287476
+			],
+			"hand_changed": true,
+			"head_changed": true,
+			"seconds": 4.33333333333333
+		},
+		{
+			"eye_openness": [
+				0.717647612094879,
+				0.717647612094879
+			],
+			"hand_changed": true,
+			"head_changed": true,
+			"seconds": 4.45833333333333
+		},
+		{
+			"eye_openness": [
+				1.0,
+				1.0
+			],
+			"hand_changed": true,
+			"head_changed": true,
+			"seconds": 5.5
+		},
+		{
+			"eye_openness": [
+				1.0,
+				1.0
+			],
+			"hand_changed": true,
+			"head_changed": true,
+			"seconds": 6.0
+		}
+	],
+	"screen_count": 1,
+	"screen_index": 0,
+	"status": "FAIL"
+}

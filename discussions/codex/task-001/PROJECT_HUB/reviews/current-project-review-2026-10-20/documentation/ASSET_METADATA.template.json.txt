@@ -1,0 +1,117 @@
+{
+  "document_type": "GNOMIT_ASSET_METADATA",
+  "template_status": "TEMPLATE_NOT_A_RESULT",
+  "schema_version": "1.0",
+  "contribution_id": "<ID>",
+  "metadata_rules": "Use only applicable sections; use NOT_APPLICABLE with a reason for the rest. null numbers are unmeasured, never zero. Units and exact config files are required.",
+  "assets": [
+    {
+      "asset_id": "<ID>",
+      "type": "<code|image|sprite|model|animation|audio|other>",
+      "purpose": "UNKNOWN",
+      "runtime_file_paths": [],
+      "editable_source_paths": [],
+      "provenance_record_ids": [],
+      "base_commit": "NOT_MEASURED",
+      "image_sprite": {
+        "status": "UNKNOWN",
+        "width_px": null,
+        "height_px": null,
+        "color_space_and_format": "UNKNOWN",
+        "alpha_mode": "<straight|premultiplied|opaque|UNKNOWN>",
+        "pivot": { "x": null, "y": null, "units": "UNKNOWN", "coordinate_origin": "UNKNOWN" },
+        "atlas_layout_and_frame_order": "UNKNOWN",
+        "padding_and_filtering": "UNKNOWN"
+      },
+      "model_scene": {
+        "status": "UNKNOWN",
+        "native_editable_file": "UNKNOWN",
+        "blender_or_authoring_version": "UNKNOWN",
+        "units_scale_axes": "UNKNOWN",
+        "origin_pivot_and_transforms": "UNKNOWN",
+        "camera_lighting_materials_textures": "UNKNOWN",
+        "geometry_counts_if_measured": "NOT_MEASURED",
+        "export_format_version_flags": "UNKNOWN",
+        "export_settings_path": "UNKNOWN"
+      },
+      "animation": {
+        "status": "UNKNOWN",
+        "fps": null,
+        "duration_seconds": null,
+        "frame_count": null,
+        "clips_frame_ranges": [],
+        "loop_and_event_timing": "UNKNOWN",
+        "rig_curves_or_procedural_script": "UNKNOWN",
+        "reduced_motion_behavior": "UNKNOWN"
+      },
+      "audio": {
+        "status": "UNKNOWN",
+        "sample_rate_hz": null,
+        "channels": null,
+        "channel_layout": "UNKNOWN",
+        "encoding_bit_depth": "UNKNOWN",
+        "duration_seconds": null,
+        "loop_start_end_and_units": "UNKNOWN",
+        "gain_peak_loudness_and_measurement_method": "NOT_MEASURED",
+        "editable_project_or_synthesis_script": "UNKNOWN"
+      },
+      "code": {
+        "status": "UNKNOWN",
+        "language_runtime_version": "UNKNOWN",
+        "entry_points_and_public_api": [],
+        "inputs_outputs_and_invariants": "UNKNOWN",
+        "dependency_record_ids": [],
+        "behavioral_change_and_compatibility": "UNKNOWN"
+      },
+      "reproduction": {
+        "working_directory": "UNKNOWN",
+        "tools_exact_versions": [],
+        "script_prompt_seed_record": "UNKNOWN",
+        "rebuild_commands_in_order": [],
+        "export_commands_and_settings": [],
+        "godot_version_renderer": "UNKNOWN",
+        "godot_import_config_paths": [],
+        "godot_import_steps_and_flags": [],
+        "run_entry_scene_and_commands": [],
+        "safe_config_paths_no_secrets": [],
+        "execution_status": "NOT_RUN"
+      },
+      "validation": [
+        {
+          "check_id": "<ID>",
+          "method_label": "<SCRIPTED|FIXTURE|HUMAN>",
+          "command_or_action": "UNKNOWN",
+          "environment_device_versions": "UNKNOWN",
+          "source_commit": "NOT_MEASURED",
+          "initial_scene_and_data": "UNKNOWN",
+          "fixture_or_save_kind": "UNKNOWN",
+          "executed_at_timezone": "UNKNOWN",
+          "result": "NOT_RUN",
+          "exit_code": null,
+          "evidence_paths_and_manifest_ids": [],
+          "claim_label": "<CODE-VERIFIED|INFERRED|VISUAL-JUDGMENT|UNKNOWN>",
+          "limits": []
+        }
+      ],
+      "capture_metadata": {
+        "method_label": "<SCRIPTED|FIXTURE|HUMAN>",
+        "capture_tool_and_version": "UNKNOWN",
+        "resolution_fps_audio_settings": "UNKNOWN",
+        "source_commit_and_scene": "NOT_MEASURED",
+        "capture_date_timezone": "UNKNOWN",
+        "original_capture_paths": [],
+        "edits_or_transcodes_with_source_chain": [],
+        "contains_account_screens_personal_data_or_saves": "UNKNOWN"
+      },
+      "human_visual_listening_acceptance": "NOT_MEASURED",
+      "mobile_performance": {
+        "status": "NOT_MEASURED",
+        "device_os_renderer_build": "UNKNOWN",
+        "workload_duration_measurement_method": "UNKNOWN",
+        "evidence_paths": []
+      },
+      "known_limits": [],
+      "not_applicable_reasons": {}
+    }
+  ]
+}

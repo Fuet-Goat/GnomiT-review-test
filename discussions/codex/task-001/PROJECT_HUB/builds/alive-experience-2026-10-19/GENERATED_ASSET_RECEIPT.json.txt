@@ -1,0 +1,117 @@
+{
+  "tool": "built-in image_gen",
+  "mode": "edit identity-preserve",
+  "image": "C:\\Users\\fruch\\.codex\\generated_images\\01a11973-52a1-7a10-b9c3-69a7fee84ca5\\exec-b26d1cde-8376-44d4-8474-d870622cb779.png",
+  "reference": "assets/shared_v2/hero_master.png",
+  "asset": "assets/alive/hero_expressions_v1.png",
+  "bytes": 1557601,
+  "sha256": "3bee14309112a98c7decf3535c00ba0661c3c1dec0b82f9ffc8581ef47143339",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode_actual": "RGBA",
+  "corners_alpha": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "frames": [
+    {
+      "index": 0,
+      "name": "idle",
+      "rect": [
+        174,
+        24,
+        419,
+        572
+      ],
+      "solid_bbox": [
+        6,
+        6,
+        413,
+        566
+      ],
+      "foot_pivot": [
+        197.5,
+        566
+      ],
+      "reference_height": 560,
+      "canonical_scale": 0.7857142857142857
+    },
+    {
+      "index": 1,
+      "name": "blink",
+      "rect": [
+        739,
+        23,
+        422,
+        573
+      ],
+      "solid_bbox": [
+        6,
+        6,
+        416,
+        567
+      ],
+      "foot_pivot": [
+        196.5,
+        567
+      ],
+      "reference_height": 561,
+      "canonical_scale": 0.7843137254901961
+    },
+    {
+      "index": 2,
+      "name": "reaction",
+      "rect": [
+        141,
+        620,
+        467,
+        587
+      ],
+      "solid_bbox": [
+        6,
+        6,
+        461,
+        581
+      ],
+      "foot_pivot": [
+        210,
+        581
+      ],
+      "reference_height": 575,
+      "canonical_scale": 0.7652173913043478
+    },
+    {
+      "index": 3,
+      "name": "victory_lantern_raised",
+      "rect": [
+        737,
+        624,
+        464,
+        583
+      ],
+      "solid_bbox": [
+        6,
+        6,
+        458,
+        577
+      ],
+      "foot_pivot": [
+        212.5,
+        577
+      ],
+      "reference_height": 571,
+      "canonical_scale": 0.7705779334500875
+    }
+  ],
+  "notes": "PIL used only for measurement; PNG bytes unchanged. Arbitrary nonoverlapping atlas regions follow measured alpha gaps, not the inaccurate 627px grid. Solid boxes region-local at alpha>=128. Foot x is midpoint of last80 solid shoe rows, y is exclusive solid bottom. Canonical scale maps solid silhouette height to original master440px. Artistic consistency and runtime acceptance remain separate.",
+  "alpha_threshold": 128,
+  "canonical_foot_pivot": [
+    256,
+    467
+  ],
+  "canonical_silhouette_height": 440
+}

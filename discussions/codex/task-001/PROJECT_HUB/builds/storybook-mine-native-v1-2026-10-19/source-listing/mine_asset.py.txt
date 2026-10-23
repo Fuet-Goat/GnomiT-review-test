@@ -1,0 +1,457 @@
+"""Rounded storybook mine, built from real reusable Blender geometry.
+
+Integration: ``build_mine(api, position=(1.45, 2.4, 0), scale=1.0)``.
+The entrance faces -Y, Z is up, and all components belong to the ``Mine``
+empty.  This module creates no camera, world, render settings or output files.
+"""
+
+import math
+import random
+
+import bpy
+from mathutils import Vector
+
+
+def build_mine(api, position=(1.45, 2.4, 0), scale=1.0):
+    """Build the mine and return world-space integration anchors and metadata.
+
+    ``api`` provides mat, cube, ball, tube, leaf and parent_keep_world helpers.
+    ``scale`` is baked consistently into geometry, bevels and light reach.  The
+    empty remains at unit scale, so the whole asset can also be moved normally.
+    """
+    if scale <= 0:
+        raise ValueError("Mine scale must be positive")
+    origin = Vector(position)
+    s = float(scale)
+    rng = random.Random(193427)
+    objects = []
+    cylinder_meshes = {}
+
+    root = bpy.data.objects.new("Mine", None)
+    bpy.context.collection.objects.link(root)
+    root.location = origin
+    root.empty_display_type = 'PLAIN_AXES'
+    root.empty_display_size = .35 * s
+    root["asset_role"] = "storybook mine with hollow entrance and warm lantern"
+    root["front_axis"] = "-Y"
+    root["authored_scale"] = s
+    root["loop_frames"] = 144
+
+    def world(point):
+        return tuple(origin + Vector(point) * s)
+
+    def keep(obj):
+        api['parent_keep_world'](obj, root)
+        objects.append(obj)
+        return obj
+
+    def material(name, color, rough=.65, metal=0, emission=0):
+        return api['mat']("Mine / " + name, color, rough, metal, emission)
+
+    stone = material("warm limestone", "C5BDA8", .77)
+    stone_cream = material("sunlit limestone", "DED3BA", .73)
+    stone_cool = material("soft grey limestone", "A8B5A9", .78)
+    stone_shadow = material("rock between stones", "8B9683", .85)
+    interior = material("tunnel umber", "403B2C", .95)
+    interior_rear = material("deep tunnel", "171D17", 1)
+    floor_mat = material("tunnel earth", "24291D", .98)
+    wood = material("honey oak", "C7863F", .6)
+    wood_light = material("golden cut oak", "F0AD5D", .57)
+    wood_edge = material("lit timber edges", "F5BD72", .56)
+    wood_dark = material("Groove", "975625", .78)
+    wood_inner = material("wood in tunnel", "76512B", .78)
+    moss = material("cushion moss", "8EBB38", .85)
+    moss_light = material("fresh moss tips", "C0D34B", .8)
+    moss_dark = material("moss shadow", "55913C", .86)
+    leaf_mat = material("rounded spring leaves", "6AA53A", .7)
+    brass = material("aged golden brass", "C58E36", .34, .6)
+    brass_edge = material("polished brass corners", "E5B45A", .29, .66)
+    iron = material("warm forged iron", "5F5037", .5, .48)
+    wick_mat = material("charred wick", "3F2B17", .92)
+    flame_mat = material("amber flame", "FFC85F", .27, 0, 2.2)
+    flame_core_mat = material("small flame heart", "FFE9AD", .23, 0, 3.2)
+    glass = material("amber lantern glass", "EEC27C", .2)
+    principled = glass.node_tree.nodes.get('Principled BSDF') if glass.use_nodes else None
+    if principled:
+        principled.inputs['Alpha'].default_value = .20
+        transmission = principled.inputs.get('Transmission Weight')
+        if transmission:
+            transmission.default_value = .45
+        ior = principled.inputs.get('IOR')
+        if ior:
+            ior.default_value = 1.45
+    glass.diffuse_color = (*glass.diffuse_color[:3], .20)
+    if hasattr(glass, 'surface_render_method'):
+        glass.surface_render_method = 'DITHERED'
+
+    def cube(name, point, dimensions, mat, bevel=.05):
+        return keep(api['cube']("Mine | " + name, world(point),
+                                tuple(v * s for v in dimensions), mat, bevel * s))
+
+    def ball(name, point, dimensions, mat, sub=2):
+        return keep(api['ball']("Mine | " + name, world(point),
+                                tuple(v * s for v in dimensions), mat, sub))
+
+    def tube(name, points, radius, mat):
+        return keep(api['tube']("Mine | " + name,
+                                [world(p) for p in points], radius * s, mat))
+
+    def leaf(name, start, end, width, mat=leaf_mat):
+        return keep(api['leaf']("Mine | " + name, world(start), world(end), width * s, mat))
+
+    def mesh(name, vertices, faces, materials, face_materials=None, bevel=0):
+        data = bpy.data.meshes.new("Mine geometry | " + name)
+        data.from_pydata([tuple(Vector(v) * s) for v in vertices], [], faces)
+        data.update()
+        for mat in materials:
+            data.materials.append(mat)
+        obj = bpy.data.objects.new("Mine | " + name, data)
+        bpy.context.collection.objects.link(obj)
+        obj.location = origin
+        if face_materials:
+            for poly, index in zip(data.polygons, face_materials):
+                poly.material_index = index
+        if bevel:
+            modifier = obj.modifiers.new("soft hand cut edges", 'BEVEL')
+            modifier.width = bevel * s
+            modifier.segments = 3
+            modifier = obj.modifiers.new("stable broad highlights", 'WEIGHTED_NORMAL')
+            modifier.keep_sharp = True
+        return keep(obj)
+
+    def cylinder(name, point, radius, depth, mat, axis=(0, 0, 1), sides=16):
+        # Fasteners and brass fittings reuse a unit mesh per material.
+        key = (mat.name, sides)
+        if key not in cylinder_meshes:
+            verts = [(math.cos(i * math.tau / sides), math.sin(i * math.tau / sides), z)
+                     for z in (-.5, .5) for i in range(sides)]
+            faces = [tuple(reversed(range(sides))), tuple(range(sides, sides * 2))]
+            faces += [(i, (i + 1) % sides, (i + 1) % sides + sides, i + sides)
+                      for i in range(sides)]
+            data = bpy.data.meshes.new("Mine shared cylinder | " + mat.name)
+            data.from_pydata(verts, [], faces)
+            data.materials.append(mat)
+            data.update()
+            for poly in data.polygons[2:]:
+                poly.use_smooth = True
+            cylinder_meshes[key] = data
+        obj = bpy.data.objects.new("Mine | " + name, cylinder_meshes[key])
+        bpy.context.collection.objects.link(obj)
+        obj.location = world(point)
+        obj.scale = (radius * s, radius * s, depth * s)
+        obj.rotation_mode = 'QUATERNION'
+        obj.rotation_quaternion = Vector((0, 0, 1)).rotation_difference(Vector(axis).normalized())
+        return keep(obj)
+
+    def beam(name, start, end, width, depth, mat, bevel=.045):
+        a, b = Vector(start), Vector(end)
+        obj = cube(name, (a + b) * .5, (width, depth, (b - a).length), mat, bevel)
+        obj.rotation_mode = 'QUATERNION'
+        obj.rotation_quaternion = Vector((0, 0, 1)).rotation_difference((b - a).normalized())
+        return obj
+
+    # Real open horseshoe shell.  The front annulus, the long inner ceiling,
+    # both tunnel walls and the shrinking dark rear are separate surfaces.
+    # There is deliberately no solid boulder or black panel at the facade.
+    steps = 12
+    inner_profile = [(-1.16, .10), (-1.16, 1.14)]
+    outer_profile = [(-1.94, -.04), (-1.94, 1.14)]
+    for i in range(1, steps + 1):
+        theta = math.pi * (1 - i / steps)
+        inner_profile.append((math.cos(theta) * 1.16, 1.14 + math.sin(theta) * 1.08))
+        outer_profile.append((math.cos(theta) * 1.94, 1.14 + math.sin(theta) * 1.68))
+    inner_profile.append((1.16, .10))
+    outer_profile.append((1.94, -.04))
+    rings = [
+        [(x, -.12, z) for x, z in outer_profile],
+        [(x * .89, 1.44, z * .91) for x, z in outer_profile],
+        [(x, -.43, z) for x, z in inner_profile],
+        [(x * .80, 1.43, z * .85 + .025) for x, z in inner_profile],
+    ]
+    n = len(inner_profile)
+    verts = [v for ring in rings for v in ring]
+    faces, material_ids = [], []
+    for i in range(n - 1):
+        j = i + 1
+        faces.append((i, j, n + j, n + i)); material_ids.append(0)
+        faces.append((2 * n + j, 2 * n + i, 3 * n + i, 3 * n + j)); material_ids.append(1)
+        faces.append((i, 2 * n + i, 2 * n + j, j)); material_ids.append(0)
+        faces.append((n + j, 3 * n + j, 3 * n + i, n + i)); material_ids.append(2)
+    mesh("hollow rock tunnel shell", verts, faces,
+         [stone_shadow, interior, interior_rear], material_ids, .035)
+    cube("recessed tunnel darkness", (0, 1.49, .97), (1.91, .12, 1.96), interior_rear, .18)
+    cube("earthen tunnel floor", (0, .51, .045), (2.27, 1.98, .13), floor_mat, .05)
+
+    # Warm timbers continue into the shadows; these prove the mouth has depth.
+    for side in (-1, 1):
+        beam("interior support " + str(side), (side * 1.02, .58, .12),
+             (side * .99, .58, 1.91), .13, .16, wood_inner, .025)
+    cube("interior header", (0, .58, 1.94), (2.15, .17, .16), wood_inner, .03)
+    for i in range(2):
+        cube("threshold continuation plank %02d" % i, (0, -.25 + i * .34, .14),
+             (2.25 - i * .10, .325, .12), wood if i < 2 else wood_inner, .028)
+    cube("rounded entrance sill", (0, -.56, .125), (2.63, .29, .19), wood_light, .055)
+
+    # Stones are rounded blocks with broad readable planes, with an imperfect
+    # arch rhythm, rather than a stack of uniform spheres.
+    arch_stones = []
+    stone_mats = [stone, stone_cream, stone_cool, stone, stone_cream]
+    for i in range(9):
+        theta = math.pi * (1 - i / 8)
+        x = 1.49 * math.cos(theta)
+        z = 1.14 + 1.48 * math.sin(theta)
+        point = (x + rng.uniform(-.045, .045), -.37 + rng.uniform(-.045, .025), z)
+        dims = (.61 + rng.uniform(-.04, .045), .88 + rng.uniform(-.07, .06),
+                .65 + rng.uniform(-.035, .045))
+        obj = cube("arch stone %02d" % i, point, dims, stone_mats[i % len(stone_mats)], .17)
+        obj.rotation_euler = (rng.uniform(-.045, .045), math.pi / 2 - theta,
+                              rng.uniform(-.035, .035))
+        arch_stones.append(obj)
+    for side in (-1, 1):
+        for i, z in enumerate((.27, .70)):
+            obj = cube("jamb stone %s %s" % (side, i),
+                       (side * (1.51 + .035 * i), -.31 + .045 * i, z),
+                       (.68 - i * .035, .97, .55), stone_mats[(i + (side == 1)) % 5], .17)
+            obj.rotation_euler = (.035 * side, -.055 * side, .035 * side)
+    # The domed rear mass stays outside the hollow cavity.  The right shoulder
+    # is especially visible from the intended high three-quarter camera.
+    shoulder_stones = [
+        (-1.57, .47, .78, (.79, .96, .96)),
+        (-1.35, 1.05, 1.46, (.89, .88, .94)),
+        (-.86, .61, 2.34, (1.03, .89, .74)),
+        (.06, .62, 2.57, (1.12, 1.03, .70)),
+        (.99, .62, 2.27, (.98, .97, .86)),
+        (1.61, .32, .71, (.80, 1.04, 1.02)),
+        (1.59, .73, 1.48, (.81, .94, .91)),
+        (1.04, 1.18, 1.85, (.91, .88, .85)),
+        (.07, 1.20, 2.22, (1.13, .92, .83)),
+    ]
+    for i, (x, y, z, dims) in enumerate(shoulder_stones):
+        obj = cube("rounded mound stone %02d" % i, (x, y, z), dims,
+                   stone_mats[(i + 2) % 5], min(dims) * .25)
+        obj.rotation_euler = (rng.uniform(-.16, .16), rng.uniform(-.13, .13), rng.uniform(-.20, .20))
+    for i, (x, y, z, size) in enumerate([
+        (-1.73, -.65, .20, .37), (-1.87, -.10, .15, .22),
+        (1.73, -.67, .24, .38), (1.84, -.05, .18, .25),
+        (1.82, .95, .27, .30), (-1.85, .62, .22, .26),
+    ]):
+        obj = ball("settled foot stone %02d" % i, (x, y, z),
+                   (size, size * .78, size * .70), stone_mats[i % 5], 3)
+        obj.rotation_euler.z = rng.uniform(-.5, .5)
+
+    # The canopy-like moss sits on the stone crowns, with a few drips down the
+    # outward faces.  Nothing is planted across the entrance silhouette.
+    moss_patches = [
+        (-1.43, -.24, 1.65, .37, .36),
+        (-1.14, -.19, 2.30, .44, .34),
+        (-.59, -.23, 2.77, .45, .35),
+        (.11, -.19, 2.93, .47, .35),
+        (.87, -.14, 2.61, .43, .35),
+        (1.55, -.06, 1.91, .37, .38),
+        (.18, .69, 2.93, .61, .44),
+        (1.40, .68, 2.10, .45, .43),
+    ]
+    for i, (x, y, z, sx, sy) in enumerate(moss_patches):
+        ball("velvet moss cap %02d" % i, (x, y, z), (sx, sy, .105),
+             moss if i % 3 else moss_light, 3)
+        for j in range(1 if i % 2 else 2):
+            # Thin hanging lobes extend down the front of the rounded stone.
+            xx = x + (j - .45) * .18
+            ball("moss rounded drip %02d %s" % (i, j),
+                 (xx, y - sy * .72, z - .095 - .025 * j),
+                 (.10 + .02 * (j % 2), .075, .15 + .025 * j), moss, 2)
+    for i, (x, y, z) in enumerate([
+        (-1.83, -.39, .36), (-1.94, .06, .48), (1.96, -.28, .45),
+        (1.96, .38, .74), (-.85, .22, 2.80), (.57, .44, 2.93),
+    ]):
+        for side in (-1, 1):
+            leaf("small outward moss leaf %s %s" % (i, side), (x, y, z),
+                 (x + side * .18, y + .035 + .08 * side, z + .22), .10,
+                 moss_light if i >= 4 else leaf_mat)
+    for i, (x, y, z) in enumerate([(-1.89, -.55, .39), (1.92, -.50, .47), (1.87, .71, .54)]):
+        ball("little moss island %s" % i, (x, y, z), (.20, .16, .06), moss_dark, 2)
+
+    # Main posts lean very slightly outward at the foot, like hand-fitted
+    # timber.  A front-set header and short braces cast useful warm shadows.
+    front_facade_start = len(objects)
+    beam("left oak post", (-1.32, -.54, .16), (-1.28, -.54, 2.27), .32, .43, wood, .075)
+    beam("right oak post", (1.32, -.54, .16), (1.28, -.54, 2.27), .32, .43, wood, .075)
+    cube("substantial honey oak lintel", (0, -.55, 2.23), (3.15, .48, .39), wood_light, .085)
+    for side in (-1, 1):
+        beam("carved corner brace " + str(side), (side * 1.17, -.64, 1.68),
+             (side * .77, -.64, 2.06), .17, .25, wood_light, .047)
+        cube("post worn foot " + str(side), (side * 1.314, -.563, .20),
+             (.35, .455, .20), wood_dark, .045)
+
+    # Thin curves are actual grooves on the timber's front planes, not a
+    # painted texture.  Keep their contrast gentle at the intended scene size.
+    for side in (-1, 1):
+        for j, offset in enumerate((-.077, -.018, .066)):
+            points = []
+            for k in range(7):
+                z = .36 + k * .275
+                center_x = side * (1.32 - .04 * ((z - .16) / 2.11))
+                x = center_x + offset + .009 * math.sin(k * 1.6 + j * 2 + side)
+                points.append((x, -.759 - .002 * j, z))
+            tube("post grain %s %s" % (side, j), points, .007,
+                 wood_dark if j != 1 else wood_light)
+        # Oval knot, with a small tapering inner curl, on the visible face.
+        knot_z = .84 if side == -1 else 1.25
+        knot_x = side * 1.305 + .015
+        knot = [(knot_x + .047 * math.sin(i * math.tau / 14), -.767,
+                 knot_z + .108 * math.cos(i * math.tau / 14)) for i in range(15)]
+        tube("oak post knot " + str(side), knot, .009, wood_dark)
+        tube("oak knot heart " + str(side),
+             [(knot_x, -.773, knot_z - .056), (knot_x - .018, -.777, knot_z),
+              (knot_x + .009, -.773, knot_z + .044)], .008, wood_dark)
+    for j, z in enumerate((2.13, 2.235, 2.325)):
+        points = [(-1.38 + k * .345, -.797, z + .010 * math.sin(k * 1.3 + j)) for k in range(9)]
+        tube("lintel flowing grain " + str(j), points, .0075,
+             wood_dark if j < 2 else wood_edge)
+    for side in (-1, 1):
+        for j in range(2):
+            points = []
+            for k in range(5):
+                t = k / 4
+                points.append((side * (1.155 - t * .365) + j * .028,
+                               -.771, 1.75 + t * .28 - j * .025))
+            tube("brace grain %s %s" % (side, j), points, .0055, wood_dark)
+
+    # The right end of the lintel faces the camera and has its own cut face.
+    cube("lintel cut end", (1.579, -.55, 2.23), (.018, .337, .267), wood_edge, .008)
+    for i, radius in enumerate((.045, .081, .120)):
+        points = [(1.593, -.55 + math.cos(k * math.tau / 20) * radius * 1.12,
+                   2.23 + math.sin(k * math.tau / 20) * radius * .76)
+                  for k in range(21)]
+        tube("lintel endgrain ring " + str(i), points, .0045, wood_dark)
+    for side in (-1, 1):
+        for z in (2.23, 1.82):
+            x = side * (1.29 if z > 2 else 1.13)
+            cylinder("timber peg washer %s %.2f" % (side, z), (x, -.803, z),
+                     .054, .017, brass, (0, -1, 0))
+            cylinder("timber iron peg %s %.2f" % (side, z), (x, -.818, z),
+                     .030, .022, iron, (0, -1, 0), 8)
+
+    # A crafted lantern: four translucent panes surround a small flame, with
+    # open brass corner frames, shaped roof, bail handle and a forged hook.
+    lx, ly, lz = -1.21, -1.02, 1.64
+    lantern_anchor = world((lx, ly, lz))
+    cylinder("lantern bracket mount", (-1.225, -.789, 2.245), .072, .035,
+             iron, (0, -1, 0))
+    tube("curled lantern wall hook",
+         [(-1.225, -.81, 2.245), (-1.225, -.98, 2.31),
+          (-1.225, -1.12, 2.26), (-1.225, -1.13, 2.12),
+          (-1.225, -1.075, 2.10)], .026, iron)
+    # Bail lies in XZ so its arch is visible from the front.
+    tube("lantern arched bail handle",
+         [(lx - .13, ly, lz + .29), (lx - .15, ly, lz + .43),
+          (lx, ly, lz + .49), (lx + .15, ly, lz + .43),
+          (lx + .13, ly, lz + .29)], .017, brass_edge)
+    cube("lantern lower brass plinth", (lx, ly, lz - .248), (.43, .39, .080), brass, .026)
+    cube("lantern upper brass rim", (lx, ly, lz + .227), (.43, .39, .060), brass_edge, .018)
+    cube("lantern lower brass lip", (lx, ly, lz - .194), (.39, .355, .025), brass_edge, .009)
+    # Thin panes leave the front flame readable and avoid a solid neon cube.
+    for side in (-1, 1):
+        cube("lantern glass front back " + str(side), (lx, ly + side * .158, lz + .012),
+             (.31, .009, .365), glass, .003)
+        cube("lantern glass side " + str(side), (lx + side * .166, ly, lz + .012),
+             (.009, .296, .365), glass, .003)
+    for xside in (-1, 1):
+        for yside in (-1, 1):
+            cylinder("lantern corner %s %s" % (xside, yside),
+                     (lx + xside * .175, ly + yside * .165, lz + .013),
+                     .017, .417, brass_edge)
+    # A low pyramidal cap with broad slightly rounded-looking golden planes.
+    roof_verts = [(lx - .25, ly - .235, lz + .255),
+                  (lx + .25, ly - .235, lz + .255),
+                  (lx + .25, ly + .235, lz + .255),
+                  (lx - .25, ly + .235, lz + .255),
+                  (lx, ly, lz + .384)]
+    mesh("lantern shaped brass roof", roof_verts,
+         [(0, 3, 2, 1), (0, 1, 4), (1, 2, 4), (2, 3, 4), (3, 0, 4)], [brass], bevel=.012)
+    ball("lantern roof finial", (lx, ly, lz + .383), (.043, .043, .032), brass_edge, 2)
+    cylinder("lantern inner burner", (lx, ly, lz - .142), .070, .049, brass, sides=16)
+    cylinder("lantern short wick", (lx, ly, lz - .098), .017, .042, wick_mat, sides=12)
+    flame = ball("contained teardrop flame", (lx, ly, lz + .004), (.067, .050, .132), flame_mat, 3)
+    flame.rotation_euler.y = -.16
+    ball("flame warm ivory heart", (lx + .005, ly - .018, lz - .025),
+         (.028, .026, .066), flame_core_mat, 2)
+    for side in (-1, 1):
+        cylinder("lantern bail hinge " + str(side), (lx + side * .204, ly, lz + .232),
+                 .035, .037, brass_edge, (1, 0, 0))
+
+    light_data = bpy.data.lights.new("Mine lantern / true warm point light", 'POINT')
+    light_data.color = (1.0, .57, .20)
+    light_data.shadow_soft_size = .33 * s
+    light_data.energy = 24 * s * s
+    light_obj = bpy.data.objects.new("Mine | animated lantern point light", light_data)
+    bpy.context.collection.objects.link(light_obj)
+    light_obj.location = world((lx, ly - .045, lz + .025))
+    keep(light_obj)
+    # Pull the entire crafted facade clear of the arch's rounded front faces.
+    # This slice contains only front oak, its detail and the complete lantern;
+    # the hollow shell, interior supports, sill and docking planks stay fixed.
+    front_facade_shift = Vector((0, -.30 * s, 0))
+    for obj in objects[front_facade_start:]:
+        obj.location += front_facade_shift
+    lantern_anchor = tuple(Vector(lantern_anchor) + front_facade_shift)
+    lantern_light_anchor = tuple(Vector(world((lx, ly - .045, lz + .025))) + front_facade_shift)
+    # 145 repeats frame 1: 144 intervals at 24 fps gives a seamless six seconds.
+    # The lamp DATA energy is keyed, so this is real illumination animation.
+    flicker = [(1, 24), (25, 25.5), (49, 23.2), (73, 24.7),
+               (97, 22.9), (121, 25.1), (145, 24)]
+    for frame, energy in flicker:
+        light_data.energy = energy * s * s
+        light_data.keyframe_insert(data_path='energy', frame=frame, group='Living lantern')
+    # Blender 5 uses layered Actions; the slot/channelbag lookup also supports
+    # legacy Actions without assuming a global animation API configuration.
+    action = light_data.animation_data.action if light_data.animation_data else None
+    if action:
+        action.name = "Mine lantern | six second warm energy loop"
+        curves = []
+        if hasattr(action, 'fcurves'):
+            curves.extend(action.fcurves)
+        else:
+            slot = light_data.animation_data.action_slot
+            for layer in action.layers:
+                for strip in layer.strips:
+                    bag = strip.channelbag(slot, ensure=False) if hasattr(strip, 'channelbag') else None
+                    if bag:
+                        curves.extend(bag.fcurves)
+        for curve in curves:
+            for key in curve.keyframe_points:
+                key.interpolation = 'BEZIER'
+                key.handle_left_type = 'AUTO_CLAMPED'
+                key.handle_right_type = 'AUTO_CLAMPED'
+            curve.modifiers.new('CYCLES')
+
+    root["component_count"] = len(objects)
+    root["lantern_light_object"] = light_obj.name
+    root["opening_width"] = 2.32 * s
+    root["opening_height"] = 2.12 * s
+    root["tunnel_depth"] = 1.92 * s
+    root["construction"] = "hollow horseshoe shell / rounded block arch / crafted oak / real lantern"
+    return {
+        'root': root,
+        'objects': objects,
+        'entrance': world((0, -.57, .15)),
+        'entrance_center': world((0, -.45, 1.10)),
+        'boardwalk_connection': world((0, -.72, .19)),
+        'lantern_anchor': lantern_anchor,
+        'lantern_light_anchor': lantern_light_anchor,
+        'lantern_light': light_obj,
+        'opening_width': 2.32 * s,
+        'opening_height': 2.12 * s,
+        'bounds_local': ((-2.24, -1.59, -.06), (2.24, 1.93, 3.22)),
+        'metadata': {
+            'asset': 'rounded storybook mine',
+            'components': len(objects),
+            'arch_blocks': len(arch_stones),
+            'tunnel_depth': 1.92 * s,
+            'reused_cylinder_meshes': len(cylinder_meshes),
+            'animation': 'real point-light energy, frames 1..145, 144-frame six-second loop at 24fps',
+            'energy_watts_at_unit_scale': [22.9, 25.5],
+            'emission_strength_max': 3.2,
+            'entrance_facing': '-Y',
+        },
+    }

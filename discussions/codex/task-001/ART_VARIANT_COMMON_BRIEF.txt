@@ -1,0 +1,49 @@
+GNOMIT — ART VARIANT V1 — COMMON BRIEF (TASK-002)
+
+This is an art proposal, not game implementation. One own variant per bot, then one review round; the human selects the direction. Do not iterate until unanimous bot approval.
+
+INPUT MAIN: 5add419dfc7fd73bd6d9ee837b2ba620ee5e8b81
+PUBLIC TEST REPO: https://github.com/Fuet-Goat/GnomiT-review-test
+FULL REFERENCE PACK: https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/first-bend-review-v1/GNOMIT_CHARACTER_VARIANT_TASKS_V1_2026-10-14.zip
+
+CURRENT RETURNS CHECKED
+GPT: report commit 10c63b16237b3bd0a789e8a1020a06d226b674b9; Draft PR #2; no new image/animation.
+Grok: report commit 00a1f46254df8803f73b629524be13439df19dca; no actual PR at this check; no new image/animation.
+Both modified only their own REPORT.txt. Prior game logic and First Bend screenshot/clip remain the input.
+
+COMMON GOAL
+A gnome that belongs to the painted storybook environment: rounded dimensional shapes, warm restrained lantern light, soft coherent edges, leather/cloth/wood material response, readable silhouette, grounded feet/contact shadow. Retain a red hat, white beard, blue/teal coat, brown boots and lantern. Keep the camera angle, scenery, visible road and size comparable to CURRENT_START. Do not enlarge the hero to conceal poor grounding. No photographic gnome, hard sticker outline, neon body glow, rubbery perpetual bouncing or copied Candy Crush assets.
+
+REFERENCES AND THEIR PURPOSE
+REFERENCES/01_USER_STORYBOOK_STYLE.png — User-preferred cohesive illustrated style, not runnable UI or a requirement to copy its numbered buttons.
+https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/first-bend-review-v1/GNOMIT_USER_STORYBOOK_STYLE_REFERENCE.png
+
+REFERENCES/02_CURRENT_START.png — Current real Godot PC frame; fixed scene, size and character ground-position comparator.
+https://raw.githubusercontent.com/Fuet-Goat/GnomiT-review-test/5add419dfc7fd73bd6d9ee837b2ba620ee5e8b81/media/current/01_START.png
+
+REFERENCES/03_CURRENT_ARRIVAL.png — Current real arrival panel; context only, not a UI implementation task.
+https://raw.githubusercontent.com/Fuet-Goat/GnomiT-review-test/5add419dfc7fd73bd6d9ee837b2ba620ee5e8b81/media/current/08_LEVEL_2_ARRIVAL.png
+
+REFERENCES/04_CURRENT_WALK_SHEET.png — Existing six-pose gait study; a problem reference, not final approved animation.
+https://raw.githubusercontent.com/Fuet-Goat/GnomiT-review-test/5add419dfc7fd73bd6d9ee837b2ba620ee5e8b81/baseline/game/assets/storybook/gnome_slice_walk_v1.png
+
+REFERENCES/05_FIXED_WORLD_BACKGROUND.png — Fixed illustrated environment for both variants.
+https://raw.githubusercontent.com/Fuet-Goat/GnomiT-review-test/5add419dfc7fd73bd6d9ee837b2ba620ee5e8b81/baseline/game/assets/storybook/descending_world_v2.png
+
+MINIMUM VISUAL RETURN
+1. 01_SCENE_CONCEPT.png at 432x960: same fixed environment/road and hero ground-position as CURRENT_START, showing only your new gnome appearance and contact shadow. Label this a CONCEPT in the report, not runtime. Preserve existing UI composition for comparison.
+2. 02_GNOME_DETAIL.png: enlarged character/material detail, maximum 1024x1024.
+3. hero_idle.png: clean RGBA transparent-background full-body pose, no background rectangle; do not bake the contact shadow into the character.
+4. REPORT.txt: idea, actual materials created, tools, style rationale, foot pivot/scale/light direction, caveats and what is still missing.
+
+SMALL MOTION STUDY, IF YOUR TOOLS CAN PRODUCE IT
+walk_sheet.png: at most six frames total (3 front/three-quarter + 3 rear/three-quarter), preferably 3x2 cells of 512px, transparent background; same proportions, lantern hand and scale; clear support/contact, passing and opposite-contact poses. Record each frame's foot anchor and frame order in asset_metadata.json.
+walk_preview.gif or .webm: 3-5s asset-animation study with forward/return cycles; no Godot execution. Identify it as an ART PREVIEW, not a game/runtime proof. If you only produced a static sheet, report it as a static sheet. Frames/generated video cannot establish actual route following or save behavior.
+
+No requirement to invent 32 frames, complete a new world, change HUD/level progression, or integrate these files into game scripts. Keep selected sounds and all match-3/source/save/engine files unchanged.
+
+IF IMAGE/ANIMATION TOOLS ARE UNAVAILABLE
+Do not return another text-only review as if it were a visual variant. State the missing capability and return a useful exact generation/edit brief, material/palette/foot-pivot specification and an honest report. Do not fabricate file names, generated assets, runtime or Git writes. Do not request credentials.
+
+COMPARISON
+Each bot proposes ONE independent variant under the same constraints. Compare full scene at 432x960, coherent lighting/materials, feet/shadow, silhouette and small gait. Separate a demonstrated visual defect from taste. The human chooses; one implementation owner later polishes the chosen direction. This task authorizes art files only after its registered task grant is APPROVED on main; it does not authorize game editing, executing Godot, a merge, private-repo work or extra agents.

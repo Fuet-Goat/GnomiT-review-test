@@ -1,0 +1,51 @@
+extends SceneTree
+## Current renderer/Core; every board is an explicitly labelled lab fixture.
+const Lab=preload("res://scripts/lab/mountain_volcano_lab.gd")
+const OUTPUT="C:/Users/fruch/Documents/Codex/GnomiT_Playtests/ReviewHandoff_2026-10-20/media/powers"
+const CASES=["create_four","create_five","create_t","create_l","volcano","tornado_h","lightning_storm","earthquake","pair44","pair45","black_hole"]
+var app
+var shots: Array=[]
+var failures: Array[String]=[]
+func _initialize() -> void:
+	create_timer(100).timeout.connect(func() -> void:quit(99))
+	call_deferred("run")
+func frames(n: int) -> void:
+	for ignored in n:await process_frame
+func shot(name: String, scenario: String) -> void:
+	await RenderingServer.frame_post_draw
+	var image:=root.get_texture().get_image()
+	var path:=OUTPUT+"/"+name+".png"
+	if image.get_size()!=Vector2i(432,960) or image.save_png(path)!=OK:failures.append("Bad capture "+name)
+	shots.append({"file":path,"sha256":FileAccess.get_sha256(path),"scenario":scenario,"kind":"CONTROLLED_LAB_FIXTURE","power":app.board._power_event.duplicate(true),"phase":app.board._power_t,"birth":app.board._birth_event.duplicate(true)})
+func run() -> void:
+	if DirAccess.dir_exists_absolute(OUTPUT):push_error("Fresh evidence required");quit(2);return
+	DirAccess.make_dir_recursive_absolute(OUTPUT)
+	root.size=Vector2i(432,960);root.content_scale_size=Vector2i(432,960)
+	AudioServer.set_bus_mute(0,true)
+	app=Lab.new();root.add_child(app);app.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	await frames(3)
+	for scenario: String in CASES:
+		app.reset_scenario(scenario);await frames(3)
+		await shot(scenario+"_01_READY",scenario)
+		var pair: Array=app.core.fixture_pair.duplicate()
+		app.board.swap_requested.emit(int(pair[0]),int(pair[1]))
+		var captured: Dictionary={}
+		var start:=Engine.get_process_frames()
+		while (app.board.busy or app._resolving) and Engine.get_process_frames()-start<360:
+			await process_frame
+			if not app.board._power_event.is_empty():
+				var power: String=app.board._power_event.get("power","")
+				for threshold in [.28,.58,.8]:
+					var key:="%s_%02d"%[power,int(threshold*100)]
+					if app.board._power_t>=threshold and not captured.has(key):
+						captured[key]=true
+						await shot(scenario+"_"+key,scenario)
+			elif not app.board._birth_event.is_empty() and not captured.has("birth"):
+				captured.birth=true;await shot(scenario+"_REWARD_BIRTH",scenario)
+		if app.board.busy or app._resolving:failures.append("Timed out "+scenario);app.skip_effect()
+		await frames(2)
+		await shot(scenario+"_99_SETTLED",scenario)
+	var receipt:={"status":"PASS" if failures.is_empty() else "FAIL","failures":failures,"shots":shots,"method":"Current v001 Lab/Core/Board actual runtime; all scenarios explicitly controlled fixtures; no campaign victory/unlock claim. Muted capture, not listening test.","human_test":false,"game_source_modified":false}
+	var file:=FileAccess.open(OUTPUT+"/CAPTURE_RECEIPT.json",FileAccess.WRITE);file.store_string(JSON.stringify(receipt,"\t"));file.close()
+	print("POWER_REVIEW_CAPTURE "+JSON.stringify({"status":receipt.status,"shots":shots.size(),"failures":failures}))
+	quit(0 if failures.is_empty() else 1)

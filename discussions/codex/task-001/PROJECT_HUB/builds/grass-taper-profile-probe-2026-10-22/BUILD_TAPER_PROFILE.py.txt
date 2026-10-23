@@ -1,0 +1,144 @@
+"""E: width profile only; fixed D vertical arch/centreline/palette/topology."""
+from pathlib import Path
+import hashlib,importlib.util,json,math
+import bpy
+from mathutils import Vector
+from mathutils.bvhtree import BVHTree
+
+ROOT=Path(__file__).resolve().parents[1]
+SOURCE=ROOT/'native/INPUT_D.blend';OUTPUT=ROOT/'native/TAPER_PROFILE_E.blend'
+PIN='290b34b6f36f0c0358b963e9a3a001ef6106eca8427aecedeaf7e696f44832c2'
+D_RECEIPT_PIN='bc77fb3c49e0ca5599822eb37420aa08e6b0696b26d5618be268b5f148b0857d'
+LAYOUT_PIN='eaaf52f14c12d2858095f002dac75844f982292374fd3826c91d4d2179184aab'
+OLD_POWER=.8;NEW_POWER=1.6
+spec=importlib.util.spec_from_file_location('records',ROOT/'tools/record_helpers.py')
+p=importlib.util.module_from_spec(spec);spec.loader.exec_module(p);g=p.g
+def sha(data):return hashlib.sha256(data).hexdigest()
+def dump(name,data):(ROOT/name).write_bytes((json.dumps(data,indent=2)+'\n').encode())
+def frozen(mesh,allowed_xy):
+    data=p.mesh_prefix(mesh)
+    for i in allowed_xy:data['vertices'][i][0:2]=[None,None]
+    return g.fingerprint(data)
+
+def render(scene,name,detail=False):
+    old=(scene.render.filepath,scene.cycles.samples,scene.render.resolution_x,scene.render.resolution_y,
+         scene.render.use_border,scene.render.use_crop_to_border,scene.render.border_min_x,
+         scene.render.border_max_x,scene.render.border_min_y,scene.render.border_max_y)
+    scene.cycles.samples=128
+    if detail:
+        scene.render.resolution_x=3456;scene.render.resolution_y=7680
+        scene.render.use_border=True;scene.render.use_crop_to_border=True
+        scene.render.border_min_x=61/432;scene.render.border_max_x=125/432
+        scene.render.border_min_y=1-492/960;scene.render.border_max_y=1-428/960
+    path=ROOT/'outputs'/name;scene.render.filepath=str(path)
+    assert 'FINISHED' in bpy.ops.render.render(write_still=True)
+    (scene.render.filepath,scene.cycles.samples,scene.render.resolution_x,scene.render.resolution_y,
+     scene.render.use_border,scene.render.use_crop_to_border,scene.render.border_min_x,
+     scene.render.border_max_x,scene.render.border_min_y,scene.render.border_max_y)=old
+    return {'path':path.relative_to(ROOT).as_posix(),'bytes':path.stat().st_size,
+            'sha256':sha(path.read_bytes()),'width':512 if detail else 432,
+            'height':512 if detail else 960,'samples':128}
+
+def main():
+    assert bpy.app.background and sha(SOURCE.read_bytes())==PIN and not OUTPUT.exists()
+    dp=ROOT/'documentation/INPUT_D_RECEIPT.json';lp=ROOT/'documentation/LEAF_LAYOUT_RECEIPT.json'
+    assert sha(dp.read_bytes())==D_RECEIPT_PIN and sha(lp.read_bytes())==LAYOUT_PIN
+    prior=json.loads(dp.read_text(encoding='utf-8'));layout=json.loads(lp.read_text(encoding='utf-8'))
+    assert prior['candidate_sha256']==PIN and prior['logical_parameter']['after']==.9
+    assert layout['parameters']['width_exponent']==OLD_POWER
+    times=layout['parameters']['rows_t'];assert times==[0,.08,.16,.25,.34,.43,.50,.59,.68,.77,.86,.94]
+    norms={power:max(math.sin(math.pi*t)**power+.18*(1-t)**12 for t in times) for power in (OLD_POWER,NEW_POWER)}
+    ratios=[((math.sin(math.pi*t)**NEW_POWER+.18*(1-t)**12)/norms[NEW_POWER])/
+            ((math.sin(math.pi*t)**OLD_POWER+.18*(1-t)**12)/norms[OLD_POWER]) for t in times]
+    assert all(math.isfinite(r) and 0<r<=1 for r in ratios) and ratios[6]==1
+    bpy.context.preferences.filepaths.save_version=0
+    bpy.ops.wm.open_mainfile(filepath=str(SOURCE));scene=bpy.context.scene;scene.frame_set(1)
+    bpy.context.view_layer.update();body=bpy.data.objects['Reference_Grass_Carpet'];mesh=body.data
+    edge=bpy.data.objects['Reference_Grass_Edge']
+    assert (len(mesh.vertices),len(mesh.polygons))==(124725,78674)
+    protected={o.name:p.object_record(o) for o in scene.objects if o!=body};names=set(scene.objects.keys())
+    settings=g.settings_record(scene);materials=g.original_materials()
+    identity={k:p.object_record(body)[k] for k in ('matrix_world','matrix_basis','parent','collections','materials')}
+    rows=sorted(layout['leaves'],key=lambda row:row['blade']);assert len(rows)==73
+    starts={};allowed=set();anchors={}
+    for order,row in enumerate(rows):
+        start=row['blade']*16+45*order;starts[row['blade']]=start
+        fixed=list(range(5))+[j*5+2 for j in range(1,len(times))]+list(range(30,35))+[60]
+        anchors[row['blade']]={j:tuple(mesh.vertices[start+j].co) for j in fixed}
+        allowed.update(start+j*5+c for j in range(1,len(times)) if j!=6 for c in (0,1,3,4))
+    before=frozen(mesh,allowed);old_xy={i:tuple(mesh.vertices[i].co[:2]) for i in allowed}
+    for row in rows:
+        start=starts[row['blade']]
+        for j,ratio in enumerate(ratios):
+            if j in (0,6):continue
+            centre=mesh.vertices[start+j*5+2].co.copy()
+            for col in (0,1,3,4):
+                co=mesh.vertices[start+j*5+col].co
+                co.x=centre.x+(co.x-centre.x)*ratio
+                co.y=centre.y+(co.y-centre.y)*ratio
+    mesh.update()
+    # Recheck changed footprints against the unchanged current world/props.
+    collections={o.name:tuple(o.users_collection) for o in (body,edge)}
+    for o in (body,edge):
+        for collection in collections[o.name]:collection.objects.unlink(o)
+    bpy.context.view_layer.update();deps=bpy.context.evaluated_depsgraph_get();cap=bpy.data.objects['Island_Grass_Cap']
+    bvh=BVHTree.FromObject(cap,deps);down=Vector((0,0,-1));blocked=0
+    for i in allowed:
+        q=mesh.vertices[i].co
+        hit,n,face,distance=bvh.ray_cast(Vector((q.x,q.y,3)),down,5)
+        if hit is None or n.z<.65 or cap.data.polygons[face].material_index!=0:blocked+=1;continue
+        ok,loc,normal,idx,obj,mat=scene.ray_cast(deps,hit+Vector((0,0,.5)),down,distance=.75)
+        if not ok or obj.original!=cap:blocked+=1
+    for o in (body,edge):
+        for collection in collections[o.name]:collection.objects.link(o)
+    assert blocked==0, ('Changed leaf footprint rejected',blocked)
+    def verify():
+        bpy.context.view_layer.update()
+        assert set(scene.objects.keys())==names
+        assert all(p.object_record(bpy.data.objects[n])==record for n,record in protected.items())
+        assert g.settings_record(scene)==settings and g.original_materials()==materials
+        assert {k:p.object_record(body)[k] for k in identity}==identity
+        assert frozen(body.data,allowed)==before
+        assert int(body['blade_count'])==7590 and int(body['tuft_count'])==2559
+        for row in rows:
+            start=starts[row['blade']]
+            assert all(tuple(body.data.vertices[start+j].co)==point for j,point in anchors[row['blade']].items())
+            co=[x.co for x in body.data.vertices[start:start+61]]
+            assert abs(max(x.z for x in co)-row['root'][2]-row['height_m'])<1e-6
+            assert abs((co[34]-co[30]).length-row['width_m'])<1e-6
+    verify();print('TAPER_FROZEN_RECORDS_PASS',len(protected),flush=True)
+    body['probe_shape']='E:width power .8 to1.6;D arch/allZ/centreline/colours/topology fixed'
+    note=bpy.data.texts.new('START_HERE_TAPER_PROFILE_E')
+    note.write('Native E versus D. One width-profile exponent .8→1.6. Only eligible side-row XY offsets narrow;allZ/base/centreline/tip/peakwidth/colours/topology/scene fixed. No leaf/density/game change. Older notes describe prior inputs.\n')
+    assert 'FINISHED' in bpy.ops.wm.save_as_mainfile(filepath=str(OUTPUT),check_existing=False)
+    output_sha=sha(OUTPUT.read_bytes());bpy.ops.wm.open_mainfile(filepath=str(OUTPUT));scene=bpy.context.scene;body=bpy.data.objects['Reference_Grass_Carpet']
+    verify()
+    images=[im for im in bpy.data.images if im.source not in ('GENERATED','VIEWER')]
+    assert len(images)==5 and all(im.packed_file for im in images) and not bpy.data.libraries
+    full=render(scene,'01_E_TAPER_432x960.png');detail=render(scene,'03_E_DETAIL_8X.png',True);verify()
+    controls=[]
+    for name,w,h,source_name in [('00_D_FULL_432x960.png',432,960,'outputs/01_D_UPRIGHT_432x960.png'),
+                                 ('02_D_DETAIL_8X.png',512,512,'outputs/03_D_DETAIL_8X.png')]:
+        path=ROOT/'outputs'/name;match=next(x for x in prior['renders'] if x['path']==source_name)
+        assert sha(path.read_bytes())==match['sha256'] and path.stat().st_size==match['bytes']
+        controls.append({'path':path.relative_to(ROOT).as_posix(),'bytes':path.stat().st_size,
+                         'sha256':sha(path.read_bytes()),'width':w,'height':h,'samples':128})
+    changed=sum(tuple(body.data.vertices[i].co[:2])!=xy for i,xy in old_xy.items());assert changed>0
+    receipt={'status':'NATIVE_TAPER_SAVED_REOPENED_RENDERED','source_sha256':PIN,'candidate_sha256':output_sha,
+             'builder_sha256':sha(Path(__file__).read_bytes()),'tool':'Blender5.2.2 LTS',
+             'logical_parameter':{'name':'width_profile_exponent','before':OLD_POWER,'after':NEW_POWER},
+             'rows_t':times,'row_width_ratios':ratios,'selected_leaves':73,'selected_tufts':12,
+             'total_leaves':7590,'total_tufts':2559,'vertices':124725,'faces':78674,'triangles':142022,
+             'allowed_xy_vertices':len(allowed),'changed_xy_vertices':changed,
+             'mesh_frozen_except_declared_xy_sha256':before,'all_z_colours_topology_other_xy_unchanged':True,
+             'bases_centrelines_tips_peak_width_row_exact':True,'protected_non_body_records':len(protected),
+             'camera_lighting_material_records_unchanged':True,'max_height_width_tolerance_m':1e-6,
+             'collision_check':{'tested_vertices':len(allowed),'blocked':blocked,'limit':'Point footprints only,not triangle/leaf-leaf proof.'},
+             'shading_limit':'Narrowing XY with fixedZ changes fold proportions/normals;material nodes/palette fixed.',
+             'packed_images':len(images),'linked_libraries':0,'renders':[controls[0],full,controls[1],detail],
+             'game_integration':'NOT_PERFORMED','godot_tests':'NOT_RUN','human_choice':'PENDING','android_performance':'NOT_MEASURED'}
+    assert sha(SOURCE.read_bytes())==PIN and sha(OUTPUT.read_bytes())==output_sha
+    dump('documentation/TAPER_RECEIPT.json',receipt)
+    print('TAPER_READY '+json.dumps({k:receipt[k] for k in ['status','changed_xy_vertices','candidate_sha256']}))
+
+if __name__=='__main__':main()

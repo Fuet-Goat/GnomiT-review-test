@@ -1,0 +1,17 @@
+НАЧАЛНИ ОФИЦИАЛНИ ИЗТОЧНИЦИ — прочетени21.10.2026, не завършенDeepResearch.
+1. https://docs.godotengine.org/en/stable/tutorials/performance/optimizing_3d_performance.html
+   Материали/прозрачност/LOD/осветление и анимация имат различна цена. Проверявай
+   точната версия/renderer; самият списък не измерва нашия проект.
+2. https://docs.godotengine.org/en/stable/tutorials/performance/general_optimization.html
+   Профилиране и измерване на различни устройства; оптимизирай реален bottleneck.
+3. https://developer.android.com/games/optimize/vitals/slow-session
+   Android описва game slow sessions и frame presentation. Прагът за класификация
+   вAndroidVitals не е наша цел за приятна игра и не е доказанFPS наR3.
+4. https://support.google.com/accessibility/android/answer/7101858?hl=en
+   Размерите наtouchtargets са вdp. Не ги приравнявай с432x960PCпиксели.
+5. https://google.play/business/store-listing-experiments/
+   Експерименти с текст/иконка/изображения наstorelisting; не са експеримент
+   върху камерата или управлението в играта. Темата е за по-късен етап.
+6. Съществуващото проучване за карта: Codexba2d09e8b5f6512979b27891d6e69173139a14d8
+   PROJECT_HUB/briefs/map-camera-navigation-r1-2026-10-21/SOURCES.json.txt
+Няма изтеглени чужди графични/аудио активи, платени отчети или регистрация.

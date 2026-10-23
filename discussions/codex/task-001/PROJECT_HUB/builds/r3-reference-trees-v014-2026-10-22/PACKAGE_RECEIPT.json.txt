@@ -1,0 +1,160 @@
+{
+  "status": "LOCAL_FULL_AND_DELTA_ZIP_CRC_ALL_ENTRY_HASHES_PASS",
+  "full_local_zip": {
+    "name": "GNOMIT_R3_REFERENCE_TREES_V014_2026-10-22.zip",
+    "bytes": 207922953,
+    "sha256": "b204f824446687f57fb67214b27d9b3d8d8d2d89acf5ab48a2ac54bef14ec41f",
+    "entries": 355
+  },
+  "delta": {
+    "name": "GNOMIT_R3_REFERENCE_TREES_V014_DELTA_2026-10-22.zip",
+    "bytes": 150802637,
+    "sha256": "2f51b390b73284b6dfe9dcd17c0b8d125e77c776e4d6afc285bb01d3f207e35d",
+    "entries": 75,
+    "parts": [
+      {
+        "path": "DELTA_ZIP.part001.base64.txt",
+        "base64_chars": 8000000,
+        "sha256": "315159504af7eef1be8ab0b3823eb73233ec5db8a9e347e65e2c577c45655195"
+      },
+      {
+        "path": "DELTA_ZIP.part002.base64.txt",
+        "base64_chars": 8000000,
+        "sha256": "84d02876e72db4f8383376d5b2b967c608e515597710c234d3fe162650af6bc3"
+      },
+      {
+        "path": "DELTA_ZIP.part003.base64.txt",
+        "base64_chars": 8000000,
+        "sha256": "2192c585a31c97e233950998d2c66cb385636dce2213805a41133c1fc02570c4"
+      },
+      {
+        "path": "DELTA_ZIP.part004.base64.txt",
+        "base64_chars": 8000000,
+        "sha256": "841335e956592b04b724e5e7deae79986ebab8a554f2aa70b73526977a4977a9"
+      },
+      {
+        "path": "DELTA_ZIP.part005.base64.txt",
+        "base64_chars": 8000000,
+        "sha256": "ed41fd91b44e181b01338fb44a90cadf9e3bf9d76e60cfbd947a745153c50395"
+      },
+      {
+        "path": "DELTA_ZIP.part006.base64.txt",
+        "base64_chars": 8000000,
+        "sha256": "6ad21f5b53b47d01c78e9002b04be416ffe106a91652f5e24e4b0d57f534441c"
+      },
+      {
+        "path": "DELTA_ZIP.part007.base64.txt",
+        "base64_chars": 8000000,
+        "sha256": "44872a73fa1c9d7b7bd709cbccce66d09618c2f3e206362bacd2d5025e8aae94"
+      },
+      {
+        "path": "DELTA_ZIP.part008.base64.txt",
+        "base64_chars": 8000000,
+        "sha256": "45427ab871ef073ce5a52c3db4523236ac870a02db2462bd230c6cbbff323b7a"
+      },
+      {
+        "path": "DELTA_ZIP.part009.base64.txt",
+        "base64_chars": 8000000,
+        "sha256": "2b604c9e9331cc08f616fbc7f81fb46dc6ed83bb881344cdf0d5ec1fe587bd47"
+      },
+      {
+        "path": "DELTA_ZIP.part010.base64.txt",
+        "base64_chars": 8000000,
+        "sha256": "f9693aa9b8b29a84f30bd10959f8d68b7a8565f2a7ac0823bf0df690636d8164"
+      },
+      {
+        "path": "DELTA_ZIP.part011.base64.txt",
+        "base64_chars": 8000000,
+        "sha256": "a67fa3d0c9fa8a102b5660e145e6de7e39c48fd18d63cb2f5a8d21f137226e45"
+      },
+      {
+        "path": "DELTA_ZIP.part012.base64.txt",
+        "base64_chars": 8000000,
+        "sha256": "7eb22a26dbbb4162beff9350bd2a4cc6ea0a5ff085df3823c8d935aef7e3f25c"
+      },
+      {
+        "path": "DELTA_ZIP.part013.base64.txt",
+        "base64_chars": 8000000,
+        "sha256": "10ef9b047d1200768d2e666798e46bf81639f1b0be2c03aa686f6ad52372c06c"
+      },
+      {
+        "path": "DELTA_ZIP.part014.base64.txt",
+        "base64_chars": 8000000,
+        "sha256": "e1ba993ccef97aa21509f91613de815f847ef202e7458e6810abdb18b70927b0"
+      },
+      {
+        "path": "DELTA_ZIP.part015.base64.txt",
+        "base64_chars": 8000000,
+        "sha256": "bf41c303d75420d6fce1e6c393109fcb9061a704c1235f5bd89c3423e76a15c2"
+      },
+      {
+        "path": "DELTA_ZIP.part016.base64.txt",
+        "base64_chars": 8000000,
+        "sha256": "f19f0595cc1faee9557d793a42f79467685cd3245d2f658a036d9c0402565416"
+      },
+      {
+        "path": "DELTA_ZIP.part017.base64.txt",
+        "base64_chars": 8000000,
+        "sha256": "f4ceb1a3ce800f1b702bc81b54067dae614a64d3631dd6db57275e0af98cf7da"
+      },
+      {
+        "path": "DELTA_ZIP.part018.base64.txt",
+        "base64_chars": 8000000,
+        "sha256": "6e3e9735fc19eb8d67d038ddebb9f15ee44ca2007dfa0a2796095d5e3f82794c"
+      },
+      {
+        "path": "DELTA_ZIP.part019.base64.txt",
+        "base64_chars": 8000000,
+        "sha256": "274efabf79fb3877ad432f26c47acfa2c0f1134dbe47241c497e301d94369db8"
+      },
+      {
+        "path": "DELTA_ZIP.part020.base64.txt",
+        "base64_chars": 8000000,
+        "sha256": "c634be471d0279ebc2f7861640ea7ddf1fb8914b0987e0c1fea8239db2cf75db"
+      },
+      {
+        "path": "DELTA_ZIP.part021.base64.txt",
+        "base64_chars": 8000000,
+        "sha256": "2b202b726767e682552f353859877c35d61003c1ed0fbe56c9dbc8cb3ba35659"
+      },
+      {
+        "path": "DELTA_ZIP.part022.base64.txt",
+        "base64_chars": 8000000,
+        "sha256": "140ede0a37cf9a1ccf15c7228c6c75590462c953376fff373f879290e5dfcb3b"
+      },
+      {
+        "path": "DELTA_ZIP.part023.base64.txt",
+        "base64_chars": 8000000,
+        "sha256": "b4586f3ccc2fd65ed08914c6b37df265ae00dcf85927b45d613c28f69811454b"
+      },
+      {
+        "path": "DELTA_ZIP.part024.base64.txt",
+        "base64_chars": 8000000,
+        "sha256": "bb36cd21d25ede16319a4fd36359cc11e79260ac9cf007999327360f61f75d88"
+      },
+      {
+        "path": "DELTA_ZIP.part025.base64.txt",
+        "base64_chars": 8000000,
+        "sha256": "d196608930f75efe73527cabaf948a6491e332622e8e2d3ee549bd1e915708b9"
+      },
+      {
+        "path": "DELTA_ZIP.part026.base64.txt",
+        "base64_chars": 1070184,
+        "sha256": "31059a31618facfec87660c2722c829f7e2a9d47a213c003e3884f400654d30a"
+      }
+    ]
+  },
+  "base": {
+    "commit": "41be8dc7de9658c08045f9960facfd85066f642c",
+    "prefix": "discussions/codex/task-001/PROJECT_HUB/builds/r3-grass-applied-v009-2026-10-21",
+    "bytes": 87008816,
+    "sha256": "bb5417e8349fc24266fd11fc4ff274d449e90afd6fc541154cb02ac914eeed92"
+  },
+  "final_manifest": {
+    "path": "FINAL_FILES.json.txt",
+    "bytes": 60875,
+    "sha256": "0b7875599ce41b6aee46bf364db0f4635ce5a3aa20f87bbe12770121439f0d22"
+  },
+  "method": "Complete final file tree reconstructed from immutable full v009 base plus changed/new v014 entries. No stale base-only files selected. No game execution by downloader.",
+  "binary_source": "Actual locally built and validated files, not illustrative or placeholder data."
+}

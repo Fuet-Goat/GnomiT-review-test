@@ -1,0 +1,410 @@
+GNOMIT VOLCANO FIRE — LITERAL LOCAL TEXT SOURCE DELTA PROPOSAL
+Apply only over the recorded painted pass. This TXT is not native game-source publication or an expanded Git grant.
+Requires the actual new lava_flame.png with recorded SHA;PNG bytes remain local/in handoff package.
+
+--- a/scripts/lab/magic_volcano_board.gd
++++ b/scripts/lab/magic_volcano_board.gd
+@@ -2,7 +2,7 @@
+ ## Painted presentation only. The inherited event owns targets, timing, terrain,
+ ## reduced motion, skip/reset and all gameplay state. Gem drawing is inherited.
+ 
+-const PAINTED_ASSETS := ["magma_pebble", "ash_puff", "impact_dust"]
++const PAINTED_ASSETS := ["magma_pebble", "ash_puff", "impact_dust", "lava_flame"]
+ const PAINTED_ASSET_ROOT := "res://assets/vfx/volcano/"
+ var painted_volcano := true
+ var _painted_sprites: Dictionary = {}
+@@ -52,10 +52,14 @@
+ 	_draw_crater_plume(source,step)
+ 	for n in targets.size():
+ 		var index := int(targets[n])
++		# Scorch belongs only to the authoritative ordinary-mineral targets.
++		# Even an incomplete/malformed preview cannot burn a hole or a rune.
++		if index < 0 or index >= before.size() or int(before[index]) < 0 or int(before[index]) >= 6: continue
+ 		var destination := _center(index)
+ 		# Exactly the original normalized launch, 55 ms stagger and hit progression.
+ 		var flight := clampf((_power_t-0.23-float(n)*0.055)/0.42,0.0,1.0)
+ 		var hit := clampf((_power_t-0.65-float(n)*0.055)/0.16,0.0,1.0)
++		if hit > 0.0 and hit < 1.0: _draw_burning_cell(destination,step,hit,n)
+ 		if flight < 1.0: _event_gem(index,destination)
+ 		elif hit < 1.0: _event_gem(index,destination,1.0-hit*0.75,1.0-hit)
+ 		if flight < 1.0:
+@@ -95,6 +99,15 @@
+ 		if age < 0.45:
+ 			var ember := source+Vector2(spread*1.4,-0.39-age*1.4)*step
+ 			_painted_sprite("magma_pebble",ember,Vector2.ONE*step*(0.105-age*0.07),float(puff)+age*2.0,Color(1,0.88,0.66,(1.0-age/0.45)*0.65))
++	# A short real flame rises from the original crater, underneath its icon.
++	var flame_age := (_power_t-0.15)/0.39
++	if flame_age > 0.0 and flame_age < 1.0:
++		var pulse := sin(_power_t*TAU*8.0)
++		var opacity := sin(pow(flame_age,0.64)*PI)*0.87
++		var height := step*(0.66+flame_age*0.20+pulse*0.045)
++		var base := source+Vector2(-0.009,-0.26)*step
++		_painted_sprite("lava_flame",base-Vector2(0,height*0.44),Vector2(step*(0.47+pulse*0.035),height),pulse*0.055,Color(1.0,0.95,0.77,opacity))
++		_painted_sprite("lava_flame",base+Vector2(step*0.06,-height*0.25),Vector2(step*0.23,height*0.62),-0.16-pulse*0.09,Color(1.0,0.84,0.49,opacity*0.62))
+ 
+ func _volcano_arc(source: Vector2, destination: Vector2, flight: float, step: float) -> Vector2:
+ 	var point := source.lerp(destination,flight)
+@@ -110,9 +123,50 @@
+ 	var tail := step*(0.12+sin(flight*PI)*0.10)
+ 	var tail_end := point-tangent*tail
+ 	_painted_sprite("ash_puff",tail_end,Vector2(step*0.23,step*0.13),tangent.angle(),Color(1.0,0.72,0.45,0.25))
+-	draw_line(tail_end,point,Color(0.97,0.51,0.19,0.50),step*0.038,true)
+-	draw_line(point-tangent*tail*0.54,point,Color(1.0,0.78,0.39,0.66),step*0.018,true)
++	# The upright asset is rotated so its tips flow opposite the instantaneous
++	# arc tangent. Three overlapping tufts wrap the stone and taper into a trail.
++	var side := tangent.orthogonal()
++	for layer in range(3):
++		var flicker := sin(_power_t*TAU*9.0+float(ordinal)*1.73+float(layer)*2.19)
++		var length := step*(0.68-float(layer)*0.15)*(1.0+flicker*0.075)
++		var width := step*(0.49-float(layer)*0.105)*(1.0-flicker*0.06)
++		var flame_point := point-tangent*step*(0.12+float(layer)*0.20)+side*step*flicker*0.025
++		var alpha := 0.92-float(layer)*0.23
++		_painted_sprite("lava_flame",flame_point,Vector2(width,length),tangent.angle()-PI*0.5+flicker*0.09,Color(1.0,0.95-float(layer)*0.08,0.76-float(layer)*0.13,alpha))
++	for ember in range(4):
++		var phase := fposmod(flight*3.2+float(ember)*0.27+float(ordinal)*0.13,1.0)
++		var sway := sin(float(ember)*2.4+float(ordinal)+_power_t*11.0)
++		var ember_point := point-tangent*step*(0.24+phase*0.44)+side*step*sway*(0.07+phase*0.09)
++		var radius := step*(0.018+float(ember%2)*0.009)*(1.0-phase*0.65)
++		var bounds := _board_rect().grow(-radius*2.0)
++		ember_point = ember_point.clamp(bounds.position,bounds.end)
++		draw_circle(ember_point,radius*1.8,Color(1.0,0.30,0.07,(1.0-phase)*0.21),true,-1,true)
++		draw_circle(ember_point,radius,Color(1.0,0.83,0.35,(1.0-phase)*0.90),true,-1,true)
+ 	_painted_sprite("magma_pebble",point,Vector2.ONE*step*0.38,tangent.angle()+float(ordinal)*0.73+flight*4.0,Color.WHITE)
++	# Small foreground licks catch the rim, leaving the mineral body readable.
++	var rim_flicker := sin(_power_t*TAU*10.0+float(ordinal)*1.4)
++	_painted_sprite("lava_flame",point+side*step*0.11-tangent*step*0.025,Vector2(step*0.20,step*(0.34+rim_flicker*0.025)),tangent.angle()-PI*0.5+0.18,Color(1.0,0.90,0.55,0.62))
++
++func _draw_burning_cell(destination: Vector2, step: float, hit: float, ordinal: int) -> void:
++	if hit <= 0.0 or hit >= 1.0: return
++	# This square is an expiring draw command, never terrain or a damage marker.
++	var opacity := clampf(hit/0.07,0.0,1.0)*(1.0-smoothstep(0.60,1.0,hit))
++	var scorch := StyleBoxFlat.new()
++	scorch.bg_color = Color(0.075,0.045,0.035,opacity*0.86)
++	scorch.border_color = Color(0.93,0.32,0.065,opacity*(0.42+sin(_power_t*34.0+float(ordinal))*0.08))
++	scorch.set_border_width_all(maxi(1,int(step*0.022)))
++	scorch.set_corner_radius_all(maxi(2,int(step*0.075)))
++	scorch.anti_aliasing = true
++	var extent := Vector2.ONE*step*0.80
++	draw_style_box(scorch,Rect2(destination-extent*0.5,extent))
++	# Short ember cracks keep the darkened cell visible as the gem breaks away.
++	for crack in range(3):
++		var angle := float(crack)*TAU/3.0+float(ordinal)*0.61
++		var direction := Vector2.from_angle(angle)
++		var start := destination+direction*step*0.11
++		var kink := destination+direction*step*0.22+direction.orthogonal()*step*0.04
++		var end := destination+direction*step*0.32
++		draw_polyline(PackedVector2Array([start,kink,end]),Color(1.0,0.42,0.10,opacity*0.55),maxf(1.0,step*0.018),true)
+ 
+ func _draw_mineral_impact(destination: Vector2, step: float, hit: float, ordinal: int, mineral: int) -> void:
+ 	var contact := maxf(0.0,1.0-hit/0.30)
+@@ -122,6 +176,25 @@
+ 	draw_arc(destination,step*(0.22+hit*0.24),0.0,TAU,32,Color(1.0,0.77,0.43,ring_alpha),maxf(1.0,step*0.029*(1.0-hit)),true)
+ 	var dust_opacity := sin(pow(hit,0.65)*PI)*0.68
+ 	_painted_sprite("impact_dust",destination+Vector2(0,step*(0.10+hit*0.12)),Vector2(0.45+hit*0.45,0.26+hit*0.23)*step,float(ordinal%3-1)*0.09,Color(1.0,0.91,0.77,dust_opacity))
++	# Two side tongues and a taller central tongue lick upward from this impact.
++	var fire_opacity := clampf(hit/0.045,0.0,1.0)*(1.0-smoothstep(0.32,1.0,hit))
++	for tongue in range(3):
++		var flicker := sin(_power_t*TAU*11.0+float(ordinal)*1.93+float(tongue)*2.3)
++		var central := tongue == 1
++		var height := step*((0.80 if central else 0.59)+flicker*0.065)*(1.0-hit*0.18)
++		var width := step*((0.36 if central else 0.26)+flicker*0.025)
++		var base := destination+Vector2(float(tongue-1)*step*0.17,step*(0.11-hit*0.14))
++		var angle := float(tongue-1)*0.15+flicker*0.08
++		_painted_sprite("lava_flame",base-Vector2(0,height*0.46),Vector2(width,height),angle,Color(1.0,0.96,0.76,fire_opacity*(0.91 if central else 0.76)))
++	for spark in range(5):
++		var phase := fposmod(hit*1.25+float(spark)*0.19,1.0)
++		var spread := sin(float(spark)*2.6+float(ordinal))*step*(0.10+phase*0.24)
++		var point := destination+Vector2(spread,-step*(0.12+phase*0.70))
++		var radius := step*(0.018+float(spark%2)*0.008)*(1.0-phase*0.55)
++		var bounds := _board_rect().grow(-radius*1.8)
++		point = point.clamp(bounds.position,bounds.end)
++		draw_circle(point,radius*1.65,Color(1.0,0.34,0.08,fire_opacity*(1.0-phase)*0.26),true,-1,true)
++		draw_circle(point,radius,Color(1.0,0.86,0.42,fire_opacity*(1.0-phase)*0.95),true,-1,true)
+ 	var mineral_color: Color = GEM_COLORS[posmod(mineral,6)]
+ 	for chip in range(5):
+ 		var direction := Vector2.from_angle(float(chip)*TAU/5.0+float(ordinal))
+
+--- a/scripts/lab/natural_power_lab.gd
++++ b/scripts/lab/natural_power_lab.gd
+@@ -70,7 +70,7 @@
+ 		if _resolving: return
+ 		board.set_painted_volcano(value)
+ 		if scenario == "volcano":
+-			helper.text = "Painted volcano material pass enabled." if value else "Baseline volcano reference enabled."
++			helper.text = "Burning lava and brief scorch enabled." if value else "Baseline volcano reference enabled."
+ 		else:
+ 			helper.text = "This power uses baseline VFX. Painted changes Volcano only.")
+ 	var choices := GridContainer.new();choices.columns = 2;choices.add_theme_constant_override("h_separation",8);choices.add_theme_constant_override("v_separation",6);stack.add_child(choices)
+@@ -117,7 +117,7 @@
+ 	board.setup(core,reduced.button_pressed)
+ 	board.show_hint(core.fixture_pair)
+ 	effect_label.text = {"volcano":"VOLCANO · FIRE","tornado_h":"TORNADO · HORIZONTAL","tornado_v":"TORNADO · VERTICAL","black_hole":"BLACK HOLE · GRAVITY"}.get(scenario,"NATURAL POWERS")
+-	helper.text = {"volcano":("Painted volcano material pass. " if painted_toggle.button_pressed else "Baseline volcano reference. ") + "Drag it to the glow; magma hits 3–5 stones.","tornado_h":"Baseline reference. Drag the whirlwind to the glow; it sweeps the row across gaps.","tornado_v":"Baseline reference. Drag the whirlwind to the glow; it sweeps the column.","black_hole":"Baseline reference. Swap the whirlwind and volcano to open a Black Hole."}.get(scenario,"")
++	helper.text = {"volcano":("Drag it to the glow; burning lava briefly singes 3–5 marked stones." if painted_toggle.button_pressed else "Baseline reference. Drag it to the glow; magma hits 3–5 stones."),"tornado_h":"Baseline reference. Drag the whirlwind to the glow; it sweeps the row across gaps.","tornado_v":"Baseline reference. Drag the whirlwind to the glow; it sweeps the column.","black_hole":"Baseline reference. Swap the whirlwind and volcano to open a Black Hole."}.get(scenario,"")
+ 	_update_stats();_update_controls()
+ 
+ func _update_stats() -> void:
+@@ -156,7 +156,7 @@
+ 
+ func _on_power_started(power:String,targets:Array) -> void:
+ 	match power:
+-		"volcano": effect_label.text = "VOLCANO · " + str(targets.size()) + " MAGMA HITS";helper.text = "Watch the marked stones — one magma pebble per target."
++		"volcano": effect_label.text = "VOLCANO · " + str(targets.size()) + " MAGMA HITS";helper.text = "Watch burning lava scorch the marked cells." if painted_toggle.button_pressed else "Watch the marked stones — one magma pebble per target."
+ 		"tornado_h": effect_label.text = "TORNADO · ROW SWEEP";helper.text = "The wind continues on the far side of each gap."
+ 		"tornado_v": effect_label.text = "TORNADO · COLUMN SWEEP";helper.text = "One column. The rune and gaps keep their places."
+ 		"black_hole": effect_label.text = "BLACK HOLE";helper.text = "Gems are absorbed. Soil and runes survive the pull; later matches may hit them."
+
+--- a/tests/capture_painted_volcano.gd
++++ b/tests/capture_painted_volcano.gd
+@@ -260,6 +260,8 @@
+ 		await shot("02_charge")
+ 	if await wait_for_phase(0.45):
+ 		await shot("03_flight")
++	if await wait_for_phase(0.76):
++		await shot("04b_burn")
+ 	if await wait_for_phase(0.85):
+ 		await shot("04_hits")
+ 	await await_lab_done()
+@@ -407,10 +409,11 @@
+ 	quit(0 if failures.is_empty() else 1)
+ 
+ func run() -> void:
+-	output = ProjectSettings.globalize_path("res://outputs")
++	var arguments := OS.get_cmdline_user_args()
++	var output_resource_path := "res://outputs/fire" if "--fire-pass" in arguments else "res://outputs"
++	output = ProjectSettings.globalize_path(output_resource_path)
+ 	check(DirAccess.make_dir_recursive_absolute(output) == OK, "Output directory exists")
+ 	start_frame = Engine.get_process_frames()
+-	var arguments := OS.get_cmdline_user_args()
+ 	if "--verify-only" in arguments:
+ 		await run_verify()
+ 		return
+
+--- a/README_MAGIC_ANIMATIONS.txt
++++ b/README_MAGIC_ANIMATIONS.txt
+@@ -2,8 +2,10 @@
+ 
+ Run PLAY_MAGIC_ANIMATIONS.cmd. The lab opens on monitor 0 at 432x960 and starts with Volcano selected.
+ 
+-Painted is enabled by default and selects the painted Volcano material pass. Turn it off for the baseline Volcano reference. This changes only the rendering style: it does not reset the board, reroll the seed, spend a move, or change the resolved result. The toggle is disabled while an effect resolves. Horizontal Tornado, vertical Tornado, and Black Hole retain their baseline VFX.
++Painted is enabled by default and selects the improved Volcano: glowing lava stones fly with fire tails, then leave a brief scorch on each hit cell. The scorch is visual only; it causes no ongoing damage. Turn Painted off for the baseline Volcano reference. This changes only the rendering style: it does not reset the board, reroll the seed, spend a move, or change the resolved result. The toggle is disabled while an effect resolves. Horizontal Tornado, vertical Tornado, and Black Hole retain their baseline VFX.
+ 
+ Drag the highlighted special to its neighboring highlighted stone. For Black Hole, swap the adjacent whirlwind and volcano. Reset restores the same seed. Skip effect and Reduced motion preserve the game result. Existing icons and audio are retained.
+ 
++The capture harness accepts --fire-pass after the Godot user-argument separator. This saves all JSON verification receipts and PNG captures under outputs/fire, preserving the prior outputs. Alongside charge, flight, and hits, 04b_burn captures the brief burn near power progress 0.76. The native gesture, nine parity cases, 432x960 viewport, and 210-frame capture remain unchanged.
++
+ This is a separate local test fixture, not campaign rewards or final balance. No personal or campaign save is read or written. The current project default scene is the lab; the launcher uses that scene directly.
+
+--- a/assets/vfx/volcano/MATERIALS.json
++++ b/assets/vfx/volcano/MATERIALS.json
+@@ -69,6 +69,28 @@
+       "bytes": 1560121,
+       "sha256": "be07b75b7bcd86f4720b422b11f4aef583879395199b5abcf7d48b9e45112881",
+       "processing": "unaltered copy of built-in imagegen output;no bitmap edits"
++    },
++    "lava_flame": {
++      "path": "assets/vfx/volcano/lava_flame.png",
++      "source": "C:\\Users\\fruch\\.codex\\generated_images\\01a11973-52a1-7a10-b9c3-69a7fee84ca5\\exec-e2501b47-a3da-4802-9811-dd70c79147c5.png",
++      "size": [
++        1269,
++        1240
++      ],
++      "mode": "RGBA",
++      "alpha_range": [
++        0,
++        254
++      ],
++      "alpha_bbox": [
++        0,
++        21,
++        1255,
++        1240
++      ],
++      "bytes": 892449,
++      "sha256": "c44ea2aa05e0d681f61956a84a6d6262e109ef52227985cdf707f33cc43f7c81",
++      "processing": "unaltered copy of built-in imagegen output;no bitmap editing"
+     }
+   }
+ }
+
+--- /dev/null
++++ b/tests/test_volcano_fire.gd
+@@ -0,0 +1,168 @@
++extends SceneTree
++## Fire presentation uses real seeded events and real PNG-backed drawing.
++## Observers retain super draw calls; they do not replace assets or gameplay.
++
++const RENDERER := "res://scripts/lab/magic_volcano_board.gd"
++const REPORT := "res://verification/fire_renderer_results.json"
++var checks := 0
++var failures := 0
++
++func _initialize() -> void: call_deferred("_run")
++
++func _expect(value: bool, label: String) -> void:
++	checks += 1
++	if not value:
++		failures += 1
++		print("FAIL: " + label)
++
++func _finish() -> void:
++	var file := FileAccess.open(REPORT, FileAccess.WRITE)
++	if file:
++		file.store_string(JSON.stringify({"checks":checks,"failures":failures,"status":"PASS" if failures == 0 else "FAIL"}, "\t") + "\n")
++	print("VOLCANO FIRE: %d checks, %d failures" % [checks,failures])
++	quit(1 if failures else 0)
++
++func _run() -> void:
++	var renderer = load(RENDERER)
++	if renderer == null or not renderer.can_instantiate():
++		_expect(false,"existing Volcano renderer loads")
++		_finish()
++		return
++	var feature = renderer.new()
++	# Missing feature is a normal assertion failure, never a missing-method parse error.
++	var has_fire: bool = feature.has_method("_draw_burning_cell")
++	_expect(has_fire,"Volcano renders a temporary burned square on actual impact cells")
++	feature.free()
++	if not has_fire:
++		_finish()
++		return
++	var core = load("res://scripts/lab/natural_power_core.gd").new()
++	core.setup_lab("volcano",42)
++	var result: Dictionary = core.try_swap(core.fixture_pair[0],core.fixture_pair[1])
++	var event: Dictionary = {}
++	for item in result.events:
++		if String(item.type) == "natural_power": event = item
++	_expect(not event.is_empty() and event.targets.size() == 5,"seeded fixture supplies five authoritative impacts")
++	if event.is_empty():
++		_finish()
++		return
++	var snapshot := {"grid":core.grid.duplicate(),"floor":core.floor.duplicate(),"runes":core.runes.duplicate(),"rng":core._rng.state}
++	var event_snapshot := event.duplicate(true)
++	var spy := GDScript.new()
++	spy.source_code = "extends \"res://scripts/lab/magic_volcano_board.gd\"\nvar submitted: Array = []\nvar scorches: Array = []\nvar sequence: Array = []\nvar stage := \"\"\nfunc _draw() -> void:\n\tsubmitted.clear()\n\tscorches.clear()\n\tsequence.clear()\n\tsuper._draw()\nfunc _painted_sprite(key: String, point: Vector2, extent: Vector2, angle: float, tint: Color) -> void:\n\tif tint.a > 0.0 and extent.x > 0.0 and extent.y > 0.0 and _painted_sprites.has(key):\n\t\tsubmitted.append({\"key\":key,\"point\":point,\"extent\":extent,\"angle\":angle,\"tint\":tint,\"stage\":stage,\"texture\":_painted_sprites[key].texture})\n\tsuper._painted_sprite(key,point,extent,angle,tint)\nfunc _draw_burning_cell(destination: Vector2, step: float, hit: float, ordinal: int) -> void:\n\tscorches.append({\"index\":_cell_at(destination),\"hit\":hit,\"ordinal\":ordinal})\n\tsequence.append([\"scorch\",_cell_at(destination)])\n\tsuper._draw_burning_cell(destination,step,hit,ordinal)\nfunc _event_gem(index: int, point: Vector2, scale_value: float = 1.0, alpha: float = 1.0) -> void:\n\tsequence.append([\"gem\",index])\n\tsuper._event_gem(index,point,scale_value,alpha)\nfunc _draw_crater_plume(source: Vector2, step: float) -> void:\n\tstage = \"crater\"\n\tsuper._draw_crater_plume(source,step)\n\tstage = \"\"\nfunc _draw_magma_flight(source: Vector2, destination: Vector2, flight: float, step: float, ordinal: int) -> void:\n\tstage = \"flight\"\n\tsuper._draw_magma_flight(source,destination,flight,step,ordinal)\n\tstage = \"\"\nfunc _draw_mineral_impact(destination: Vector2, step: float, hit: float, ordinal: int, mineral: int) -> void:\n\tstage = \"impact\"\n\tsuper._draw_mineral_impact(destination,step,hit,ordinal,mineral)\n\tstage = \"\"\n"
++	if spy.reload() != OK:
++		_expect(false,"real-drawing observer loads")
++		_finish()
++		return
++	var view = spy.new()
++	root.add_child(view)
++	view.size = Vector2(432,550)
++	view.setup(core)
++	var status: Dictionary = view.painted_asset_status()
++	_expect(bool(status.get("ready",false)) and status.source_sizes.has("lava_flame"),"fourth authentic flame texture is required and available")
++	if not bool(status.get("ready",false)):
++		view.queue_free()
++		await process_frame
++		_finish()
++		return
++	var image := Image.new()
++	var loaded := image.load_png_from_buffer(FileAccess.get_file_as_bytes("res://assets/vfx/volcano/lava_flame.png")) == OK
++	var texture: Texture2D = view._painted_sprites.lava_flame.texture
++	_expect(loaded and image.detect_alpha() != Image.ALPHA_NONE and image.get_used_rect().has_area(),"flame PNG has genuine nonempty transparent pixels")
++	_expect(texture.get_size() == Vector2(image.get_size()) and texture.get_image().get_data() == image.get_data(),"flame ImageTexture retains every original pixel")
++	_set_event(view,event)
++	await _sample(view,0.34)
++	_expect(_count(view,"lava_flame","crater") > 0,"actual crater drawing submits the new flame texture")
++	_expect(_count(view,"lava_flame","flight") >= 2 and _count(view,"magma_pebble","flight") > 0,"flight submits layered real flame textures around readable magma")
++	var substantial_flame := false
++	var aligned_trail := false
++	for item in view.submitted:
++		if item.key != "lava_flame" or item.stage != "flight": continue
++		if item.extent.y >= view._cell_size()*0.55: substantial_flame = true
++		var source: Vector2 = view._center(int(event.origin))
++		var destination: Vector2 = view._center(int(event.targets[0]))
++		var flight := (0.34-0.23)/0.42
++		var point: Vector2 = view._volcano_arc(source,destination,flight,view._cell_size())
++		var prior: Vector2 = view._volcano_arc(source,destination,flight-0.055,view._cell_size())
++		var tangent: Vector2 = (point-prior).normalized()
++		if Vector2.UP.rotated(item.angle).dot(-tangent) > 0.85: aligned_trail = true
++	_expect(substantial_flame and aligned_trail,"flight flame is readable at cell scale and points opposite motion")
++	_expect(view.scorches.is_empty(),"no cell burns before actual impact")
++	var burned: Dictionary = {}
++	var impact_flames := false
++	var layered_behind := true
++	for progress in [0.68,0.735,0.79,0.845,0.90]:
++		await _sample(view,progress)
++		impact_flames = impact_flames or _count(view,"lava_flame","impact") >= 2
++		for scorch in view.scorches:
++			burned[scorch.index] = true
++			var scorch_position: int = view.sequence.find(["scorch",scorch.index])
++			var gem_position: int = view.sequence.find(["gem",scorch.index])
++			layered_behind = layered_behind and scorch_position >= 0 and gem_position > scorch_position
++	_expect(impact_flames,"actual mineral impacts submit multiple rising flame tongues")
++	_expect(burned.keys().size() == 5 and burned.keys().all(func(index: int) -> bool: return index in event.targets),"only all five authoritative targets receive scorch drawing")
++	_expect(layered_behind,"scorch is drawn beneath each shrinking target gem")
++	await _sample(view,0.735)
++	var first_frame: Array = _visual_values(view.submitted)
++	await _sample(view,0.735)
++	_expect(_visual_values(view.submitted) == first_frame,"fire flicker depends only on event progress and ordinal")
++	var malformed: Dictionary = event.duplicate(true)
++	malformed.targets = [24,39,-1,999]
++	_set_event(view,malformed)
++	await _sample(view,0.73)
++	_expect(view.scorches.is_empty() and _count(view,"lava_flame","impact") == 0,"holes runes and invalid cells cannot receive fire or scorch")
++	_set_event(view,event)
++	# The final target still has a live hit phase near event expiry. It must
++	# remain the only burned cell until the inherited lifecycle clears the event.
++	await _sample(view,0.99)
++	_expect(view.scorches.size() == 1 and view.scorches[0].index == int(event.targets.back()),"late event burns only the final authoritative target")
++	view.setup(core,true)
++	_set_event(view,event)
++	await _sample(view,0.73)
++	_expect(view.scorches.is_empty() and view.submitted.is_empty(),"reduced motion draws no painted fire or scorch")
++	view.setup(core,false)
++	_set_event(view,event)
++	await _sample(view,0.73)
++	view.finish_now()
++	await _sample(view,0.73)
++	_expect(view._power_event.is_empty() and view.scorches.is_empty() and view.submitted.is_empty(),"skip clears fire and scorch immediately")
++	view.setup(core,false)
++	view.animate_result({"valid":true,"events":[event]})
++	await create_timer(0.70).timeout
++	_expect(view.busy,"normal fire still uses the inherited 1.04 second event")
++	await create_timer(0.42).timeout
++	await process_frame
++	_expect(not view.busy and view._power_event.is_empty() and view._hidden.is_empty() and view.scorches.is_empty() and view.submitted.is_empty(),"normal expiry removes every fire draw and hidden target")
++	view.setup(core,false)
++	view.animate_result({"valid":true,"events":[event]})
++	await create_timer(0.05).timeout
++	var replacement = load("res://scripts/lab/natural_power_core.gd").new()
++	replacement.setup_lab("tornado_h",713)
++	view.setup(replacement,false)
++	await create_timer(1.15).timeout
++	_expect(view._display_grid == replacement.grid and view._power_event.is_empty() and view.scorches.is_empty() and view.submitted.is_empty(),"reset prevents expired fire from returning")
++	_expect(core.grid == snapshot.grid and core.floor == snapshot.floor and core.runes == snapshot.runes and core._rng.state == snapshot.rng,"fire drawing preserves authoritative grid terrain runes and RNG")
++	_expect(event == event_snapshot,"fire drawing preserves the entire authoritative event")
++	view.queue_free()
++	await process_frame
++	_finish()
++
++func _set_event(view: Control, event: Dictionary) -> void:
++	view._power_event = event.duplicate(true)
++	view._power_epoch = view._epoch
++	for index in event.indices: view._hidden[index] = true
++
++func _sample(view: Control, progress: float) -> void:
++	view._power_t = progress
++	view.queue_redraw()
++	await process_frame
++	await process_frame
++
++func _count(view: Control, key: String, stage: String) -> int:
++	return view.submitted.filter(func(item: Dictionary) -> bool: return item.key == key and item.stage == stage).size()
++
++func _visual_values(submitted: Array) -> Array:
++	var values: Array = []
++	for item in submitted:
++		values.append([item.key,item.point,item.extent,item.angle,item.tint,item.stage])
++	return values
+
+--- /dev/null
++++ b/assets/vfx/volcano/FIRE_GENERATION_PROMPT.txt
+@@ -0,0 +1,5 @@
++BUILT-IN IMAGE_GEN FIRE MATERIAL — 2026-10-17
++Mode: new transparent project-bound image; transparent_background=true.
++Selected output copied unchanged to lava_flame.png; original retained in generated_images. No bitmap editing or CLI fallback.
++
++Use case: stylized-concept. Asset type: ONE transparent 2D game VFX flame tuft for GnomiT, a richly painted storybook fantasy mining match-3. Primary request: a lively compact cluster of three curling tongues of real orange fire with a warm golden-yellow inner core, copper-red translucent outer wisps and two tiny warm embers very close to the tuft. Upright flame, widest around lower middle, narrow curling pointed top, no stone underneath. Painted volumetric cartoon fantasy shading, soft luminous interior but crisp readable curling fire silhouette when rendered at 25-40 pixels high. Isolated centered, approximately 55 percent of canvas width and 70 percent height, generous truly transparent padding on all sides; soft alpha only on the wispy outer tips. No background, no checkerboard, no icon or badge, no circle, no volcano, no border, no text, no black soot cloud, no blue fire, no solid white aura, no large scattered sparks, no multi-frame sheet. This is only the flame material that Godot will layer around an existing airborne magma rock and on a small hit tile, not a replacement for that rock or the approved volcano icon. True RGBA transparent background. Detailed stylized game asset, not a flat flame logo.
+

@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "predecessor_files_verified_unchanged": 207,
+  "changed_derived_files": [
+    "scripts/lab/material_power_board.gd",
+    "scripts/lab/material_power_core.gd",
+    "project.godot",
+    "tests/test_campaign_power_integration.gd"
+  ],
+  "new_art_audio": false,
+  "original_campaign_directory": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\CampaignTutorial_Volcano_2026-10-20"
+}

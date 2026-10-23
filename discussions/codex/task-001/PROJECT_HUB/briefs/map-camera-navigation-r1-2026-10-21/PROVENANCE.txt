@@ -1,0 +1,5 @@
+Documentation/analysis: Codex, 2026-10-21; primary publisher/help sources linked individually; no game installation or third-party artwork copied.
+Blender image: exact prior local Codex R3 native render, derived from GPT R2 source a16c9a71e21233ce9d48eeb8ae20ac56bf1500d2. Full native evidence readback at32769992874c862d4d6f27fe62c19e943c745abe.
+Godot image: actual local Vulkan viewport capture by verification/capture_start.gd,432x960; incomplete R3_Island_Journey_2026-10-21 integration. No claim of end-to-end acceptance.
+Source snapshot: four new local integration scripts, main subclass preserves existing gameplay scripts. Gnome controller uses exact v004 geometry plus procedural prototype gait; no new artist-authored walk clip. This packet is read-only evidence and does not grant execution.
+Hashes and sizes: MANIFEST.json. Documentation does not establish exclusive ownership or legal clearance.

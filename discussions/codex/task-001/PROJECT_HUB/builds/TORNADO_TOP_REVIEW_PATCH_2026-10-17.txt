@@ -1,0 +1,989 @@
+LITERAL LOCAL DELTA PROPOSAL — NOT APPLIED TO GOVERNED GAME
+
+--- before/scripts/lab/natural_power_core.gd
++++ after/scripts/lab/natural_power_core.gd
+@@ -68,8 +68,11 @@
+ 		targets.sort()
+ 	else:
+ 		for index in range(grid.size()):
+-			var aligned := index / cols == origin / cols if power == "tornado_h" else index % cols == origin % cols
+-			if aligned and _is_ordinary(grid[index]):
++			# A local ring around the tornado's final swapped position. Explicit
++			# row/column distances clip the footprint at edges without row wrapping.
++			var dx := absi(index % cols - origin % cols)
++			var dy := absi(index / cols - origin / cols)
++			if index != origin and dx <= 1 and dy <= 1 and _is_ordinary(grid[index]):
+ 				targets.append(index)
+ 	_apply_power(power, origin, targets, events)
+ 	_resolve_after_power(events)
+
+--- before/scripts/lab/natural_power_board.gd
++++ after/scripts/lab/natural_power_board.gd
+@@ -62,7 +62,7 @@
+ 			if not reduced_motion: _hidden[index] = true
+ 			if int(_display_grid[index]) < 6 and _core.collect_goal > 0 and int(_display_grid[index]) == _core.collect_kind:
+ 				goal_piece_cleared.emit(get_global_transform() * _center(index))
+-	var duration := 0.13 if reduced_motion else (1.04 if String(event.power) == "volcano" else (1.08 if String(event.power) == "black_hole" else 0.80))
++	var duration := 0.13 if reduced_motion else (1.04 if String(event.power) == "volcano" else (1.08 if String(event.power) == "black_hole" else 1.10))
+ 	_power_tween = create_tween()
+ 	_power_tween.tween_property(self, "_power_t", 1.0, duration).set_trans(Tween.TRANS_LINEAR)
+ 	queue_redraw()
+
+--- before/scripts/lab/natural_power_lab.gd
++++ after/scripts/lab/natural_power_lab.gd
+@@ -10,7 +10,7 @@
+ var volcano_audio
+ var last_result:Dictionary = {}
+ var board
+-var scenario := "volcano"
++var scenario := "tornado_h"
+ var seed_value := 42
+ var _generation := 0
+ var _resolving := false
+@@ -74,9 +74,9 @@
+ 		if scenario == "volcano":
+ 			helper.text = "Burning lava and brief scorch enabled." if value else "Baseline volcano reference enabled."
+ 		else:
+-			helper.text = "This power uses baseline VFX. Painted changes Volcano only.")
++			helper.text = "Painted changes Volcano only. Tornado keeps its local whirl.")
+ 	var choices := GridContainer.new();choices.columns = 2;choices.add_theme_constant_override("h_separation",8);choices.add_theme_constant_override("v_separation",6);stack.add_child(choices)
+-	for entry in [["volcano","VOLCANO"],["tornado_h","TORNADO  ROW"],["tornado_v","TORNADO  COLUMN"],["black_hole","BLACK HOLE"]]:
++	for entry in [["volcano","VOLCANO"],["tornado_h","TORNADO"],["black_hole","BLACK HOLE"]]:
+ 		var key:String = entry[0]
+ 		var choice := _button(entry[1],func() -> void: reset_scenario(key))
+ 		choice.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+@@ -120,8 +120,8 @@
+ 	core = LabCore.new();core.setup_lab(scenario,seed_value)
+ 	board.setup(core,reduced.button_pressed)
+ 	board.show_hint(core.fixture_pair)
+-	effect_label.text = {"volcano":"VOLCANO · FIRE","tornado_h":"TORNADO · HORIZONTAL","tornado_v":"TORNADO · VERTICAL","black_hole":"BLACK HOLE · GRAVITY"}.get(scenario,"NATURAL POWERS")
+-	helper.text = {"volcano":("Drag it to the glow; burning lava briefly singes 3–5 marked stones." if painted_toggle.button_pressed else "Baseline reference. Drag it to the glow; magma hits 3–5 stones."),"tornado_h":"Baseline reference. Drag the whirlwind to the glow; it sweeps the row across gaps.","tornado_v":"Baseline reference. Drag the whirlwind to the glow; it sweeps the column.","black_hole":"Baseline reference. Swap the whirlwind and volcano to open a Black Hole."}.get(scenario,"")
++	effect_label.text = {"volcano":"VOLCANO · FIRE","tornado_h":"TORNADO · WHIRL","tornado_v":"TORNADO · WHIRL","black_hole":"BLACK HOLE · GRAVITY"}.get(scenario,"NATURAL POWERS")
++	helper.text = {"volcano":("Drag it to the glow; burning lava briefly singes 3–5 marked stones." if painted_toggle.button_pressed else "Baseline reference. Drag it to the glow; magma hits 3–5 stones."),"tornado_h":"Drag the whirlwind to the glow. It spins in place and pulls in nearby stones.","tornado_v":"Drag the whirlwind to the glow. Gaps and runes stay in place.","black_hole":"Baseline reference. Swap the whirlwind and volcano to open a Black Hole."}.get(scenario,"")
+ 	_update_stats();_update_controls()
+ 
+ func _update_stats() -> void:
+@@ -164,8 +164,7 @@
+ 		volcano_audio.begin(targets,board.reduced_motion)
+ 	match power:
+ 		"volcano": effect_label.text = "VOLCANO · " + str(targets.size()) + " MAGMA HITS";helper.text = "Watch burning lava scorch the marked cells." if painted_toggle.button_pressed else "Watch the marked stones — one magma pebble per target."
+-		"tornado_h": effect_label.text = "TORNADO · ROW SWEEP";helper.text = "The wind continues on the far side of each gap."
+-		"tornado_v": effect_label.text = "TORNADO · COLUMN SWEEP";helper.text = "One column. The rune and gaps keep their places."
++		"tornado_h", "tornado_v": effect_label.text = "TORNADO · " + str(targets.size()) + " NEARBY STONES";helper.text = "The marked stones swirl into the centre. Gaps and runes remain."
+ 		"black_hole": effect_label.text = "BLACK HOLE";helper.text = "Gems are absorbed. Soil and runes survive the pull; later matches may hit them."
+ 
+ func skip_effect() -> void:
+
+--- before/scripts/lab/magic_volcano_board.gd
++++ after/scripts/lab/magic_volcano_board.gd
+@@ -222,3 +222,160 @@
+ 	draw_set_transform(point,angle)
+ 	draw_texture_rect_region(sprite.texture,Rect2(-extent*0.5,extent),sprite.region,tint,false,true)
+ 	draw_set_transform(Vector2.ZERO)
++
++func tornado_phase() -> Dictionary:
++	var t := clampf(_power_t,0.0,1.0)
++	var grow := smoothstep(0.0,0.18,t)
++	var collapse := smoothstep(0.85,1.0,t)
++	var origin := int(_power_event.get("origin",-1))
++	var tip := _center(origin) if origin >= 0 and origin < _cols*_rows else Vector2.ZERO
++	return {"grow":grow,"pull":clampf((t-0.18)/0.68,0.0,1.0),"collapse":collapse,"spin":t*TAU*3.4,"strength":grow*(1.0-collapse),"origin":origin,"tip":tip}
++
++func tornado_target_pose(index: int, step: float) -> Dictionary:
++	var targets: Array = _power_event.get("targets",[])
++	var before: Array = _power_event.get("before",[])
++	var origin := int(_power_event.get("origin",-1))
++	var ordinal := targets.find(index)
++	if ordinal < 0 or origin < 0 or index < 0 or index >= before.size() or index == origin:
++		return {"valid":false,"index":index}
++	if int(before[index]) < 0 or int(before[index]) >= 6 or absi(index%_cols-origin%_cols) > 1 or absi(index/_cols-origin/_cols) > 1:
++		return {"valid":false,"index":index}
++	var pull := clampf((_power_t-0.18-float(ordinal)*0.009)/0.61,0.0,1.0)
++	var eased := pull*pull*(3.0-2.0*pull)
++	var source := _center(origin)
++	var offset := _center(index)-source
++	var point := source+offset.rotated(eased*PI*1.10)*(1.0-eased)
++	var scale_value := 1.0-eased*0.92
++	var rotation := eased*(TAU*1.25+float(ordinal)*0.17)
++	# The original painted treasure remains entirely within the board while it
++	# rotates and shrinks; this never moves a cell plate, soil goal or rune.
++	var half := step*0.36*1.325*scale_value*(absf(cos(rotation))+absf(sin(rotation)))
++	var bounds := _board_rect().grow(-half-0.5)
++	point = point.clamp(bounds.position,bounds.end)
++	return {"valid":true,"index":index,"point":point,"scale":scale_value,"alpha":1.0-smoothstep(0.72,1.0,pull),"rotation":rotation,"pull":pull,"ordinal":ordinal}
++
++func _draw_tornado_effect(step: float, _vertical: bool) -> void:
++	# Both historical IDs are the same local, fixed-origin top. The Painted
++	# switch remains Volcano-only; no row/column renderer is selected here.
++	var phase := tornado_phase()
++	var origin := int(phase.origin)
++	var before: Array = _power_event.get("before",[])
++	if origin < 0 or origin >= before.size(): return
++	var source: Vector2 = phase.tip
++	var poses: Array = []
++	for raw_index in _power_event.get("targets",[]):
++		var index := int(raw_index)
++		var pose := tornado_target_pose(index,step)
++		if not pose.valid: continue
++		poses.append(pose)
++		var warning := (1.0-smoothstep(0.16,0.40,_power_t))*0.66+(1.0-float(pose.pull))*0.12
++		if warning > 0.01:
++			var center := _center(index)
++			var start := float(phase.spin)*0.36+float(pose.ordinal)*0.44
++			draw_arc(center,step*0.37,start,start+PI*0.78,20,Color(0.86,0.96,0.83,warning),maxf(1.1,step*0.025),true)
++			draw_arc(center,step*0.37,start+PI,start+PI*1.78,20,Color(0.44,0.84,0.88,warning*0.83),maxf(1.0,step*0.021),true)
++	if _power_t < 0.24:
++		_event_gem(origin,source,1.0-float(phase.grow)*0.16,1.0-smoothstep(0.08,0.24,_power_t))
++	_draw_tornado_cone(source,step,phase,false)
++	for pose in poses: _draw_tornado_target(int(pose.index),pose)
++	_draw_tornado_cone(source,step,phase,true)
++	draw_set_transform(Vector2.ZERO)
++
++func _draw_tornado_target(index: int, pose: Dictionary) -> void:
++	if not bool(pose.get("valid",false)) or float(pose.alpha) <= 0.0: return
++	# Calling the ordinary event gem at local zero preserves its exact art and
++	# adds only a presentation transform. Actual target indices stay observable.
++	draw_set_transform(pose.point,float(pose.rotation))
++	_event_gem(index,Vector2.ZERO,float(pose.scale),float(pose.alpha))
++	draw_set_transform(Vector2.ZERO)
++
++func _draw_tornado_cone(source: Vector2, step: float, phase: Dictionary, front: bool) -> void:
++	var strength := float(phase.strength)
++	if strength < 0.025: return
++	var spin := float(phase.spin)
++	if not front:
++		# A fixed elliptical contact shadow grounds the spinning tip at origin.
++		var shadow := PackedVector2Array()
++		for vertex in range(28):
++			var angle := float(vertex)/28.0*TAU
++			shadow.append(source+Vector2(cos(angle)*0.43,0.09+sin(angle)*0.105)*step*strength)
++		_draw_tornado_clipped_polygon(shadow,Color(0.025,0.065,0.07,strength*0.36))
++		var body := PackedVector2Array()
++		for local in [Vector2(0,0),Vector2(0.10,-0.16),Vector2(0.22,-0.57),Vector2(0.51,-1.08),Vector2(0.43,-1.22),Vector2(-0.43,-1.22),Vector2(-0.51,-1.08),Vector2(-0.22,-0.57),Vector2(-0.10,-0.16)]:
++			body.append(source+local*step*strength)
++		# Clip the filled shape as a polygon. Clamping its vertices separately at
++		# a top-row origin can fold the roof back along the board edge.
++		_draw_tornado_clipped_polygon(body,Color(0.33,0.65,0.67,strength*0.25))
++		var contour := PackedVector2Array()
++		var bounds := _board_rect().grow(-2.0)
++		for point in body: contour.append(point.clamp(bounds.position,bounds.end))
++		contour.append(contour[0])
++		_draw_tornado_wind_segment(contour,Color(0.20,0.47,0.50,strength*0.34),maxf(1.0,step*0.035))
++	# Elliptical bands provide volume; their bright helical strands rotate
++	# continuously around the same cone instead of travelling along the board.
++	for band in range(7):
++		var u := float(band)/6.0
++		var radius := 0.075+u*0.44
++		var height := 0.10+u*1.03
++		var band_points := PackedVector2Array()
++		for sample in range(19):
++			var angle := float(sample)/18.0*PI+(0.0 if front else PI)
++			band_points.append(_tornado_wind_point(source,Vector2(cos(angle)*radius,-height+sin(angle)*radius*0.25),step,strength))
++		var pulse := 0.87+sin(spin+float(band)*0.8)*0.13
++		var color := Color(0.85,0.94,0.81,strength*(0.43+u*0.09)*pulse) if front else Color(0.35,0.72,0.76,strength*0.29)
++		_draw_tornado_wind_segment(band_points,color,maxf(1.1,step*(0.025+u*0.012)))
++	for strand in range(3):
++		var points := PackedVector2Array()
++		for sample in range(57):
++			var u := float(sample)/56.0
++			var angle := spin+u*TAU*1.65+float(strand)*TAU/3.0
++			var radius := 0.06+u*0.47
++			var on_front := sin(angle) >= 0.0
++			if on_front != front:
++				_draw_tornado_wind_ribbon(points,step,strength,strand,front)
++				points = PackedVector2Array()
++				continue
++			points.append(_tornado_wind_point(source,Vector2(cos(angle)*radius,-0.025-u*1.14+sin(angle)*radius*0.24),step,strength))
++		_draw_tornado_wind_ribbon(points,step,strength,strand,front)
++	for mote in range(10):
++		var u := fposmod(_power_t*1.8+float(mote)*0.103,1.0)
++		var angle := spin+float(mote)*2.4
++		if (sin(angle) >= 0.0) != front: continue
++		var radius := 0.11+u*0.43
++		var point := _tornado_wind_point(source,Vector2(cos(angle)*radius,-0.08-u*1.05+sin(angle)*radius*0.24),step,strength)
++		var color := Color(0.96,0.87,0.62,strength*(1.0-u)*0.76) if mote%3 == 0 else Color(0.73,0.92,0.88,strength*(1.0-u)*0.65)
++		draw_circle(point,maxf(0.55,step*(0.013+float(mote%2)*0.007)*strength),color,true,-1,true)
++	if front:
++		# The narrow, bright tip never leaves the origin cell.
++		draw_arc(source,step*0.13*strength,spin,spin+PI*1.50,19,Color(0.92,0.98,0.85,strength*0.86),maxf(1.0,step*0.025),true)
++		draw_circle(source,maxf(0.6,step*0.029*strength),Color(0.96,0.99,0.88,strength*0.84),true,-1,true)
++
++func _tornado_wind_point(source: Vector2, local: Vector2, step: float, strength: float) -> Vector2:
++	var bounds := _board_rect().grow(-2.0)
++	return (source+local*step*strength).clamp(bounds.position,bounds.end)
++
++func _tornado_clipped_polygons(points: PackedVector2Array) -> Array[PackedVector2Array]:
++	var result: Array[PackedVector2Array] = []
++	if points.size() < 3: return result
++	var bounds := _board_rect().grow(-2.0)
++	var clip := PackedVector2Array([bounds.position,Vector2(bounds.end.x,bounds.position.y),bounds.end,Vector2(bounds.position.x,bounds.end.y)])
++	for polygon in Geometry2D.intersect_polygons(points,clip):
++		if polygon.size() >= 3 and not Geometry2D.triangulate_polygon(polygon).is_empty(): result.append(polygon)
++	return result
++
++func _draw_tornado_clipped_polygon(points: PackedVector2Array, color: Color) -> void:
++	for polygon in _tornado_clipped_polygons(points): draw_colored_polygon(polygon,color)
++
++func _draw_tornado_wind_ribbon(points: PackedVector2Array, step: float, strength: float, strand: int, front: bool) -> void:
++	if points.size() < 2: return
++	var palette := [Color(0.96,0.93,0.75),Color(0.53,0.86,0.88),Color(0.86,0.76,0.50)]
++	var color: Color = palette[strand]
++	color.a = strength*(0.88 if front else 0.31)
++	_draw_tornado_wind_segment(points,Color(0.16,0.40,0.43,color.a*0.61),maxf(1.6,step*0.063))
++	_draw_tornado_wind_segment(points,color,maxf(1.0,step*(0.033 if front else 0.024)))
++
++func _draw_tornado_wind_segment(points: PackedVector2Array, color: Color, width: float) -> void:
++	var distinct := PackedVector2Array()
++	for point in points:
++		if distinct.is_empty() or point.distance_squared_to(distinct[-1]) > 0.04: distinct.append(point)
++	if distinct.size() >= 2: draw_polyline(distinct,color,width,true)
+
+--- before/tests/test_natural_powers.gd
++++ after/tests/test_natural_powers.gd
+@@ -71,10 +71,11 @@
+ 		elif scenario.begins_with("tornado"):
+ 			var expected: Array[int] = []
+ 			for index in range(event.before.size()):
+-				var aligned: bool = index / core.cols == event.origin / core.cols if scenario == "tornado_h" else index % core.cols == event.origin % core.cols
+-				if aligned and event.before[index] >= 0 and event.before[index] < 6:
++				var dx: int = absi(index % core.cols - int(event.origin) % core.cols)
++				var dy: int = absi(index / core.cols - int(event.origin) / core.cols)
++				if index != event.origin and dx <= 1 and dy <= 1 and event.before[index] >= 0 and event.before[index] < 6:
+ 					expected.append(index)
+-			_expect(event.targets == expected, scenario + " hits precisely ordinary minerals on the whole axis")
++			_expect(event.targets == expected, scenario + " hits only ordinary minerals in the eight surrounding cells")
+ 		else:
+ 			_expect(event.floor == event.floor_before and event.runes == event.runes_before, "Black Hole direct event preserves floor and rune arrays")
+ 			_expect(event.after.count(-1) == 53 and event.after[24] == -2 and event.after[30] == -2 and event.after[39] == -3, "Black Hole removes all playable objects and preserves fixed geometry")
+@@ -207,7 +208,11 @@
+ 
+ func _finish() -> void:
+ 	var report := {"checks": checks, "failures": failures, "status": "PASS" if failures == 0 else "FAIL"}
+-	var file := FileAccess.open("res://verification/core_results.json", FileAccess.WRITE)
++	var report_path := "res://verification/core_results.json"
++	for argument in OS.get_cmdline_user_args():
++		if argument.begins_with("--report-path="):
++			report_path = argument.trim_prefix("--report-path=")
++	var file := FileAccess.open(report_path, FileAccess.WRITE)
+ 	if file:
+ 		file.store_string(JSON.stringify(report, "\t") + "\n")
+ 	print("Natural power core: %d checks, %d failures" % [checks, failures])
+
+--- before/README_MAGIC_ANIMATIONS.txt
++++ after/README_MAGIC_ANIMATIONS.txt
+@@ -1,8 +1,10 @@
+ GNOMIT MAGIC ANIMATION LAB
+ 
+-Run PLAY_MAGIC_ANIMATIONS.cmd. The lab opens on monitor 0 at 432x960 and starts with Volcano selected.
++Run PLAY_MAGIC_ANIMATIONS.cmd. The lab opens on monitor 0 at 432x960 and starts with Tornado selected.
+ 
+-Painted is enabled by default and selects the improved Volcano: glowing lava stones fly with fire tails, then leave a brief scorch on each hit cell. The scorch is visual only; it causes no ongoing damage. Turn Painted off for the baseline Volcano reference. This changes only the rendering style: it does not reset the board, reroll the seed, spend a move, or change the resolved result. The toggle is disabled while an effect resolves. Horizontal Tornado, vertical Tornado, and Black Hole retain their baseline VFX.
++TORNADO: drag the highlighted whirlwind to the adjacent marked stone. At its new position it spins in place like a top and pulls in the ordinary minerals in the eight surrounding cells (a 3x3 footprint including diagonals, excluding its own centre). It does not sweep a full row or column. Borders clip the footprint; holes, runes and other specials are excluded. The ordinary targets and the tornado itself are removed in the existing one-move transaction; affected soil loses its existing single layer. There is no chain activation. Normal post-power cascades retain the usual rules. Target cells are marked first, followed by the local whirl and inward stone motion, then normal refill. Duration is 1.10s; Reduced motion keeps the short selection cue. Reset and Skip clear the effect. Volcano and its delivered MP3, Black Hole, campaign and save are unchanged. Both historical tornado type IDs now use the same radial rule; the menu exposes one Tornado button.
++
++Painted is enabled by default and selects the improved Volcano: glowing lava stones fly with fire tails, then leave a brief scorch on each hit cell. The scorch is visual only; it causes no ongoing damage. Turn Painted off for the baseline Volcano reference. This does not reset the board, reroll the seed, spend a move, or change the resolved result. The toggle is disabled while an effect resolves. Tornado always uses the local whirl; Black Hole retains its previous VFX.
+ 
+ Drag the highlighted special to its neighboring highlighted stone. For Black Hole, swap the adjacent whirlwind and volcano. Reset restores the same seed. Skip effect and Reduced motion preserve the game result. Existing icons and ordinary stone audio are retained.
+ 
+@@ -14,4 +16,6 @@
+ 
+ Use --clip-audio for current MP3 integration evidence under outputs/volcano_clip. Earlier outputs/volcano_audio and outputs/fire are predecessor evidence and remain unchanged. The clip source is Git commit b5e78444f0c39eb35e5896258a5e0787136bdc22, 16,724 bytes, SHA-256 165bba4707d48883e96d1c7626400e36a454e206469d58b3b21ec9c536fda27c.
+ 
++Current Tornado evidence uses tests/capture_tornado_top.gd and outputs/tornado_top. Earlier captures are preserved as historical passes. Scripted Godot captures verify the real event, not human usability or Android performance.
++
+ This is a separate local test fixture, not campaign rewards or final balance. No personal or campaign save is read or written. The current project default scene is the lab; the launcher uses that scene directly.
+
+--- /dev/null
++++ after/tests/test_tornado_top.gd
+@@ -0,0 +1,270 @@
++extends SceneTree
++## Literal geometric target oracles and real-renderer lifecycle checks.
++
++const CORE_PATH := "res://scripts/lab/natural_power_core.gd"
++const RENDERER_PATH := "res://scripts/lab/magic_volcano_board.gd"
++var checks := 0
++var failures: Array[String] = []
++var observations: Array = []
++
++func _initialize() -> void:
++	call_deferred("run")
++
++func check(value: bool, message: String) -> void:
++	checks += 1
++	if not value:
++		failures.append(message)
++		print("FAIL: " + message)
++
++func canonical(value: Variant) -> String:
++	return JSON.stringify(JSON.parse_string(JSON.stringify(value)), "", true)
++
++func core_state(core) -> Dictionary:
++	return {
++		"cols":core.cols, "rows":core.rows, "grid":core.grid.duplicate(),
++		"floor":core.floor.duplicate(), "runes":core.runes.duplicate(),
++		"moves_left":core.moves_left, "initial_moves":core.initial_moves,
++		"collected":core.collected, "collect_kind":core.collect_kind,
++		"collect_goal":core.collect_goal, "won":core.won, "lost":core.lost,
++		"goal":core._goal, "black_hole_used":core.black_hole_used,
++		"fixture_pair":core.fixture_pair.duplicate(),
++		"rng_seed_int64":str(core._rng.seed), "rng_state_int64":str(core._rng.state),
++	}
++
++func power_event(result: Dictionary) -> Dictionary:
++	var found: Dictionary = {}
++	var count := 0
++	for event in result.get("events", []):
++		if event.get("type", "") == "natural_power":
++			found = event
++			count += 1
++	check(count == 1, "Real swap emits exactly one power without chaining")
++	return found
++
++func custom_fixture(kind: int, source: int, destination: int, extras: Dictionary):
++	var core = load(CORE_PATH).new()
++	core.setup_lab("tornado_h", 42)
++	core.grid[int(core.fixture_pair[0])] = 1
++	core.fixture_pair.assign([source, destination])
++	core.grid[source] = kind
++	for index in extras:
++		core.grid[int(index)] = int(extras[index])
++	for index in range(core.grid.size()):
++		if core.grid[index] >= 0:
++			core.floor[index] = 2
++	return core
++
++func verify_geometry() -> void:
++	# These explicit cell sets include diagonal neighbors, clip board edges,
++	# and deliberately omit the existing holes/rune and injected specials.
++	for definition in [
++		{"name":"center", "source":11, "origin":12, "cells":[4,5,6,11,13,18,19,20], "extras":{}},
++		{"name":"corner", "source":1, "origin":0, "cells":[1,7,8], "extras":{}},
++		{"name":"right_edge_no_wrap", "source":5, "origin":6, "cells":[5,12,13], "extras":{}},
++		{"name":"left_edge_no_wrap", "source":21, "origin":28, "cells":[21,22,29,35,36], "extras":{}},
++		{"name":"holes", "source":16, "origin":23, "cells":[15,16,17,22,29,31], "extras":{}},
++		{"name":"rune", "source":37, "origin":38, "cells":[31,32,37,44,45,46], "extras":{}},
++		{"name":"specials_do_not_chain", "source":11, "origin":12, "cells":[5,6,11,18,19,20], "extras":{4:8,13:7}},
++	]:
++		var states: Array = []
++		for kind in [6, 7]:
++			var core = custom_fixture(kind, int(definition.source), int(definition.origin), definition.extras)
++			var result: Dictionary = core.try_swap(int(definition.source), int(definition.origin))
++			var event := power_event(result)
++			var label: String = String(definition.name) + "/" + str(kind)
++			check(bool(result.valid) and core.moves_left == 11, label + " spends exactly one move")
++			if event.is_empty():
++				continue
++			check(int(event.origin) == int(definition.origin), label + " centers the effect at the post-swap destination")
++			check(event.targets == definition.cells, label + " affects exactly the literal neighboring ordinary cells")
++			var removed: Array = definition.cells.duplicate()
++			removed.append(int(definition.origin))
++			removed.sort()
++			check(event.indices == removed and event.after[int(event.origin)] == -1, label + " consumes the origin and only these targets")
++			var preserved := true
++			for index in range(event.before.size()):
++				if index not in removed and event.after[index] != event.before[index]:
++					preserved = false
++			check(preserved, label + " leaves every distant or excluded direct cell untouched")
++			var expected_floor: Array = event.floor_before.duplicate()
++			for target in definition.cells:
++				expected_floor[int(target)] = maxi(0, int(expected_floor[int(target)]) - 1)
++			check(event.floor == expected_floor and event.floor[int(event.origin)] == 2, label + " decrements soil once only under ordinary targets")
++			check(event.runes == event.runes_before and event.after[39] == -3, label + " preserves direct rune state")
++			check(core.grid[24] == -2 and core.grid[30] == -2 and core.get_matches().is_empty(), label + " refills to a stable board without filling holes")
++			if not definition.extras.is_empty():
++				check(core.grid.count(8) == 1 and core.grid.count(7) == 1, label + " preserves adjacent specials without secondary activation")
++			states.append(core_state(core))
++		check(states.size() == 2 and canonical(states[0]) == canonical(states[1]), String(definition.name) + " gives both Tornado IDs identical final Core and RNG state")
++
++func set_event(view, event: Dictionary) -> void:
++	view._power_event = event.duplicate(true)
++	view._power_epoch = view._epoch
++	view._hidden.clear()
++	for index in event.indices:
++		view._hidden[int(index)] = true
++
++func sample(view, progress: float) -> void:
++	view._power_t = progress
++	view.queue_redraw()
++	await process_frame
++	await process_frame
++
++func clear_state(view) -> bool:
++	return not view.busy and view._power_event.is_empty() and view._hidden.is_empty()
++
++func run_lifecycle(view, core, event: Dictionary, reduced: bool) -> void:
++	view.setup(core, reduced)
++	var trace := {"start":-1, "end":-1, "peak_progress":0.0}
++	var callback = func(_power: String, _targets: Array) -> void:
++		trace.start = Time.get_ticks_msec()
++	view.power_started.connect(callback)
++	view.animate_result({"valid":true, "events":[event]})
++	var deadline := Time.get_ticks_msec() + 3000
++	while view.busy and Time.get_ticks_msec() < deadline:
++		if not view._power_event.is_empty():
++			trace.peak_progress = maxf(float(trace.peak_progress), float(view._power_t))
++		elif int(trace.start) >= 0 and int(trace.end) < 0:
++			trace.end = Time.get_ticks_msec()
++		await process_frame
++	if int(trace.end) < 0:
++		trace.end = Time.get_ticks_msec()
++	view.power_started.disconnect(callback)
++	var elapsed := float(int(trace.end) - int(trace.start)) / 1000.0
++	var expected := 0.13 if reduced else 1.10
++	check(int(trace.start) >= 0 and absf(elapsed - expected) < 0.15, "Tornado lifecycle duration matches " + str(expected) + " seconds")
++	view.queue_redraw()
++	await process_frame
++	await process_frame
++	check(clear_state(view) and view.submitted.is_empty(), "Normal or reduced completion clears all target drawing and hidden stones")
++	check(view._display_grid == core.grid and view._display_floor == core.floor and view._display_runes == core.runes, "Renderer completion displays the actual final Core state")
++	observations.append({"reduced":reduced, "elapsed_wall_seconds":elapsed, "expected_seconds":expected, "peak_progress":trace.peak_progress})
++
++func verify_renderer() -> void:
++	var renderer = load(RENDERER_PATH)
++	check(renderer != null and renderer.can_instantiate(), "Top Tornado renderer loads")
++	if renderer == null or not renderer.can_instantiate():
++		return
++	var probe = renderer.new()
++	var ready: bool = probe.has_method("tornado_phase") and probe.has_method("tornado_target_pose") and probe.has_method("_draw_tornado_target") and probe.has_method("_tornado_clipped_polygons") and probe.has_method("_draw_tornado_clipped_polygon")
++	check(ready, "Renderer exposes the actual fixed-origin phase and target drawing APIs")
++	probe.free()
++	if not ready:
++		return
++	var observer := GDScript.new()
++	observer.source_code = "extends \"res://scripts/lab/magic_volcano_board.gd\"\nvar submitted: Array = []\nvar submitted_polygons: Array = []\nfunc _draw() -> void:\n\tsubmitted.clear()\n\tsubmitted_polygons.clear()\n\tsuper._draw()\nfunc _draw_tornado_target(index: int, pose: Dictionary) -> void:\n\tsubmitted.append({\"index\":index,\"pose\":pose.duplicate(true)})\n\tsuper._draw_tornado_target(index,pose)\nfunc _draw_tornado_clipped_polygon(points: PackedVector2Array, color: Color) -> void:\n\tfor polygon in _tornado_clipped_polygons(points):\n\t\tsubmitted_polygons.append(polygon.duplicate())\n\tsuper._draw_tornado_clipped_polygon(points,color)\n"
++	check(observer.reload() == OK, "Observer retains the real Tornado drawing implementation")
++	if not observer.can_instantiate():
++		return
++	var core = load(CORE_PATH).new()
++	core.setup_lab("tornado_h", 42)
++	var result: Dictionary = core.try_swap(int(core.fixture_pair[0]), int(core.fixture_pair[1]))
++	var event := power_event(result)
++	if event.is_empty():
++		return
++	var committed := canonical(core_state(core))
++	var transaction := canonical(result)
++	var view = observer.new()
++	root.add_child(view)
++	view.size = Vector2(404, 550)
++	view.setup(core, false)
++	set_event(view, event)
++	var origin_point: Vector2 = view._center(int(event.origin))
++	for progress in [0.12, 0.35, 0.65, 0.85, 0.99]:
++		await sample(view, progress)
++		var phase: Dictionary = view.tornado_phase()
++		check(phase.get("tip", Vector2.INF) == origin_point, "Tornado tip remains at the exact activation-cell center")
++	var early_poses: Dictionary = {}
++	await sample(view, 0.35)
++	for target in event.targets:
++		early_poses[int(target)] = view.tornado_target_pose(int(target), view._cell_size())
++	await sample(view, 0.85)
++	for target in event.targets:
++		var early: Dictionary = early_poses[int(target)]
++		var late: Dictionary = view.tornado_target_pose(int(target), view._cell_size())
++		check(bool(early.get("valid", false)) and bool(late.get("valid", false)), "Actual target receives a Tornado pose")
++		if bool(early.get("valid", false)) and bool(late.get("valid", false)):
++			check(Vector2(late.point).distance_to(origin_point) < Vector2(early.point).distance_to(origin_point) and float(late.scale) < float(early.scale), "Target spirals inward and shrinks before removal")
++			check(float(early.rotation) != float(late.rotation), "Actual mineral rotates during its pull")
++	for index in [int(event.origin), 0, 24, 39, -1, 999]:
++		check(not bool(view.tornado_target_pose(index, view._cell_size()).get("valid", false)), "Non-target, fixed, origin, or invalid cell cannot receive a Tornado pose")
++	for painted in [false, true]:
++		view.set_painted_volcano(painted)
++		set_event(view, event)
++		await sample(view, 0.5)
++		var drawn: Array = []
++		for item in view.submitted:
++			drawn.append(int(item.index))
++		drawn.sort()
++		check(drawn == event.targets, "Real Tornado drawing uses only authoritative targets in either Painted state")
++	var malformed: Dictionary = event.duplicate(true)
++	malformed.targets = [0,24,39,-1,999]
++	set_event(view, malformed)
++	await sample(view, 0.5)
++	check(view.submitted.is_empty(), "Malformed remote/fixed target list never produces distant Tornado drawing")
++	view.setup(core, true)
++	set_event(view, event)
++	await sample(view, 0.5)
++	check(view.submitted.is_empty(), "Reduced motion draws no spiraling target poses")
++	# The actual top corners exercise the clipped filled body that previously
++	# backtracked when individual vertices were clamped against the board edge.
++	for corner in [{"source":1,"origin":0,"kind":6}, {"source":5,"origin":6,"kind":7}]:
++		var corner_core = custom_fixture(int(corner.kind), int(corner.source), int(corner.origin), {})
++		var corner_result: Dictionary = corner_core.try_swap(int(corner.source), int(corner.origin))
++		var corner_event := power_event(corner_result)
++		if corner_event.is_empty():
++			continue
++		var corner_snapshot := canonical(core_state(corner_core))
++		view.setup(corner_core, false)
++		set_event(view, corner_event)
++		var corner_tip: Vector2 = view._center(int(corner_event.origin))
++		var fixed_tip_and_targets := true
++		var clipped_geometry := true
++		for progress in [0.12, 0.45, 0.85]:
++			await sample(view, progress)
++			fixed_tip_and_targets = fixed_tip_and_targets and view.tornado_phase().tip == corner_tip
++			var drawn: Array = []
++			for item in view.submitted:
++				drawn.append(int(item.index))
++			drawn.sort()
++			fixed_tip_and_targets = fixed_tip_and_targets and drawn == corner_event.targets
++			clipped_geometry = clipped_geometry and view.submitted_polygons.size() >= 2
++			var bounds: Rect2 = view._board_rect().grow(-2.0).grow(0.001)
++			for polygon in view.submitted_polygons:
++				clipped_geometry = clipped_geometry and polygon.size() >= 3 and Geometry2D.triangulate_polygon(polygon).size() >= 3
++				for point in polygon:
++					clipped_geometry = clipped_geometry and Vector2(point).is_finite() and bounds.has_point(point)
++		check(fixed_tip_and_targets, "Actual corner event retains its fixed tip and only its authoritative target poses")
++		check(clipped_geometry, "Actual corner body and shadow clip to finite bounded triangulatable polygons")
++		check(canonical(core_state(corner_core)) == corner_snapshot, "Corner draw smoke preserves its actual Core and RNG state")
++		observations.append({"corner_origin":int(corner_event.origin), "actual_targets":corner_event.targets, "fixed_tip_and_targets":fixed_tip_and_targets, "bounded_triangulatable_fills":clipped_geometry})
++	await run_lifecycle(view, core, event, false)
++	await run_lifecycle(view, core, event, true)
++	view.setup(core, false)
++	view.animate_result({"valid":true, "events":[event]})
++	await process_frame
++	view.finish_now()
++	await create_timer(1.2).timeout
++	view.queue_redraw()
++	await process_frame
++	check(clear_state(view) and view.submitted.is_empty(), "Skip stops every Tornado draw and superseded coroutine")
++	view.setup(core, false)
++	view.animate_result({"valid":true, "events":[event]})
++	await process_frame
++	var replacement = load(CORE_PATH).new()
++	replacement.setup_lab("tornado_v", 713)
++	var replacement_state := canonical(core_state(replacement))
++	view.setup(replacement, false)
++	await create_timer(1.2).timeout
++	view.queue_redraw()
++	await process_frame
++	check(clear_state(view) and view.submitted.is_empty() and view._display_grid == replacement.grid, "Reset prevents an old Tornado stream from returning")
++	check(canonical(core_state(replacement)) == replacement_state and canonical(core_state(core)) == committed and canonical(result) == transaction, "Drawing, reduced, skip, and reset preserve complete Core transactions and RNG")
++	view.queue_free()
++	await process_frame
++
++func run() -> void:
++	verify_geometry()
++	await verify_renderer()
++	print("TORNADO_TOP " + JSON.stringify({"status":"PASS" if failures.is_empty() else "FAIL", "checks":checks, "failures":failures, "observations":observations}))
++	quit(0 if failures.is_empty() else 1)
+
+--- /dev/null
++++ after/tests/capture_tornado_top.gd
+@@ -0,0 +1,417 @@
++extends SceneTree
++## Separate radial-Tornado capture. Activates the actual lab through native input.
++## This harness never edits the fixture or calls Core activation methods directly.
++
++const LAB_PATH := "res://scripts/lab/natural_power_lab.gd"
++const BOARD_PATH := "res://scripts/lab/magic_volcano_board.gd"
++const OUTPUT_PATH := "res://outputs/tornado_top"
++const SCREEN_SIZE := Vector2i(432, 960)
++const CAPTURE_FPS := 30
++const CAPTURE_FRAMES := 210
++const EXPECTED_EFFECT_SECONDS := 1.10
++const TIMING_TOLERANCE_SECONDS := 2.0 / float(CAPTURE_FPS) + 0.001
++const SEED := 42
++
++var app
++var output := ""
++var scenario := "tornado_h"
++var failures: Array[String] = []
++var observations: Array = []
++var frame_observations: Array = []
++var gesture_events: Array = []
++var initial_state: Dictionary = {}
++var frozen_event: Dictionary = {}
++var frozen_result: Dictionary = {}
++var frozen_state: Dictionary = {}
++var frozen_state_json := ""
++var frozen_result_json := ""
++var active_targets: Array = []
++var expected_targets: Array = []
++var geometry: Dictionary = {}
++var start_frame := 0
++var activation_frame := -1
++var effect_end_frame := -1
++var last_sample_frame := -1
++var effect_sampled_seconds := 0.0
++var sampled_frame_delta_seconds := 0.0
++var invariant_sample_count := 0
++var invariant_failed := false
++var result_failed := false
++var invalid_active_delta_failed := false
++var ignored_startup_delta_frames := 0
++var ended := false
++
++func _initialize() -> void:
++	call_deferred("run")
++
++func check(value: bool, message: String) -> void:
++	if not value:
++		failures.append(message)
++		push_error(message)
++
++func canonical(value: Variant) -> String:
++	# Normalize local and disk JSON equally; preserve int64 RNG values as strings.
++	return JSON.stringify(JSON.parse_string(JSON.stringify(value)), "", true) + "\n"
++
++func same_json(first: Variant, second: Variant) -> bool:
++	return canonical(first) == canonical(second)
++
++func write_json(suffix: String, value: Variant) -> void:
++	var path := output + "/" + scenario + "_" + suffix + ".json"
++	var file := FileAccess.open(path, FileAccess.WRITE)
++	if file == null:
++		check(false, "Cannot write " + path + ": " + error_string(FileAccess.get_open_error()))
++		return
++	file.store_string(canonical(value))
++	file.close()
++	check(FileAccess.get_file_as_string(path) == canonical(value), "JSON readback differs: " + path)
++
++func core_state(core) -> Dictionary:
++	return {
++		"cols": core.cols, "rows": core.rows,
++		"grid": core.grid.duplicate(), "floor": core.floor.duplicate(),
++		"runes": core.runes.duplicate(), "moves_left": core.moves_left,
++		"initial_moves": core.initial_moves, "collected": core.collected,
++		"collect_kind": core.collect_kind, "collect_goal": core.collect_goal,
++		"won": core.won, "lost": core.lost, "goal": core._goal,
++		"black_hole_used": core.black_hole_used,
++		"fixture_pair": core.fixture_pair.duplicate(),
++		"rng_seed_int64": str(core._rng.seed), "rng_state_int64": str(core._rng.state),
++	}
++
++func fixture_pair() -> Array:
++	return [16, 23] if scenario == "tornado_v" else [25, 26]
++
++func display_matches() -> bool:
++	return app.board._display_grid == app.core.grid and app.board._display_floor == app.core.floor and app.board._display_runes == app.core.runes
++
++func presentation_clear() -> bool:
++	return not app.board.busy and app.board._power_event.is_empty() and app.board._hidden.is_empty() and not app.board._falling and app.board._moving.is_empty()
++
++func relative_frame() -> int:
++	return Engine.get_process_frames() - start_frame
++
++func capture_time_available() -> bool:
++	return relative_frame() < CAPTURE_FRAMES
++
++func sample_frame() -> void:
++	var current := Engine.get_process_frames()
++	if current == last_sample_frame or app == null or app.board == null:
++		return
++	last_sample_frame = current
++	var delta: float = app.board.get_process_delta_time()
++	sampled_frame_delta_seconds += delta
++	var active: bool = not app.board._power_event.is_empty()
++	if delta <= 0.0 and activation_frame < 0:
++		ignored_startup_delta_frames += 1
++	# Movie cadence is requested by --fixed-fps and checked in the recorded AVI.
++	# A node's actual process deltas can vary during startup and remain evidence.
++	if active and (not is_finite(delta) or delta <= 0.0) and not invalid_active_delta_failed:
++		invalid_active_delta_failed = true
++		check(false, "Every active effect frame has a positive finite measured delta")
++	var state_matches := true
++	var result_matches := true
++	if activation_frame >= 0:
++		invariant_sample_count += 1
++		state_matches = canonical(core_state(app.core)) == frozen_state_json
++		result_matches = canonical(app.last_result) == frozen_result_json
++		if not state_matches and not invariant_failed:
++			invariant_failed = true
++			check(false, "Rendering changed complete resolved Core/RNG state")
++		if not result_matches and not result_failed:
++			result_failed = true
++			check(false, "Rendering changed the actual frozen Core result")
++		if effect_end_frame < 0:
++			if active:
++				effect_sampled_seconds += delta
++			else:
++				effect_end_frame = current
++	frame_observations.append({
++		"process_frame": relative_frame(), "delta_seconds": delta,
++		"power_active": active, "power_t": app.board._power_t,
++		"board_busy": app.board.busy, "lab_resolving": app._resolving,
++		"resolved_core_rng_unchanged": state_matches,
++		"actual_result_unchanged": result_matches,
++	})
++
++func next_frame() -> void:
++	await process_frame
++	sample_frame()
++
++func wait_frames(count: int) -> void:
++	for ignored in range(count):
++		if not capture_time_available():
++			return
++		await next_frame()
++
++func mouse(point: Vector2, down: bool) -> void:
++	var event := InputEventMouseButton.new()
++	event.position = root.get_final_transform() * point
++	event.global_position = event.position
++	event.button_index = MOUSE_BUTTON_LEFT
++	event.pressed = down
++	event.button_mask = MOUSE_BUTTON_MASK_LEFT if down else 0
++	gesture_events.append({
++		"kind": "press" if down else "release", "process_frame": relative_frame(),
++		"viewport_point": [point.x, point.y], "native_point": [event.position.x, event.position.y],
++	})
++	Input.parse_input_event(event)
++
++func motion(point: Vector2, relative: Vector2) -> void:
++	var event := InputEventMouseMotion.new()
++	event.position = root.get_final_transform() * point
++	event.global_position = event.position
++	event.relative = root.get_final_transform().basis_xform(relative)
++	event.button_mask = MOUSE_BUTTON_MASK_LEFT
++	gesture_events.append({
++		"kind": "motion", "process_frame": relative_frame(),
++		"viewport_point": [point.x, point.y], "native_point": [event.position.x, event.position.y],
++	})
++	Input.parse_input_event(event)
++
++func native_fixture_drag() -> void:
++	var pair: Array = app.core.fixture_pair
++	check(pair == fixture_pair(), "Actual scenario retains its established fixture pair")
++	if pair.size() != 2:
++		return
++	var first: Vector2 = app.board.get_global_transform() * app.board._center(int(pair[0]))
++	var last: Vector2 = app.board.get_global_transform() * app.board._center(int(pair[1]))
++	check(Rect2(Vector2.ZERO, Vector2(SCREEN_SIZE)).has_point(first) and Rect2(Vector2.ZERO, Vector2(SCREEN_SIZE)).has_point(last), "Both native fixture endpoints lie inside the portrait viewport")
++	mouse(first, true)
++	await wait_frames(3)
++	var previous := first
++	for index in range(1, 7):
++		var point := first.lerp(last, float(index) / 6.0 * 0.85)
++		motion(point, point - previous)
++		previous = point
++		await next_frame()
++	mouse(previous, false)
++	await wait_frames(2)
++
++func derive_radial_targets(event: Dictionary) -> Array:
++	var derived: Array = []
++	var before: Array = event.get("before", [])
++	var runes_before: Array = event.get("runes_before", [])
++	var cols := int(initial_state.get("cols", 0))
++	var rows := int(initial_state.get("rows", 0))
++	var origin := int(event.get("origin", -1))
++	check(cols > 0 and rows > 0 and before.size() == cols * rows and runes_before.size() == before.size(), "Actual event contains complete pre-effect grid and runes")
++	if cols <= 0 or rows <= 0 or origin < 0 or origin >= before.size() or runes_before.size() != before.size():
++		return derived
++	var origin_x := origin % cols
++	var origin_y := origin / cols
++	for index in range(before.size()):
++		if index == origin:
++			continue
++		if absi(index % cols - origin_x) > 1 or absi(index / cols - origin_y) > 1:
++			continue
++		if int(before[index]) >= 0 and int(before[index]) < app.core.GEM_KINDS and int(runes_before[index]) == 0:
++			derived.append(index)
++	return derived
++
++func on_power_started(power: String, targets: Array) -> void:
++	check(power == scenario, "Native fixture gesture activates the selected actual Tornado power")
++	check(activation_frame < 0, "Native capture activates exactly one natural power")
++	if activation_frame >= 0:
++		return
++	activation_frame = Engine.get_process_frames()
++	active_targets = targets.duplicate()
++	# Emitted synchronously before this effect queues its first redraw. The lab's
++	# last_result is the actual completed transaction, never a fabricated stream.
++	frozen_result = app.last_result.duplicate(true)
++	frozen_state = core_state(app.core)
++	frozen_state_json = canonical(frozen_state)
++	frozen_result_json = canonical(frozen_result)
++	var count := 0
++	for event in frozen_result.get("events", []):
++		if String(event.get("type", "")) == "natural_power":
++			count += 1
++			frozen_event = event.duplicate(true)
++	check(count == 1, "Actual Core result contains exactly one natural_power event")
++	check(bool(frozen_result.get("valid", false)), "Actual native-input Core transaction is valid")
++	check(String(frozen_event.get("power", "")) == scenario, "Frozen Core event belongs to the selected Tornado scenario")
++	check(int(frozen_event.get("origin", -1)) == int(fixture_pair()[1]), "Actual event origin is the fixture's swap destination")
++	check(same_json(active_targets, frozen_event.get("targets", [])), "Signal targets equal actual Core event targets")
++	expected_targets = derive_radial_targets(frozen_event)
++	check(same_json(active_targets, expected_targets), "Actual target list and cardinality equal eligible surrounding 3x3 cells")
++	check(not active_targets.has(int(frozen_event.get("origin", -1))) and active_targets.size() <= 8, "Surrounding targets exclude the origin and fit the eight-cell neighborhood")
++	var expected_removed := expected_targets.duplicate()
++	expected_removed.append(int(frozen_event.get("origin", -1)))
++	expected_removed.sort()
++	check(same_json(frozen_event.get("indices", []), expected_removed), "Actual removal indices contain only origin plus real radial targets")
++	check(same_json(app.board._power_event, frozen_event) and is_zero_approx(float(app.board._power_t)), "Event and state freeze synchronously before the effect advances or redraws")
++	check(int(frozen_state.moves_left) == int(initial_state.moves_left) - 1, "Native activation spends exactly one move")
++	write_json("EVENT", frozen_event)
++	write_json("RESULT", frozen_result)
++	write_json("ACTIVATION_STATE", frozen_state)
++	observations.append({
++		"phase": "event_frozen_before_draw", "process_frame": relative_frame(),
++		"actual_targets": active_targets.duplicate(), "actual_target_count": active_targets.size(),
++		"derived_eligible_targets": expected_targets.duplicate(),
++	})
++
++func shot(phase: String, requested_progress: float = -1.0) -> void:
++	await RenderingServer.frame_post_draw
++	var path := output + "/" + scenario + "_" + phase + ".png"
++	var captured := root.get_texture().get_image()
++	check(captured.get_size() == SCREEN_SIZE, "Entire root capture is exactly 432x960")
++	check(captured.save_png(path) == OK, "Screenshot saves " + path)
++	observations.append({
++		"phase": phase, "file": path, "process_frame": relative_frame(),
++		"requested_progress": requested_progress, "actual_power_t": app.board._power_t,
++		"power_active": not app.board._power_event.is_empty(),
++		"actual_targets": active_targets.duplicate(), "actual_target_count": active_targets.size(),
++		"moves_left": app.core.moves_left,
++	})
++
++func wait_for_phase(progress: float) -> bool:
++	while capture_time_available():
++		if activation_frame >= 0:
++			if app.board._power_event.is_empty():
++				check(false, "Effect ended before requested phase " + str(progress))
++				return false
++			if float(app.board._power_t) >= progress:
++				return true
++		await next_frame()
++	check(false, "Seven-second capture ended before phase " + str(progress))
++	return false
++
++func validate_fixture() -> void:
++	check(app.scenario == scenario and app.seed_value == SEED, "Actual lab is reset to the selected seeded scenario")
++	check(app.core.fixture_pair == fixture_pair(), "Existing fixture pair is unchanged")
++	check(app.core.cols == 7 and app.core.rows == 8, "Existing seven-column eight-row fixture dimensions are unchanged")
++	check(app.core.grid.size() == 56 and app.core.floor.size() == 56 and app.core.runes.size() == 56, "Complete fixture arrays are present")
++	if app.core.grid.size() != 56 or app.core.floor.size() != 56 or app.core.runes.size() != 56:
++		return
++	var special_kind: int = app.core.TORNADO_V if scenario == "tornado_v" else app.core.TORNADO_H
++	check(int(app.core.grid[int(fixture_pair()[0])]) == special_kind, "Real fixture starts with the selected special at its established source")
++	check(int(app.core.grid[int(fixture_pair()[1])]) >= 0 and int(app.core.grid[int(fixture_pair()[1])]) < app.core.GEM_KINDS, "Real fixture swap destination is an ordinary mineral")
++	check(int(app.core.grid[24]) == -2 and int(app.core.grid[30]) == -2, "Established gap cells remain unchanged")
++	check(int(app.core.grid[39]) == -3 and int(app.core.runes[39]) == 1, "Established rune remains unchanged")
++	check(int(app.core.floor[23]) == 1 and int(app.core.floor[26]) == 1 and int(app.core.floor[43]) == 1, "Established soil fixtures remain unchanged")
++	check(app.core.moves_left == 12 and app.last_result.is_empty(), "Capture starts before any activation with the original move budget")
++
++func validate_geometry() -> void:
++	var board_rect: Rect2 = app.board.get_global_rect()
++	var cells_rect: Rect2 = app.board.get_global_transform() * app.board._board_rect()
++	var viewport_rect := Rect2(Vector2.ZERO, Vector2(SCREEN_SIZE))
++	var actual_window := DisplayServer.window_get_size()
++	check(root.size == SCREEN_SIZE and root.content_scale_size == SCREEN_SIZE, "Root and content viewport remain 432x960")
++	check(actual_window == SCREEN_SIZE, "Actual native window content size is 432x960")
++	check(DisplayServer.window_get_current_screen() == 0, "Actual native window is on monitor 0")
++	check(viewport_rect.encloses(board_rect) and viewport_rect.encloses(cells_rect), "Entire board control and all cells fit inside the portrait capture")
++	check(board_rect.size.x >= 300.0 and board_rect.size.y >= 350.0, "Actual board meets the established usable minimum size")
++	geometry = {
++		"native_screen": DisplayServer.window_get_current_screen(),
++		"native_window_size": [actual_window.x, actual_window.y],
++		"root_size": [root.size.x, root.size.y],
++		"content_scale_size": [root.content_scale_size.x, root.content_scale_size.y],
++		"board_rect": [board_rect.position.x, board_rect.position.y, board_rect.size.x, board_rect.size.y],
++		"cells_rect": [cells_rect.position.x, cells_rect.position.y, cells_rect.size.x, cells_rect.size.y],
++	}
++
++func run_capture() -> void:
++	root.content_scale_size = SCREEN_SIZE
++	root.size = SCREEN_SIZE
++	if DisplayServer.get_name() == "headless":
++		check(false, "Native Tornado capture requires a graphical Godot driver")
++		finish_capture()
++		return
++	DisplayServer.window_set_current_screen(0)
++	var lab_script = load(LAB_PATH)
++	if lab_script == null or not lab_script.can_instantiate():
++		check(false, "Actual natural power lab script must load")
++		finish_capture()
++		return
++	app = lab_script.new()
++	root.add_child(app)
++	app.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
++	await wait_frames(3)
++	check(app.board != null and app.board.get_script().resource_path == BOARD_PATH, "Actual lab uses the isolated magic_volcano_board renderer")
++	if not failures.is_empty():
++		finish_capture()
++		return
++	app.reduced.button_pressed = false
++	app.seed_value = SEED
++	app.reset_scenario(scenario)
++	app.board.power_started.connect(on_power_started)
++	await wait_frames(2)
++	validate_fixture()
++	validate_geometry()
++	initial_state = core_state(app.core)
++	write_json("INITIAL_STATE", initial_state)
++	if not failures.is_empty():
++		finish_capture()
++		return
++	while relative_frame() < CAPTURE_FPS:
++		await next_frame()
++	await shot("00_ready")
++	await native_fixture_drag()
++	for phase in [["01_start", 0.0], ["02_telegraph", 0.12], ["03_swirl", 0.45], ["04_clear", 0.85]]:
++		if await wait_for_phase(float(phase[1])):
++			await shot(String(phase[0]), float(phase[1]))
++		else:
++			break
++	while (app._resolving or app.board.busy) and capture_time_available():
++		await next_frame()
++	check(not app._resolving and not app.board.busy, "Actual lab finishes its complete result inside the seven-second capture")
++	check(not frozen_event.is_empty(), "Actual Core event froze before effect rendering")
++	check(app.core.moves_left == int(initial_state.moves_left) - 1, "Completed native gesture spends exactly one move")
++	check(same_json(core_state(app.core), frozen_state), "Complete Core/RNG state remains equal to the synchronous resolution snapshot")
++	check(display_matches(), "Final displayed grid, soil and runes match actual resolved Core")
++	check(presentation_clear(), "Final presentation has no busy stream, hidden cells, moving stones or stale power overlay")
++	write_json("FINAL_STATE", core_state(app.core))
++	if capture_time_available():
++		await shot("05_final")
++	while capture_time_available():
++		await next_frame()
++	check(relative_frame() == CAPTURE_FRAMES, "Capture contains exactly 210 process frames at fixed 30 fps")
++	check(presentation_clear() and display_matches(), "Final hold remains clean and equal to the resolved Core")
++	check(invariant_sample_count > 0 and not invariant_failed and not result_failed, "Every sampled frame after activation preserves complete Core/RNG and actual result")
++	check(effect_end_frame >= activation_frame and activation_frame >= 0, "Actual effect start and cleanup frames are measured")
++	check(absf(effect_sampled_seconds - EXPECTED_EFFECT_SECONDS) <= TIMING_TOLERANCE_SECONDS, "Measured active effect duration agrees with 1.10 seconds within two frame intervals")
++	finish_capture()
++
++func finish_capture() -> void:
++	if ended:
++		return
++	ended = true
++	var effect_frames := effect_end_frame - activation_frame if effect_end_frame >= 0 and activation_frame >= 0 else -1
++	var receipt := {
++		"status": "PASS" if failures.is_empty() else "FAIL", "failures": failures,
++		"scenario": scenario, "seed": SEED, "fixture_pair": fixture_pair(),
++		"actual_targets": active_targets, "actual_target_count": active_targets.size(),
++		"derived_eligible_targets": expected_targets, "derived_target_count": expected_targets.size(),
++		"geometry": geometry, "fixed_fps_expected": CAPTURE_FPS,
++		"clip_process_frames": relative_frame(), "clip_seconds_at_fixed_fps": float(relative_frame()) / float(CAPTURE_FPS),
++		"expected_effect_seconds": EXPECTED_EFFECT_SECONDS,
++		"effect_start_frame": activation_frame - start_frame if activation_frame >= 0 else -1,
++		"effect_end_frame": effect_end_frame - start_frame if effect_end_frame >= 0 else -1,
++		"effect_elapsed_process_frames": effect_frames,
++		"effect_frame_seconds_at_fixed_fps": float(effect_frames) / float(CAPTURE_FPS) if effect_frames >= 0 else -1.0,
++		"effect_sampled_delta_seconds": effect_sampled_seconds,
++		"effect_delta_from_1_10_seconds": effect_sampled_seconds - EXPECTED_EFFECT_SECONDS if activation_frame >= 0 else null,
++		"effect_timing_tolerance_seconds": TIMING_TOLERANCE_SECONDS,
++		"sampled_frame_delta_seconds": sampled_frame_delta_seconds,
++		"ignored_uninitialized_startup_delta_frames": ignored_startup_delta_frames,
++		"resolved_core_rng_invariant_sample_count": invariant_sample_count,
++		"observations": observations, "frame_observations": frame_observations,
++		"native_input_events": gesture_events,
++		"proof": "Actual Godot lab root renders and Input.parse_input_event press/drag/release; synchronous actual Core event/result/state freeze; no human, Android or visual acceptance claim",
++	}
++	write_json("REPORT", receipt)
++	print("TORNADO_TOP_CAPTURE " + JSON.stringify({"status": receipt.status, "scenario": scenario, "failures": failures, "actual_targets": active_targets, "clip_process_frames": relative_frame()}))
++	quit(0 if failures.is_empty() else 1)
++
++func run() -> void:
++	start_frame = Engine.get_process_frames()
++	output = ProjectSettings.globalize_path(OUTPUT_PATH)
++	check(DirAccess.make_dir_recursive_absolute(output) == OK, "Dedicated Tornado output directory exists")
++	var arguments := OS.get_cmdline_user_args()
++	var valid_arguments := arguments.is_empty() or (arguments.size() == 1 and String(arguments[0]) in ["--tornado-h", "--tornado-v"])
++	if not valid_arguments:
++		check(false, "Use no user argument for tornado_h, or exactly one of --tornado-h / --tornado-v")
++		finish_capture()
++		return
++	scenario = "tornado_v" if "--tornado-v" in arguments else "tornado_h"
++	await run_capture()
+

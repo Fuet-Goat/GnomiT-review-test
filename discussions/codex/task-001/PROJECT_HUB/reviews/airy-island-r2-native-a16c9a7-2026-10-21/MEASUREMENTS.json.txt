@@ -1,0 +1,96 @@
+{
+  "kind": "ACTUAL_BUILD_COMPARISON_NOT_FINAL_ART_ACCEPTANCE",
+  "R1": {
+    "source_commit": "a55cce4a0f0ba879615e6661f861159c7edfa785",
+    "derivative": "Codex normals fix only",
+    "road": {
+      "length_m": 17.879664933242488,
+      "plank_count": 76,
+      "minimum_plank_depth_m": 0.08931492934143596,
+      "maximum_outer_seam_m": 0.2853608862638055
+    },
+    "mesh_objects": 552,
+    "evaluated_triangles": 218098
+  },
+  "R2": {
+    "source_commit": "a16c9a71e21233ce9d48eeb8ae20ac56bf1500d2",
+    "derivative": "NONE; exact GPT R2",
+    "road": {
+      "length_m": 17.892616836642983,
+      "plank_count": 107,
+      "minimum_plank_depth_m": 0.12218010436770542,
+      "maximum_outer_seam_m": 0.08773513524294523
+    },
+    "planner": {
+      "checked_pairs": 918,
+      "rejected_candidates": [
+        {
+          "count": 95,
+          "reason": "outer_seam",
+          "seam_m": 0.09908590124792209
+        },
+        {
+          "count": 97,
+          "reason": "outer_seam",
+          "seam_m": 0.09733727962449201
+        },
+        {
+          "count": 99,
+          "reason": "outer_seam",
+          "seam_m": 0.09543305681835608
+        },
+        {
+          "count": 101,
+          "reason": "outer_seam",
+          "seam_m": 0.0938110945648559
+        },
+        {
+          "count": 103,
+          "reason": "outer_seam",
+          "seam_m": 0.09211794282675954
+        },
+        {
+          "count": 105,
+          "reason": "outer_seam",
+          "seam_m": 0.09035115400546122
+        }
+      ],
+      "centre_spacing_m": 0.16722071809946712,
+      "minimum_depth_ratio": 0.730651714430682,
+      "visible_seam_bound_m": 0.10373513524294523,
+      "overlapping_rectangles": 0
+    },
+    "mesh_objects": 580,
+    "evaluated_triangles": 205350,
+    "decoration": {
+      "small_stones_created": 16,
+      "ground_flowers_created": 13,
+      "grass_tufts_created": 18,
+      "quiet_meadows": [
+        [
+          -0.2,
+          2.3,
+          0.75,
+          1.25
+        ],
+        [
+          0.25,
+          -1.9,
+          0.73,
+          0.8
+        ],
+        [
+          -1.7,
+          -5.8,
+          0.55,
+          0.8
+        ]
+      ],
+      "density_note": "Artistic spacing; not a measured one-third reduction against an image."
+    }
+  },
+  "camera_note": "R1_vs_R2 compares complete versions (several simultaneous changes); R2 camera control changes elevation43->53 with refitting, keeping R2 geometry/materials/lights/seed/samples fixed.",
+  "godot": "NOT_RUN",
+  "android_performance": "NOT_MEASURED",
+  "human_art_acceptance": "PENDING"
+}

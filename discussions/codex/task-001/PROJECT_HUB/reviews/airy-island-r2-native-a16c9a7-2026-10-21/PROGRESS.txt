@@ -1,0 +1,10 @@
+Plan: exact GPT R2 native trial; no new game feature.
+Task1 identity/base/materialization: COMPLETE;17 Git docs/15 payloads/8 materialized files verified.
+Task2 source safety/API/geometry review: COMPLETE; no blocker, final-save-return minor noted.
+Task3 exact native draft: COMPLETE; exit0, no source changes, actual432x960 render/blend/GLB.
+Task4 native reopen/control/reimport: COMPLETE; checker first attempt exit1 due to path-separator assumption; resolved-path correction then full check exit0.
+Task5 packaging: COMPLETE locally; own-scope Git publication/readback occurs after archive creation, recorded separately in Git receipt.
+Ruling: preserve source proposals and all attempts; no cleanup/delete of evidence.
+Ruling: changed verification path comparison, not the generator; actual absolute render target was already correct.
+Ruling: preserve user-requested open grass; reviewer reference-density gap does not override that preference.
+Ruling: no Godot/campaign integration; .blend/GLB technical validity does not establish runtime look or final art acceptance.

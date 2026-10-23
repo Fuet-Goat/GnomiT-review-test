@@ -1,0 +1,34 @@
+{
+  "project": "GnomiT",
+  "version": "v010",
+  "date": "2026-10-21",
+  "method": "Native Blender Python geometry and PBR materials; no image generation used for these trees",
+  "input": "eda6edf13d496d2bf86018339db6778ccb632bd4ee307b25d683424bf07897f4",
+  "input_name": "V009_SOURCE.blend",
+  "input_history": "Applied v009 grass/HomeStart source, preserved unchanged",
+  "generator": "tools/build_trees.py",
+  "generator_sha256": "fad9e799c6ac9ac62bca82f31da52d83d08bda3aa04573bbe586e49aa6e6a053",
+  "seed": 261022,
+  "outputs": {
+    "editable_blender": "native/TREES_V010_SOFT.blend",
+    "runtime_world": "assets/r3/airy_island.glb"
+  },
+  "external_tree_models_textures_fonts_audio": "None added. Existing game assets and their prior provenance are inherited.",
+  "canopy": "5 existing crowns; subdivided; 420 deterministic shallow max-union patches per crown; max displacement field <=0.042m; bounds retained",
+  "bark": "5 trunks,25 roots,15 branches; curved tubular rings, longitudinal grooves and vertex colour",
+  "materials": "copied/new tree-only matte materials; crown roughness0.86, bark0.82, metallic0",
+  "preserved": "504 non-tree records,5 tree group transforms,original materials,camera,lighting,world; grass mesh/UV/vertex colours/materials",
+  "existing_daisies": "10 original canopy anchors attached to new crown surface; count and flower geometry unchanged",
+  "godot_adapter": "Imported StandardMaterial3D copies explicitly enable vertex colours only for50 tree meshes",
+  "sources_and_drafts": "Input, two previous native drafts, their generator scripts and screenshots retained locally and in this package. Selected source is SOFT.",
+  "legal_scope": "Records how this derivative was made. Inherited assets retain their own records; this is not a legal ownership or originality guarantee.",
+  "verification": "Native save/reopen guards; GLB attributes/materials/ground UV1;52 rendered scripted Godot checks; read-only independent visual review",
+  "not_measured": [
+    "Human visual acceptance",
+    "Android performance",
+    "Touch playtest",
+    "Victory flow",
+    "Tree wind animation"
+  ],
+  "visual_limitations": "Runtime visual review: no visible tree blocker at 432x960. Softer, more leaf-like crowns than draft02; no deep folded ridges or plastic shine. Existing daisies, sprigs and trunks readable. Remaining gap: regular repeated relief and less internal leaf-mass depth than reference. Human acceptance pending."
+}

@@ -1,0 +1,1 @@
+Codex authored included Python, geometry, procedural colour/bump shaders, studio setup and render. No external texture, font, model or sound. User supplied style guidance/reference. No ownership guarantee beyond this recorded technical origin. Actual binary/image/source SHA256 in the corresponding receipts.

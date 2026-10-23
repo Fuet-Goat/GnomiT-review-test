@@ -1,0 +1,7 @@
+INDEPENDENT READ-ONLY CODEX CANDIDATE REVIEW / 20.10.2026
+
+No important correctness/scope/visual blocker in final viewer and representative native captures. Finite greeting is separate from world loop; returns to idle; active greeting ignores restart; reduced motion holds resting pose. Boots remain under fixed root. Before/after model replacement clears arrays/frees old model; no dangling animation-finished callbacks. Detail uses same labelled isolated inspection floor/camera for both variants. Whole-scene camera/layout preserved.
+
+Package integrity/documentation PASS:25,471,400bytes,105exact entries,104payloads all bytes/SHA match. SHA2562425e36a03eecd567aa16837e5643fb5c2d13ac2aabf4bda8c3b92ec41cae4df; manifestSHAb1fc7cf5f5c357b0ad178b5a5780013575cc1c3b3f9c56f6264cad7159d0bebf. No duplicates/unsafe paths/caches/.blend1/rawAVI/saves. Archived source equals current local source. Models/images/MP4 metadata match receipts. Filled provenance distinguishes historical failures, inherited wordmark and unknown original rights.
+
+Reviewer did not launch engines or accept human art/Android performance; desktop/current pointer checks are root's packaged receipts. Fresh-import smoke was later performed by root and is supplied separately. This review is not art merge/release/ownership acceptance.

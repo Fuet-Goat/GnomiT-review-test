@@ -1,0 +1,97 @@
+GNOMIT — ALIVE EXPERIENCE / ПЪРВА РАБОТЕЩА PC ПРОБА / 19.10.2026
+Статус: LOCAL_PILOT_READY / HUMAN_ART_REVIEW_PENDING / NO_MERGE
+
+Човекът разреши изпълнение: "imate suglasie ? davai po plan ako ima".
+Реализацията е в ново изолирано копие AliveExperience_2026-10-19, върху
+VolcanoV4_2026-10-19. Първоначалният lab и Cradle остават непроменени.
+Общата посока на GPT/Grok/Codex е Godot-only за първата проба; не е
+твърдение, че вече са прегледали/приели този нов кандидат.
+
+КАКВО Е НАПРАВЕНО
+- Същият герой получи actual closed-eye blink, тихо дишане само в торса,
+  малка реакция при clear и истинска raised-lantern victory поза.
+- Един нов RGBA atlas чрез built-in imagegen edit на shared hero master.
+  Няма подмяна с различното старо джудже с очила. Original master/walk
+  байтовете са запазени. Кадрите имат индивидуални alpha региони/pivot;
+  не се предполага идеална геометрична решетка от генератора.
+- Локални светлинни overlays върху нарисуваните фенери; фонът не се люлее.
+  Листа не са отделяни и не твърдим нов разделен фон или нов rig.
+- 1.08s lamp-to-mine bridge. Core се създава при Play преди презентацията.
+  Overlay пази input gate; повторен Play не създава нов Core. Escape връща
+  към картата; tap release пропуска; focus loss прекъсва безопасно. Има
+  generation guard и reduced-motion bypass.
+- Една реакция на actual break wave; съществуващият audio bank е запазен.
+  Истинската победна поза се вижда и на дъската, и в result панела.
+
+КАКВО Е ПРОВЕРЕНО
+54 native scripted integration проверки PASS, включително focus/pause/
+cancel/resize/reduced-motion, same-seed semantic state и реална повторна
+победа без втори +10 Light. Това не е брой художествени приемания.
+Control и Alive имат еднакви actual input кадри 0/59/103/169/243,
+еднакво начало/RNG и еднакъв краен board/progress резултат.
+Три независими непрекъснати Godot Movie Maker записи, 432×960, screen0:
+  CONTROL_OPENING.avi: 483 кадъра / 30 FPS / 16.1s
+  ALIVE_OPENING_FINAL.avi: 483 кадъра / 30 FPS / 16.1s
+  ALIVE_GENUINE_WIN.avi: 543 кадъра / 30 FPS / 18.1s
+Отделният win опит печели с три реални обикновени размени, 23 moves left,
+12 diamonds, 3 stars, +10 Light. Няма core.setup след началото, fake win
+flag, debug награда или подмяна на дъска. Seed42 е фиксиран само BEFORE
+normal Core setup за контролираното A/B; интерактивната игра остава с
+обичайния time seed. Replay е SCRIPTED, не човешки/Android тест.
+Native mixer WAV е ненулев и без цифрово clipped samples. MP4 са VLC
+преобразувания с AVC/AAC, около 0.1s по-къси от native AVI; за frame-exact
+данни ползвай native receipt. Няма нов audio synthesis или game SFX edits.
+414 файла в пълния standalone source ZIP, .godot/outputs/verification
+изключени. От 398 source predecessor файла 394 са byte-identical в копието;
+само project.godot/main.gd/slice_map_view.gd/first_crystals_view.gd са
+променени. Петте критични gameplay/save/level/board/audio скрипта са
+непроменени. Всички 398 файла в самия predecessor още съвпадат по SHA.
+Пълният V2 ZIP е разархивиран в нова празна FreshExtractProbe директория:
+414 файла проверени, липсващ .godot cache преди import, fresh import PASS,
+fresh 54 integration checks PASS без errors/warnings. Launcher първо import-ва
+ресурсите, после отваря играта. Това не е нов човешки тест.
+
+ПРЕДАВАНЕ В GIT
+В builds/alive-experience-2026-10-19/ са пълният standalone проект ZIP,
+новият PNG, трите MP4 и два действителни native PNG кадъра, предадени като
+беззагубни Base64 .txt части. TRANSFER_MANIFEST.txt дава ред/bytes/SHA.
+Няма placeholder. По-големият ZIP е в 15 части под 4.3MB всяка.
+Има буквален patch и текст на новите файлове за преглед без runtime.
+Избран е text delivery, защото Git task-001 остава REPORTS_ONLY — не сме
+редактирали grants или приписвали на себе си owner administration.
+В Git са само собствени .txt отчети/attachments; играта/тестовете са
+изпълнени извън review checkout, в пряко разрешеното local копие.
+Не стартирайте проекта/тестове при собствения си REPORTS_ONLY review.
+
+ОСТАВАЩИ ГРАНИЦИ
+Candy true clean-start/Level1 остава NOT_OBSERVED. Няма claim за parity.
+Не е финално художествено/човешко/Android/Pixel8a/performance приемане.
+Ходенето остава съществуващият front/rear шесткадров atlas и mirror
+fallback. Отделните magic/reward labs са запазени, техният Core не е
+пренаписан в campaign. Това е конкретно opening/presentation пилот.
+Две форми на screenshot/video не доказват по-добър арт автоматично.
+Човекът правилно уточни: външният свят все още е една плоска картина
+с добавени навигация/UI/герой. Този пилот не я превръща в цял модулен
+игрови свят. Следващият дизайн избор е малък участък с отделни терен,
+пътека, скали, растения, вход и occlusion/depth. PNG е допустим игрови
+материал; липсват editable отделени части, не подходящ engine.
+Blender би създавал модели/rig/анимации за Godot (glTF/GLB), ако изберем
+реални 3D елементи. Износът на една нова обща рендерирана картина сам
+няма да отстрани този проблем. Unity миграция не е необходима за това.
+Това уточнение не е нова реализирана карта/Blender install или одобрена
+пълна 3D преработка. Официални източници за техническата възможност:
+https://docs.godotengine.org/en/stable/tutorials/assets_pipeline/importing_3d_scenes/available_formats.html
+https://docs.godotengine.org/en/stable/tutorials/2d/2d_parallax.html
+
+ЕДИН ОБЩ PROMPT ЗА GPT И GROK
+Прочети този актуален pilot report и TRANSFER_MANIFEST/README_REVIEW_BG.
+Прегледай actual PNG/MP4 и source patch/listing. Ако можеш да декодираш
+байтовете от Git в собствен празен analysis folder, провери SHA; не ги
+преписвай на ръка. Ако не можеш да гледаш — NOT_OBSERVED. По едно кратко
+ревю в собствения REPORT: живот преди Play, опора/смяна idle-walk,
+преход/четимост/обикновен ход и победа. До 3 конкретни приоритета с
+реални кадри/таймкодове. Няма ново генериране/код/звук/инсталиране/merge.
+Git публикацията не стартира другите чатове; human artistic judgement
+и новите GPT/Grok ревюта са PENDING.
+
+Текущ Codex setting recommendation: GPT-6.1 Sol / High; Grok Build.

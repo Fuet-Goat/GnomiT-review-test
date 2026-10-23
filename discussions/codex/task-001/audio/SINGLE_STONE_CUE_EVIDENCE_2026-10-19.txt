@@ -1,0 +1,107 @@
+{
+  "source_files_unchanged": 399,
+  "focused_check_count": 12,
+  "targeted_tests": [
+    {
+      "test": "test_rock_audio.gd",
+      "exit_code": 0,
+      "seconds": 4.187,
+      "diagnostics": false,
+      "tail": [
+        "",
+        "ROCK_AUDIO {\"checks\":13,\"failures\":[],\"status\":\"PASS\"}"
+      ]
+    },
+    {
+      "test": "test_reward_stone_cancellation.gd",
+      "exit_code": 0,
+      "seconds": 3.204,
+      "diagnostics": false,
+      "tail": [
+        "STONE_CANCELLATION_OBSERVATIONS=[{\"action\":\"Skip\",\"fracture_replacement_requested\":true,\"old_core_stable\":true,\"old_swap_returned\":true,\"scrape_active_before\":true,\"voices_after\":0,\"voices_before\":1},{\"action\":\"Reset\",\"fracture_replacement_requested\":true,\"old_core_stable\":true,\"old_swap_returned\":true,\"scrape_active_before\":true,\"voices_after\":0,\"voices_before\":1},{\"action\":\"tree_exit\",\"voices_after\":0,\"voices_before\":1}]",
+        "STONE_CANCELLATION_SUMMARY={\"acceptance\":\"HEADLESS_AUDIO_LIFECYCLE_ONLY\",\"checks\":15,\"failure_labels\":[],\"failures\":0}"
+      ]
+    },
+    {
+      "test": "test_mountain_presentation.gd",
+      "exit_code": 0,
+      "seconds": 12.937,
+      "diagnostics": false,
+      "tail": [
+        "PASS: Reset really installs a fresh fixture",
+        "MOUNTAIN_PRESENTATION {\"checks\":33,\"failures\":[],\"presentation_frames\":633,\"scope\":\"Actual headless board/audio integration plus cancellation; not human/Android visual acceptance\",\"status\":\"PASS\",\"target_pose_samples\":4381}"
+      ]
+    },
+    {
+      "test": "test_material_presentation.gd",
+      "exit_code": 0,
+      "seconds": 29.016,
+      "diagnostics": false,
+      "tail": [
+        "PASS: Reset installs a genuinely fresh requested material fixture",
+        "MATERIAL_PRESENTATION_SUMMARY={\"checks\":72,\"failures\":[],\"status\":\"PASS\"}"
+      ]
+    },
+    {
+      "test": "test_stone_drag.gd",
+      "exit_code": 0,
+      "seconds": 2.312,
+      "diagnostics": false,
+      "tail": [
+        "",
+        "STONE_DRAG {\"checks\":39,\"failures\":[],\"scope\":\"board pointer presentation only; no human/phone claim\",\"status\":\"PASS\"}"
+      ]
+    },
+    {
+      "test": "test_material_power_core.gd",
+      "exit_code": 0,
+      "seconds": 0.875,
+      "diagnostics": false,
+      "tail": [
+        "PASS: Forced guard1 drains births, preserves survivor/holes/closed runes, safe-fills deterministically seed713",
+        "MATERIAL_CORE_CONTRACT: 89 checks; 0 failures"
+      ]
+    }
+  ],
+  "native": {
+    "status": "PASS",
+    "screen": 0,
+    "viewport": [
+      432,
+      960
+    ],
+    "clear_cell_counts": [
+      3,
+      12,
+      3
+    ],
+    "expected_cues": [
+      "move",
+      "break",
+      "break",
+      "break"
+    ],
+    "max_active_stone_voices": 1
+  },
+  "selected_audio": {
+    "assets/sfx/stone_move_cartoon_selected_v1.ogg": {
+      "bytes": 7360,
+      "sha256": "45ac41d8bbf97f713ba5d979ffd497b63a79f530acf3d4c73eb591832880c8b9"
+    },
+    "assets/sfx/stone_break_full_v1.wav": {
+      "bytes": 185298,
+      "sha256": "9e573bc03b5f427614005774116ef3c84cfa5b9ba486440871331d0d54ac307f"
+    }
+  },
+  "pcm": {
+    "rate": 48000,
+    "channels": 2,
+    "width": 2,
+    "frames": 147456,
+    "seconds": 3.072,
+    "peak_pcm16": 6577,
+    "clipped_samples": 0
+  },
+  "human_listening": "PENDING",
+  "android": "NOT_RUN"
+}

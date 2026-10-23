@@ -1,0 +1,184 @@
+extends SceneTree
+## Captures pixels rendered from the actual imported GLB, then samples live state.
+
+const MODEL_PATH := "res://assets/storybook_mine.glb"
+var app
+var output := ""
+var captures: Array[Dictionary] = []
+var capture_errors: Array[String] = []
+var started_usec := 0
+var start_frame := 0
+
+
+func _initialize() -> void:
+	output = ProjectSettings.globalize_path("res://captures")
+	var arguments := OS.get_cmdline_user_args()
+	for index in range(arguments.size()):
+		if arguments[index].begins_with("--output="):
+			output = arguments[index].trim_prefix("--output=")
+		elif arguments[index] == "--output" and index + 1 < arguments.size():
+			output = arguments[index + 1]
+	call_deferred("run")
+
+
+func run() -> void:
+	started_usec = Time.get_ticks_usec()
+	start_frame = Engine.get_process_frames()
+	root.size = Vector2i(432, 960)
+	var directory_error := DirAccess.make_dir_recursive_absolute(output)
+	if directory_error != OK:
+		push_error("Capture output directory could not be created: " + output)
+		quit(2)
+		return
+	var packed := load("res://preview.tscn") as PackedScene
+	if packed == null:
+		push_error("Native preview scene could not be loaded.")
+		quit(2)
+		return
+	app = packed.instantiate() as Node3D
+	root.add_child(app)
+	if not app.model_ready:
+		_write_receipt({"status": "FAIL", "error": "Native storybook GLB did not load.", "model_path": MODEL_PATH})
+		quit(2)
+		return
+	await _wait_for_age(1.0)
+	await RenderingServer.frame_post_draw
+	_capture_png("GODOT_STORYBOOK_1S.png", 1.0)
+	var first_transforms: Dictionary = app.get_transform_snapshot()
+	var first_lamps: Dictionary = app.get_lamp_snapshot()
+	var first_age: float = app.age
+	await _wait_for_age(3.0)
+	await RenderingServer.frame_post_draw
+	_capture_png("GODOT_STORYBOOK_3S.png", 3.0)
+	var second_transforms: Dictionary = app.get_transform_snapshot()
+	var second_lamps: Dictionary = app.get_lamp_snapshot()
+	var changed_paths := _changed_transforms(first_transforms, second_transforms)
+	var moving_lamps := _changed_lamps(first_lamps, second_lamps)
+	var second_age: float = app.age
+	app.set_motion(false)
+	await process_frame
+	await RenderingServer.frame_post_draw
+	var frozen_transforms: Dictionary = app.get_transform_snapshot()
+	var frozen_lamps: Dictionary = app.get_lamp_snapshot()
+	var frozen_age: float = app.age
+	var freeze_started := Time.get_ticks_usec()
+	await create_timer(0.5).timeout
+	await RenderingServer.frame_post_draw
+	var freeze_wall_seconds := float(Time.get_ticks_usec() - freeze_started) / 1000000.0
+	var freeze_transform_changes := _changed_transforms(frozen_transforms, app.get_transform_snapshot())
+	var freeze_lamp_changes := _changed_lamps(frozen_lamps, app.get_lamp_snapshot())
+	var freeze_age_delta: float = app.age - frozen_age
+	var freeze_passed := freeze_transform_changes.is_empty() and freeze_lamp_changes.is_empty() and is_zero_approx(freeze_age_delta)
+	app.set_motion(true)
+	await _wait_for_age(frozen_age + 0.5)
+	await RenderingServer.frame_post_draw
+	var resumed_transforms := _changed_transforms(frozen_transforms, app.get_transform_snapshot())
+	var resumed_lamps := _changed_lamps(frozen_lamps, app.get_lamp_snapshot())
+	var resumed: bool = app.motion and app.age > frozen_age and not resumed_transforms.is_empty() and not resumed_lamps.is_empty()
+	var rendering_method := "NOT_MEASURED"
+	if RenderingServer.has_method("get_current_rendering_method"):
+		rendering_method = String(RenderingServer.call("get_current_rendering_method"))
+	var passed: bool = capture_errors.is_empty() and captures.size() == 2 and not changed_paths.is_empty() and not moving_lamps.is_empty() and freeze_passed and resumed
+	var receipt := {
+		"status": "PASS" if passed else "FAIL",
+		"scope": "Native Godot art preview rendered from imported GLB",
+		"model_path": MODEL_PATH,
+		"model_sha256": FileAccess.get_sha256(MODEL_PATH),
+		"viewport": [root.size.x, root.size.y],
+		"screen_index": DisplayServer.window_get_current_screen(),
+		"screen_count": DisplayServer.get_screen_count(),
+		"display_driver": DisplayServer.get_name(),
+		"renderer_requested": ProjectSettings.get_setting("rendering/renderer/rendering_method"),
+		"renderer_actual": rendering_method,
+		"video_adapter": RenderingServer.get_video_adapter_name(),
+		"video_api": RenderingServer.get_video_adapter_api_version(),
+		"captures": captures,
+		"capture_errors": capture_errors,
+		"animation_players": app.players.size(),
+		"animation_transform_tracks": app.merged_transform_tracks,
+		"animation_source_clips": app.animation_source_clips,
+		"hidden_imported_lights": app.hidden_imported_lights,
+		"animated_object_transforms_changed": changed_paths.size(),
+		"changed_transform_paths": changed_paths,
+		"sampled_animation_ages_seconds": [first_age, second_age],
+		"lamp_energies_at_1s": first_lamps,
+		"lamp_energies_at_3s": second_lamps,
+		"animated_lamp_energies_changed": moving_lamps.size(),
+		"lamp_energy_source": "Blender 24fps keys at frames 1,25,49,73,97,121,145 normalized by 24 W; smoothstep easing approximates AUTO_CLAMPED",
+		"motion_off": {
+			"passed": freeze_passed,
+			"requested_seconds": 0.5,
+			"wall_seconds_measured": freeze_wall_seconds,
+			"animation_age_delta": freeze_age_delta,
+			"transform_changes": freeze_transform_changes.size(),
+			"lamp_energy_changes": freeze_lamp_changes.size()
+		},
+		"motion_restored": {
+			"passed": resumed,
+			"transform_changes": resumed_transforms.size(),
+			"lamp_energy_changes": resumed_lamps.size()
+		},
+		"asset_inventory": app.get_asset_inventory(),
+		"frames_at_receipt": Engine.get_process_frames() - start_frame,
+		"wall_seconds_at_receipt": float(Time.get_ticks_usec() - started_usec) / 1000000.0,
+		"human_art_acceptance": "PENDING",
+		"android_acceptance": "NOT_MEASURED",
+		"performance_acceptance": "NOT_MEASURED"
+	}
+	_write_receipt(receipt)
+	print("GNOMIT_STORYBOOK_CAPTURE " + JSON.stringify(receipt))
+	quit(0 if passed else 3)
+
+
+func _wait_for_age(target: float) -> void:
+	while app.age < target:
+		await process_frame
+
+
+func _capture_png(filename: String, requested_age: float) -> void:
+	var image := root.get_texture().get_image()
+	var destination := output.path_join(filename)
+	var save_error := image.save_png(destination)
+	if save_error != OK:
+		capture_errors.append("PNG save failed: %s (%d)" % [destination, save_error])
+	if image.get_width() != 432 or image.get_height() != 960:
+		capture_errors.append("Unexpected PNG size: %d x %d" % [image.get_width(), image.get_height()])
+	captures.append({
+		"file": destination,
+		"requested_animation_age_seconds": requested_age,
+		"actual_animation_age_seconds": app.age,
+		"image_size": [image.get_width(), image.get_height()],
+		"save_error": save_error,
+		"sha256": FileAccess.get_sha256(destination) if save_error == OK else "NOT_MEASURED"
+	})
+
+
+func _changed_transforms(before: Dictionary, after: Dictionary) -> Array[String]:
+	var paths: Array[String] = []
+	for path in before:
+		if not after.has(path):
+			paths.append(String(path) + " [missing]")
+			continue
+		var old_transform: Transform3D = before[path]
+		var new_transform: Transform3D = after[path]
+		if not old_transform.is_equal_approx(new_transform):
+			paths.append(String(path))
+	return paths
+
+
+func _changed_lamps(before: Dictionary, after: Dictionary) -> Array[String]:
+	var paths: Array[String] = []
+	for path in before:
+		if not after.has(path) or not is_equal_approx(float(before[path]), float(after[path])):
+			paths.append(String(path))
+	return paths
+
+
+func _write_receipt(receipt: Dictionary) -> void:
+	var destination := output.path_join("GODOT_STORYBOOK_RECEIPT.json")
+	var file := FileAccess.open(destination, FileAccess.WRITE)
+	if file == null:
+		push_error("Runtime receipt could not be written: " + destination)
+		return
+	file.store_string(JSON.stringify(receipt, "\t") + "\n")
+	file.close()

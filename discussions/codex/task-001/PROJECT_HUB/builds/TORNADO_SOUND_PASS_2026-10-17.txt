@@ -1,0 +1,335 @@
+GNOMIT — TORNADO WIND AND MAGICAL SOUND FINISH — 2026-10-17
+Status:LOCAL_WIRED / NATIVE_AUDIO_CAPTURE_PASS / HUMAN_LISTENING_PENDING
+
+The human requested Tornado sound and a cartoon/musical finish like the Volcano.
+Implemented in the same separate local MagicAnimations playtest. New original
+1.42s stereo44.1kHz/16bit WAV contains warm rising wind, soft rotating/Doppler-like
+sweeps, suction close and an original gentle three-note flourish starting .91s.
+The short ending continues after the unchanged1.10s cone animation; no long music
+loop. Source is deterministic local NumPy synthesis, not a remote provider or
+downloaded recording. Separate .22s mono breath is the reduced-motion cue.
+
+Both Tornado IDs start one complete normal clip at event zero, pitch1.0,gain-7dB,
+with own limited bus/headroom. No per-frame/per-target repeated sound. Existing
+generic end-Tornado break is suppressed, avoiding a doubled old bang; ordinary
+cascade stone foley remains. Missing selected WAV warns and retains old fallback.
+Normal event expiry leaves the short magic tail. Reset/Skip/exit stop every voice
+and cannot emit stale playback. Reduced motion uses only the shorter quieter
+breath. Volcano MP3 and its own manager remain independent; no Tornado wind there.
+Core,RNG,radial footprint,soil/runes,icons,VFX,durations,campaign and saves unchanged.
+
+VERIFICATION ACTUALLY RUN
+Tornado audio55 checks /7 cases PASS:decoded nonzero WAVs, single original-pitch
+clip, tail retention,reduced shorter/quieter sound, actual h/v and Volcano routes,
+actual Skip/Reset cancellation beyond old effect lifetime, complete Core/RNG and
+result preservation. Real foley observer confirms the Tornado end-break signal
+arrives once and its old forwarded playback is suppressed. Existing Volcano MP3
+audio36 checks PASS. Parent source review checked event guards, cancellation,
+independent process branches and cascade forwarding; no independent audit or
+human listening verdict is claimed for this sound pass.
+
+Two actual Godot movies at432x960/screen0/fixed30fps/scripted native mouse drag
+PASS, each with exactly one normal clip. EVENT/RESULT/FINAL_STATE files for both
+fixtures are byte-identical to the previous silent-wind animation pass. Native
+recording's PCM extracted without re-arrangement:stereo48kHz/16bit,7.033333333333333s,
+nonzero sound,zero clipped samples. These checks do not establish perceived sound
+quality. The extractor reports the previously documented complete-final-idx1 RIFF
+size discrepancy; original media boundaries remain validated.
+New live sound version launched on user monitor1 and observed with Tornado active
+after a move. User state was left untouched. Recording is agent-scripted,not a
+human/Android test or a performance benchmark.
+
+DELIVERY
+New assets:assets/sfx/tornado/. Recipe:tools/build_tornado_audio.py. Integration:
+scripts/lab/tornado_audio.gd and existing lab routes. Capture --sound-pass writes
+only outputs/tornado_sound, including actual audio cue logs; earlier Tornado and
+Volcano evidence remains unchanged. Exact before sources are backed up under
+verification/before_tornado_sound_2026-10-17. A single handoff ZIP contains source
+delta,real WAVs,Godot movie/runtime PCM,keyframe and checks with SHA256 manifest.
+Governed Git retains REPORTS_ONLY:own report/literal source proposal only;native
+game/audio files are local/package assets,not claimed published in its game tree.
+No grants/main/private changes,merge,new external bot task or replacement of the
+liked Volcano MP3. Human listening feedback is the next acceptance input.
+
+Recommended model/effort:GPT-6.1 Sol / High for sound/game integration.
+
+EXACT MEASUREMENTS
+{
+  "status": "LOCAL_WIRED / NATIVE_AUDIO_CAPTURE_PASS / HUMAN_LISTENING_PENDING",
+  "predecessor_report_commit": "76f24be1222e931efa129a9a9a4065596f8de095",
+  "sound_assets": {
+    "method": "Original local deterministic NumPy synthesis; no remote generator, no downloaded sound, no source music sampling",
+    "seed": 171020261,
+    "design_timeline_seconds": {
+      "wind_rise": [
+        0,
+        0.16
+      ],
+      "spiral_wind": [
+        0.16,
+        0.85
+      ],
+      "suction_close": [
+        0.85,
+        1.08
+      ],
+      "musical_finish": [
+        0.91,
+        1.42
+      ]
+    },
+    "expected_visual_event_seconds": 1.1,
+    "human_listening_acceptance": "PENDING",
+    "files": [
+      {
+        "path": "assets/sfx/tornado/tornado_cartoon_magic_v1.wav",
+        "bytes": 250532,
+        "sha256": "c599537fb85b98f7bb11432eda5b4657915150b327f70b19dd2233fc9711fa53",
+        "seconds": 1.42,
+        "channels": 2,
+        "sample_rate": 44100,
+        "bits_per_sample": 16,
+        "peak_dbfs": -3.349915301314036,
+        "rms_dbfs": -19.004206540461258,
+        "last_10ms_rms": 0.0
+      },
+      {
+        "path": "assets/sfx/tornado/tornado_soft_short_v1.wav",
+        "bytes": 19448,
+        "sha256": "55a20721ee57df1b8a39b93995281792c812bba5e1587b55272188f2b112e193",
+        "seconds": 0.22,
+        "channels": 1,
+        "sample_rate": 44100,
+        "bits_per_sample": 16,
+        "peak_dbfs": -9.37051521459366,
+        "rms_dbfs": -21.985689254127408,
+        "last_10ms_rms": 0.00015591478395514497
+      }
+    ]
+  },
+  "checks": {
+    "tornado_audio": 55,
+    "volcano_audio_regression": 36
+  },
+  "actual_cues": {
+    "tornado_h": [
+      {
+        "event_id": 1.0,
+        "kind": "clip",
+        "length": 1.42,
+        "pitch_scale": 1.0,
+        "reduced": false,
+        "source_path": "res://assets/sfx/tornado/tornado_cartoon_magic_v1.wav",
+        "voice": 0.0,
+        "volume_db": -7.0
+      }
+    ],
+    "tornado_v": [
+      {
+        "event_id": 1.0,
+        "kind": "clip",
+        "length": 1.42,
+        "pitch_scale": 1.0,
+        "reduced": false,
+        "source_path": "res://assets/sfx/tornado/tornado_cartoon_magic_v1.wav",
+        "voice": 0.0,
+        "volume_db": -7.0
+      }
+    ]
+  },
+  "gameplay_comparisons": {
+    "tornado_h": {
+      "EVENT": {
+        "identical_to_previous_animation_pass": true,
+        "bytes": 1602,
+        "sha256": "3ff5fd07d1a31651be08f188b89047401ae2b8e94930d5158e09afbbfa400900"
+      },
+      "RESULT": {
+        "identical_to_previous_animation_pass": true,
+        "bytes": 6454,
+        "sha256": "eb602caec20ad8b91ff175360b3495f840fa15b3acc40401f1210e3dbe321d3f"
+      },
+      "FINAL_STATE": {
+        "identical_to_previous_animation_pass": true,
+        "bytes": 978,
+        "sha256": "3caa89ef27e355944220ba2eb82afc9579ad99d519fe16ae92d8fc9c4e2dbc95"
+      }
+    },
+    "tornado_v": {
+      "EVENT": {
+        "identical_to_previous_animation_pass": true,
+        "bytes": 1580,
+        "sha256": "dda96f113630c12b5f9ceb915cf0de4d4b5b47510b9432ad188988c6e186833f"
+      },
+      "RESULT": {
+        "identical_to_previous_animation_pass": true,
+        "bytes": 8499,
+        "sha256": "9f1790cd2e1aa531fc005eb965f7bc844aa7e96a3a7bf830366112f290c85913"
+      },
+      "FINAL_STATE": {
+        "identical_to_previous_animation_pass": true,
+        "bytes": 978,
+        "sha256": "748616c04d7880397f4e945fe8b5831690a234fa70ffa3a186b1b078e4f12eee"
+      }
+    }
+  },
+  "runtime_pcm": {
+    "source_avi": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\MagicAnimations_2026-10-17\\outputs\\tornado_sound\\tornado_h.avi",
+    "output_wav": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\MagicAnimations_2026-10-17\\outputs\\tornado_sound\\tornado_runtime_preview.wav",
+    "source_bytes": 23154270,
+    "riff_segments": [
+      "AVI"
+    ],
+    "container_warnings": [
+      "Outer RIFF size ends 70 bytes before EOF inside a complete final idx1; index ignored, media boundaries validated"
+    ],
+    "audio_streams": [
+      {
+        "index": 1,
+        "scale": 4,
+        "rate": 192000,
+        "start": 0,
+        "length": 337600,
+        "sample_size": 4,
+        "format_tag": 1,
+        "channels": 2,
+        "sample_rate": 48000,
+        "byte_rate": 192000,
+        "block_align": 4,
+        "bits_per_sample": 16
+      }
+    ],
+    "selected_stream": 1,
+    "source_format": {
+      "channels": 2,
+      "sample_rate": 48000,
+      "sample_width": 2,
+      "bits_per_sample": 16,
+      "valid_bits_per_sample": 16,
+      "block_align": 4,
+      "channel_mask": null
+    },
+    "wav_encoding": "integer PCM; original sample bytes; conventional PCM header",
+    "audio_chunk_count": 211,
+    "pcm_bytes": 1350400,
+    "sample_frames": 337600,
+    "duration_seconds": 7.033333333333333,
+    "pcm_sha256": "58b7c91c798636836cb430a44d87baa96e81b7e298976fa987ec3510cd211717",
+    "wav_sha256": "6ef6a29c8ee52eb9b73197f2ecad474cd4cd0c2c8cd510cebf552861a93fa9a8",
+    "wav_bytes": 1350444,
+    "statistics": {
+      "sample_count": 675200,
+      "nonzero_samples": 338086,
+      "clipped_samples": 0,
+      "peak_integer": 7889,
+      "peak_normalized": 0.240753173828125,
+      "rms_normalized": 0.02201502399673914,
+      "rms_dbfs": -33.14561673632103,
+      "mean_normalized": -1.5218788978612819e-05,
+      "per_channel": [
+        {
+          "sample_count": 337600,
+          "nonzero_samples": 169045,
+          "clipped_samples": 0,
+          "peak_integer": 7889,
+          "peak_normalized": 0.240753173828125,
+          "rms_normalized": 0.022040308105022614,
+          "rms_dbfs": -33.135646774103876,
+          "mean_normalized": -1.5260144997547023e-05
+        },
+        {
+          "sample_count": 337600,
+          "nonzero_samples": 169041,
+          "clipped_samples": 0,
+          "peak_integer": 7556,
+          "peak_normalized": 0.2305908203125,
+          "rms_normalized": 0.021989710816417644,
+          "rms_dbfs": -33.155609638941435,
+          "mean_normalized": -1.5177432959678614e-05
+        }
+      ]
+    }
+  },
+  "preserved_sources": {
+    "scripts/board_view.gd": {
+      "bytes": 33490,
+      "sha256": "c0f68b6a37805278db1684200e7d5c6bc3672bfdc04fb5d6b9b908d177a44781"
+    },
+    "scripts/match_core.gd": {
+      "bytes": 10023,
+      "sha256": "12f1d987e5a5ab194cfc1ea555a5905922290a23e67f370b9f3a4813d42166bb"
+    },
+    "scripts/main.gd": {
+      "bytes": 24717,
+      "sha256": "6f8bc515339735b907fb94e3c0b621def3f9e6e75591e849bde73b2be91e5737"
+    },
+    "scripts/progress.gd": {
+      "bytes": 4151,
+      "sha256": "2d7dce425fb70fe47d07bd14777a957ac2d7e08929a43ef56216b13fba22e501"
+    },
+    "scripts/rock_audio.gd": {
+      "bytes": 1784,
+      "sha256": "24fac13dc7093ac423121b6862b123ba32359c0b10d439d0e3f286c45093112d"
+    },
+    "scripts/lab/volcano_audio.gd": {
+      "bytes": 5591,
+      "sha256": "9f42169292b7d6c8ca7a3e7d79c553c8b29cb58c193005a2a01fb0a9787d0247"
+    },
+    "assets/sfx/volcano/gnomit_volcano_cartoon_eruption.mp3": {
+      "bytes": 16724,
+      "sha256": "165bba4707d48883e96d1c7626400e36a454e206469d58b3b21ec9c536fda27c"
+    },
+    "tests/capture_painted_volcano.gd": {
+      "bytes": 20850,
+      "sha256": "ad2755062dc4f25dd1fb3e9f6e19973fcfb0e69c6b75039e2e76a054b1d1b1e7"
+    },
+    "scripts/lab/natural_power_core.gd": {
+      "bytes": 7610,
+      "sha256": "417a45ebdf247a86a3381d8c5696959e39ff76a784620bd134bb8d52b16669fd"
+    },
+    "scripts/lab/natural_power_board.gd": {
+      "bytes": 10704,
+      "sha256": "3902ebf4f18a72e9f0e45648a9123b865a18b15159c5100adab700994edcc28c"
+    },
+    "scripts/lab/magic_volcano_board.gd": {
+      "bytes": 22008,
+      "sha256": "027d632c11a0fbb2dd44f8ba5add7bc7dc300858963768d6366927d2ce066538"
+    }
+  },
+  "source_delta": {
+    "scripts/lab/natural_power_lab.gd": {
+      "bytes": 12549,
+      "sha256": "ec5fd699f37793deb53fc73c913f94648b3f4b49a5b355695779fe637894f97f"
+    },
+    "tests/capture_tornado_top.gd": {
+      "bytes": 21681,
+      "sha256": "f5175af3e52b005161d7f705faeece6578fe345485139cb1bf3ca3c4620fb3e5"
+    },
+    "README_MAGIC_ANIMATIONS.txt": {
+      "bytes": 5016,
+      "sha256": "94d6a97d682b4b22cb7420e6ed7bab7e0bcd493474cfc9f720eb578a25c01477"
+    },
+    "scripts/lab/tornado_audio.gd": {
+      "bytes": 2866,
+      "sha256": "f762aaf1e89d6148907b30cf50a71bdec5decd9e8baee5511dae9fc4e00eeaad"
+    },
+    "tests/test_tornado_audio.gd": {
+      "bytes": 11506,
+      "sha256": "1b0c8c07bff11f15fc5574a47abb4732215eed517116bb4456f7fdb8c6cfe358"
+    },
+    "tools/build_tornado_audio.py": {
+      "bytes": 4401,
+      "sha256": "0604297f3cc34f286684f4870bb192900152d903be5652b9894ce7756417577a"
+    },
+    "assets/sfx/tornado/tornado_cartoon_magic_v1.wav": {
+      "bytes": 250532,
+      "sha256": "c599537fb85b98f7bb11432eda5b4657915150b327f70b19dd2233fc9711fa53"
+    },
+    "assets/sfx/tornado/tornado_soft_short_v1.wav": {
+      "bytes": 19448,
+      "sha256": "55a20721ee57df1b8a39b93995281792c812bba5e1587b55272188f2b112e193"
+    }
+  },
+  "live_window": "New sound version launched on screen0/user monitor1; unique returned Magic Animation Lab observed with Tornado active after a move; no UI input altered it",
+  "listening_quality": "Human acceptance pending; measurements are not a listening verdict"
+}

@@ -1,0 +1,18 @@
+V006 — IMPLEMENTED / SCRIPTED CHECKS PASS / HUMAN ACCEPTANCE PENDING
+
+Observed user recording: SOIL6 became SOIL3. The remaining three orange tiles
+are expected multi-hit terrain. The visual defect was invisible layer counts.
+Added one persistent numbered badge per positive displayed soil cell. Drawn
+after gems; anchored to tile, separate from drag/fall. At black-hole impact,
+badges read that event's floor_after, not already-solved future Core. Zero-layer
+badges disappear. No rune, power, damage, objective, save or audio rule changed.
+Core remains byte-identical to v005. All inherited art/audio unchanged.
+
+Native 432x960: before {7:3,8:2,9:1,10:1,24:2,38:1}; after {7:2,8:1,24:1}.
+Normal and reduced motion agree. 135 Core +23 campaign +10 native checks PASS.
+Native report lists two black_hole signals because it runs one normal and one
+reduced-motion transaction; the normal transaction alone was asserted single.
+Screenshots are scripted Godot captures, not a human gameplay acceptance.
+Normal main.tscn/save profile preserved. Desktop v006 and Latest now select it.
+User MP4/screenshot/contact sheet were not included or uploaded.
+No Git merge. Android/performance NOT_MEASURED.

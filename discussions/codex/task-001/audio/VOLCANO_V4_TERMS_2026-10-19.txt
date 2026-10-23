@@ -1,0 +1,21 @@
+GNOMIT — GROK V4 TERMS SOURCE REVIEW /19 OCTOBER2026
+Sources read live on19.10.2026:
+https://x.ai/legal/faq — Who owns the inputs to and outputs from Grok?
+https://x.ai/legal/terms-of-service — Consumer Terms, updated12October2026, sections3/4
+https://x.ai/legal/brand-guidelines — Content Attribution
+https://x.ai/legal/grok-bot-terms — supplement to the applicable customer agreement
+
+The official Consumer FAQ permits commercial use of conversation outputs subject
+to the applicable terms. The Consumer Terms describe user content, responsibility
+for input rights and outputs, attribution/permission via the Brand Guidelines,
+and possible additional third-party or feature terms. They do not guarantee
+non-infringement or unique/exclusive copyright. The Brand Guidelines provide
+the attribution phrase Created with Grok for generated text/images. For this
+code-generated cue, the preview README credits the synthesis code to Grok.
+
+This is a source review for a private local PC preview, not a new licence issued
+by Codex, confirmation of the owner's exact subscription/feature contract, or
+clearance of the whole game. Applicable account/feature terms, required notice
+placement and the actual distributed assets remain part of release review.
+No support message was sent, no terms were accepted, and no declaration of
+ownership was fabricated. The original Grok PROVENANCE/UNKNOWN remains intact.

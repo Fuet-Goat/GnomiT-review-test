@@ -1,0 +1,10 @@
+Codex R3 bounded art polish, continuing direct human request.
+1.Source derivative preparation:COMPLETE; GPT R2 base preserved and hashed.
+2.Trees/mine/material/lighting source:COMPLETE; source/AST preservation checked.
+3.Native trial:COMPLETE; draft01 retained; one refinement; selected192sample renders in two sizes.
+4.Native verification:COMPLETE; protected geometry hashes identical,17closed selected meshes, GLB reimport bounds/anchors match, exit0.
+5.Local package:COMPLETE. Git publication/readback follows archive creation and is recorded separately.
+Ruling: no new ground clutter or layout/camera-setting changes; only approved polish.
+Ruling: camera auto-fit recalculates framing; no exact-pose registration claim.
+Ruling: inherited minor tunnel-cap/final-save source issues retained; avoid unrelated repairs.
+Ruling: preserve originals, draft, all reports and old launchers; no cleanup deletion or merge.

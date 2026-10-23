@@ -1,0 +1,136 @@
+{
+  "status": "EXACT_REMOTE_READBACK_PASS",
+  "artifact_commit": "2f03e9078e1b0f61f29ba9364d3ded4d8f2a9d5f",
+  "utc": "2026-10-21T16:53:42.373873+00:00",
+  "transport": "HTTPS raw.githubusercontent.com, no local-repo fallback",
+  "package": {
+    "status": "EXACT_COMMIT_ARCHIVE_AND_ALL_ENTRY_HASHES_PASS",
+    "commit": "2f03e9078e1b0f61f29ba9364d3ded4d8f2a9d5f",
+    "bytes": 17664249,
+    "sha256": "004b75b074ca0b2c4a83dbfd5b47e0d9437b21b831b07b9ef2887c666f7f6350",
+    "entries": 37,
+    "packages": [
+      "HANDOFF"
+    ],
+    "executed_project_code": false
+  },
+  "small_changed_files": [
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/START_HERE.txt",
+      "bytes": 68750,
+      "sha256": "fcc2853f874f10df8e1f51fb38806e54c9d9ecff80584798d6ee0f86a2f22559",
+      "remote_bytes_equal_local_git_object": true
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-grass-trials-2026-10-21/ART_STAGE_ORDER_BG.txt",
+      "bytes": 2280,
+      "sha256": "36d4325a8b4df376d69c2cc4e532a0ce3cd25a0531bdfa174b5406c26d26a668",
+      "remote_bytes_equal_local_git_object": true
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-grass-trials-2026-10-21/DOWNLOAD_GRASS_TRIALS.py.txt",
+      "bytes": 3452,
+      "sha256": "74c28fe17c97da1bea038b275b7214ad62dd90f2d0cd44a6bae89a79e0fbd51a",
+      "remote_bytes_equal_local_git_object": true
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-grass-trials-2026-10-21/EXISTING_MATERIALS.json.txt",
+      "bytes": 138,
+      "sha256": "b516e2b07e20ec76bac8f6279e032a610885d7bb80f367c67747847ed6653888",
+      "remote_bytes_equal_local_git_object": true
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-grass-trials-2026-10-21/FINAL_RESPONSE.txt",
+      "bytes": 219,
+      "sha256": "03c8a3ee531b33bc180f0cb9d188816a0fa96cecd06b61795e757721ba7dcdf0",
+      "remote_bytes_equal_local_git_object": true
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-grass-trials-2026-10-21/GRASS_TRIALS_RECEIPT.json.txt",
+      "bytes": 6198,
+      "sha256": "171c3c98c41b7677d88f524e2a1d0e187765744914e396d71cfffceb908a2535",
+      "remote_bytes_equal_local_git_object": true
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-grass-trials-2026-10-21/INTERNAL_REVIEW.txt",
+      "bytes": 591,
+      "sha256": "fa09a4c83c573383d58dec203f790db4860559934c32ee2a93bab66c214f82ab",
+      "remote_bytes_equal_local_git_object": true
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-grass-trials-2026-10-21/PACKAGE_RECEIPT.json.txt",
+      "bytes": 337,
+      "sha256": "9e74f4597ce8697c2ab63539add287940b6f7cd71fe58a356949df7245eb0165",
+      "remote_bytes_equal_local_git_object": true
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-grass-trials-2026-10-21/PROMPT_FOR_GPT_BG.txt",
+      "bytes": 5454,
+      "sha256": "51638f681f9b216067e73ca089b2d9082fd5ae507b3a3a24d2a23bba77a51a36",
+      "remote_bytes_equal_local_git_object": true
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-grass-trials-2026-10-21/PROVENANCE.json.txt",
+      "bytes": 912,
+      "sha256": "3f1cdb141d24ec1bb907acb6a29f8f01e09be0beb7eb0c44b28c11b1521e4924",
+      "remote_bytes_equal_local_git_object": true
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-grass-trials-2026-10-21/README.txt",
+      "bytes": 2588,
+      "sha256": "5e7fcde933af1e33baf7579732118d6c128ff6884c90eb941a987855f0a63939",
+      "remote_bytes_equal_local_git_object": true
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-grass-trials-2026-10-21/README_BG.txt",
+      "bytes": 2588,
+      "sha256": "5e7fcde933af1e33baf7579732118d6c128ff6884c90eb941a987855f0a63939",
+      "remote_bytes_equal_local_git_object": true
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-grass-trials-2026-10-21/REPORT.txt",
+      "bytes": 1675,
+      "sha256": "dc5a0be642e50b09222971cea525ef1b818e0e4033b78168f666795a3a7a9d6f",
+      "remote_bytes_equal_local_git_object": true
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-grass-trials-2026-10-21/START_HERE_BG.txt",
+      "bytes": 1307,
+      "sha256": "a2271b6d35e617d58ff4827f7bf18bd41018acac78f147719adc7de7586d6db9",
+      "remote_bytes_equal_local_git_object": true
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-grass-trials-2026-10-21/ZIP_MANIFEST.json.txt",
+      "bytes": 5946,
+      "sha256": "da71629c5f18191bd2e2d2a7f988791e74dd471aee1d92320f7a5e9f1bbbd0f8",
+      "remote_bytes_equal_local_git_object": true
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-home-start-composition-2026-10-21/PROMPT_FOR_GPT_BG.txt",
+      "bytes": 5454,
+      "sha256": "51638f681f9b216067e73ca089b2d9082fd5ae507b3a3a24d2a23bba77a51a36",
+      "remote_bytes_equal_local_git_object": true
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-home-start-composition-2026-10-21/PROMPT_PREVIOUS_BEFORE_GRASS_BG.txt",
+      "bytes": 1997,
+      "sha256": "1e6319961bf29a313709750f3ad4ebd7f95320b2a9bd76777a92cabb4d5d3580",
+      "remote_bytes_equal_local_git_object": true
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-home-start-composition-2026-10-21/START_HERE_BG.txt",
+      "bytes": 2419,
+      "sha256": "fae8b8e22c14d1d02465dd57f9b2442501fd023465f629b7dbd5e7b79446a189",
+      "remote_bytes_equal_local_git_object": true
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/designs/ART_STAGE_ORDER_GRASS_FIRST_2026-10-21.txt",
+      "bytes": 2280,
+      "sha256": "36d4325a8b4df376d69c2cc4e532a0ce3cd25a0531bdfa174b5406c26d26a668",
+      "remote_bytes_equal_local_git_object": true
+    }
+  ],
+  "base64_payload": "independently downloaded and decoded by DOWNLOAD_GRASS_TRIALS; full ZIP identity, CRC, count and all manifest entry hashes passed",
+  "protected_main_sha": "d803005f3b123ca2b1ab617a37098a43c43b5da8",
+  "limits": "Delivery verification only; human art choice and runtime integration remain pending."
+}

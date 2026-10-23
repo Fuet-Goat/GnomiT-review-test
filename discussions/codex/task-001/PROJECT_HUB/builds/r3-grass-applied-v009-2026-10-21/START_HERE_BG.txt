@@ -1,0 +1,18 @@
+GNOMIT v009 — НОВАТА ТРЕВА Е ПРИЛОЖЕНА В GODOT
+Нова отделна игра R3_Grass_Applied_2026-10-21, а не само Blender рендер.
+Показаната HomeStart композиция + новата grass geometry; един runtime гном.
+Двете нива, целите/Play, Volcano урокът, награди, прогрес и звук са запазени.
+34 scripted checks PASS. 59 inherited scripts са byte-identical; двата променени
+са presentation adapters. Реалните Godot screenshots са outputs/01..05 в ZIP.
+Тъмният кант от грешния UV е отстранен; final texture сочи texCoord1.
+Desktop/GnomiT Samples/v009 - 2026-10-21 - R3 Grass Applied и Latest сочат тук.
+Godot отчита само един монитор в текущата среда; при наличен втори main го избира.
+
+Пълният playable ZIP, editable native sources, export/bake code и документация
+са реални Base64 части по PACKAGE_RECEIPT.json.txt. Няма placeholder chunks.
+Копирай DOWNLOAD_V009.py.txt като .py извън repo:
+python DOWNLOAD_V009.py --commit ТОЧЕН40HEX --output НОВА_ПАПКА
+Проверява целия ZIP и всеки entry hash, после извлича играта в GAME/.
+Не пуска Godot/Blender или изпълнение на изтеглен код автоматично.
+Човекът разреши прилагането; това не е окончателно художествено/Android приемане.
+Още grass polish може да има, без автоматично добавяне на цветя/други етапи.

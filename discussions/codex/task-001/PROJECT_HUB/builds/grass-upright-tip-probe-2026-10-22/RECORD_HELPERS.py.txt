@@ -1,0 +1,256 @@
+"""Native-only additive 12-tuft probe on the exact selected v014 world.
+
+Old leaf profiles, roots, topology and colour data are immutable prefixes.
+No global scatter replay, edge-grass edit, scene change or game integration.
+"""
+from pathlib import Path
+from collections import defaultdict
+import hashlib
+import importlib.util
+import json
+import math
+import random
+
+import bpy
+from bpy_extras.object_utils import world_to_camera_view
+from mathutils import Vector
+from mathutils.bvhtree import BVHTree
+
+ROOT = Path(__file__).resolve().parents[1]
+SOURCE = ROOT/'native/V014_SELECTED_INPUT.blend'
+OUTPUT = ROOT/'native/TWELVE_TUFTS_PLUS_THREE.blend'
+SOURCE_SHA = 'd763d19318e47bf4801f4e3bc8cfedef9b99791b092ac88cf30bd508f92137b4'
+BODY = 'Reference_Grass_Carpet'
+EDGE = 'Reference_Grass_Edge'
+# Screen-space probe locations selected from the observed portrait map.
+ZONES = [('foreground', (350, 746)), ('inner_bend', (94, 457)),
+         ('quiet_transition', (306, 495))]
+spec = importlib.util.spec_from_file_location('guard', ROOT/'tools/guard_utils.py')
+g = importlib.util.module_from_spec(spec); spec.loader.exec_module(g)
+
+def sha(data): return hashlib.sha256(data).hexdigest()
+def write(path, value):
+    path.write_bytes((json.dumps(value, indent=2)+'\n').encode('utf-8'))
+
+def object_record(obj):
+    row = g.object_record(obj)
+    row.update(parent=obj.parent.name if obj.parent else None,
+               matrix_basis=[list(r) for r in obj.matrix_basis],
+               collections=sorted(c.name for c in obj.users_collection))
+    if obj.type == 'MESH':
+        row['uv'] = {a.name:g.fingerprint([list(x.uv) for x in a.data]) for a in obj.data.uv_layers}
+        row['colours'] = {a.name:g.fingerprint([list(x.color) for x in a.data])
+                          for a in obj.data.color_attributes}
+        row['face_flags'] = [(p.material_index,p.use_smooth) for p in obj.data.polygons]
+    return row
+
+def mesh_prefix(mesh, nv=None, ne=None, nl=None, np=None):
+    nv = len(mesh.vertices) if nv is None else nv
+    ne = len(mesh.edges) if ne is None else ne
+    nl = len(mesh.loops) if nl is None else nl
+    np = len(mesh.polygons) if np is None else np
+    return {'vertices':[list(v.co) for v in mesh.vertices[:nv]],
+            'edges':[(list(e.vertices),e.use_seam,e.use_edge_sharp) for e in mesh.edges[:ne]],
+            'loops':[(x.vertex_index,x.edge_index) for x in mesh.loops[:nl]],
+            'polygons':[(list(p.vertices),p.loop_start,p.loop_total,p.material_index,p.use_smooth)
+                        for p in mesh.polygons[:np]],
+            'colours':{a.name:[list(x.color) for x in a.data[:nv]]
+                       for a in mesh.color_attributes}}
+
+def screen(scene, point):
+    p = world_to_camera_view(scene, scene.camera, point)
+    return (p.x*432, (1-p.y)*960)
+
+def leaf_faces(offset):
+    faces = []
+    for row in range(4):
+        a = offset+row*3
+        faces.extend([(a,a+1,a+4,a+3),(a+1,a+2,a+5,a+4)])
+    faces.extend([(offset+12,offset+13,offset+15),(offset+13,offset+14,offset+15)])
+    return faces
+
+def rotated_leaf(points, angle):
+    root = points[1]
+    c, s = math.cos(angle), math.sin(angle)
+    result = []
+    for point in points:
+        d = point-root
+        result.append(root+Vector((c*d.x-s*d.y,s*d.x+c*d.y,d.z)))
+    return result
+
+def append_geometry(mesh, coords, faces, colours):
+    # Use Blender's complete-mesh constructor, not partially initialized RNA
+    # polygons (loop_total is read-only in Blender5.2). Exact old prefixes are
+    # verified by the caller; a reordering is a failure, never silently accepted.
+    result=bpy.data.meshes.new(mesh.name+'_12_Tuft_Probe')
+    old_vertices=[tuple(v.co) for v in mesh.vertices]
+    old_faces=[tuple(p.vertices) for p in mesh.polygons]
+    result.from_pydata(old_vertices+[tuple(p) for p in coords],[],old_faces+faces)
+    result.update()
+    # from_pydata may reorder inherited edges. Restore their exact ordering,
+    # then let Blender rebuild loop-to-edge indices through its supported API.
+    old_keys={tuple(sorted(e.vertices)) for e in mesh.edges}
+    ordered=[tuple(e.vertices) for e in mesh.edges]+[
+        tuple(e.vertices) for e in result.edges if tuple(sorted(e.vertices)) not in old_keys]
+    assert len(ordered)==len(result.edges)
+    result.edges.foreach_set('vertices',[v for edge in ordered for v in edge])
+    result.update(calc_edges=True)
+    for material in mesh.materials:result.materials.append(material)
+    for i,polygon in enumerate(result.polygons):
+        polygon.material_index=mesh.polygons[i].material_index if i<len(old_faces) else 0
+        polygon.use_smooth=mesh.polygons[i].use_smooth if i<len(old_faces) else True
+    for i,edge in enumerate(mesh.edges):
+        if edge.use_seam:result.edges[i].use_seam=True
+        if edge.use_edge_sharp:result.edges[i].use_edge_sharp=True
+    old_colours=[tuple(x.color) for x in mesh.color_attributes['Grass_Colour'].data]
+    attr=result.color_attributes.new(name='Grass_Colour',type='FLOAT_COLOR',domain='POINT')
+    attr.data.foreach_set('color',[c for colour in old_colours+colours for c in colour])
+    return result
+
+def render(scene, path):
+    old_path, old_samples = scene.render.filepath, scene.cycles.samples
+    scene.render.filepath = str(path);scene.cycles.samples = 128
+    assert 'FINISHED' in bpy.ops.render.render(write_still=True)
+    scene.render.filepath = old_path;scene.cycles.samples = old_samples
+    return {'path':path.relative_to(ROOT).as_posix(),'bytes':path.stat().st_size,
+            'sha256':sha(path.read_bytes()),'samples':128,'width':432,'height':960}
+
+def main():
+    assert bpy.app.background and sha(SOURCE.read_bytes()) == SOURCE_SHA
+    assert not OUTPUT.exists(), 'Native output already exists; use a fresh probe folder.'
+    bpy.context.preferences.filepaths.save_version = 0
+    bpy.ops.wm.open_mainfile(filepath=str(SOURCE));scene = bpy.context.scene
+    scene.frame_set(1);bpy.context.view_layer.update()
+    body, edge, cap = (bpy.data.objects[n] for n in (BODY,EDGE,'Island_Grass_Cap'))
+    assert all(abs(body.matrix_world[i][j]-(1 if i==j else 0)) < 1e-7
+               for i in range(4) for j in range(4))
+    assert len(body.modifiers)==0 and len(cap.modifiers)==0
+    assert len(body.data.uv_layers)==0
+    assert [(a.name,a.domain,a.data_type) for a in body.data.color_attributes] == [('Grass_Colour','POINT','FLOAT_COLOR')]
+    retained=[]
+    for material in bpy.data.materials:
+        if material.users==0 and not material.use_fake_user:
+            material.use_fake_user=True;retained.append(material.name)
+    protected={o.name:object_record(o) for o in scene.objects if o!=body}
+    settings, materials, names = g.settings_record(scene),g.original_materials(),set(scene.objects.keys())
+    body_state={k:object_record(body)[k] for k in ('matrix_world','matrix_basis','parent','collections','materials')}
+    counts=tuple(len(x) for x in (body.data.vertices,body.data.edges,body.data.loops,body.data.polygons))
+    prefix=mesh_prefix(body.data);prefix_sha=g.fingerprint(prefix)
+    assert counts[0]%16==0
+    old_blades=counts[0]//16
+    assert old_blades==int(body['blade_count'])==7554
+    assert counts[3]==old_blades*10 and counts[2]==old_blades*38
+    points=[v.co.copy() for v in body.data.vertices]
+    colours=[tuple(x.color) for x in body.data.color_attributes['Grass_Colour'].data]
+    groups=defaultdict(list)
+    for blade in range(old_blades):
+        assert [tuple(p.vertices) for p in body.data.polygons[blade*10:blade*10+10]] == leaf_faces(blade*16)
+        root=points[blade*16+1]
+        groups[(math.floor(root.x/.16),math.floor(root.y/.16))].append(blade)
+    assert len(groups)==int(body['tuft_count'])==2559
+    assert all(1<=len(v)<=4 for v in groups.values())
+    print('PROBE_GROUPS_VALIDATED',len(groups),flush=True)
+    baseline=render(scene,ROOT/'outputs/00_A_V014_CONTROL_432x960.png')
+    # Existing grass must not reject additions against itself in ray checks.
+    collections={o.name:tuple(o.users_collection) for o in (body,edge)}
+    for o in (body,edge):
+        for collection in collections[o.name]:collection.objects.unlink(o)
+    bpy.context.view_layer.update();deps=bpy.context.evaluated_depsgraph_get()
+    bvh=BVHTree.FromObject(cap,deps);down=Vector((0,0,-1))
+    camera_vector=(scene.camera.matrix_world.to_quaternion() @ Vector((0,0,1))).normalized()
+    def free_xy(point):
+        p,n,index,distance=bvh.ray_cast(Vector((point.x,point.y,3)),down,5)
+        if p is None or n.z<.65 or cap.data.polygons[index].material_index!=0:return False
+        hit,location,normal,face,obj,matrix=scene.ray_cast(deps,p+Vector((0,0,.5)),down,distance=.75)
+        return hit and obj.original==cap
+    def visible(point):
+        p=point+Vector((0,0,.10))
+        hit,location,normal,face,obj,matrix=scene.ray_cast(deps,p+camera_vector*100,-camera_vector,distance=101)
+        return hit and obj.original==cap
+    candidates=[]
+    for cell,blades in groups.items():
+        if len(blades)<2:continue
+        root=sum((points[i*16+1] for i in blades),Vector())/len(blades)
+        xy=screen(scene,root)
+        if 20<xy[0]<412 and 40<xy[1]<850 and visible(root):
+            candidates.append((cell,blades,root,xy))
+    selected=[];used=set();new_points=[];new_faces=[];new_colours=[];rejected=0
+    for zone,target in ZONES:
+        available=sorted(candidates,key=lambda row:(row[3][0]-target[0])**2+(row[3][1]-target[1])**2)
+        taken=0
+        for cell,blades,root,xy in available:
+            if cell in used or math.dist(xy,target)>45:continue
+            if any(math.dist(xy,row['screen_root_estimate'])<4 for row in selected):continue
+            seed=int(sha((SOURCE_SHA+str(cell)).encode())[:16],16);rng=random.Random(seed)
+            angles=[math.atan2(points[i*16+15].y-points[i*16+1].y,
+                               points[i*16+15].x-points[i*16+1].x) for i in blades]
+            additions=[]
+            for k in range(3):
+                template=blades[k%len(blades)];leaf=points[template*16:template*16+16]
+                base_angle=math.atan2(leaf[-1].y-leaf[1].y,leaf[-1].x-leaf[1].x)
+                offset=rng.uniform(-math.pi,math.pi)
+                choices=[offset+j*math.tau/32 for j in range(32)]
+                def angular_gap(a):return min(abs(math.atan2(math.sin(a-b),math.cos(a-b))) for b in angles)
+                for desired in sorted(choices,key=angular_gap,reverse=True):
+                    new=rotated_leaf(leaf,desired-base_angle)
+                    if all(free_xy(p) for p in new):
+                        additions.append((template,desired,new));angles.append(desired);break
+                else:break
+            if len(additions)!=3:rejected+=1;continue
+            row={'zone':zone,'cell':list(cell),'old_leaf_indices':blades,
+                 'old_accepted_leaves':len(blades),'added_leaves':3,'final_leaves':len(blades)+3,
+                 'screen_root_estimate':list(xy),'root_estimate':list(root),
+                 'original_centre':'NOT_RECOVERED; existing roots unchanged, additions pivot around existing roots.',
+                 'templates':[x[0] for x in additions],'new_angles':[x[1] for x in additions]}
+            for template,angle,new in additions:
+                base=counts[0]+len(new_points)
+                new_points.extend(new);new_faces.extend(leaf_faces(base))
+                new_colours.extend(colours[template*16:template*16+16])
+            selected.append(row);used.add(cell);taken+=1
+            if taken==4:break
+        assert taken==4, ('Insufficient safe visible probe tufts',zone,taken)
+    for o in (body,edge):
+        for collection in collections[o.name]:collection.objects.link(o)
+    print('PROBE_SELECTION_READY',len(selected),flush=True)
+    body.data=append_geometry(body.data,new_points,new_faces,new_colours)
+    body['blade_count']=old_blades+36
+    body['probe_added_blades']=36;body['probe_cell_keys']=json.dumps([x['cell'] for x in selected])
+    def verify():
+        bpy.context.view_layer.update()
+        assert set(scene.objects.keys())==names
+        assert all(object_record(bpy.data.objects[n])==v for n,v in protected.items())
+        assert g.settings_record(scene)==settings and g.original_materials()==materials
+        assert {k:object_record(body)[k] for k in body_state}==body_state
+        assert mesh_prefix(body.data,*counts)==prefix, 'Original mesh prefix changed.'
+        assert len(body.data.vertices)==counts[0]+576 and int(body['tuft_count'])==2559
+    verify()
+    print('PROBE_PREFIX_AND_SCENE_VERIFIED',flush=True)
+    assert len(selected)==12 and len(new_points)==36*16
+    note=bpy.data.texts.new('START_HERE_12_TUFT_PROBE')
+    note.write('Native-only additive probe on exact v014. Twelve existing body tufts each gain3 rotated copies of their own leaf profiles. Every old vertex/edge/loop/face/colour remains an exact prefix. Edge grass and all other scene records are protected. No game integration or global rollout.\n')
+    assert 'FINISHED' in bpy.ops.wm.save_as_mainfile(filepath=str(OUTPUT),check_existing=False)
+    output_sha=sha(OUTPUT.read_bytes())
+    bpy.ops.wm.open_mainfile(filepath=str(OUTPUT));scene=bpy.context.scene;body=bpy.data.objects[BODY]
+    verify()
+    candidate=render(scene,ROOT/'outputs/01_B_12_FULLER_TUFTS_432x960.png')
+    receipt={'status':'NATIVE_12_TUFT_PROBE_SAVED_REOPENED_RENDERED','source_sha256':SOURCE_SHA,
+             'candidate_sha256':output_sha,'generator_sha256':sha(Path(__file__).read_bytes()),
+             'tool':'Blender5.2.2 LTS','proposal_commit':'5c697a527fed521432c424302262d459514adc96',
+             'selected_tufts':selected,'old_blades':old_blades,'new_blades':old_blades+36,
+             'body_tuft_count_unchanged':2559,'old_prefix_counts':counts,
+             'old_prefix_sha256':prefix_sha,'original_vertex_edge_loop_face_colour_prefix_unchanged':True,
+             'protected_non_body_records':len(protected),'edge_and_all_other_scene_records_unchanged':True,
+             'material_camera_lighting_settings_unchanged':True,'added_blades':36,
+             'limited_candidates_skipped':rejected,'unused_material_retention_flags_added':retained,
+             'geometry_method':'Clone existing leaf profile/colour; rotate around an existing exact root. Three additions per selected2-4leaf tuft. Independent per-cell random order; no global scatter replay.',
+             'centre_limit':'Grid cells identify existing tufts. Original unjittered centres are unavailable; root means are labelled estimates. No existing root moves.',
+             'collision_limit':'Sampled all new leaf vertices from above and root camera visibility; not exhaustive triangle/leaf-leaf collision proof.',
+             'renders':[baseline,candidate],'game_integration':'NOT_PERFORMED','godot_tests':'NOT_RUN_FOR_THIS_NATIVE_PROBE',
+             'human_choice':'PENDING','android_performance':'NOT_MEASURED'}
+    assert sha(SOURCE.read_bytes())==SOURCE_SHA and sha(OUTPUT.read_bytes())==output_sha
+    write(ROOT/'documentation/PROBE_RECEIPT.json',receipt)
+    print('TWELVE_TUFT_PROBE '+json.dumps({'status':receipt['status'],'selected':12,'added_blades':36,
+          'old_blades':old_blades,'new_blades':old_blades+36,'protected_records':len(protected),
+          'old_prefix_unchanged':True,'candidate_sha256':output_sha}))
+
+if __name__=='__main__':main()

@@ -1,0 +1,110 @@
+from pathlib import Path
+import base64, datetime, hashlib, json, re, subprocess, sys, urllib.request, urllib.parse
+
+REPO=Path('C:/Users/fruch/Documents/Codex/GnomiT/work/review_test_repo_2026_10_14')
+WORK=REPO.parent/'owner_grok_task003_2026_10_23'
+OUT=Path('C:/Users/fruch/Documents/Codex/GnomiT_Playtests/Grok_Task003_Activation_2026-10-23')
+ATTACH=Path('C:/Users/fruch/.codex/attachments/7ab5e092-35a5-41a1-9c99-5a1f2abbee9b/Pasted text.txt')
+BRANCH='codex/owner/approve-grok-task-003'
+TARGET='tasks/grok/task-003.json'
+API='https://api.github.com'
+PROJECT='Fuet-Goat/GnomiT-review-test'
+
+def git(*args,cwd=REPO):return subprocess.check_output(['git',*args],cwd=cwd,text=True).strip()
+def sha(data):return hashlib.sha256(data).hexdigest()
+def dump(name,data):
+    OUT.mkdir(exist_ok=True)
+    (OUT/name).write_bytes((json.dumps(data,ensure_ascii=False,indent=2)+'\n').encode())
+def headers():
+    p=subprocess.run(['git','credential','fill'],input='protocol=https\nhost=github.com\n\n',cwd=REPO,text=True,capture_output=True,check=True)
+    fields=dict(line.split('=',1) for line in p.stdout.splitlines() if '=' in line)
+    return {'Authorization':'Bearer '+fields['password'],'Accept':'application/vnd.github+json','User-Agent':'GnomiT-owner-delegated-activation','X-GitHub-Api-Version':'2022-11-28'}
+AUTH=headers()
+def api(path,method='GET',body=None):
+    data=None if body is None else json.dumps(body).encode()
+    with urllib.request.urlopen(urllib.request.Request(API+path,data=data,method=method,headers={**AUTH,'Content-Type':'application/json'}),timeout=60) as r:return json.load(r)
+def repoapi(path,**kw):return api('/repos/'+PROJECT+path,**kw)
+def scope():
+    ns={'__name__':'trusted_scope'}
+    exec(compile(git('show','origin/main:.github/scripts/check_scope.py'),'trusted_scope','exec'),ns)
+    return ns
+
+def prepare():
+    assert not git('status','--porcelain'), 'Report checkout is dirty; preserve it'
+    subprocess.run(['git','fetch','origin','main'],cwd=REPO,check=True,capture_output=True)
+    base=git('rev-parse','origin/main')
+    assert base=='d803005f3b123ca2b1ab617a37098a43c43b5da8',base
+    assert not git('ls-tree','origin/main','--',TARGET),'Grant already exists'
+    assert not WORK.exists(),'Owner checkout already exists'
+    user=api('/user')
+    assert user['login']=='Fuet-Goat',user['login']
+    original=json.loads(re.search(r'```json\s*(.*?)\s*```',ATTACH.read_text(encoding='utf-8'),re.S).group(1))
+    grant=json.loads(json.dumps(original))
+    grant['authorization']['approved_at']=datetime.datetime.now(datetime.timezone.utc).isoformat().replace('+00:00','Z')
+    baseline=subprocess.check_output(['git','show','origin/main:baseline/MANIFEST.json'],cwd=REPO)
+    assert sha(baseline)==grant['baseline_manifest_sha256']
+    errors=scope()['evaluate_owner'](BRANCH,PROJECT,PROJECT,user['login'],[{'filename':TARGET,'status':'added'}],grant)
+    assert not errors,errors
+    subprocess.run(['git','worktree','add','-b',BRANCH,str(WORK),'origin/main'],cwd=REPO,check=True,capture_output=True)
+    dest=WORK/TARGET
+    dest.parent.mkdir(parents=True,exist_ok=True)
+    dest.write_bytes((json.dumps(grant,ensure_ascii=False,indent=2)+'\n').encode())
+    assert git('diff','--name-only',cwd=WORK)==''
+    assert git('status','--porcelain','--untracked-files=all',cwd=WORK)=='?? '+TARGET
+    subprocess.run(['git','add','--',TARGET],cwd=WORK,check=True,capture_output=True)
+    assert git('diff','--cached','--name-status',cwd=WORK)=='A\t'+TARGET
+    subprocess.run(['git','diff','--cached','--check'],cwd=WORK,check=True,capture_output=True)
+    subprocess.run(['git','commit','-m','Authorize Grok task-003 environment challenger'],cwd=WORK,check=True,capture_output=True)
+    head=git('rev-parse','HEAD',cwd=WORK)
+    assert git('diff','--name-status',base,head,cwd=WORK)=='A\t'+TARGET
+    assert git('diff',base,head,'--','tasks/grok/task-001.json','tasks/grok/task-002.json',cwd=WORK)==''
+    subprocess.run(['git','push','-u','origin',BRANCH],cwd=WORK,check=True,capture_output=True)
+    remote=repoapi('/contents/'+TARGET+'?ref='+urllib.parse.quote(head,safe=''))
+    assert base64.b64decode(remote['content'])==dest.read_bytes()
+    pulls=repoapi('/pulls?state=open&head=Fuet-Goat:'+BRANCH+'&base=main')
+    assert len(pulls)<=1
+    pr=pulls[0] if pulls else repoapi('/pulls',method='POST',body={
+        'title':'Authorize Grok task-003 independent environment challenger','head':BRANCH,'base':'main','draft':False,
+        'body':'Explicit owner-authorized activation of one independent Blender/Godot environment challenger. Adds only `tasks/grok/task-003.json`; task-001/task-002, accepted gnome, gameplay, baseline and policies remain unchanged.\n\nThe grant preserves the supplied scope and adds the timezone-qualified `authorization.approved_at` field required by the existing trusted scope validator. The timestamp records this activation, not the original message time.\n\nValidation: parsed the owner-supplied JSON; verified the baseline manifest SHA-256; trusted `evaluate_owner` passed; exact single-file diff and published JSON bytes verified. Merge is explicitly requested by the owner after checks. Grok candidate merge remains prohibited.'})
+    result={'base':base,'owner_branch':BRANCH,'head':head,'pr':pr['number'],'pr_url':pr['html_url'],'grant_sha256':sha(dest.read_bytes()),'only_difference_from_supplied_JSON':'authorization.approved_at required by existing validator','baseline_verified':True,'local_owner_scope':'PASS','remote_bytes_verified':True,'task001_task002_unchanged':True}
+    dump('PRE_MERGE.json',result)
+    print(json.dumps(result,indent=2))
+
+def status():
+    prior=json.loads((OUT/'PRE_MERGE.json').read_text())
+    pr=repoapi('/pulls/'+str(prior['pr']))
+    checks=repoapi('/commits/'+pr['head']['sha']+'/check-runs')
+    statuses=repoapi('/commits/'+pr['head']['sha']+'/status')
+    result={'pr_url':pr['html_url'],'state':pr['state'],'merged':pr['merged'],'mergeable':pr['mergeable'],'mergeable_state':pr['mergeable_state'],'base':pr['base']['sha'],'head':pr['head']['sha'],'checks':[{'name':c['name'],'status':c['status'],'conclusion':c['conclusion'],'url':c['html_url'],'summary':c.get('output',{}).get('summary')} for c in checks['check_runs']],'status':statuses['state']}
+    dump('CHECKS.json',result)
+    print(json.dumps(result,ensure_ascii=False,indent=2))
+
+def merge():
+    prior=json.loads((OUT/'PRE_MERGE.json').read_text())
+    pr=repoapi('/pulls/'+str(prior['pr']))
+    assert pr['state']=='open' and not pr['draft'] and pr['head']['sha']==prior['head']
+    assert pr['base']['sha']==prior['base'],'Main changed; recheck before merge'
+    files=repoapi('/pulls/'+str(prior['pr'])+'/files')
+    assert len(files)==1 and files[0]['filename']==TARGET and files[0]['status']=='added'
+    checks=repoapi('/commits/'+prior['head']+'/check-runs')['check_runs']
+    assert checks and all(c['status']=='completed' and c['conclusion'] in ('success','neutral','skipped') for c in checks),[(c['name'],c['conclusion']) for c in checks]
+    boundary=[c for c in checks if c['name']=='Scope boundary']
+    assert boundary and all(c['conclusion']=='success' for c in boundary)
+    assert pr['mergeable'] is True and pr['mergeable_state']=='clean',pr['mergeable_state']
+    result=repoapi('/pulls/'+str(prior['pr'])+'/merge',method='PUT',body={'sha':prior['head'],'merge_method':'squash','commit_title':'Activate Grok task-003 environment challenger'})
+    assert result['merged'],result
+    commit=result['sha']
+    current=repoapi('/git/ref/heads/main')['object']['sha']
+    assert current==commit
+    remote=repoapi('/contents/'+TARGET+'?ref='+commit)
+    data=base64.b64decode(remote['content'])
+    assert sha(data)==prior['grant_sha256'] and json.loads(data)['status']=='APPROVED'
+    subprocess.run(['git','fetch','origin','main'],cwd=REPO,check=True,capture_output=True)
+    assert git('rev-parse','origin/main')==commit
+    assert git('diff','--name-status',prior['base'],commit)=='A\t'+TARGET
+    assert git('status','--porcelain')==''
+    result={**prior,'main_commit':commit,'main_grant_status':'APPROVED','merged':True,'remote_main_bytes_verified':True,'main_diff_only_exact_grant':True,'report_checkout_unchanged':True}
+    dump('ACTIVATION_VERIFIED.json',result)
+    print(json.dumps(result,indent=2))
+
+if __name__=='__main__':{'prepare':prepare,'status':status,'merge':merge}[sys.argv[1]]()

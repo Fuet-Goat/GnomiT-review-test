@@ -1,0 +1,27 @@
+"""Read-only scene audit; does not save or modify the authoring file."""
+import bpy,json,hashlib
+from pathlib import Path
+r=Path(__file__).resolve().parent.parent
+boards=[o for o in bpy.data.objects if o.name.startswith('Regular transverse plank')]
+assert len(boards)==32
+for o in boards:
+    assert len(o.data.vertices)==8 and len(o.data.polygons)==6
+    assert all(len(p.vertices)==4 for p in o.data.polygons)
+    xs=[v.co.x for v in o.data.vertices]
+    assert abs(max(xs)-min(xs)-1.68)<1e-5
+boots=[o for o in bpy.data.objects if o.name.startswith('Guide_planted boot sole')]
+assert len(boots)==2
+wave=bpy.data.objects['Guide_HandWave']; samples={}
+for frame in [1,25,73,145]:
+    bpy.context.scene.frame_set(frame);bpy.context.view_layer.update()
+    samples[str(frame)]={'hand_world':[list(row) for row in wave.matrix_world],
+                         'boot_world':{o.name:[list(row) for row in o.matrix_world] for o in boots}}
+assert samples['25']['hand_world']!=samples['73']['hand_world']
+assert samples['1']['hand_world']==samples['145']['hand_world']
+assert all(s['boot_world']==samples['1']['boot_world'] for s in samples.values())
+assert all(bpy.data.objects.get(n) for n in ['Level_1_Anchor','Level_2_Anchor','Guide_Root'])
+receipt={'status':'PASS','read_only_no_source_save':True,'source_sha256':hashlib.sha256(Path(bpy.data.filepath).read_bytes()).hexdigest(),
+         'regular_rectangular_boards':len(boards),'board_width_m':1.68,'vertices_per_board':8,'quad_faces_per_board':6,
+         'guide_wave_distinct_1s_3s':True,'guide_loop_closes':True,'boot_transforms_unchanged_all_samples':True,'samples':samples}
+(r/'renders/BLENDER_V2_AUDIT.json').write_text(json.dumps(receipt,indent=2)+'\n',encoding='utf-8')
+print('V2_SOURCE_AUDIT '+json.dumps({k:v for k,v in receipt.items() if k!='samples'}))

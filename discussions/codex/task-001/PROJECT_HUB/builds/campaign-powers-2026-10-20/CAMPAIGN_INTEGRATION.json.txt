@@ -1,0 +1,164 @@
+{
+  "checks": 136,
+  "failures": [],
+  "observations": [
+    {
+      "birth_count": 1,
+      "case": "NATURAL_CAMPAIGN_MATCH4",
+      "moves_left": 24,
+      "powers": [
+        "volcano"
+      ],
+      "seed": 4,
+      "swap": [
+        9,
+        10
+      ]
+    },
+    {
+      "case": "CONTROLLED_CAMPAIGN_COMBO_FIXTURE",
+      "goal": "floor",
+      "kinds": [
+        8,
+        8
+      ],
+      "level": "hollow",
+      "moves_left": 31,
+      "powers": [
+        "mega_volcano"
+      ],
+      "swap": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "CONTROLLED_CAMPAIGN_COMBO_FIXTURE",
+      "goal": "rune",
+      "kinds": [
+        9,
+        6,
+        8
+      ],
+      "level": "rune",
+      "moves_left": 29,
+      "powers": [
+        "black_hole"
+      ],
+      "swap": [
+        1,
+        2
+      ]
+    },
+    {
+      "case": "NATURAL_CAMPAIGN_VICTORY",
+      "light": 10,
+      "path": [
+        [
+          4,
+          5
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          4,
+          11
+        ],
+        [
+          25,
+          32
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          14,
+          15
+        ],
+        [
+          11,
+          18
+        ],
+        [
+          15,
+          16
+        ],
+        [
+          18,
+          19
+        ],
+        [
+          11,
+          18
+        ],
+        [
+          11,
+          18
+        ],
+        [
+          3,
+          10
+        ],
+        [
+          10,
+          17
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          16,
+          17
+        ],
+        [
+          19,
+          20
+        ],
+        [
+          18,
+          19
+        ],
+        [
+          17,
+          24
+        ],
+        [
+          10,
+          11
+        ],
+        [
+          17,
+          18
+        ],
+        [
+          9,
+          10
+        ],
+        [
+          19,
+          26
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          12,
+          19
+        ]
+      ],
+      "seed": 1,
+      "stars": 1
+    }
+  ],
+  "proof": "Scripted actual main.tscn/controller/Core/Board integration. Natural match4 and victory use unpainted generated campaign boards; combo/mask cases explicitly identify controlled fixtures. No human, Android, visual-quality or performance acceptance.",
+  "status": "PASS"
+}

@@ -1,0 +1,1 @@
+Първо README.txt, после GALLERY.html, CURRENT_RUNTIME_BINDING.json и documentation/COMMON_GPT_GROK_PROMPT_BG.txt. Пълната игра е GAME_REFERENCE.json; downloader опцията --with-game я извлича.

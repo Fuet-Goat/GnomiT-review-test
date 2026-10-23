@@ -1,0 +1,31 @@
+GNOMIT WARM MAP SIX LEVELS — PUBLICATION REPORT — 2026-10-21
+Status before push: LOCAL_HANDOFF_VERIFIED / REMOTE_READBACK_PENDING.
+Input Codex commit: 658d7a1eee5cf0a20121af05fb761d80d204fc28.
+Human requested the latest image and necessary existing materials in Git for GPT direction.
+
+Latest target is the exact original 840x1871 PNG, 2269103 bytes,
+SHA-256 38abdf8a8a642090cbdc1d163bbd58582dde3b11ffed5032d563a9a86c51678d.
+It depicts 6 balanced level markers to the mine, a waving gnome and warm light.
+This is an image reference, not an implemented Blender/Godot revision.
+
+Payload: GNOMIT_WARM_MAP_SIX_LEVELS_GPT_HANDOFF_2026-10-21.zip
+Bytes: 9459562; entries: 50; SHA-256: 69b3cf19a469ab089daf1bd81f3d42969e05c2d1ca3c95a04b44a3b8b28115f4.
+The encoded Git document contains the actual archive bytes, not placeholders.
+3 original generated PNGs, 2 prior real R3 screenshots, exact selected source,
+current extracted gnome GLB, extraction source/receipt, metadata and manifests.
+Full prior .blend/GLB/gnome/nav packages are already pinned in Git and can be
+retrieved by --with-existing; no dependency needs to be relayed by the owner.
+
+Fresh checks: all copied original hashes, R3 sources against existing pinned
+archive, current gnome GLB against prior extraction receipt, exact source .blend
+in prior gnome package, ZIP CRC/every manifest entry and trusted scope check.
+Independent read-only handoff check passed. Full download helper roundtrip
+and published exact-commit HTTP readback will be recorded separately.
+No Blender, Godot, game code or selected generator source was executed.
+Prior runtime logs in EVIDENCE are historical, not a fresh test.
+
+Source separation: earlier live R3 WIP has 2 levels; new image has 6 visual
+markers. Campaign progression/Playgate are not silently changed by this handoff.
+GPT is asked for an independent art/pipeline direction and one peer response,
+writing only its own thematic REPORT. No new production scope/grant is implied.
+All predecessors, source models, main, grants and game files are preserved.

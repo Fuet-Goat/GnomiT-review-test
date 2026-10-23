@@ -1,0 +1,179 @@
+New binary V4 source path: assets/sfx/volcano/volcano_eruption_v4_3s.wav
+297644bytes;SHA256 e14235fd8ae7af0f3ec0565053fa1c21885e7fd4f057a7f2a91c43dcb25ada4d
+Binary is local/ZIP only. Grok original documentation is copied unchanged.
+
+--- a/project.godot
++++ b/project.godot
+@@ -2,9 +2,9 @@
+ config_version=5
+ 
+ [application]
+-config/name="GnomiT Single Stone Cue"
++config/name="GnomiT Volcano V4"
+ config/use_custom_user_dir=true
+-config/custom_user_dir_name="GnomiT-SingleStoneCue-Lab-2026-10-19"
++config/custom_user_dir_name="GnomiT-VolcanoV4-Lab-2026-10-19"
+ config/version="0.1.0-local-frankenstein-r1"
+ run/main_scene="res://mountain_volcano.tscn"
+ config/features=PackedStringArray("4.7", "GL Compatibility")
+--- /dev/null
++++ b/scripts/lab/mega_volcano_v4_audio.gd
+@@ -0,0 +1,25 @@
++extends "res://scripts/lab/mega_volcano_audio.gd"
++## Exact supplied V4, for the Mountain preview only. No synthesis or target changes.
++const V4_PATH := "res://assets/sfx/volcano/volcano_eruption_v4_3s.wav"
++const V4_START := 0.32 - 0.60 / 2.40
++
++func _prepare_audio() -> void:
++	if not streams.has("clip"):
++		var clip := AudioStreamWAV.load_from_file(V4_PATH)
++		if clip == null or clip.get_length() <= 0.0:
++			push_error("Mountain V4 preview requires its supplied WAV: " + V4_PATH)
++			return
++		streams["clip"] = clip
++	super._prepare_audio()
++
++func sync_progress(t: float) -> void:
++	if event_active and not _reduced and not _mega_body_started:
++		_last_t = maxf(_last_t, clampf(t, 0.0, 1.0))
++		if _last_t >= V4_START:
++			_mega_body_started = true
++			# At original pitch, the V4 bass hit is 0.60s into the clip.
++			# The unchanged mountain blast is at 0.32 * 2.40s = 0.768s.
++			_play_cue("mega_eruption", "clip", -1, -1, V4_START, -10.0, 1.0)
++	# The parent retains its exact flight/impact schedule. The body flag above
++	# prevents its older MP3 body cue, including after duplicate/backward ticks.
++	super.sync_progress(t)
+--- a/scripts/lab/mountain_volcano_lab.gd
++++ b/scripts/lab/mountain_volcano_lab.gd
+@@ -5,7 +5,7 @@
+ const LabBoard = preload("res://scripts/lab/mountain_volcano_board.gd")
+ const Art = preload("res://scripts/story_art.gd")
+ const RockAudio = preload("res://scripts/rock_audio.gd")
+-const MegaAudio = preload("res://scripts/lab/mega_volcano_audio.gd")
++const MegaAudio = preload("res://scripts/lab/mega_volcano_v4_audio.gd")
+ const VolcanoAudio = preload("res://scripts/lab/volcano_audio.gd")
+ const TornadoAudio = preload("res://scripts/lab/tornado_audio.gd")
+ const LightningAudio = preload("res://scripts/lab/lightning_audio.gd")
+@@ -55,7 +55,7 @@
+ var storm_audio
+ var element_audio
+ var last_result: Dictionary = {}
+-var scenario := "cascade_three_births"
++var scenario := "pair44"
+ var seed_value := 42
+ var _generation := 0
+ var _resolving := false
+@@ -74,7 +74,7 @@
+ 
+ func _ready() -> void:
+ 	get_window().content_scale_size = Vector2i(432, 960)
+-	DisplayServer.window_set_title("GnomiT — Single Stone Cue · PLAYABLE LAB")
++	DisplayServer.window_set_title("GnomiT — Volcano V4 · PLAYABLE LAB")
+ 	if DisplayServer.get_name() != "headless": DisplayServer.window_set_current_screen(0)
+ 	var lab_theme := Theme.new()
+ 	lab_theme.default_font = Art.font(750.0)
+--- /dev/null
++++ b/tests/test_volcano_v4.gd
+@@ -0,0 +1,72 @@
++extends SceneTree
++## Exact supplied WAV in the real Mountain Lab; no synthesis or gameplay changes.
++var app
++var checks := 0
++var failures: Array[String] = []
++var observations: Array = []
++
++func _initialize() -> void: call_deferred("run")
++func check(ok: bool, label: String) -> void:
++	checks += 1
++	if not ok: failures.append(label)
++	print(("PASS: " if ok else "FAIL: ") + label)
++func state(core) -> String:
++	return JSON.stringify({"grid":core.grid,"floor":core.floor,"runes":core.runes,"rewards":core._reward_snapshot(),"ids":core._material_ids,"moves":core.moves_left,"collected":core.collected,"rng":str(core._rng.state)},"",true)
++func playing(bank) -> int:
++	var count := 0
++	for player in bank.players:
++		if player.playing: count += 1
++	return count
++func run() -> void:
++	app=load("res://scripts/lab/mountain_volcano_lab.gd").new();root.add_child(app)
++	app.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
++	await process_frame; await process_frame
++	var path := "res://assets/sfx/volcano/volcano_eruption_v4_3s.wav"
++	check(FileAccess.get_sha256(path)=="e14235fd8ae7af0f3ec0565053fa1c21885e7fd4f057a7f2a91c43dcb25ada4d","Supplied V4 WAV keeps its verified exact bytes")
++	check(app.mega_audio.streams.clip is AudioStreamWAV and absf(app.mega_audio.streams.clip.get_length()-3.1)<0.0001,"Actual Mountain bank decodes the supplied 3.1-second WAV")
++	app.reset_scenario("pair44")
++	var first_cue: int=app.mega_audio.cue_log.size()
++	var pair: Array=app.core.fixture_pair.duplicate()
++	app._on_swap(int(pair[0]),int(pair[1]))
++	var frozen:=state(app.core)
++	var deadline:=Time.get_ticks_msec()+10000
++	var pure:=true
++	while (not app.mega_audio.event_active or app.board._power_t<0.10) and Time.get_ticks_msec()<deadline:
++		await process_frame
++		pure=pure and state(app.core)==frozen
++	var early_body:=0
++	for cue in app.mega_audio.cue_log.slice(first_cue):
++		if cue.kind=="mega_eruption":early_body+=1
++	check(early_body==1,"One shared V4 starts early enough to align its 0.6-second bass hit with the mountain blast")
++	while app.mega_audio.event_active and Time.get_ticks_msec()<deadline:
++		await process_frame
++		pure=pure and state(app.core)==frozen
++	var body_cues: Array=[]
++	for cue in app.mega_audio.cue_log.slice(first_cue):
++		if cue.kind=="mega_eruption":body_cues.append(cue)
++	check(body_cues.size()==1,"Actual eruption starts the shared body exactly once")
++	if body_cues.size()==1:
++		var cue: Dictionary=body_cues[0]
++		var hit_seconds:=float(cue.progress)*2.4+0.6/float(cue.pitch_scale)
++		check(absf(hit_seconds-0.768)<0.08,"Main V4 bass hit aligns with the visible 0.768-second blast within 80ms")
++		check(is_equal_approx(float(cue.pitch_scale),1.0),"Selected V4 retains its original pitch")
++		var player=app.mega_audio.players[int(cue.voice)]
++		check(player.playing and player.stream==app.mega_audio.streams.clip,"Normal VFX completion preserves the longer V4 tail")
++		observations.append({"body":cue,"expected_visual_blast_seconds":0.768,"calculated_audio_hit_seconds":hit_seconds,"tail_playing_after_vfx":player.playing})
++	check(pure,"V4 presentation never mutates resolved Core/material IDs/RNG")
++	app.skip_effect()
++	check(playing(app.mega_audio)==0,"Skip stops V4 and every lava voice immediately")
++	app.mega_audio.sync_progress(1.0)
++	check(playing(app.mega_audio)==0,"Late frame cannot restart a skipped V4")
++	app.reset_scenario("pair44");app.reduced.button_pressed=true
++	pair=app.core.fixture_pair.duplicate();first_cue=app.mega_audio.cue_log.size()
++	await app._on_swap(int(pair[0]),int(pair[1]))
++	var reduced_cues: Array=app.mega_audio.cue_log.slice(first_cue)
++	check(reduced_cues.size()==1 and reduced_cues[0].kind=="mega_reduced","Reduced motion retains one short softer cue instead of V4")
++	app._stop_audio()
++	# Let cancelled presentation waits and the audio driver release their sources.
++	await create_timer(0.8).timeout
++	app.queue_free();await process_frame;await process_frame
++	await create_timer(0.2).timeout
++	print("VOLCANO_V4 "+JSON.stringify({"checks":checks,"status":"PASS" if failures.is_empty() else "FAIL","failures":failures,"observations":observations,"proof":"Real headless manager/board integration; no generator execution or human listening"}))
++	quit(0 if failures.is_empty() else 1)
+--- /dev/null
++++ b/PLAY_VOLCANO_V4.cmd
+@@ -0,0 +1,2 @@
++@echo off
++"C:\Tools\Godot\4.7.2\engine\Godot_v4.7.2-stable_win64.exe" --path "%~dp0." --screen 0 --position 80,65 --resolution 432x960
+--- /dev/null
++++ b/README_VOLCANO_V4.txt
+@@ -0,0 +1,21 @@
++GNOMIT — VOLCANO V4 / LARGE MOUNTAIN PC PREVIEW
++Run PLAY_VOLCANO_V4.cmd with installed Godot4.7.2. Monitor1/screen0,432x960.
++Default:4+4 MOUNTAIN VOLCANO. Drag either glowing Volcano into the other.
++Hear the supplied V4 once, with original pitch and a longer afterburn tail.
++Reset repeats it. Skip cancels it. Reduced motion keeps one short softer cue.
++V4 is applied only to the large Mountain, not the ordinary single Volcano.
++Ordinary sound assets remain; Core/visuals and the single stone voice are intact.
++This is an isolated source project, not an exported executable or campaign.
++
++Volcano sound synthesis code: Created with Grok.
++Source document commit:92b61cb5cabc14c87b588ec25b243405c93bed78.
++Exact supplied WAV and Grok docs are preserved; no generator was executed.
++See verification/volcano_v4/TERMS_SOURCE_REVIEW.txt for the provider source review.
++This preview is not a complete project release/licence review.
++
++ZIP: game/PLAY_VOLCANO_V4.cmd; engine is not bundled.
++game/outputs/VolcanoV4_native.avi/.wav: actual scripted9s native Godot recording,
++not human play/listening. The WAV is the mixed runtime, not a new source asset.
++game/verification/volcano_v4: fresh RED/GREEN/tests/provenance/PCM evidence.
++Older inherited README/docs remain history; this README governs the V4 preview.
++MANIFEST.json covers every ZIP member except itself with size and SHA256.

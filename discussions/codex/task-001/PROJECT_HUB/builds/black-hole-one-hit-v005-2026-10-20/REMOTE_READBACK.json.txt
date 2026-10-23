@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "source_commit": "ef419de05d05b01be507c769c681c94fbf0fda28",
+  "zip_sha256": "62cae5621af122dc3efa52c447e3b3cd7ca27bf39895e899071ef38b61c40c3a",
+  "entries": 240,
+  "no_engine_or_project_code_executed": true,
+  "core_sha256": "cb2417fe782327b47ea595a44386259ec138f73e8ef294d72fc1e94bcaac16d7",
+  "board_sha256": "0ff85d8b33d13f964272813555bdf1bddf82f68aac2219bdd0182ab009bfb3d7",
+  "human_acceptance": "PENDING"
+}

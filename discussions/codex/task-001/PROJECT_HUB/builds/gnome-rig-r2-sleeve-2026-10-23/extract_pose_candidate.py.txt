@@ -1,0 +1,14 @@
+"""Extract only weights from an unaccepted optimisation diagnostic; no studio/data import."""
+from pathlib import Path
+import hashlib,json
+import bpy
+ROOT=Path(__file__).resolve().parents[1]
+source=ROOT/'native/POSE_WEIGHT_CURVATURE_DIAGNOSTIC.blend'
+bpy.ops.wm.open_mainfile(filepath=str(source))
+coat=bpy.data.objects['R2_ContinuousCoat'];names={g.index:g.name for g in coat.vertex_groups}
+data={'status':'UNACCEPTED_DIAGNOSTIC_WEIGHT_FIELD','source_native_sha256':hashlib.sha256(source.read_bytes()).hexdigest(),
+      'vertex_count':len(coat.data.vertices),'group_names':[g.name for g in coat.vertex_groups],
+      'right_weights':{str(v.index):[[names[g.group],g.weight] for g in v.groups] for v in coat.data.vertices if v.co.x<0}}
+target=ROOT/'source/pose_candidate_weights.json';assert not target.exists()
+target.write_bytes((json.dumps(data,separators=(',',':'))+'\n').encode())
+print('DIAGNOSTIC_WEIGHTS_EXTRACTED '+hashlib.sha256(target.read_bytes()).hexdigest(),flush=True)

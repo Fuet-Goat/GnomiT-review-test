@@ -1,0 +1,85 @@
+{
+  "status": "PASS",
+  "non_guide_objects_unchanged": 1290,
+  "non_guide_world_signature_sha256": "9ad92f7f5aa779dc21b83014d5207a0c99ed596c7afa3a33cba432361eddd574",
+  "source_camera_unchanged": true,
+  "guide": {
+    "height": 1.22,
+    "wave_hand": "right",
+    "lantern_hand": "left",
+    "foot_pivot_local": [
+      0,
+      0,
+      0
+    ],
+    "object_count": 78,
+    "animation_frames": [
+      1,
+      145
+    ],
+    "fps": 24,
+    "greeting_seconds": 6.0,
+    "rest_frames": [
+      111,
+      145
+    ],
+    "wave_peak_frames": [
+      43,
+      51,
+      60,
+      69
+    ],
+    "blink_closed_frames": [
+      16,
+      118
+    ],
+    "blink_keys": [
+      [
+        1,
+        1
+      ],
+      [
+        14,
+        1
+      ],
+      [
+        16,
+        0.035
+      ],
+      [
+        19,
+        1
+      ],
+      [
+        116,
+        1
+      ],
+      [
+        118,
+        0.035
+      ],
+      [
+        121,
+        1
+      ],
+      [
+        145,
+        1
+      ]
+    ],
+    "lantern_pivot": "Guide_LanternLag",
+    "finite_playback": "Godot candidate viewer; idle after one greeting",
+    "head_pivot": "Guide_HeadAcknowledge",
+    "blink_groups": [
+      "Guide_EyeBlinkLeft",
+      "Guide_EyeBlinkRight"
+    ],
+    "boots_animation": "NONE; boot and trouser cuff meshes parented to fixed root",
+    "native_geometry": true,
+    "texture_inputs": []
+  },
+  "blend_sha256": "9462ec085f71f5f402f1feff429dbb91303190e2c6e4b87a1040f4de2b1b1660",
+  "glb_sha256": "6598473c272d8773b654effb1807f4cc170f346db5ad5bc73a601885e553aaf0",
+  "origin": "Procedural derivative of fixed V3 Blender source; no downloaded model or new generated bitmap",
+  "human_art_acceptance": "PENDING"
+}

@@ -1,0 +1,9 @@
+ПРОБА C:ПО-МЕК СИЛУЕТ НА СЪЩИТЕ12ТУФИ
+Отворете native/SOFT_LEAF_C.blend. Предишният B е native/INPUT_FULLER_B.blend.
+Сравнение:outputs/04_FULL_B_C.png и05_DETAIL_B_C.png.
+Върховете се отпускат и контурът е по-мек,но отблизо има вид на розетка.
+Не е избран художествен победител;картата не е масово променена.
+Броят листа7590и туфи2559е същият. Геометрията на73листа е по-гъста.
+Текущата игра оставаv014. Няма Godot/Android тест или runtime интеграция.
+Документи:SOFT_SHAPE_RECEIPT.json,BASE_RESOURCE_AUDIT.json,PROVENANCE.txt,
+VISUAL_REVIEW.txt иREBUILD_BG.txt. Всички файлове:MANIFEST.json.

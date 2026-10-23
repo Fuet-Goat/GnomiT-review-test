@@ -1,0 +1,142 @@
+{
+  "status": "PASS",
+  "method": "Independent WAV decode plus exact fresh reconstruction with the same generator",
+  "generator_sha256": "9765b85f18d332c4266fba52f9d60ddf24f43df7f430786d76a0965bfd58756e",
+  "numpy_version": "2.3.5",
+  "files": [
+    {
+      "file": "01_stone_move_original_v1.wav",
+      "sha256": "8b429bed1f0033f48e53d33b2bae65a3bb72adbb15c76d17e82e103e5a0d8685",
+      "seconds": 0.24,
+      "peak_dbfs": -9.222100923841747,
+      "rms_dbfs": -23.000273632970092,
+      "first_100ms_rms_dbfs": -22.27294060855563,
+      "dc_mean": 2.074771457248264e-05,
+      "clipped_samples": 0,
+      "first_last_pcm": [
+        0,
+        0
+      ],
+      "last_10ms_rms_dbfs": -300.0,
+      "last_above_minus60db_seconds": 0.21125,
+      "high_band_above8khz_energy_fraction": 7.992956115398284e-08,
+      "fragment_contact_windows": [],
+      "human_listening": "PENDING"
+    },
+    {
+      "file": "02_stone_break_original_v1.wav",
+      "sha256": "4461a63c7928ce5b52fdaf17b819579718fd2cf8d2d57ad345a2527508e48892",
+      "seconds": 0.78,
+      "peak_dbfs": -4.500292425884415,
+      "rms_dbfs": -24.518612441110843,
+      "first_100ms_rms_dbfs": -16.10764946643275,
+      "dc_mean": 4.675530979775975e-05,
+      "clipped_samples": 0,
+      "first_last_pcm": [
+        0,
+        0
+      ],
+      "last_10ms_rms_dbfs": -300.0,
+      "last_above_minus60db_seconds": 0.7149375,
+      "high_band_above8khz_energy_fraction": 0.00011462656341185092,
+      "fragment_contact_windows": [
+        {
+          "at_seconds": 0.043,
+          "rms_dbfs": -18.462691823998483
+        },
+        {
+          "at_seconds": 0.091,
+          "rms_dbfs": -22.032392244294506
+        },
+        {
+          "at_seconds": 0.157,
+          "rms_dbfs": -26.346537156641773
+        },
+        {
+          "at_seconds": 0.229,
+          "rms_dbfs": -29.488743315139402
+        },
+        {
+          "at_seconds": 0.315,
+          "rms_dbfs": -33.47083712531473
+        },
+        {
+          "at_seconds": 0.412,
+          "rms_dbfs": -37.28753146423363
+        },
+        {
+          "at_seconds": 0.505,
+          "rms_dbfs": -42.837483504476296
+        }
+      ],
+      "human_listening": "PENDING"
+    },
+    {
+      "file": "03_volcano_original_v1.wav",
+      "sha256": "845927dd721ff9b71491bf9adafb64ccede944327f9529f733e4e54eb598ed9b",
+      "seconds": 1.62,
+      "peak_dbfs": -4.0000883347026726,
+      "rms_dbfs": -23.25424412503129,
+      "first_100ms_rms_dbfs": -42.17504135334082,
+      "dc_mean": 6.276001164942612e-05,
+      "clipped_samples": 0,
+      "first_last_pcm": [
+        0,
+        0
+      ],
+      "last_10ms_rms_dbfs": -300.0,
+      "last_above_minus60db_seconds": 1.5116875,
+      "high_band_above8khz_energy_fraction": 1.1541868985578989e-05,
+      "fragment_contact_windows": [],
+      "human_listening": "PENDING"
+    },
+    {
+      "file": "04_lava_impact_original_v1.wav",
+      "sha256": "7340943196e05e7f45286ee8382595adf8296d1dc8844686f9e93cef725cf2fb",
+      "seconds": 0.76,
+      "peak_dbfs": -5.000377362660108,
+      "rms_dbfs": -23.228898322976605,
+      "first_100ms_rms_dbfs": -15.86346789731615,
+      "dc_mean": 1.5788329275030838e-05,
+      "clipped_samples": 0,
+      "first_last_pcm": [
+        0,
+        0
+      ],
+      "last_10ms_rms_dbfs": -300.0,
+      "last_above_minus60db_seconds": 0.7082916666666667,
+      "high_band_above8khz_energy_fraction": 1.8566457171423387e-05,
+      "fragment_contact_windows": [
+        {
+          "at_seconds": 0.048,
+          "rms_dbfs": -18.361472630787517
+        },
+        {
+          "at_seconds": 0.109,
+          "rms_dbfs": -21.361450866430786
+        },
+        {
+          "at_seconds": 0.181,
+          "rms_dbfs": -24.30156742393485
+        },
+        {
+          "at_seconds": 0.263,
+          "rms_dbfs": -26.861953600228684
+        }
+      ],
+      "human_listening": "PENDING"
+    }
+  ],
+  "repeated_identical_files": [
+    "01_stone_move_original_v1.wav",
+    "02_stone_break_original_v1.wav",
+    "03_volcano_original_v1.wav",
+    "04_lava_impact_original_v1.wav",
+    "05_all_four_listening_strip.wav"
+  ],
+  "external_sample_dependencies": [],
+  "game_files_unchanged": 399,
+  "human_listening_acceptance": "PENDING",
+  "godot_import_or_integration": "NOT_RUN_NOT_AUTHORIZED_IN_THIS_PREVIEW",
+  "audacity_processing": "NOT_USED; WAVs are import-ready"
+}

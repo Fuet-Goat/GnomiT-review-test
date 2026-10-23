@@ -1,0 +1,646 @@
+"""Rounded storybook vegetation and a small mushroom cottage.
+
+All geometry is local to the returned root.  Only the crown/upper branches move:
+the root collar, lower trunk, and cottage stay fixed.  The 1..145 key range closes
+exactly after 144 frames, so a 24 fps render of frames 1..144 is a six second loop.
+This module neither changes the scene camera/world nor saves any output.
+"""
+
+from math import cos, pi, sin, sqrt
+from types import SimpleNamespace
+import bpy
+from mathutils import Vector
+
+
+_TAU = 2.0 * pi
+
+
+def _api(api):
+    return SimpleNamespace(**api) if isinstance(api, dict) else api
+
+
+def _empty(name, location=(0, 0, 0)):
+    obj = bpy.data.objects.new(name, None)
+    bpy.context.collection.objects.link(obj)
+    obj.location = location
+    obj.empty_display_type = 'PLAIN_AXES'
+    obj.empty_display_size = 0.13
+    return obj
+
+
+def _attach(api, obj, parent):
+    api.parent_keep_world(obj, parent)
+    return obj
+
+
+def _finish(root, position, scale):
+    root.location = position
+    root.scale = (scale, scale, scale)
+    root['asset_family'] = 'GnomiT rounded storybook'
+    root['local_geometry'] = True
+
+
+def _mat(api, name, color, rough=0.40, metal=0, emission=0):
+    full_name = 'SB ' + name
+    material = bpy.data.materials.get(full_name)
+    if material is None:
+        material = api.mat(full_name, color, rough=rough, metal=metal, emission=emission)
+    return material
+
+
+def _materials(api):
+    return {
+        'bark': _mat(api, 'warm orange bark', '#AD531D', .49),
+        'bark_light': _mat(api, 'honey bark ridges', '#CF782D', .47),
+        'bark_dark': _mat(api, 'branch recess', '#874219', .57),
+        'green': _mat(api, 'leaf apple', '#71B91E', .33),
+        'lime': _mat(api, 'leaf sunlit lime', '#A5D928', .32),
+        'yellowgreen': _mat(api, 'leaf fresh tip', '#BEDF32', .32),
+        'deep': _mat(api, 'leaf jade shadow', '#267D39', .39),
+        'mid': _mat(api, 'leaf grass green', '#4BA326', .36),
+        'vein': _mat(api, 'leaf warm vein', '#AED548', .45),
+        'cream': _mat(api, 'warm daisy petal', '#FFF4CF', .35),
+        'white': _mat(api, 'white daisy petal', '#FFFBEA', .32),
+        'yellow': _mat(api, 'flower golden heart', '#FFBC20', .33),
+        'pink': _mat(api, 'flower coral pink', '#EE5987', .35),
+        'pinklight': _mat(api, 'flower rosy highlight', '#F985A8', .33),
+        'plaster': _mat(api, 'cottage vanilla plaster', '#F1DEAE', .67),
+        'plaster_light': _mat(api, 'cottage plaster cream', '#FFF0C9', .62),
+        'roof': _mat(api, 'mushroom coral red', '#E94B34', .30),
+        'rim': _mat(api, 'mushroom underside apricot', '#D2A56D', .58),
+        'wood': _mat(api, 'cottage door honey', '#BE712C', .47),
+        'woodlight': _mat(api, 'cottage frame golden', '#DE9A43', .44),
+        'seam': _mat(api, 'cottage door seams', '#794119', .62),
+        'brass': _mat(api, 'cottage brass', '#F7BF54', .28, .35),
+        'glass': _mat(api, 'cottage warm glass', '#FFC753', .28, 0, .20),
+        'brick': _mat(api, 'cottage chimney terracotta', '#B96841', .64),
+    }
+
+
+def _mesh(name, vertices, faces, material, parent=None, api=None, materials=None,
+          face_materials=None):
+    data = bpy.data.meshes.new(name + ' Mesh')
+    data.from_pydata(vertices, [], faces)
+    data.update()
+    obj = bpy.data.objects.new(name, data)
+    bpy.context.collection.objects.link(obj)
+    mats = materials or [material]
+    for mat in mats:
+        data.materials.append(mat)
+    for face in data.polygons:
+        face.use_smooth = True
+        if face_materials:
+            face.material_index = face_materials[face.index]
+    # Portable authored grain textures need real UVs on these custom surfaces.
+    if api is not None and hasattr(api, 'finish'):
+        api.finish(obj, name, None, smooth=True)
+    if parent is not None:
+        _attach(api, obj, parent)
+    return obj
+
+
+def _ellipsoid(api, name, center, radii, material, parent, seed=0,
+               irregularity=0.0, segments=32, rings=18):
+    """UV surface with mild broad shape variation, never a faceted ico sphere."""
+    vertices = []
+    faces = []
+    cx, cy, cz = center
+    rx, ry, rz = radii
+    vertices.append((cx, cy, cz + rz))
+    phase = seed * .731
+    for ring in range(1, rings):
+        phi = pi * ring / rings
+        sp, cp = sin(phi), cos(phi)
+        for seg in range(segments):
+            theta = _TAU * seg / segments
+            # Broad asymmetric lobing; small harmonics avoid a perfect balloon.
+            deform = 1 + irregularity * (
+                .52 * sin(3 * theta + phase) * sp * sp
+                + .29 * cos(2 * phi + theta + phase)
+                + .19 * sin(5 * theta - 3 * phi + phase) * sp)
+            vertices.append((cx + rx * sp * cos(theta) * deform,
+                             cy + ry * sp * sin(theta) * deform,
+                             cz + rz * cp * (1 + .4 * (deform - 1))))
+    bottom = len(vertices)
+    vertices.append((cx, cy, cz - rz))
+    for seg in range(segments):
+        nxt = (seg + 1) % segments
+        faces.append((0, 1 + seg, 1 + nxt))
+    for ring in range(rings - 2):
+        row = 1 + ring * segments
+        nxtrow = row + segments
+        for seg in range(segments):
+            nxt = (seg + 1) % segments
+            faces.append((row + seg, nxtrow + seg, nxtrow + nxt, row + nxt))
+    last = 1 + (rings - 2) * segments
+    for seg in range(segments):
+        faces.append((last + seg, bottom, last + (seg + 1) % segments))
+    return _mesh(name, vertices, faces, material, parent, api)
+
+
+def _sweep(api, name, points, radii, material, parent, segments=16, ridge=.035):
+    """Smooth tapered woody surface through a curved, nonuniform path."""
+    pts = [Vector(p) for p in points]
+    vertices, faces = [], []
+    for i, point in enumerate(pts):
+        tangent = (pts[min(i + 1, len(pts) - 1)] -
+                   pts[max(i - 1, 0)]).normalized()
+        reference = Vector((0, 1, 0))
+        if abs(tangent.dot(reference)) > .94:
+            reference = Vector((1, 0, 0))
+        side = tangent.cross(reference).normalized()
+        across = tangent.cross(side).normalized()
+        for seg in range(segments):
+            angle = _TAU * seg / segments
+            rad = radii[i] * (1 + ridge * cos(5 * angle + .25 * i))
+            vertex = point + rad * (cos(angle) * side + sin(angle) * across)
+            vertices.append(tuple(vertex))
+    for ring in range(len(pts) - 1):
+        for seg in range(segments):
+            nxt = (seg + 1) % segments
+            a = ring * segments + seg
+            b = ring * segments + nxt
+            faces.append((a, b, b + segments, a + segments))
+    faces.append(tuple(reversed(range(segments))))
+    faces.append(tuple((len(pts) - 1) * segments + i for i in range(segments)))
+    return _mesh(name, vertices, faces, material, parent, api)
+
+
+def _tube(api, name, points, radius, material, parent):
+    obj = api.tube(name, points, radius, material)
+    return _attach(api, obj, parent)
+
+
+def _leaf(api, name, start, end, width, material, parent, normal=(0, 0, 1),
+          z_limit=None):
+    """Closed curved almond leaf with a raised central rib and pointed ends."""
+    start, end = Vector(start), Vector(end)
+    direction = end - start
+    axis = direction.normalized()
+    normal = Vector(normal)
+    normal = normal - axis * normal.dot(axis)
+    if normal.length < .01:
+        normal = Vector((0, -1, 0)) - axis * axis.dot(Vector((0, -1, 0)))
+    normal.normalize()
+    side = normal.cross(axis).normalized()
+    vertices, faces = [tuple(start)], []
+    stations = (.10, .25, .43, .61, .77, .91)
+    sides = 10
+    for t in stations:
+        breadth = width * .5 * sin(pi * t) ** .82
+        center = start + direction * t + normal * (.12 * direction.length * sin(pi * t))
+        for j in range(sides):
+            a = _TAU * j / sides
+            vertex = center + side * (breadth * cos(a)) + normal * (breadth * .19 * sin(a))
+            vertices.append(tuple(vertex))
+    end_index = len(vertices)
+    vertices.append(tuple(end))
+    for j in range(sides):
+        faces.append((0, 1 + (j + 1) % sides, 1 + j))
+    for row in range(len(stations) - 1):
+        a = 1 + row * sides
+        b = a + sides
+        for j in range(sides):
+            k = (j + 1) % sides
+            faces.append((a + j, a + k, b + k, b + j))
+    last = 1 + (len(stations) - 1) * sides
+    for j in range(sides):
+        faces.append((last + j, last + (j + 1) % sides, end_index))
+    if z_limit is not None:
+        vertices = [(x, y, min(z, z_limit)) for x, y, z in vertices]
+    return _mesh(name, vertices, faces, material, parent, api)
+
+
+def _flower(api, name, center, size, materials, parent, pink=False,
+            normal=(0, -.30, .954), petals=5):
+    """Five plump individually shaped petals, mounted to the surface normal."""
+    if pink:
+        size *= 1.6
+    center = Vector(center)
+    n = Vector(normal).normalized()
+    u = n.cross(Vector((0, 0, 1)))
+    if u.length < .01:
+        u = Vector((1, 0, 0))
+    u.normalize()
+    v = n.cross(u).normalized()
+    petal_mat = materials['pink'] if pink else materials['white']
+    group = _empty(name)
+    _attach(api, group, parent)
+    for i in range(petals):
+        angle = _TAU * i / petals + .31
+        radial = u * cos(angle) + v * sin(angle)
+        tangential = n.cross(radial)
+        p = center + radial * (size * .56)
+        # Build each petal in its own orthonormal frame so arbitrary normals work.
+        obj = _ellipsoid(api, name + ' Petal %02d' % (i + 1), (0, 0, 0),
+                         (size * .43, size * .29, size * .19),
+                         petal_mat if i % 3 else
+                         materials['pinklight' if pink else 'cream'], group,
+                         seed=i, segments=16, rings=10)
+        obj.location = p
+        # Ellipsoid local X points radially; local Z points out of the flower.
+        from mathutils import Matrix
+        basis = Matrix(((radial.x, tangential.x, n.x),
+                        (radial.y, tangential.y, n.y),
+                        (radial.z, tangential.z, n.z)))
+        obj.rotation_euler = basis.to_euler()
+    center_obj = _ellipsoid(api, name + ' Golden center', (0, 0, 0),
+                           (size * .29, size * .29, size * .20),
+                           materials['yellow'], group, segments=20, rings=12)
+    center_obj.location = center + n * (size * .075)
+    center_obj.rotation_euler = Vector((0, 0, 1)).rotation_difference(n).to_euler()
+    return group
+
+
+def _loop_sway(obj, phase=0.0, amplitude=1.0):
+    """Small local rotations, with an identical closure key at frame 145."""
+    for frame in (1, 19, 37, 55, 73, 91, 109, 127, 145):
+        angle = _TAU * (frame - 1) / 144 + phase
+        obj.rotation_euler = (amplitude * .013 * sin(angle),
+                              amplitude * .018 * sin(angle + .75),
+                              amplitude * .006 * sin(angle - .30))
+        obj.keyframe_insert(data_path='rotation_euler', frame=frame,
+                            group='Attached canopy breeze')
+    action = obj.animation_data.action if obj.animation_data else None
+    if action is not None:
+        # Blender 4.4+ layered actions may not expose the legacy fcurves property.
+        try:
+            curves = action.fcurves
+        except AttributeError:
+            curves = []
+            for layer in getattr(action, 'layers', []):
+                for strip in layer.strips:
+                    for bag in getattr(strip, 'channelbags', []):
+                        curves.extend(bag.fcurves)
+        for curve in curves:
+            for key in curve.keyframe_points:
+                key.interpolation = 'BEZIER'
+                key.handle_left_type = 'AUTO_CLAMPED'
+                key.handle_right_type = 'AUTO_CLAMPED'
+            curve.modifiers.new('CYCLES')
+    obj['loop_frames'] = 144
+    obj['loop_fps'] = 24
+    obj['motion_scope'] = 'upper branches, canopy and attached surface details'
+
+
+def build_tree(api, name, position, scale=1.0):
+    """Build a roughly 3 m tall, 2 m wide rounded fruit-tree-like crown."""
+    api = _api(api)
+    m = _materials(api)
+    root = _empty(name)
+    trunk = _sweep(api, name + ' Organic trunk',
+                   [(0, 0, .02), (.025, .005, .18), (-.015, .015, .44),
+                    (.025, .015, .76), (.005, .035, 1.05),
+                    (-.025, .05, 1.28), (.02, .07, 1.49)],
+                   [.27, .235, .19, .162, .154, .14, .105], m['bark'], root,
+                   segments=24, ridge=.065)
+    trunk['fixed_root_and_lower_trunk'] = True
+    # Flared tapering roots are individual curved woody forms, seated in ground.
+    for i, angle in enumerate((-.40, -1.45, -2.55, .85, 2.40)):
+        direction = Vector((cos(angle), sin(angle), 0))
+        points = [(0, 0, .23), tuple(direction * .18 + Vector((0, 0, .12))),
+                  tuple(direction * .36 + Vector((0, 0, .055))),
+                  tuple(direction * .48 + Vector((0, 0, .018)))]
+        _sweep(api, name + ' Flared root %02d' % i, points,
+               [.13, .115, .067, .013], m['bark_light'] if i % 2 else m['bark'], root,
+               segments=14, ridge=.04)
+    # Gentle flowing ridges follow the bark, rather than straight cylinder stripes.
+    for i, x in enumerate((-.095, .065, .125)):
+        _sweep(api, name + ' Bark flowing ridge %02d' % i,
+               [(x * 1.4, -.15, .09), (x, -.164, .34),
+                (x * .8 + .035, -.134, .66), (x * .6, -.117, 1.00),
+                (x * .5, -.073, 1.24)],
+               [.026, .023, .019, .014, .003], m['bark_light'], root,
+               segments=10, ridge=0)
+
+    crown = _empty(name + ' Attached canopy pivot', (0, .02, 1.20))
+    _attach(api, crown, root)
+    branches = [
+        ([(0, .03, 1.21), (-.22, .04, 1.42), (-.45, .08, 1.66),
+          (-.56, .10, 1.91)], [.12, .105, .075, .025]),
+        ([(.015, .04, 1.23), (.23, .045, 1.43), (.47, .09, 1.70),
+          (.53, .12, 2.05)], [.12, .095, .06, .018]),
+        ([(0, .05, 1.33), (.04, .19, 1.60), (.04, .21, 1.98),
+          (.00, .18, 2.38)], [.10, .077, .045, .012]),
+        ([(0, .01, 1.35), (-.06, -.19, 1.53), (-.02, -.32, 1.79),
+          (.03, -.34, 2.07)], [.105, .083, .048, .014]),
+    ]
+    for i, (points, radii) in enumerate(branches):
+        _sweep(api, name + ' Curved branch %02d' % i, points, radii,
+               m['bark_light'] if i == 1 else m['bark'], crown,
+               segments=16, ridge=.04)
+    lobes = [
+        ((-.46, .06, 2.16), (.66, .63, .61), 'green', 2),
+        ((.01, .22, 2.54), (.62, .58, .55), 'mid', 6),
+        ((.49, .08, 2.20), (.66, .61, .62), 'deep', 9),
+        ((.10, -.43, 2.04), (.68, .61, .55), 'green', 4),
+        ((-.40, -.22, 2.46), (.59, .54, .54), 'lime', 11),
+    ]
+    canopy_objects = []
+    for i, (center, radii, color, seed) in enumerate(lobes):
+        canopy_objects.append(_ellipsoid(
+            api, name + ' Soft crown lobe %02d' % i, center, radii,
+            m[color], crown, seed=seed, irregularity=.075,
+            segments=40, rings=24))
+    # Sprays are anchored at crown junctions; each leaf is a curved solid almond.
+    leaf_sprays = [
+        ((-.70, -.19, 2.59), (-.89, -.24, 2.83), .15),
+        ((-.70, -.19, 2.59), (-.56, -.30, 2.83), .13),
+        ((.36, -.36, 2.52), (.51, -.48, 2.77), .14),
+        ((.36, -.36, 2.52), (.25, -.51, 2.76), .12),
+        ((.76, .04, 2.39), (.99, -.02, 2.60), .14),
+        ((.76, .04, 2.39), (.80, .15, 2.65), .12),
+        ((-.06, .10, 2.99), (-.18, .06, 3.17), .13),
+        ((-.06, .10, 2.99), (.10, .09, 3.14), .11),
+        ((-.38, -.75, 2.14), (-.55, -.81, 2.31), .14),
+        ((.53, -.75, 2.00), (.73, -.82, 2.16), .12),
+    ]
+    for i, (start, end, width) in enumerate(leaf_sprays):
+        tip = Vector(start) + (Vector(end) - Vector(start)) * 1.8
+        # Widen the topmost sprays sideways while retaining the original height.
+        tip.z = min(tip.z, 3.17)
+        _leaf(api, name + ' Crown leaf %02d' % i, start, tip, width * 1.8,
+              m['yellowgreen' if i % 3 == 0 else 'lime'], crown, z_limit=3.17)
+    # Seat these asymmetric sprays on the visible outer surface, clear of overlaps.
+    for i, (center, end, width) in enumerate([
+        ((-.77, -.64, 2.50), (-.69, -.70, 2.60), .075),
+        ((-.53, -.72, 2.35), (-.44, -.77, 2.43), .080),
+        ((-.10, -1.00, 2.17), (.02, -1.03, 2.23), .080),
+        ((.06, -1.00, 1.90), (.16, -1.04, 1.97), .075),
+        ((.81, -.43, 2.37), (.90, -.49, 2.48), .080),
+        ((.21, -.15, 2.92), (.31, -.19, 2.99), .075),
+    ]):
+        tip = Vector(center) + (Vector(end) - Vector(center)) * 1.8
+        tip.z = min(tip.z, 3.17)
+        _leaf(api, name + ' Surface leaflet %02d' % i, center, tip, width * 1.8,
+              m['yellowgreen' if i in (0, 4) else 'lime'], crown,
+              normal=(0, -1, .5), z_limit=3.17)
+    for i, (center, size, normal) in enumerate([
+        ((-.81, -.42, 2.66), .125, (-.25, -.4, .88)),
+        ((.39, -.54, 2.68), .120, (.20, -.55, .81)),
+        ((-.24, -.95, 2.20), .130, (-.05, -.86, .50)),
+        ((.83, -.22, 2.48), .115, (.5, -.45, .73)),
+        ((.05, .15, 3.085), .110, (0, -.15, .99)),
+    ]):
+        _flower(api, name + ' Canopy daisy %02d' % i, center, size, m, crown,
+                normal=normal)
+    _loop_sway(crown, phase=(sum(ord(c) for c in name) % 29) / 29 * _TAU)
+    root['tree_height_local'] = 3.19
+    root['tree_canopy_width_local'] = 2.20
+    _finish(root, position, scale)
+    return {'root': root, 'animated_nodes': [crown], 'canopy': canopy_objects,
+            'trunk': trunk, 'loop_frames': 144, 'loop_fps': 24}
+
+
+def build_shrub(api, name, position, scale=1.0):
+    """Low broad five-lobed shrub, with leaf tips and a single warm pink flower."""
+    api = _api(api)
+    m = _materials(api)
+    root = _empty(name)
+    pivot = _empty(name + ' Leaf cluster pivot', (0, 0, .08))
+    _attach(api, pivot, root)
+    for i, (center, radii, color) in enumerate([
+        ((-.18, .03, .15), (.24, .19, .15), 'deep'),
+        ((.15, .04, .16), (.24, .20, .17), 'mid'),
+        ((0, .14, .20), (.20, .21, .20), 'green'),
+        ((-.10, -.14, .13), (.20, .19, .13), 'green'),
+        ((.18, -.13, .13), (.20, .18, .13), 'deep'),
+    ]):
+        _ellipsoid(api, name + ' Rounded foliage %02d' % i, center, radii,
+                   m[color], pivot, seed=i + 3, irregularity=.08,
+                   segments=24, rings=14)
+    for i in range(6):
+        angle = i * _TAU / 6 + .23
+        start = (cos(angle) * .10, sin(angle) * .10, .15)
+        end = (cos(angle) * .42, sin(angle) * .36, .24 + .08 * (i % 2))
+        end = (start[0] + (end[0] - start[0]) * 1.6,
+               start[1] + (end[1] - start[1]) * 1.6, end[2])
+        _leaf(api, name + ' Pointed leaf %02d' % i, start, end, .16 * 1.6,
+              m['lime' if i % 3 == 0 else 'green'], pivot)
+    _flower(api, name + ' Pink bloom', (.04, -.045, .37), .14, m, pivot,
+            pink=True, normal=(0, -.3, .954))
+    _loop_sway(pivot, phase=.35, amplitude=.38)
+    _finish(root, position, scale)
+    return {'root': root, 'animated_nodes': [pivot], 'loop_frames': 144}
+
+
+def build_flower_cluster(api, name, position, scale=1.0):
+    """Two daisies and a tiny bud seated among a few broad basal leaves."""
+    api = _api(api)
+    m = _materials(api)
+    root = _empty(name)
+    for i, (start, end, width) in enumerate([
+        ((0, 0, .02), (-.24, -.06, .11), .13),
+        ((0, 0, .025), (.25, -.025, .10), .14),
+        ((.04, .01, .02), (.18, .18, .14), .12),
+        ((-.02, 0, .025), (-.13, .18, .12), .12),
+    ]):
+        end = (start[0] + (end[0] - start[0]) * 1.6,
+               start[1] + (end[1] - start[1]) * 1.6, end[2])
+        _leaf(api, name + ' Basal leaf %02d' % i, start, end, width * 1.6,
+              m['green' if i % 2 else 'lime'], root)
+    pivot = _empty(name + ' Flower stems pivot', (0, 0, .035))
+    _attach(api, pivot, root)
+    for i, (center, size) in enumerate([((-.10, -.02, .18), .135),
+                                       ((.13, .06, .13), .095)]):
+        _tube(api, name + ' Stem %02d' % i,
+              [(center[0] * .45, center[1], .02),
+               (center[0], center[1], center[2])], .014, m['mid'], pivot)
+        _flower(api, name + ' Daisy %02d' % i, center, size, m, pivot,
+                normal=(0, -.3, .954))
+    _ellipsoid(api, name + ' Tiny golden bud', (.10, -.12, .10),
+               (.04, .035, .055), m['yellow'], pivot, segments=16, rings=10)
+    _loop_sway(pivot, phase=1.2, amplitude=.55)
+    _finish(root, position, scale)
+    return {'root': root, 'animated_nodes': [pivot], 'loop_frames': 144}
+
+
+def _lathe(api, name, profile, material, parent, segments=64, oval=(1, 1),
+           materials=None, material_transition=None, organicity=.007):
+    vertices, faces, face_mats = [], [], []
+    for i, (radius, z) in enumerate(profile):
+        for j in range(segments):
+            a = _TAU * j / segments
+            organic = 1 + organicity * sin(5 * a + .27 * i)
+            vertices.append((radius * cos(a) * oval[0] * organic,
+                             radius * sin(a) * oval[1] * organic, z))
+    for i in range(len(profile) - 1):
+        for j in range(segments):
+            k = (j + 1) % segments
+            faces.append((i * segments + j, i * segments + k,
+                          (i + 1) * segments + k, (i + 1) * segments + j))
+            face_mats.append(1 if material_transition is not None and
+                             i >= material_transition else 0)
+    if profile[0][1] > profile[-1][1]:
+        faces = [tuple(reversed(face)) for face in faces]
+    return _mesh(name, vertices, faces, material, parent, api,
+                 materials=materials, face_materials=face_mats)
+
+
+def _cap_height(x, y):
+    r = sqrt((x / 1.03) ** 2 + (y / .94) ** 2)
+    return 1.30 + .68 * max(0, 1 - (r / .98) ** 2) ** .65
+
+
+def _cap_spot(api, name, cx, cy, radius, material, parent, stretch=1.0):
+    # The complete patch follows the analytic roof; its outer ring touches it.
+    vertices = [(cx, cy, _cap_height(cx, cy) + .021)]
+    faces = []
+    segments, rings = 28, 5
+    for ring in range(1, rings + 1):
+        t = ring / rings
+        for j in range(segments):
+            a = _TAU * j / segments
+            edge = 1 + .045 * sin(3 * a + cx * 4)
+            x = cx + radius * t * cos(a) * stretch * edge
+            y = cy + radius * t * sin(a) * edge
+            z = _cap_height(x, y) + .004 + .017 * (1 - t * t)
+            vertices.append((x, y, z))
+    for j in range(segments):
+        faces.append((0, 1 + j, 1 + (j + 1) % segments))
+    for row in range(rings - 1):
+        a = 1 + row * segments
+        b = a + segments
+        for j in range(segments):
+            k = (j + 1) % segments
+            faces.append((a + j, b + j, b + k, a + k))
+    return _mesh(name, vertices, faces, material, parent, api)
+
+
+def _arched_panel(api, name, xmin, xmax, base, spring, arch_radius, y,
+                  material, parent, depth=.045):
+    outline = [(xmin, base), (xmax, base), (xmax, spring)]
+    center_x = (xmin + xmax) / 2
+    for i in range(1, 17):
+        angle = pi * i / 16
+        outline.append((center_x + arch_radius * cos(angle),
+                        spring + arch_radius * sin(angle)))
+    count = len(outline)
+    vertices = [(x, y, z) for x, z in outline] + [
+        (x, y + depth, z) for x, z in outline]
+    faces = [tuple(range(count)), tuple(reversed(range(count, count * 2)))]
+    for i in range(count):
+        j = (i + 1) % count
+        faces.append((i, i + count, j + count, j))
+    obj = _mesh(name, vertices, faces, material, parent, api)
+    bevel = obj.modifiers.new('Soft worn joinery edges', 'BEVEL')
+    bevel.width = .015
+    bevel.segments = 3
+    return obj
+
+
+def _window(api, name, center, radius, normal, m, parent):
+    n = Vector(normal).normalized()
+    center = Vector(center)
+    u = Vector((0, 0, 1)).cross(n).normalized()
+    v = n.cross(u).normalized()
+    glass = _ellipsoid(api, name + ' Amber glass', (0, 0, 0),
+                       (radius * .91, radius * .91, .022), m['glass'], parent,
+                       segments=32, rings=14)
+    glass.location = center
+    glass.rotation_euler = Vector((0, 0, 1)).rotation_difference(n).to_euler()
+    path = [tuple(center + (u * cos(i * _TAU / 40) +
+                            v * sin(i * _TAU / 40)) * radius)
+            for i in range(41)]
+    _tube(api, name + ' Rounded timber ring', path, .037, m['woodlight'], parent)
+    for axis, label in ((u, 'Horizontal'), (v, 'Vertical')):
+        _tube(api, name + ' ' + label + ' mullion',
+              [tuple(center - axis * radius * .86 + n * .025),
+               tuple(center + axis * radius * .86 + n * .025)],
+              .016, m['woodlight'], parent)
+
+
+def build_cottage(api, position, scale=1.0):
+    """Small curved spotted mushroom cottage, front door facing negative Y."""
+    api = _api(api)
+    m = _materials(api)
+    root = _empty('Cottage')
+    wall_profile = [(.0, .015), (.39, .015), (.49, .05), (.535, .16),
+                    (.55, .38), (.545, .72), (.52, 1.03),
+                    (.49, 1.23), (.46, 1.31), (.0, 1.31)]
+    _lathe(api, 'Cottage Soft plaster wall', wall_profile, m['plaster'], root,
+           segments=64, oval=(1.03, 1.0))
+    # Smooth analytic dome continues into a rounded rolled rim and concave underside.
+    profile = [(0, 1.98)]
+    for i in range(1, 24):
+        radius = .98 * i / 24
+        z = 1.30 + .68 * max(0, 1 - (radius / .98) ** 2) ** .65
+        profile.append((radius, z))
+    profile.extend([(.972, 1.36), (.988, 1.31), (.984, 1.273),
+                    (.963, 1.245), (.92, 1.235), (.81, 1.245),
+                    (.67, 1.267), (.51, 1.29), (.0, 1.30)])
+    roof = _lathe(api, 'Cottage Curved red mushroom cap', profile, m['roof'], root,
+                  segments=80, oval=(1.03, .94), materials=[m['roof'], m['rim']],
+                  material_transition=27, organicity=0.0)
+    roof['construction'] = 'continuous curved dome with rolled rim and underside'
+    for i, (x, y, radius, stretch) in enumerate([
+        (-.36, -.25, .17, 1.00), (.25, -.55, .15, .90),
+        (.58, -.05, .15, 1.04), (-.14, .30, .14, 1.15),
+        (-.68, -.18, .10, .90), (.16, .02, .10, 1.00),
+        (.45, .42, .10, 1.00), (-.44, .47, .08, 1.10),
+    ]):
+        _cap_spot(api, 'Cottage Conforming cream spot %02d' % i,
+                  x, y, radius, m['cream'], root, stretch)
+    # Subtle underside gills, visible only at the eave edge.
+    for i, a in enumerate((-2.65, -2.3, -1.95, -1.6, -1.25, -.9, -.55, -.2)):
+        _tube(api, 'Cottage Underside gill %02d' % i,
+              [(cos(a) * .53 * 1.03, sin(a) * .53 * .94, 1.283),
+               (cos(a) * .78 * 1.03, sin(a) * .78 * .94, 1.247),
+               (cos(a) * .93 * 1.03, sin(a) * .93 * .94, 1.243)],
+              .009, m['plaster_light'], root)
+
+    _arched_panel(api, 'Cottage Dark arched door recess', -.273, .273, .055,
+                  .665, .273, -.553, m['seam'], root, .030)
+    door = _arched_panel(api, 'Cottage Honey arched door', -.232, .232, .07,
+                         .66, .232, -.589, m['wood'], root, .034)
+    # Closely seated seams stay inside the semicircular top of the actual door.
+    for i, x in enumerate((-.139, -.046, .046, .139)):
+        top = .66 + sqrt(max(0, .232 ** 2 - x ** 2)) - .014
+        _tube(api, 'Cottage Door plank seam %02d' % i,
+              [(x, -.611, .09), (x, -.611, top)], .006, m['seam'], root)
+    arch_path = [(-.271, -.594, .075), (-.271, -.594, .665)]
+    arch_path.extend([(.271 * cos(pi - pi * i / 24), -.594,
+                       .665 + .271 * sin(pi - pi * i / 24)) for i in range(25)])
+    arch_path.append((.271, -.594, .075))
+    _tube(api, 'Cottage Rounded arch timber frame', arch_path,
+          .036, m['woodlight'], root)
+    _ellipsoid(api, 'Cottage Brass door knob', (.137, -.645, .43),
+               (.032, .026, .032), m['brass'], root, segments=20, rings=12)
+    for i, z in enumerate((.25, .64)):
+        hinge = api.cube('Cottage Forged hinge %02d' % i, (-.16, -.624, z),
+                         (.095, .018, .023), m['brass'], bevel=.008)
+        _attach(api, hinge, root)
+    step = api.cube('Cottage Rounded doorstep', (0, -.63, .042),
+                    (.65, .31, .085), m['plaster_light'], bevel=.06)
+    _attach(api, step, root)
+    _window(api, 'Cottage Side porthole', (.506, -.155, .77), .17,
+            (.96, -.28, 0), m, root)
+    _window(api, 'Cottage Small attic window', (0, -.499, 1.114), .091,
+            (0, -1, 0), m, root)
+    chimney = api.cube('Cottage Soft chimney', (-.43, .24, 1.98),
+                        (.21, .22, .53), m['brick'], bevel=.035)
+    _attach(api, chimney, root)
+    chimney_cap = api.cube('Cottage Chimney lip', (-.43, .24, 2.25),
+                            (.27, .27, .095), m['plaster_light'], bevel=.028)
+    _attach(api, chimney_cap, root)
+    chimney_dark = api.cube('Cottage Chimney top inset', (-.43, .24, 2.300),
+                             (.15, .15, .009), m['seam'], bevel=.018)
+    _attach(api, chimney_dark, root)
+    for i, z in enumerate((1.85, 2.04, 2.17)):
+        _tube(api, 'Cottage Chimney mortar %02d' % i,
+              [(-.528, .125, z), (-.335, .125, z)], .006,
+              m['plaster'], root)
+    # A few rooted leaves soften the join at the soil without hiding the door.
+    for i, (start, end) in enumerate([
+        ((-.48, -.27, .035), (-.73, -.29, .23)),
+        ((-.47, -.25, .03), (-.56, -.45, .27)),
+        ((.43, -.28, .035), (.69, -.32, .19)),
+        ((.44, -.25, .03), (.55, -.08, .28)),
+    ]):
+        _leaf(api, 'Cottage Ground leaf %02d' % i, start, end, .15,
+              m['green' if i % 2 else 'lime'], root)
+    root['roof_spots'] = 'surface-following curved patches with seated rims'
+    root['front_axis'] = '-Y'
+    _finish(root, position, scale)
+    return {'root': root, 'animated_nodes': [], 'roof': roof, 'door': door,
+            'height_local': 2.305}

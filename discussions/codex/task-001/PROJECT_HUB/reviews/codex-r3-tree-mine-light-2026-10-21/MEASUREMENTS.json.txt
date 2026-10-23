@@ -1,0 +1,62 @@
+{
+  "status": "ACTUAL_MEASUREMENTS_NOT_ART_ACCEPTANCE",
+  "base_source_commit": "a16c9a71e21233ce9d48eeb8ae20ac56bf1500d2",
+  "base_native_review": "0989c3c820aa2988c52c86afa3768eabd2d84ba8",
+  "R3": {
+    "mesh_objects": 542,
+    "evaluated_triangles": 208514,
+    "road": {
+      "length_m": 17.892616836642983,
+      "plank_count": 107,
+      "minimum_plank_depth_m": 0.12218010436770542,
+      "maximum_outer_seam_m": 0.08773513524294523
+    },
+    "decoration": {
+      "small_stones_created": 16,
+      "ground_flowers_created": 13,
+      "grass_tufts_created": 18,
+      "quiet_meadows": [
+        [
+          -0.2,
+          2.3,
+          0.75,
+          1.25
+        ],
+        [
+          0.25,
+          -1.9,
+          0.73,
+          0.8
+        ],
+        [
+          -1.7,
+          -5.8,
+          0.55,
+          0.8
+        ]
+      ],
+      "density_note": "Artistic spacing; not a measured one-third reduction against an image."
+    },
+    "protected_native_objects_bit_identical": 353,
+    "native_GLB_max_bounds_error_m": 0.0,
+    "native_GLB_max_anchor_error_m": 0.0
+  },
+  "camera": "R2 camera SETTINGS retained (43degrees/margin.045); automatic geometry-fitting recomputes framing. Not a pixel-registered camera lock.",
+  "renders": {
+    "selected_samples": 192,
+    "sizes": [
+      [
+        432,
+        960
+      ],
+      [
+        864,
+        1920
+      ]
+    ],
+    "draft01_samples": 48
+  },
+  "godot": "NOT_RUN",
+  "android_performance": "NOT_MEASURED",
+  "human_acceptance": "PENDING"
+}

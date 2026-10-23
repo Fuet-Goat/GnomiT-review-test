@@ -1,0 +1,59 @@
+"""First material pass on human-accepted R4; geometry/pose/studio all frozen."""
+from pathlib import Path
+import sys,json
+import bpy
+from mathutils import Vector
+ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'source'))
+from evidence import sha,digest,fingerprint,material_record,render,detail
+from materials_m1 import build_materials,assign_materials
+SOURCE=ROOT.parent/'Gnome_Final_Face_R4_2026-10-23/native/GNOME_R4_FACE_ONLY_A.blend'
+EXPECTED='b67b725597c82f156b3cf3de36b3f0f1d55a1508d7fcb154d8bed0f7fa12ee7b'
+
+def main():
+    assert bpy.app.background and sha(SOURCE)==EXPECTED
+    native=ROOT/'native/GNOME_M1_COLORED_R4.blend';assert not native.exists()
+    bpy.ops.wm.open_mainfile(filepath=str(SOURCE));scene=bpy.context.scene
+    asset=bpy.data.collections['R2_NEW_GNOME'];asset_names=set(o.name for o in asset.objects)
+    assert not bpy.data.actions and not any(o.type=='ARMATURE' for o in bpy.data.objects)
+    render('R4_CLAY_BASELINE.png')
+    before={o.name:fingerprint(o) for o in bpy.data.objects}
+    # Mesh material-slot assignments are the only allowed object-level delta.
+    for name,state in before.items():
+        if name in asset_names:state.pop('materials',None)
+    original_materials=material_record()
+    materials=build_materials();assignments=assign_materials(asset,materials)
+    material_names=[m.name for m in materials.values()]
+    after=material_record()
+    assert all(after[n]==state for n,state in original_materials.items()),'Original material definition edited'
+    assert set(o.name for o in bpy.data.objects)==set(before),'Object set changed'
+    for obj in bpy.data.objects:
+        current=fingerprint(obj)
+        if obj.name in asset_names:current.pop('materials',None)
+        assert current==before[obj.name],'Geometry/pose/studio changed: '+obj.name
+    text=bpy.data.texts.new('START_HERE_M1');text.write('R4 form accepted by human: haresva mi. M1 adds colour/procedural materials only. Existing mesh geometry, topology, modifiers, transforms, pose and studio are preserved. No rig/actions/animation/Godot integration. Material visual acceptance pending.\n')
+    bpy.context.preferences.filepaths.save_version=0
+    assert 'FINISHED' in bpy.ops.wm.save_as_mainfile(filepath=str(native),check_existing=False)
+    render('M1_FRONT.png')
+    cam=scene.camera;old=(cam.location.copy(),cam.rotation_euler.copy(),cam.scale.copy());target=Vector((0,0,.8))
+    cam.location=target+Vector((3,-4,.65));cam.rotation_euler=(target-cam.location).to_track_quat('-Z','Y').to_euler()
+    render('M1_THREE_QUARTER.png');cam.location,cam.rotation_euler,cam.scale=old
+    detail('M1_FACE_DETAIL.png')
+    bpy.ops.wm.open_mainfile(filepath=str(native))
+    for obj in bpy.data.objects:
+        current=fingerprint(obj)
+        if obj.name in asset_names:current.pop('materials',None)
+        assert current==before[obj.name],'Protected shape/studio changed after reopen: '+obj.name
+    assert not bpy.data.actions and not any(o.type=='ARMATURE' for o in bpy.data.objects)
+    assert sha(SOURCE)==EXPECTED
+    receipt={'status':'NATIVE_SAVED_REOPENED_RENDERED','source_native':str(SOURCE),'source_sha256_before':EXPECTED,'source_sha256_after':sha(SOURCE),
+        'native':str(native),'native_sha256':sha(native),'protected_objects':len(before),'protected_geometry_pose_modifiers_studio':'EXACT_MATCH_BEFORE_AFTER_REOPEN',
+        'protected_object_fingerprints':{n:digest(v) for n,v in before.items()},'original_material_definitions':'UNCHANGED',
+        'new_materials':material_names,'assignments':assignments,
+        'new_images_or_geometry_or_lights':0,'actions':len(bpy.data.actions),'armatures':sum(o.type=='ARMATURE' for o in bpy.data.objects),
+        'stage_dimensions':[600,840],'face_detail_dimensions':[640,640],
+        'human_form_acceptance':{'status':'ACCEPTED','evidence':'haresva mi','date':'2026-10-23'},
+        'material_scope_authorization':'taka , napravi vsichko kakto se razbrahme + iskame da vidim dokude sme ,zaz da mojem da produljim natataka',
+        'human_material_acceptance':'PENDING','rig_animation':'NOT_STARTED','game_integration':False}
+    (ROOT/'documentation/M1_RECEIPT.json').write_bytes((json.dumps(receipt,ensure_ascii=False,indent=2)+'\n').encode())
+    print('M1_COMPLETE '+json.dumps({k:v for k,v in receipt.items() if k!='protected_object_fingerprints'}),flush=True)
+if __name__=='__main__':main()

@@ -1,0 +1,64 @@
+GNOMIT — FOLDER MAP (2026-10-16)
+
+ОБЩ ВХОД, В КЛОН codex/codex/task-001:
+discussions/codex/task-001/PROJECT_HUB/
+  START_HERE.txt
+  PROJECT_MAP.txt
+  TEAM_RULES_BG.txt
+  FOLDER_MAP.txt
+  TASK_QUEUE.txt
+  ASSET_CATALOG.txt
+  ONE_PROMPT_FOR_GPT_AND_GROK_BG.txt
+  design/ art/ animation/ ui/ audio/ gameplay/
+  experiments/ tests/ builds/ reviews/ reports/ archive/
+Всяка обща категория има README, който посочва действителните asset/report roots.
+
+ЗА ВСЕКИ BOT = gpt ИЛИ grok, В СОБСТВЕНИЯ КЛОН codex/<BOT>/task-002:
+sandbox/<BOT>/task-002/art/shared-v2/
+  characters/hero/
+  characters/npc/
+  animations/hero/
+  props/
+  ui/
+  backgrounds/
+  audio/
+sandbox/<BOT>/task-002/outputs/shared-v2/
+  START_HERE.txt
+  WORK_STATUS.json
+  references/
+  previews/
+  experiments/
+  tests/
+  reviews/
+  ideas/
+  logs/
+  handoffs/
+  builds/
+  integration/
+  archive/
+
+КАНОНИЧНИ АРТ ИЗХОДИ НА GPT:
+sandbox/gpt/task-002/art/shared-v2/characters/hero/hero_master.png
+sandbox/gpt/task-002/art/shared-v2/characters/hero/contact_shadow.png
+sandbox/gpt/task-002/art/shared-v2/characters/hero/asset_metadata.json
+sandbox/gpt/task-002/outputs/shared-v2/previews/01_SCENE_CONCEPT.png
+sandbox/gpt/task-002/outputs/shared-v2/previews/02_HERO_DETAIL.png
+sandbox/gpt/task-002/outputs/shared-v2/handoffs/ART_HANDOFF.json
+
+КАНОНИЧНИ АНИМАЦИОННИ ИЗХОДИ НА GROK:
+sandbox/grok/task-002/art/shared-v2/animations/hero/walk_sheet.png
+sandbox/grok/task-002/art/shared-v2/animations/hero/animation_metadata.json
+sandbox/grok/task-002/outputs/shared-v2/previews/walk_preview.gif (или .webm)
+sandbox/grok/task-002/outputs/shared-v2/handoffs/ANIMATION_HANDOFF.json
+
+ОФИЦИАЛНИ ДОКЛАДИ:
+discussions/gpt/task-002/REPORT.txt на codex/gpt/task-002
+discussions/grok/task-002/REPORT.txt на codex/grok/task-002
+discussions/codex/task-001/REPORT.txt на codex/codex/task-001
+WORK_STATUS е краткият machine-readable статус; REPORT пази хронологията.
+
+МИГРАЦИЯ:
+GPT общата концепция е преместена в outputs/shared-v2/references/00_SHARED_TARGET_CONCEPT.png, byte-identical.
+Grok PNG V1 вече са директно в outputs/shared-v2/references/grok-v1/.
+Grok outputs/transfer/ е преместен непроменен в outputs/shared-v2/archive/legacy-base64/ (95части+manifest).
+Оригиналните GPT V1 файлове, старите доклади, baseline и Git history остават. Новите shared-v2 handoffs са само в handoffs/; старите root-level пътища в по-ранни prompts са исторически. Ако реален нов asset се появи на стар път, запази го, отчети миграцията и провери hash преди преместване; не прерисувай заради пътя.

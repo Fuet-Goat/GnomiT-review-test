@@ -1,0 +1,25 @@
+{
+  "project_archive": "GNOMIT_ALIVE_EXPERIENCE_PROJECT_V2.zip",
+  "archive_sha256": "ad0d7711487f21fff6c947687e5f3ac506c4997d00ad334d1bb8569fb5f83838",
+  "files_verified": 414,
+  "fresh_extract": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\AliveExperience_2026-10-19_HANDOFF\\FreshExtractProbe",
+  "cache_absent_before_import": true,
+  "runs": [
+    {
+      "mode": "fresh_import",
+      "exit": 0,
+      "log": "FRESH_IMPORT.log",
+      "errors": false,
+      "warnings": false
+    },
+    {
+      "mode": "fresh_integration",
+      "exit": 0,
+      "log": "FRESH_INTEGRATION.log",
+      "errors": false,
+      "warnings": false,
+      "checks": 54
+    }
+  ],
+  "meaning": "Fresh-source import and actual scripted gameplay integration, not a fresh human playtest"
+}

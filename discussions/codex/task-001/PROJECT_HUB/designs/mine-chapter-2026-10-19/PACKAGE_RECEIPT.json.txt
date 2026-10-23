@@ -1,0 +1,8 @@
+{
+  "path": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\MineChapterPlan_2026-10-19\\GNOMIT_MINE_CHAPTER_PLAN_2026-10-19.zip",
+  "bytes": 10561,
+  "sha256": "0fff96e385580a88274dca0f54e7eb43b0ad4ef579977e0b51a68bd203dcd72e",
+  "entries": 6,
+  "exact_readback": "PASS",
+  "scope": "design record and display override, no campaign/Core/save edits"
+}

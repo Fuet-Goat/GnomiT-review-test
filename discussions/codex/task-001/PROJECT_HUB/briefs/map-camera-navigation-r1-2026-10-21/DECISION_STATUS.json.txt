@@ -1,0 +1,11 @@
+{
+  "topic": "MAP_CAMERA_NAVIGATION_R1_2026-10-21",
+  "status": "RESEARCH_COMPLETE_EXTERNAL_GPT_PENDING",
+  "human_final_design_approval": false,
+  "codex_recommendation": "Fixed orthographic3/4 portrait map; flat match3 board; compare guide-only fast level selection against walking avatar",
+  "first_launch_candy_crush": "NOT_OBSERVED",
+  "camera_preference_market_proof": "NOT_ESTABLISHED",
+  "normal_campaign": "v006 unchanged",
+  "new_godot_integration": "WORK_IN_PROGRESS_NOT_REGISTERED",
+  "next": "External GPT independent R1 then peer response; return differences to human"
+}

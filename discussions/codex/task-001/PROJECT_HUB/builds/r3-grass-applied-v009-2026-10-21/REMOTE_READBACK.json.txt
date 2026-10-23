@@ -1,0 +1,85 @@
+{
+  "status": "EXACT_REMOTE_V009_FULL_PACKAGE_READBACK_PASS",
+  "utc": "2026-10-21T17:33:15.437918+00:00",
+  "artifact_commit": "41be8dc7de9658c08045f9960facfd85066f642c",
+  "archive": {
+    "status": "EXACT_HTTPS_COMMIT_FULL_ZIP_ALL_ENTRY_HASHES_PASS",
+    "commit": "41be8dc7de9658c08045f9960facfd85066f642c",
+    "bytes": 87008816,
+    "sha256": "bb5417e8349fc24266fd11fc4ff274d449e90afd6fc541154cb02ac914eeed92",
+    "entries": 324,
+    "parts": 15,
+    "executed_game_or_project_code": false
+  },
+  "small_files_exact_http_equal_git": [
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/START_HERE.txt",
+      "bytes": 70138,
+      "sha256": "bd22901ff42f92ca3e6376c3bfd704ea291fdfb47edeb37175374a4c4bfdd805"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-grass-applied-v009-2026-10-21/DOWNLOAD_V009.py.txt",
+      "bytes": 2011,
+      "sha256": "2b34e8dfe4c24b1fef276b975e23ebbf28f72692fd80d6e2f8076f1f61c2bd36"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-grass-applied-v009-2026-10-21/FRESH_IMPORT_CHECK.json.txt",
+      "bytes": 294,
+      "sha256": "e009fe1809ea60c7b644672516794adb87b63be497cde505366daada6f7d58c8"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-grass-applied-v009-2026-10-21/GRASS_EXPORT_RECEIPT.json.txt",
+      "bytes": 647,
+      "sha256": "5e0e9bd3d31b5ce750d818578b5109a4d9356f3fac3324610d22da90e1fcc0fc"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-grass-applied-v009-2026-10-21/GRASS_SMOKE.json.txt",
+      "bytes": 1390,
+      "sha256": "9e87d3130f609c6230f9db4c5c69255dbcf464ef9645b073e920cdac5d11af3d"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-grass-applied-v009-2026-10-21/INHERITED_CODE_CHECK.json.txt",
+      "bytes": 2642,
+      "sha256": "c1eff4151dd85048b092192dd13d5bd478343a3ac2479b31c006f9cbb7c58b0b"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-grass-applied-v009-2026-10-21/PACKAGE_RECEIPT.json.txt",
+      "bytes": 2939,
+      "sha256": "826ced0e0e88ed9deb0e27356cf30331cb02917094eda4b1eab69cca403c3748"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-grass-applied-v009-2026-10-21/PROVENANCE.json.txt",
+      "bytes": 887,
+      "sha256": "21dab50f51d5c87c340618fab92d05c66d9a6212f65efa7ec85f1e6dec460df8"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-grass-applied-v009-2026-10-21/README_BG.txt",
+      "bytes": 2883,
+      "sha256": "102ce075b21ff27e79e79021d870e6b3326128135b7c621ba8caa026ef3ce444"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-grass-applied-v009-2026-10-21/REPORT.txt",
+      "bytes": 300,
+      "sha256": "432ef7a3b4f326ea1ac523b4f87276d29803baf8902a101446415ad3c3c19cba"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-grass-applied-v009-2026-10-21/START_HERE_BG.txt",
+      "bytes": 1765,
+      "sha256": "9967a2c9b2727c4098f060324842f3a6af72bee061b5132ec2fe822ef8895f4f"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-grass-applied-v009-2026-10-21/UV_BINDING_CHECK.json.txt",
+      "bytes": 423,
+      "sha256": "d122cf3479d7d481a9b7f1c90561c36c32ae24f4f2658e63f276aa6132b48661"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/r3-grass-applied-v009-2026-10-21/ZIP_MANIFEST.json.txt",
+      "bytes": 55513,
+      "sha256": "abaa98730ad1f9eea7af68b1fb0b7a0172c5d16728c1e62ddcab9a734e283162"
+    }
+  ],
+  "runtime_checks": 34,
+  "desktop_shortcut": "v009 - 2026-10-21 - R3 Grass Applied",
+  "human_art_acceptance": "PENDING",
+  "android": "NOT_MEASURED"
+}

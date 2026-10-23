@@ -1,0 +1,20 @@
+{
+	"camera": "[X: (1.0, 0.0, 0.0), Y: (0.0, 0.731354, -0.681998), Z: (0.0, 0.681998, 0.731354), O: (0.00973, 27.39231, 28.82801)]",
+	"camera_size": 19.9702301025391,
+	"map_profile": "B",
+	"map_tonemap": 3,
+	"master_glb_sha256": "3b72702cb1c995d2553dddd4895a1e2327be14d5a22cc38a60a88603d47c529f",
+	"master_position": "(-1.201419, 0.850196, 8.372768)",
+	"master_scale": 0.61279296875,
+	"old_position": "(-1.201419, 0.850196, 8.372768)",
+	"progress_io": "In-memory stub; no load/save methods exist",
+	"route_s": 0.4,
+	"source_map_glb_sha256": "26f4a9805bf3300ebaa5343dec6933ca236802671c2524a916a00a23e53c339b",
+	"status": "ACTUAL_MAP_CONTEXT_STILLS",
+	"studio_tonemap": "Locked studio AgX/R1 retained as reference; not substituted into mapACES",
+	"viewport": [
+		432,
+		960
+	],
+	"walk_requests_disabled": true
+}

@@ -1,0 +1,7 @@
+{
+  "version": "V1",
+  "root": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\StorybookMine_2026-10-19",
+  "glb_sha256": "d39a017fa34167e716cd1182253af159c7633cc154a642cc82f0acf192e31cf2",
+  "git_commit": "f3fcdeaa031c23598640c0379bcb441ffbd18066",
+  "preserved": true
+}

@@ -1,0 +1,38 @@
+GNOMIT — RIG R3: SEPARATED SLEEVE
+STATUS: NATIVE_CANDIDATE_RENDERED / HUMAN_VISUAL_ACCEPTANCE_PENDING
+
+User clarified that the raised sleeve must separate below the armpit instead of
+stretching a welded cloth web. This authorises the bounded local topology change.
+R1 input, R4 identity/M2 materials and original greeting retained. No game integration.
+
+Replaced only the right upper continuous-coat area (12157 faces removed) with an
+independent closed sleeve and body-only torso patch; shoulder surfaces overlap.
+No new bones/helper modifier. 32 original protected objects unchanged. Original
+left-coat geometry exact hash retained. Original action curves/handles, rest bones,
+materials, world and studio identity checked against the native input.
+
+Actual six-second 24fps comparison is rendered: full/close 144 source pairs each.
+R1 frames reused byte-for-byte from previously verified native renders; R3 newly
+rendered at identical cameras/settings. GIFs decode to 6000ms each (115 frames after
+identical holds coalesced). Palette quantisation is the only image degradation.
+
+Observed in front/oblique/side/rear stills and five pose comparison: former stretched
+underarm web absent, underside open and shoulder covered. Independent reviewer
+confirmed these observations. Faint faceted torso patch seam and angular rear
+attachment seam remain. No claim of finished production topology or human approval.
+
+Seven-pose centreline measurement with modifier correspondence preserved:
+length ratio to rest: 0.992217705..1.000000000. This supports no gross sleeve elongation in those
+poses, not zero local strain. Evaluated edge ratios are .5717..2.1523 at the bend.
+Feet world movement 0; maximum cuff tracking delta ~1.49e-6. Endpoints return to rest.
+Torso-patch displacement ~.004241 follows inherited Chest breathing.
+
+Blender native reopened; sources compiled; originals/selector untouched; ZIP entries
+read back and checked. Full receipts and original native input are included.
+
+ZIP: GNOMIT_RIG_R3_SEPARATED_SLEEVE_2026-10-23.zip
+BYTES: 54314847
+SHA256: 39ad4b08f55e08d4645057ad303592dbe9d6548912727990df7a02ad63d77638
+Native SHA256: 0335bcc275bfbc8e3b7d3ea43bde2fad6c8ece5281a750007290ef154ac8bffc
+No main/grant/foreign report changes, no merge, no gameplay changes.
+Remote Git/media readback is recorded separately after publication.

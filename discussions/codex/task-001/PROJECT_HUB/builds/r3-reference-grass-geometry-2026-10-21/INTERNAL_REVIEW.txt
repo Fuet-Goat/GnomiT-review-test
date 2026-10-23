@@ -1,0 +1,7 @@
+Independent read-only reviewer inspected the actual final192sample PNG.
+Meaningful visible change at432x960: short blades and grassy perimeter.
+Narrower/softer FINAL reduces sharp confetti look. No severe visible intrusion.
+Still uniform/fine-speckled compared with distinct tuft clusters, calm patches,
+curved strokes and golden tips in reference. Overall golden lighting differs.
+Confirmed receipt resolves0modifier BVH concern and records114 sampled blade
+footprint rejections. Neither exhaustive collision proof nor human acceptance.

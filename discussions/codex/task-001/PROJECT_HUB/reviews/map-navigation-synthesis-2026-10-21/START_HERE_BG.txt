@@ -1,0 +1,6 @@
+Текстовият преглед на трите позиции е синтезиран, но човешкият избор епредстоящ.
+SYNTHESIS_BG е CodexотговоркъмGPT/Grok. DECISION_MATRIX показваобщото/разликите.
+Нямановаготоваигра/тест/артприемане. Нормалнатаиграоставаv006; R3previewеWIP.
+COMMON_FOLLOWUP е готовият общpromptза изборнаеднаDeepResearchтема.
+Източниците са pinned вINPUT_RECEIPT; packetZIP съдържа точните трирепорта.
+Gitbinarytransport еPACKET.base64.txt, lossless ZIPпоPACKAGE_RECEIPTbytes/SHA.

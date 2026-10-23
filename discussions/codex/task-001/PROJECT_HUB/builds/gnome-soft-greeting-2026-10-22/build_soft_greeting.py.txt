@@ -1,0 +1,149 @@
+"""Native, isolated softer guide and a new phased greeting; world is immutable."""
+from pathlib import Path
+import sys,math,json,hashlib
+import bpy
+from mathutils import Vector
+ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT/'tools'))
+import record_helpers as p
+from build_cartoon_guide import descends,action_records,material_records
+SOURCE=ROOT/'native/INPUT_J.blend'
+OUT=ROOT/'native/GNOME_SOFT_GREETING_K.blend'
+SHA='676ce882fd4917aed92f90fc7deb3b9986a1013ed22e12756dcd5c20062b3bef'
+
+def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
+def write(path,value):path.write_bytes((json.dumps(value,indent=2)+'\n').encode())
+def rgb(hexcode):return p.g.color(hexcode)
+
+def main():
+    assert sha(SOURCE)==SHA and not OUT.exists()
+    bpy.context.preferences.filepaths.save_version=0
+    bpy.ops.wm.open_mainfile(filepath=str(SOURCE));scene=bpy.context.scene
+    scene.frame_set(1);bpy.context.view_layer.update()
+    root=bpy.data.objects['Guide_Root'];guide=[o for o in scene.objects if descends(o,root)]
+    protected={o.name:p.object_record(o) for o in scene.objects if o not in guide}
+    settings=p.g.settings_record(scene);oldmaterials=material_records();oldactions=action_records()
+    fixed={o.name:p.object_record(o) for o in guide if 'boot' in o.name.lower() or 'trouser' in o.name.lower() or o==root}
+    names=set(scene.objects.keys())
+    # Copies retain original material data and inherited source history.
+    palette={'Guide teal cloth':'317C78','Guide teal raised seams':'387F7A',
+             'Guide cap soft vermilion':'CE4438','Guide cap folded rim':'D95240',
+             'Guide sculpted peach vertex face':'EDB48C','Guide warm peach skin':'EFB58D',
+             'Guide beard warm ivory':'F9EDD5'}
+    copies={}
+    for name,color in palette.items():
+        source=bpy.data.materials.get(name)
+        if source is None:continue
+        source.use_fake_user=True;mat=source.copy();mat.name=name+' — Soft K'
+        mat.diffuse_color=rgb(color)
+        for node in mat.node_tree.nodes:
+            if node.type=='BSDF_PRINCIPLED':
+                node.inputs['Base Color'].default_value=rgb(color)
+                node.inputs['Roughness'].default_value=.69 if 'cloth' in name or 'seams' in name else .58
+        copies[name]=mat
+    for o in guide:
+        for slot in o.material_slots:
+            if slot.material and slot.material.name in copies:slot.material=copies[slot.material.name]
+        if o.type=='MESH':
+            for face in o.data.polygons:face.use_smooth=True
+            # Low-resolution rounded hand/boot/ear pieces benefit from one
+            # smooth subdivision; the already subdivided head/cloth stay intact.
+            if not any(m.type=='SUBSURF' for m in o.modifiers) and any(s in o.name for s in ('finger','thumb','palm','ear')):
+                sub=o.modifiers.new('Soft silhouette K','SUBSURF');sub.levels=1;sub.render_levels=1
+    # Build a softly bent, inflated cap, rather than stretching the sharp tip.
+    cap=bpy.data.objects['Guide_bent red cap'];cap.data.use_fake_user=True
+    rings=[((0,.010,.893),.205,.153),((0,.011,.952),.201,.153),
+           ((.008,.013,1.022),.181,.144),((.028,.015,1.087),.150,.126),
+           ((.065,.016,1.137),.112,.100),((.107,.014,1.161),.079,.075),
+           ((.148,.009,1.159),.050,.051),((.180,.004,1.137),.032,.035),
+           ((.192,.001,1.107),.019,.022),((.185,0,1.090),.006,.008)]
+    verts=[];faces=[];count=40
+    for center,rx,ry in rings:
+        for i in range(count):
+            a=math.tau*i/count;verts.append((center[0]+math.cos(a)*rx,center[1]+math.sin(a)*ry,center[2]))
+    for k in range(len(rings)-1):
+        for i in range(count):
+            j=(i+1)%count;a=k*count;b=a+count;faces.append((a+i,a+j,b+j,b+i))
+    faces += [tuple(reversed(range(count))),tuple((len(rings)-1)*count+i for i in range(count))]
+    mesh=bpy.data.meshes.new('Guide_K_soft_floppy_cap');mesh.from_pydata(verts,[],faces);mesh.update()
+    for mat in cap.data.materials:mesh.materials.append(mat)
+    for face in mesh.polygons:face.use_smooth=True
+    cap.data=mesh
+    seam=bpy.data.objects['Guide_cap front seam'];seam.data=seam.data.copy();seam.data.bevel_depth=.002
+    # Simplify sharp lapel tips and reduce their contrast with the coat.
+    for o in guide:
+        if 'collar lapel' in o.name:
+            solid=next((m for m in o.modifiers if m.type=='SOLIDIFY'),None)
+            bevel=o.modifiers.new('Soft collar hem K','BEVEL');bevel.width=.008;bevel.segments=3
+        if any(s in o.name for s in ('shaped upper sleeve','tailored lantern sleeve')):
+            center=sum((v.co for v in o.data.vertices),Vector())/len(o.data.vertices)
+            for v in o.data.vertices:
+                delta=v.co-center;v.co=center+Vector((delta.x*1.05,delta.y*1.09,delta.z*1.02))
+            o.data.update()
+    animated={o.name:o for o in guide if o.animation_data and o.animation_data.action}
+    assert len(animated)==9,len(animated)
+    for o in animated.values():
+        o.animation_data.action.use_fake_user=True
+        o.animation_data.action=None
+    shoulder=bpy.data.objects['Guide_ShoulderWave'];elbow=bpy.data.objects['Guide_ElbowWave'];hand=bpy.data.objects['Guide_HandWave']
+    head=bpy.data.objects['Guide_HeadAcknowledge'];body=bpy.data.objects['Guide_BreathingTorso'];lantern=bpy.data.objects['Guide_LanternLag']
+    smile=bpy.data.objects['Guide_SmileExpression']
+    def rotation(o,rows):
+        for frame,degrees in rows:
+            o.rotation_euler=[math.radians(x) for x in degrees]
+            o.keyframe_insert(data_path='rotation_euler',frame=frame)
+    rotation(shoulder,[(1,(0,-132,0)),(12,(0,-136,0)),(25,(0,-110,0)),(42,(0,-32,0)),
+        (54,(0,-27,0)),(70,(0,-31,0)),(82,(0,-34,0)),(99,(0,-112,0)),(112,(0,-132,0)),(121,(0,-132,0))])
+    rotation(elbow,[(1,(0,67,0)),(16,(0,72,0)),(30,(0,57,0)),(45,(0,12,0)),
+        (56,(0,-1,0)),(67,(0,14,0)),(77,(0,1,0)),(90,(0,31,0)),(105,(0,64,0)),(114,(0,67,0)),(121,(0,67,0))])
+    rotation(hand,[(1,(0,4,1.4)),(29,(0,3,1)),(45,(0,-3,-1)),(54,(0,13,5)),
+        (64,(0,-10,-4)),(74,(0,11,4)),(84,(0,-3,-1)),(105,(0,4,1.4)),(121,(0,4,1.4))])
+    rotation(head,[(1,(-6,-1.5,0)),(17,(-7,-1.5,0)),(36,(-10,-3,1)),
+        (51,(-4,-3,1)),(74,(-6,-2,0)),(99,(-7,-1.2,0)),(114,(-6,-1.5,0)),(121,(-6,-1.5,0))])
+    rotation(body,[(1,(0,-.8,0)),(20,(0,-.8,-.4)),(44,(0,1.3,-.6)),(75,(0,.8,-.3)),(103,(0,-.5,0)),(114,(0,-.8,0)),(121,(0,-.8,0))])
+    for frame,s in [(1,1),(31,1.005),(61,1),(91,1.005),(121,1)]:
+        body.scale=(1,1,s);body.keyframe_insert(data_path='scale',frame=frame)
+    rotation(lantern,[(1,(0,0,0)),(24,(0,0,0)),(42,(0,-1.2,.3)),(56,(0,2.4,-.4)),
+        (72,(0,-1,.2)),(88,(0,.6,0)),(105,(0,-.25,0)),(116,(0,0,0)),(121,(0,0,0))])
+    for side in ('Left','Right'):
+        eye=bpy.data.objects['Guide_EyeBlink'+side]
+        for frame,z in [(1,1),(18,1),(20,.045),(23,1),(95,1),(97,.045),(100,1),(121,1)]:
+            eye.scale=(1,1,z);eye.keyframe_insert(data_path='scale',frame=frame)
+    for frame,width in [(1,.96),(25,.96),(44,1.10),(84,1.10),(112,.96),(121,.96)]:
+        smile.scale=(width,1,1);smile.keyframe_insert(data_path='scale',frame=frame)
+    for name,o in animated.items():
+        o.animation_data.action.name=name+'_SoftGreeting_K'
+        for layer in o.animation_data.action.layers:
+            for strip in layer.strips:
+                for bag in strip.channelbags:
+                    for curve in bag.fcurves:
+                        for key in curve.keyframe_points:
+                            key.interpolation='BEZIER';key.handle_left_type='AUTO_CLAMPED';key.handle_right_type='AUTO_CLAMPED'
+    scene.frame_set(1);bpy.context.view_layer.update()
+    assert {o.name:p.object_record(o) for o in scene.objects if o.name in protected}==protected
+    assert {n:p.object_record(bpy.data.objects[n]) for n in fixed}==fixed
+    assert set(scene.objects.keys())==names and p.g.settings_record(scene)==settings
+    mats=material_records();assert all(mats[n]==v for n,v in oldmaterials.items())
+    acts=action_records();assert all(acts[n]==v for n,v in oldactions.items())
+    # Check fixed boots/root over the entire new action, not only the still.
+    for frame in range(1,122):
+        scene.frame_set(frame);bpy.context.view_layer.update()
+        assert {n:p.object_record(bpy.data.objects[n]) for n in fixed}==fixed
+    scene.frame_set(1);bpy.context.view_layer.update()
+    note=bpy.data.texts.new('START_HERE_SOFT_GREETING_K')
+    note.write('Same guide, softer cap/collar/sleeves and guide-only warm materials. New phased greeting frames1-121 at24fps. Original actions/materials retained as unused data. Feet/root fixed. World unchanged. No Godot integration. See accompanying provenance/source/receipt.\n')
+    assert 'FINISHED' in bpy.ops.wm.save_as_mainfile(filepath=str(OUT),check_existing=False)
+    bpy.ops.wm.open_mainfile(filepath=str(OUT));scene=bpy.context.scene;scene.frame_set(1);bpy.context.view_layer.update()
+    assert {n:p.object_record(bpy.data.objects[n]) for n in protected}==protected
+    assert all(action_records()[n]==v for n,v in oldactions.items())
+    scene.render.filepath=str(ROOT/'outputs/MAP_SOFT_GREETING_K.png')
+    assert 'FINISHED' in bpy.ops.render.render(write_still=True)
+    write(ROOT/'documentation/SOFT_GREETING_RECEIPT.json',{'status':'NATIVE_SAVED_REOPENED_RENDERED',
+        'input_sha256':SHA,'native_sha256':sha(OUT),'protected_world_objects':len(protected),
+        'new_actions':9,'old_actions_retained_unchanged':True,'old_materials_retained_unchanged':True,
+        'root_boots_fixed_all_121_frames':True,'source_unchanged':sha(SOURCE)==SHA,
+        'animation_frames':[1,121],'fps':24,'Godot_integration':'NOT_PERFORMED',
+        'Human_visual_acceptance':'PENDING','Android':'NOT_MEASURED'})
+    print('SOFT_GREETING_NATIVE_COMPLETE',flush=True)
+
+if __name__=='__main__':main()

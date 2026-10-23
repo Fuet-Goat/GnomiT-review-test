@@ -1,0 +1,353 @@
+--- GPT_R2/build_scene.py
++++ CODEX_R3/build_scene.py
+@@ -1,4 +1,4 @@
+-"""UNAPPLIED SOURCE PROPOSAL. Do not execute before owner/Codex source review.
++"""Codex R3 native art generator, derived from verified GPT R2 source.
+ 
+ Later, INSIDE Blender with --background --factory-startup --disable-autoexec:
+ --python ABS_SOURCE/build_scene.py -- --output ABS_NEW_DIR --seed 402121
+@@ -79,7 +79,7 @@
+              'blender_version':bpy.app.version_string,
+              'build_hash':bpy.app.build_hash.decode('utf-8','replace'),
+              'render_mode':args.render_mode,'argv':sys.argv,
+-             'source_revision':'R2','native_review_base':config['base_review_commit'],
++             'source_revision':'CODEX_R3_NATIVE_POLISH','native_review_base':config['base_review_commit'],
+              'visual_acceptance':'PENDING','glb_reimport':'NOT_RUN','godot':'NOT_RUN','mobile':'NOT_MEASURED',
+              'warnings':[],'outputs':{}}
+     write_json(output/'BUILD_RECEIPT.json',receipt)
+@@ -118,8 +118,8 @@
+             source_manifest['SOURCE/'+name]=hash_file(src)
+         write_json(output/'SETTINGS_USED.json',config)
+         write_json(output/'PROVENANCE.json',{
+-            'status':'Generated from unapplied GPT proposal only after local approval',
+-            'authoring':'GPT-6 Astra Pro wrote proposed Python; local operator and Blender execute it',
++            'status':'Native Codex R3 derivative of verified GPT R2 source; separately built local art preview',
++            'authoring':'Base source from GPT R2 commit a16c9a71e21233ce9d48eeb8ae20ac56bf1500d2; Codex authored tree/mine/material/light polish. Original GPT model claim not independently verified.',
+             'reference_commit':'3928d49c29698672cd87585531479dfd113f80a2',
+             'revision_review_commit':config['base_review_commit'],
+             'normal_fix':'Codex underdeck face reversal retained from corrected source',
+--- GPT_R2/environment.py
++++ CODEX_R3/environment.py
+@@ -1,4 +1,4 @@
+-"""NOT_APPLIED: new elongated grass island, sculptural trees, mushroom cottage.
++"""Codex R3 tree polish on unchanged GPT R2 terrain, cottage and meadow layout.
+ The handoff PNGs are visual references only; this module never loads an image.
+ """
+ from __future__ import annotations
+@@ -101,7 +101,7 @@
+ def tree(spec,cols,root,mats,g,rng):
+     x,y,s=spec['x'],spec['y'],spec['scale']
+     group=empty('Tree_'+spec['name'],cols['TREES'],(x,y,g.height(x,y)-0.025),root)
+-    group.scale=(s,s,s); group['role']='Directed asymmetrical canopy; broad lobes, visible tapered trunk and roots'
++    group.scale=(s,s,s); group['role']='R3 coherent rounded canopy; visible tapered warm-wood trunk and root flare'
+     phase=rng.uniform(-0.25,0.25)
+     trunk=[(0,0,0),(0.03,-0.01,0.32),(-0.10,0.06,0.91),(0.04,0.06,1.43),(0.02,0.0,1.95)]
+     tube(spec['name']+'_Sculpted_Trunk',trunk,[0.31,0.23,0.18,0.14,0.10],cols['TREES'],mats['bark'],parent=group,sides=18)
+@@ -113,24 +113,70 @@
+     for i,(dx,dy,dz) in enumerate([(-0.55,0.00,1.93),(0.49,0.18,2.04),(0.0,0.52,2.23)]):
+         tube(spec['name']+'_Branch_%d'%i,[(0,0,1.05),(dx*0.55,dy*0.55,1.61),(dx,dy,dz)],
+              [0.16,0.115,0.052],cols['TREES'],mats['bark'],parent=group)
+-    lobes=[(-0.59,-0.02,2.04,0.69,0.63,0.58,'leaf_light'),
+-           (0.60,0.13,2.23,0.74,0.65,0.63,'leaf_shadow'),
+-           (-0.03,0.18,2.31,0.92,0.77,0.74,'leaf'),
+-           (0.08,-0.46,2.09,0.77,0.58,0.58,'leaf'),
+-           (0.02,0.36,2.73,0.69,0.64,0.57,'leaf_light')]
+-    for i,(cx,cy,cz,rx,ry,rz,key) in enumerate(lobes):
+-        obj=ellipsoid(spec['name']+'_Crown_%02d'%i,(cx,cy,cz),(rx,ry,rz),cols['TREES'],mats[key],
+-                      phase=phase+i*1.1,irregularity=0.13,parent=group,segments=32,rings=20)
+-        obj.rotation_euler.z=(-0.12 if i%2 else 0.12)
+-    # Few large readable leaves, rather than a noisy coat of tiny spheres.
+-    for i in range(5):
+-        a=math.tau*i/5+phase
+-        start=(0.43*math.cos(a),0.40*math.sin(a),2.89+0.10*math.sin(a))
+-        end=(0.72*math.cos(a),0.66*math.sin(a),3.18+0.10*math.cos(a))
+-        leaf(spec['name']+'_Tip_Leaf_%d'%i,start,end,0.12,cols['TREES'],
+-             mats['leaf_light' if i%2 else 'leaf'],parent=group)
+-    for i,(fx,fy,fz) in enumerate([(-0.55,-0.52,2.31),(0.37,-0.47,2.47)]):
+-        flower(spec['name']+'_Canopy_Daisy_%d'%i,(fx,fy,fz),0.75,cols['TREES'],mats,group)
++
++    # All five broad volumes contain this centre. Their ray exits therefore
++    # define one closed star-shaped crown, without intersecting sphere seams.
++    centre=Vector((0.0,0.06,2.35))
++    lobes=[(-0.56,-0.01,2.10,0.72,0.64,0.64),
++           (0.56,0.12,2.27,0.74,0.66,0.64),
++           (0.00,0.10,2.35,0.80,0.68,0.63),
++           (0.06,-0.43,2.05,0.83,0.62,0.55),
++           (-0.03,0.30,2.76,0.71,0.62,0.62)]
++    blend=0.115
++
++    def crown_point(direction):
++        d=Vector(direction).normalized(); radius=None
++        for cx,cy,cz,rx,ry,rz in lobes:
++            ox,oy,oz=centre.x-cx,centre.y-cy,centre.z-cz
++            qa=(d.x/rx)**2+(d.y/ry)**2+(d.z/rz)**2
++            qb=2*(d.x*ox/rx**2+d.y*oy/ry**2+d.z*oz/rz**2)
++            qc=(ox/rx)**2+(oy/ry)**2+(oz/rz)**2-1
++            exit_radius=(-qb+math.sqrt(max(0.0,qb*qb-4*qa*qc)))/(2*qa)
++            if radius is None:
++                radius=exit_radius
++            else:
++                # Polynomial smooth maximum softens each broad lobe junction.
++                h=max(blend-abs(radius-exit_radius),0.0)/blend
++                radius=max(radius,exit_radius)+h*h*blend*0.25
++        angle=math.atan2(d.y,d.x); belt=max(0.0,1-d.z*d.z)
++        radius*=1+0.014*math.sin(3*angle+phase)*belt+0.009*math.cos(5*angle-0.4)*belt*d.z
++        return centre+d*radius
++
++    segments,rings=72,40
++    verts=[tuple(crown_point((0,0,1)))]
++    for j in range(1,rings):
++        phi=math.pi*j/rings; sp,cp=math.sin(phi),math.cos(phi)
++        for i in range(segments):
++            theta=math.tau*i/segments
++            verts.append(tuple(crown_point((sp*math.cos(theta),sp*math.sin(theta),cp))))
++    bottom=len(verts); verts.append(tuple(crown_point((0,0,-1))))
++    faces=[(0,1+i,1+(i+1)%segments) for i in range(segments)]
++    for j in range(rings-2):
++        for i in range(segments):
++            a=1+j*segments+i; b=1+j*segments+(i+1)%segments
++            faces.append((a,a+segments,b+segments,b))
++    start=1+(rings-2)*segments
++    faces.extend((start+i,bottom,start+(i+1)%segments) for i in range(segments))
++    crown=mesh_object(spec['name']+'_Crown_Sculpt',verts,faces,cols['TREES'],mats['leaf'],smooth=True,parent=group)
++    crown['design_revision']='R3: one continuous softly asymmetric foliage surface; R2 footprint retained approximately'
++    crown['construction']='Native editable closed mesh; five overlapping analytic ellipsoids with 0.115 local-unit radial blend'
++    crown['sampling']='72 segments x 40 rings; shared pole vertices; no remesh, textures or external assets'
++
++    # One compact two-leaf sprig grows from the upper side of the crown.
++    # Its broad leaf bases sit inside the surface, with no floating shards.
++    sprig_base=crown_point((0.57,-0.08,0.82))-Vector((0.025,-0.004,0.037))
++    leaf(spec['name']+'_Crown_Sprig_0',tuple(sprig_base),
++         tuple(sprig_base+Vector((0.16,-0.015,0.30))),0.13,cols['TREES'],mats['leaf_light'],parent=group)
++    leaf(spec['name']+'_Crown_Sprig_1',tuple(sprig_base),
++         tuple(sprig_base+Vector((0.32,-0.02,0.14))),0.125,cols['TREES'],mats['leaf'],parent=group)
++
++    # Each existing daisy follows the actual crown surface and faces outward.
++    for i,direction in enumerate([(-0.55,-0.83,0.68),(0.53,-0.78,0.56)]):
++        outward=Vector(direction).normalized()
++        anchor=empty(spec['name']+'_Canopy_Daisy_Anchor_%d'%i,cols['TREES'],
++                     tuple(crown_point(outward)-outward*0.018),group)
++        anchor.rotation_euler=outward.to_track_quat('Z','Y').to_euler()
++        flower(spec['name']+'_Canopy_Daisy_%d'%i,(0,0,0),0.75,cols['TREES'],mats,anchor)
+     return group
+ 
+ 
+--- GPT_R2/materials.py
++++ CODEX_R3/materials.py
+@@ -1,4 +1,4 @@
+-"""NOT_APPLIED: portable Principled PBR and self-authored UV wood maps.
++"""Codex R3: portable PBR, restrained leaf sheen and analytic UV wood maps.
+ No external textures, HDRI, downloads or image-generation service are needed.
+ """
+ from __future__ import annotations
+@@ -76,11 +76,15 @@
+     for key,value in palette.items():
+         rough=0.62
+         if key in texture_names: rough=0.46 if key!='bark' else 0.7
+-        elif key.startswith('leaf'): rough=0.49
++        elif key.startswith('leaf'): rough=0.40
+         elif key=='red': rough=0.4
+         elif key=='brass': rough=0.42
+         elif key.startswith('soil'): rough=0.86
+         metal=0.35 if key in ('brass','iron') else 0.0
+         mats[key]=material('Airy_'+key,value,rough,metal,2.0 if key=='lamp' else 0.0,maps.get(key))
++        if key.startswith('leaf'):
++            shader=mats[key].node_tree.nodes.get('Principled BSDF')
++            if 'Coat Weight' in shader.inputs:shader.inputs['Coat Weight'].default_value=0.08
++            if 'Coat Roughness' in shader.inputs:shader.inputs['Coat Roughness'].default_value=0.38
+     mats['endgrain']=material('Airy_Endgrain',palette['wood_light'],0.49,image=maps['endgrain'])
+     return mats
+--- GPT_R2/mine.py
++++ CODEX_R3/mine.py
+@@ -1,4 +1,4 @@
+-"""NOT_APPLIED: open mine shell, separate arch rocks, timber and lantern.
++"""Codex R3: open mine shell, irregular rounded rocks, timber and warm interior.
+ No dark image plane stands in for the tunnel. The shell is actual geometry.
+ """
+ from __future__ import annotations
+@@ -37,9 +37,10 @@
+ 
+ def timber_frame(prefix,y,width,height,cols,parent,mats,light=False):
+     key='wood' if light else 'wood_dark'
++    post_width,post_depth=(0.27,0.31) if light else (0.22,0.26)
+     for side in (-1,1):
+-        box(prefix+'_Post_%s'%side,(side*width/2,y,height/2),(0.22,0.26,height),cols['MINE'],mats[key],0.046,parent)
+-    box(prefix+'_Header',(0,y,height),(width+0.43,0.31,0.25),cols['MINE'],mats[key],0.046,parent)
++        box(prefix+'_Post_%s'%side,(side*width/2,y,height/2),(post_width,post_depth,height),cols['MINE'],mats[key],0.055 if light else 0.046,parent)
++    box(prefix+'_Header',(0,y,height),(width+0.48,0.37,0.29) if light else (width+0.43,0.31,0.25),cols['MINE'],mats[key],0.055 if light else 0.046,parent)
+     for side in (-1,1):
+         # Geometry braces, not black lines painted over a beam.
+         obj=box(prefix+'_Knee_%s'%side,(side*(width/2-0.17),y+0.025,height-0.22),
+@@ -69,6 +70,24 @@
+     return group
+ 
+ 
++def rounded_boulder(name,loc,radii,cols,parent,mats,key,phase):
++    """Closed irregular superellipsoid: broad stone faces, soft corners.
++
++    This is native generated geometry, not a scan, imported rock or texture.
++    The exponent keeps more broad planes than the old ellipsoid cushions.
++    """
++    obj=ellipsoid(name,loc,(1,1,1),cols['MINE'],mats[key],phase=phase,
++                  irregularity=0.085,parent=parent,segments=28,rings=18)
++    for vertex in obj.data.vertices:
++        for axis in range(3):
++            value=vertex.co[axis]
++            vertex.co[axis]=math.copysign(abs(value)**0.81,value)*radii[axis]
++    obj.data.update()
++    obj.rotation_euler=(0.045*math.sin(phase),0.055*math.cos(phase),0.07*math.sin(phase*1.3))
++    obj['codex_r3_origin']='Native rounded angular stone generated from the included source'
++    return obj
++
++
+ def build(cols,root,mats,config,ground):
+     c=config['mine']; x,y=c['x'],c['y']
+     group=empty('Mine_Root',cols['MINE'],(x,y,ground.height(x,y)+config['road']['deck_clearance']),root)
+@@ -78,35 +97,44 @@
+     # Front contour is CCW in XZ, hence its normal faces -Y out of the entrance.
+     for i in range(9):
+         a=math.pi*i/9+0.013; b=math.pi*(i+1)/9-0.013
+-        outer=1.0+0.045*math.sin(i*1.9)
++        outer=1.0+0.075*math.sin(i*1.9)
++        if i==4:outer+=0.055
+         contour=[(1.02*math.cos(a),1.03+0.71*math.sin(a)),
+                  (1.54*outer*math.cos(a),1.03+1.17*outer*math.sin(a)),
+                  (1.54*outer*math.cos(b),1.03+1.17*outer*math.sin(b)),
+                  (1.02*math.cos(b),1.03+0.71*math.sin(b))]
+-        verts=[(xx,yy,zz) for yy in (-0.025,0.68+0.03*math.sin(i)) for xx,zz in contour]
++        verts=[(xx,yy+(0.028*math.sin(i*1.7+j)),zz)
++               for yy in (-0.045,0.69+0.07*math.sin(i)) for j,(xx,zz) in enumerate(contour)]
+         faces=[(0,1,2,3),(7,6,5,4)]+[(j,j+4,(j+1)%4+4,(j+1)%4) for j in range(4)]
+-        mesh_object('Mine_Arch_Stone_%02d'%i,verts,faces,cols['MINE'],
+-                    mats['stone_light' if i%3==1 else 'stone'],bevel=0.074,parent=group)
++        stone=mesh_object('Mine_Arch_Stone_%02d'%i,verts,faces,cols['MINE'],
++                          mats['stone_light' if i%3==1 else 'stone'],bevel=0.115,parent=group)
++        stone.modifiers[0].segments=5
++        stone.modifiers[0].harden_normals=True
+         if i in (2,5,7):
+             mid=(a+b)/2
+-            ellipsoid('Mine_Arch_Moss_%02d'%i,
+-                      (1.40*math.cos(mid),0.38,1.08+1.13*math.sin(mid)),
+-                      (0.23,0.35,0.055),cols['MINE'],mats['moss'],phase=i,
+-                      irregularity=0.13,parent=group)
++            normal=Vector((1.17*math.cos(mid),0,1.54*math.sin(mid))).normalized()
++            moss=ellipsoid('Mine_Arch_Moss_%02d'%i,
++                           (1.49*outer*math.cos(mid),0.31,1.03+1.17*outer*math.sin(mid)),
++                           (0.24,0.31,0.065),cols['MINE'],mats['moss'],phase=i,
++                           irregularity=0.13,parent=group)
++            moss.rotation_euler=normal.to_track_quat('Z','Y').to_euler()
+     for side in (-1,1):
+-        for layer in range(3):
++        for layer in range(2):
+             for depth_index in range(2):
+-                loc=(side*(1.27+0.035*(2-layer)),0.20+depth_index*0.60,0.19+layer*0.38)
+-                dims=(0.63+0.04*math.sin(layer+side),0.72,0.46)
+-                obj=box('Mine_Buttress_%s_%d_%d'%(side,layer,depth_index),loc,dims,
+-                        cols['MINE'],mats['stone' if layer%2 else 'stone_shadow'],0.115,group)
+-                obj.rotation_euler.z=0.04*side*(layer-1)
+-    for i,(xx,yy,zz) in enumerate([(-0.72,1.01,1.94),(0,1.12,2.12),(0.72,1.05,1.98)]):
+-        obj=box('Mine_Roof_%d'%i,(xx,yy,zz),(0.88,0.86,0.58),cols['MINE'],
+-                mats['stone_light' if i==1 else 'stone'],0.14,group)
+-        obj.rotation_euler.y=0.10*(i-1)
+-        ellipsoid('Mine_Roof_Moss_%d'%i,(xx,yy,zz+0.24),(0.33,0.37,0.065),cols['MINE'],mats['moss'],
+-                  irregularity=0.15,parent=group)
++                loc=(side*(1.28+0.04*(1-layer)),0.23+depth_index*0.61,0.28+layer*0.49)
++                rounded_boulder('Mine_Buttress_%s_%d_%d'%(side,layer,depth_index),loc,
++                                (0.38+0.025*layer,0.47,0.32),cols,group,mats,
++                                'stone' if layer else 'stone_shadow',layer*2.1+side+depth_index*0.7)
++    roof=[(-0.80,1.05,1.88,(0.51,0.55,0.40)),(-0.24,1.24,2.20,(0.53,0.55,0.39)),
++          (0.42,1.21,2.18,(0.52,0.53,0.38)),(0.88,1.00,1.87,(0.47,0.53,0.38))]
++    for i,(xx,yy,zz,radii) in enumerate(roof):
++        rounded_boulder('Mine_Roof_%d'%i,(xx,yy,zz),radii,cols,group,mats,
++                        'stone_light' if i==1 else 'stone',i*1.4+0.3)
++        if i in (0,2,3):
++            moss=ellipsoid('Mine_Roof_Moss_%d'%i,(xx,yy,zz+radii[2]*0.89),
++                           (0.32,0.38,0.075),cols['MINE'],mats['moss'],
++                           phase=i,irregularity=0.13,parent=group)
++            moss.rotation_euler.y=0.11*(i-1.5)
+     timber_frame('Portal',-0.085,c['opening_width']+0.015,1.68,cols,group,mats,True)
+     timber_frame('Tunnel_Brace_A',0.69,c['opening_width']-0.15,1.51,cols,group,mats)
+     timber_frame('Tunnel_Brace_B',1.28,c['opening_width']-0.25,1.48,cols,group,mats)
+@@ -115,6 +143,12 @@
+         box('Threshold_Board_%d'%i,(0,0.075+i*0.20,-0.012),(c['opening_width']-0.19,0.185,0.06),
+             cols['MINE'],mats['wood'] if i<2 else mats['wood_dark'],0.015,group)
+     lantern(cols,group,mats)
++    # A real local amber light reveals timber and floor depth inside the hollow.
++    light=bpy.data.lights.new('Mine_Interior_Amber','POINT')
++    light.energy=32.0;light.color=(1.0,0.53,0.19);light.shadow_soft_size=0.48
++    lamp=bpy.data.objects.new('Mine_Interior_Amber',light);cols['LIGHTS'].objects.link(lamp)
++    lamp.parent=group;lamp.location=(0.20,0.65,1.00)
+     return {'origin_blender_z_up':list(group.location),'yaw_degrees':c['yaw_degrees'],
+             'opening_width_m':c['opening_width'],'tunnel_depth_m':c['depth'],
+-            'separate_arch_stones':9,'interior':'Hollow geometric shell, timber braces, distant dark end'}
++            'separate_arch_stones':9,'interior':'Hollow geometric shell with local amber light, timber braces and distant dark end',
++            'art_revision':'Codex R3: irregular rounded arch and boulder mound; no doorway/route relocation'}
+--- GPT_R2/scene_settings.json
++++ CODEX_R3/scene_settings.json
+@@ -1,5 +1,5 @@
+ {
+-  "proposal_status": "NOT_APPLIED / NOT_RUN_IN_BLENDER",
++  "proposal_status": "CODEX_DERIVED_NATIVE_GENERATOR",
+   "schema_version": 1,
+   "asset_name": "gnomit_airy_island_v001",
+   "seed": 402121,
+@@ -225,8 +225,8 @@
+     "final_samples": 192,
+     "denoise": true,
+     "view_transform": "AgX",
+-    "look": "None",
+-    "exposure": 0.0,
++    "look": "AgX - Medium High Contrast",
++    "exposure": 0.1,
+     "gamma": 1.0,
+     "transparent": false
+   },
+@@ -240,14 +240,14 @@
+     "wood": "E4A357",
+     "wood_light": "F0BC70",
+     "wood_dark": "9F642F",
+-    "bark": "A86B35",
+-    "leaf": "5CB72F",
+-    "leaf_light": "91CE38",
+-    "leaf_shadow": "2F803C",
+-    "stone": "ACA999",
+-    "stone_light": "C8C3AD",
+-    "stone_shadow": "929889",
+-    "moss": "78B93B",
++    "bark": "C08A50",
++    "leaf": "78C531",
++    "leaf_light": "ADDB3D",
++    "leaf_shadow": "3F9139",
++    "stone": "BDBAA6",
++    "stone_light": "D6CFB7",
++    "stone_shadow": "9DA793",
++    "moss": "8BC13B",
+     "cream": "F1DDA6",
+     "red": "E55238",
+     "pink": "EF8B9A",
+@@ -257,16 +257,16 @@
+     "iron": "655A42",
+     "tunnel": "433B2F",
+     "lamp": "FFD27D",
+-    "sky": "69C6EC"
+-  },
+-  "proposal_revision": "R2_AFTER_CODEX_NATIVE_REVIEW",
+-  "base_review_commit": "51fe9874f5b0f6cb129dd945b0d1ab2336fe1892",
++    "sky": "45BFF0"
++  },
++  "proposal_revision": "CODEX_R3_NATIVE_POLISH",
++  "base_review_commit": "0989c3c820aa2988c52c86afa3768eabd2d84ba8",
+   "lighting": {
+-    "ambient_strength": 0.28,
+-    "ambient_hex": "D2E1EB",
++    "ambient_strength": 0.32,
++    "ambient_hex": "D6E3EB",
+     "visible_sky_strength": 0.95,
+-    "key_energy": 1450.0,
+-    "fill_energy": 390.0,
+-    "rim_energy": 650.0
++    "key_energy": 2050.0,
++    "fill_energy": 500.0,
++    "rim_energy": 800.0
+   }
+ }

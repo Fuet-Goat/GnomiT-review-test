@@ -1,0 +1,21 @@
+{
+  "status": "PASS",
+  "scope": "Native art and introduction preview only",
+  "model_sha256": "19ec82b314f75e43580408e1f42bbb2ea617f3ad41bd9767b3a97ed0893cf0d3",
+  "blend_sha256": "08b46a08f1a0052971e0e7fe19a5df93bba95ab8d4f01bbd2896314339ccd4f4",
+  "predecessor_files_unchanged": 49,
+  "receipts": [
+    "renders/BLENDER_V3_AUDIT.json",
+    "renders/GUIDE_RUNTIME_AUDIT.json",
+    "verification/FINAL_EXPORT_TIMELINE_AUDIT.json",
+    "renders/final_native/GODOT_STORYBOOK_RECEIPT.json",
+    "renders/fresh_import/GODOT_STORYBOOK_RECEIPT.json",
+    "renders/fresh_import/GUIDE_RUNTIME_AUDIT.json"
+  ],
+  "human_art_acceptance": "PENDING",
+  "android_acceptance": "NOT_MEASURED",
+  "performance_acceptance": "NOT_MEASURED",
+  "campaign_integrated": false,
+  "campaign_save_reward_changes": false,
+  "git_merge": false
+}

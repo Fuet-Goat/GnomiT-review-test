@@ -1,0 +1,9 @@
+Fresh-context handoff review: r2_handoff_review, read-only, 2026-10-21.
+No blocking findings. Checked own-branch staged scope, report/provenance/metrics,
+native receipts and checker logs, complete archive contents and actual ZIP hash.
+Decoder static checks pin/hash/size/CRC/count/duplicates/unsafe paths/symlinks and
+manifest hashes before extraction. Source/native checks remain separate from
+human art acceptance, runtime integration and legal clearance. Open lawns kept.
+No project/checker/decoder execution or network performed by this reviewer.
+Archive SHA256 6bdf602ecea1efa5f9e30d6a9a4b3149e4a8c1c94877e1ad9e8dede965d23f52.
+Remote publication/readback is a subsequent root verification step.

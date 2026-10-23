@@ -1,0 +1,27 @@
+АКТУАЛНО УКАЗАНИЕ НА ЧОВЕКА — ПЪРВО ТРЕВАТА — 21.10.2026
+Старият следващ светлинен pass е отложен. Прочети текущия PROMPT_FOR_GPT_BG.txt
+и ../r3-grass-trials-2026-10-21/START_HERE_BG.txt. Две наши реални grass проби
+са направени преди GPT review. Първо се избира/доработва тревата, после една
+малка група цветя, после останалите обекти един по един. Камера/светлина/
+layout остават същите сега. Старият immutable ZIP пази предишния prompt като
+история; текущият външен prompt и ART_STAGE_ORDER са по-новото указание.
+
+GNOMIT — РЕАЛНА HOME_START BLENDER ПРОБА — 21.10.2026
+Човекът разреши първия композиционен pass по обсъдения staged план.
+Има реални editable .blend, world-only .glb, A/B PNG рендери, входните source
+модели, скриптове, provenance, проявени ограничения и реална проверка.
+Това не е промяна на основната игра и не е завършена визуална цел.
+
+ПРОЧЕТИ README_BG.txt и REPORT.txt; GPT: PROMPT_FOR_GPT_BG.txt.
+Последната генерирана цел е REFERENCE/TARGET_HOME_START.png в пакета.
+Реалните кадри са в RESULT/RENDERS/; не ги бъркай с референцията.
+
+ПРЕНОС
+Запазваме test-repo REPORTS_ONLY text scope: действителният ZIP е в
+NATIVE_COMPOSITION.base64.txt. PACKAGE_RECEIPT.json.txt съдържа bytes/SHA/count.
+Копирай DOWNLOAD_COMPOSITION.py.txt като .py извън repo и изпълни:
+python DOWNLOAD_COMPOSITION.py --commit ТОЧЕН40HEX --output НОВА_ПАПКА
+Има --local-repo за offline clone. Downloader не изпълнява Blender/игра.
+Отвори HANDOFF/RESULT/gnomit_home_start_composition_v001.blend с Auto Run off.
+Няма нужда от нов software/addons/външни textures за разглеждането на модела.
+Текущата 2-anchor R3 логика не е променяна; шестте номера са бъдещ visual pass.

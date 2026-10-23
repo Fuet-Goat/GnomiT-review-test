@@ -1,0 +1,86 @@
+{
+  "original_bytes_copied": true,
+  "new_art_or_retouch": false,
+  "files": [
+    {
+      "path": "media/01_STYLE_TARGET_MIDDLE_PANEL.png",
+      "bytes": 2634535,
+      "sha256": "a7d9b4f82fe73a2e5ab641261b9cbc14765e6360c9c108ab7ee9a51b0bc84add",
+      "source_path": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\NewIsland_Generator_Handoff_2026-10-21\\PRIMARY_TARGET_COMPARISON.png",
+      "public_name": null,
+      "meaning": "Generated style reference, middle panel is target; not an actual3D source"
+    },
+    {
+      "path": "media/02_HOME_START_CONCEPT_6_MARKERS.png",
+      "bytes": 2256314,
+      "sha256": "a8ba8f00cba8f715e4633941f65b7f79da7caa174520a2a6e2072c60538e73c9",
+      "source_path": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\WarmMap_HomeStart_Addendum_2026-10-21\\PACKAGE\\REFERENCES\\01_TARGET_WARM_MAP_HOME_START_6_LEVELS.png",
+      "public_name": null,
+      "meaning": "Generated concept, house beside start; six markers visual only"
+    },
+    {
+      "path": "media/03_NATIVE_H_VS_I2_PALETTE.png",
+      "bytes": 979114,
+      "sha256": "9e46b36068f1f6ead61fdf0f01654910b8d28eb12c6bb28606c89d87999ca681",
+      "source_path": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\Map_Palette_2026-10-22\\outputs\\BEFORE_AFTER_PALETTE.png",
+      "public_name": null,
+      "meaning": "Native Blender, NOT current Godot map"
+    },
+    {
+      "path": "media/04_NATIVE_H2_LOW_GRASS_DETAIL.png",
+      "bytes": 527036,
+      "sha256": "91b8c13b76e265a2f34482f64f7d6a8370c970e3a0bfcc8900981255ef819724",
+      "source_path": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\Grass_Carpet_Whole_Map_2026-10-22\\outputs\\LOW_GRASS_DETAIL.png",
+      "public_name": null,
+      "meaning": "Native Blender detail; no Android optimisation"
+    },
+    {
+      "path": "media/05_ACCEPTED_R4_FORM.png",
+      "bytes": 579215,
+      "sha256": "d004899caf11643e0fcc09ce14b724ffde41e235e41e4e04f03a1cf16dec6f53",
+      "source_path": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\Gnome_Final_Face_R4_2026-10-23\\outputs\\R4_FORM_COMPARISON.png",
+      "public_name": "R4_FORM_COMPARISON.png",
+      "meaning": "Accepted form; do not restart"
+    },
+    {
+      "path": "media/06_ACCEPTED_LIGHTING_R1_A_B.png",
+      "bytes": 230551,
+      "sha256": "c162299acc7329d6f51314dcd6d5f9ab9dbfe5d342e0cb149466850ae2bc3c15",
+      "source_path": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\Gnome_Godot_Lighting_R1_2026-10-23\\outputs\\LIGHTING_A_B.png",
+      "public_name": "GNOMIT_GODOT_LIGHTING_R1_A_B.png",
+      "meaning": "StudioGodot, B accepted; not world lighting"
+    },
+    {
+      "path": "media/07_ACCEPTED_STUDIO_GREETING.gif",
+      "bytes": 5199211,
+      "sha256": "b209961d0f75b6e5403a41b0793c9406fde7648126a91121b48f0bcb3693c575",
+      "source_path": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\Gnome_Godot_Lighting_R1_2026-10-23\\outputs\\GODOT_LIGHTING_R1_GREETING.gif",
+      "public_name": "GNOMIT_GODOT_LIGHTING_R1_GREETING.gif",
+      "meaning": "Actual Godot finite greeting, GIF loops for review"
+    },
+    {
+      "path": "media/08_REAL_MAP_OLD_MASTER.png",
+      "bytes": 853597,
+      "sha256": "79181d3e90f965b2dd6e6c03586918ae61f1b84c2fbce37f4ba01c7300f28f1c",
+      "source_path": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\Gnome_Map_Integration_R1_2026-10-23\\outputs\\OLD_MASTER_CONTEXT.png",
+      "public_name": "GNOMIT_REAL_MAP_OLD_MASTER.png",
+      "meaning": "Actual Godot context current v014world, worldlightingunchanged"
+    },
+    {
+      "path": "media/09_REAL_MAP_CROPS_4X.png",
+      "bytes": 57989,
+      "sha256": "8b2ca81d45238876ac7504b231db76353e489bcb0f612dcedbaf9f253f22910c",
+      "source_path": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\Gnome_Map_Integration_R1_2026-10-23\\outputs\\CHARACTER_CONTEXT_CROPS.png",
+      "public_name": "GNOMIT_REAL_MAP_CHARACTER_CROPS.png",
+      "meaning": "Diagnostic4x crop, not gameplay size"
+    },
+    {
+      "path": "media/10_REAL_MAP_GREETING.gif",
+      "bytes": 24935950,
+      "sha256": "8363264e9a7e3f35fa993fbc643b2874293f18ae58ace6fe4100c321f78ea113",
+      "source_path": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\Gnome_Map_Integration_R1_2026-10-23\\outputs\\GNOME_REAL_MAP_GREETING.gif",
+      "public_name": "GNOMIT_REAL_MAP_R3_GREETING.gif",
+      "meaning": "Actual Godot context greeting, no walk, camera fixed for capture"
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+"""Geometry-only form M against immutable L2; preserve style/pose/action data."""
+from pathlib import Path
+import sys,json,hashlib,math
+import bpy
+from mathutils import Vector
+ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'tools'))
+import record_helpers as p
+from build_cartoon_guide import descends,action_records,material_records
+from face_form import build_face_form
+from beard_form import build_beard_form
+SOURCE=ROOT/'native/INPUT_L2.blend';OUT=ROOT/'native/GNOME_FORM_M4.blend'
+EXPECTED='c10a83a0ec3911017bb4cb52e202347b7cd01a603ba27db27d345bc64454ba53'
+def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
+def write(path,obj):path.write_bytes((json.dumps(obj,indent=2)+'\n').encode())
+
+def main():
+    assert sha(SOURCE)==EXPECTED and not OUT.exists()
+    bpy.context.preferences.filepaths.save_version=0
+    bpy.ops.wm.open_mainfile(filepath=str(SOURCE));scene=bpy.context.scene;scene.frame_set(1);bpy.context.view_layer.update()
+    root=bpy.data.objects['Guide_Root'];guide={o.name:o for o in scene.objects if descends(o,root)}
+    world={o.name:p.object_record(o) for o in scene.objects if o.name not in guide}
+    transforms={n:([list(row) for row in o.matrix_basis],o.parent.name if o.parent else None) for n,o in guide.items()}
+    materialslots={n:[s.material.name for s in o.material_slots] for n,o in guide.items()}
+    fixed={n:p.object_record(o) for n,o in guide.items() if any(s in n for s in ('boot','trouser','cap')) or o==root}
+    settings=p.g.settings_record(scene);materials=material_records();actions=action_records();names=set(scene.objects.keys())
+    canonical=guide['Guide_integrated sculpted face'].matrix_world.copy()
+    face=build_face_form(guide,canonical)
+    print('FACE_FORM_COMPLETE '+json.dumps(face),flush=True)
+    beard=build_beard_form(guide['Guide_continuous jaw wrapping beard'],canonical)
+    print('BEARD_FORM_COMPLETE '+json.dumps(beard),flush=True)
+    # Broaden actual coat shoulder/armhole surface, retaining the neckline.
+    coat=guide['Guide_tailored coat continuous shell']
+    for vertex in coat.data.vertices:
+        v=vertex.co
+        shoulder=math.exp(-((v.z-.541)/.040)**2)*max(0,min(1,(abs(v.x)-.10)/.08))
+        v.x*=1+.095*shoulder
+        v.y*=1+.035*shoulder
+    coat.data.update()
+    sleeve_records=[]
+    for n in ('Guide_shaped upper sleeve','Guide_tailored lantern sleeve'):
+        sleeve=guide[n];assert len(sleeve.data.vertices)==64
+        points=[v.co.copy() for v in sleeve.data.vertices]
+        for ring in range(4):
+            center=sum(points[ring*16:(ring+1)*16],Vector())/16
+            scale=(.84,.92,.98,1)[ring]
+            shift=Vector((-math.copysign((.017,.009,0,0)[ring],center.x),0,0))
+            for i in range(16):sleeve.data.vertices[ring*16+i].co=center+shift+(points[ring*16+i]-center)*scale
+        sleeve.data.update();sleeve_records.append(n)
+    bpy.context.view_layer.update()
+    def validate():
+        assert set(scene.objects.keys())==names
+        assert {n:p.object_record(bpy.data.objects[n]) for n in world}==world,'WORLD_CHANGED'
+        assert {n:([list(row) for row in bpy.data.objects[n].matrix_basis],bpy.data.objects[n].parent.name if bpy.data.objects[n].parent else None) for n in guide}==transforms,'POSE_CHANGED'
+        assert {n:[s.material.name for s in bpy.data.objects[n].material_slots] for n in guide}==materialslots,'SLOTS_CHANGED'
+        assert {n:p.object_record(bpy.data.objects[n]) for n in fixed}==fixed,'CAP_OR_FEET_CHANGED'
+        assert p.g.settings_record(scene)==settings and material_records()==materials and action_records()==actions
+    validate()
+    text=bpy.data.texts.new('START_HERE_FORM_M')
+    text.write('Geometry-only static M3 from L2. New continuous sculpted face/nose, inset eyes, broad skin-lid patches, three coherent broad beard locks, reshaped existing coat/sleeve armholes. Same materials, object transforms/parents, pose, cap/boots, world and existing actions. Old separate nose/bridge meshes retained hidden. This static candidate needs animation visual checking and shader baking before runtime use. No game integration.\n')
+    assert 'FINISHED' in bpy.ops.wm.save_as_mainfile(filepath=str(OUT),check_existing=False)
+    bpy.ops.wm.open_mainfile(filepath=str(OUT));scene=bpy.context.scene;scene.frame_set(1);bpy.context.view_layer.update();validate()
+    scene.render.filepath=str(ROOT/'outputs/MAP_FORM_M.png')
+    assert 'FINISHED' in bpy.ops.render.render(write_still=True)
+    write(ROOT/'documentation/FORM_M_RECEIPT.json',{'status':'NATIVE_SAVED_REOPENED_RENDERED','input_sha256':EXPECTED,
+        'output_sha256':sha(OUT),'protected_world_objects':len(world),'face':face,'beard':beard,
+        'shoulders':'existing coat armhole surface expanded; existing first sleeve rings tapered and inset',
+        'reshaped_sleeves':sleeve_records,'scene_object_count_unchanged':len(names),
+        'all_material_definitions_and_slots_unchanged':True,'pose_and_parent_transforms_unchanged':True,
+        'cap_boots_root_unchanged':True,'actions_unchanged':True,'map_camera_light_world_unchanged':True,
+        'new_animation_visual_check':'NOT_PERFORMED','Godot_or_shader_bake':'NOT_PERFORMED','human_visual_choice':'PENDING'})
+    assert sha(SOURCE)==EXPECTED
+    print('FORM_M_COMPLETE',flush=True)
+
+if __name__=='__main__':main()

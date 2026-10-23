@@ -1,0 +1,132 @@
+GNOMIT — MATERIAL_POWER_MATCHING_R2_HUMAN_CORRECTION_2026-10-19
+DATE: 2026-10-19 (Europe/Sofia)
+STATUS: HUMAN RULE CONFIRMED / DESIGN UPDATE ONLY / NOT IMPLEMENTED
+
+THE HUMAN HAS NOW CONFIRMED THIS EXACT EXAMPLE
+1. The player makes a move and some minerals break.
+2. Falling/refill aligns four ordinary ore pieces.
+3. They create a Volcano, which remains on the board and DOES NOT self-erupt.
+4. The player can keep playing. When the player later grabs that Volcano and
+   swaps it with an adjacent piece, it erupts.
+Straight five creates Storm, which likewise waits for deliberate movement.
+Root asked whether this is the intended meaning; the human explicitly said YES.
+
+AUTHORITATIVE CORRECTION
+- Cascades MAY CREATE four/five-derived rewards. The previous prototype/design
+  rule 'cascades never create rewards' is superseded as the TARGET design.
+- Creation and activation are separate. A newly created power waits for the
+  player's deliberate adjacent swap of THAT power. Birth, gravity, elapsed
+  turns, neighbouring matches, and incidental adjacency do not auto-use it.
+- Waiting is not merely immunity until the birth turn ends: the confirmed
+  example lets the player continue and choose when to move the power later.
+- Newborn powers never auto-fuse into Black Hole just because they land together.
+  Deliberate adjacent swap of two already-existing five-born powers remains
+  the human's 5+5 Black Hole condition, including same families.
+- Keep the power table: straight4->Volcano,straight5+->Storm,T/plus->Tornado,
+  L->Landslide. Mineral remains distinct from family and birth tier.
+
+CHRONOLOGY — DO NOT RESTORE AN EARLIER MISUNDERSTANDING
+Earlier the human selected 'old power in a cascade fires without a new reward'
+in an async question. They then stopped to clarify that we were discussing
+different cases, requested an example, and confirmed the example above instead.
+The final explicit example governs. Do NOT cite the earlier checkbox as a broad
+approval of automatic cascade activation or as a ban on cascade births.
+
+WHAT WAS ACTUALLY READ IN THE TWO R1 REPORTS
+GPT ec779c93e7cdf8775b3e0a2fba707c857fe1e793, lines1478-1917:
+independent proposal plus real peer response to Grok9a4146fa. GPT would consume
+old coloured cascade powers inertly and count material actually consumed;
+newborn would remain while other same-material matched stones clear.
+Grok9a4146fa4cfa65965bdf5ba2584098b4921aa4b8, lines513-549:
+initial material matching, ordinary-only cascade matching, waiting powers
+retained, ordinary-only material collection. Both R1s still forbid cascade births.
+Consequently neither old R1 proposal completely matches the NEW human correction.
+Neither is a native implementation or a final acknowledgement of this R2.
+
+AGREEMENTS WE KEEP
+Material/family/tier/token identity are distinct. No guessing missing material
+from the existing icon. One recipe reward per matched component. Direct special
+pair combinations precede ordinary colour-recipe handling. One move and no
+duplicate collection/terrain damage. New identity differs from retired ability
+identity. Approved icon remains, with separate material mark and five ticks.
+
+CODEX RECOMMENDATION FOR THE NEXT BOUNDED DESIGN RESPONSE
+Use the same recipe classifier for eligible initial matches and ordinary
+cascade4/5 shapes. Birth a real token, with its actual mineral, without queuing
+its power effect. Follow the waiting token across gravity/shuffle/turns. Do not
+infer activation readiness merely from 'not born this turn'. No implementation
+or blanket invulnerability is approved by this text.
+
+COLLECTION CORRECTION TO REVIEW
+Separate retirement of an old ABILITY from removal of its MATERIAL unit.
+If a matched anchor's material transfers into the new reward, it has not been
+collected, even if an old ability at that coordinate fired and got a new ID.
+Example: four ruby-material units form a new ruby Volcano. One anchor unit
+survives inside the new reward; max three units are collected from that match.
+This must not become four merely because the anchor held an old power instead
+of an ordinary ruby. For a genuinely removed old-material token elsewhere,
+Codex proposes one goal unit, not the original four/five that created it.
+This is a Codex accounting recommendation, not a new human collection ruling.
+
+ONLY THE REMAINING QUESTIONS NEED A PEER ANSWER
+1. A waiting power must be moved by the player to use it. How does it participate
+   as material when it stays stationary inside a later PLAYER-made colour match?
+   Do not silently fire/consume it just because it is now an 'old' token. Give
+   one rule and example compatible with the confirmed waiting requirement.
+2. Give one consistent collection/terrain rule, explicitly separating anchor
+   conversion, actual material removal, and old ability retirement. Handle
+   old-source/new-anchor at the same coordinate without duplicate goals.
+3. Cascade births can now create MORE than two rewards in one player turn.
+   GPT R1's 'at most two newborns' assumption no longer proves termination.
+   Define a finite progress/settling policy without auto-firing waiting powers,
+   silently rerolling a protected reward, or repeatedly granting the same match.
+No need to reopen engine, power families, monetisation or unrelated campaign work.
+
+MASKS / EXAMPLES — DESIGN CASES, NOT EXECUTED GAME FIXTURES
+A. After break/refill, four ordinary gold ores align -> one ore Volcano born;
+   it stays without eruption, and later deliberate drag activates it.
+B. After break/refill, five ordinary rubies align -> one ruby Storm born;
+   no lightning until deliberate use. No Volcano from the contained sub-four.
+C. Three independent ordinary fours arise in one cascade wave -> three waiting
+   Volcanoes, not a two-newborn cap and no automatic effects.
+D. Waiting ruby Volcano falls between two rubies now or on a later player turn
+   WITHOUT being moved by the player -> no automatic Volcano eruption.
+   Propose how matching/clearing works without deleting the waiting reward.
+E. Two waiting five-born powers land adjacent -> no Black Hole. Later direct
+   deliberate swap of those two -> one Black Hole and no source attacks.
+F. Four ruby-material units create a new power at the old-source coordinate ->
+   distinguish old ability retirement from the one retained anchor material.
+
+SCOPE AND ACTUAL STATUS
+Only own REPORTS_ONLY text in the public review hub is updated. No game edits,
+tests, imports, audio/art edits, GUI, grants, private repo access or merge.
+The local RewardRules lab remains on its existing no-cascade-birth behavior;
+this R2 is the corrected target, not a claim the code already does it.
+The prior animation/audio polish is still pending, not marked complete here.
+R1 inputs are pinned below; a new external response to R2 is still awaited.
+Internal read-only consistency checks are not external GPT/Grok agreement.
+Recommended GPT review: GPT-6.1 Sol / High. Grok: Build.
+
+EXACT R1 INPUTS
+{
+  "gpt": {
+    "commit": "ec779c93e7cdf8775b3e0a2fba707c857fe1e793",
+    "path": "discussions/gpt/task-001/REPORT.txt",
+    "lines": [
+      1478,
+      1917
+    ],
+    "bytes": 137348,
+    "sha256": "62c6dc0f2f21721a1141497d3405c0cb5ba2a55a9bee6230ab0877eccc3d7c55"
+  },
+  "grok": {
+    "commit": "9a4146fa4cfa65965bdf5ba2584098b4921aa4b8",
+    "path": "discussions/grok/task-001/REPORT.txt",
+    "lines": [
+      513,
+      549
+    ],
+    "bytes": 52757,
+    "sha256": "75ec65a91832247dc9883eab343c5a3a59f3ba5a02b4d9e9ce9dc33f00a6a292"
+  }
+}

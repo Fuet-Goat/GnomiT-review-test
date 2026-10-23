@@ -1,0 +1,19 @@
+{
+  "status": "LOCAL_PACKAGE_CRC_AND_EVERY_ENTRY_SHA256_PASS",
+  "zip_name": "GNOMIT_WARM_MAP_SIX_LEVELS_GPT_HANDOFF_2026-10-21.zip",
+  "bytes": 9459562,
+  "sha256": "69b3cf19a469ab089daf1bd81f3d42969e05c2d1ca3c95a04b44a3b8b28115f4",
+  "entries": 50,
+  "encoded": "HANDOFF_PACKAGE.base64.txt",
+  "image_reference": {
+    "path": "REFERENCES/01_TARGET_WARM_MAP_6_LEVELS.png",
+    "source_local": "C:\\Users\\fruch\\.codex\\generated_images\\01a11973-52a1-7a10-b9c3-69a7fee84ca5\\exec-e82553cc-7c71-4f9a-adf7-846a7e7151b4.png",
+    "bytes": 2269103,
+    "sha256": "38abdf8a8a642090cbdc1d163bbd58582dde3b11ffed5032d563a9a86c51678d",
+    "kind": "CURRENT_USER_SELECTED_VISUAL_TARGET_NOT_RUNTIME",
+    "width": 840,
+    "height": 1871
+  },
+  "base_commit": "658d7a1eee5cf0a20121af05fb761d80d204fc28",
+  "project_code_executed": false
+}

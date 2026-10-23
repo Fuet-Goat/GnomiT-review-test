@@ -1,0 +1,53 @@
+GNOMIT — CROWN-ONLY v011 — 21.10.2026
+Човекът поиска да продължим след treev010. Този кандидат променя само петте
+корони и прикрепянето на десетте налични цветни групи. Не е автоматичен
+етап за цветя или нова камера/карта.
+
+Избран native/TREES_V011_LEAF_MASSES.blend. Запазени основни лобове;9 неравни
+вторични обема и390 плитки листни акцента, групирани с неравномерна маска.
+Релефът под1mm обхваща25.4–47.7% от върховете според короната. Това е
+измерване на полето,не доказателство за визуално качество или производителност.
+
+634 native records защитени:кора отv010,grass geometry/UV/цветове/материали,
+камера,светлини,layout. Световните transforms на tree groups/crowns запазени;
+размерите на короните са същите. Старите материали не са променени.
+60 от61 inherited GDScript файла са byte-identical;единственият различен
+GDScript има само ново window title. Game rules/audio/progress са запазени.
+Двете реални нива остават;6 concept markers не променят campaign mapping.
+
+Native save/reopen/export PASS;GLB contains crown COLOR_0,matte PBR,groundUV1.
+52 rendered scripted Godot checks PASS;не са човешки tests. Screenshot comparisons
+в outputs/06_ORGANIC_BEFORE_AFTER.png. Editable source,generator,input.blend
+и shape library са включени. Документация/произход/хешове са в пакета.
+
+Независим визуален преглед:кандидатC е по-спокоен и по-малко равномерно покрит
+с релеф отv010. A/B станаха прекалено гладки и са отхвърлени. Малките дървета
+и горните участъци все още изглеждат гладки;не е постигната плътната вътрешна
+листна дълбочина на референцията. Човешкият изборv010/v011 остава PENDING.
+Няма твърдение за пълно художествено приемане. Android/performance NOT_MEASURED.
+
+DraftA/B native binaries са запазени локално,извън final ZIP. Техните source
+scripts,receipts и native screenshots са включени. Това спестява два дублирани
+Blender файла и запазва точните възпроизводими опити.
+
+ПРЕДАВАНЕ
+Git е разрешен text report handoff:реалниBase64 ZIP bytes,receipt,finalfilemanifest.
+DOWNLOAD_V011.py.txt възстановява целия финален GAME от immutablev009 base
+плюсv011 delta. Проверява part hashes,ZIP hashes/CRC и всяко крайно име/байтове.
+Downloader не изпълнява code,не изтрива и отказва съществуваща output папка.
+Локалният пълен GNOMIT_R3_TREES_ORGANIC_V011_2026-10-21.zip съдържа същите files.
+
+Изтегли DOWNLOAD_V011.py.txt като download_v011.py:
+python download_v011.py --commit ARTIFACT_COMMIT --output NEW_OUTPUT_FOLDER
+Точният ARTIFACT_COMMIT е записан в REMOTE_READBACK.json.txt след проверката.
+Първо прегледай README_BG.txt и PROVENANCE.json.txt. Не започвай следващ етап.
+
+Няма промяна вmain/grants/privateCradle/другbot илиmerge.
+GPT-6.1 Sol / Extra high.
+
+REMOTE ПРЕДАВАНЕ PASS
+Artifact:fbd47fb0ab87d39dfe664921af6b00f21a45fb22.
+341 final файла възстановени от Git и проверени преди и след запис.
+След това fresh cold import PASS и52 runtime checks PASS.
+84 inherited resources иmain.tscn са непроменени;само world.glb е art delta.
+Точна последователност/хешове:REMOTE_READBACK.json.txt.

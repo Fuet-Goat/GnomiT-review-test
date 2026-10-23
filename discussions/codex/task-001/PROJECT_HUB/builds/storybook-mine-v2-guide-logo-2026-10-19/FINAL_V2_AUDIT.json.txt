@@ -1,0 +1,32 @@
+{
+  "status": "PASS",
+  "native_GLb_sha256": "842322fc7cd4688d0f197dfcc45cd248d6d02a338fafc92b102dbcbcc7b33718",
+  "native_GLb_bytes": 12236056,
+  "native_meshes": 1070,
+  "triangles": 454540,
+  "embedded_native_textures": 4,
+  "guide_objects": 73,
+  "guide_changed_runtime_pivots": 4,
+  "boot_grounding_and_loop": "PASS",
+  "two_markers_and_intro_cards": true,
+  "fresh_import_status": "PASS",
+  "fresh_import_definition": "New directory with only viewer, GLB and standalone logo. No cache, extracted native textures or .blend copied.",
+  "wordmark": {
+    "sha256": "90a07215598d9d3cb95741dc417e96d14aec5e03fea1b0875c40b7f52dabe262",
+    "dimensions": [
+      1983,
+      793
+    ],
+    "actual_display_bounds": [
+      24.0,
+      55.0,
+      384.0,
+      100.0
+    ],
+    "alpha_preserved": true,
+    "generated_illustration_separate_from_native_3D": true
+  },
+  "V1_predecessor_GLb_unchanged": true,
+  "human_art_acceptance": "PENDING",
+  "Android_and_performance": "NOT_MEASURED"
+}

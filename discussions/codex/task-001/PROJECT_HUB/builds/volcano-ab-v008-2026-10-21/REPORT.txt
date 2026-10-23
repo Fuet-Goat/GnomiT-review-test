@@ -1,0 +1,77 @@
+GNOMIT VOLCANO A/B v008 — LOCAL IMPLEMENTATION COMPLETE / HUMAN_TEST_PENDING
+Date: 2026-10-21. Human authorization: "davai G" following the approved A/B
+preparation description. Local isolated project outside the public report repo.
+No source/grant/main/private-game/other-bot changes. Public Git receives only
+own report documents and lossless data transport within REPORTS_ONLY scope.
+
+BASE AND CHANGES
+Base: BlackHoleVisibleLayers_2026-10-21, v006. Exact pre-copy identity of289
+files is preserved in baseline_documentation/INPUT_SOURCE_IDENTITY.json.
+All289 base files remain unchanged;132 copied runtime scripts/art/audio files
+also match byte-for-byte (excluding generated .import/.uid from that132 count).
+New subclass adapter ab_main observes existing solver; ab_launcher selects arm;
+trial_log writes local JSONL and summary. A original tutorial is byte-identical.
+_on_swap retains base controller order, with observation/cue hooks around the
+same Core.try_swap and awaited board.animate_result. New project/profile/main
+scene and launch scripts isolate sessions; no reward recipe or RNG changes.
+
+B uses only existing instructional facts: neighboring swaps; straight four
+creates Volcano; created power waits; directly move it OR make a manual match
+including its material;3–5 scattered targets. Cues use existing gnome/footer
+and actual legal opportunities via read-only preview, without painted boards.
+The first cue is nonmodal; after the first real Volcano activation, automatic
+teaching text/highlights fade. Both arms retain the existing Pause guide.
+B is a timing/practice/fading/presentation package, not a test of one isolated
+animation property. Target exclusions/material distinctions are not new lessons
+added only to B. No layer/other-power tutorial was introduced.
+
+EVIDENCE
+29 real A/B integration assertions: same initial Core/RNG, same real move result,
+A blocking lesson, B nonblocking cue, separate clocks, Help no solver mutation,
+both actual activation routes, waiting cascade births, actual fade, invalid-help
+retention, exact source identity in sessions. Controlled fixtures are explicitly
+SCRIPTED_TEST; they are not inserted into normal sample play.
+44 logger assertions: unique sessions/no overwrite, persisted JSONL ordering,
+deep copied details, ready clock, five-minute boundary, observed milestones,
+NOT_REACHED/manual-only assessment, idempotent finish.
+135 inherited one-hit Core assertions pass unchanged.
+17 native assertions: six actual Godot432×960 PNGs, original A and contextual B,
+real fixed-seed game actions, stable board and bounded footer text. The capture
+script uses a deterministic automated strategy, not a natural novice trajectory.
+No seed search or forced campaign goal change; source42 is recorded.
+Native capture/source review cannot establish player understanding.
+Relevant logs, RED evidence, final runs and internal review are in verification/.
+
+TDD/REVIEW FIXES
+Missing-feature RED preceded implementation. A modal initially started the
+board clock through an internal close call; an opening guard fixed it. RED
+regressions exposed stale instructional header after fade and Help loss after
+invalid requests; both fixed, as was replay cue caching. Build identity was
+also added after an explicit failing assertion. The independent code reviewer
+re-read changed blocks and found no residual blocker; did not rerun tests.
+
+DATA LIMITS
+OWNER_PREVIEW and SCRIPTED_CAPTURE/TEST are explicit labels, not human results.
+Observed-session launcher only declares a facilitator-selected category.
+Logs mark UNASSISTED_ACTION_CANDIDATE, never human comprehension/intent.
+Summary milestones are events; NOT_REACHED is not failure. Restricted
+single_volcano_ordinary_neighbor_opportunity is intro eligibility, not every
+possible power combo. Raw board/reward states permit later review.
+Board-ready is the controller/presentation readiness hook, not a measured touch
+latency. Total time includes map; first instructional exposure is logged apart.
+Clock continues in background; focus events allow later active/background review.
+Five-minute marker does not stop play; summary includes entire session, so later
+analysis must apply the window explicitly. Help, restart/level changes and goal
+completion are logged; they are deviations/events, not success criteria.
+No separate standardized transfer fixture is implemented. Protocol proposes one
+later if opportunities are insufficient; current data cannot claim transfer.
+Android/novice readability/comprehension/retention remain NOT_MEASURED.
+No visible mobile Skip was added only to one arm; existing keyboard dismissal
+and shared Pause guide remain. PC sample is not Android accessibility acceptance.
+
+DELIVERY
+Desktop fixed v008 shortcut registered; normal Latest remains v006.
+Full local ZIP contains project, new source, docs and scripted evidence, no
+engine/cache/personal saves. Git stores small verified delta against pinned v006
+plus safe reconstruction source, code text, manifest and readback proof.
+No merge, release or automatic external publication of participant records.

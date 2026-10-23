@@ -1,0 +1,110 @@
+extends Control
+## Code-native casing illustration using the unchanged inherited diamond atlas.
+const TREASURES=preload("res://assets/treasures_v4.png")
+const FONT=preload("res://assets/font.ttf")
+var _font: FontVariation
+var page := 0
+var reduced_motion := false
+var state: Dictionary = {"hp":2,"collected":false}
+var before: Dictionary = {}
+var transition := 1.0
+var effect := "none"
+var elapsed := 0.0
+
+func _ready() -> void:
+	mouse_filter=Control.MOUSE_FILTER_IGNORE
+	_font=FontVariation.new();_font.base_font=FONT
+	_font.variation_opentype={TextServerManager.get_primary_interface().name_to_tag("wght"):700.0}
+
+func _process(delta: float) -> void:
+	if not is_visible_in_tree():return
+	if not reduced_motion:
+		elapsed+=delta
+		transition=minf(1.0,transition+delta/0.75)
+	queue_redraw()
+
+func present(next: Dictionary, result: Dictionary = {}) -> void:
+	state=next.duplicate(true)
+	before=Dictionary(result.get("before",{})).duplicate(true)
+	effect=String(result.get("effect","none"))
+	transition=0.0 if result.get("accepted",false) and not reduced_motion else 1.0
+	queue_redraw()
+
+func _label(text: String, at: Vector2, font_size: int, color: Color = Color("fff0d0")) -> void:
+	var width := _font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x
+	draw_string(_font,at-Vector2(width*.5,0),text,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,color)
+
+func _diamond(at: Vector2, radius: float, alpha: float = 1.0) -> void:
+	var atlas := AtlasTexture.new()
+	atlas.atlas=TREASURES
+	atlas.region=Rect2(0,TREASURES.get_height()/2.0,TREASURES.get_width()/3.0,TREASURES.get_height()/2.0)
+	draw_texture_rect(atlas,Rect2(at-Vector2.ONE*radius,Vector2.ONE*radius*2),false,Color(1,1,1,alpha))
+
+func _tile(at: Vector2, step: float) -> void:
+	var style := StyleBoxFlat.new()
+	style.bg_color=Color("214651");style.border_color=Color("507c82")
+	style.set_border_width_all(1);style.set_corner_radius_all(9)
+	draw_style_box(style,Rect2(at-Vector2.ONE*step*.46,Vector2.ONE*step*.92))
+
+func _casing(at: Vector2, radius: float, layers: int) -> void:
+	# Rock casing has a blue window: material remains identifiable before reveal.
+	_diamond(at,radius*.82)
+	for index in range(8):
+		var angle := TAU*index/8.0
+		var center := at+Vector2(cos(angle),sin(angle))*radius*.76
+		var shape := PackedVector2Array()
+		for side in range(6):
+			var a := TAU*side/6.0+.12*index
+			shape.append(center+Vector2(cos(a),sin(a))*radius*(.29 if side%2==0 else .26))
+		draw_colored_polygon(shape,Color("69747a") if index%2==0 else Color("909c9c"))
+		draw_polyline(PackedVector2Array([shape[0],shape[1],shape[2]]),Color("c9d1bd"),1.5,true)
+	if layers==1:
+		for side in [-1,1]:
+			var start := at+Vector2(side*.55,-.65)*radius
+			draw_polyline(PackedVector2Array([start,start+Vector2(-side*.18,.30)*radius,start+Vector2(side*.02,.47)*radius,start+Vector2(-side*.12,.68)*radius]),Color("182e39"),3,true)
+	var badge := at+Vector2(.72,-.75)*radius
+	draw_circle(badge,13,Color("293b42"),true,-1,true)
+	draw_arc(badge,13,0,TAU,30,Color("efcd87"),1.5,true)
+	_label(str(layers),badge+Vector2(0,5),16)
+
+func _draw() -> void:
+	if size.x<=0 or size.y<=0:return
+	var s := minf(size.x/360.0,size.y/320.0)
+	var origin := (size-Vector2(360,320)*s)*.5
+	draw_set_transform(origin,0,Vector2.ONE*s)
+	if page==0:
+		_tile(Vector2(90,135),120);_casing(Vector2(90,135),46,2)
+		_tile(Vector2(270,135),120);_diamond(Vector2(270,135),43)
+		_label("STONE ARMOUR",Vector2(90,225),13)
+		_label("ORDINARY",Vector2(270,225),13)
+		var pulse := 1.0 if reduced_motion else .7+.3*sin(elapsed*3)
+		draw_line(Vector2(160,135),Vector2(199,135),Color(1,.83,.48,pulse),3,true)
+		draw_polyline(PackedVector2Array([Vector2(191,128),Vector2(199,135),Vector2(191,142)]),Color(1,.83,.48,pulse),3,true)
+		_label("Remove protection first",Vector2(180,286),17)
+	else:
+		var shown := state
+		if transition<.5 and not before.is_empty():shown=before
+		var hp := int(shown.get("hp",2))
+		var gone := bool(shown.get("collected",false))
+		for row in range(3):
+			for col in range(3):
+				var at := Vector2(108+col*72,72+row*72)
+				_tile(at,68)
+				if row==1 and col==1:
+					if not gone:
+						if hp>0:_casing(at,27,hp)
+						else:_diamond(at,27)
+				elif (hp>0 and col==0) or (hp==0 and row==1):
+					var alpha := 1.0
+					if effect in ["armour_chip","armour_break"] and col==0 and transition<.65:alpha=1.0-sin(transition/.65*PI)
+					if not gone:_diamond(at,24,alpha)
+				else:
+					draw_circle(at,5,Color("42646a"),true,-1,true)
+		if not reduced_motion and effect in ["armour_chip","armour_break"] and transition>.42 and transition<1:
+			var t := (transition-.42)/.58
+			for index in range(10 if effect=="armour_break" else 5):
+				var angle := TAU*index/10.0+.5
+				var point := Vector2(180,144)+Vector2(cos(angle)*t*64,sin(angle)*t*38+t*t*28)
+				draw_circle(point,(3.2 if effect=="armour_break" else 2.2)*(1-t),Color(.66,.68,.62,1-t),true,-1,true)
+		_label("PROTECTION: %d"%int(state.get("hp",2)) if not gone else "DIAMOND COLLECTED",Vector2(180,300),17)
+	draw_set_transform(Vector2.ZERO)

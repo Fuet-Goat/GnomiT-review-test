@@ -1,0 +1,137 @@
+{
+  "status": "GRASS_CLUMPS_NATIVE_REOPENED_EXPORTED",
+  "input_sha256": "ae1dc37ae1aa43cb03c6f3803eb99fd0666bbe88db43b9cb9ec1d8d850c722a0",
+  "seed": 26102213,
+  "parameters": {
+    "seed": 26102213,
+    "body_spacing_m": 0.16,
+    "body_cell_jitter": 0.43,
+    "body_leaves_per_tuft": [
+      2,
+      4
+    ],
+    "body_height_m": [
+      0.12,
+      0.24
+    ],
+    "body_width_m": [
+      0.035,
+      0.06
+    ],
+    "body_lean_height_ratio": [
+      0.4,
+      0.65
+    ],
+    "root_jitter_m": 0.006,
+    "root_clearance_m": 0.06,
+    "density_keep_probability": [
+      0.4,
+      1.0
+    ],
+    "border_spacing_m": 0.11,
+    "border_inset_m": 0.07,
+    "border_leaves_per_tuft": [
+      2,
+      3
+    ],
+    "border_height_m": [
+      0.06,
+      0.13
+    ],
+    "border_width_m": [
+      0.025,
+      0.042
+    ],
+    "border_lean_height_ratio": [
+      0.15,
+      0.3
+    ],
+    "leaf_rows": [
+      0.0,
+      0.18,
+      0.4,
+      0.66,
+      0.85
+    ],
+    "leaf_row_width_factors": [
+      0.18,
+      0.72,
+      1.0,
+      0.8,
+      0.42
+    ],
+    "palette_srgb": [
+      "53792A",
+      "87AA3C",
+      "B6C65C"
+    ],
+    "grass_shader": "Inherited material nodes and existing runtime shader unchanged; emission remains0.075."
+  },
+  "protected_non_grass_records": 647,
+  "all_other_geometry_materials_camera_lighting_unchanged": true,
+  "ground_uv_material_unchanged": true,
+  "grass_objects_names_transforms_collections_material_slots_unchanged": true,
+  "previous_grass_meshes": [
+    {
+      "name": "Reference_Grass_Carpet",
+      "tufts": 5045,
+      "blades": 20087,
+      "vertices": 200870,
+      "triangles": 200870
+    },
+    {
+      "name": "Reference_Grass_Edge",
+      "tufts": 702,
+      "blades": 2806,
+      "vertices": 28060,
+      "triangles": 28060
+    }
+  ],
+  "grass_meshes": [
+    {
+      "name": "Reference_Grass_Carpet",
+      "tufts": 2559,
+      "blades": 7554,
+      "vertices": 120864,
+      "triangles": 135972,
+      "mesh_record_sha256": "7c728429c91097fffdf49f6795942ed0f423cb5dbee4d555d46af6b3232ff4d0"
+    },
+    {
+      "name": "Reference_Grass_Edge",
+      "tufts": 426,
+      "blades": 1068,
+      "vertices": 17088,
+      "triangles": 19224,
+      "mesh_record_sha256": "dbd919e38264c866aa38d09a077aefbac01740d8b675d080900251d2598c3695"
+    }
+  ],
+  "footprint_rejections": {
+    "occupied_roots": 1125,
+    "occupied_blades": 69,
+    "off_surface_roots": 73,
+    "off_surface_blades": 37
+  },
+  "guard_limit": "Sampled rays at roots, leaf rows/widths and tips; not an exhaustive triangle-collision proof.",
+  "unused_material_retention_flags_added": [],
+  "selected_blend_sha256": "856ebcb4641e689c00f3de456220bebc43a20efc2e632c919e2509bf3373e7b7",
+  "glb": {
+    "bytes": 29738492,
+    "sha256": "06ea29ea41a9108b25785a072e1316fcad909e2a13d1ff1e26baee9ef3da73bf",
+    "node_count": 568,
+    "grass_color0": true,
+    "ground_uv1": true,
+    "embedded_resources": true,
+    "lights_exported": false,
+    "duplicate_guide_excluded": true
+  },
+  "native_render": {
+    "bytes": 721061,
+    "sha256": "0595332361cf1caf70b9f3ff3caf82b8e30520639f75ff15671521a9d5feba5a",
+    "samples": 128
+  },
+  "lighting_recipe_sha256": "10960ab40527705e5a9fb2fd4a485e5d3fd578a9c50d44f717aed84dcd9ea887",
+  "native_runtime_render_parity": "NOT_CLAIMED - inherited separate native and Godot v012 light rigs.",
+  "generator_sha256": "d859494f88722f2f9012e9800eab0e1e7c609780a8ea5cdf97197dcdc2ca1b18",
+  "human_acceptance": "PENDING",
+  "android_performance": "NOT_MEASURED"
+}

@@ -1,0 +1,17 @@
+{
+  "status": "SELECTED_BLEND_REOPEN_RENDER_AND_WORLD_GLB_REIMPORT_PASS",
+  "selected_blend": "gnomit_home_start_composition_v001.blend",
+  "selected_blend_sha256": "5dd1234c888e8498ecfd1c58726c74a137dd26defd30fc9b690d985839544d3c",
+  "render": "VERIFICATION/REOPEN_432x960.png",
+  "world_glb_sha256": "0be6537195c09cc12329730742732fc2464d53d90720d7bef96c755c20333a9d",
+  "embedded_resources": true,
+  "guide_absent_from_world_glb": true,
+  "named_route_anchors_camera_preserved": true,
+  "reimport_cottage_location": [
+    -2.0999999046325684,
+    -6.900000095367432,
+    0.688542902469635
+  ],
+  "game_or_godot_executed": false,
+  "pixel_comparison": "PENDING_SEPARATE_IMAGE_DECODE"
+}

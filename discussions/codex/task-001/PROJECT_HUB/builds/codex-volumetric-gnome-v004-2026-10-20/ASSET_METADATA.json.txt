@@ -1,0 +1,93 @@
+{
+  "coordinate_system": "Blender Z-up/front -Y; glTF/Godot conversion by exporter",
+  "foot_pivot_root_local": [
+    0,
+    0,
+    0
+  ],
+  "guide_rest_bounds_root_local": {
+    "minimum": [
+      -0.41687071323394775,
+      -0.22004017233848572,
+      0.001999996602535248
+    ],
+    "maximum": [
+      0.3675000071525574,
+      0.1724344938993454,
+      1.1748589277267456
+    ],
+    "dimensions": [
+      0.7843707203865051,
+      0.3924746662378311,
+      1.1728589311242104
+    ]
+  },
+  "guide_evaluated_triangles": 102732,
+  "animation": {
+    "authored_fps": 24,
+    "frames": [
+      1,
+      145
+    ],
+    "finite_greeting_seconds": 6.0,
+    "idle": "breathing and blink only",
+    "reduced_motion": "stable resting pose",
+    "blink": "stylized transform blink including eyelid outlines; not a facial bone rig"
+  },
+  "native_video": {
+    "frames": 250,
+    "fps": 30,
+    "seconds": 8.333333333333334,
+    "size": [
+      432,
+      960
+    ],
+    "silent": true
+  },
+  "alpha": "New guide meshes opaque PBR. Preview-only contact shadow uses shader alpha; inherited world alpha remains.",
+  "meshes": [
+    {
+      "name": "Guide_tailored coat continuous shell",
+      "base_vertices": 576,
+      "signed_local_volume": 0.029842528997202748,
+      "boundary_edges": 0,
+      "connected_components": 1
+    },
+    {
+      "name": "Guide_integrated sculpted face",
+      "base_vertices": 704,
+      "signed_local_volume": 0.018091568185854372,
+      "boundary_edges": 0,
+      "connected_components": 1
+    },
+    {
+      "name": "Guide_continuous jaw wrapping beard",
+      "base_vertices": 576,
+      "signed_local_volume": 0.015268567433132381,
+      "boundary_edges": 0,
+      "connected_components": 1
+    }
+  ],
+  "files": [
+    {
+      "path": "source/gnome_volumetric_candidate.blend",
+      "bytes": 2746655,
+      "sha256": "77beabbb144932b1e54a957e95f7aa932a6cf3e4627c47b2c733199d666551b7"
+    },
+    {
+      "path": "assets/native_mine/storybook_mine.glb",
+      "bytes": 15532404,
+      "sha256": "0ad5ea6aa849a371c627d23c13212559e3d4dc50fcd25015c69c34bceda992c9"
+    },
+    {
+      "path": "assets/native_mine/storybook_mine_before.glb",
+      "bytes": 13656288,
+      "sha256": "6598473c272d8773b654effb1807f4cc170f346db5ad5bc73a601885e553aaf0"
+    },
+    {
+      "path": "renders/GNOME_VOLUME_NATIVE.mp4",
+      "bytes": 733568,
+      "sha256": "ba1925987d75fc094cac96ad49f2740682852c61ddff4328f53ab4e801bbc467"
+    }
+  ]
+}

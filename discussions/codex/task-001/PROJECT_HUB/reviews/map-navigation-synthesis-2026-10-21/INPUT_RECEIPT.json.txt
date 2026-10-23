@@ -1,0 +1,31 @@
+{
+  "inputs": [
+    {
+      "author": "gpt",
+      "commit": "4b8fde813087a5d5fa58e4e673424e3f0457f452",
+      "path": "discussions/gpt/task-001/map-camera-navigation-r1-2026-10-21/REPORT.txt",
+      "bytes": 28621,
+      "sha256": "64bd15ba9f82a92407e06d7b809fc3298c1a688e8443687346b4f960e4999988",
+      "git_blob": "126eefb47fc6278442d13e667d24659b4aac87a1"
+    },
+    {
+      "author": "grok",
+      "commit": "74539e46f9a86d1994435f96f1423ffebea5d2dc",
+      "path": "discussions/grok/task-001/REPORT.txt",
+      "bytes": 75456,
+      "sha256": "6571d52c09ce84178cd4ff58e5cec991a79f585402aca28d80e1c5b4d6cabf84",
+      "git_blob": "131bd1bdf57cc76032dc57201bb07a9aabb86e8c"
+    },
+    {
+      "author": "codex",
+      "commit": "ba2d09e8b5f6512979b27891d6e69173139a14d8",
+      "path": "discussions/codex/task-001/PROJECT_HUB/briefs/map-camera-navigation-r1-2026-10-21/REPORT_BG.txt",
+      "bytes": 12487,
+      "sha256": "7a3af4a11d300725a5b52fed823ed7485b6ac9fa220ac824b5686d9bbc256e40",
+      "git_blob": "fc723abd7e497dac2d9badf47882046a6f12a98a"
+    }
+  ],
+  "gpt_independent_r1_commit": "43e314b1ac8a5c4cb35c86b79289b95cd254945a",
+  "gpt_r1_preserved_as_exact_prefix": true,
+  "basis": "Exact Git objects read; no game or asset runtime executed"
+}

@@ -1,0 +1,27 @@
+GNOMIT NATIVE D —SOURCE AND LIMITS
+InputC SHA256:afd0c35e0450bd46c26a8cd5c65762510ef409b738454c410b5ea614ab0daee5.
+Parent artifact:ae336f3b2f589910b7797f4f98b8f6c0ed9b1f68.
+Creation:AI-assisted original procedural coordinate editing by Codex,Blender5.2.2 LTS.
+One logical parameter:normalized vertical arch endpoint.72→.90. No new randomness.
+Direct existing-mesh Z edits,not scatter replay/mesh reconstruction.
+73leaves in12existing tufts;7590leaves/2559tufts unchanged.
+Geometry124725vertices/78674faces/142022triangles unchanged.
+4015vertexZ values change out of4088allowed. AllXY,colours,edge/loop/face data and
+allotherZ are exact according to full masked-prefix guards,before save and after reopen.
+All5planted vertices per selectedleaf exact. Maxheight/width within1e-6m unchanged.
+Tips rise 0.012393534183502197 to 0.02776360511779785m;whole normalized arch changes.
+648nonbodyscene records,camera/light/materials protected. Five packed images,no linked libraries.
+Receipt field angles_or_randomness_changed=False means HORIZONTAL azimuth/fan and
+randomness only;3D inclination changes intentionally. It is not a no-angle-change claim.
+XY is unchanged,so C point-footprint checks are inherited;no new rays were run.
+No triangle/leaf-leaf collision guarantee. No Godot/Android/performance tests/integration.
+No external assets downloaded. Inherited C provenance applies;this is not a legal guarantee.
+Native/runtime light parity NOT_CLAIMED. Human art choice PENDING. Current game staysv014.
+External suggestion mapping:EXTERNAL_RESPONSE_REVIEW_BG.txt. Pixel verdict:VISUAL_REVIEW.txt.
+Rebuild with exact sourceC+INPUT_C_RECEIPT/INPUT_PIN in a new folder,tools/,emptyoutputs/.
+Copy control00_C_FULL_432x960.png and02_C_DETAIL_8X.png from this package.
+RunBlender5.2.2 --background --factory-startup --disable-autoexec --python-exit-code1
+--python <NEW_FOLDER>/tools/build_upright_tip.py;thenPython+Pillow compare_upright.py.
+Outputnative must not exist. record_helpers/guard_utils are imports only,not standalone generators.
+Native files may receive different fileSHA on rebuild;verify content/guards/renders.
+Exact bytes/hash inventory:MANIFEST.json. Raw build receipt is preserved unaltered.

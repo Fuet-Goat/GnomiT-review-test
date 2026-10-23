@@ -1,0 +1,249 @@
+extends "res://scripts/main.gd"
+## Isolated trial adapter; authoritative solver, art and A0 lesson stay unchanged.
+signal trial_finished
+const TrialLog = preload("res://scripts/research/trial_log.gd")
+var trial_arm := "A"
+var trial_seed := 42
+var run_kind := "OWNER_PREVIEW"
+var trial_log
+var cue_active := false
+var cue_stage := "first_move"
+var _cue_key := ""
+var _help_for_attempt := false
+var _lesson_open_ms := -1
+var _last_page := -1
+var _accepted_moves := 0
+var _first_exposure := false
+var _opening_lesson := false
+
+func _ready() -> void:
+	trial_log = TrialLog.new()
+	if not trial_log.begin(trial_arm,trial_seed,run_kind):
+		push_error("Trial log could not start; no campaign/save opened.")
+		return
+	pilot_seed_override = trial_seed
+	save_path_override = trial_log.directory + "/progress.json"
+	var source_sha256 := {}
+	for path in ["res://scripts/research/ab_main.gd","res://scripts/research/ab_launcher.gd","res://scripts/research/trial_log.gd","res://scripts/main.gd","res://scripts/levels.gd","res://scripts/lab/mega_volcano_core.gd","res://scripts/lab/material_power_core.gd","res://scripts/lab/reward_rules_core.gd","res://scripts/lab/natural_power_core.gd","res://scripts/match_core.gd","res://scripts/tutorial/power_tutorial.gd","res://scripts/tutorial/volcano_mini_animation.gd"]:
+		source_sha256[path] = FileAccess.get_sha256(path)
+	trial_log.append_event("build_identity",{"sample":"v008-volcano-ab","engine":Engine.get_version_info().get("string",""),"source_sha256":source_sha256})
+	super._ready()
+	DisplayServer.window_set_title("GnomiT — Volcano A/B · " + trial_arm)
+	trial_log.append_event("map_ready",{"seed":trial_seed,"save_isolated":true})
+
+func _process(_delta: float) -> void:
+	if trial_log == null or trial_log.finished: return
+	trial_log.tick()
+	if is_instance_valid(power_tutorial_view):
+		var page: int = power_tutorial_view.page_index
+		if page != _last_page:
+			_last_page = page
+			trial_log.append_event("lesson_page_visible",{"page":page+1,"not_proof_of_reading":true})
+
+func _notification(what: int) -> void:
+	if trial_log != null:
+		if what == NOTIFICATION_WM_WINDOW_FOCUS_OUT: trial_log.append_event("focus_out")
+		elif what == NOTIFICATION_WM_WINDOW_FOCUS_IN: trial_log.append_event("focus_in")
+		elif what == NOTIFICATION_WM_CLOSE_REQUEST: trial_log.finish("window_closed")
+	super._notification(what)
+
+func _exit_tree() -> void:
+	if trial_log != null: trial_log.finish("scene_closed")
+
+func _unhandled_key_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_F8:
+		trial_log.finish("facilitator_end")
+		get_viewport().set_input_as_handled()
+		trial_finished.emit()
+		return
+	super._unhandled_key_input(event)
+
+func _new_screen(screen_name: String) -> void:
+	if trial_log != null and current_screen == "play":
+		trial_log.append_event("level_left",{"next_screen":screen_name,"level":current_level.get("id","")})
+		cue_active = false
+		_cue_key = ""
+	super._new_screen(screen_name)
+
+func _maybe_show_power_tutorial() -> void:
+	if trial_log == null or not _stable_eligible(): return
+	if trial_arm == "A":
+		super._maybe_show_power_tutorial()
+		if not _paused: _record_stable()
+	else:
+		_record_stable()
+		_refresh_context()
+
+func show_power_tutorial(replay: bool = false) -> void:
+	if trial_log == null: return
+	if replay:
+		_help_for_attempt = true
+		trial_log.append_event("help",{"kind":"Volcano Guide","stage":cue_stage})
+		cue_active = false
+		_cue_key = ""
+	_opening_lesson = true
+	super.show_power_tutorial(replay)
+	_opening_lesson = false
+	if is_instance_valid(power_tutorial_view):
+		_lesson_open_ms = Time.get_ticks_msec()
+		_last_page = -1
+		_exposure()
+		trial_log.append_event("lesson_open",{"replay":replay,"format":"two_pages"})
+
+func _close_modal() -> void:
+	var was_lesson := is_instance_valid(power_tutorial_view) and modal == power_tutorial_view
+	super._close_modal()
+	if trial_log == null: return
+	if was_lesson:
+		trial_log.append_event("lesson_closed",{"duration_ms":maxi(0,Time.get_ticks_msec()-_lesson_open_ms),"understanding":"NOT_ASSESSED"})
+	if _stable_eligible():
+		_record_stable()
+		if trial_arm == "B": _refresh_context()
+
+func _hint() -> void:
+	if board == null or board.busy or _paused: return
+	_help_for_attempt = true
+	trial_log.append_event("help",{"kind":"Hint","stage":cue_stage})
+	super._hint()
+
+func _stable_eligible() -> bool:
+	return current_screen == "play" and current_level.get("id","") == "entry" and core != null and is_instance_valid(board) and not board.busy and not core.won and not core.lost and not _paused and not _opening_lesson and not is_instance_valid(modal) and not entry_active() and _window_has_focus
+
+func _exposure() -> void:
+	if _first_exposure: return
+	_first_exposure = true
+	trial_log.append_event("first_instruction_exposure",{"arm":trial_arm})
+
+func find_four_pair() -> Array:
+	if core == null: return []
+	for a in core.grid.size():
+		if int(core.grid[a]) < 0 or int(core.grid[a]) >= 6: continue
+		for b in core._neighbors(a):
+			if b <= a or int(core.grid[b]) < 0 or int(core.grid[b]) >= 6: continue
+			for award in core.preview_rewards(a,b):
+				if int(award.get("kind",-1)) == 8 and int(award.get("birth_tier",0)) == 4 and award.get("recipe","") == "straight_four":
+					return [a,b]
+	return []
+
+func find_waiting_pair() -> Array:
+	# Intro eligibility for ONE Volcano: another power would teach a combo.
+	# This is not an exhaustive detector of every legal special-power action.
+	if core == null: return []
+	for a in core.grid.size():
+		if int(core.grid[a]) != 8: continue
+		for b in core._neighbors(a):
+			if int(core.grid[b]) >= 0 and int(core.grid[b]) < 6: return [a,b]
+	return []
+
+func _record_stable() -> void:
+	trial_log.mark_board_ready()
+	var rewards := {}
+	for i in core.grid.size():
+		if not core.reward_at(i).is_empty(): rewards[str(i)] = core.reward_at(i).duplicate(true)
+	trial_log.append_event("board_stable",{"board_busy":board.busy,"generation":play_generation,
+		"grid":core.grid.duplicate(),"rewards":rewards,"moves":core.moves_left,"rng_state":str(core._rng.state),
+		"four_opportunity":not find_four_pair().is_empty(),"single_volcano_ordinary_neighbor_opportunity":not find_waiting_pair().is_empty()})
+
+func _clear_context() -> void:
+	cue_active = false
+	_cue_key = ""
+	if is_instance_valid(first_scene):
+		first_scene.helper.text = "Drag a treasure to swap"
+		first_scene.layout()
+
+func _refresh_context() -> void:
+	if not _stable_eligible() or trial_arm != "B": return
+	var pair: Array = []
+	var title := ""
+	var body := ""
+	if cue_stage == "done":
+		_clear_context()
+		return
+	if cue_stage == "first_move":
+		title = "NEW POWER"
+		body = "Swap two neighbouring minerals"
+		pair = core.hint_move()
+	else:
+		pair = find_waiting_pair()
+		if not pair.is_empty():
+			cue_stage = "activation"
+			title = "A Volcano is ready for your next move"
+			body = "Move the Volcano or match its mineral to erupt. Burning rocks hit 3–5 scattered minerals."
+		else:
+			pair = find_four_pair()
+			if not pair.is_empty():
+				title = "Create a Volcano"
+				body = "Match 4 minerals of the same kind in one straight line. They leave a Volcano on the board."
+	if body.is_empty() or pair.is_empty():
+		if cue_active: trial_log.append_event("cue_hidden",{"stage":cue_stage,"reason":"no_opportunity"})
+		_clear_context()
+		return
+	var key := cue_stage + str(pair)
+	if key == _cue_key: return
+	_cue_key = key
+	cue_active = true
+	_exposure()
+	first_scene.helper.text = title
+	first_scene.helper.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	first_scene.helper.add_theme_font_size_override("font_size",19)
+	status_label.text = body
+	status_label.add_theme_font_size_override("font_size",22)
+	board.show_hint(pair)
+	trial_log.append_event("cue_visible",{"stage":cue_stage,"title":title,"body":body,"pair":pair.duplicate(),"assisted":true})
+
+func _on_swap(a: int,b: int) -> void:
+	# Baseline controller order retained; only observation and contextual cues added.
+	if current_screen != "play" or _paused or entry_active() or board == null or board.busy: return
+	if core.won or core.lost: return
+	var generation: int = play_generation
+	var active_board = board
+	trial_log.append_event("manual_swap_request",{"a":a,"b":b,"moves_before":core.moves_left,
+		"assisted":cue_active or _help_for_attempt,"classification":"ASSISTED_ACTION" if cue_active or _help_for_attempt else "UNASSISTED_ACTION_CANDIDATE"})
+	var result: Dictionary = core.try_swap(a,b)
+	trial_log.append_event("core_resolution",{"valid":result.valid,"events":result.get("events",[]),"moves_after":core.moves_left})
+	var activated := false
+	for event in result.get("events",[]):
+		if event.get("type","") == "reward_birth":
+			var volcano_awards: Array = event.get("awards",[]).filter(func(award): return int(award.get("kind",-1)) == 8)
+			if not volcano_awards.is_empty():
+				trial_log.append_event("reward_birth",{"awards":volcano_awards,"initial_player_wave":event.get("initial_player_wave",false),"waiting_for_player":true})
+		if event.get("power","") == "volcano" and event.get("type","") in ["natural_power","material_turn"]:
+			activated = true
+			trial_log.append_event("volcano_activation",{"route":"manual_material_match" if event.get("activation_reason","") == "manual_material_match" else "direct_move",
+				"targets":event.get("targets",[]),"assisted":cue_active or _help_for_attempt,"understanding":"NOT_ASSESSED"})
+	if result.valid:
+		_accepted_moves += 1
+		if is_instance_valid(first_scene): first_scene.moves_label.text = str(core.moves_left)
+		status_label.text = "Gathering light…"
+		if core.won:
+			var earned: int = Levels.stars_for(core.moves_left,core.initial_moves)
+			pending_receipt = progress.record_win(current_level.id,earned)
+		for control in action_buttons: control.disabled = true
+	else:
+		status_label.text = "Try another swap. Match three or more."
+	await active_board.animate_result(result)
+	if generation != play_generation or current_screen != "play" or not is_instance_valid(active_board):
+		trial_log.append_event("presentation_cancelled",{"generation":generation})
+		return
+	_update_hud()
+	for control in action_buttons: control.disabled = false
+	if core.won:
+		cue_active = false
+		_show_result(true,Levels.stars_for(core.moves_left,core.initial_moves),pending_receipt)
+	elif core.lost:
+		cue_active = false
+		_show_result(false,0,{})
+	else:
+		if result.valid: status_label.text = "A little closer!"
+		if activated:
+			cue_stage = "done"
+			_clear_context()
+			board._hint.clear()
+			trial_log.append_event("guidance_faded",{"cause":"actual_volcano_activation"})
+		elif _accepted_moves > 0 and cue_stage == "first_move": cue_stage = "four"
+		if result.valid: _help_for_attempt = false
+		_cue_key = ""
+		_record_stable()
+		_refresh_context()
+	if core.won or core.lost:
+		trial_log.append_event("level_result",{"won":core.won,"lost":core.lost,"moves_left":core.moves_left})

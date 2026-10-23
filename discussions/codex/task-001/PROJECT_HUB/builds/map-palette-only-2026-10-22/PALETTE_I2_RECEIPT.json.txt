@@ -1,0 +1,303 @@
+{
+  "status": "PALETTE_SAVED_REOPENED_RENDERED",
+  "source_sha256": "6f08ae54a5fe21a2db5eca22bcc14928bbaa24a04f79b0e5d8ad3312ee681677",
+  "candidate_sha256": "002b552562faea2dad32ce7fef929df9f3fe31c8ae7418ed62e0d115cef4da07",
+  "builder_sha256": "99d6d042ec9fbf0d749b6c91f60c5ad170a54a8754cf97047e050274ea7edd7d",
+  "changed_materials": [
+    "Airy_Endgrain",
+    "Airy_grass_light",
+    "Airy_grass_shadow",
+    "Airy_leaf",
+    "Airy_leaf.001",
+    "Airy_leaf_light",
+    "Airy_leaf_shadow",
+    "Airy_moss",
+    "Airy_pink",
+    "Airy_red",
+    "Airy_soil",
+    "Airy_soil_dark",
+    "Airy_soil_light",
+    "Airy_stone",
+    "Airy_stone_light",
+    "Airy_stone_shadow",
+    "Airy_wood",
+    "Airy_wood_dark",
+    "Airy_wood_light",
+    "Airy_yellow",
+    "GnomiT_Carved_Tree_Bark",
+    "GnomiT_Organic_Crown_Matte",
+    "Low fine blade colours",
+    "Soft continuous green turf"
+  ],
+  "changes": [
+    {
+      "material": "Airy_wood",
+      "target_srgb": "FFCC55",
+      "original_base_linear": [
+        0.7758222222328186,
+        0.366252601146698,
+        0.09530746936798096,
+        1.0
+      ],
+      "method": "Multiply original linked albedo; retain grain"
+    },
+    {
+      "material": "Airy_wood_light",
+      "target_srgb": "FFD478",
+      "original_base_linear": [
+        0.8713670969009399,
+        0.5028864741325378,
+        0.16202937066555023,
+        1.0
+      ],
+      "method": "Multiply original linked albedo; retain grain"
+    },
+    {
+      "material": "Airy_wood_dark",
+      "target_srgb": "AB7638",
+      "original_base_linear": [
+        0.34670406579971313,
+        0.12743768095970154,
+        0.028426039963960648,
+        1.0
+      ],
+      "method": "Multiply original linked albedo; retain grain"
+    },
+    {
+      "material": "Airy_Endgrain",
+      "target_srgb": "F5C779",
+      "original_base_linear": [
+        0.8713670969009399,
+        0.5028864741325378,
+        0.16202937066555023,
+        1.0
+      ],
+      "method": "Multiply original linked albedo; retain grain"
+    },
+    {
+      "material": "Airy_stone",
+      "target_srgb": "B0AA9D",
+      "original_base_linear": [
+        0.5088813304901123,
+        0.4910208582878113,
+        0.38132601976394653,
+        1.0
+      ],
+      "method": "Constant albedo"
+    },
+    {
+      "material": "Airy_stone_light",
+      "target_srgb": "E0D6BE",
+      "original_base_linear": [
+        0.672443151473999,
+        0.6239603757858276,
+        0.47353148460388184,
+        1.0
+      ],
+      "method": "Constant albedo"
+    },
+    {
+      "material": "Airy_stone_shadow",
+      "target_srgb": "879084",
+      "original_base_linear": [
+        0.33716362714767456,
+        0.38642942905426025,
+        0.2917706370353699,
+        1.0
+      ],
+      "method": "Constant albedo"
+    },
+    {
+      "material": "Airy_moss",
+      "target_srgb": "78B13A",
+      "original_base_linear": [
+        0.2581828534603119,
+        0.533276379108429,
+        0.04373503103852272,
+        1.0
+      ],
+      "method": "Constant albedo"
+    },
+    {
+      "material": "Airy_leaf",
+      "target_srgb": "70B631",
+      "original_base_linear": [
+        0.18782077729701996,
+        0.5583403706550598,
+        0.03071344457566738,
+        1.0
+      ],
+      "method": "Constant albedo"
+    },
+    {
+      "material": "Airy_leaf.001",
+      "target_srgb": "70B631",
+      "original_base_linear": [
+        0.18782077729701996,
+        0.5583403706550598,
+        0.03071344457566738,
+        1.0
+      ],
+      "method": "Constant albedo"
+    },
+    {
+      "material": "Airy_leaf_light",
+      "target_srgb": "B7DA49",
+      "original_base_linear": [
+        0.41788506507873535,
+        0.7083757519721985,
+        0.04666508734226227,
+        1.0
+      ],
+      "method": "Constant albedo"
+    },
+    {
+      "material": "Airy_leaf_shadow",
+      "target_srgb": "45943B",
+      "original_base_linear": [
+        0.04970656707882881,
+        0.28314873576164246,
+        0.040915198624134064,
+        1.0
+      ],
+      "method": "Constant albedo"
+    },
+    {
+      "material": "Airy_grass_light",
+      "target_srgb": "B0D446",
+      "original_base_linear": [
+        0.30946892499923706,
+        0.6938717365264893,
+        0.07036009430885315,
+        1.0
+      ],
+      "method": "Constant albedo"
+    },
+    {
+      "material": "Airy_grass_shadow",
+      "target_srgb": "418633",
+      "original_base_linear": [
+        0.061246052384376526,
+        0.3277781009674072,
+        0.039546236395835876,
+        1.0
+      ],
+      "method": "Constant albedo"
+    },
+    {
+      "material": "Airy_soil",
+      "target_srgb": "C17D40",
+      "original_base_linear": [
+        0.48514994978904724,
+        0.18116424977779388,
+        0.05448027700185776,
+        1.0
+      ],
+      "method": "Constant albedo"
+    },
+    {
+      "material": "Airy_soil_light",
+      "target_srgb": "D79752",
+      "original_base_linear": [
+        0.6514056324958801,
+        0.30054378509521484,
+        0.09084171056747437,
+        1.0
+      ],
+      "method": "Constant albedo"
+    },
+    {
+      "material": "Airy_soil_dark",
+      "target_srgb": "955E35",
+      "original_base_linear": [
+        0.2581828534603119,
+        0.08865558356046677,
+        0.0382043719291687,
+        1.0
+      ],
+      "method": "Constant albedo"
+    },
+    {
+      "material": "Airy_red",
+      "target_srgb": "F0372E",
+      "original_base_linear": [
+        0.7835378050804138,
+        0.08437620848417282,
+        0.039546236395835876,
+        1.0
+      ],
+      "method": "Constant albedo"
+    },
+    {
+      "material": "Airy_pink",
+      "target_srgb": "EE89AA",
+      "original_base_linear": [
+        0.8631572127342224,
+        0.2581828534603119,
+        0.32314321398735046,
+        1.0
+      ],
+      "method": "Constant albedo"
+    },
+    {
+      "material": "Airy_yellow",
+      "target_srgb": "FFE078",
+      "original_base_linear": [
+        0.8468732237815857,
+        0.5711248517036438,
+        0.13013647496700287,
+        1.0
+      ],
+      "method": "Constant albedo"
+    },
+    {
+      "material": "GnomiT_Carved_Tree_Bark",
+      "hue": 0.495,
+      "saturation": 1.02,
+      "value": 1.08
+    },
+    {
+      "material": "Low fine blade colours",
+      "hue": 0.49,
+      "saturation": 1.05,
+      "value": 1.1
+    },
+    {
+      "material": "Soft continuous green turf",
+      "ramp_srgb": [
+        "68AC31",
+        "A3C53E"
+      ],
+      "positions_unchanged": true
+    },
+    {
+      "material": "GnomiT_Organic_Crown_Matte",
+      "height_gradient_srgb": [
+        "409331",
+        "85C93B",
+        "B8D83E"
+      ],
+      "blend": 0.4,
+      "existing_vertex_colours_unchanged": true,
+      "note": "Painted albedo gradient,not a light or geometry change"
+    }
+  ],
+  "unchanged_scene_objects": 666,
+  "geometry_topology_transforms_vertex_colours_point_attributes_unchanged": true,
+  "camera_light_world_colour_management_render_settings_unchanged": true,
+  "existing_non_albedo_shader_inputs_links_unchanged": true,
+  "packed_image_records_unchanged": true,
+  "guide_materials_unchanged": true,
+  "selector_unchanged_sha256": "e1f2f766c10d2b80267893e86ded85f42f6941266f7500c8658a06a9bf9474b3",
+  "render": {
+    "path": "outputs/PALETTE_I2.png",
+    "bytes": 632845,
+    "sha256": "97c4043c39dfb692b0e0a0c43b560e341ebf788f27c74ab436a6587ea9faff71",
+    "width": 432,
+    "height": 960,
+    "samples": 1
+  },
+  "game_integration": "NOT_PERFORMED",
+  "phone_performance": "NOT_MEASURED",
+  "human_choice": "PENDING"
+}

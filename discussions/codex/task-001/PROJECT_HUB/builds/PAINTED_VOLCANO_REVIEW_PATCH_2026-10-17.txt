@@ -1,0 +1,968 @@
+GNOMIT PAINTED VOLCANO — LITERAL LOCAL TEXT SOURCE DELTA PROPOSAL
+Native runnable project and PNGs remain local. This report TXT is not an expanded Git grant or complete game.
+Exact predecessor: C:\Users\fruch\Documents\Codex\GnomiT_Playtests\NaturalPowers_2026-10-17
+Requires the three actual PNGs with hashes in the receipt;no stand-ins.
+
+--- a/project.godot
++++ b/project.godot
+@@ -2,9 +2,9 @@
+ config_version=5
+ 
+ [application]
+-config/name="GnomiT Natural Powers Lab"
++config/name="GnomiT Magic Animation Lab"
+ config/use_custom_user_dir=true
+-config/custom_user_dir_name="GnomiT-NaturalPowers-Lab-2026-10-17"
++config/custom_user_dir_name="GnomiT-MagicAnimation-Lab-2026-10-17"
+ config/version="0.1.0-local-frankenstein-r1"
+ run/main_scene="res://natural_powers.tscn"
+ config/features=PackedStringArray("4.7", "GL Compatibility")
+
+--- a/scripts/lab/natural_power_lab.gd
++++ b/scripts/lab/natural_power_lab.gd
+@@ -1,6 +1,6 @@
+ extends Control
+ const LabCore = preload("res://scripts/lab/natural_power_core.gd")
+-const LabBoard = preload("res://scripts/lab/natural_power_board.gd")
++const LabBoard = preload("res://scripts/lab/magic_volcano_board.gd")
+ const Art = preload("res://scripts/story_art.gd")
+ const RockAudio = preload("res://scripts/rock_audio.gd")
+ const Background = preload("res://assets/first_crystals/cave_background_v1.png")
+@@ -20,12 +20,13 @@
+ var helper: Label
+ var effect_label: Label
+ var reduced: CheckButton
++var painted_toggle: CheckButton
+ var skip_button: Button
+ var reset_button: Button
+ 
+ func _ready() -> void:
+ 	get_window().content_scale_size = Vector2i(432,960)
+-	DisplayServer.window_set_title("GnomiT — Natural Powers Lab · TEST BOARD")
++	DisplayServer.window_set_title("GnomiT — Magic Animation Lab · TEST BOARD")
+ 	if DisplayServer.get_name() != "headless": DisplayServer.window_set_current_screen(0)
+ 	var theme_value := Theme.new()
+ 	theme_value.default_font = Art.font(750.0)
+@@ -60,9 +61,18 @@
+ 	add_child(margin)
+ 	var stack := VBoxContainer.new(); stack.add_theme_constant_override("separation", 8); margin.add_child(stack)
+ 	var heading := HBoxContainer.new(); stack.add_child(heading)
+-	var title := _label("NATURAL POWERS",22); title.size_flags_horizontal = Control.SIZE_EXPAND_FILL; heading.add_child(title)
++	var title := _label("MAGIC ANIMATIONS",22); title.size_flags_horizontal = Control.SIZE_EXPAND_FILL; heading.add_child(title)
+ 	reset_button = _button("Reset",func() -> void: reset_scenario(scenario));reset_button.custom_minimum_size = Vector2(65,38);heading.add_child(reset_button)
+-	var subtitle := _label("TEST LAB  ·  No campaign progress",12);subtitle.modulate = Color("b5d9d2");stack.add_child(subtitle)
++	var subtitle_row := HBoxContainer.new();subtitle_row.add_theme_constant_override("separation",8);stack.add_child(subtitle_row)
++	var subtitle := _label("VFX LAB · No save",12);subtitle.modulate = Color("b5d9d2");subtitle.size_flags_horizontal = Control.SIZE_EXPAND_FILL;subtitle_row.add_child(subtitle)
++	painted_toggle = CheckButton.new();painted_toggle.text = "Painted";painted_toggle.add_theme_font_size_override("font_size",12);painted_toggle.button_pressed = true;subtitle_row.add_child(painted_toggle)
++	painted_toggle.toggled.connect(func(value:bool) -> void:
++		if _resolving: return
++		board.set_painted_volcano(value)
++		if scenario == "volcano":
++			helper.text = "Painted volcano material pass enabled." if value else "Baseline volcano reference enabled."
++		else:
++			helper.text = "This power uses baseline VFX. Painted changes Volcano only.")
+ 	var choices := GridContainer.new();choices.columns = 2;choices.add_theme_constant_override("h_separation",8);choices.add_theme_constant_override("v_separation",6);stack.add_child(choices)
+ 	for entry in [["volcano","VOLCANO"],["tornado_h","TORNADO  ROW"],["tornado_v","TORNADO  COLUMN"],["black_hole","BLACK HOLE"]]:
+ 		var key:String = entry[0]
+@@ -107,7 +117,7 @@
+ 	board.setup(core,reduced.button_pressed)
+ 	board.show_hint(core.fixture_pair)
+ 	effect_label.text = {"volcano":"VOLCANO · FIRE","tornado_h":"TORNADO · HORIZONTAL","tornado_v":"TORNADO · VERTICAL","black_hole":"BLACK HOLE · GRAVITY"}.get(scenario,"NATURAL POWERS")
+-	helper.text = {"volcano":"Drag the volcano to its glowing neighbor. Magma hits 3–5 marked stones.","tornado_h":"Drag the blue whirlwind to its neighbor. It sweeps the entire row, across gaps.","tornado_v":"Drag the blue whirlwind to its glowing neighbor. It sweeps the entire column.","black_hole":"Swap the adjacent whirlwind and volcano. Together they open a Black Hole."}.get(scenario,"")
++	helper.text = {"volcano":("Painted volcano material pass. " if painted_toggle.button_pressed else "Baseline volcano reference. ") + "Drag it to the glow; magma hits 3–5 stones.","tornado_h":"Baseline reference. Drag the whirlwind to the glow; it sweeps the row across gaps.","tornado_v":"Baseline reference. Drag the whirlwind to the glow; it sweeps the column.","black_hole":"Baseline reference. Swap the whirlwind and volcano to open a Black Hole."}.get(scenario,"")
+ 	_update_stats();_update_controls()
+ 
+ func _update_stats() -> void:
+@@ -123,6 +133,7 @@
+ 		button.modulate = Color("ffe3a0") if key == scenario else Color.WHITE
+ 	skip_button.disabled = not _resolving
+ 	reduced.disabled = _resolving
++	painted_toggle.disabled = _resolving
+ 
+ func _on_swap(a:int,b:int) -> void:
+ 	if _resolving: return
+
+--- /dev/null
++++ b/scripts/lab/magic_volcano_board.gd
+@@ -0,0 +1,149 @@
++extends "res://scripts/lab/natural_power_board.gd"
++## Painted presentation only. The inherited event owns targets, timing, terrain,
++## reduced motion, skip/reset and all gameplay state. Gem drawing is inherited.
++
++const PAINTED_ASSETS := ["magma_pebble", "ash_puff", "impact_dust"]
++const PAINTED_ASSET_ROOT := "res://assets/vfx/volcano/"
++var painted_volcano := true
++var _painted_sprites: Dictionary = {}
++
++func set_painted_volcano(value: bool) -> void:
++	painted_volcano = value
++	queue_redraw()
++
++func painted_asset_status() -> Dictionary:
++	var ready := _ensure_painted_assets()
++	var missing: Array = []
++	var sizes: Dictionary = {}
++	var bounds: Dictionary = {}
++	for key in PAINTED_ASSETS:
++		if not _painted_sprites.has(key):
++			missing.append(PAINTED_ASSET_ROOT + key + ".png")
++		else:
++			var sprite: Dictionary = _painted_sprites[key]
++			sizes[key] = sprite.texture.get_size()
++			bounds[key] = sprite.region
++	return {"ready":ready, "missing":missing, "source_sizes":sizes, "alpha_bounds":bounds}
++
++func _ensure_painted_assets() -> bool:
++	# Direct image loading works in the plain isolated project before editor import.
++	# Missing/opaque/empty files remain explicitly unavailable; no generated stand-in.
++	for key in PAINTED_ASSETS:
++		if _painted_sprites.has(key): continue
++		var path: String = PAINTED_ASSET_ROOT + key + ".png"
++		if not FileAccess.file_exists(path): continue
++		var image := Image.new()
++		if image.load_png_from_buffer(FileAccess.get_file_as_bytes(path)) != OK: continue
++		if image.is_empty() or image.detect_alpha() == Image.ALPHA_NONE: continue
++		var used := image.get_used_rect()
++		if not used.has_area(): continue
++		_painted_sprites[key] = {"texture":ImageTexture.create_from_image(image), "region":Rect2(used)}
++	return _painted_sprites.size() == PAINTED_ASSETS.size()
++
++func _draw_volcano_effect(step: float) -> void:
++	if not painted_volcano or not _ensure_painted_assets():
++		# Callers can label an unavailable candidate from painted_asset_status().
++		super._draw_volcano_effect(step)
++		return
++	var origin := int(_power_event.origin)
++	var source := _center(origin)
++	var targets: Array = _power_event.get("targets", [])
++	var before: Array = _power_event.get("before", [])
++	_draw_crater_plume(source,step)
++	for n in targets.size():
++		var index := int(targets[n])
++		var destination := _center(index)
++		# Exactly the original normalized launch, 55 ms stagger and hit progression.
++		var flight := clampf((_power_t-0.23-float(n)*0.055)/0.42,0.0,1.0)
++		var hit := clampf((_power_t-0.65-float(n)*0.055)/0.16,0.0,1.0)
++		if flight < 1.0: _event_gem(index,destination)
++		elif hit < 1.0: _event_gem(index,destination,1.0-hit*0.75,1.0-hit)
++		if flight < 1.0:
++			var warning := 0.50 if flight == 0.0 else 0.28
++			draw_arc(destination,step*0.36,PI*0.08,PI*0.92,18,Color(1.0,0.72,0.39,warning),1.3,true)
++			draw_arc(destination,step*0.36,PI*1.08,PI*1.92,18,Color(1.0,0.72,0.39,warning),1.3,true)
++		if flight > 0.0 and flight < 1.0:
++			_draw_magma_flight(source,destination,flight,step,n)
++		if hit > 0.0 and hit < 1.0:
++			var mineral := int(before[index]) if index >= 0 and index < before.size() else 2
++			_draw_mineral_impact(destination,step,hit,n,mineral)
++	if _power_t < 0.65:
++		var scale_value := 1.0+sin(_power_t*PI/0.65)*0.12
++		var alpha := 1.0-clampf((_power_t-0.45)/0.20,0.0,1.0)
++		_event_gem(origin,source,scale_value,alpha)
++		_draw_crater_charge(source,step,scale_value,alpha)
++	draw_set_transform(Vector2.ZERO)
++
++func _draw_crater_charge(source: Vector2, step: float, scale_value: float, alpha: float) -> void:
++	var charge := sin(clampf(_power_t/0.23,0.0,1.0)*PI*0.5)*(1.0-clampf((_power_t-0.23)/0.13,0.0,1.0))*alpha
++	if charge <= 0.0: return
++	var throat := source+Vector2(-0.009,-0.2592)*step*scale_value
++	draw_set_transform(throat,0.0,Vector2(1.0,0.38))
++	draw_circle(Vector2.ZERO,step*0.115*scale_value,Color(1.0,0.37,0.12,charge*0.58),true,-1,true)
++	draw_circle(Vector2(-step*0.018,-step*0.012),step*0.060*scale_value,Color(1.0,0.78,0.39,charge*0.78),true,-1,true)
++	draw_set_transform(Vector2.ZERO)
++
++func _draw_crater_plume(source: Vector2, step: float) -> void:
++	# Three short, locally bounded painted ash layers, behind the existing icon.
++	for puff in range(3):
++		var age := (_power_t-0.16-float(puff)*0.035)/0.37
++		if age <= 0.0 or age >= 1.0: continue
++		var spread := -0.15 if puff == 0 else (0.17 if puff == 1 else 0.015)
++		var point := source+Vector2(spread*(0.5+age),-0.40-age*(0.58+float(puff)*0.08))*step
++		var opacity := sin(age*PI)*(0.52-float(puff)*0.06)
++		_painted_sprite("ash_puff",point,Vector2(0.44+age*0.44,0.49+age*0.55)*step*1.25,spread*0.7,Color(1.0,0.86,0.68,opacity))
++		if age < 0.45:
++			var ember := source+Vector2(spread*1.4,-0.39-age*1.4)*step
++			_painted_sprite("magma_pebble",ember,Vector2.ONE*step*(0.105-age*0.07),float(puff)+age*2.0,Color(1,0.88,0.66,(1.0-age/0.45)*0.65))
++
++func _volcano_arc(source: Vector2, destination: Vector2, flight: float, step: float) -> Vector2:
++	var point := source.lerp(destination,flight)
++	point.y -= sin(flight*PI)*minf(step*1.8,source.distance_to(destination)*0.34+step*0.45)
++	var bounds := _board_rect().grow(-step*0.16)
++	return point.clamp(bounds.position,bounds.end)
++
++func _draw_magma_flight(source: Vector2, destination: Vector2, flight: float, step: float, ordinal: int) -> void:
++	var point := _volcano_arc(source,destination,flight,step)
++	var prior := _volcano_arc(source,destination,maxf(0.0,flight-0.055),step)
++	var tangent := (point-prior).normalized()
++	if tangent == Vector2.ZERO: tangent = (destination-source).normalized()
++	var tail := step*(0.12+sin(flight*PI)*0.10)
++	var tail_end := point-tangent*tail
++	_painted_sprite("ash_puff",tail_end,Vector2(step*0.23,step*0.13),tangent.angle(),Color(1.0,0.72,0.45,0.25))
++	draw_line(tail_end,point,Color(0.97,0.51,0.19,0.50),step*0.038,true)
++	draw_line(point-tangent*tail*0.54,point,Color(1.0,0.78,0.39,0.66),step*0.018,true)
++	_painted_sprite("magma_pebble",point,Vector2.ONE*step*0.38,tangent.angle()+float(ordinal)*0.73+flight*4.0,Color.WHITE)
++
++func _draw_mineral_impact(destination: Vector2, step: float, hit: float, ordinal: int, mineral: int) -> void:
++	var contact := maxf(0.0,1.0-hit/0.30)
++	if contact > 0.0:
++		draw_circle(destination,step*(0.23+hit*0.22),Color(1.0,0.62,0.25,contact*0.20),true,-1,true)
++	var ring_alpha := (1.0-hit)*0.68
++	draw_arc(destination,step*(0.22+hit*0.24),0.0,TAU,32,Color(1.0,0.77,0.43,ring_alpha),maxf(1.0,step*0.029*(1.0-hit)),true)
++	var dust_opacity := sin(pow(hit,0.65)*PI)*0.68
++	_painted_sprite("impact_dust",destination+Vector2(0,step*(0.10+hit*0.12)),Vector2(0.45+hit*0.45,0.26+hit*0.23)*step,float(ordinal%3-1)*0.09,Color(1.0,0.91,0.77,dust_opacity))
++	var mineral_color: Color = GEM_COLORS[posmod(mineral,6)]
++	for chip in range(5):
++		var direction := Vector2.from_angle(float(chip)*TAU/5.0+float(ordinal))
++		var point := destination+direction*step*0.37*hit+Vector2(0,step*0.20*hit*hit)
++		var radius := step*(0.043+float(chip%2)*0.014)*(1.0-hit)
++		if radius < 0.35: continue # Subpixel polygons become degenerate at impact's end.
++		var bounds := _board_rect().grow(-radius*1.2)
++		point = point.clamp(bounds.position,bounds.end)
++		var color := mineral_color.lightened(0.14) if chip%2 == 0 else mineral_color.darkened(0.16)
++		color.a = 1.0-hit
++		var shape := PackedVector2Array()
++		for vertex in [Vector2(-0.9,-0.55),Vector2(0.45,-1.0),Vector2(0.95,0.48),Vector2(-0.55,0.85)]:
++			shape.append(point+vertex.rotated(hit*4.0+float(chip))*radius)
++		draw_colored_polygon(shape,color)
++
++func _painted_sprite(key: String, point: Vector2, extent: Vector2, angle: float, tint: Color) -> void:
++	if tint.a <= 0.0 or extent.x <= 0.0 or extent.y <= 0.0 or not _painted_sprites.has(key): return
++	var sprite: Dictionary = _painted_sprites[key]
++	# Fit the rotated sprite inside the board rather than flashing over the HUD.
++	var half := Vector2(absf(cos(angle))*extent.x+absf(sin(angle))*extent.y,absf(sin(angle))*extent.x+absf(cos(angle))*extent.y)*0.5
++	var bounds := _board_rect().grow(-1.0)
++	point = point.clamp(bounds.position+half,bounds.end-half)
++	draw_set_transform(point,angle)
++	draw_texture_rect_region(sprite.texture,Rect2(-extent*0.5,extent),sprite.region,tint,false,true)
++	draw_set_transform(Vector2.ZERO)
+
+--- /dev/null
++++ b/tests/test_painted_volcano.gd
+@@ -0,0 +1,144 @@
++extends SceneTree
++## Covers the painted renderer boundary; base lifecycle coverage stays in
++## test_natural_power_board.gd. Uses actual seeded Core snapshots and PNG bytes.
++
++const RENDERER := "res://scripts/lab/magic_volcano_board.gd"
++const ASSET_KEYS := ["magma_pebble", "ash_puff", "impact_dust"]
++var checks := 0
++var failures := 0
++var observed: Array = []
++
++func _initialize() -> void: call_deferred("_run")
++
++func _expect(value: bool, label: String) -> void:
++	checks += 1
++	if not value:
++		failures += 1
++		print("FAIL: " + label)
++
++func _finish() -> void:
++	DirAccess.make_dir_recursive_absolute("res://verification")
++	var report := {"checks": checks, "failures": failures, "status": "PASS" if failures == 0 else "FAIL"}
++	var file := FileAccess.open("res://verification/renderer_results.json", FileAccess.WRITE)
++	if file: file.store_string(JSON.stringify(report, "\t") + "\n")
++	print("PAINTED VOLCANO: %d checks, %d failures" % [checks, failures])
++	quit(1 if failures else 0)
++
++func _run() -> void:
++	# The absent-feature RED is an assertion, never a preload/parser error.
++	if not FileAccess.file_exists(RENDERER):
++		_expect(false, "Painted Volcano renderer is not implemented yet")
++		_finish()
++		return
++	var renderer = load(RENDERER)
++	if renderer == null or not renderer.can_instantiate():
++		_expect(false, "Painted Volcano renderer loads")
++		_finish()
++		return
++	_expect(true, "Painted Volcano renderer loads")
++	var core_script = load("res://scripts/lab/natural_power_core.gd")
++	var core = core_script.new()
++	var duplicate_core = core_script.new()
++	core.setup_lab("volcano", 42)
++	duplicate_core.setup_lab("volcano", 42)
++	var result: Dictionary = core.try_swap(core.fixture_pair[0], core.fixture_pair[1])
++	var duplicate_result: Dictionary = duplicate_core.try_swap(duplicate_core.fixture_pair[0], duplicate_core.fixture_pair[1])
++	_expect(result == duplicate_result, "identical seeded inputs produce identical complete events")
++	var event: Dictionary = {}
++	for item in result.events:
++		if String(item.type) == "natural_power": event = item
++	_expect(not event.is_empty() and event.targets.size() == 5, "seed 42 fixture has five authoritative targets")
++	if event.is_empty():
++		_finish()
++		return
++	var core_snapshot := {"grid":core.grid.duplicate(), "floor":core.floor.duplicate(), "runes":core.runes.duplicate(), "rng":core._rng.state}
++	var control = renderer.new()
++	var candidate = renderer.new()
++	control.polished_art = true
++	candidate.polished_art = true
++	control.set_painted_volcano(false)
++	root.add_child(control)
++	root.add_child(candidate)
++	control.size = Vector2(432,550)
++	candidate.size = Vector2(432,550)
++	control.setup(core)
++	candidate.setup(duplicate_core)
++	_expect(not control.painted_volcano and candidate.painted_volcano, "style control explicitly selects inherited Volcano rendering")
++	var status: Dictionary = candidate.painted_asset_status()
++	_expect(bool(status.get("ready",false)), "all three authentic transparent textures are available")
++	if bool(status.get("ready",false)):
++		for key in ASSET_KEYS:
++			var image := Image.new()
++			var loaded := image.load_png_from_buffer(FileAccess.get_file_as_bytes("res://assets/vfx/volcano/" + key + ".png")) == OK
++			var sprite: Dictionary = candidate._painted_sprites[key]
++			var texture: Texture2D = sprite.texture
++			_expect(loaded and image.detect_alpha() != Image.ALPHA_NONE and image.get_used_rect().has_area(),
++				key + " contains genuine nonempty transparent image pixels")
++			_expect(texture.get_size() == Vector2(image.get_size()) and sprite.region == Rect2(image.get_used_rect()),
++				key + " loads actual image bytes and uses the alpha bounds")
++	var single := {"valid":true, "events":[event]}
++	control.power_started.connect(func(power: String, targets: Array) -> void: observed.append(["control",power,targets]))
++	candidate.power_started.connect(func(power: String, targets: Array) -> void: observed.append(["candidate",power,targets]))
++	control.animate_result(single)
++	candidate.animate_result(single)
++	await create_timer(0.25).timeout
++	_expect(control.busy and candidate.busy and control._power_event == candidate._power_event and control._hidden == candidate._hidden and is_equal_approx(control._power_t,candidate._power_t), "control and painted candidate share active event, visibility and progress")
++	_expect(observed == [["control","volcano",event.targets],["candidate","volcano",event.targets]], "both styles emit exactly the Core-selected target sequence")
++	var epoch: int = candidate._epoch
++	var progress: float = candidate._power_t
++	candidate.set_painted_volcano(false)
++	candidate.set_painted_volcano(true)
++	_expect(candidate._epoch == epoch and candidate._power_t == progress and candidate._power_event == event, "switching style cannot restart or mutate an active event")
++	await create_timer(0.66).timeout
++	_expect(control.busy and candidate.busy, "normal Volcano remains active before its inherited 1.04 second duration")
++	await create_timer(0.28).timeout
++	_expect(not control.busy and not candidate.busy and candidate._power_event.is_empty() and candidate._hidden.is_empty(), "both styles finish on inherited schedule and release overlays")
++	_expect(control._display_grid == candidate._display_grid and control._display_floor == candidate._display_floor and control._display_runes == candidate._display_runes, "style selection preserves final board and terrain snapshots")
++	candidate.setup(duplicate_core, true)
++	candidate.animate_result(single)
++	await create_timer(0.05).timeout
++	_expect(candidate.busy and candidate._hidden.is_empty(), "reduced motion keeps original minerals visible during its short cue")
++	await create_timer(0.19).timeout
++	_expect(not candidate.busy and candidate._power_event.is_empty(), "reduced motion retains its inherited 0.13 second path")
++	candidate.setup(duplicate_core, false)
++	candidate.animate_result(single)
++	await create_timer(0.04).timeout
++	candidate.finish_now()
++	_expect(not candidate.busy and candidate._power_event.is_empty() and candidate._hidden.is_empty(), "skip immediately removes the painted effect")
++	var replacement = core_script.new()
++	replacement.setup_lab("tornado_h",713)
++	candidate.setup(replacement,true)
++	await create_timer(1.15).timeout
++	_expect(candidate._display_grid == replacement.grid and candidate._power_event.is_empty(), "expired painted event cannot overwrite a reset scenario")
++	_expect(core.grid == core_snapshot.grid and core.floor == core_snapshot.floor and core.runes == core_snapshot.runes and core._rng.state == core_snapshot.rng, "rendering never mutates Core state or consumes its RNG")
++	_expect(duplicate_core.grid == core_snapshot.grid and duplicate_core.floor == core_snapshot.floor and duplicate_core.runes == core_snapshot.runes and duplicate_core._rng.state == core_snapshot.rng, "painted candidate leaves its own authoritative Core and RNG untouched")
++	if bool(status.get("ready",false)): await _check_texture_draws(event,core)
++	control.queue_free()
++	candidate.queue_free()
++	await process_frame
++	_finish()
++
++func _check_texture_draws(event: Dictionary, core: RefCounted) -> void:
++	# Test instrumentation observes actual texture submissions, retaining the real
++	# drawing implementation. It never substitutes image assets or gameplay.
++	var spy_script := GDScript.new()
++	spy_script.source_code = "extends \"res://scripts/lab/magic_volcano_board.gd\"\nvar submitted: Dictionary = {}\nfunc _painted_sprite(key: String, point: Vector2, extent: Vector2, angle: float, tint: Color) -> void:\n\tsubmitted[key] = true\n\tsuper._painted_sprite(key,point,extent,angle,tint)\n"
++	if spy_script.reload() != OK:
++		_expect(false,"texture submission observer loads")
++		return
++	var view = spy_script.new()
++	root.add_child(view)
++	view.size = Vector2(432,550)
++	view.setup(core)
++	view._power_event = event.duplicate(true)
++	view._power_epoch = view._epoch
++	for index in event.indices: view._hidden[index] = true
++	for progress in [0.26,0.50,0.809999,0.83]:
++		view._power_t = progress
++		view.queue_redraw()
++		await process_frame
++		await process_frame
++	for key in ASSET_KEYS:
++		_expect(view.submitted.has(key),key + " is submitted by real effect drawing")
++	view.queue_free()
++	await process_frame
+
+--- /dev/null
++++ b/tests/capture_painted_volcano.gd
+@@ -0,0 +1,425 @@
++extends SceneTree
++## Real lab capture and separate headless parity checks. No gameplay fixture edits.
++
++const LAB_PATH := "res://scripts/lab/natural_power_lab.gd"
++const CORE_PATH := "res://scripts/lab/natural_power_core.gd"
++const BASE_BOARD_PATH := "res://scripts/lab/natural_power_board.gd"
++const PAINTED_BOARD_PATH := "res://scripts/lab/magic_volcano_board.gd"
++const SCREEN_SIZE := Vector2i(432, 960)
++const CAPTURE_FPS := 30
++const CAPTURE_FRAMES := 210
++const EXPECTED_EFFECT_SECONDS := 1.04
++
++var app
++var output := ""
++var mode := ""
++var failures: Array[String] = []
++var observations: Array = []
++var frame_observations: Array = []
++var frozen_event: Dictionary = {}
++var frozen_state: Dictionary = {}
++var frozen_result: Dictionary = {}
++var active_targets: Array = []
++var asset_status: Dictionary = {}
++var start_frame := 0
++var activation_frame := -1
++var effect_end_frame := -1
++var last_sample_frame := -1
++var effect_sampled_seconds := 0.0
++
++func _initialize() -> void:
++	call_deferred("run")
++
++func check(value: bool, message: String) -> void:
++	if not value:
++		failures.append(message)
++		push_error(message)
++
++func canonical(value: Variant) -> String:
++	# Parse both local and disk values first so JSON's number representation is
++	# normalized equally. RNG seed/state are strings to preserve every int64 bit.
++	return JSON.stringify(JSON.parse_string(JSON.stringify(value)), "", true) + "\n"
++
++func write_json(path: String, value: Variant) -> bool:
++	var file := FileAccess.open(path, FileAccess.WRITE)
++	if file == null:
++		check(false, "Cannot write " + path + ": " + error_string(FileAccess.get_open_error()))
++		return false
++	file.store_string(canonical(value))
++	file.close()
++	check(FileAccess.get_file_as_string(path) == canonical(value), "JSON readback differs: " + path)
++	return true
++
++func same_json(first: Variant, second: Variant) -> bool:
++	return canonical(first) == canonical(second)
++
++func core_state(core) -> Dictionary:
++	return {
++		"cols": core.cols, "rows": core.rows,
++		"grid": core.grid.duplicate(), "floor": core.floor.duplicate(),
++		"runes": core.runes.duplicate(), "moves_left": core.moves_left,
++		"initial_moves": core.initial_moves, "collected": core.collected,
++		"collect_kind": core.collect_kind, "collect_goal": core.collect_goal,
++		"won": core.won, "lost": core.lost, "goal": core._goal,
++		"black_hole_used": core.black_hole_used,
++		"fixture_pair": core.fixture_pair.duplicate(),
++		"rng_seed_int64": str(core._rng.seed), "rng_state_int64": str(core._rng.state),
++	}
++
++func power_event(result: Dictionary) -> Dictionary:
++	var found: Dictionary = {}
++	var count := 0
++	for event in result.get("events", []):
++		if String(event.get("type", "")) == "natural_power":
++			count += 1
++			found = event.duplicate(true)
++	check(count == 1, "Exactly one real natural_power event is required")
++	return found
++
++func display_matches(view, core) -> bool:
++	return view._display_grid == core.grid and view._display_floor == core.floor and view._display_runes == core.runes
++
++func presentation_clear(view) -> bool:
++	return not view.busy and view._power_event.is_empty() and view._hidden.is_empty()
++
++func sample_capture_frame() -> void:
++	var current := Engine.get_process_frames()
++	if current == last_sample_frame or app == null or app.board == null:
++		return
++	last_sample_frame = current
++	var power_active: bool = not app.board._power_event.is_empty()
++	if activation_frame >= 0 and effect_end_frame < 0:
++		if power_active:
++			effect_sampled_seconds += app.board.get_process_delta_time()
++		else:
++			effect_end_frame = current
++	frame_observations.append({
++		"process_frame": current - start_frame,
++		"power_active": power_active, "power_t": app.board._power_t,
++		"board_busy": app.board.busy, "lab_resolving": app._resolving,
++	})
++
++func next_frame() -> void:
++	await process_frame
++	sample_capture_frame()
++
++func wait_frames(count: int) -> void:
++	for ignored in range(count):
++		await next_frame()
++
++func mouse(point: Vector2, down: bool) -> void:
++	var event := InputEventMouseButton.new()
++	event.position = root.get_final_transform() * point
++	event.global_position = event.position
++	event.button_index = MOUSE_BUTTON_LEFT
++	event.pressed = down
++	event.button_mask = MOUSE_BUTTON_MASK_LEFT if down else 0
++	Input.parse_input_event(event)
++
++func motion(point: Vector2, relative: Vector2) -> void:
++	var event := InputEventMouseMotion.new()
++	event.position = root.get_final_transform() * point
++	event.global_position = event.position
++	event.relative = root.get_final_transform().basis_xform(relative)
++	event.button_mask = MOUSE_BUTTON_MASK_LEFT
++	Input.parse_input_event(event)
++
++func native_fixture_drag() -> void:
++	var pair: Array = app.core.fixture_pair
++	check(pair == [25, 26], "Volcano fixture must remain the real [25,26] pair")
++	if pair.size() != 2:
++		return
++	var first: Vector2 = app.board.get_global_transform() * app.board._center(int(pair[0]))
++	var last: Vector2 = app.board.get_global_transform() * app.board._center(int(pair[1]))
++	mouse(first, true)
++	await wait_frames(3)
++	var previous := first
++	for index in range(1, 7):
++		var point := first.lerp(last, float(index) / 6.0 * 0.85)
++		motion(point, point - previous)
++		previous = point
++		await next_frame()
++	mouse(previous, false)
++	await wait_frames(2)
++
++func on_power_started(power: String, targets: Array) -> void:
++	check(power == "volcano", "Native gesture must activate Volcano")
++	check(frozen_event.is_empty(), "Native capture must activate only one power")
++	activation_frame = Engine.get_process_frames()
++	active_targets = targets.duplicate()
++	# This signal is synchronous, emitted before the effect's first queue_redraw.
++	# app.last_result is the actual Core return value, never a constructed event.
++	frozen_result = app.last_result.duplicate(true)
++	frozen_event = power_event(frozen_result)
++	frozen_state = core_state(app.core)
++	check(String(frozen_event.get("power", "")) == "volcano", "Frozen Core event is Volcano")
++	check(same_json(active_targets, frozen_event.get("targets", [])), "Signal targets equal actual Core targets")
++	check(active_targets.size() >= 3 and active_targets.size() <= 5, "Actual seeded event has 3-5 targets")
++	write_json(output + "/volcano_" + mode + "_EVENT.json", frozen_event)
++	write_json(output + "/volcano_" + mode + "_RESULT.json", frozen_result)
++	write_json(output + "/volcano_" + mode + "_ACTIVATION_STATE.json", frozen_state)
++	observations.append({"phase": "event_frozen_before_draw", "process_frame": activation_frame - start_frame, "actual_targets": active_targets.duplicate()})
++
++func shot(phase: String) -> void:
++	await RenderingServer.frame_post_draw
++	var path := output + "/volcano_" + mode + "_" + phase + ".png"
++	var image := root.get_texture().get_image()
++	check(image.get_size() == SCREEN_SIZE, "Entire root capture is exactly 432x960")
++	check(image.save_png(path) == OK, "Screenshot saves " + path)
++	observations.append({
++		"phase": phase, "file": path, "process_frame": Engine.get_process_frames() - start_frame,
++		"power_t": app.board._power_t, "power_active": not app.board._power_event.is_empty(),
++		"actual_targets": active_targets.duplicate(), "moves_left": app.core.moves_left,
++	})
++
++func wait_for_phase(progress: float) -> bool:
++	var limit := Engine.get_process_frames() + 180
++	while Engine.get_process_frames() < limit:
++		if activation_frame >= 0:
++			if app.board._power_event.is_empty():
++				check(false, "Effect ended before requested phase " + str(progress))
++				return false
++			if float(app.board._power_t) >= progress:
++				return true
++		await next_frame()
++	check(false, "Timeout waiting for phase " + str(progress))
++	return false
++
++func await_lab_done() -> void:
++	var limit := Engine.get_process_frames() + 540
++	while (app._resolving or app.board.busy) and Engine.get_process_frames() < limit:
++		await next_frame()
++	check(not app._resolving and not app.board.busy, "Lab animation finishes before 18-second frame limit")
++	await wait_frames(2)
++
++func cross_mode_comparison() -> Dictionary:
++	var result := {"status": "PENDING_COUNTERPART", "comparisons": {}}
++	for suffix in ["EVENT", "RESULT", "FINAL_STATE"]:
++		var control_path: String = output + "/volcano_control_" + String(suffix) + ".json"
++		var candidate_path: String = output + "/volcano_candidate_" + String(suffix) + ".json"
++		if not FileAccess.file_exists(control_path) or not FileAccess.file_exists(candidate_path):
++			return result
++	for suffix in ["EVENT", "RESULT", "FINAL_STATE"]:
++		var control: Variant = JSON.parse_string(FileAccess.get_file_as_string(output + "/volcano_control_" + suffix + ".json"))
++		var candidate: Variant = JSON.parse_string(FileAccess.get_file_as_string(output + "/volcano_candidate_" + suffix + ".json"))
++		var matches := same_json(control, candidate)
++		result.comparisons[suffix] = matches
++		check(matches, "Control and candidate canonical JSON match: " + suffix)
++	result.status = "PASS" if not result.comparisons.values().has(false) else "FAIL"
++	write_json(output + "/volcano_CROSS_MODE.json", result)
++	return result
++
++func run_capture() -> void:
++	root.content_scale_size = SCREEN_SIZE
++	root.size = SCREEN_SIZE
++	if DisplayServer.get_name() == "headless":
++		check(false, "Rendered capture requires a graphical Godot driver; use --verify-only for headless")
++		finish_capture({})
++		return
++	DisplayServer.window_set_current_screen(0)
++	var lab_script = load(LAB_PATH)
++	if lab_script == null or not lab_script.can_instantiate():
++		check(false, "Natural power lab script must load")
++		finish_capture({})
++		return
++	app = lab_script.new()
++	root.add_child(app)
++	app.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
++	await wait_frames(3)
++	check(app.board.get_script().resource_path == PAINTED_BOARD_PATH, "Lab uses the new isolated magic_volcano_board subclass")
++	check(app.board.has_method("set_painted_volcano"), "Painted renderer exposes set_painted_volcano")
++	check(app.board.has_method("painted_asset_status"), "Painted renderer exposes actual asset readiness")
++	var painted_toggle = app.get("painted_toggle")
++	check(painted_toggle is CheckButton, "Lab exposes its actual Painted comparison checkbox")
++	if not failures.is_empty():
++		finish_capture({})
++		return
++	asset_status = app.board.painted_asset_status()
++	check(bool(asset_status.get("ready", false)), "All actual painted assets are ready in both capture modes")
++	if not failures.is_empty():
++		finish_capture({})
++		return
++	painted_toggle.button_pressed = mode == "candidate"
++	app.board.set_painted_volcano(mode == "candidate")
++	app.reduced.button_pressed = false
++	app.seed_value = 42
++	app.reset_scenario("volcano")
++	check(bool(app.board.painted_volcano) == (mode == "candidate"), "Board mode matches capture mode after reset")
++	check(bool(painted_toggle.button_pressed) == (mode == "candidate"), "Visible Painted checkbox matches capture mode")
++	app.board.power_started.connect(on_power_started)
++	await wait_frames(2)
++	check(root.size == SCREEN_SIZE and root.content_scale_size == SCREEN_SIZE, "Root window remains 432x960")
++	check(DisplayServer.window_get_current_screen() == 0, "Native window is on screen 0")
++	check(app.board.get_global_rect().end.y <= 960 and app.board.size.x >= 300, "Board fits complete portrait lab")
++	var initial := core_state(app.core)
++	while Engine.get_process_frames() - start_frame < CAPTURE_FPS:
++		await next_frame()
++	await shot("01_ready")
++	await native_fixture_drag()
++	if await wait_for_phase(0.12):
++		await shot("02_charge")
++	if await wait_for_phase(0.45):
++		await shot("03_flight")
++	if await wait_for_phase(0.85):
++		await shot("04_hits")
++	await await_lab_done()
++	check(not frozen_event.is_empty(), "Actual Core event was frozen before effect rendering")
++	check(app.core.moves_left == int(initial.moves_left) - 1, "Gesture spends exactly one move")
++	check(same_json(core_state(app.core), frozen_state), "Rendering preserves complete resolved Core/RNG state")
++	check(display_matches(app.board, app.core), "Final display matches complete Core terrain and grid")
++	check(presentation_clear(app.board), "Final state has no stale effect or hidden stones")
++	write_json(output + "/volcano_" + mode + "_FINAL_STATE.json", core_state(app.core))
++	await shot("05_final")
++	while Engine.get_process_frames() - start_frame < CAPTURE_FRAMES:
++		await next_frame()
++	check(Engine.get_process_frames() - start_frame <= CAPTURE_FPS * 8, "Complete movie remains within eight seconds")
++	var comparison := cross_mode_comparison()
++	finish_capture(comparison)
++
++func finish_capture(comparison: Dictionary) -> void:
++	var receipt := {
++		"status": "PASS" if failures.is_empty() else "FAIL", "failures": failures,
++		"mode": mode, "seed": 42, "fixture_pair": [25, 26], "actual_targets": active_targets,
++		"painted_asset_status": asset_status,
++		"screen": DisplayServer.window_get_current_screen() if DisplayServer.get_name() != "headless" else -1,
++		"root_size": [root.size.x, root.size.y], "fixed_fps_expected": CAPTURE_FPS,
++		"clip_process_frames": Engine.get_process_frames() - start_frame,
++		"configured_normal_effect_seconds": EXPECTED_EFFECT_SECONDS,
++		"effect_start_frame": activation_frame - start_frame if activation_frame >= 0 else -1,
++		"effect_end_frame": effect_end_frame - start_frame if effect_end_frame >= 0 else -1,
++		"effect_elapsed_process_frames": effect_end_frame - activation_frame if effect_end_frame >= 0 else -1,
++		"effect_sampled_delta_seconds": effect_sampled_seconds,
++		"observations": observations, "frame_observations": frame_observations,
++		"cross_mode": comparison,
++		"proof": "Actual Godot root render with Input.parse_input_event mouse press/drag/release; not human or Android acceptance",
++	}
++	write_json(output + "/volcano_" + mode + "_REPORT.json", receipt)
++	print("PAINTED_VOLCANO_CAPTURE " + JSON.stringify(receipt))
++	quit(0 if failures.is_empty() else 1)
++
++func verify_case(label: String, painted: bool, reduced: bool, action: String, baseline: Dictionary) -> Dictionary:
++	var script_path := BASE_BOARD_PATH if label == "base_normal" else PAINTED_BOARD_PATH
++	var board_script = load(script_path)
++	if board_script == null or not board_script.can_instantiate():
++		check(false, label + ": renderer script loads")
++		return {}
++	var core = load(CORE_PATH).new()
++	core.setup_lab("volcano", 42)
++	var initial := core_state(core)
++	var view = board_script.new()
++	view.polished_art = true
++	root.add_child(view)
++	view.size = Vector2(404, 550)
++	if label != "base_normal":
++		check(view.has_method("set_painted_volcano"), label + ": actual painted API is present")
++		if not view.has_method("set_painted_volcano"):
++			view.queue_free()
++			await process_frame
++			return {}
++		view.set_painted_volcano(painted)
++		check(bool(view.painted_volcano) == painted, label + ": comparison mode is applied")
++	view.setup(core, reduced)
++	await process_frame
++	var result: Dictionary = core.try_swap(int(core.fixture_pair[0]), int(core.fixture_pair[1]))
++	var event := power_event(result)
++	var resolved := core_state(core)
++	var trace := {"start": -1, "end": -1, "signal_power": "", "signal_targets": [], "frames": [], "delta_seconds": 0.0}
++	view.power_started.connect(func(power: String, targets: Array) -> void:
++		trace.start = Engine.get_process_frames()
++		trace.signal_power = power
++		trace.signal_targets = targets.duplicate())
++	var began := Engine.get_process_frames()
++	# animate_result is a coroutine. Start it, then await the real busy stream;
++	# never assume the first yield means the complete animation has finished.
++	view.animate_result(result)
++	var limit := began + 1200
++	while int(trace.start) < 0 and view.busy and Engine.get_process_frames() < limit:
++		await process_frame
++	check(int(trace.start) >= 0, label + ": real power_started signal arrives")
++	check(trace.signal_power == "volcano" and same_json(trace.signal_targets, event.get("targets", [])), label + ": actual signal matches event targets")
++	var replacement = null
++	var reset_state: Dictionary = {}
++	if action == "skip":
++		view.finish_now()
++	elif action == "reset":
++		replacement = load(CORE_PATH).new()
++		replacement.setup_lab("volcano", 42)
++		reset_state = core_state(replacement)
++		view.setup(replacement, reduced)
++	while view.busy and Engine.get_process_frames() < limit:
++		var active: bool = not view._power_event.is_empty()
++		if int(trace.start) >= 0 and int(trace.end) < 0 and not active:
++			trace.end = Engine.get_process_frames()
++		if active:
++			trace.delta_seconds += view.get_process_delta_time()
++		trace.frames.append({"process_frame": Engine.get_process_frames() - began, "power_t": view._power_t, "power_active": active})
++		await process_frame
++	if int(trace.end) < 0:
++		trace.end = Engine.get_process_frames()
++	check(not view.busy, label + ": async animation completes")
++	if action in ["skip", "reset"]:
++		# Let every superseded coroutine's timer expire before checking cancellation.
++		await create_timer(2.0).timeout
++	check(same_json(core_state(core), resolved), label + ": presentation preserves full original Core/RNG state")
++	check(presentation_clear(view), label + ": busy, hidden and power overlays are clear")
++	if action == "reset":
++		check(same_json(core_state(replacement), reset_state) and same_json(reset_state, initial), label + ": reset replacement keeps exact initial Core/RNG state")
++		check(display_matches(view, replacement), label + ": old stream cannot overwrite reset display")
++	else:
++		check(display_matches(view, core), label + ": display finishes on actual resolved Core state")
++	if not baseline.is_empty():
++		check(same_json(event, baseline.event), label + ": actual event equals original normal renderer")
++		check(same_json(result, baseline.result), label + ": entire event stream equals original normal renderer")
++		check(same_json(resolved, baseline.final_state), label + ": complete Core/RNG state equals original normal renderer")
++	var record := {
++		"case": label, "painted": painted, "reduced_motion": reduced, "action": action,
++		"event": event, "result": result, "initial_state": initial, "final_state": resolved,
++		"actual_targets": event.get("targets", []).duplicate(),
++		"effect_elapsed_process_frames": int(trace.end) - int(trace.start),
++		"effect_sampled_delta_seconds": trace.delta_seconds,
++		"frame_observations": trace.frames,
++	}
++	if action == "reset":
++		record.reset_state = reset_state
++	view.queue_free()
++	await process_frame
++	return record
++
++func run_verify() -> void:
++	var cases: Array = []
++	var baseline := await verify_case("base_normal", false, false, "normal", {})
++	cases.append(baseline)
++	if not baseline.is_empty():
++		for definition in [
++			["control_normal", false, false, "normal"], ["painted_normal", true, false, "normal"],
++			["control_reduced", false, true, "normal"], ["painted_reduced", true, true, "normal"],
++			["control_skip", false, false, "skip"], ["painted_skip", true, false, "skip"],
++			["control_reset", false, false, "reset"], ["painted_reset", true, false, "reset"],
++		]:
++			cases.append(await verify_case(String(definition[0]), bool(definition[1]), bool(definition[2]), String(definition[3]), baseline))
++	var receipt := {
++		"status": "PASS" if failures.is_empty() else "FAIL", "failures": failures,
++		"cases": cases, "configured_normal_effect_seconds": EXPECTED_EFFECT_SECONDS,
++		"proof": "Headless or graphical actual Core transactions and awaited renderer busy/cancellation streams; no visual acceptance claim",
++	}
++	write_json(output + "/volcano_VERIFY.json", receipt)
++	print("PAINTED_VOLCANO_VERIFY " + JSON.stringify({"status": receipt.status, "failures": failures, "case_count": cases.size()}))
++	quit(0 if failures.is_empty() else 1)
++
++func run() -> void:
++	output = ProjectSettings.globalize_path("res://outputs")
++	check(DirAccess.make_dir_recursive_absolute(output) == OK, "Output directory exists")
++	start_frame = Engine.get_process_frames()
++	var arguments := OS.get_cmdline_user_args()
++	if "--verify-only" in arguments:
++		await run_verify()
++		return
++	var control := "--control" in arguments
++	var candidate := "--candidate" in arguments
++	if control == candidate:
++		check(false, "Capture requires exactly one user argument: --control or --candidate")
++		mode = "invalid"
++		finish_capture({})
++		return
++	mode = "control" if control else "candidate"
++	await run_capture()
+
+--- /dev/null
++++ b/tools/avi_preview.py
+@@ -0,0 +1,37 @@
++"""Create a silent GIF preview from the actual Godot MJPEG AVI, not AI video."""
++from pathlib import Path
++import io,json,struct,sys
++from PIL import Image
++
++def chunks(data,start,end):
++    cursor=start
++    while cursor+8<=end:
++        tag=data[cursor:cursor+4]
++        length=struct.unpack_from('<I',data,cursor+4)[0]
++        first=cursor+8;last=min(first+length,end)
++        if tag in (b'RIFF',b'LIST') and length>=4:
++            yield from chunks(data,first+4,last)
++        else:
++            yield tag,first,last
++        cursor=first+length+(length&1)
++
++source=Path(sys.argv[1]).resolve()
++destination=Path(sys.argv[2]).resolve()
++assert source.is_file() and not destination.exists()
++data=source.read_bytes()
++assert data[:4]==b'RIFF' and data[8:12]==b'AVI '
++frames=[];original_count=0
++for tag,start,end in chunks(data,0,len(data)):
++    if tag in (b'00dc',b'00db'):
++        if original_count%2==0:
++            with Image.open(io.BytesIO(data[start:end])) as frame:
++                assert frame.size==(432,960),frame.size
++                frames.append(frame.convert('RGB').copy())
++        original_count+=1
++assert original_count>=180 and len(frames)>=90,(original_count,len(frames))
++durations=[70 if i%3 else 60 for i in range(len(frames))]
++frames[0].save(destination,save_all=True,append_images=frames[1:],duration=durations,loop=0,optimize=False)
++with Image.open(destination) as gif:
++    receipt={'source':str(source),'source_frames':original_count,'preview':str(destination),'preview_frames':gif.n_frames,'viewport':list(gif.size),'silent':True,'encoding':'Godot MJPEG frame decode and GIF palette encoding;no source asset edits','duration_ms':sum(durations)}
++destination.with_suffix('.json').write_text(json.dumps(receipt,indent=2)+'\n',encoding='utf-8')
++print(json.dumps(receipt))
+
+--- /dev/null
++++ b/PLAY_MAGIC_ANIMATIONS.cmd
+@@ -0,0 +1,2 @@
++@echo off
++"C:\Tools\Godot\4.7.2\engine\Godot_v4.7.2-stable_win64.exe" --path "%~dp0." --screen 0 --position 80,65 --resolution 432x960
+
+--- /dev/null
++++ b/README_MAGIC_ANIMATIONS.txt
+@@ -0,0 +1,9 @@
++GNOMIT MAGIC ANIMATION LAB
++
++Run PLAY_MAGIC_ANIMATIONS.cmd. The lab opens on monitor 0 at 432x960 and starts with Volcano selected.
++
++Painted is enabled by default and selects the painted Volcano material pass. Turn it off for the baseline Volcano reference. This changes only the rendering style: it does not reset the board, reroll the seed, spend a move, or change the resolved result. The toggle is disabled while an effect resolves. Horizontal Tornado, vertical Tornado, and Black Hole retain their baseline VFX.
++
++Drag the highlighted special to its neighboring highlighted stone. For Black Hole, swap the adjacent whirlwind and volcano. Reset restores the same seed. Skip effect and Reduced motion preserve the game result. Existing icons and audio are retained.
++
++This is a separate local test fixture, not campaign rewards or final balance. No personal or campaign save is read or written. The current project default scene is the lab; the launcher uses that scene directly.
+
+--- /dev/null
++++ b/assets/vfx/volcano/MATERIALS.json
+@@ -0,0 +1,74 @@
++{
++  "schema": 1,
++  "tool": "built-in image_gen",
++  "transparent_background": true,
++  "purpose": "project-bound VFX materials;icons unchanged",
++  "images": {
++    "magma_pebble": {
++      "path": "assets/vfx/volcano/magma_pebble.png",
++      "source": "C:\\Users\\fruch\\.codex\\generated_images\\01a11973-52a1-7a10-b9c3-69a7fee84ca5\\exec-a1a92681-3b86-4b56-a42a-812c01086358.png",
++      "size": [
++        1254,
++        1254
++      ],
++      "mode": "RGBA",
++      "alpha_range": [
++        0,
++        255
++      ],
++      "alpha_bbox": [
++        0,
++        19,
++        1234,
++        1254
++      ],
++      "bytes": 1232022,
++      "sha256": "1de6a6be56a3f714a8de53cceb96018f196a5cff3ebd9414e6a4a5d64e6d397d",
++      "processing": "unaltered copy of built-in imagegen output;no bitmap edits"
++    },
++    "ash_puff": {
++      "path": "assets/vfx/volcano/ash_puff.png",
++      "source": "C:\\Users\\fruch\\.codex\\generated_images\\01a11973-52a1-7a10-b9c3-69a7fee84ca5\\exec-06334520-7f6a-4e95-bc77-c8dceba7f745.png",
++      "size": [
++        1254,
++        1254
++      ],
++      "mode": "RGBA",
++      "alpha_range": [
++        0,
++        254
++      ],
++      "alpha_bbox": [
++        0,
++        12,
++        1253,
++        1254
++      ],
++      "bytes": 1119153,
++      "sha256": "13dbb9000304e6230daa49ffd56f2e759707277a75648631e79f7ae96a7823cd",
++      "processing": "unaltered copy of built-in imagegen output;no bitmap edits"
++    },
++    "impact_dust": {
++      "path": "assets/vfx/volcano/impact_dust.png",
++      "source": "C:\\Users\\fruch\\.codex\\generated_images\\01a11973-52a1-7a10-b9c3-69a7fee84ca5\\exec-583c297c-7296-490f-8c59-ba1ad5e6de1b.png",
++      "size": [
++        1536,
++        1024
++      ],
++      "mode": "RGBA",
++      "alpha_range": [
++        0,
++        254
++      ],
++      "alpha_bbox": [
++        0,
++        20,
++        1526,
++        1024
++      ],
++      "bytes": 1560121,
++      "sha256": "be07b75b7bcd86f4720b422b11f4aef583879395199b5abcf7d48b9e45112881",
++      "processing": "unaltered copy of built-in imagegen output;no bitmap edits"
++    }
++  }
++}
+
+--- /dev/null
++++ b/assets/vfx/volcano/GENERATION_PROMPTS.txt
+@@ -0,0 +1,12 @@
++BUILT-IN IMAGE_GEN PROMPTS — 2026-10-17
++transparent_background=true for each separate generation. Original RGBA outputs copied unchanged into this project. No CLI fallback or bitmap editing.
++
++magma_pebble
++Use case: stylized-concept. Asset type: ONE transparent game VFX sprite for GnomiT, a polished warm storybook underground match-3. Primary request: a single small roughly rounded irregular volcanic stone, dark warm brown stony crust with three narrow orange-gold magma fissures, chunky tactile painted volume, soft highlights from upper left. Three-quarter view, isolated centered, no shadow outside object, stone occupies around 65 percent of square canvas with completely transparent padding all around. Material matches richly painted fantasy gold ore, not a neon fireball. This is only the airborne pebble material; do not draw a volcano, icon badge, UI, background, full explosion or another object. No text, no checkerboard, no sheet, no motion trail. True RGBA transparent background, clean alpha, crisp readable silhouette at 24 screen pixels.
++
++ash_puff
++Use case: stylized-concept. Asset type: ONE transparent game VFX ash puff sprite for GnomiT warm storybook fantasy mining match-3. Primary request: one compact soft billowing ash puff made of three to five rounded hand-painted wisps, warm gray-brown umber center and pale tan edges, subtle shaded volume, feathered transparent outer edges. Isolated centered on fully transparent square canvas, cloud around 65 percent canvas width and 55 percent height, generous transparent padding. An ephemeral small smoke material to be scaled and animated by Godot, not a large scene or explosion. No fire, no rock, no volcano, no icon badge, no ring, no text, no background, no checkerboard. Avoid photoreal gritty smoke or opaque black smudge; keep readable soft painterly fantasy 3D storybook volume. True RGBA transparency with semitransparent wisps.
++
++impact_dust
++Use case: stylized-concept. Asset type: ONE transparent game VFX contact dust sprite for GnomiT painted storybook mining match-3. Primary request: a small radial impact dust puff, low flattened elliptical cloud viewed slightly from above, warm sandy beige with soft cocoa shaded underside, four or five little curled powder lobes expanding from an empty center, a few tiny matte mineral flecks only at immediate edge. Dust occupies around 65 percent canvas width and 45 percent height, centered with completely transparent padding, clean feathered alpha, gentle upper-left lighting. This will be animated in Godot at about one game-cell size. No orange neon aura, no stars, no sparkles, no icon, no UI, no stone/volcano, no background, no checkerboard, no text, no multi-frame sheet. True RGBA transparent background. Soft dimensional painted fantasy style, not photoreal or flat geometric clipart.
++
+

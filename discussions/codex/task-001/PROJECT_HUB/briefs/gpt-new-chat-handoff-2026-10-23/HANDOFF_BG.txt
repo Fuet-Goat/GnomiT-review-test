@@ -1,0 +1,186 @@
+GNOMIT — ПЪЛЕН КОНТЕКСТ ЗА НОВ GPT ЧАТ
+Актуализирано:23.10.2026, Europe/Sofia. Чети това преди старите front doors.
+
+1. ТВОЯТА РОЛЯ И ТЕКУЩО ВЪЗЛАГАНЕ
+Ти си GPT — независим ART/DESIGN REVIEWER и технически съветник (историческа
+роля ART OWNER). Даваш собствено мнение по реални кадри, код и доказателства.
+Не си длъжен да се съгласяваш с Codex/Grok. Художественият избор е на човека.
+Пишем на български; примерният и реалният UI текст са на английски.
+СЕГА: прочитане, визуален/технически преглед, обсъждане и собствен текстов доклад.
+Не стартирай реализация, нов модел, rig, оптимизация или среда в този чат.
+Съществуващият GPT task003 grant е исторически за отделна gnome проба; не е
+указание да рестартираш приетия герой. Текущата задача е по-тясна: review only.
+За такъв доклад: codex/gpt/task-001, само discussions/gpt/task-001/ текстове.
+Препоръчано ново място: discussions/gpt/task-001/current-context-review-2026-10-23/REPORT.txt.
+Не редактирай Codex/Grok отчети, grants, policies или main. Без merge.
+При липса на Git write върни действителния доклад в чата/файл и точния статус.
+
+ЕКИП
+Човекът: собственик, желана визия, приемане и scope.
+Codex: реална локална Blender/Godot работа, проверка, кадри, опаковане/доставка
+и интеграция само в разрешения обхват. Тук има Blender5.2.2/Godot4.7.2.
+Това НЕ означава, че твоят нов чат разполага със същите инструменти/локални файлове.
+GPT: независима посока/преглед, конкретни тесни препоръки и code proposals,
+когато са изрично възложени. Не одобряваш чрез числа без да видиш арта.
+Grok: вече отделен independent environment challenger, task003. Не променя
+заключения гном. Нов grant е APPROVED в main чрез ownerPR8; още няма доставен
+challenger от тази задача и не представяме бъдеща работа като свършена.
+
+2. ПРОДУКТ И ХУДОЖЕСТВЕНА ЦЕЛ
+GnomiT е отделна портретна Android match3 игра за приказна мина и слизане
+под земята. Не я смесвай с другия проект Cradle of Gnome.
+Godot остава game engine; Blender — редактируеми3D активи/рендер/export.
+Не планираме Unity/Maya миграция или покупки заради този review.
+Референтен кадър432x960; това не определя Android dp, аудитория или minspec.
+Искаме СРЕДНИЯ панел на PRIMARY_TARGET_COMPARISON.png: hybrid2.5D storybook.
+Реални обемни обекти с меки ясни форми, топло медено дърво, зеленина,
+чисти широки highlights; без силен пластмасов гланц/фотореалистична мръсотия.
+Картинката е художествена цел, не готова editable3D сцена или доказан runtime.
+Остров с видима земна дебелина, обща S-пътека към четим вход на мината,
+гъбена къщичка до малкия начален гном: сякаш тръгва от дома.
+По-малко случайни камъчета/цветя, групирани акценти и свободни зелени участъци.
+Тревата трябва да има плътен нисък килим и сдържани туфи, не шум от еднакви
+розетки. Не превеждай това механично като още един +30% брой листа.
+Дървета: общи закръглени асиметрични маси, ствол/корени, а не еднакви сфери.
+Искаме обем и плавност в дизайна, не само по-топъл hue на същата стара форма.
+
+3. КАКВО НАПРАВИХМЕ — СЪКРАТЕНА ИСТОРИЯ
+А. Започнахме с плоски картинки/стари procedural сцени; пробите не стигаха целта.
+Б. GPT предложи нов island generatorR1/R2 като source, без собствен Blender run.
+Codex построи реалните .blend/GLB/рендери; поправи normals/path, направи R3world.
+В. Домът бе преместен до началото. Трева, дървета и светлина бяха пробвани
+поотделно; има playable/isolated версииv009–v014 и множество native тестове.
+Г. Малките leaf-width/taper поправки не дадоха искания тревен килим. Направени
+са квадратна B проба, после цял native килимH2 и colour-only кандидатI2.
+Д. Старият гномM1–M4 остана сглобен/плосък. Спряхме ремонтите; нова Blender
+основаR1, послеR2/R3/R4 form. НЕ връщаме стария герой като активна цел.
+Е. Приети са R4form, M2materials, RigR3 separatedsleeve, GLBtransport, LightingR1B.
+Ж. Последно Codex постави точния master на истинската избрана Godot карта
+в отделна неподвижна context проба.95scriptedchecksPASS; реални кадри/поздрав.
+
+4. НЕ СМЕСВАЙ ТРИТЕ АКТИВНИ ЛИНИИ
+RUNTIME MAP: текущият проверен CURRENT_GNOMIT selector сочи v014,
+R3_Trees_Reference_2026-10-22. По него са истинската camera/world/2 markers.
+NATIVE ART CANDIDATE: H2 whole-map lowgrass + I2palette са по-нови Blender
+проби. Не са export/integrated в Godot; нямат Android/performance измерване.
+MASTER GNOME: отделен нов приет герой, после поставен в runtime context.
+Той НЕ означава, че едновременно сме приложили nativeI2 средата.
+Различният вид на тревата между I2Blender и текущия Godot кадър идва от тази
+разлика на версиите. Не го наричай мълчалив rollback; не ги приравнявай.
+WorldR3, FormR3 и RigR3 са различни етикети за различни линии.
+
+5. ЗАКЛЮЧЕНИ РЕШЕНИЯ ПО ГНОМА
+FORM R4:LOCK. MATERIAL M2:LOCK. RIG R3+GREETING:LOCK.
+GLB/GODOT TRANSPORT:LOCK. STUDIO LIGHTING R1B:ACCEPT/LOCK.
+Идентичност: малък миньор, червена мека шапка, бяла/кремава брада,
+tealпалто, кафяви обувки, фенер. Не го увеличавай за по-впечатляващ render.
+Не ремонтирай отново пропорции, лице, брада, ръкав/weights или материали.
+RigR1/R2 прищипваха заварения ръкав. ПриетотоR3 решение премахва стария
+sleeve↔torso участък, използва отделен затворен ръкав и покрито с overlap рамо.
+Свободна подмишница, естествен маншет, стъпала неподвижни. Не го заварявай пак.
+Поздрав:6секунди, спокойно начало/anticipation/две умерени махвания/settle.
+Отделни shoulder/elbow/wrist/head, закъсняващ фенер. Не безкраен fullbodyloop.
+Reducedmotion=спокойна rest поза. GIFloop е само удобство за преглед.
+Слабият torso seam, силният boot reflection и простият фенер са известни
+cosmetic ограничения; не са причина за нов rig/material redesign.
+M2roughness:coat.70,collar.72,cap.65,beard.70,boots.50,skin.53.
+Това е контекст за запазване, не критерий за художествен PASS по JSON.
+
+MASTER ИДЕНТИЧНОСТ
+GLB SHA2563b72702cb1c995d2553dddd4895a1e2327be14d5a22cc38a60a88603d47c529f.
+Native SHA2560335bcc275bfbc8e3b7d3ea43bde2fad6c8ece5281a750007290ef154ac8bffc.
+874805triangles/445842vertices/24images. Това е визуален master, не mobilebudget.
+BlenderDQ/PreserveVolume vs GodotLBS sampled vertexdifference до2.539mm е
+приета transport разлика; не нов дефект за произволно повторно моделиране.
+
+6. ПОСЛЕДНАТА REAL-MAP CONTEXT ПРОБА
+Пакет GNOMIT_REAL_MAP_INTEGRATION_R1_2026-10-23.zip;sourcecommit324448e1;
+links/readbackcommit74d7959. Всички точни URL/SHA са в RESOURCE_INDEX.
+Точни mapassets+scripts, camera, greenery, mine,path; master на същата route
+позиция като стария, scale.61279296875; оригиналната игра/selector не се сменя.
+Map запазва собственото ACES/profileB. StudioLightingR1B е AgX, frozen отделно.
+Това е тест на приетия герой в реалния свят, не обещание за еднакви pixels със
+studio render и не одобрение за глобално преосветяване на картата.
+Oldguide/MasterR3 A/B; Find/Replay; Reduced; camera drag работи.
+Няма authored walkingclip/leg rig за новия master. Старият процедурен gait
+очаква други Guide_*nodes. Затова travel/taps са блокирани в тази проба.
+Не плъзгаме героя и не наричаме това готова route/campaign integration.
+Progress е in-memorystub без load/save, отделен userdirectory.
+95 scripted checksPASS включват mode reset/replay/reduced/focus, camera,
+неподвижни root/footnodes и bone rest endpoints. Не са човешки тест или
+изчерпателна collision/skinvertex/contactshadow/performance проверка.
+144actualGodotframes@24fps;6000msGIF. RealtimeFPS/Android:NOT_MEASURED.
+Human map-context acceptance:PENDING.
+
+7. ПАРАЛЕЛНИЯТ GROK ENVIRONMENT CHALLENGER
+Grant:main dabe1793398d9ceb6afcb0b459ba91e8687c6ac6, tasks/grok/task-003.json.
+Клонcodex/grok/task-003; own sandbox/grok/task-003/{art,source,preview,game,
+outputs}/ и discussions/grok/task-003/. Не му възлагаме работа в този чат.
+Разрешени самостоятелни environment decisions: trees/grass/mine/path/island/
+decoration/materials/environmentlighting в warm rounded storybook посоката.
+Същата432x960 comparisoncamera. EditableBlender/source/textures, actualrender,
+before/after/closeups, GLB/Godotpreview при налични инструменти, документация,
+remoteSHA verification и DraftPR. При липса на инструмент честно limitation.
+Забранено да пипа acceptedgnome/gameplay/save/audio/UIlogic/другиbotfolders;
+без merge/release/paidservices/installations или currentcampaign replacement.
+Grokcandidate се сравнява визуално след доставка; не го приемаме предварително.
+
+8. ИГРОВИ ПРАВИЛА — КОНТЕКСТ, НЕ ТЕКУЩО ВЪЗЛАГАНЕ ЗА ПРОМЯНА
+Материалът е отделен от силата.4line→Volcano;5line→Storm;T→Tornado;L→Landslide.
+Падане може да създаде чакаща сила; ръчен3+match със стара сила от същия
+материал може да я задейства. Само директна размяна на две петични сили
+прави BlackHole. Тя удря всяка приложима клетка веднъж, защитите/слоевете−1,
+поглъща други чакащи сили без тяхна собствена верига. Refillcascades отделно.
+Не връщай старото BlackHoleнеудряпочва правило. Има обикновени и ясно
+защитени разновидности на минерали/препятствия; бъдещите специални условия
+не са всички реализирани. Не променяй rewards/powers заради artreview.
+Ниво1 има двустраниченVolcano урок: създаване/действие, arrowsleft/right.
+Другите сили се въвеждат по-късно, не всички наlevel1. Изследван е baseline
+срещу контекстно обучение; имаме отделна A/B проба, нямаме learner/retention
+резултат. За следващ DeepResearch търсим конкретна неизвестност, не общо още
+един доклад за всичко. FPS/touch/разбиране се измерват с играчи/устройства.
+Шестте markers в concept са композиционна цел. Реалната тази карта има1/2;
+не са добавени четири нива.10поднива+boss/подземниглави са обсъждана посока.
+Навигационна препоръка: fixed3/4map, perpendicularboard, малък водач и без
+задължително чакане за Play; discussion ≠ окончателно приета нова navigation.
+CandyCrushfirstlaunch/level1:NOT_OBSERVED. Стар клипlevel12361 не доказва това.
+
+9. КАК ДА ЧЕТЕШ РЕСУРСИТЕ БЕЗ ПОВТОРЕНИЕ НА СТАРИТЕ ПРОБЛЕМИ
+Първо този handoff, RESOURCE_INDEX и прикачените оригинални pixels.
+После contextREPORT/README/controls/receipts; LightingR1B само при нужда.
+После nativeH2/I2 и target за environment контекст. Старите generator/grass
+proposals и GPTreports са история, не нова инструкция за автоматично прилагане.
+PROJECT_HUB/START_HERE има нов pointer; по-старите TASK_QUEUE/PROJECT_MAP/
+ONE_PROMPT_FOR_GPT_AND_GROK могат да са остарели и не отменят тази задача.
+Main съдържа grants/baseline. Най-новите Codex handoffs са в reportbranch
+codex/codex/task-001, pinnedSNAP74d7959..., не очаквай всичко да е merge-нато.
+GPT предишни доклади:codex/gpt/task-001,pinnedf18d86e... в RESOURCE_INDEX.
+Publicreleasegnome-r3-visual-review-2026-10-22 съдържа и23Octassets; датата
+на tag не ги прави по-стари от техния точен filename/sourcecommit.
+Архивите в REPORTS_ONLYGit са base64parts+TRANSFER_MANIFEST, не липсващ art.
+Събери parts по ред, decodebase64, провериZIPbytes/SHA иentrymanifest.
+Това е read/decode, не изпълнявай генератори/игра за настоящияreport.
+Провери реалния PNG; Gitmetadata/код/receipts не са визуално наблюдение.
+При DNS/connector проблем:използвай прикачения handoffZIP, не губи дълго
+в търсене на инсталации. Ако липсватpixels,NOT_OBSERVED/REVIEW_INCOMPLETE.
+Не измисляй художествен дефект и не издавай ONE_LAST_FIX без визуална основа.
+ЛокаленC:\...path не дава достъп на друг чат; използвай upload/publicURL.
+Всички source/usedassets/prompts/tools/AI/human contribution се документират.
+PROVENANCE не е самостоятелен юридически сертификат за всички минали assets.
+
+10. ПЪРВАТА ТИ КОНКРЕТНА ЗАДАЧА
+А. Кажи кои оригинални изображения/animation/source действително си отворил.
+Б. Прегледай новия гном в real-mapA/B и keyposes при реалния малък размер:
+четимост, контакт, видими sleeve/cuff дефекти, материален/светлинен контекст.
+В. Дай ACCEPT_CONTEXT / ONE_SPECIFIC_CONTEXT_FIX / REVIEW_INCOMPLETE,
+като отделиш визуалното мнение от техническите95checks. Не отваряй отново
+заключения дизайн; ново evidence за реален blocker се посочва конкретно.
+Г. Посочи ЕДНА най-полезна следваща стъпка за Codex. При приемане следва
+отделно Androidoptimisationcopy и измерване, не decimateнаmaster. При бъдеща
+Grokдоставка сравняваме environment отделно при еднакваcamera; не променяме
+едновременно света/гнома/gameplay. Самият review не стартира тези етапи.
+Д. Кратък собствен доклад:observed/verified/inferred/unknown, решение, най-много
+три конкретни наблюдения, една следваща проба, рискове/неизмерени неща.
+Ако пишешGit —само своя REPORT, запазиR1 и после отделен peerresponse.
+Без празен report-вместо-арт когато е възложена реализация; тук именно review
+е възложеният краен продукт. Не връщай само „готов съм,дайфайлове“, ако ги има.

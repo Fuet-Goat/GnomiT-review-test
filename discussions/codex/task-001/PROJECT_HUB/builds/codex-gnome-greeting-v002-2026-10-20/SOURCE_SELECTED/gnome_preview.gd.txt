@@ -1,0 +1,278 @@
+extends "res://native_world_base.gd"
+## Local Codex art candidate. It never loads campaign code or saves.
+const BEFORE := "res://assets/native_mine/storybook_mine_before.glb"
+const AFTER := "res://assets/native_mine/storybook_mine.glb"
+const GREETING_SECONDS := 6.0
+var guide_players: Array[AnimationPlayer] = []
+var greeting_active := false
+var greeting_elapsed := 0.0
+var before_view := false
+var detail_view := false
+var capture_mode := false
+var ground_contacts: Node3D
+var inspection_floor: MeshInstance3D
+var inspection_hidden: Array[GeometryInstance3D] = []
+var heading: Label
+var phase_label: Label
+var greet_button: Button
+var before_button: Button
+var detail_button: Button
+var full_camera_size := 12.25
+
+func _ready() -> void:
+	embedded = false
+	model_path = AFTER
+	super._ready()
+	if not model_ready: return
+	full_camera_size = camera.size
+	_add_contacts()
+	play_greeting()
+	_refresh_labels()
+	DisplayServer.window_set_title("GnomiT - Codex gnome art preview")
+
+func _build_controls() -> void:
+	controls_layer = CanvasLayer.new()
+	add_child(controls_layer)
+	heading = Label.new()
+	heading.position = Vector2(16,14)
+	heading.add_theme_font_size_override("font_size",18)
+	heading.add_theme_color_override("font_color",Color("344e42"))
+	controls_layer.add_child(heading)
+	_build_wordmark()
+	phase_label = Label.new()
+	phase_label.position = Vector2(16,840)
+	phase_label.add_theme_font_size_override("font_size",15)
+	phase_label.add_theme_color_override("font_color",Color("344e42"))
+	controls_layer.add_child(phase_label)
+	before_button = _control_button("Before / After",Vector2(16,873),func(): set_before(not before_view))
+	greet_button = _control_button("Greet again",Vector2(222,873),func(): play_greeting())
+	detail_button = _control_button("Face detail",Vector2(16,917),func(): set_detail(not detail_view))
+	motion_button = _control_button("Motion: ON",Vector2(222,917),func(): set_motion(not motion))
+
+func _control_button(text: String, point: Vector2, callback: Callable) -> Button:
+	var button := Button.new()
+	button.text = text
+	button.position = point
+	button.size = Vector2(194,35)
+	button.focus_mode = Control.FOCUS_NONE
+	_style_button(button)
+	button.pressed.connect(callback)
+	controls_layer.add_child(button)
+	return button
+
+func _merge_transform_animations() -> void:
+	guide_players.clear()
+	for candidate in model.find_children("*","AnimationPlayer",true,false):
+		var player := candidate as AnimationPlayer
+		var world_clip := Animation.new()
+		world_clip.length = 6.0
+		world_clip.loop_mode = Animation.LOOP_LINEAR
+		var guide_clip := Animation.new()
+		guide_clip.length = GREETING_SECONDS
+		guide_clip.loop_mode = Animation.LOOP_NONE
+		var seen: Dictionary = {}
+		for source_name in player.get_animation_list():
+			if String(source_name).get_file().to_upper() == "RESET": continue
+			var source := player.get_animation(source_name)
+			var origin := INF
+			for track in range(source.get_track_count()):
+				if source.track_get_type(track) in TRANSFORM_TYPES and _track_changes(source,track):
+					origin = minf(origin,source.track_get_key_time(track,0))
+			if is_inf(origin): continue
+			for track in range(source.get_track_count()):
+				if not source.track_is_enabled(track) or source.track_get_type(track) not in TRANSFORM_TYPES or not _track_changes(source,track): continue
+				var path := String(source.track_get_path(track))
+				var identity := "%s|%s" % [path,source.track_get_type(track)]
+				if seen.has(identity): continue
+				seen[identity] = true
+				var target := guide_clip if "Guide" in path else world_clip
+				var copied := target.get_track_count()
+				source.copy_track(track,target)
+				for key in range(target.track_get_key_count(copied)):
+					target.track_set_key_time(copied,key,maxf(0.0,target.track_get_key_time(copied,key)-origin))
+		var world_library := AnimationLibrary.new()
+		world_library.add_animation("world",world_clip)
+		player.add_animation_library("candidate",world_library)
+		player.callback_mode_process = AnimationMixer.ANIMATION_CALLBACK_MODE_PROCESS_MANUAL
+		player.play("candidate/world")
+		player.advance(0.0)
+		players.append(player)
+		if guide_clip.get_track_count() > 0:
+			var idle := Animation.new()
+			idle.length = 6.0
+			idle.loop_mode = Animation.LOOP_LINEAR
+			for track in range(guide_clip.get_track_count()):
+				var path := String(guide_clip.track_get_path(track))
+				if "EyeBlink" in path or "BreathingTorso" in path:
+					guide_clip.copy_track(track,idle)
+			var guide_library := AnimationLibrary.new()
+			guide_library.add_animation("greeting",guide_clip)
+			guide_library.add_animation("idle",idle)
+			var separate := AnimationPlayer.new()
+			separate.name = "FiniteGnomeGreeting"
+			player.get_parent().add_child(separate)
+			separate.root_node = player.root_node
+			separate.add_animation_library("candidate",guide_library)
+			separate.callback_mode_process = AnimationMixer.ANIMATION_CALLBACK_MODE_PROCESS_MANUAL
+			separate.play("candidate/greeting")
+			separate.advance(0.0)
+			guide_players.append(separate)
+
+func _add_contacts() -> void:
+	var guide := model.find_child("Guide_Root",true,false) as Node3D
+	if guide == null: return
+	ground_contacts = Node3D.new()
+	ground_contacts.name = "CandidateContactShadows"
+	add_child(ground_contacts)
+	# Supplemental unoccluded character inspection; the whole-scene view retains
+	# the original geometry/camera. Both before and after use this same floor.
+	inspection_floor = MeshInstance3D.new()
+	var floor_mesh := PlaneMesh.new()
+	floor_mesh.size = Vector2(6,6)
+	inspection_floor.mesh = floor_mesh
+	var floor_material := StandardMaterial3D.new()
+	floor_material.albedo_color = Color("b7cd9d")
+	floor_material.roughness = .95
+	inspection_floor.material_override = floor_material
+	ground_contacts.add_child(inspection_floor)
+	inspection_floor.global_position = guide.global_position+Vector3(0,.001,0)
+	inspection_floor.hide()
+	if before_view: return
+	var shader := Shader.new()
+	shader.code = "shader_type spatial; render_mode unshaded, blend_mix, cull_disabled, depth_draw_never; void fragment(){vec2 p=UV-vec2(.5); ALBEDO=vec3(.055,.085,.045); ALPHA=exp(-dot(p,p)*18.0)*.23;}"
+	var material := ShaderMaterial.new()
+	material.shader = shader
+	for boot in model.find_children("Guide_planted boot sole*","Node3D",true,false):
+		var shadow := MeshInstance3D.new()
+		var plane := PlaneMesh.new()
+		plane.size = Vector2(.26,.34)
+		shadow.mesh = plane
+		shadow.material_override = material
+		shadow.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		ground_contacts.add_child(shadow)
+		shadow.global_position = Vector3(boot.global_position.x,guide.global_position.y+.003,boot.global_position.z)
+
+func play_greeting() -> bool:
+	if greeting_active or not motion or guide_players.is_empty(): return false
+	greeting_elapsed = 0.0
+	greeting_active = true
+	for player in guide_players:
+		player.play("candidate/greeting")
+		player.seek(0.0,true)
+		player.advance(0.0)
+	_refresh_labels()
+	return true
+
+func _process(delta: float) -> void:
+	if not model_ready: return
+	super._process(delta)
+	if not motion: return
+	if greeting_active:
+		greeting_elapsed = minf(GREETING_SECONDS,greeting_elapsed+delta)
+		for player in guide_players:
+			player.seek(greeting_elapsed,true)
+			player.advance(0.0)
+		if greeting_elapsed >= GREETING_SECONDS:
+			greeting_active = false
+			for player in guide_players:
+				player.play("candidate/idle")
+				player.advance(0.0)
+	else:
+		for player in guide_players: player.advance(delta)
+	_refresh_labels()
+
+func set_motion(enabled: bool) -> void:
+	super.set_motion(enabled)
+	if not enabled:
+		greeting_active = false
+		greeting_elapsed = 0.0
+		for player in guide_players:
+			player.play("candidate/greeting")
+			player.seek(0.0,true)
+			player.advance(0.0)
+	else:
+		for player in guide_players:
+			player.play("candidate/idle")
+			player.advance(0.0)
+	_refresh_labels()
+
+func set_before(enabled: bool) -> void:
+	if before_view == enabled: return
+	before_view = enabled
+	var was_detail := detail_view
+	detail_view = false
+	model_ready = false
+	if is_instance_valid(ground_contacts): ground_contacts.free()
+	ground_contacts = null
+	inspection_floor = null
+	inspection_hidden.clear()
+	players.clear();guide_players.clear();lanterns.clear()
+	for button in level_markers.values(): button.free()
+	level_markers.clear();marker_anchors.clear()
+	model.free()
+	model = (load(BEFORE if before_view else AFTER) as PackedScene).instantiate()
+	add_child(model)
+	_configure_imported_lights()
+	_configure_camera()
+	full_camera_size = camera.size
+	_merge_transform_animations()
+	_build_level_markers()
+	_add_contacts()
+	model_ready = true
+	greeting_active = false
+	if motion: play_greeting()
+	else: set_motion(false)
+	set_detail(was_detail)
+	_refresh_labels()
+
+func set_detail(enabled: bool) -> void:
+	var was_detail := detail_view
+	detail_view = enabled
+	if camera == null: return
+	if enabled:
+		var guide := model.find_child("Guide_Root",true,false) as Node3D
+		if not was_detail:
+			for item in model.find_children("*","GeometryInstance3D",true,false):
+				if not guide.is_ancestor_of(item) and item.visible:
+					inspection_hidden.append(item)
+					item.hide()
+		camera.global_position = guide.global_position+Vector3(-.75,1.05,2.8)
+		camera.look_at(guide.global_position+Vector3(0,.61,0))
+		camera.size = 1.72
+	else:
+		for item in inspection_hidden:
+			if is_instance_valid(item): item.show()
+		inspection_hidden.clear()
+		camera.global_transform = source_camera_transform
+		camera.size = full_camera_size
+	if is_instance_valid(inspection_floor): inspection_floor.visible = enabled
+	_update_level_markers()
+	_refresh_labels()
+
+func _update_level_markers() -> void:
+	super._update_level_markers()
+	if detail_view:
+		for button in level_markers.values(): button.hide()
+
+func _refresh_labels() -> void:
+	if heading == null: return
+	heading.text = ("BEFORE - preserved V3" if before_view else "AFTER - Codex gnome candidate") + ("\nIsolated character inspection" if detail_view else "")
+	phase_label.text = "Static pose - reduced motion" if not motion else ("A quiet hello..." if greeting_active else "Calm idle - press Greet again")
+	greet_button.disabled = greeting_active or not motion
+	before_button.text = "Show After" if before_view else "Show Before"
+	detail_button.text = "Whole scene" if detail_view else "Face detail"
+	if wordmark != null: wordmark.visible = not detail_view
+
+func show_level_intro(_level: int) -> bool:
+	return play_greeting()
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and not event.echo:
+		if event.keycode == KEY_G: play_greeting()
+		elif event.keycode == KEY_B: set_before(not before_view)
+		elif event.keycode == KEY_D: set_detail(not detail_view)
+		elif event.keycode == KEY_M: set_motion(not motion)
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_APPLICATION_FOCUS_OUT and not capture_mode and model_ready:
+		set_motion(false)

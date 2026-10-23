@@ -1,0 +1,32 @@
+{
+  "created": "2026-10-23",
+  "tools": [
+    "Blender5.2.2LTS Python API",
+    "Python/Pillow"
+  ],
+  "shape": "Human-accepted R4 inherited through pinned M1; no source vertex edits",
+  "m1_source_commit": "4516403b6dc0a4e2fc98b0305359a9020ae5c598",
+  "m1_source_sha256": "366649c61e802c32ba5b08b5537e211d67edade2b284f78ec53a6494b16036e6",
+  "m2_native_sha256": "ceab58183d8abee88e56731795ab13751661966ef9ef85c05de015d494d0fb2e",
+  "rig_native_sha256": "43e9832811a89f9f4af660097f9b3abd69744f919f6179859763b00bdd0283be",
+  "new_external_assets": [],
+  "new_work": "Procedural roughness constants, analytic weights, armature, authored action",
+  "concept": "Unchanged previous image_gen reference only; prompt/provenance included",
+  "asset_collection": "R2_NEW_GNOME",
+  "root": "R2_GnomeRoot",
+  "front": "-Y",
+  "native_unit": "Blender metre, canonical character scale1",
+  "fps": 24,
+  "animation_endpoints": [
+    1,
+    145
+  ],
+  "gif_frames": [
+    1,
+    144
+  ],
+  "game_integration": false,
+  "human_animation_acceptance": "PENDING",
+  "android_performance": "NOT_MEASURED",
+  "legal_note": "Factual provenance; not a promise of exclusive copyright"
+}

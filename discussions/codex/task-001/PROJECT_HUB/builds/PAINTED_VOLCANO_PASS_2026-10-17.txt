@@ -1,0 +1,116 @@
+GNOMIT — FIRST PAINTED VOLCANO ANIMATION PASS — 2026-10-17
+Status: LOCAL_IMPLEMENTED / NATIVE_COMPARISON_PASS / AWAITING_HUMAN_FEEL
+Human authorization: vuprosut e koi shte pravi animaciite ti ?,davai togava.
+Agreed first-pass synthesis:1bd3bb4211d4fe6169795d1bb0c85e0e6e75c6b7.
+
+TRY IT
+Project:C:\Users\fruch\Documents\Codex\GnomiT_Playtests\MagicAnimations_2026-10-17
+Launcher:C:\Users\fruch\Documents\Codex\GnomiT_Playtests\MagicAnimations_2026-10-17\PLAY_MAGIC_ANIMATIONS.cmd
+New unique Magic Animation Lab window opened and observed through Windows UI on monitor1(screen0),432x960. Painted is ON by default. Drag the highlighted Volcano toward its adjacent highlighted gem. Reset restores the seed. Toggle Painted OFF and repeat after Reset to compare the exact procedural control. Other3powers remain explicitly labeled baseline references.
+
+WHAT CODEX MADE
+Three authentic transparent raster materials generated through built-in image_gen,unmodified RGBA PNGs copied from generated_images to assets/vfx/volcano. Complete prompts saved at GENERATION_PROMPTS.txt and included in this receipt.
+New magic_volcano_board.gd subclasses existing renderer. Uses crater charge,painted ash plume,textured magma projectile arcs,short trails,warm contact,mineral-color chips and settling dust. No new icon. Painted=false delegates directly to inherited exact prior Volcano effect. All3actual textures confirmed submitted to real drawing in focused checks.
+Root only switches renderer and adds a small Painted checkbox. No new game mode or rule. New launcher and capture/preview tools. A separate local copy preserves the original NaturalPowers and Frankenstein predecessors. Unique userdata profile;no progress read/write.
+
+PRESERVED
+The inherited _draw_gem icon method,Core,base renderer,shared board,main/progress/audio are byte-identical to predecessor. All32preexisting actual assets excluding import descriptors byte-identical. Configured Volcano1.04s,Tornado0.80s,BlackHole1.08s,reduced0.13s unchanged. Event targets [2,15,18,20,25] in this seed42 fixture. No new gameplay RNG,terrain damage,bonus creation,chains or campaign rewards. Painted changes Volcano only;Tornado/BlackHole full art passes are still future work.
+
+VERIFICATION ACTUALLY RUN
+Expected missing-feature RED saved. Focused painted checks26/0,base renderer18/0,Core80/0. An intermediate degenerate tiny-chip polygon and image-loading warnings were found and fixed;history retained,final focused runs clean. Headless integration9cases0failures:base/control/painted normal,reduced,skip,reset and full Core/RNG/event parity.
+Native Godot movie runs after final visual polish:both exit0,PASS,no ERROR/WARNING lines. Entire432x960 root,screen0,actual Input.parse_input_event press/drag/release. Frozen actual Core event before draw;210 processframes at configured30fps (about7s) each;this is recording cadence,not a device FPS benchmark. Actual sampled effect1.06666666666667s including inherited timer/scheduling in both modes;configured1.04s unchanged.
+EVENT,RESULT and FINAL_STATE files match byte-for-byte across control/candidate. Observed targets identical,one move spent. Five PNG frames per clip;actual movies contain211MJPEGframes including writer startup. Parent visually inspected charge/flight/hits. One bounded polish raised target ring alpha,projectile size and plume volume;no timing/state changes. Final focused26checks and both native movies rerun after that change.
+Independent read-only code/spec review found no critical/important issue. Its last review preceded the four scalar-only visual changes;parameter-only reversal to the reviewed source hash was verified by implementer. Parent confirmed final frame rendering. No human or Android acceptance claimed.
+
+DELIVERY
+Native AVI control/candidate records in outputs/,including existing game audio. Silent GIF preview decoded from actual MJPEG frames and palette-encoded;not generated AI video. GIF may merge repeated frames and reduces colors;AVI and PNGs preserve fuller render quality. No new disaster SFX;selected stone audio reused.
+Current governed repository still REPORTS_ONLY. Own text receipt/literal source delta published only;no native game or PNG upload into governed roots,no main/private/baseline/grant changes or merge. New artwork exists locally and in the handoff package,not claimed remotely published. No external bot/art task dispatched or repeated review vote.
+
+ACTUAL MATERIALS
+assets/vfx/volcano/magma_pebble.png | [1254, 1254] RGBA | 1232022bytes | SHA-256 1de6a6be56a3f714a8de53cceb96018f196a5cff3ebd9414e6a4a5d64e6d397d | alpha[0, 255]
+assets/vfx/volcano/ash_puff.png | [1254, 1254] RGBA | 1119153bytes | SHA-256 13dbb9000304e6230daa49ffd56f2e759707277a75648631e79f7ae96a7823cd | alpha[0, 254]
+assets/vfx/volcano/impact_dust.png | [1536, 1024] RGBA | 1560121bytes | SHA-256 be07b75b7bcd86f4720b422b11f4aef583879395199b5abcf7d48b9e45112881 | alpha[0, 254]
+Images are original full generated sizes,scaled at draw time;they are not falsely described as64/32/48pxexports. Raw byte copies preserve generated transparency. Future texture-memory optimization is outside this PC pass.
+
+UNCHANGED INPUT AND RESULT IDENTITIES
+{
+  "unchanged": {
+    "scripts/lab/natural_power_core.gd": {
+      "bytes": 7441,
+      "sha256": "1383ab2b866a44cef82d3e6b16d45f011a60109d901acaa04dacbbfa2558c2ff"
+    },
+    "scripts/lab/natural_power_board.gd": {
+      "bytes": 10704,
+      "sha256": "9225666048153c7c7c2cf44aba9871f75b4222f0dfafbfcb622ba8002e65d61b"
+    },
+    "scripts/board_view.gd": {
+      "bytes": 33490,
+      "sha256": "c0f68b6a37805278db1684200e7d5c6bc3672bfdc04fb5d6b9b908d177a44781"
+    },
+    "scripts/match_core.gd": {
+      "bytes": 10023,
+      "sha256": "12f1d987e5a5ab194cfc1ea555a5905922290a23e67f370b9f3a4813d42166bb"
+    },
+    "scripts/progress.gd": {
+      "bytes": 4151,
+      "sha256": "2d7dce425fb70fe47d07bd14777a957ac2d7e08929a43ef56216b13fba22e501"
+    },
+    "scripts/main.gd": {
+      "bytes": 24717,
+      "sha256": "6f8bc515339735b907fb94e3c0b621def3f9e6e75591e849bde73b2be91e5737"
+    },
+    "scripts/rock_audio.gd": {
+      "bytes": 1784,
+      "sha256": "24fac13dc7093ac423121b6862b123ba32359c0b10d439d0e3f286c45093112d"
+    },
+    "inherited_icon_method": {
+      "sha256": "36dc3d0c3f45794df5033aa054c25b2eb902728497642e7cb73efe89c05f723a"
+    }
+  },
+  "preexisting_assets_identical": 32,
+  "comparison": {
+    "EVENT": {
+      "bytes": 1565,
+      "sha256": "01d2aef81612089a4f4b43074b9c064af3cc315452a819aee37d694f05b3e4f8"
+    },
+    "RESULT": {
+      "bytes": 4082,
+      "sha256": "865846c4c57e702b3a67e18d2aa4dab8d668415b69d5501926bf1a2e087121e4"
+    },
+    "FINAL_STATE": {
+      "bytes": 978,
+      "sha256": "34527a359c9b42eac447575f80152f651ef9b468f5b219f44668a92787ba70ef"
+    }
+  },
+  "proof": "fresh byte comparisons;no human/Android acceptance"
+}
+
+LOCAL TEXT SOURCE IDENTITIES
+project.godot | {'bytes': 971, 'sha256': 'cc220121f6cacf7eea3c00bce38c0c83c1c52a2baccd82b581054ef49f1b1ebc'}
+scripts/lab/natural_power_lab.gd | {'bytes': 10214, 'sha256': 'b6501323350dbbfb4504a839d35cf547aa60deadb9a7f6220997660574c90cb7'}
+scripts/lab/magic_volcano_board.gd | {'bytes': 8161, 'sha256': '3176012834faea74dda6b0fdc048a57d5ec53c4108091b0daa305ff02ad7a2f9'}
+tests/test_painted_volcano.gd | {'bytes': 8129, 'sha256': '077e18b0715a830353883f17a18a034812872818d4eeab3bf0772cca741d3215'}
+tests/capture_painted_volcano.gd | {'bytes': 19969, 'sha256': 'c8825c34edd3e7ee10c713a87d41caff111d9d870a1c75c96277ae9b4b2ecc55'}
+tools/avi_preview.py | {'bytes': 1781, 'sha256': '501ffa876eb5346d680d0144c8cd0b61c01349f42006647d03f999c5460c1ab9'}
+PLAY_MAGIC_ANIMATIONS.cmd | {'bytes': 137, 'sha256': '5c70a0531cf816d084cc8ee43200c8d062bdf72cda53831d5559ebd2126153ad'}
+README_MAGIC_ANIMATIONS.txt | {'bytes': 989, 'sha256': '8a6a02723b05fb1608cf4dc6dde93dd73885e42a96411bf8d3a60520de90fabb'}
+assets/vfx/volcano/MATERIALS.json | {'bytes': 2110, 'sha256': '50e5a4aadc07b2945ae0522dd64d21524044910ca835feeffb9584c0dfa4bd66'}
+assets/vfx/volcano/GENERATION_PROMPTS.txt | {'bytes': 2825, 'sha256': 'ad920ef80d198e8d6978983a4c943d58a4da620fe3850e93ee9cf7538899f2da'}
+
+FULL GENERATION PROMPT SET
+BUILT-IN IMAGE_GEN PROMPTS — 2026-10-17
+transparent_background=true for each separate generation. Original RGBA outputs copied unchanged into this project. No CLI fallback or bitmap editing.
+
+magma_pebble
+Use case: stylized-concept. Asset type: ONE transparent game VFX sprite for GnomiT, a polished warm storybook underground match-3. Primary request: a single small roughly rounded irregular volcanic stone, dark warm brown stony crust with three narrow orange-gold magma fissures, chunky tactile painted volume, soft highlights from upper left. Three-quarter view, isolated centered, no shadow outside object, stone occupies around 65 percent of square canvas with completely transparent padding all around. Material matches richly painted fantasy gold ore, not a neon fireball. This is only the airborne pebble material; do not draw a volcano, icon badge, UI, background, full explosion or another object. No text, no checkerboard, no sheet, no motion trail. True RGBA transparent background, clean alpha, crisp readable silhouette at 24 screen pixels.
+
+ash_puff
+Use case: stylized-concept. Asset type: ONE transparent game VFX ash puff sprite for GnomiT warm storybook fantasy mining match-3. Primary request: one compact soft billowing ash puff made of three to five rounded hand-painted wisps, warm gray-brown umber center and pale tan edges, subtle shaded volume, feathered transparent outer edges. Isolated centered on fully transparent square canvas, cloud around 65 percent canvas width and 55 percent height, generous transparent padding. An ephemeral small smoke material to be scaled and animated by Godot, not a large scene or explosion. No fire, no rock, no volcano, no icon badge, no ring, no text, no background, no checkerboard. Avoid photoreal gritty smoke or opaque black smudge; keep readable soft painterly fantasy 3D storybook volume. True RGBA transparency with semitransparent wisps.
+
+impact_dust
+Use case: stylized-concept. Asset type: ONE transparent game VFX contact dust sprite for GnomiT painted storybook mining match-3. Primary request: a small radial impact dust puff, low flattened elliptical cloud viewed slightly from above, warm sandy beige with soft cocoa shaded underside, four or five little curled powder lobes expanding from an empty center, a few tiny matte mineral flecks only at immediate edge. Dust occupies around 65 percent canvas width and 45 percent height, centered with completely transparent padding, clean feathered alpha, gentle upper-left lighting. This will be animated in Godot at about one game-cell size. No orange neon aura, no stars, no sparkles, no icon, no UI, no stone/volcano, no background, no checkerboard, no text, no multi-frame sheet. True RGBA transparent background. Soft dimensional painted fantasy style, not photoreal or flat geometric clipart.
+
+
+NEXT
+Human plays the actual Volcano. Preserve liked icons. Apply the successful material approach to Tornado/BlackHole in a subsequent bounded pass;do not pretend they are already painted. No more identical R1 discussion required.
+Recommended:GPT-6.1 Sol / High for VFX/interaction;Medium for report-only publication. Actual session effort not independently attested.

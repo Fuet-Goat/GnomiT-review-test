@@ -1,0 +1,1 @@
+Real native Blender composition sample: existing home moved beside existing starting guide. Editable scene and native A/B renders verified; warm relighting, badges, animation and game integration remain separate.

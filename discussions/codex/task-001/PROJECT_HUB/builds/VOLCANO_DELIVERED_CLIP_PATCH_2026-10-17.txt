@@ -1,0 +1,353 @@
+LITERAL SOURCE PROPOSAL ONLY; NOT APPLIED TO GOVERNED GAME
+
+--- before/scripts/lab/volcano_audio.gd
++++ after/scripts/lab/volcano_audio.gd
+@@ -7,6 +7,7 @@
+ const FLIGHT_START := 0.23
+ const IMPACT_START := 0.65
+ const STAGGER := 0.055
++const ERUPTION_CLIP := "res://assets/sfx/volcano/gnomit_volcano_cartoon_eruption.mp3"
+ const STREAM_PATHS := {
+ 	"eruption":"res://assets/sfx/volcano/eruption_soft_v1.wav",
+ 	"flight":"res://assets/sfx/volcano/lava_flight_soft_v1.wav",
+@@ -17,6 +18,8 @@
+ var streams: Dictionary = {}
+ var cue_log: Array = []
+ var event_active := false
++var use_eruption_clip := true
++var _single_clip := false
+ var _targets: Array = []
+ var _reduced := false
+ var _next_flight := 0
+@@ -34,6 +37,10 @@
+ 		if streams.has(kind) or not FileAccess.file_exists(STREAM_PATHS[kind]): continue
+ 		var stream := AudioStreamWAV.load_from_file(STREAM_PATHS[kind])
+ 		if stream != null and stream.get_length() > 0.0: streams[kind] = stream
++	if not streams.has("clip") and FileAccess.file_exists(ERUPTION_CLIP):
++		var clip := AudioStreamMP3.new()
++		clip.data = FileAccess.get_file_as_bytes(ERUPTION_CLIP)
++		if clip.get_length() > 0.0: streams["clip"] = clip
+ 	if not players.is_empty(): return
+ 	if AudioServer.get_bus_index(BUS_NAME) < 0:
+ 		AudioServer.add_bus()
+@@ -56,26 +63,35 @@
+ 	for kind in STREAM_PATHS:
+ 		if not streams.has(kind): missing.append(STREAM_PATHS[kind])
+ 		else: lengths[kind] = streams[kind].get_length()
+-	return {"ready":missing.is_empty(),"missing":missing,"lengths":lengths}
++	if use_eruption_clip and not streams.has("clip"): missing.append(ERUPTION_CLIP)
++	if streams.has("clip"): lengths["clip"] = streams.clip.get_length()
++	return {"ready":missing.is_empty(),"missing":missing,"lengths":lengths,"single_clip":use_eruption_clip}
+ 
+ func begin(targets: Array, reduced: bool) -> void:
+ 	stop_all()
+ 	_prepare_audio()
+-	if streams.size() != STREAM_PATHS.size():
+-		push_warning("Volcano audio assets unavailable; retaining baseline stone foley.")
+-		return
++	var required: Array = ["flight"] if reduced else (["clip"] if use_eruption_clip else ["eruption","flight","impact"])
++	for kind in required:
++		if not streams.has(kind):
++			push_warning("Volcano audio asset unavailable; retaining baseline stone foley: " + str(kind))
++			return
+ 	_event_id += 1
+ 	_targets = targets.duplicate()
+ 	_reduced = reduced
++	_single_clip = use_eruption_clip and not reduced
+ 	event_active = true
+ 	if reduced:
+ 		# One short, softer breath; never the normal eruption/impact soundtrack.
+ 		_play_cue("reduced","flight",-1,-1,0.0,-19.0,1.0)
++	elif _single_clip:
++		# Exact delivered recording, once and at original pitch. It already includes
++		# the eruption, cracking and afterburn: no layered launch/impact playback.
++		_play_cue("clip","clip",-1,-1,0.0,-9.0,1.0)
+ 	else:
+ 		_play_cue("eruption","eruption",-1,-1,0.0,-8.5,0.98)
+ 
+ func sync_progress(t: float) -> void:
+-	if not event_active or _reduced: return
++	if not event_active or _reduced or _single_clip: return
+ 	_last_t = maxf(_last_t,clampf(t,0.0,1.0))
+ 	# Five or fewer authoritative targets: every launch precedes the first hit.
+ 	# Catch up once when a rendered frame crosses more than one threshold.
+@@ -105,6 +121,7 @@
+ func stop_all() -> void:
+ 	finish_event()
+ 	_last_t = 0.0
++	_single_clip = false
+ 	_next_voice = 0
+ 	for player in players: player.stop()
+ 
+
+--- before/scripts/lab/magic_volcano_board.gd
++++ after/scripts/lab/magic_volcano_board.gd
+@@ -56,8 +56,10 @@
+ 		# Even an incomplete/malformed preview cannot burn a hole or a rune.
+ 		if index < 0 or index >= before.size() or int(before[index]) < 0 or int(before[index]) >= 6: continue
+ 		var destination := _center(index)
+-		# Exactly the original normalized launch, 55 ms stagger and hit progression.
+-		var flight := clampf((_power_t-0.23-float(n)*0.055)/0.42,0.0,1.0)
++		# Launch with the delivered clip's blast at 0.36 seconds. Shorter flight
++		# preserves every existing impact threshold and the 1.04-second event.
++		var launch_start := 0.36 / 1.04
++		var flight := clampf((_power_t-launch_start-float(n)*0.055)/(0.65-launch_start),0.0,1.0)
+ 		var hit := clampf((_power_t-0.65-float(n)*0.055)/0.16,0.0,1.0)
+ 		if hit > 0.0 and hit < 1.0: _draw_burning_cell(destination,step,hit,n)
+ 		if flight < 1.0: _event_gem(index,destination)
+
+--- before/tests/capture_painted_volcano.gd
++++ after/tests/capture_painted_volcano.gd
+@@ -419,8 +419,14 @@
+ 
+ func run() -> void:
+ 	var arguments := OS.get_cmdline_user_args()
+-	audio_pass = "--audio-pass" in arguments
+-	var output_resource_path := "res://outputs/volcano_audio" if audio_pass else ("res://outputs/fire" if "--fire-pass" in arguments else "res://outputs")
++	audio_pass = "--audio-pass" in arguments or "--clip-audio" in arguments
++	var output_resource_path := "res://outputs"
++	if "--clip-audio" in arguments:
++		output_resource_path = "res://outputs/volcano_clip"
++	elif audio_pass:
++		output_resource_path = "res://outputs/volcano_audio"
++	elif "--fire-pass" in arguments:
++		output_resource_path = "res://outputs/fire"
+ 	output = ProjectSettings.globalize_path(output_resource_path)
+ 	check(DirAccess.make_dir_recursive_absolute(output) == OK, "Output directory exists")
+ 	start_frame = Engine.get_process_frames()
+
+--- before/README_MAGIC_ANIMATIONS.txt
++++ after/README_MAGIC_ANIMATIONS.txt
+@@ -6,10 +6,12 @@
+ 
+ Drag the highlighted special to its neighboring highlighted stone. For Black Hole, swap the adjacent whirlwind and volcano. Reset restores the same seed. Skip effect and Reduced motion preserve the game result. Existing icons and ordinary stone audio are retained.
+ 
+-Painted Volcano also has three synchronized sounds: a warm eruption, short lava-flight breaths, and stone impacts with crumbling fragments and a soft fire tail. Each flight and impact follows the actual animation progress and resolved target order. Reset and Skip stop these sounds; Reduced motion uses one short quiet cue. Painted OFF retains the previous audio reference. New WAV assets are in assets/sfx/volcano; tools/build_volcano_audio.py records their reproducible local synthesis and accepted stone-break input in verification/volcano_audio_assets.json. These are a first sound pass, awaiting human listening feedback.
++Painted Volcano now plays the exact delivered gnomit_volcano_cartoon_eruption.mp3 once, at original pitch, including its eruption, cracking and afterburn. It does not stack the previous three-WAV soundtrack. Targeted stones start flying at the clip's 0.36-second blast; their original impact times and the 1.04-second event remain unchanged. Small crater embers/pressure precede the blast. The quiet sound tail finishes naturally after normal event expiry. Reset and Skip stop all Volcano audio; Reduced motion uses one short quiet breath instead of the full clip. Painted OFF retains baseline stone audio. The previous WAVs/recipe and evidence remain preserved as the older sound pass. Human listening feedback is still pending.
+ 
+ The capture harness accepts --fire-pass after the Godot user-argument separator. This saves all JSON verification receipts and PNG captures under outputs/fire, preserving the prior outputs. Alongside charge, flight, and hits, 04b_burn captures the brief burn near power progress 0.76. The native gesture, nine parity cases, 432x960 viewport, and 210-frame capture remain unchanged.
+ 
+ Use --audio-pass for fresh evidence under outputs/volcano_audio. Native AVI contains the game mix; the extracted WAV preview comes from that actual movie audio, not from a separately assembled soundtrack. GIF previews are silent. The recording's fixed 30 fps is not a performance measurement.
+ 
++Use --clip-audio for current MP3 integration evidence under outputs/volcano_clip. Earlier outputs/volcano_audio and outputs/fire are predecessor evidence and remain unchanged. The clip source is Git commit b5e78444f0c39eb35e5896258a5e0787136bdc22, 16,724 bytes, SHA-256 165bba4707d48883e96d1c7626400e36a454e206469d58b3b21ec9c536fda27c.
++
+ This is a separate local test fixture, not campaign rewards or final balance. No personal or campaign save is read or written. The current project default scene is the lab; the launcher uses that scene directly.
+
+--- /dev/null
++++ after/tests/test_volcano_clip_audio.gd
+@@ -0,0 +1,212 @@
++extends SceneTree
++## Verified MP3 identity, one-shot playback, and real lab cancellation paths.
++
++const AUDIO_PATH := "res://scripts/lab/volcano_audio.gd"
++const CORE_PATH := "res://scripts/lab/natural_power_core.gd"
++const LAB_PATH := "res://scripts/lab/natural_power_lab.gd"
++const CLIP_PATH := "res://assets/sfx/volcano/gnomit_volcano_cartoon_eruption.mp3"
++const CLIP_SHA256 := "165bba4707d48883e96d1c7626400e36a454e206469d58b3b21ec9c536fda27c"
++const CLIP_BYTES := 16724
++const CLIP_SECONDS := 1.58000004291534
++var checks := 0
++var failures: Array[String] = []
++var cases: Array[String] = []
++var clip_cues: Array = []
++var reduced_observation: Dictionary = {}
++
++func _initialize() -> void:
++	call_deferred("run")
++
++func check(value: bool, message: String) -> void:
++	checks += 1
++	if not value:
++		failures.append(message)
++		print("FAIL: " + message)
++
++func canonical(value: Variant) -> String:
++	return JSON.stringify(JSON.parse_string(JSON.stringify(value)), "", true)
++
++func core_state(core) -> Dictionary:
++	return {
++		"cols":core.cols, "rows":core.rows, "grid":core.grid.duplicate(),
++		"floor":core.floor.duplicate(), "runes":core.runes.duplicate(),
++		"moves_left":core.moves_left, "initial_moves":core.initial_moves,
++		"collected":core.collected, "collect_kind":core.collect_kind,
++		"collect_goal":core.collect_goal, "won":core.won, "lost":core.lost,
++		"goal":core._goal, "black_hole_used":core.black_hole_used,
++		"fixture_pair":core.fixture_pair.duplicate(),
++		"rng_seed_int64":str(core._rng.seed), "rng_state_int64":str(core._rng.state),
++	}
++
++func playing_count(manager) -> int:
++	var count := 0
++	for player in manager.players:
++		if player.playing:
++			count += 1
++	return count
++
++func cue_player(manager, cue: Dictionary):
++	var voice: int = int(cue.get("voice", -1))
++	check(voice >= 0 and voice < manager.players.size(), "Cue identifies an actual bounded audio voice")
++	return manager.players[voice] if voice >= 0 and voice < manager.players.size() else null
++
++func verify_asset(manager) -> void:
++	cases.append("verified_mp3")
++	var bytes := FileAccess.get_file_as_bytes(CLIP_PATH)
++	check(bytes.size() == CLIP_BYTES and FileAccess.get_sha256(CLIP_PATH) == CLIP_SHA256, "MP3 preserves the exact verified Grok file bytes and SHA256")
++	var clip = manager.streams.get("clip")
++	check(clip is AudioStreamMP3, "Manager decodes the verified MP3 as AudioStreamMP3")
++	if clip is AudioStreamMP3:
++		check(clip.data == bytes, "Playback stream retains every verified MP3 byte")
++		check(absf(clip.get_length() - CLIP_SECONDS) < 0.000001, "Godot measures the verified clip at 1.58 seconds")
++		check(not clip.loop, "Eruption clip cannot loop")
++
++func verify_normal(manager, targets: Array) -> void:
++	cases.append("one_clip_duplicates_and_finish")
++	check(manager.get("use_eruption_clip") == true, "Verified eruption clip is enabled by default")
++	manager.cue_log.clear()
++	manager.begin(targets, false)
++	check(manager.cue_log.size() == 1, "Normal Volcano begins with exactly one sound cue")
++	if manager.cue_log.size() != 1:
++		return
++	var cue: Dictionary = manager.cue_log[0]
++	check(cue.kind == "clip" and not bool(cue.reduced), "Normal Volcano emits the full clip cue only")
++	check(float(cue.pitch_scale) == 1.0, "Verified clip plays at its original pitch")
++	var player = cue_player(manager, cue)
++	if player != null:
++		check(player.stream == manager.streams.get("clip") and player.pitch_scale == 1.0 and player.playing, "Actual voice plays the verified full MP3 at original pitch")
++	clip_cues = manager.cue_log.duplicate(true)
++	for progress in [0.0, 0.23, 0.23, 0.1, 0.45, 0.65, 0.65, 0.76, 0.87, 1.0, 1.0]:
++		manager.sync_progress(progress)
++	check(manager.cue_log == clip_cues and playing_count(manager) == 1, "Duplicate and backward ticks emit no per-target or extra clip cues")
++	manager.finish_event()
++	manager.sync_progress(1.0)
++	check(not manager.event_active and manager.cue_log == clip_cues, "Normal finish prevents late cue emissions")
++	check(player != null and player.playing, "Normal VFX expiry preserves the already-playing clip tail")
++
++func verify_reduced(manager, targets: Array) -> void:
++	cases.append("reduced_short_cue")
++	manager.cue_log.clear()
++	var began := Time.get_ticks_msec()
++	manager.begin(targets, true)
++	for progress in [0.23, 0.65, 0.87, 1.0, 1.0]:
++		manager.sync_progress(progress)
++	check(manager.cue_log.size() == 1 and playing_count(manager) == 1, "Reduced begin replaces the normal clip with one short cue")
++	if manager.cue_log.size() == 1:
++		var cue: Dictionary = manager.cue_log[0]
++		check(cue.kind == "reduced" and bool(cue.reduced), "Reduced mode never starts the long MP3 cue")
++		var player = cue_player(manager, cue)
++		if player != null:
++			check(player.stream == manager.streams.get("flight") and player.stream != manager.streams.get("clip"), "Reduced voice uses the original short flight source")
++			check(player.stream.get_length() < 0.4, "Reduced source remains shorter than four tenths of a second")
++		check(not clip_cues.is_empty() and float(cue.volume_db) < float(clip_cues[0].volume_db), "Reduced cue is quieter than normal clip playback")
++	manager.finish_event()
++	# Audio callbacks use wall time. A newly-created SceneTreeTimer can consume
++	# the startup frame's delta before the just-started audio has mixed it.
++	while playing_count(manager) > 0 and Time.get_ticks_msec() < began + 1000:
++		await process_frame
++	manager.sync_progress(1.0)
++	reduced_observation = {"source_seconds":manager.streams.flight.get_length(), "elapsed_wall_seconds":float(Time.get_ticks_msec() - began) / 1000.0, "playing_voices_after_wait":playing_count(manager), "cue_count":manager.cue_log.size()}
++	check(manager.cue_log.size() == 1 and playing_count(manager) == 0, "Reduced cue ends without any late clip or layered sound")
++
++func verify_legacy(manager, targets: Array) -> void:
++	cases.append("retained_layered_mode")
++	manager.use_eruption_clip = false
++	manager.cue_log.clear()
++	manager.begin(targets, false)
++	manager.sync_progress(1.0)
++	var kinds: Array = []
++	for cue in manager.cue_log:
++		kinds.append(cue.kind)
++	check(kinds.count("eruption") == 1 and kinds.count("flight") == targets.size() and kinds.count("impact") == targets.size() and kinds.count("clip") == 0, "Explicit legacy mode retains one eruption and the actual target flight/impact cues")
++	manager.stop_all()
++	var stopped := canonical(manager.cue_log)
++	manager.sync_progress(1.0)
++	check(not manager.event_active and playing_count(manager) == 0 and canonical(manager.cue_log) == stopped, "Stop cancels retained layered voices and delayed emissions")
++	manager.use_eruption_clip = true
++
++func wait_for_live_clip(app) -> bool:
++	var deadline := Time.get_ticks_msec() + 4000
++	while Time.get_ticks_msec() < deadline:
++		if app.volcano_audio.event_active and app.board._power_t >= 0.26:
++			return true
++		await process_frame
++	return false
++
++func verify_lab_cancellation() -> void:
++	var lab_script = load(LAB_PATH)
++	check(lab_script != null and lab_script.can_instantiate(), "Actual lab loads with verified clip playback")
++	if lab_script == null or not lab_script.can_instantiate():
++		return
++	var app = lab_script.new()
++	root.add_child(app)
++	app.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
++	await process_frame
++	await process_frame
++	var manager = app.get("volcano_audio")
++	check(manager != null, "Actual lab owns the Volcano audio manager")
++	if manager == null:
++		app.queue_free()
++		await process_frame
++		return
++	for action in ["skip", "reset"]:
++		cases.append("actual_lab_" + action)
++		app.reduced.button_pressed = false
++		app.reset_scenario("volcano")
++		manager.cue_log.clear()
++		var original_core = app.core
++		app._on_swap(int(app.core.fixture_pair[0]), int(app.core.fixture_pair[1]))
++		var active := await wait_for_live_clip(app)
++		check(active and playing_count(manager) == 1 and manager.cue_log.size() == 1 and manager.cue_log[0].kind == "clip", "Actual lab " + action + " starts with only the verified clip playing")
++		var committed := canonical(core_state(original_core))
++		if action == "skip":
++			app.skip_effect()
++		else:
++			app.reset_scenario("volcano")
++		var current := canonical(core_state(app.core))
++		var stopped := canonical(manager.cue_log)
++		check(not manager.event_active and playing_count(manager) == 0, "Actual lab " + action + " immediately stops clip playback")
++		await create_timer(1.65).timeout
++		manager.sync_progress(1.0)
++		check(not manager.event_active and playing_count(manager) == 0 and canonical(manager.cue_log) == stopped, "Actual lab " + action + " cannot restart audio after old VFX and clip duration expire")
++		check(canonical(core_state(original_core)) == committed and canonical(core_state(app.core)) == current, "Actual lab " + action + " preserves the original and displayed Core and RNG states")
++	app.queue_free()
++	await process_frame
++
++func finish() -> void:
++	print("VOLCANO_CLIP_AUDIO " + JSON.stringify({"status":"PASS" if failures.is_empty() else "FAIL", "checks":checks, "failures":failures, "cases":cases, "clip_sha256":CLIP_SHA256, "clip_bytes":CLIP_BYTES, "clip_godot_seconds":CLIP_SECONDS, "normal_cues":clip_cues, "reduced_playback":reduced_observation}))
++	quit(0 if failures.is_empty() else 1)
++
++func run() -> void:
++	var audio_script = load(AUDIO_PATH)
++	check(audio_script != null and audio_script.can_instantiate(), "Volcano audio manager loads")
++	if audio_script == null or not audio_script.can_instantiate():
++		finish()
++		return
++	var manager = audio_script.new()
++	root.add_child(manager)
++	verify_asset(manager)
++	var core = load(CORE_PATH).new()
++	core.setup_lab("volcano", 42)
++	var result: Dictionary = core.try_swap(int(core.fixture_pair[0]), int(core.fixture_pair[1]))
++	var event: Dictionary = {}
++	for item in result.events:
++		if String(item.get("type", "")) == "natural_power":
++			event = item
++	check(not event.is_empty() and event.get("power", "") == "volcano", "Clip tests use an actual seeded Core Volcano transaction")
++	if event.is_empty():
++		manager.queue_free()
++		finish()
++		return
++	var targets: Array = event.targets.duplicate()
++	var committed := canonical(core_state(core))
++	var transaction := canonical(result)
++	verify_normal(manager, targets)
++	await verify_reduced(manager, targets)
++	verify_legacy(manager, targets)
++	check(canonical(core_state(core)) == committed and canonical(result) == transaction, "Clip, reduced, and legacy playback preserve the entire actual Core result and RNG")
++	manager.stop_all()
++	manager.queue_free()
++	await process_frame
++	await verify_lab_cancellation()
++	finish()
+
+MP3: use exact Git blob from b5e78444f0c39eb35e5896258a5e0787136bdc22:discussions/grok/task-001/audio/gnomit_volcano_cartoon_eruption.mp3
+{"bytes": 16724, "sha256": "165bba4707d48883e96d1c7626400e36a454e206469d58b3b21ec9c536fda27c"}

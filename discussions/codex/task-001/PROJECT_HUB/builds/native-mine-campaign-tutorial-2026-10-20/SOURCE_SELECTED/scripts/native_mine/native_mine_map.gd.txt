@@ -1,0 +1,101 @@
+extends Control
+## Fixed native portrait viewport keeps Blender composition and hit coordinates
+## identical at every outer window size. Only the two authored anchors are used.
+signal level_selected(id: String)
+signal settings_requested
+const NativeScene=preload("res://scripts/native_mine/native_mine_scene.gd")
+const NATIVE_SIZE=Vector2(432,960)
+var progress
+var native_scene
+var native_viewport: SubViewport
+var canvas: Control
+var continue_button: Control
+var gnome: TextureRect
+var alive_hero
+var alive_ambient
+var alive_enabled:=true
+var slice_enabled:=false
+var selected_level:=""
+var session_state: Dictionary={}
+var buttons: Dictionary={}
+var interaction_enabled:=true
+var reduced_motion:=false:
+	set(value):
+		reduced_motion=value
+		if is_instance_valid(native_scene):native_scene.set_motion(not value and interaction_enabled)
+
+func configure(value, reduced: bool) -> void:
+	progress=value
+	reduced_motion=reduced
+
+func _ready() -> void:
+	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	mouse_filter=Control.MOUSE_FILTER_STOP
+	focus_mode=Control.FOCUS_ALL
+	canvas=self
+	continue_button=self
+	native_viewport=SubViewport.new()
+	native_viewport.size=Vector2i(432,960)
+	native_viewport.own_world_3d=true
+	native_viewport.render_target_update_mode=SubViewport.UPDATE_ALWAYS
+	native_viewport.handle_input_locally=true
+	native_viewport.msaa_3d=Viewport.MSAA_2X
+	native_viewport.use_taa=true
+	add_child(native_viewport)
+	native_scene=NativeScene.new()
+	native_scene.owner_map=self
+	native_scene.embedded=true
+	native_viewport.add_child(native_scene)
+	native_scene.set_motion(not reduced_motion)
+	native_scene.refresh_progress()
+	buttons={"entry":native_scene.level_markers[1],"hollow":native_scene.level_markers[2]}
+	var image:=TextureRect.new()
+	image.texture=native_viewport.get_texture()
+	image.expand_mode=TextureRect.EXPAND_IGNORE_SIZE
+	image.stretch_mode=TextureRect.STRETCH_SCALE
+	image.mouse_filter=Control.MOUSE_FILTER_IGNORE
+	add_child(image)
+	image.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+
+func choose_number(number: int) -> bool:
+	if not interaction_enabled or number not in [1,2]:return false
+	var id: String="entry" if number==1 else "hollow"
+	if not progress.is_unlocked(id):return false
+	selected_level=id
+	level_selected.emit(id)
+	return true
+
+func marker_center(id: String) -> Vector2:
+	var number:=1 if id=="entry" else 2
+	var marker: Button=native_scene.level_markers[number]
+	return get_global_transform() * ((marker.position+marker.size*.5)/NATIVE_SIZE*size)
+
+func _gui_input(event: InputEvent) -> void:
+	if not interaction_enabled:return
+	if not (event is InputEventMouse or event is InputEventScreenTouch or event is InputEventScreenDrag):return
+	var forwarded: InputEvent=event.duplicate()
+	var ratio:=NATIVE_SIZE/size
+	if forwarded is InputEventMouse:
+		forwarded.position=event.position*ratio
+		forwarded.global_position=forwarded.position
+		if forwarded is InputEventMouseMotion:forwarded.relative=event.relative*ratio
+	elif forwarded is InputEventScreenTouch:forwarded.position=event.position*ratio
+	elif forwarded is InputEventScreenDrag:
+		forwarded.position=event.position*ratio
+		forwarded.relative=event.relative*ratio
+	native_viewport.push_input(forwarded,true)
+	accept_event()
+
+func layout() -> void:pass
+func get_session_state() -> Dictionary:return {"selected_level":selected_level}
+func current_scroll() -> float:return 0.0
+func current_offset() -> Vector2:return Vector2.ZERO
+func entry_context() -> Dictionary:return {} # Never show the old raster map.
+func cancel_transition() -> void:
+	if is_instance_valid(native_scene):
+		native_scene.pointer_active=false
+		native_scene.pointer_touch_index=-1
+func set_interaction_enabled(enabled: bool) -> void:
+	interaction_enabled=enabled
+	cancel_transition()
+	if is_instance_valid(native_scene):native_scene.set_motion(enabled and not reduced_motion)

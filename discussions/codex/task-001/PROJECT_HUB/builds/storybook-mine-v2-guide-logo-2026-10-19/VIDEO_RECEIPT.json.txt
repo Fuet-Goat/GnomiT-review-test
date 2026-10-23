@@ -1,0 +1,12 @@
+{
+  "source": "Actual native Godot MovieMaker preview with logo; silent, not human input",
+  "source_frames": 241,
+  "fps": 30,
+  "viewport": [
+    432,
+    960
+  ],
+  "encoder": "Existing VLC H264",
+  "mp4_bytes": 1657275,
+  "sha256": "b1e231b5be9f1102fc27a0a1ec8e3fd5bc351e2bfe5f745e79497f2847b6b04c"
+}

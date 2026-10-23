@@ -1,0 +1,72 @@
+{
+  "document_type": "GNOMIT_DOCUMENTATION_MANIFEST",
+  "schema_version": "1.0",
+  "created_at_utc": "2026-10-20T15:55:46.6767681Z",
+  "root": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\ReviewHandoff_2026-10-20\\documentation",
+  "scope": "Documentation only; no game/repository execution, no Git operations, no source edits",
+  "review_input_base_supplied_by_coordinator": "f9864651015b5b57f94c439d311f03408fab4446",
+  "base_independent_verification_in_this_scope": "NOT_RUN",
+  "hash_algorithm": "SHA-256",
+  "manifest_self_excluded": true,
+  "excluded_paths_and_reasons": [
+    {
+      "path": "DOCUMENTATION_MANIFEST.json",
+      "reason": "Self-reference; outer handoff receipt may hash this file separately."
+    }
+  ],
+  "file_entry_count": 6,
+  "total_current_file_bytes": 31642,
+  "files": [
+    {
+      "path": "ASSET_METADATA.template.json",
+      "bytes": 4380,
+      "sha256": "3ae0ad8598539e22e9829be9230d88c8c0259259153d9531337d47e43726c244",
+      "utf8_readback": "PASS",
+      "json_parse": "PASS"
+    },
+    {
+      "path": "COMMON_GPT_GROK_PROMPT_BG.txt",
+      "bytes": 6289,
+      "sha256": "1e2d0799880ec1822b728d76109fe9d3d75a6cf4f605c848da4a03779fefdeb9",
+      "utf8_readback": "PASS",
+      "json_parse": "NOT_APPLICABLE"
+    },
+    {
+      "path": "CONTRIBUTION_REPORT.template.txt",
+      "bytes": 5365,
+      "sha256": "5e0d25bf0e8cd915d562f634928128f72da8d510eb0df72e2af66cace9676154",
+      "utf8_readback": "PASS",
+      "json_parse": "NOT_APPLICABLE"
+    },
+    {
+      "path": "MANIFEST.template.json",
+      "bytes": 1800,
+      "sha256": "331480f121dfd3a24283614b9500b6b63d61c045b9069410aee5b96d82e08ac4",
+      "utf8_readback": "PASS",
+      "json_parse": "PASS"
+    },
+    {
+      "path": "PROVENANCE.template.json",
+      "bytes": 3442,
+      "sha256": "bc8caa8f3d11b2463f884b7b2e7c5575c5d79b2e9a6d099c8a82c21a46b48f41",
+      "utf8_readback": "PASS",
+      "json_parse": "PASS"
+    },
+    {
+      "path": "README_CONTRIBUTIONS_BG.txt",
+      "bytes": 10366,
+      "sha256": "d82183e799b3d591b0f19ec2e37ddf49c9d3919114a6912118c48125ad7773eb",
+      "utf8_readback": "PASS",
+      "json_parse": "NOT_APPLICABLE"
+    }
+  ],
+  "validation": {
+    "expected_document_set": "PASS",
+    "strict_utf8_readback": "PASS",
+    "template_json_parse": "PASS",
+    "independent_hash_method_compare": "PASS",
+    "runtime_or_game_tests": "NOT_RUN",
+    "rights_or_reuse_verdict": "UNKNOWN",
+    "note": "Templates are not completed reports or source/runtime/rights evidence."
+  }
+}

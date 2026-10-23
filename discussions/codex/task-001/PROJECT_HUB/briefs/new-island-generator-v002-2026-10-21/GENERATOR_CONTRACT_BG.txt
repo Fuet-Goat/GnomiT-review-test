@@ -1,0 +1,57 @@
+ПРЕДЛОЖЕН I/O КОНТРАКТ — ЕТАП A НЕ ГО ИЗПЪЛНЯВА
+
+SOURCE/build_scene.py е entry point след преглед/материализиране от Codex.
+Ако source документите са *.py.txt, премахва се само последното .txt в нова
+изолирана source папка. Всички модули/settings трябва да са включени в manifest.
+Не се преименуват старите предложения на място и не се импортират автоматично.
+
+АРГУМЕНТИ СЛЕД BLENDER --
+--output ABSOLUTE_NEW_DIRECTORY    [задължителен; отказ при вече съществуващ]
+--seed INTEGER                    [детерминирана геометрия/разположение]
+--render-mode none|draft|final     [none=save/export;draft=432x960;final=дватаPNG]
+Source трябва да парсва argv след --. Не разчитай на текуща директория или
+пътища от чужд контейнер като /mnt/data или /workspace.
+
+ПРИМЕРЕН МЕСТЕН COMMAND — ЗА ПО-КЪСНИЯ CODEX ЕТАП
+& 'C:/Tools/Blender/blender-5.2.2-windows-x64/blender.exe' `
+  --background --factory-startup --disable-autoexec `
+  --python 'ABS_SOURCE/build_scene.py' -- `
+  --output 'C:/Users/fruch/Documents/Codex/GnomiT_Playtests/AiryIsland_GPT_Candidate_v001' `
+  --seed 402121 --render-mode draft
+Това е договор за бъдещо изпълнение, не команда, стартирана при този handoff.
+
+ДОПУСТИМИ ЗАВИСИМОСТИ НА ПРЕДЛОЖЕНИЕТО
+bpy/mathutils и Python стандартната библиотека; изброй друго, ако е необходимо.
+Без инсталации, мрежови изтегляния, subprocess инструменти или платени add-ons.
+Без скрито зареждане на стария .blend/GLB или PNG като заместител на геометрия.
+Материалите са собствени/процедурни; за GLB ползвай преносими PBR стойности
+или описан bake. Запази .blend self-contained и всички нужни texture outputs.
+
+ОБЕКТИ/КОЛЕКЦИИ
+TERRAIN, BOARDWALK, MINE, TREES, PLANTS, ROCKS, LANTERN, LIGHTS, CAMERAS, ANCHORS.
+Отделни дъски/колчета, стволове/корони, дървени греди/камъни/фенер. Не flatten.
+Road_Centerline, Level_1_Anchor, Level_2_Anchor и основна portrait camera.
+Повторяемите детайли могат да споделят meshes/materials.
+
+ПЛАНИРАНИ OUTPUTS ПРИ БЪДЕЩО УСПЕШНО ИЗПЪЛНЕНИЕ
+gnomit_airy_island_v001.blend
+EXPORT/gnomit_airy_island_v001.glb
+TEXTURES/                         [когато има външни/baked карти]
+RENDERS/01_BEAUTY_432x960.png      [draft/final]
+RENDERS/02_BEAUTY_864x1920.png     [final]
+SCENE_METADATA.json               [реално измерени counts/bounds/camera]
+BUILD_RECEIPT.json                [реално състояние/инструменти/outputs]
+README_BG.txt и PROVENANCE.json
+Настройките/seed са inputs, не измерени резултати. За неизпълнени outputs
+записвай NOT_RUN, никога фиктивни размери, SHA-256, poly counts или render PASS.
+
+НАСТРОЙКИ ЗА РЕНДЕР
+Предложи Cycles с denoise, разумен sample count за draft/final и записан
+color-management. Не изисквай наличен GPU backend; локалният reviewer избира
+реалното устройство. Използвай мека дневна светлина без необходим външен HDRI.
+Портретната камера се напасва към целия геометричен силует, не към старата сцена.
+Надписи, рамки, корона и UI от референцията не се включват в beauty render.
+
+КАКВО НЕ Е ЕТАП A
+Не е Blender scene build, не е тест на .blend/GLB, не е Godot интеграция,
+не е performance/Android/human acceptance. Това е неприложено source предложение.

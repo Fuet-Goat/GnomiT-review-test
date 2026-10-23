@@ -1,0 +1,9 @@
+{
+  "path": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\StorybookMine_V2_2026-10-19_HANDOFF\\GNOMIT_MINE_V2_GUIDE_LOGO_ART_BRIEF.zip",
+  "bytes": 13975788,
+  "sha256": "682160990796ef1d70410bef5fa03a68508baf5612e90e8424a2ab4bab7f5be3",
+  "entries": 62,
+  "zip_integrity": "PASS",
+  "exact_file_readback": "PASS",
+  "uncompressed_bytes": 21524441
+}

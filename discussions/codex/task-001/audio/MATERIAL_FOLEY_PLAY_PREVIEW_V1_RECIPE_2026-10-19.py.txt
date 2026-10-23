@@ -1,0 +1,142 @@
+"""Three original procedural MOVE previews + optional exact supplied Grok MATCH.
+
+No audio input is used by make_move. The optional ZIP contributes only the
+unchanged, separately labelled MATCH reference; no archive scripts are executed.
+"""
+from pathlib import Path
+import argparse,hashlib,io,json,wave,zipfile
+import numpy as np
+
+SR=48000
+SEEDS={'crystal':2026101911,'ore':2026101912,'smooth':2026101913}
+
+def identity(raw):return {'bytes':len(raw),'sha256':hashlib.sha256(raw).hexdigest()}
+def band_noise(rng,n,lo,hi):
+    f=np.fft.rfftfreq(n,1/SR)
+    m=(1-np.exp(-(f/lo)**4))*np.exp(-(f/hi)**4)
+    x=np.fft.irfft(np.fft.rfft(rng.normal(size=n))*m,n=n)
+    return x/max(float(np.sqrt(np.mean(x*x))),1e-12)
+def add(dst,src,at,gain):
+    start=round(at*SR);n=min(len(src),len(dst)-start)
+    if n>0:dst[start:start+n]+=src[:n]*gain
+def grain(rng,length,lo,hi):
+    n=round(length*SR);t=np.arange(n)/SR
+    e=(1-np.exp(-t/.0018))*np.exp(-t/(length*.25))
+    e[-min(n,96):]*=np.linspace(1,0,min(n,96))**2
+    return band_noise(rng,n,lo,hi)*e
+
+def make_move(family):
+    rng=np.random.default_rng(SEEDS[family])
+    n=round(.26*SR);t=np.arange(n)/SR;x=np.zeros(n)
+    lo,hi,count,body={'crystal':(420,3800,23,.045),'ore':(130,2200,29,.070),'smooth':(160,1300,11,.035)}[family]
+    rub=(1-np.exp(-t/.009))*np.exp(-t/.12)
+    rub*=1-np.clip((t-.17)/.07,0,1)
+    x+=band_noise(rng,n,lo,hi)*rub*.09
+    for at in np.linspace(.009,.177,count)+rng.uniform(-.0015,.0015,count):
+        length=rng.uniform(.009,.020)
+        gain=rng.uniform(.030,.075)*np.exp(-at/.22)
+        if family=='smooth':gain*=.48
+        add(x,grain(rng,length,lo*1.2,hi),float(at),float(gain))
+    # Damped material contact: short inharmonic modes, no sustained musical note.
+    modes={'crystal':[(640,.30),(1180,.18),(1870,.09),(2760,.035)],
+           'ore':[(165,.44),(293,.24),(517,.12),(941,.05)],
+           'smooth':[(215,.30),(378,.16),(677,.035)]}[family]
+    for hz,gain in modes:
+        decay=.017 if family=='crystal' else .023
+        u=np.maximum(t-.018,0)
+        e=(t>=.018)*(1-np.exp(-u/.002))*np.exp(-u/decay)
+        x+=body*gain*np.sin(2*np.pi*hz*u+.15)*e
+    # Settling friction belongs to the same slide; it cannot turn into a late hit.
+    add(x,grain(rng,.037,lo,hi*.8),.145,.025 if family!='smooth' else .012)
+    x-=np.mean(x)
+    x=np.tanh(x*1.3)/1.3
+    x[:144]*=np.sin(np.linspace(0,np.pi/2,144))**2
+    x[-round(.045*SR):]*=np.cos(np.linspace(0,np.pi/2,round(.045*SR)))**2
+    # Comparable contact-window RMS across families, with explicit peak headroom.
+    active=x[:round(.20*SR)]
+    gain=min(10**(-22/20)/max(float(np.sqrt(np.mean(active*active))),1e-12),
+             10**(-8/20)/max(float(np.max(np.abs(x))),1e-12))
+    x*=gain;x[0]=x[-1]=0
+    return np.round(x*32767).astype('<i2')
+
+def wav_bytes(pcm):
+    buf=io.BytesIO()
+    with wave.open(buf,'wb') as w:
+        w.setparams((1,2,SR,len(pcm),'NONE','not compressed'));w.writeframes(pcm.tobytes())
+    return buf.getvalue()
+def read_pcm(raw):
+    with wave.open(io.BytesIO(raw),'rb') as w:
+        assert (w.getnchannels(),w.getsampwidth(),w.getframerate())==(1,2,SR)
+        return np.frombuffer(w.readframes(w.getnframes()),'<i2').copy()
+def db(x):return float(20*np.log10(max(float(x),1e-15)))
+def describe(raw):
+    p=read_pcm(raw);x=p.astype(float)/32768;hop=960
+    windows=[float(np.sqrt(np.mean(x[i:i+hop]**2))) for i in range(0,len(x),hop)]
+    return {**identity(raw),'format':'PCM16 mono 48000Hz','seconds':len(p)/SR,
+      'peak_dbfs':db(np.max(np.abs(x))),'rms_dbfs':db(np.sqrt(np.mean(x*x))),
+      'contact_0_200ms_rms_dbfs':db(np.sqrt(np.mean(x[:9600]**2))),
+      'first_last_sample':[int(p[0]),int(p[-1])],'dc_mean':float(np.mean(x)),
+      'clipped_samples':int(np.count_nonzero(np.abs(p.astype(np.int32))>=32767)),
+      'last_10ms_rms_dbfs':db(np.sqrt(np.mean(x[-480:]**2))),
+      'strongest_20ms_window_seconds':int(np.argmax(windows))*.02}
+
+def generate(out,match_zip=None):
+    assert not out.exists(),out
+    out.mkdir(parents=True)
+    files={};data={}
+    for number,family in enumerate(SEEDS,1):
+        name=f'{number:02d}_move_{family}_preview_v1.wav'
+        pcm=make_move(family);raw=wav_bytes(pcm)
+        assert np.array_equal(pcm,make_move(family)),family
+        (out/name).write_bytes(raw);files[name]=raw
+        row=describe(raw)
+        assert row['clipped_samples']==0 and row['peak_dbfs']<=-1
+        assert row['first_last_sample']==[0,0] and abs(row['dc_mean'])<.001
+        assert row['strongest_20ms_window_seconds']<=.18
+        row.update(role='MOVE',family=family,author='Codex original procedural synthesis',
+                   seed=SEEDS[family],external_audio_inputs=[],human_listening='PENDING')
+        data[name]=row
+    reference=None
+    if match_zip:
+        source=Path(match_zip);zip_raw=source.read_bytes()
+        assert identity(zip_raw)['sha256']=='9267e4a5fb7daf299feb56b0f9c79394ec42e5371117b0413232f1bf05674fba'
+        with zipfile.ZipFile(io.BytesIO(zip_raw)) as z:
+            assert z.testzip() is None
+            raw=z.read('AUDIO/02_break_grok_v1.wav')
+        assert identity(raw)['sha256']=='37143853739ff7891a7990095624c4d701472daa4a9ca58f2466281dc9de9d1e'
+        name='04_match_grok_v1_reference.wav';(out/name).write_bytes(raw);files[name]=raw
+        data[name]={**describe(raw),'role':'MATCH_REFERENCE','author':'Supplied Grok V1 candidate, exact bytes unchanged',
+                    'source_archive':str(source),'source_archive_identity':identity(zip_raw),
+                    'source_member':'AUDIO/02_break_grok_v1.wav','newly_generated_by_codex':False,
+                    'provenance_note':'Generator was previously inspected as procedural; original formal terms remain documented UNKNOWN',
+                    'human_listening':'Candidate user found interesting; no final in-game acceptance'}
+        reference=name
+    # Two repetitions per MOVE family, then one separate MATCH, same file levels.
+    sequence=[np.zeros(round(.30*SR),dtype='<i2')];timeline=[];cursor=.30
+    for name in [n for n in files if n.startswith(('01_','02_','03_'))]:
+        for repeat in [1,2]:
+            pcm=read_pcm(files[name]);timeline.append({'file':name,'repeat':repeat,'starts_seconds':round(cursor,6)})
+            sequence.append(pcm);cursor+=len(pcm)/SR
+            pause=.35 if repeat==1 else .80
+            sequence.append(np.zeros(round(pause*SR),dtype='<i2'));cursor+=pause
+    if reference:
+        pcm=read_pcm(files[reference]);timeline.append({'file':reference,'repeat':1,'starts_seconds':round(cursor,6)})
+        sequence+=[pcm,np.zeros(round(.50*SR),dtype='<i2')]
+    combined=wav_bytes(np.concatenate(sequence));name='05_play_material_comparison_v1.wav'
+    (out/name).write_bytes(combined);files[name]=combined
+    data[name]={**describe(combined),'role':'OFFLINE_LISTENING_STRIP','timeline':timeline,'godot_runtime_capture':False,
+                'normalization':'Unmodified cue PCM and exact silence concatenation; no strip renormalization'}
+    report={'schema':1,'client_date':'2026-10-19','status':'LISTENING_PREVIEW_NOT_INTEGRATED',
+            'method':'3 original procedural MOVE candidates; optional supplied Grok MATCH stays separately labelled',
+            'numpy_version':np.__version__,'source_code_identity':identity(Path(__file__).read_bytes()),
+            'game_modified':False,'audacity_processing':'NOT_USED; standard WAV listening files',
+            'human_acceptance':'PENDING','files':data}
+    (out/'PROVENANCE_AND_QC.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+    return report
+
+if __name__=='__main__':
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--output',type=Path,required=True)
+    parser.add_argument('--match-zip',type=Path)
+    a=parser.parse_args();r=generate(a.output.resolve(),a.match_zip)
+    print(json.dumps({'status':r['status'],'files':{k:{f:v[f] for f in ['seconds','peak_dbfs','contact_0_200ms_rms_dbfs','clipped_samples']} for k,v in r['files'].items()}},indent=2))

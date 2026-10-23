@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "files": [
+    {
+      "path": "EXACT_IMAGE_PROMPT.txt",
+      "bytes": 1969,
+      "sha256": "98abf208fb1ee8ceddc19a8cfc3c764e58887438c7e055386194d48452cd83d1"
+    },
+    {
+      "path": "EXISTING_MATERIALS.json.txt",
+      "bytes": 3095,
+      "sha256": "0be35202f840d443a75a30032c340bb9cf75bd3d57c8db49972bd707f40a0e12"
+    },
+    {
+      "path": "FINAL_RESPONSE.txt",
+      "bytes": 181,
+      "sha256": "6fbc09f7a167d465753c5d7cc15a54bef77613aa5cb495fe655d9f63325c3313"
+    },
+    {
+      "path": "PROMPT_FOR_GPT_BG.txt",
+      "bytes": 2415,
+      "sha256": "caef2edf30a9cc8bccf1b96bd8e1e857ddae7273a6bccb151137ae7933bfebb2"
+    },
+    {
+      "path": "PROVENANCE.json.txt",
+      "bytes": 810,
+      "sha256": "58f086828238061410654051f3b74a9d3c0162decb1e3aa95beafe1156bb08f8"
+    },
+    {
+      "path": "README.txt",
+      "bytes": 2184,
+      "sha256": "9f7a9319a273e4c1a1df067b4e57c760bbf5629e932fa54756fd6936f1226a8f"
+    },
+    {
+      "path": "REFERENCES/01_TARGET_WARM_MAP_HOME_START_6_LEVELS.png",
+      "bytes": 2256314,
+      "sha256": "a8ba8f00cba8f715e4633941f65b7f79da7caa174520a2a6e2072c60538e73c9"
+    },
+    {
+      "path": "START_HERE_BG.txt",
+      "bytes": 2184,
+      "sha256": "9f7a9319a273e4c1a1df067b4e57c760bbf5629e932fa54756fd6936f1226a8f"
+    }
+  ]
+}

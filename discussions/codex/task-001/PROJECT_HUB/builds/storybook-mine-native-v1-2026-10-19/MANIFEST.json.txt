@@ -1,0 +1,216 @@
+{
+  "schema": 1,
+  "scope": "Native isolated art preview; not campaign integration",
+  "files": [
+    {
+      "path": "ART_REVIEW_BG.txt",
+      "bytes": 4767,
+      "sha256": "61c18502b1a0c6aba650ca487bfd05e7b4b57d08a3f9931590b0d2b72cf7a76d"
+    },
+    {
+      "path": "FINAL_RESPONSE.txt",
+      "bytes": 1314,
+      "sha256": "775c62c3a745a3890e904f230adbc134d00d9ace0341d1cee4fa6c0ab88c3d67"
+    },
+    {
+      "path": "PROVENANCE.txt",
+      "bytes": 1461,
+      "sha256": "1155699681ddaaff9890e157eeda83195858dc3fe310ecc2aa04b202ad4f022f"
+    },
+    {
+      "path": "README.txt",
+      "bytes": 3883,
+      "sha256": "30d7bec6e561e154ceb45e2cc6653a6f03445a538c3c4cc85f3c2b99b22a5d11"
+    },
+    {
+      "path": "assets/storybook_mine.glb",
+      "bytes": 10669880,
+      "sha256": "d39a017fa34167e716cd1182253af159c7633cc154a642cc82f0acf192e31cf2"
+    },
+    {
+      "path": "assets/storybook_mine_Authored_Oak_Colour.png",
+      "bytes": 261250,
+      "sha256": "cb6db8cb5a671f79a3e281189f19c321015b1e34e4856508159151f08ce10897"
+    },
+    {
+      "path": "assets/storybook_mine_Authored_Oak_Endgrain.png",
+      "bytes": 197325,
+      "sha256": "89bc86c416827dab36d88b5f7657bc75d67b9dc00e3e5ad783f2da3657274681"
+    },
+    {
+      "path": "assets/storybook_mine_Authored_Oak_Normal.png",
+      "bytes": 98420,
+      "sha256": "6ec4ea541cf96310a1bb04dd66ff5b8ad8fa1940f04ac1a1133300ba29015324"
+    },
+    {
+      "path": "assets/storybook_mine_Authored_Oak_Shadow.png",
+      "bytes": 142520,
+      "sha256": "2dcbc8181ed2c5535605f3476dd2c9e0011f7edcac01a23625551aef6b67ff07"
+    },
+    {
+      "path": "assets/textures/Authored_Oak_Colour.png",
+      "bytes": 261250,
+      "sha256": "cb6db8cb5a671f79a3e281189f19c321015b1e34e4856508159151f08ce10897"
+    },
+    {
+      "path": "assets/textures/Authored_Oak_Endgrain.png",
+      "bytes": 197325,
+      "sha256": "89bc86c416827dab36d88b5f7657bc75d67b9dc00e3e5ad783f2da3657274681"
+    },
+    {
+      "path": "assets/textures/Authored_Oak_Normal.png",
+      "bytes": 98420,
+      "sha256": "6ec4ea541cf96310a1bb04dd66ff5b8ad8fa1940f04ac1a1133300ba29015324"
+    },
+    {
+      "path": "assets/textures/Authored_Oak_Shadow.png",
+      "bytes": 142520,
+      "sha256": "2dcbc8181ed2c5535605f3476dd2c9e0011f7edcac01a23625551aef6b67ff07"
+    },
+    {
+      "path": "capture_preview.gd",
+      "bytes": 7769,
+      "sha256": "ef0ccc983c31168f81242193de95d99dc399d6c02f0491879b15284b2076a2a4"
+    },
+    {
+      "path": "launch_preview.ps1",
+      "bytes": 501,
+      "sha256": "b4c018f9bdd08e1def08e4200249c881ffc0f6546a81ee918e1d681e1f4ade09"
+    },
+    {
+      "path": "movie_preview.gd",
+      "bytes": 309,
+      "sha256": "a4cc1b818746f598fc95ebd0e8768ad10357a85cf568101e4f802f24a18cbbc4"
+    },
+    {
+      "path": "preview.gd",
+      "bytes": 12465,
+      "sha256": "0edaaeff800782426d24b38ed18608a462dc3d41f509159da4a4d4fefeccb0af"
+    },
+    {
+      "path": "preview.tscn",
+      "bytes": 169,
+      "sha256": "f8541f6c2712bb929da138cd51c108ca01de67259b5621d7b52c2eb5c7691195"
+    },
+    {
+      "path": "project.godot",
+      "bytes": 843,
+      "sha256": "27a3dabc89c343439cc8437f5b48a330992041e00aefbcefaa406b8081aa9989"
+    },
+    {
+      "path": "renders/ASSET_AUDIT.json",
+      "bytes": 875,
+      "sha256": "e8e9563691c8d336f1d8b37c1730512ce3553c2561590ca3a96bc7927e3fdbf0"
+    },
+    {
+      "path": "renders/BLENDER_STORYBOOK_MINE.png",
+      "bytes": 615322,
+      "sha256": "abc403694903db239d515bf038a314bfaaf2619121e52155423f6fe6aa4e7a2c"
+    },
+    {
+      "path": "renders/BUILD_RECEIPT.json",
+      "bytes": 1041,
+      "sha256": "962a0782c033e1ac28217fd43f65dc29f592d4beebb0ae3031fa02a1868a26b5"
+    },
+    {
+      "path": "renders/GODOT_STORYBOOK_1S.png",
+      "bytes": 293119,
+      "sha256": "1da60d82210fa6e739a7f90db53ae61d2687a80f1b85e679c99d2e3680e8fcc9"
+    },
+    {
+      "path": "renders/GODOT_STORYBOOK_3S.png",
+      "bytes": 293379,
+      "sha256": "3fcea307895e240f3d8c8bf03652017bb16baa35a22e9b79b56442fa25a91bc1"
+    },
+    {
+      "path": "renders/GODOT_STORYBOOK_RECEIPT.json",
+      "bytes": 8592,
+      "sha256": "4bf755a08be1c2477d32132de1b312f164be92140a9e9165f38381fcd88f987b"
+    },
+    {
+      "path": "renders/STORYBOOK_NATIVE_PREVIEW.mp4",
+      "bytes": 1711529,
+      "sha256": "bae823fc752ef27a4dca0156f39305da1844d615941ebdddc54dc607225c9e69"
+    },
+    {
+      "path": "renders/VIDEO_RECEIPT.json",
+      "bytes": 277,
+      "sha256": "0227f9c7682adb64491f6698a1e59c969b00f409f685e9f4af17501c3a44f581"
+    },
+    {
+      "path": "renders/build.log",
+      "bytes": 125965,
+      "sha256": "a660e351c2a5500649350c853e1eb18f1bc62ed788dc64bb9441ae600550770c"
+    },
+    {
+      "path": "renders/fresh_capture.log",
+      "bytes": 8174,
+      "sha256": "5bc303d8c15196d003d680ac9b1400e8311a939e6ca14f432347e33bdab1674a"
+    },
+    {
+      "path": "renders/fresh_import.log",
+      "bytes": 2238,
+      "sha256": "57d08fd87fc4a485b4c92d2ad2af633230be0ed81b2be0c494fc53438db2c80a"
+    },
+    {
+      "path": "renders/fresh_import/GODOT_STORYBOOK_RECEIPT.json",
+      "bytes": 8602,
+      "sha256": "00e7823e0b826ab6410e544560cba384f01e632c1dc0401f9159d5c55bb045bd"
+    },
+    {
+      "path": "renders/godot_capture.log",
+      "bytes": 8164,
+      "sha256": "f1544df88d36ed911d799a598bb081dcd5ed414db9054f4f956c670163b3bd95"
+    },
+    {
+      "path": "renders/godot_import.log",
+      "bytes": 4422,
+      "sha256": "a5204d8957e6dd778444ace5c3a3c9a0eb5156cd644bfa1a74273f9bd512b233"
+    },
+    {
+      "path": "renders/godot_movie.log",
+      "bytes": 909,
+      "sha256": "73b9f77e6ac9ddfa7771bd3648f22ba159ffe3c8f139b3e4bfb436856463455a"
+    },
+    {
+      "path": "renders/video_encode.log",
+      "bytes": 2334,
+      "sha256": "7fdf74d2686c663c2e10935b68a4d307fc112f46bde0152e9ce226cb4a7b1f96"
+    },
+    {
+      "path": "source/.gdignore",
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "source/build_scene.py",
+      "bytes": 10913,
+      "sha256": "e95a58c6be9bc9ea2174f4a27d14982c749bf86529502ef7d40ffe036ec3274d"
+    },
+    {
+      "path": "source/foliage_assets.py",
+      "bytes": 29926,
+      "sha256": "ba19db81a2be836622a37c010d7acc0d5580d882a83b02d6224b4f158a67bda0"
+    },
+    {
+      "path": "source/mine_asset.py",
+      "bytes": 23065,
+      "sha256": "1d0b73214cabf1b8b781f11787dbffd70547f23483182c8599f24471e2d2ccc2"
+    },
+    {
+      "path": "source/prepare_view.py",
+      "bytes": 369,
+      "sha256": "097f959ad711504a9c20194e8bf0e877a604660a77632c09b627b769062f9523"
+    },
+    {
+      "path": "source/scene_api.py",
+      "bytes": 8459,
+      "sha256": "7896dbc0e4da891b8f1ebc4842dc7dedd4f1ab9772b01c1064a6cf6c5d3f6cbb"
+    },
+    {
+      "path": "source/storybook_mine.blend",
+      "bytes": 2368123,
+      "sha256": "be303cc3c469b92f165ea7ec28bc5b0c9cf7ef9f29a78dd28d6b8a37328e0308"
+    }
+  ]
+}

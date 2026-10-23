@@ -1,0 +1,362 @@
+GNOMIT — CURRENT FRANKENSTEIN LOCAL PLAYTEST — 2026-10-17
+AUTHORITY: direct human request "q da vidim ,sglobi seggashniqt frankenshtein da go probvam". This authorizes assembling and launching the existing material for a local PC tryout now. It supersedes the earlier no-implementation instruction for this bounded local preview; it does not self-approve a new registered Git task or authorize private/main edits or merge.
+
+RUNNING COPY
+C:/Users/fruch/Documents/Codex/GnomiT_Playtests/Frankenstein_2026-10-17
+Launcher: PLAY_GNOMIT.cmd
+Engine: pre-existing C:/Tools/Godot/4.7.2/engine/Godot_v4.7.2-stable_win64.exe
+Game currently launched as a separate visible window on requested monitor1/Godot screen0 at432x960. Window was observed with Windows Computer Use and a real mouse click on the wooden path visibly moved the hero/camera. No human/Android acceptance is implied.
+
+RECONSTRUCTION INPUTS
+Public baseline/game from pinned5add419dfc7fd73bd6d9ee837b2ba620ee5e8b81, exported into a NEW independent local folder. The protected Git baseline was not run or edited. Source PNGs read by exact git object and unchanged:
+0a2b6e3d2736d8c787026718205e15dee8a6fc0f | sandbox/gpt/task-002/art/shared-v2/characters/hero/hero_master.png -> assets/shared_v2/hero_master.png | 238352bytes | SHA-256 895a1ccf8c17e756e3bc05810cceaf48ec1732d7e90e0428f1c0523e6157004d
+0a2b6e3d2736d8c787026718205e15dee8a6fc0f | sandbox/gpt/task-002/art/shared-v2/characters/hero/contact_shadow.png -> assets/shared_v2/contact_shadow.png | 7824bytes | SHA-256 d87d66aab4d1183c48c54b023f90e7ff2b07eb1d8e0ee125f5c5b15b43082057
+463a9bb709e7aed459f2e4a861ed02e58b48b802 | sandbox/grok/task-002/art/shared-v2/animations/hero/walk_sheet.png -> assets/shared_v2/walk_sheet.png | 881007bytes | SHA-256 b03cfaf1022ee72367a820c262dec8f8d7730ce94a5d6f729ce81275505cefda
+
+WHAT WAS ASSEMBLED
+Existing route-map navigation and match-3 retained. Full512x512 R1 cells replace the old cropped atlas. Stopped avatar/guide use the GPT master. Sprite cell220 logical pixels gives about113px visible art at nominal432x960 viewport. No new art was generated.
+Actual final-PNG upper-body visual markers define per-pose image registration. The renderer uses idle-ground[256,467] plus walk-reference minus idle-reference once. This aligns idle/walk body markers to the same world reference. These are image landmarks, not anatomical pelvis or planted-foot evidence. Shadow is the unchanged separate GPT texture, anchored to the same route-ground datum in every state. Incorrect/stale external support coordinates are not consumed.
+New test-progress launcher seeds entry=1star only to make the first bend reachable in both directions immediately; no artificial Light award. Session starts by level1. The project has its own custom user directory GnomiT-Playtest-2026-10-17; personal saves remain untouched. This seeded star is a fixture, not an earned win.
+The extra arrival action says Level1/2; the existing arrival modal contains the actual PLAY. No extra game mode, reward system, level rules or audio changes.
+Known roughness accepted for this trial: rotated/edited legs, low rear passing, two-view directional coverage with the existing horizontal mirror fallback. The latter can reverse visible carried-hand anatomy on a left turn and is not a newly drawn left/right rig. No claim of final animation quality, touch comfort or phone performance.
+
+VERIFICATION ACTUALLY RUN
+Focused render contract first failed3checks on the old renderer (wrong stopped texture, wrong walking atlas, cropped cell). After integration it passes with0failures, including actual texture-image idle/walk projected-marker continuity.
+Existing capture_vertical_slice.gd then ran in a rendered Godot window: route tap/drag interruption, arrival+explicit PLAY, actual seed42 match-3 swaps winning level1, unlock and route to2, return to1, pause/resize behavior and progress preservation. Result PASS, failures[], ten rendered snapshots. This is scripted runtime, not a human test.
+Actual app screenshot and mouse road click additionally observed with Windows Computer Use. The interactive window is left open for the human. Repeated source PNG SHA-256 checks pass.
+Local logs: verification/render_RED.txt, render_GREEN.txt, runtime_capture_console.txt, interactive.log. Runtime report/snapshots: ../verification/slice_runtime_1792189712_475. The functional runtime test uses its own verification save; the interactive launcher uses the separate test profile.
+
+GIT DELIVERY BOUNDARY
+The executable local project is NOT a pushed game implementation branch. Existing Git task grants were not changed. Codex REPORTS_ONLY is used here only to publish this own review/change record and a text patch proposal for review, not to activate game edits in the governed snapshot. The literal source delta follows so GPT/Grok can read the assembly from Git without human file relay. It is not an auto-applied patch or an implementation grant. Game-source publication/merge into a registered task needs the appropriate separate repository authorization.
+Other bots: keep existing art frozen while the human tries this current local build; do not regenerate another hero or repeat export closure merely because an older queue requested it. Note actual feedback and remaining limitations in your own report; no automatic messages sent.
+
+EXACT LOCAL SOURCE HASHES
+project.godot | 953bytes | SHA-256 8d859491d0b440b5a7bf4ed24cf5eb292c865d6f27fc8c7a3d516d2a1aa67bfc
+scripts/main.gd | 24659bytes | SHA-256 0ea93c0d411b33852257d138c4868f5b02bd59f625df224961ffaf70ad25468b
+scripts/slice_map_view.gd | 13031bytes | SHA-256 c3d01308cd7b2bcb1909abc6dc3cc41a28503fbf71d616e5f55c1a75395640c0
+scripts/story_art.gd | 2458bytes | SHA-256 a047857f713c08bfc528bf7d10c37da2ac778298b46c235873dd81d8d7961bd2
+tests/test_shared_hero_render.gd | 2003bytes | SHA-256 88741b8524a7550b39755510070e359421e54ba670a7f8e822d5a0ed72941194
+PLAY_GNOMIT.cmd | 164bytes | SHA-256 dadf8be7a976cb07ebb4dee76a545a6de2662812064d93ef702a78be937306fb
+README.txt | 1011bytes | SHA-256 789b11cd0d7d9943905fb4d7c2662e469061d226b369bc0773dcc473bcc5ad5c
+
+REVIEW PATCH PROPOSAL (literal unified text delta; not an applied repository change)
+--- a/project.godot
++++ b/project.godot
+@@ -1,28 +1,30 @@
+-; GnomiT first playable skeleton, Godot 4.7.2.
+-config_version=5
+-
+-[application]
+-config/name="GnomiT"
+-config/version="0.1.0-alpha11-vertical-slice1"
+-run/main_scene="res://main.tscn"
+-config/features=PackedStringArray("4.7", "GL Compatibility")
+-
+-[display]
+-window/size/viewport_width=720
+-window/size/viewport_height=1600
+-window/size/window_width_override=432
+-window/size/window_height_override=960
+-window/size/resizable=true
+-window/size/initial_screen=0
+-window/stretch/mode="canvas_items"
+-window/stretch/aspect="expand"
+-window/handheld/orientation=1
+-
+-[rendering]
+-renderer/rendering_method="gl_compatibility"
+-renderer/rendering_method.mobile="gl_compatibility"
+-textures/default_filters/use_nearest_mipmap_filter=false
+-environment/defaults/default_clear_color=Color(0.025,0.045,0.09,1)
+-
+-[audio]
+-driver/enable_input=false
++; GnomiT first playable skeleton, Godot 4.7.2.
++config_version=5
++
++[application]
++config/name="GnomiT Frankenstein Playtest"
++config/use_custom_user_dir=true
++config/custom_user_dir_name="GnomiT-Playtest-2026-10-17"
++config/version="0.1.0-local-frankenstein-r1"
++run/main_scene="res://main.tscn"
++config/features=PackedStringArray("4.7", "GL Compatibility")
++
++[display]
++window/size/viewport_width=720
++window/size/viewport_height=1600
++window/size/window_width_override=432
++window/size/window_height_override=960
++window/size/resizable=true
++window/size/initial_screen=0
++window/stretch/mode="canvas_items"
++window/stretch/aspect="expand"
++window/handheld/orientation=1
++
++[rendering]
++renderer/rendering_method="gl_compatibility"
++renderer/rendering_method.mobile="gl_compatibility"
++textures/default_filters/use_nearest_mipmap_filter=false
++environment/defaults/default_clear_color=Color(0.025,0.045,0.09,1)
++
++[audio]
++driver/enable_input=false
+
+--- a/scripts/main.gd
++++ b/scripts/main.gd
+@@ -50,13 +50,18 @@
+ 
+ func _ready() -> void:
+ 	get_tree().auto_accept_quit = false
+-	DisplayServer.window_set_title("GnomiT — First Bend Preview")
++	DisplayServer.window_set_title("GnomiT — Frankenstein R1 · TEST PROGRESS")
+ 	if DisplayServer.get_name()!="headless" and DisplayServer.get_screen_count()>1:
+ 		DisplayServer.window_set_current_screen(0)
+ 	ui_theme = _make_theme()
+ 	theme = ui_theme
+ 	progress = Progress.new()
+ 	progress.load_progress(save_path_override if not save_path_override.is_empty() else "user://gnomit_storybook_progress_v2.json")
++	# Explicit launch-only art-test fixture; isolated custom user directory.
++	if OS.get_cmdline_user_args().has("--walk-preview"):
++		if progress.best_stars("entry")==0:progress.data.stars["entry"]=1
++		_slice_session={"avatar_s":0.0,"target_s":0.0,"selected_level":"","paused":false}
++
+ 	world = World.new()
+ 	world.scene_mode = "play"
+ 	world.reduced_motion = progress.option("reduced_motion")
+
+--- a/scripts/slice_map_view.gd
++++ b/scripts/slice_map_view.gd
+@@ -1,7 +1,19 @@
+ extends "res://scripts/story_map_view.gd"
+ signal arrived_at_level(id: String)
+ const Route=preload("res://scripts/slice_route.gd")
+-const WALK_ATLAS=preload("res://assets/storybook/gnome_slice_walk_v1.png")
++const WALK_ATLAS=preload("res://assets/shared_v2/walk_sheet.png")
++const IDLE_MASTER=preload("res://assets/shared_v2/hero_master.png")
++const IDLE_GROUND=Vector2(256.0,467.0)
++# Visual registration markers measured from FINAL PNG alpha>=128, rows80..299.
++# These are image-space markers, not anatomy or planted-foot claims.
++const IDLE_REFERENCE=Vector2(258.96113175779726,206.42697575098043)
++const WALK_REFERENCES=[
++ Vector2(209.13257463789535,206.30165533550104),
++ Vector2(208.7968720597152,206.21272502979488),
++ Vector2(208.7968720597152,206.21272502979488),
++ Vector2(209.39845801308064,207.13355134386785),
++ Vector2(208.79503433703115,207.11705806079814),
++ Vector2(208.88026060504444,207.15727322810127)]
+ var session_state: Dictionary={}
+ var route=Route.new()
+ var avatar_s:=0.0
+@@ -19,13 +31,13 @@
+ var _press_was_walking:=false
+ var _last_sprite_frame: int=-1
+ 
+-class ContactShadow extends Control:
+- func _ready() -> void:mouse_filter=Control.MOUSE_FILTER_IGNORE
+- func _draw() -> void:
+-  for i in range(5):
+-   var a: float=0.035+float(i)*0.017
+-   draw_set_transform(size*0.5,0,Vector2(1,0.26))
+-   draw_circle(Vector2.ZERO,size.x*(0.5-float(i)*0.075),Color(0.14,0.07,0.025,a),true,-1,true)
++class ContactShadow extends TextureRect:
++ func _ready() -> void:
++  texture=preload("res://assets/shared_v2/contact_shadow.png")
++  expand_mode=TextureRect.EXPAND_IGNORE_SIZE
++  stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED
++  texture_filter=CanvasItem.TEXTURE_FILTER_LINEAR
++  mouse_filter=Control.MOUSE_FILTER_IGNORE
+ 
+ func _ready() -> void:
+  slice_enabled=focus_id in ["entry","hollow"] or session_state.has("avatar_s")
+@@ -56,7 +68,7 @@
+ func layout() -> void:
+  super.layout()
+  if not slice_enabled or not slice_ready:return
+- gnome.size=Vector2(204,204)*_unit
++ gnome.size=Vector2(220,220)*_unit
+  gnome.texture_filter=CanvasItem.TEXTURE_FILTER_LINEAR
+  gnome.z_index=0
+  canvas.move_child(shadow,0);canvas.move_child(gnome,1)
+@@ -99,29 +111,34 @@
+ func avatar_foot() -> Vector2:return _source_to_world(route.point(avatar_s))
+ func _frame_texture(index: int) -> AtlasTexture:
+  var texture=AtlasTexture.new();texture.atlas=WALK_ATLAS
+- # Trim cell edges containing spill from adjacent illustrations, without editing alpha.
+- var region=Rect2(Vector2((index%3)*512+76,int(index/3)*512+24),Vector2(420,472))
+- if index>=3:region=Rect2(Vector2((index%3)*512+88,512),Vector2(424,472))
+- texture.region=region;texture.filter_clip=true;return texture
++ texture.region=Rect2(Vector2((index%3)*512,int(index/3)*512),Vector2(512,512))
++ texture.filter_clip=true
++ return texture
+ func _render_avatar() -> void:
+  if not slice_ready:return
+- var step: int=[0,1,2,1][int(walk_distance/12.0)%4] if journey_active and not reduced_motion else 1
++ var walking: bool=journey_active and not reduced_motion
++ var step: int=[0,1,2,1][int(walk_distance/12.0)%4] if walking else 0
+  var frame: int=step+(3 if facing_back else 0)
+- if frame!=_last_sprite_frame:
+-  gnome.texture=_frame_texture(frame);_last_sprite_frame=frame
++ var sprite_id: int=frame if walking else -2
++ if sprite_id!=_last_sprite_frame:
++  gnome.texture=_frame_texture(frame) if walking else IDLE_MASTER
++  _last_sprite_frame=sprite_id
++ # Retain the existing horizontal-facing behavior for this two-view playtest.
++ # This mirror fallback is a known limitation, not four newly drawn directions.
+  gnome.flip_h=facing_left
+- var pivot=Vector2(0.46,0.975) if not facing_back else Vector2(0.46,0.965)
+- if facing_left:pivot.x=1.0-pivot.x
+- gnome.position=avatar_foot()-gnome.size*pivot
+- shadow.size=Vector2(83,35)*_unit
+- shadow.position=avatar_foot()-shadow.size*Vector2(0.5,0.5)
+- shadow.queue_redraw()
++ var anchor: Vector2=IDLE_GROUND
++ if walking:anchor+=WALK_REFERENCES[frame]-IDLE_REFERENCE
++ if facing_left:anchor.x=512.0-anchor.x
++ # One image-space correction only; metadata residuals are NOT applied again.
++ gnome.position=avatar_foot()-gnome.size*anchor/512.0
++ shadow.size=gnome.size
++ shadow.position=avatar_foot()-shadow.size*IDLE_GROUND/512.0
+ 
+ func _sync_controls() -> void:
+  if not slice_ready:return
+  var arrived: bool=not journey_active and not journey_paused and not selected_level.is_empty() and absf(avatar_s-route.dock_s(selected_level))<0.01 and model.is_unlocked(selected_level)
+  arrival_button.visible=arrived
+- arrival_button.text="Play Level 1" if selected_level=="entry" else "Play Level 2"
++ arrival_button.text="Level 1" if selected_level=="entry" else "Level 2"
+  arrival_button.disabled=not interaction_enabled
+  skip_button.visible=journey_paused and absf(target_s-avatar_s)>0.01
+  skip_button.disabled=not interaction_enabled
+
+--- a/scripts/story_art.gd
++++ b/scripts/story_art.gd
+@@ -1,37 +1,37 @@
+-extends RefCounted
+-const TREASURES=preload("res://assets/storybook/treasures_v4.png")
+-const MATERIALS=preload("res://assets/storybook/ui_materials_v1.png")
+-const MAP=preload("res://assets/storybook/descending_world_v2.png")
+-const GNOMES=preload("res://assets/storybook/gnome_lantern_cutout_v3.png")
+-const WALK=preload("res://assets/storybook/gnome_walk_atlas_v1.png")
+-const SIDE_GNOMES=preload("res://assets/storybook/side_gnomes_v1.png")
+-const MAP_POINTS={"entry":Vector2(0.62,0.315),"hollow":Vector2(0.40,0.392),"seam":Vector2(0.62,0.463),"pearl":Vector2(0.40,0.531),"goldore":Vector2(0.62,0.602),"terraces":Vector2(0.40,0.665),"bridge":Vector2(0.62,0.731),"boss":Vector2(0.62,0.882)}
+-const SOIL=preload("res://assets/storybook/soil_goal.svg")
+-const FONT=preload("res://assets/font.ttf")
+-static func region(texture: Texture2D, index: int, columns: int, rows: int) -> AtlasTexture:
+-	var result=AtlasTexture.new();result.atlas=texture
+-	var extent=Vector2(texture.get_width()/float(columns),texture.get_height()/float(rows))
+-	result.region=Rect2(Vector2(index%columns,int(index/columns))*extent,extent)
+-	result.filter_clip=true
+-	return result
+-static func treasure(kind: int) -> AtlasTexture:return region(TREASURES,kind%6,3,2)
+-static func material(index: int) -> AtlasTexture:
+-	var t=region(MATERIALS,index,3,2)
+-	# The lower-row crown reaches into top-row padding; exclude it from ordinary badges.
+-	if index<3:t.region.size.y=448
+-	return t
+-static func gnome(_victory: bool=false) -> AtlasTexture:return region(GNOMES,0,1,1)
+-static func hero_walk_frame(index: int) -> AtlasTexture:return region(WALK,index%4,2,2)
+-static func side_gnome(index: int) -> AtlasTexture:return region(SIDE_GNOMES,index%2,2,1)
+-static func font(weight: float=800.0) -> FontVariation:
+-	var f=FontVariation.new();f.base_font=FONT
+-	f.variation_opentype={TextServerManager.get_primary_interface().name_to_tag("wght"):weight}
+-	return f
+-static func panel(tint: Color=Color.WHITE) -> StyleBoxTexture:
+-	var s=StyleBoxTexture.new();s.texture=MATERIALS;s.region_rect=Rect2(560,504,448,438);s.modulate_color=tint
+-	s.texture_margin_left=24;s.texture_margin_right=24;s.texture_margin_top=24;s.texture_margin_bottom=24
+-	s.content_margin_left=24;s.content_margin_right=24;s.content_margin_top=16;s.content_margin_bottom=16
+-	return s
+-
+-static func round_button() -> StyleBoxTexture:
+-	var s=StyleBoxTexture.new();s.texture=MATERIALS;s.region_rect=Rect2(1024,0,512,512);return s
++extends RefCounted
++const TREASURES=preload("res://assets/storybook/treasures_v4.png")
++const MATERIALS=preload("res://assets/storybook/ui_materials_v1.png")
++const MAP=preload("res://assets/storybook/descending_world_v2.png")
++const GNOMES=preload("res://assets/shared_v2/hero_master.png")
++const WALK=preload("res://assets/storybook/gnome_walk_atlas_v1.png")
++const SIDE_GNOMES=preload("res://assets/storybook/side_gnomes_v1.png")
++const MAP_POINTS={"entry":Vector2(0.62,0.315),"hollow":Vector2(0.40,0.392),"seam":Vector2(0.62,0.463),"pearl":Vector2(0.40,0.531),"goldore":Vector2(0.62,0.602),"terraces":Vector2(0.40,0.665),"bridge":Vector2(0.62,0.731),"boss":Vector2(0.62,0.882)}
++const SOIL=preload("res://assets/storybook/soil_goal.svg")
++const FONT=preload("res://assets/font.ttf")
++static func region(texture: Texture2D, index: int, columns: int, rows: int) -> AtlasTexture:
++	var result=AtlasTexture.new();result.atlas=texture
++	var extent=Vector2(texture.get_width()/float(columns),texture.get_height()/float(rows))
++	result.region=Rect2(Vector2(index%columns,int(index/columns))*extent,extent)
++	result.filter_clip=true
++	return result
++static func treasure(kind: int) -> AtlasTexture:return region(TREASURES,kind%6,3,2)
++static func material(index: int) -> AtlasTexture:
++	var t=region(MATERIALS,index,3,2)
++	# The lower-row crown reaches into top-row padding; exclude it from ordinary badges.
++	if index<3:t.region.size.y=448
++	return t
++static func gnome(_victory: bool=false) -> AtlasTexture:return region(GNOMES,0,1,1)
++static func hero_walk_frame(index: int) -> AtlasTexture:return region(WALK,index%4,2,2)
++static func side_gnome(index: int) -> AtlasTexture:return region(SIDE_GNOMES,index%2,2,1)
++static func font(weight: float=800.0) -> FontVariation:
++	var f=FontVariation.new();f.base_font=FONT
++	f.variation_opentype={TextServerManager.get_primary_interface().name_to_tag("wght"):weight}
++	return f
++static func panel(tint: Color=Color.WHITE) -> StyleBoxTexture:
++	var s=StyleBoxTexture.new();s.texture=MATERIALS;s.region_rect=Rect2(560,504,448,438);s.modulate_color=tint
++	s.texture_margin_left=24;s.texture_margin_right=24;s.texture_margin_top=24;s.texture_margin_bottom=24
++	s.content_margin_left=24;s.content_margin_right=24;s.content_margin_top=16;s.content_margin_bottom=16
++	return s
++
++static func round_button() -> StyleBoxTexture:
++	var s=StyleBoxTexture.new();s.texture=MATERIALS;s.region_rect=Rect2(1024,0,512,512);return s
+
+--- /dev/null
++++ b/tests/test_shared_hero_render.gd
+@@ -0,0 +1,30 @@
++extends SceneTree
++var failures: Array[String]=[]
++func _initialize() -> void:call_deferred("run")
++func check(ok: bool,message: String) -> void:
++ if not ok:failures.append(message);print("FAIL: "+message)
++func marker(texture: Texture2D) -> Vector2:
++ var image=texture.get_image();var total:=0.0;var sum:=Vector2.ZERO
++ for y in range(80,mini(300,image.get_height())):
++  for x in range(image.get_width()):
++   if image.get_pixel(x,y).a>=128.0/255.0:sum+=Vector2(x,y);total+=1.0
++ return sum/maxf(total,1.0)
++func run() -> void:
++ root.size=Vector2i(432,960)
++ var app=load("res://scripts/main.gd").new();app.save_path_override="res://verification/render_contract_progress.json";root.add_child(app);app.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
++ await process_frame;await process_frame;await process_frame
++ var map=app.map_view;map.facing_left=false;map.facing_back=false;map.journey_active=false;map._render_avatar()
++ var idle=load("res://assets/shared_v2/hero_master.png")
++ check(map.gnome.texture==idle,"Stopped avatar must use the actual GPT master, not a walk cell")
++ var idle_world: Vector2=map.gnome.position+marker(idle)/512.0*map.gnome.size
++ map.journey_active=true;map.walk_distance=0;map._render_avatar()
++ var t=map.gnome.texture
++ check(t is AtlasTexture and t.atlas==load("res://assets/shared_v2/walk_sheet.png"),"Walking avatar must use the verified Grok R1 sheet")
++ var full_cell: bool=t is AtlasTexture and t.region.size==Vector2(512,512)
++ check(full_cell,"Whole 512x512 cells must render without old crop/adjacent-frame spill")
++ if full_cell:
++  var walk_world: Vector2=map.gnome.position+marker(t)/512.0*map.gnome.size
++  check(idle_world.distance_to(walk_world)<map.gnome.size.x/512.0*1.5,"Idle-to-walk body reference must stay continuous in world coordinates")
++ map.journey_active=false;app.queue_free();await process_frame
++ print("SHARED_HERO_RENDER_CONTRACT "+("PASS" if failures.is_empty() else "FAIL")+" failures="+str(failures.size()))
++ quit(0 if failures.is_empty() else 1)
+
+--- /dev/null
++++ b/PLAY_GNOMIT.cmd
+@@ -0,0 +1,2 @@
++@echo off
++start "" "C:\Tools\Godot\4.7.2\engine\Godot_v4.7.2-stable_win64.exe" --path "%~dp0." --screen 0 --position 80,25 --resolution 432x960 -- --walk-preview
+
+--- /dev/null
++++ b/README.txt
+@@ -0,0 +1,8 @@
++GNOMIT FRANKENSTEIN R1 — LOCAL PLAYTEST
++User-authorized assembly of the existing first-bend game with GPT master and Grok R1.
++Run PLAY_GNOMIT.cmd. Monitor1 (Godot screen0),432x960.
++Drag to explore. Tap the wooden path to walk. Tap an unlocked level to walk there; arrival opens its existing goal/PLAY panel.
++The launcher seeds only level1's star for immediate two-way first-bend exploration. This is TEST PROGRESS, not a real win. Saves are isolated in GnomiT-Playtest-2026-10-17.
++The master/sheet/shadow source PNG bytes are unchanged. Idle/walk image registration is applied once at rendering. Shared shadow is fixed to route ground.
++Known art limitations: rough leg edits and low rear passing, two-view sprites with the existing horizontal mirror fallback (hand appearance can reverse on a left turn). This is an interactive Frankenstein preview, not final animation acceptance.
++No private/main source, review baseline, task grants, GitHub merge or Android test was changed by this local assembly.
+
+
+Recommended assembly/interaction correction model: GPT-6.1 Sol / High. File/hash-only publication: Medium. Actual model setting not attested.

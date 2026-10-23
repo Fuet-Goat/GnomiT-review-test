@@ -1,0 +1,24 @@
+GNOMIT STORYBOOK MINE V1 — SOURCE AND MATERIAL ORIGIN
+
+Authoring: Codex native Blender/Python geometry with modular assistance for
+mine construction and vegetation/cottage; root assembled, rendered and tuned.
+Human supplied the desired storybook screenshot as visual direction.
+No reference picture is mapped over the scene or used as a claimed 3D render.
+The older Grok .blend from14a5d52 is preserved separately and is not overwritten.
+This candidate is a new scene, not a silent reconstruction of that delivery.
+
+All four oak maps are generated from deterministic mathematical functions in
+source/scene_api.py,512x512 each. They are also embedded in GLB and packed
+in the .blend. Other surfaces use solid PBR colors and actual geometry.
+No external model pack, downloaded stock texture, sound or font is included.
+There is no AI image-generation call for this candidate. It is still automated
+code-authored geometry, not a claim of hand-painted/human-made production art.
+
+Blender: locally verified5.2.2 LTS,d13f752e3b9c.
+Godot:4.7.2 stable official ed1daf0bf,Windows,Vulkan Forward+.
+Movie: actual Godot MovieMaker241frames@30fps, native432x960.
+MP4: existing VLC transcode of that AVI; encoding changes pixels/duration.
+No synchronized game SFX were created or changed; the asset preview is silent.
+
+Three separate claims: native files exist and render; runtime checks pass;
+desired artistic quality remains pending user review. They are not equivalent.

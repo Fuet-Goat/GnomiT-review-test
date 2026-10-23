@@ -1,0 +1,142 @@
+import bpy,bmesh,math,hashlib
+from pathlib import Path
+from mathutils import Vector
+import numpy as np
+
+ROOT=Path(__file__).resolve().parent.parent
+TEX=ROOT/'assets/textures';TEX.mkdir(parents=True,exist_ok=True)
+MATERIALS={};SPHERES={};IMAGES={}
+
+def linear(hexcolor):
+    h=hexcolor.lstrip('#');v=[int(h[i:i+2],16)/255 for i in (0,2,4)]
+    return tuple(c/12.92 if c<=.04045 else ((c+.055)/1.055)**2.4 for c in v)
+
+def image_from_array(name,rgb,noncolor=False):
+    h,w,_=rgb.shape;image=bpy.data.images.new(name,width=w,height=h,alpha=True)
+    image.colorspace_settings.name='Non-Color' if noncolor else 'sRGB'
+    pixels=np.ones((h,w,4),dtype=np.float32)
+    # Generated Blender image pixels are scene-linear even when stored as sRGB.
+    pixels[:,:,:3]=rgb if noncolor else np.where(rgb<=.04045,rgb/12.92,((rgb+.055)/1.055)**2.4)
+    image.pixels.foreach_set(pixels.ravel());image.update()
+    image.filepath_raw=str(TEX/(name+'.png'));image.file_format='PNG';image.save();image.pack()
+    return image
+
+def prepare_textures():
+    n=512;u,v=np.meshgrid(np.linspace(0,1,n),np.linspace(0,1,n))
+    warp=v+.008*np.sin(u*math.tau*2)+.005*np.sin(u*math.tau*6+v*9)
+    grain=np.maximum(0,np.cos(warp*math.tau*15+np.sin(u*5)*.7))**18
+    fine=np.cos(warp*math.tau*75+u*6)*.020
+    knots=np.zeros_like(u)
+    for x,y,rx,ry in [(.71,.37,.13,.13),(.19,.77,.11,.10)]:
+        r=np.sqrt(((u-x)/rx)**2+((v-y)/ry)**2)
+        knots+=np.exp(-r*r*.7)*(.04+.055*np.cos(r*19)**8)
+    shade=1-grain*.16+fine-knots
+    base=np.array([.88,.57,.25]);rgb=np.clip(shade[:,:,None]*base[None,None,:],0,1)
+    IMAGES['wood']=image_from_array('Authored_Oak_Colour',rgb)
+    IMAGES['wood_dark']=image_from_array('Authored_Oak_Shadow',np.clip(shade[:,:,None]*np.array([.40,.24,.10]),0,1))
+    du,dv=np.gradient(grain*.002+knots*.005)
+    normals=np.stack([-dv*35,-du*35,np.ones_like(u)],axis=-1)
+    normals/=np.linalg.norm(normals,axis=-1,keepdims=True)
+    IMAGES['wood_normal']=image_from_array('Authored_Oak_Normal',normals*.5+.5,True)
+    r=np.sqrt((u-.47)**2+((v-.53)*1.05)**2)
+    rings=np.maximum(0,np.cos(r*math.tau*24+np.sin(u*11)*.4))**6
+    shade=.98-rings*.19+np.sin(v*50)*.012
+    IMAGES['endgrain']=image_from_array('Authored_Oak_Endgrain',np.clip(shade[:,:,None]*np.array([.90,.69,.39]),0,1))
+
+def mat(name,hexcolor,rough=.6,metal=0,emission=0):
+    if name in MATERIALS:return MATERIALS[name]
+    m=bpy.data.materials.new(name);m.diffuse_color=(*linear(hexcolor),1)
+    m.use_nodes=True;p=m.node_tree.nodes.get('Principled BSDF')
+    p.inputs['Base Color'].default_value=(*linear(hexcolor),1)
+    p.inputs['Roughness'].default_value=rough;p.inputs['Metallic'].default_value=metal
+    if 'IOR' in p.inputs:p.inputs['IOR'].default_value=1.45
+    if emission:
+        p.inputs['Emission Color'].default_value=(*linear(hexcolor),1);p.inputs['Emission Strength'].default_value=emission
+    lower=name.lower()
+    if any(k in lower for k in ['leaf','canopy','crown']):
+        p.inputs['Coat Weight'].default_value=.12;p.inputs['Coat Roughness'].default_value=.28
+    if any(k in lower for k in ['wood','oak','plank','timber','beam','bark']) and 'wood' in IMAGES and not emission:
+        key='endgrain' if 'endgrain' in lower else ('wood_dark' if 'in tunnel' in lower or 'bark' in lower else 'wood')
+        tex=m.node_tree.nodes.new('ShaderNodeTexImage');tex.image=IMAGES[key]
+        m.node_tree.links.new(tex.outputs['Color'],p.inputs['Base Color'])
+        normal=m.node_tree.nodes.new('ShaderNodeTexImage');normal.image=IMAGES['wood_normal']
+        normalmap=m.node_tree.nodes.new('ShaderNodeNormalMap');normalmap.inputs['Strength'].default_value=.18
+        m.node_tree.links.new(normal.outputs['Color'],normalmap.inputs['Color']);m.node_tree.links.new(normalmap.outputs['Normal'],p.inputs['Normal'])
+    MATERIALS[name]=m;return m
+
+def uv_planar(mesh):
+    mesh.update();uv=mesh.uv_layers.new(name='UVMap')
+    if not mesh.vertices:return
+    values=np.array([tuple(v.co) for v in mesh.vertices]);low=values.min(axis=0);span=np.maximum(values.max(axis=0)-low,.0001)
+    for face in mesh.polygons:
+        normal=max(range(3),key=lambda i:abs(face.normal[i]));axes=[i for i in range(3) if i!=normal]
+        axes=sorted(axes,key=lambda a:span[a],reverse=True)
+        for loop in face.loop_indices:
+            co=mesh.vertices[mesh.loops[loop].vertex_index].co
+            uv.data[loop].uv=((co[axes[0]]-low[axes[0]])/span[axes[0]],(co[axes[1]]-low[axes[1]])/span[axes[1]])
+
+def finish(obj,name,material,bevel=0,smooth=False):
+    obj.name=name
+    if material:obj.data.materials.append(material)
+    if obj.type=='MESH':
+        for f in obj.data.polygons:f.use_smooth=smooth
+        if not obj.data.uv_layers:uv_planar(obj.data)
+    if bevel:
+        b=obj.modifiers.new('Soft crafted edges','BEVEL');b.width=bevel;b.segments=3
+        if not smooth:
+            b.harden_normals=True;obj.modifiers.new('Weighted corner highlights','WEIGHTED_NORMAL')
+    return obj
+
+def cube(name,loc,dimensions,material,bevel=.05):
+    d=dimensions;verts=[(x*d[0]*.5,y*d[1]*.5,z*d[2]*.5) for z in [-1,1] for y in [-1,1] for x in [-1,1]]
+    faces=[(0,2,3,1),(4,5,7,6),(0,1,5,4),(2,6,7,3),(0,4,6,2),(1,3,7,5)]
+    me=bpy.data.meshes.new(name);me.from_pydata(verts,[],faces);me.update()
+    o=bpy.data.objects.new(name,me);bpy.context.collection.objects.link(o);o.location=loc
+    return finish(o,name,material,bevel)
+
+def ball(name,loc,scale,material,sub=2):
+    if sub not in SPHERES:
+        bm=bmesh.new();bmesh.ops.create_icosphere(bm,subdivisions=sub,radius=1)
+        me=bpy.data.meshes.new('Rounded component template');bm.to_mesh(me);bm.free();SPHERES[sub]=me
+    o=bpy.data.objects.new(name,SPHERES[sub].copy());bpy.context.collection.objects.link(o);o.location=loc;o.scale=scale
+    return finish(o,name,material,0,True)
+
+def cylinder(name,loc,radius,height,material,segments=24,bevel=.025):
+    bm=bmesh.new();bmesh.ops.create_cone(bm,cap_ends=True,cap_tris=False,segments=segments,radius1=radius,radius2=radius,depth=height)
+    me=bpy.data.meshes.new(name);bm.to_mesh(me);bm.free()
+    o=bpy.data.objects.new(name,me);bpy.context.collection.objects.link(o);o.location=loc
+    finish(o,name,material,bevel,True);return o
+
+def tube(name,points,radius,material):
+    c=bpy.data.curves.new(name,'CURVE');c.dimensions='3D';c.resolution_u=12;c.bevel_depth=radius;c.bevel_resolution=3
+    sp=c.splines.new('BEZIER');sp.bezier_points.add(len(points)-1)
+    for b,p in zip(sp.bezier_points,points):b.co=p;b.handle_left_type='AUTO';b.handle_right_type='AUTO'
+    o=bpy.data.objects.new(name,c);bpy.context.collection.objects.link(o);c.materials.append(material);return o
+
+def leaf(name,start,end,width,material):
+    a=Vector(start);b=Vector(end);d=b-a;n=Vector((-d.y,d.x,0)).normalized()*width
+    mid=a+d*.48+Vector((0,0,width*.35))
+    verts=[a,mid+n,b,mid-n,mid+Vector((0,0,width*.15))]
+    me=bpy.data.meshes.new(name);me.from_pydata(verts,[],[(0,1,4),(1,2,4),(2,3,4),(3,0,4)]);me.update()
+    o=bpy.data.objects.new(name,me);bpy.context.collection.objects.link(o);finish(o,name,material,0,True)
+    sub=o.modifiers.new('Leaf curvature','SUBSURF');sub.levels=2;sub.render_levels=2
+    solid=o.modifiers.new('Leaf edge thickness','SOLIDIFY');solid.thickness=.012;return o
+
+def parent_keep_world(obj,parent):
+    def world(node):
+        return world(node.parent)@node.matrix_parent_inverse@node.matrix_basis if node.parent else node.matrix_basis.copy()
+    matrix=world(obj);inverse=world(parent).inverted()
+    obj.parent=parent;obj.matrix_parent_inverse=inverse;obj.matrix_basis=matrix
+
+def empty(name,loc=(0,0,0)):
+    o=bpy.data.objects.new(name,None);bpy.context.collection.objects.link(o);o.location=loc;return o
+
+def get_api():
+    palette={
+        'wood':mat('Oak_Wood','#BB7E39',.54),'wood_light':mat('Oak_Wood_Light','#DEAE64',.52),
+        'wood_dark':mat('Wood_Grain_Dark','#754326',.65),'stone':mat('Warm_Granite','#A9AD9A',.56),
+        'stone_light':mat('Stone_Light','#CAC5AB',.52),'moss':mat('Moss','#78A53C',.72),
+        'leaf':mat('Leaf_Green','#6FA732',.42),'leaf_light':mat('Leaf_Light','#A2C841',.38),
+        'metal':mat('Dark_Iron','#3F5147',.40,.6),'gold':mat('Brass','#B78C3C',.38,.5),
+        'soil':mat('Earth','#8F5736',.88),'cream':mat('Cream','#F1DDB0',.55)}
+    return {'mat':mat,'cube':cube,'ball':ball,'tube':tube,'leaf':leaf,'parent_keep_world':parent_keep_world,'palette':palette,'empty':empty,'cylinder':cylinder,'finish':finish}

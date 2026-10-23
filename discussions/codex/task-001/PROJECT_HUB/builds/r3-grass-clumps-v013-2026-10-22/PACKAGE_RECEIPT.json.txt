@@ -1,0 +1,90 @@
+{
+  "status": "LOCAL_FULL_AND_DELTA_ZIP_CRC_ALL_ENTRY_HASHES_PASS",
+  "full_local_zip": {
+    "name": "GNOMIT_R3_GRASS_CLUMPS_V013_2026-10-22.zip",
+    "bytes": 123989421,
+    "sha256": "93ca19520982d28a99e3f5ae6e127ddb11e3864ddcb4db6fb59f66ff0ba2af60",
+    "entries": 333
+  },
+  "delta": {
+    "name": "GNOMIT_R3_GRASS_CLUMPS_V013_DELTA_2026-10-22.zip",
+    "bytes": 66869105,
+    "sha256": "d06406968d5d5d5853a8a44e2f61a7b4ec052610cb7e6d07a792e8a20cb803d1",
+    "entries": 53,
+    "parts": [
+      {
+        "path": "DELTA_ZIP.part001.base64.txt",
+        "base64_chars": 8000000,
+        "sha256": "d83fe2374e5c4109a5d38b2a6932654e23de0fe8f58c577a16c8c5245142242c"
+      },
+      {
+        "path": "DELTA_ZIP.part002.base64.txt",
+        "base64_chars": 8000000,
+        "sha256": "2a015bad2584364a46abd3d0c1e5679dfdff50110626412ffe9e8d6daa0f77ab"
+      },
+      {
+        "path": "DELTA_ZIP.part003.base64.txt",
+        "base64_chars": 8000000,
+        "sha256": "8771f22cbb3b186db2673bd2574601d8656035d4856dcf860c099627e291a251"
+      },
+      {
+        "path": "DELTA_ZIP.part004.base64.txt",
+        "base64_chars": 8000000,
+        "sha256": "eb32c1bbd0dc331e02ccdac314697ce3b5616e727a0aa90c27fc28e48a405748"
+      },
+      {
+        "path": "DELTA_ZIP.part005.base64.txt",
+        "base64_chars": 8000000,
+        "sha256": "5c886de301324d008128406c93e42a27b9d0fcb623fcdbd25fbf172664ef0fc1"
+      },
+      {
+        "path": "DELTA_ZIP.part006.base64.txt",
+        "base64_chars": 8000000,
+        "sha256": "ad7e3718016030143fde547e1d345c006a974ad75aab6b2e26a2114655dbc756"
+      },
+      {
+        "path": "DELTA_ZIP.part007.base64.txt",
+        "base64_chars": 8000000,
+        "sha256": "cc5f8e78eac8bec7fafd6c34c7d2a479add77e6109d238e487ea3bc9f51573e9"
+      },
+      {
+        "path": "DELTA_ZIP.part008.base64.txt",
+        "base64_chars": 8000000,
+        "sha256": "88a9901d301cd0a56d3efb80f5e7e266b24011bb4f57501bfc416fa58a63340e"
+      },
+      {
+        "path": "DELTA_ZIP.part009.base64.txt",
+        "base64_chars": 8000000,
+        "sha256": "ff3826e5395fd92d8b639eea6a37a5a64991dbd4f2190a882924c8e0a73f6442"
+      },
+      {
+        "path": "DELTA_ZIP.part010.base64.txt",
+        "base64_chars": 8000000,
+        "sha256": "41509719e1e46ad8b7a3ee77f4e5be7075b95148aa0bfb79da5bd0dc4baeae19"
+      },
+      {
+        "path": "DELTA_ZIP.part011.base64.txt",
+        "base64_chars": 8000000,
+        "sha256": "88c1be8d194eeb4006a9f28ca5593aac9f18e2fa79794e63a85ef300c2b08234"
+      },
+      {
+        "path": "DELTA_ZIP.part012.base64.txt",
+        "base64_chars": 1158808,
+        "sha256": "d07c608fb4a4c8618943c7ff6587038f4d8b5d97f09ca4a0aed1961f9c426a52"
+      }
+    ]
+  },
+  "base": {
+    "commit": "41be8dc7de9658c08045f9960facfd85066f642c",
+    "prefix": "discussions/codex/task-001/PROJECT_HUB/builds/r3-grass-applied-v009-2026-10-21",
+    "bytes": 87008816,
+    "sha256": "bb5417e8349fc24266fd11fc4ff274d449e90afd6fc541154cb02ac914eeed92"
+  },
+  "final_manifest": {
+    "path": "FINAL_FILES.json.txt",
+    "bytes": 57108,
+    "sha256": "53d605dcbd25ba0fd6fe63d5dc327dc0767e6b7e0d8fbeaa7a872551d9891ca8"
+  },
+  "method": "Complete final file tree reconstructed from immutable full v009 base plus changed/new v013 entries. No stale base-only files selected. No game execution by downloader.",
+  "binary_source": "Actual locally built and validated files, not illustrative or placeholder data."
+}

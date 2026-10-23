@@ -1,0 +1,71 @@
+"""R2 right-sleeve skinning only, with exact inherited action/studio/form guards."""
+from pathlib import Path
+import sys,json,hashlib
+import bpy
+ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT/'source'))
+from apply_pose_candidate import apply_sleeve_weights
+from validate_sleeve_r2 import snapshot,assert_preserved,measure_motion,compare_motion,motion_report
+PREVIOUS=ROOT.parent/'Gnome_M2_Rig_R1_2026-10-23'
+SOURCE=ROOT/'reference/GNOME_RIG_R1_GREETING.blend'
+EXPECTED='43e9832811a89f9f4af660097f9b3abd69744f919f6179859763b00bdd0283be'
+M2=ROOT/'reference/GNOME_M2_FINISH.blend'
+M2_SHA='ceab58183d8abee88e56731795ab13751661966ef9ef85c05de015d494d0fb2e'
+NATIVE=ROOT/'native/GNOME_RIG_R2_SLEEVE_CANDIDATE_HOLD.blend'
+def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
+def dump(path,data):path.write_bytes((json.dumps(data,indent=2,ensure_ascii=False)+'\n').encode())
+def rest_vertices():
+    graph=bpy.context.evaluated_depsgraph_get();result={}
+    for obj in bpy.data.collections['R2_NEW_GNOME'].all_objects:
+        if obj.type!='MESH':continue
+        evaluated=obj.evaluated_get(graph);mesh=evaluated.to_mesh()
+        try:result[obj.name]=[tuple(evaluated.matrix_world@v.co) for v in mesh.vertices]
+        finally:evaluated.to_mesh_clear()
+    return result
+def delta(before,after):
+    assert before.keys()==after.keys()
+    result={}
+    for name,points in before.items():
+        assert len(points)==len(after[name])
+        result[name]=max((sum((a[i]-b[i])**2 for i in range(3))**.5 for a,b in zip(points,after[name])),default=0)
+    assert max(result.values())<1e-5,result
+    return result
+def main():
+    assert bpy.app.background and sha(SOURCE)==EXPECTED and sha(M2)==M2_SHA and not NATIVE.exists()
+    bpy.ops.wm.open_mainfile(filepath=str(M2));m2_rest=rest_vertices()
+    bpy.ops.wm.open_mainfile(filepath=str(SOURCE));scene=bpy.context.scene
+    scene.frame_set(1);bpy.context.view_layer.update()
+    m2_vs_r1=delta(m2_rest,rest_vertices());protected=snapshot(scene)
+    baseline=measure_motion(scene)
+    metadata=apply_sleeve_weights(bpy.data.objects['R2_ContinuousCoat'],bpy.data.objects['RigR1_GnomeArmature'])
+    bpy.context.view_layer.update()
+    helper_name=metadata.get('helper',{}).get('name')
+    if helper_name:
+        constraint=bpy.data.objects['RigR1_GnomeArmature'].pose.bones[helper_name].constraints[0]
+        assert constraint.type=='COPY_ROTATION' and constraint.target==bpy.data.objects['RigR1_GnomeArmature']
+    protection=assert_preserved(protected,snapshot(scene),helper_name=helper_name)
+    candidate=measure_motion(scene);comparison=compare_motion(baseline,candidate)
+    scene.frame_set(1);bpy.context.view_layer.update();m2_vs_r2=delta(m2_rest,rest_vertices())
+    text=bpy.data.texts.new('START_HERE_RIG_R2')
+    text.write('VISUAL HOLD: sleeve repair is NOT achieved. The candidate improves strain but retains an underarm rubber-like web and shoulder dimple. Human-accepted R4 form/M2 finish preserved. Only right coat sleeve/transition weights plus one cap-support bone are changed. Original bones/action names retain RigR1 prefix intentionally: all original rest bones, action keys/handles, timing and amplitude are unchanged. Frame1..145@24fps, same greeting. No blink/facial motion, source mesh geometry, new modifiers, lighting, palette or game integration. Preserve Volume remains enabled. Do not integrate or treat as accepted Rig R2.\n')
+    bpy.context.preferences.filepaths.save_version=0
+    assert 'FINISHED' in bpy.ops.wm.save_as_mainfile(filepath=str(NATIVE),check_existing=False)
+    bpy.ops.wm.open_mainfile(filepath=str(NATIVE));scene=bpy.context.scene
+    reopened=assert_preserved(protected,snapshot(scene),helper_name=helper_name)
+    scene.frame_set(1);reopened_rest=delta(m2_rest,rest_vertices())
+    scene.frame_set(145);reopened_end=delta(m2_rest,rest_vertices());scene.frame_set(1)
+    assert sha(SOURCE)==EXPECTED and sha(M2)==M2_SHA
+    receipt={'status':'REPAIR_NOT_ACHIEVED_CANDIDATE_SAVED_REOPENED','visual_review':'HOLD_UNDERARM_WEB_AND_SHOULDER_DIMPLE','source':str(SOURCE),'source_commit':'1cbbe60b90806d9fb2d28d02db85da4cf7ddc9d4',
+        'source_sha256':EXPECTED,'source_unchanged':True,'m2_sha256':M2_SHA,'m2_unchanged':True,
+        'native':str(NATIVE),'native_sha256':sha(NATIVE),'repair':metadata,
+        'preservation_before_save':protection,'preservation_after_reopen':reopened,
+        'm2_vs_r1_rest_max_vertex_deltas':m2_vs_r1,'m2_vs_r2_rest_max_vertex_deltas':m2_vs_r2,
+        'm2_vs_reopened_r2_rest_max_vertex_deltas':reopened_rest,'m2_vs_reopened_r2_end_max_vertex_deltas':reopened_end,
+        'motion_comparison':comparison,'r1_samples':motion_report(baseline),'r2_samples':motion_report(candidate),
+        'human_decisions':{'form_R4':'ACCEPTED','materials_M2':'ACCEPTED','Rig_R1':'NOT_ACCEPTED_SLEEVE_PINCHING','Rig_R2':'PENDING_VISUAL_ACCEPTANCE'},
+        'original_animation':'EXACT_KEYS_HANDLES_TIMING_AMPLITUDE_REST_BONES_PRESERVED',
+        'helpers_added':metadata.get('helper_bones',0),'game_integration':False,'android_performance':'NOT_MEASURED'}
+    dump(ROOT/'documentation/RIG_R2_RECEIPT.json',receipt)
+    dump(ROOT/'documentation/PROTECTED_STATE.json',protected)
+    print('RIG_R2_NATIVE_COMPLETE '+json.dumps({'native_sha256':receipt['native_sha256'],'metrics':comparison['frames']}),flush=True)
+if __name__=='__main__':main()

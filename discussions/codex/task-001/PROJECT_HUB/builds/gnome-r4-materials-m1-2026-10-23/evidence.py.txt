@@ -1,0 +1,49 @@
+from pathlib import Path
+import json,hashlib,struct
+import bpy
+from mathutils import Vector
+ROOT=Path(__file__).resolve().parents[1]
+
+def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
+
+def digest(data):return hashlib.sha256(json.dumps(data,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+
+def plain(v):
+    if v is None or isinstance(v,(str,int,float,bool)):return v
+    if isinstance(v,bpy.types.ID):return v.name
+    try:return [plain(x) for x in v]
+    except TypeError:return str(v)
+
+def fingerprint(obj):
+    result={'name':obj.name,'type':obj.type,'matrix':[list(r) for r in obj.matrix_world],
+            'local':[list(r) for r in obj.matrix_local],'parent':obj.parent.name if obj.parent else None,
+            'hide_render':obj.hide_render,'hide_viewport':obj.hide_viewport,
+            'modifiers':[{p.identifier:plain(getattr(m,p.identifier)) for p in m.bl_rna.properties if not p.is_readonly and p.identifier!='rna_type'} for m in obj.modifiers]}
+    if obj.type=='MESH':
+        h=hashlib.sha256()
+        for v in obj.data.vertices:h.update(struct.pack('<3f',*v.co))
+        for p in obj.data.polygons:h.update(struct.pack('<I',len(p.vertices)));h.update(struct.pack('<'+'I'*len(p.vertices),*p.vertices));h.update(struct.pack('<I?',p.material_index,p.use_smooth))
+        result['mesh_sha256']=h.hexdigest();result['materials']=[m.name if m else None for m in obj.data.materials]
+    return result
+
+def material_record():
+    result={}
+    for mat in bpy.data.materials:
+        result[mat.name]={'diffuse':list(mat.diffuse_color),'nodes':None if mat.node_tree is None else [
+            {'name':n.name,'type':n.bl_idname,'inputs':[(s.identifier,plain(s.default_value)) for s in n.inputs if hasattr(s,'default_value')]} for n in mat.node_tree.nodes]}
+    return result
+
+def render(name):
+    bpy.context.scene.render.filepath=str(ROOT/'outputs'/name)
+    assert 'FINISHED' in bpy.ops.render.render(write_still=True)
+
+def detail(name):
+    scene=bpy.context.scene;cam=scene.camera
+    oldtransform=(cam.location.copy(),cam.rotation_euler.copy(),cam.scale.copy());oldscale=cam.data.ortho_scale
+    oldres=(scene.render.resolution_x,scene.render.resolution_y)
+    target=Vector((0,-.04,1.17));cam.location=target+Vector((1.1,-5,.34))
+    cam.rotation_euler=(target-cam.location).to_track_quat('-Z','Y').to_euler();cam.data.ortho_scale=.67
+    scene.render.resolution_x=640;scene.render.resolution_y=640
+    render(name)
+    cam.location,cam.rotation_euler,cam.scale=oldtransform;cam.data.ortho_scale=oldscale
+    scene.render.resolution_x,scene.render.resolution_y=oldres;bpy.context.view_layer.update()

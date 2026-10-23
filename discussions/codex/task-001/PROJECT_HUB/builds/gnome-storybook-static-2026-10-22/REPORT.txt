@@ -1,0 +1,38 @@
+GNOMIT — STORYBOOK GNOME L2 — 2026-10-22
+
+Човекът потвърди: първо статичен външен вид на същия гном към hybrid2.5Dstorybook
+стила от приложената карта. Референцията няма гном; това е интерпретация на стила.
+
+Гледай outputs/STORYBOOK_L2.png и outputs/BEFORE_AFTER_STORYBOOK.png.
+Сравнението използва еднакви камера, осветление, поза и color management за K/L2.
+Студийният рендер е Eevee/Standard/exposure-.80, 600x760. Светлината е само за
+preview, не е смяна на светлината в главната карта. Общият Cycles рендер е
+outputs/MAP_STORYBOOK_L.png със запазените настройки на картата432x960.
+
+Промени само по героя: широк платнен подгъв на шапката, по-пълна и леко
+асиметрична брада с широки кичури, копирани материали с плавни цветови преливания,
+тиха вариация на цвета и мек розов оттенък по бузите. Без нови текстури от интернет.
+Първият L добавяше две shoulder сфери; реалният рендер показа подплънки и
+L2 ги отхвърля. L2 няма нови обекти. Първият native L е запазен локално,
+но не е кандидатът в този ZIP. Неговите рендери/код/receipt са в ATTEMPT_01.
+
+Отвори native/GNOME_STORYBOOK_L2.blend — пълната карта с новия статичен кандидат.
+native/GNOME_L2_STATIC_STAGE.blend е малката самостоятелна студийна сцена.
+Движенията, родителите и transform стойностите на стария гном са запазени.
+Нова анимация не е рендерирана в тази стъпка; геометрията чака визуална проверка
+в движение. Няма Godot интеграция или Android тест. Това не е окончателно
+потвърдено съвпадение със стила на референцията; човешкият избор предстои.
+
+Procedural material nodes са Blender native. Преди Godot/glTF употреба трябва
+да бъдат baked/recreated; тази стъпка не е извършена. Не подменяй игровите
+материали с тях по подразбиране. Картата/тревата/осветлението/камерата са защитени.
+
+Вход INPUT_K.blend не се дублира в ZIP. Това е GNOME_SOFT_GREETING_K.blend от:
+6917bb20c5be515ac9535d9b93ed41bb0c1431be
+discussions/codex/task-001/PROJECT_HUB/builds/gnome-soft-greeting-2026-10-22/
+SHA256:c09994b1fe6820c537b56b5699ef8099aeded4645c9c667db338cbc731d8a220
+В нова работна папка копирай входа като native/INPUT_K.blend.
+Blender5.2.2LTS: tools/build_storybook.py, после tools/render_storybook.py.
+Python/Pillow: tools/package_storybook.py. Helpers са включени.
+
+ZIP CRC and every manifest entry: PASS. Remote readback follows publication.

@@ -1,0 +1,12 @@
+GNOMIT — ACTUAL NATIVE GRASS GEOMETRY CANDIDATE
+Old material-only A/B missed the reference. They remain preserved, not accepted.
+Read REPORT.txt, README_BG.txt and current PROMPT_FOR_GPT_BG.txt outside old ZIPs.
+Real native .blend/renders/source are in NATIVE_REFERENCE_GRASS.base64.txt.
+PACKAGE_RECEIPT.json.txt identifies exact ZIP size/SHA/count; ZIP_MANIFEST maps entries.
+Copy DOWNLOAD_REFERENCE_GRASS.py.txt to .py outside repo, then:
+python DOWNLOAD_REFERENCE_GRASS.py --commit EXACT40HEX --output NEW_DIR
+Downloader validates exact commit bytes, ZIP CRC/count/paths/all manifest hashes.
+No Blender/game code executes during download. --local-repo is offline alternative.
+Open HANDOFF/FINAL/GNOMIT_REFERENCE_GRASS.blend with Auto Run off.
+Grass is visibly changed, but full-reference match and human choice remain pending.
+Current grass stage includes geometry; no flowers/relight/other-object auto-advance.

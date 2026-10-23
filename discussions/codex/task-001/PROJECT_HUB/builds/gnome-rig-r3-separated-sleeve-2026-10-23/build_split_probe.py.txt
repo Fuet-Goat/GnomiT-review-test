@@ -1,0 +1,98 @@
+"""Authorised underarm separation: closed sleeve overlaps shoulder, no welded web."""
+from pathlib import Path
+import sys,json,hashlib,struct
+import bpy,bmesh
+from mathutils import Vector,Matrix
+from mathutils.bvhtree import BVHTree
+ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'source'))
+from original_body_r2 import _coat,_sleeve,_catmull
+from evidence import fingerprint,material_record,render,sha
+SOURCE=ROOT/'reference/GNOME_RIG_R1_GREETING.blend'
+EXPECTED='43e9832811a89f9f4af660097f9b3abd69744f919f6179859763b00bdd0283be'
+NATIVE=ROOT/'native/GNOME_R3_SEPARATED_SLEEVE_A.blend'
+PATH=[(-.120,.018,.880),(-.200,.018,.860),(-.253,.009,.824),(-.295,-.005,.756),(-.312,-.039,.685),(-.329,-.073,.668),(-.350,-.100,.680)]
+RADII=[.140,.126,.119,.108,.096,.084,.073]
+def smooth(a,b,x):
+    t=max(0,min(1,(x-a)/(b-a)));return t*t*(3-2*t)
+def left_surface(mesh):
+    vertices=sorted(tuple(v.co) for v in mesh.vertices if v.co.x>=0)
+    faces=sorted(tuple(tuple(mesh.vertices[i].co) for i in p.vertices) for p in mesh.polygons if all(mesh.vertices[i].co.x>=0 for i in p.vertices))
+    return hashlib.sha256(repr((vertices,faces)).encode()).hexdigest()
+def bind(obj,rig,root,cloth,weights):
+    obj.parent=root;obj.matrix_parent_inverse=Matrix.Identity(4);obj.matrix_basis=Matrix.Identity(4)
+    obj.data.materials.clear();obj.data.materials.append(cloth)
+    for poly in obj.data.polygons:poly.use_smooth=True
+    groups={name:obj.vertex_groups.new(name=name) for name in {name for row in weights for name in row}}
+    for index,row in enumerate(weights):
+        assert abs(sum(row.values())-1)<1e-6
+        for name,weight in row.items():
+            if weight>1e-8:groups[name].add([index],weight,'REPLACE')
+    arm=obj.modifiers.new('R3 separate sleeve skin','ARMATURE');arm.object=rig
+    arm.use_deform_preserve_volume=True;arm.use_vertex_groups=True;arm.use_bone_envelopes=False
+def guarded(protected,materials):
+    for name,record in protected.items():assert fingerprint(bpy.data.objects[name])==record,'Protected object changed: '+name
+    assert material_record()==materials,'Material definitions changed'
+def main():
+    assert sha(SOURCE)==EXPECTED and not NATIVE.exists()
+    bpy.ops.wm.open_mainfile(filepath=str(SOURCE));scene=bpy.context.scene;scene.frame_set(1)
+    asset=bpy.data.collections['R2_NEW_GNOME'];root=bpy.data.objects['R2_GnomeRoot'];rig=bpy.data.objects['RigR1_GnomeArmature']
+    coat=bpy.data.objects['R2_ContinuousCoat'];cloth=coat.data.materials[0]
+    assert tuple(root.scale)==(1,1,1) and max(abs(v) for v in root.rotation_euler)<1e-9
+    protected={o.name:fingerprint(o) for o in bpy.data.objects if o!=coat};materials=material_record()
+    left_before=left_surface(coat.data)
+    source_coat_vertices=[tuple(v.co) for v in coat.data.vertices];source_coat_faces=[tuple(p.vertices) for p in coat.data.polygons]
+    old_surface=BVHTree.FromPolygons(source_coat_vertices,source_coat_faces,all_triangles=False)
+    original_faces=len(coat.data.polygons)
+    bm=bmesh.new();bm.from_mesh(coat.data)
+    remove=[f for f in bm.faces if f.calc_center_median().x<-.05 and f.calc_center_median().z>.54]
+    bmesh.ops.delete(bm,geom=remove,context='FACES');bm.to_mesh(coat.data);bm.free();coat.data.update()
+    assert left_surface(coat.data)==left_before,'Unrequested left-side geometry changed'
+    patch=_coat('R3_RightTorsoPatch',asset);patch.name='R3_RightTorsoPatch'
+    bm=bmesh.new();bm.from_mesh(patch.data)
+    bmesh.ops.bisect_plane(bm,geom=[*bm.verts,*bm.edges,*bm.faces],dist=1e-7,plane_co=(-.035,0,0),plane_no=(1,0,0),clear_outer=True)
+    bmesh.ops.bisect_plane(bm,geom=[*bm.verts,*bm.edges,*bm.faces],dist=1e-7,plane_co=(0,0,.52),plane_no=(0,0,1),clear_inner=True)
+    bm.to_mesh(patch.data);bm.free();patch.data.update()
+    for vertex in patch.data.vertices:
+        x,y,z=vertex.co;blend=max(smooth(-.12,-.045,x),1-smooth(.52,.60,z))
+        nearest,normal,_index,_distance=old_surface.find_nearest(vertex.co)
+        if nearest is not None:vertex.co=vertex.co.lerp(nearest-normal*.00015,blend)
+    patch_weights=[]
+    for vertex in patch.data.vertices:
+        chest=smooth(.46,.83,vertex.co.z);patch_weights.append({'Root':1-chest,'Chest':chest})
+    bind(patch,rig,root,cloth,patch_weights)
+    sleeve=_sleeve('R3_RightSleeve',PATH,RADII,asset)
+    samples=_catmull(PATH,RADII);arc=[0.]
+    for first,second in zip(samples,samples[1:]):arc.append(arc[-1]+(second[0]-first[0]).length)
+    sleeve_weights=[]
+    for i,vertex in enumerate(sleeve.data.vertices):
+        forearm=smooth(.17,.29,arc[i//24]);sleeve_weights.append({'upperarm.R':1-forearm,'forearm.R':forearm})
+    subdivision=sleeve.modifiers.new('R3 smooth sleeve quads','SUBSURF');subdivision.levels=1;subdivision.render_levels=1
+    bind(sleeve,rig,root,cloth,sleeve_weights)
+    bpy.context.view_layer.update();guarded(protected,materials)
+    assert len(rig.data.bones)==10 and len(bpy.data.actions)==1
+    text=bpy.data.texts.new('START_HERE_R3_SEPARATION')
+    text.write('User-requested underarm separation. Right sleeve is its own closed quad mesh, overlapping the shoulder, with per-ring upperarm/forearm weights. Body patch follows Root/Chest only; no arm group can stretch it. No new bones or animation keys. Original R1 action/gesture, M2 shaders and all other objects preserved. Right upper coat topology is intentionally changed to remove welded web. Frame1..145@24fps. Preview candidate, human visual acceptance pending; not integrated.\n')
+    bpy.context.preferences.filepaths.save_version=0
+    assert 'FINISHED' in bpy.ops.wm.save_as_mainfile(filepath=str(NATIVE),check_existing=False)
+    for frame in (1,55,73,109):scene.frame_set(frame);render('R3_A_FRONT_%03d.png'%frame)
+    cam=scene.camera;old=cam.matrix_world.copy();oldscale=cam.data.ortho_scale;oldres=(scene.render.resolution_x,scene.render.resolution_y)
+    target=Vector((-.275,-.02,.79));cam.location=target+Vector((-2.8,-5,.7));cam.rotation_euler=(target-cam.location).to_track_quat('-Z','Y').to_euler();cam.data.ortho_scale=.87
+    scene.render.resolution_x=scene.render.resolution_y=680
+    for frame in (1,55,73):scene.frame_set(frame);render('R3_A_UNDERARM_%03d.png'%frame)
+    cam.matrix_world=old;cam.data.ortho_scale=oldscale;scene.render.resolution_x,scene.render.resolution_y=oldres
+    bpy.ops.wm.open_mainfile(filepath=str(NATIVE));guarded(protected,materials)
+    assert left_surface(bpy.data.objects['R2_ContinuousCoat'].data)==left_before and sha(SOURCE)==EXPECTED
+    receipt={'status':'SEPARATED_SLEEVE_PROBE_SAVED_REOPENED_RENDERED','native':str(NATIVE),'native_sha256':sha(NATIVE),
+        'source':str(SOURCE),'source_sha256':EXPECTED,'source_unchanged':True,
+        'root_cause':'Original voxel union welded sleeve to torso, creating a deforming underarm web',
+        'user_clarification':'Sleeve separates from body under armpit when raised; attachment remains at shoulder',
+        'removed_old_coat_faces':original_faces-len(bpy.data.objects['R2_ContinuousCoat'].data.polygons),
+        'left_coat_geometry_sha256_before_and_after':left_before,'protected_objects':len(protected),
+        'other_objects_and_materials':'EXACT_FINGERPRINT_MATCH_BEFORE_SAVE_AND_AFTER_REOPEN',
+        'new_objects':['R3_RightSleeve','R3_RightTorsoPatch'],'sleeve_arc_length':arc[-1],
+        'forearm_blend_arc_interval':[.17,.29],'new_bones':0,'original_bones':10,'actions':1,
+        'helper_bone_or_corrective_modifier':False,'pose_and_gesture':'INHERITED_UNCHANGED',
+        'visual_acceptance':'PENDING','game_integration':False}
+    (ROOT/'documentation/SEPARATION_RECEIPT.json').write_bytes((json.dumps(receipt,indent=2)+'\n').encode())
+    print('R3_SEPARATION_PROBE_COMPLETE '+json.dumps(receipt),flush=True)
+if __name__=='__main__':main()

@@ -1,0 +1,232 @@
+{
+  "schema": "gnomit-isolated-native-handoff-v1",
+  "files": [
+    {
+      "path": "documentation/ANIMATION_RENDER.json",
+      "bytes": 54288,
+      "sha256": "8798267c440e235904babc0822c78d5b918b6689db44bb03d189534e8c1d302d"
+    },
+    {
+      "path": "documentation/BUILD_SEPARATION_A.log",
+      "bytes": 2973,
+      "sha256": "f761e811d9db66371586eeaa7e017dc0c282bc7ed1557fa87dcc0ea2c89194de"
+    },
+    {
+      "path": "documentation/MEDIA_RECEIPT.json",
+      "bytes": 146778,
+      "sha256": "847c8c0c64c5febbbd3f9054b923cea758911b22510b418c2c68dc3ae66a2ded"
+    },
+    {
+      "path": "documentation/PROVENANCE.json",
+      "bytes": 1223,
+      "sha256": "ee186061ca676d9ec65aef990326f613a0d579265f84c603d2d52989bf3389e0"
+    },
+    {
+      "path": "documentation/RENDER_MOTION.log",
+      "bytes": 45266,
+      "sha256": "844c43034ffb320a278161a2f2b58bfd42c55db0bb490d69348499df9de08279"
+    },
+    {
+      "path": "documentation/SEPARATION_RECEIPT.json",
+      "bytes": 1432,
+      "sha256": "3e9ab0082259ac28fca6e8d4eaf90d6a4989e6dc4ffe857a13fd1ee14926af72"
+    },
+    {
+      "path": "documentation/SLEEVE_LENGTH_RECEIPT.json",
+      "bytes": 1587,
+      "sha256": "193f05d432196ae806b02da8424ce0a68f22456dcbc534beb6a7d990e092f90a"
+    },
+    {
+      "path": "documentation/SOURCE_PRESERVATION.json",
+      "bytes": 550,
+      "sha256": "e7b1465721ae5926b62dc48096cd1ced667e35fe57928a550a9c620b5d7b93e3"
+    },
+    {
+      "path": "documentation/SPLIT_MOTION.log",
+      "bytes": 357,
+      "sha256": "8acfd2adc1307303c745ac16b7375ebf5dd1ca44fb806d6af643959e2d16c5eb"
+    },
+    {
+      "path": "documentation/SPLIT_MOTION_RECEIPT.json",
+      "bytes": 10236,
+      "sha256": "b6f9117261758ed4595107bbd3b60f6b7c6cbbf64a95e218bfb2619bd8feb101"
+    },
+    {
+      "path": "documentation/VERIFY_LENGTH.log",
+      "bytes": 1628,
+      "sha256": "0a27f04f2ce5e6acb11bd36cfe88e34b3a6fcf85cfd5bc6647b9714dc48481f2"
+    },
+    {
+      "path": "documentation/VERIFY_SOURCE.log",
+      "bytes": 949,
+      "sha256": "cc62c0e37e0718a42b3eaa04be3047541dabf6cb9a4e449edefa563023627393"
+    },
+    {
+      "path": "documentation/VISUAL_REVIEW.json",
+      "bytes": 719,
+      "sha256": "486a855d40f0a62ab5d5c531f4ac34c4ebba861cae3764980996c36f7cc884de"
+    },
+    {
+      "path": "FINAL_RESPONSE.txt",
+      "bytes": 611,
+      "sha256": "c7b8a618c8b27be0ae3f2b3c8fcad04b6455dd55607ca7e5bd09fa3e90538278"
+    },
+    {
+      "path": "native/GNOME_R3_SEPARATED_SLEEVE_A.blend",
+      "bytes": 11222642,
+      "sha256": "0335bcc275bfbc8e3b7d3ea43bde2fad6c8ece5281a750007290ef154ac8bffc"
+    },
+    {
+      "path": "outputs/R1_R3_GREETING.gif",
+      "bytes": 13637475,
+      "sha256": "a1327b28e56a2ee5603ba2dd84601782ff98d55bf4fd5901e0187e9b43ca32aa"
+    },
+    {
+      "path": "outputs/R1_R3_GREETING_KEYPOSES.png",
+      "bytes": 504378,
+      "sha256": "ac49ccf7a7042bae6994f4c7d1a9e153c44c1296f0a97fb0a4bba50f6567281b"
+    },
+    {
+      "path": "outputs/R1_R3_SLEEVE_CLOSEUP.gif",
+      "bytes": 11662571,
+      "sha256": "e2e89f6fe5bf2e3eae66095d09a1eccf7a84fe95dd5deb6ccacbdf95b8608d46"
+    },
+    {
+      "path": "outputs/R1_R3_SLEEVE_KEYPOSES.png",
+      "bytes": 426591,
+      "sha256": "d55eca18c19cf5b5d90ce263044a371c6f9ed47b0dbbf7f6e55669a5aa331248"
+    },
+    {
+      "path": "outputs/R3_A_FRONT_001.png",
+      "bytes": 583252,
+      "sha256": "1d788bbbd02e69827da2b27a95187067a7c724ac59538e8ab6368a7a98ef7bea"
+    },
+    {
+      "path": "outputs/R3_A_FRONT_055.png",
+      "bytes": 585460,
+      "sha256": "a22bb9003536b211fa7ab740fd637095f3564e70126581777af4ad51e233fa60"
+    },
+    {
+      "path": "outputs/R3_A_FRONT_073.png",
+      "bytes": 584768,
+      "sha256": "58a33c7654becea0568a4cb697a8f52c00bfe15dcc23f4b04f3d867e8aa8fe0b"
+    },
+    {
+      "path": "outputs/R3_A_FRONT_109.png",
+      "bytes": 582756,
+      "sha256": "30ec0c2db27476491c84aba2865d4ce3c564c8d6673ad16127435d438f5d1f01"
+    },
+    {
+      "path": "outputs/R3_A_REAR_001.png",
+      "bytes": 399286,
+      "sha256": "8b068f5c98b8692eba5fce6b6658e3c5008d9b01e7a008aa869da2c08653f34d"
+    },
+    {
+      "path": "outputs/R3_A_REAR_073.png",
+      "bytes": 396501,
+      "sha256": "090d7119978db1da383ed114d349b97ff4299a3af516aed0d4271c4d9dd046cb"
+    },
+    {
+      "path": "outputs/R3_A_SIDE_001.png",
+      "bytes": 416175,
+      "sha256": "480b7a2f2529fee018a58235745219400bc8c5ac02bc89d06eedc6e986644a3c"
+    },
+    {
+      "path": "outputs/R3_A_SIDE_073.png",
+      "bytes": 411635,
+      "sha256": "e25ea1b077ee3a2751912d9602f33b69394cd085ad5df10a29ba0ad413106695"
+    },
+    {
+      "path": "outputs/R3_A_UNDERARM_001.png",
+      "bytes": 534518,
+      "sha256": "d133683b276acfc6e390e5b92203113c2a4578e8bff06a4e08a5f70dcc37dbc4"
+    },
+    {
+      "path": "outputs/R3_A_UNDERARM_055.png",
+      "bytes": 525115,
+      "sha256": "84a8b4753deba79bdf44ca55840e85cc8afb9cf843c7d3593652b0dd4b2b0596"
+    },
+    {
+      "path": "outputs/R3_A_UNDERARM_073.png",
+      "bytes": 525955,
+      "sha256": "686c3fe590b0fdd77da7b1fb47ad0a7b88af3c5323cf704bcf7ba20a4b1ba903"
+    },
+    {
+      "path": "outputs/RIG_R3_REDUCED_MOTION.png",
+      "bytes": 385055,
+      "sha256": "7056aa4c3fcaa395b0618d36670a11d7f6453cabe9b55a7062f8a6cd768ef629"
+    },
+    {
+      "path": "README_BG.txt",
+      "bytes": 4469,
+      "sha256": "d2e889caa33c118abf09cfcb64debc19639f36af977c85b9f99de7302366b854"
+    },
+    {
+      "path": "reference/GNOME_RIG_R1_GREETING.blend",
+      "bytes": 11749222,
+      "sha256": "43e9832811a89f9f4af660097f9b3abd69744f919f6179859763b00bdd0283be"
+    },
+    {
+      "path": "source/build_split_probe.py",
+      "bytes": 7767,
+      "sha256": "fd51745597b6e23b17a50a0ec582d9ea278c9091f3e0a40d870a0531f099a9d0"
+    },
+    {
+      "path": "source/compose_preview.py",
+      "bytes": 8619,
+      "sha256": "b7b9ae523274fe47dd9cca0a0fadee3814ee67f5ffe3d0fd6992a7084f717809"
+    },
+    {
+      "path": "source/evidence.py",
+      "bytes": 2642,
+      "sha256": "46149f976663f7087a03bffb5ce7ea9df81f15513662a90de23e62319d1a67bd"
+    },
+    {
+      "path": "source/original_body_r2.py",
+      "bytes": 8264,
+      "sha256": "da5d9ce9bad355d4d163aecdeaec1fabc799688f2cf03dafc8f3b93be0213e66"
+    },
+    {
+      "path": "source/package_delivery.py",
+      "bytes": 14157,
+      "sha256": "e948a6f679fb807d530fe77a08e6d3e2a8cd8ae70f30a54567096d4d7032750b"
+    },
+    {
+      "path": "source/publish_delivery.py",
+      "bytes": 8261,
+      "sha256": "534d1352d4eb1e36a4db0fc1b3879e8499b6e8c6ee5f86f5d72c68e0a5e2750c"
+    },
+    {
+      "path": "source/reference_checks.py",
+      "bytes": 24772,
+      "sha256": "d7a95f15c2084f42f8320c594ac82e7daada53fe5da9093c3d6f778e11bdcae9"
+    },
+    {
+      "path": "source/render_motion.py",
+      "bytes": 2744,
+      "sha256": "a0873bc41efc4532a3e893d919402112b7ddb20c1c470bc5e1ac8dfb63845878"
+    },
+    {
+      "path": "source/validate_split_sleeve.py",
+      "bytes": 9451,
+      "sha256": "5df77fefda846fd519454976306baa20fb41ae0b6699ce25882ba52ac48827d9"
+    },
+    {
+      "path": "source/verify_centerline.py",
+      "bytes": 2236,
+      "sha256": "df00bf02a14791e54e91eee02dcb97b225d55c3dd1c81292f534e568ab868e34"
+    },
+    {
+      "path": "source/verify_motion.py",
+      "bytes": 1373,
+      "sha256": "745da2a2774e2fabe8b019945598e6354944acb721a2b977b85a65fa8189ae62"
+    },
+    {
+      "path": "source/verify_source_preservation.py",
+      "bytes": 1796,
+      "sha256": "439827f7bc22af74df9500a5bfa6277901f97c9d25946a7d13271bd40318550a"
+    }
+  ],
+  "human_visual_acceptance": "PENDING",
+  "scope": "Separated sleeve preview; no game integration"
+}

@@ -1,0 +1,9 @@
+{
+  "status": "LOCAL_ARCHIVE_AND_EVERY_ENTRY_HASH_PASS",
+  "zip_name": "GNOMIT_R3_GRASS_TRIALS_2026-10-21.zip",
+  "bytes": 17664249,
+  "sha256": "004b75b074ca0b2c4a83dbfd5b47e0d9437b21b831b07b9ef2887c666f7f6350",
+  "entries": 37,
+  "encoded": "NATIVE_GRASS_TRIALS.base64.txt",
+  "kind": "NATIVE_BLENDER_MATERIAL_TRIALS_NOT_GAME_BUILD"
+}

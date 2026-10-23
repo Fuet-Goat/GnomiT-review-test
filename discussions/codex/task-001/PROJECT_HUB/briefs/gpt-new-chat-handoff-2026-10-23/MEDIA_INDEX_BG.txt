@@ -1,0 +1,29 @@
+media/01_STYLE_TARGET_MIDDLE_PANEL.png
+Generated style reference, middle panel is target; not an actual3D source
+
+media/02_HOME_START_CONCEPT_6_MARKERS.png
+Generated concept, house beside start; six markers visual only
+
+media/03_NATIVE_H_VS_I2_PALETTE.png
+Native Blender, NOT current Godot map
+
+media/04_NATIVE_H2_LOW_GRASS_DETAIL.png
+Native Blender detail; no Android optimisation
+
+media/05_ACCEPTED_R4_FORM.png
+Accepted form; do not restart
+
+media/06_ACCEPTED_LIGHTING_R1_A_B.png
+StudioGodot, B accepted; not world lighting
+
+media/07_ACCEPTED_STUDIO_GREETING.gif
+Actual Godot finite greeting, GIF loops for review
+
+media/08_REAL_MAP_OLD_MASTER.png
+Actual Godot context current v014world, worldlightingunchanged
+
+media/09_REAL_MAP_CROPS_4X.png
+Diagnostic4x crop, not gameplay size
+
+media/10_REAL_MAP_GREETING.gif
+Actual Godot context greeting, no walk, camera fixed for capture

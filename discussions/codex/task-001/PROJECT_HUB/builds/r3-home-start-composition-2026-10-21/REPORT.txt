@@ -1,0 +1,26 @@
+GNOMIT — CODEX NATIVE HOME START COMPOSITION — ACTUAL REPORT
+Authority: Human approved the preceding staged Blender plan with aide da produljim.
+Local scope: isolated art sample; test repo receives only own report text/package.
+
+Applied: native existing Mushroom_Cottage moved to(-2.10,-6.90,0.6885429025),
+yaw0.55radian, original scale0.84. Existing v004 guide is in both A/B at authored
+route arc0.4, scale0.85, frame1; same source model, no new rig/animation.
+Original .blend input hashes and selected sources retained in INPUTS and receipts.
+14 Cottage subtree transforms changed;633 other recorded objects unchanged.
+Camera/light/world/view snapshots match; no generator rebuild/scatter reseeding.
+
+Actual execution: native Blender build/render; fresh selected .blend reopen/render;
+fresh world-only GLB reimport. Native result PNGs and raw logs included.
+Fresh render RGB difference:63pixels,maximum channel delta1,RMSE0.0071159380319163875.
+This is not a bit-identical claim. The first internal RGBA getbbox check could
+ignore RGB when alpha differences were zero; it was corrected before publication
+and the final explicit RGB measurement is the only accepted pixel report.
+
+Visual judgment: home reads at lower-left/start; route and gnome remain visible.
+Existing narrow dark doorway and grass gap remain limitations. House-only move
+does not reach the generated target style/detail. Internal source and pixel
+review completed; human art acceptance and mobile/runtime acceptance are pending.
+
+No game, progression, audio, save, camera design, six playable levels, permissions,
+main or other bot files changed. Further light/badge/greeting stages not executed.
+Git publication/readback evidence is separate because it occurs after packaging.

@@ -1,0 +1,148 @@
+"""Small authored mesh-only cartoon pass; preserve map, guide rig and actions."""
+from pathlib import Path
+import sys, json, hashlib, math
+import bpy
+from mathutils import Vector
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import record_helpers as p
+from render_closeup import closeup
+
+ROOT=Path(__file__).resolve().parents[1]
+SOURCE=ROOT/'native/INPUT_I2.blend'
+OUTPUT=ROOT/'native/GNOME_CARTOON_J.blend'
+EXPECTED='002b552562faea2dad32ce7fef929df9f3fe31c8ae7418ed62e0d115cef4da07'
+
+def sha(path): return hashlib.sha256(path.read_bytes()).hexdigest()
+def descends(obj, ancestor):
+    while obj:
+        if obj==ancestor:return True
+        obj=obj.parent
+    return False
+
+def action_records():
+    rows={}
+    for action in bpy.data.actions:
+        curves=[]
+        for layer in action.layers:
+            for strip in layer.strips:
+                for bag in strip.channelbags:
+                    for fc in bag.fcurves:
+                        curves.append({'path':fc.data_path,'index':fc.array_index,
+                            'keys':[(list(k.co),list(k.handle_left),list(k.handle_right),k.interpolation)
+                                    for k in fc.keyframe_points]})
+        rows[action.name]=p.g.fingerprint(curves)
+    return rows
+
+def material_records():
+    rows=p.g.original_materials()
+    for m in bpy.data.materials:
+        if m.node_tree:
+            ramps={n.name:[(e.position,list(e.color)) for e in n.color_ramp.elements]
+                   for n in m.node_tree.nodes if hasattr(n,'color_ramp')}
+            rows[m.name]=p.g.fingerprint([rows[m.name],ramps])
+    return rows
+
+def extra_mesh_attributes(obj):
+    if obj.type!='MESH':return None
+    result={}
+    for attr in obj.data.attributes:
+        if attr.name in {'position','.edge_verts','.corner_vert','.corner_edge'}:continue
+        field={'FLOAT':'value','INT':'value','BOOLEAN':'value','FLOAT_VECTOR':'vector',
+               'FLOAT_COLOR':'color','BYTE_COLOR':'color','FLOAT2':'vector'}.get(attr.data_type)
+        if field:
+            values=[p.g.vec(getattr(v,field)) for v in attr.data]
+            result[attr.name]=p.g.fingerprint(values)
+    return result
+
+def main():
+    assert sha(SOURCE)==EXPECTED and not OUTPUT.exists()
+    bpy.context.preferences.filepaths.save_version=0
+    bpy.ops.wm.open_mainfile(filepath=str(SOURCE));scene=bpy.context.scene
+    scene.frame_set(1);bpy.context.view_layer.update()
+    root=bpy.data.objects['Guide_Root'];head=bpy.data.objects['Guide_HeadAcknowledge']
+    guide={o.name for o in scene.objects if descends(o,root)}
+    protected={o.name:p.object_record(o) for o in scene.objects if o.name not in guide}
+    attrguard={o.name:extra_mesh_attributes(o) for o in scene.objects if o.name not in guide}
+    rigguard={o.name:p.object_record(o) for o in scene.objects if o.name in guide and o.type=='EMPTY'}
+    boots={o.name:p.object_record(o) for o in scene.objects if 'boot' in o.name.lower()}
+    settings=p.g.settings_record(scene);materials=material_records();actions=action_records()
+    scene_names=set(scene.objects.keys())
+    before={o.name:p.object_record(o) for o in scene.objects if o.name in guide}
+    canonical=bpy.data.objects['Guide_integrated sculpted face'].matrix_world.copy()
+    inverse=canonical.inverted()
+    changed=[]
+    for obj in scene.objects:
+        if not descends(obj,head) or obj.type not in {'MESH','CURVE'}:continue
+        to_head=inverse@obj.matrix_world;to_local=to_head.inverted()
+        is_eye=descends(obj,bpy.data.objects['Guide_EyeBlinkLeft']) or descends(obj,bpy.data.objects['Guide_EyeBlinkRight'])
+        side=-1 if descends(obj,bpy.data.objects['Guide_EyeBlinkLeft']) else 1
+        def deform(point):
+            v=to_head@point
+            if is_eye:
+                center=Vector((side*.071,-.153,.806))
+                d=v-center;v=center+Vector((d.x*1.22,d.y*1.08,d.z*1.22))
+            if obj.name=='Guide_integrated sculpted face':
+                cheek=math.exp(-((abs(v.x)-.108)/.052)**2-((v.z-.753)/.047)**2)
+                front=max(0,min(1,-v.y/.10))
+                v.y-=.014*cheek*front
+            if 'eyebrow' in obj.name:
+                # A friendly central arch, with a restrained asymmetry.
+                t=max(0,min(1,(abs(v.x)-.025)/.10))
+                v.z+=.009*math.sin(math.pi*t)+(.003 if v.x<0 else 0)
+            if 'flowing moustache' in obj.name:
+                v.z+=.008*max(0,min(1,(abs(v.x)-.045)/.08))
+            if 'jaw wrapping beard' in obj.name and v.z<.68:
+                # Soften the long pointed lower beard into a rounder silhouette.
+                v.z=.68+(v.z-.68)*.90
+            # Broader storybook head, keeping every rig transform unchanged.
+            v.x*=1.10
+            v.y=.003+(v.y-.003)*1.025
+            return to_local@v
+        if obj.type=='MESH':
+            for vertex in obj.data.vertices:vertex.co=deform(vertex.co)
+            obj.data.update()
+        else:
+            for spline in obj.data.splines:
+                for point in spline.points:
+                    xyz=deform(point.co.xyz);point.co=(*xyz,point.co.w)
+                for point in spline.bezier_points:
+                    point.co=deform(point.co)
+                    point.handle_left=deform(point.handle_left)
+                    point.handle_right=deform(point.handle_right)
+        changed.append(obj.name)
+    bpy.context.view_layer.update()
+    note=bpy.data.texts.new('START_HERE_CARTOON_GNOME_J')
+    note.write('Same existing guide, mesh/curve head appearance pass only. Broader head, fuller cheeks, 22% larger eye groups, rounder lower beard, lifted eyebrows/moustache tips. Original map, materials, rig transforms, actions, feet and lantern preserved. No new animation and no Godot integration. Source/render receipts accompany this native file.\n')
+    def validate():
+        assert set(scene.objects.keys())==scene_names
+        assert {n:p.object_record(bpy.data.objects[n]) for n in protected}==protected,'WORLD_CHANGED'
+        assert {n:extra_mesh_attributes(bpy.data.objects[n]) for n in attrguard}==attrguard,'ATTR_CHANGED'
+        assert {n:p.object_record(bpy.data.objects[n]) for n in rigguard}==rigguard,'RIG_CHANGED'
+        assert {n:p.object_record(bpy.data.objects[n]) for n in boots}==boots,'FEET_CHANGED'
+        assert material_records()==materials,'MATERIAL_CHANGED'
+        assert action_records()==actions,'ACTION_CHANGED'
+        assert p.g.settings_record(scene)==settings,'SETTINGS_CHANGED'
+    validate()
+    closeup(scene,ROOT/'outputs/GNOME_AFTER.png')
+    validate()
+    assert 'FINISHED' in bpy.ops.wm.save_as_mainfile(filepath=str(OUTPUT),check_existing=False)
+    bpy.ops.wm.open_mainfile(filepath=str(OUTPUT));scene=bpy.context.scene
+    scene.frame_set(1);bpy.context.view_layer.update();validate()
+    old_path=scene.render.filepath
+    scene.render.filepath=str(ROOT/'outputs/MAP_WITH_CARTOON_GNOME.png')
+    assert 'FINISHED' in bpy.ops.render.render(write_still=True)
+    scene.render.filepath=old_path;validate()
+    actual=[n for n in before if before[n]!=p.object_record(bpy.data.objects[n])]
+    assert set(actual)==set(changed)
+    receipt={'status':'NATIVE_SAVED_REOPENED_AND_RENDERED','input_sha256':EXPECTED,
+        'output_sha256':sha(OUTPUT),'changed_objects':actual,'protected_world_objects':len(protected),
+        'rig_transforms_unchanged':True,'all_existing_actions_keyframes_unchanged':True,
+        'all_materials_camera_lights_world_unchanged':True,'feet_and_lantern_unchanged':True,
+        'grass_attributes_unchanged':True,'scene_object_count':len(scene.objects),
+        'new_animation':'NOT_CREATED','Godot_integration':'NOT_PERFORMED',
+        'human_visual_acceptance':'PENDING','Android':'NOT_MEASURED'}
+    (ROOT/'documentation/CARTOON_GNOME_RECEIPT.json').write_bytes((json.dumps(receipt,indent=2)+'\n').encode())
+    assert sha(SOURCE)==EXPECTED
+    print('CARTOON_GUIDE_COMPLETE '+json.dumps(receipt),flush=True)
+
+if __name__=='__main__':main()

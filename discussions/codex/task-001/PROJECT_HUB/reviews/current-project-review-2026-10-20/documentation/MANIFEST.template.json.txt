@@ -1,0 +1,44 @@
+{
+  "document_type": "GNOMIT_FILE_MANIFEST",
+  "template_status": "TEMPLATE_NOT_A_RESULT",
+  "schema_version": "1.0",
+  "contribution_id": "<ID>",
+  "base_commit": "NOT_MEASURED",
+  "result_commit": "NOT_CREATED",
+  "root": "UNKNOWN",
+  "path_convention": "Paths are relative to root, use /, and preserve exact names and case.",
+  "hash_algorithm": "SHA-256",
+  "measurement_date_timezone": "UNKNOWN",
+  "measurement_method": "UNKNOWN",
+  "manifest_self_excluded": true,
+  "excluded_paths_and_reasons": [
+    { "path": "<this manifest path>", "reason": "Self-reference; hash separately in outer package receipt if required." }
+  ],
+  "files": [
+    {
+      "path": "<relative path>",
+      "change": "<added|modified|deleted|unchanged_evidence>",
+      "role": "<runtime|editable_source|script|config|report|provenance|metadata|evidence|license|other>",
+      "bytes": null,
+      "sha256": "NOT_MEASURED",
+      "measurement_status": "NOT_MEASURED",
+      "predecessor_bytes": null,
+      "predecessor_sha256": "NOT_MEASURED",
+      "provenance_record_ids": [],
+      "metadata_asset_ids": [],
+      "note": "For deletion, use current bytes=null, sha256=NOT_APPLICABLE, and record the retained predecessor evidence."
+    }
+  ],
+  "file_entry_count": null,
+  "total_current_file_bytes": null,
+  "readback_validation": {
+    "status": "NOT_RUN",
+    "actual_files_rehashed": null,
+    "missing_files": [],
+    "duplicate_paths": [],
+    "byte_or_hash_mismatches": [],
+    "unexpected_files_against_declared_package_scope": [],
+    "validation_log_path": "UNKNOWN"
+  },
+  "finalization_rule": "Measure final bytes after edits, then read back and rehash every included file. Reopen an archive if one is delivered and compare its exact entries. Preserve predecessor history and unrelated dirty state."
+}

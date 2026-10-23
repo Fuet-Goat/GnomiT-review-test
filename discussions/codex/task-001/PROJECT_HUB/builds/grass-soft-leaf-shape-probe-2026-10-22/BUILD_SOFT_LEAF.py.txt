@@ -1,0 +1,198 @@
+"""Native shape-only C probe on the exact fuller B candidate; no global scatter."""
+from pathlib import Path
+import bisect,hashlib,importlib.util,json,math
+import bpy
+from mathutils import Vector
+from mathutils.bvhtree import BVHTree
+
+ROOT=Path(__file__).resolve().parents[1]
+SOURCE=ROOT/'native/INPUT_FULLER_B.blend'
+OUTPUT=ROOT/'native/SOFT_LEAF_C.blend'
+PIN='565ef994f53900d63995c8618c5099bb7d90788ece3415d675d4d3ed5e373869'
+BODY='Reference_Grass_Carpet';EDGE='Reference_Grass_Edge'
+TIMES=[0,.08,.16,.25,.34,.43,.50,.59,.68,.77,.86,.94]
+OLD_TIMES=[0,.18,.40,.66,.85,1]
+spec=importlib.util.spec_from_file_location('records',ROOT/'tools/record_helpers.py')
+p=importlib.util.module_from_spec(spec);spec.loader.exec_module(p)
+g=p.g
+def sha(data):return hashlib.sha256(data).hexdigest()
+def dump(name,data):(ROOT/name).write_bytes((json.dumps(data,indent=2)+'\n').encode())
+
+def semantic_guard(mesh,blocks,excluded):
+    owners=[None]*len(mesh.vertices);edges={i:[] for i in range(len(blocks))}
+    for i,(v,nv,f,nf) in enumerate(blocks):owners[v:v+nv]=[i]*nv
+    assert None not in owners
+    for e in mesh.edges:
+        a,b=e.vertices;owner=owners[a];assert owner==owners[b]
+        v=blocks[owner][0]
+        edges[owner].append((min(a-v,b-v),max(a-v,b-v),e.use_seam,e.use_edge_sharp))
+    colour=mesh.color_attributes['Grass_Colour'].data
+    rows=[]
+    for i,(v,nv,f,nf) in enumerate(blocks):
+        if i in excluded:continue
+        rows.append({'blade':i,'coords':[list(x.co) for x in mesh.vertices[v:v+nv]],
+                     'colours':[list(x.color) for x in colour[v:v+nv]],
+                     'faces':[(tuple(x-v for x in poly.vertices),poly.material_index,poly.use_smooth)
+                              for poly in mesh.polygons[f:f+nf]],'edges':sorted(edges[i])})
+    return g.fingerprint(rows)
+
+def colour_at(colours,t):
+    idx=min(4,max(0,bisect.bisect_right(OLD_TIMES,t)-1))
+    u=(t-OLD_TIMES[idx])/(OLD_TIMES[idx+1]-OLD_TIMES[idx])
+    return tuple(a*(1-u)+b*u for a,b in zip(colours[idx],colours[idx+1]))
+
+def soft_leaf(points,colours):
+    root=points[1];forward=points[15]-root;forward.z=0;lean=forward.length
+    assert lean>0;forward.normalize()
+    side=(points[8]-points[6]).normalized();width=(points[8]-points[6]).length
+    height=max(q.z for q in points)-root.z
+    curl=(points[7]-root-forward*(lean*.4*.4)).dot(side)/math.sin(.4*math.pi)
+    old_colours=[colours[k*3+1] for k in range(5)]+[colours[15]]
+    coords=[];out_colours=[];raw_z=[]
+    width_norm=max(math.sin(math.pi*t)**.8+.18*(1-t)**12 for t in TIMES)
+    for t in TIMES:
+        centre=root+forward*(lean*t*t)+side*(curl*math.sin(math.pi*t))
+        # A continuous cubic arch with a relaxed tip; total visible height is
+        # normalized to the inherited leaf's actual maximum after sampling.
+        z=3*(1-t)**2*t*.95+3*(1-t)*t*t*1.22+t**3*.72
+        factor=(math.sin(math.pi*t)**.8+.18*(1-t)**12)/width_norm
+        for across in (-1,-.5,0,.5,1):
+            q=centre+side*(across*.5*width*factor)
+            coords.append(q);raw_z.append(height*z+width*.09*math.sin(math.pi*t)*(1-across*across))
+            out_colours.append(colour_at(old_colours,t))
+    coords.append(root+forward*lean);raw_z.append(height*.72);out_colours.append(old_colours[-1])
+    zscale=height/max(raw_z)
+    for q,z in zip(coords,raw_z):q.z=root.z+z*zscale
+    # Retain exact inherited planted left/root/right positions, not recomputed floats.
+    coords[0]=points[0].copy();coords[2]=points[1].copy();coords[4]=points[2].copy()
+    coords[1]=(points[0]+points[1])*.5;coords[3]=(points[1]+points[2])*.5
+    faces=[]
+    for row in range(len(TIMES)-1):
+        for col in range(4):
+            a=row*5+col;faces.append((a,a+1,a+6,a+5))
+    final=(len(TIMES)-1)*5;tip=len(coords)-1
+    faces.extend((final+j,final+j+1,tip) for j in range(4))
+    return coords,faces,out_colours,{'height_m':height,'width_m':width,'final_lean_m':lean,
+                                   'root':list(root),'tip_z_before':points[-1].z,
+                                   'tip_z_after':coords[-1].z,'vertices_before':16,
+                                   'vertices_after':len(coords),'faces_after':len(faces)}
+
+def render(scene,name,detail=False):
+    old=(scene.render.filepath,scene.cycles.samples,scene.render.resolution_x,scene.render.resolution_y,
+         scene.render.use_border,scene.render.use_crop_to_border,scene.render.border_min_x,
+         scene.render.border_max_x,scene.render.border_min_y,scene.render.border_max_y)
+    scene.cycles.samples=128
+    if detail:
+        scene.render.resolution_x=3456;scene.render.resolution_y=7680
+        scene.render.use_border=True;scene.render.use_crop_to_border=True
+        scene.render.border_min_x=61/432;scene.render.border_max_x=125/432
+        scene.render.border_min_y=1-492/960;scene.render.border_max_y=1-428/960
+    path=ROOT/'outputs'/name;scene.render.filepath=str(path)
+    assert 'FINISHED' in bpy.ops.render.render(write_still=True)
+    (scene.render.filepath,scene.cycles.samples,scene.render.resolution_x,scene.render.resolution_y,
+     scene.render.use_border,scene.render.use_crop_to_border,scene.render.border_min_x,
+     scene.render.border_max_x,scene.render.border_min_y,scene.render.border_max_y)=old
+    return {'path':path.relative_to(ROOT).as_posix(),'bytes':path.stat().st_size,
+            'sha256':sha(path.read_bytes()),'width':512 if detail else 432,
+            'height':512 if detail else 960,'samples':128}
+
+def main():
+    assert bpy.app.background and sha(SOURCE.read_bytes())==PIN and not OUTPUT.exists()
+    bpy.context.preferences.filepaths.save_version=0
+    bpy.ops.wm.open_mainfile(filepath=str(SOURCE));scene=bpy.context.scene;scene.frame_set(1)
+    bpy.context.view_layer.update();body=bpy.data.objects[BODY];edge=bpy.data.objects[EDGE]
+    mesh=body.data;assert len(mesh.vertices)==7590*16 and len(mesh.polygons)==7590*10
+    assert len(mesh.uv_layers)==0 and not mesh.has_custom_normals and len(body.modifiers)==0
+    assert [(a.name,a.domain,a.data_type) for a in mesh.color_attributes]==[('Grass_Colour','POINT','FLOAT_COLOR')]
+    assert all(not e.use_seam and not e.use_edge_sharp for e in mesh.edges)
+    assert all(poly.use_smooth and poly.material_index==0 for poly in mesh.polygons)
+    prior=json.loads((ROOT/'documentation/FULLER_B_RECEIPT.json').read_text(encoding='utf-8'))
+    targets=set()
+    for i,row in enumerate(prior['selected_tufts']):targets.update(row['old_leaf_indices']+[7554+i*3+k for k in range(3)])
+    assert len(targets)==73 and len(prior['selected_tufts'])==12
+    protected={o.name:p.object_record(o) for o in scene.objects if o!=body}
+    settings=g.settings_record(scene);materials=g.original_materials();names=set(scene.objects.keys())
+    body_state={k:p.object_record(body)[k] for k in ('matrix_world','matrix_basis','parent','collections','materials')}
+    old_blocks=[(i*16,16,i*10,10) for i in range(7590)]
+    inherited=semantic_guard(mesh,old_blocks,targets)
+    points=[v.co.copy() for v in mesh.vertices]
+    colours=[tuple(c.color) for c in mesh.color_attributes['Grass_Colour'].data]
+    vertices=[];faces=[];new_colours=[];blocks=[];measurements=[];new_samples=[]
+    for i in range(7590):
+        v0=len(vertices);f0=len(faces);q=points[i*16:i*16+16];c=colours[i*16:i*16+16]
+        if i in targets:
+            q,polys,c,m=soft_leaf(q,c);m['blade']=i;measurements.append(m);new_samples.extend(q)
+        else:polys=[tuple(x-i*16 for x in poly.vertices) for poly in mesh.polygons[i*10:i*10+10]]
+        vertices.extend(q);new_colours.extend(c);faces.extend(tuple(v0+x for x in poly) for poly in polys)
+        blocks.append((v0,len(q),f0,len(polys)))
+    assert len(vertices)==124725 and len(faces)==78674
+    # Current world/props, excluding grass from its own terrain queries.
+    collections={o.name:tuple(o.users_collection) for o in (body,edge)}
+    for o in (body,edge):
+        for collection in collections[o.name]:collection.objects.unlink(o)
+    bpy.context.view_layer.update();deps=bpy.context.evaluated_depsgraph_get();cap=bpy.data.objects['Island_Grass_Cap']
+    bvh=BVHTree.FromObject(cap,deps);down=Vector((0,0,-1));blocked=0
+    for q in new_samples:
+        hit,n,face,distance=bvh.ray_cast(Vector((q.x,q.y,3)),down,5)
+        if hit is None or n.z<.65 or cap.data.polygons[face].material_index!=0:blocked+=1;continue
+        ok,loc,normal,idx,obj,mat=scene.ray_cast(deps,hit+Vector((0,0,.5)),down,distance=.75)
+        if not ok or obj.original!=cap:blocked+=1
+    for o in (body,edge):
+        for collection in collections[o.name]:collection.objects.link(o)
+    assert blocked==0, ('Altered leaf samples overlap forbidden footprints',blocked)
+    result=bpy.data.meshes.new('Reference_Grass_Soft_73_Leaf_C')
+    result.from_pydata(vertices,[],faces);result.update()
+    for material in mesh.materials:result.materials.append(material)
+    for poly in result.polygons:poly.use_smooth=True
+    attr=result.color_attributes.new(name='Grass_Colour',type='FLOAT_COLOR',domain='POINT')
+    attr.data.foreach_set('color',[x for colour in new_colours for x in colour]);body.data=result
+    body['probe_shape_selected_leaves']=73;body['probe_shape']='Curved arch, relaxed tip,61vertices per selected leaf'
+    def verify():
+        bpy.context.view_layer.update()
+        assert set(scene.objects.keys())==names
+        assert all(p.object_record(bpy.data.objects[n])==record for n,record in protected.items())
+        assert g.settings_record(scene)==settings and g.original_materials()==materials
+        assert {k:p.object_record(body)[k] for k in body_state}==body_state
+        assert semantic_guard(body.data,blocks,targets)==inherited
+        assert int(body['blade_count'])==7590 and int(body['tuft_count'])==2559
+        for row in measurements:
+            v,nv,f,nf=blocks[row['blade']];co=[x.co for x in body.data.vertices[v:v+nv]]
+            root=Vector(row['root']);assert co[2]==root
+            assert abs(max(x.z for x in co)-root.z-row['height_m'])<1e-6
+            assert abs((co[6*5+4]-co[6*5]).length-row['width_m'])<1e-6
+            assert all(x.z>=root.z-1e-6 for x in co)
+    verify();print('SOFT_LEAF_PROTECTED_RECORDS_PASS',len(protected),flush=True)
+    note=bpy.data.texts.new('START_HERE_SOFT_SHAPE_C')
+    note.write('C native-only shape probe from fuller B. Same73leaves in12tufts;61vertices/48faces per reshaped leaf. Other7517leaf records exact semantically,not global mesh index prefixes. Roots/maxheight/maxwidth fixed;tips relaxed. Palette field interpolated. No game/density/light/tree change. Older START_HERE_12_TUFT_PROBE describes historical input B,not this geometry.\n')
+    assert 'FINISHED' in bpy.ops.wm.save_as_mainfile(filepath=str(OUTPUT),check_existing=False)
+    output_sha=sha(OUTPUT.read_bytes());bpy.ops.wm.open_mainfile(filepath=str(OUTPUT));scene=bpy.context.scene;body=bpy.data.objects[BODY]
+    verify()
+    images=[im for im in bpy.data.images if im.source not in ('GENERATED','VIEWER')]
+    assert len(images)==5 and all(im.packed_file for im in images) and not bpy.data.libraries
+    full=render(scene,'01_C_SOFT_432x960.png');detail=render(scene,'03_C_DETAIL_8X.png',True)
+    verify();renders=[]
+    for name,w,h in [('00_B_FULLER_432x960.png',432,960),('02_B_DETAIL_8X.png',512,512)]:
+        path=ROOT/'outputs'/name;renders.append({'path':path.relative_to(ROOT).as_posix(),
+        'bytes':path.stat().st_size,'sha256':sha(path.read_bytes()),'width':w,'height':h,'samples':128})
+    assert renders[0]['sha256']==prior['renders'][1]['sha256']
+    assert renders[1]['sha256']=='a49728a6998de83945d9d2352606e064169f39f1a8962767b52531301caf68f2'
+    receipt={'status':'NATIVE_SOFT_SHAPE_SAVED_REOPENED_RENDERED','source_sha256':PIN,
+             'candidate_sha256':output_sha,'builder_sha256':sha(Path(__file__).read_bytes()),
+             'tool':'Blender5.2.2 LTS','selected_tufts':12,'reshaped_leaves':73,
+             'total_leaves_unchanged':7590,'total_tufts_unchanged':2559,
+             'untargeted_exact_semantic_leaf_records':7517,'untargeted_leaf_record_sha256':inherited,
+             'protected_non_body_records':len(protected),'camera_lighting_material_records_unchanged':True,
+             'before_vertices':121440,'after_vertices':124725,'before_faces':75900,'after_faces':78674,
+             'before_triangles':136620,'after_triangles':142022,
+             'topology_limit':'Selected topology denser;global indices/prefix NOT unchanged. Unselected per-leaf coords/colour/face/edge records exact.',
+             'colour_limit':'Same inherited normalized leaf colour gradient,interpolated at new sample positions;selected vertex colours are not byte-identical.',
+             'collision_check':{'tested_vertices':len(new_samples),'blocked':blocked,'limit':'Point samples from above,not triangle/leaf-leaf collision proof.'},
+             'parameters':{'rows_t':TIMES,'across':[-1,-.5,0,.5,1],'z_bezier_controls':[0,.95,1.22,.72],
+                           'width_exponent':.8,'root_width_term':'.18*(1-t)^12','max_height_width':'Inherited maxima preserved within1e-6m'},
+             'leaves':measurements,'renders':[renders[0],full,renders[1],detail],
+             'game_integration':'NOT_PERFORMED','godot_tests':'NOT_RUN','android_performance':'NOT_MEASURED','human_choice':'PENDING'}
+    assert sha(SOURCE.read_bytes())==PIN and sha(OUTPUT.read_bytes())==output_sha
+    dump('documentation/SOFT_SHAPE_RECEIPT.json',receipt)
+    print('SOFT_LEAF_READY '+json.dumps({k:receipt[k] for k in ['status','reshaped_leaves','after_vertices','after_faces','candidate_sha256']}))
+
+if __name__=='__main__':main()

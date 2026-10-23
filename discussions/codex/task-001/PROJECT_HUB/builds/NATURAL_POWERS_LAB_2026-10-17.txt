@@ -1,0 +1,48 @@
+GNOMIT — NATURAL POWERS LOCAL PLAYABLE LAB — 2026-10-17
+Status: LOCAL_IMPLEMENTED / RENDERED_AGENT_CHECK_PASS / AWAITING_HUMAN_FEEL
+Human authorization: щом сте го измислили задействай се.
+Agreed design:18eef2f7926b2175d65ffb8993f34ddac6da4723; GPT f7a051ca9933bf9f803e3815af5744fcae1f4209; Grok55409798fcdf05a534498e6f8d4931935bfa0fb8.
+
+TRY IT
+Separate project:C:\Users\fruch\Documents\Codex\GnomiT_Playtests\NaturalPowers_2026-10-17
+Launcher:C:\Users\fruch\Documents\Codex\GnomiT_Playtests\NaturalPowers_2026-10-17\PLAY_NATURAL_POWERS.cmd
+Live Godot TEST BOARD opened on monitor1(screen0),432x960. Choose one of four buttons; drag the highlighted power one cell to its highlighted neighbor. Reset restores the same fixture. Black Hole requires the adjacent Tornado+Volcano swap. Existing reciprocal170ms drag/swaps retained.
+
+IMPLEMENTED
+Volcano:3-5distinct seeded ordinary gem targets,preview rings,magma flights. Direct hits remove soil only under actual ordinary targets,no direct rune hits.
+Tornado:visible H/V orientation,ordinary targets across the full row/column including beyond holes. Other specials inert. Direct soil only under ordinary targets,no direct rune hits. Vertical fixture[16,23] visibly crosses hole30;other scenarios[25,26].
+Black Hole:intentional orthogonal Tornado+Volcano swap,one move,consumes both instead of separate effects,absorbs ordinary gems and other specials inertly. Direct floor/rune/hole snapshot unchanged. Ordinary refill/cascades afterward can legitimately damage soil/runes. At most1perattempt;second pair rejects without cost. No special generation or chains.
+Root English UI,12moves,3soil,1rune,collection goal999 to allow exploration. Preplaced test powers only. Reset generation and renderer epoch invalidate stale callbacks;skip/reduced show the same precomputed result without rerolls.
+
+ISOLATION
+Source:C:\Users\fruch\Documents\Codex\GnomiT_Playtests\Frankenstein_2026-10-17. Original project remains unchanged. Lab has a unique userdata directory and reads/writes no progress. Base match_core/main/progress independently hash-identical to recorded predecessor. All 32 actual assets excluding import descriptors independently byte-identical. Existing audio cues reused;no new disaster SFX or character art. Only original board_view delta is a generic awaitable custom-event hook;new core/renderer/root live under scripts/lab. project.godot selects isolated lab scene/profile.
+Governed public repository remains REPORTS_ONLY. Published material is this own text receipt and literal text source-delta proposal only. No native game-source sandbox integration,grant/main/private/baseline edits,merge or new external bot assignment.
+
+VERIFICATION ACTUALLY RUN LOCALLY
+Core80checks0failures,including96seeded transactions,distinct targets,terrain rules,orientation,one-move/once limit,last-move win,ordinary compatibility and surviving-special shuffle behavior.
+Headless renderer18checks0failures;native renderer22checks0failures including4captured VFX scenes.
+Existing stone39,board42,FirstScene72checks PASS. Default lab headless startup exit0.
+Full native rendered432x960integration PASS,12frames,all4powers,one move each,snapshot parity,skip/reduced parity,reset-during-effect. Actual scripted InputEventMouse press/drag/release;this is agent automation,not a human or Android test. Final screenshots manually inspected by Codex,including ready/volcano/blackhole. GUI launched separately via Windows UI and left available. An extra interactive drag was declined by the UI tool due to detected user input;no extra human result is claimed and agent did not fight the input.
+Evidence:C:\Users\fruch\Documents\Codex\GnomiT_Playtests\NaturalPowers_2026-10-17\verification; runtime/natural_powers_runtime REPORT.json statusPASS/failures[]. Earlier pre-polish evidence preserved separately. Independent read-only source review found no concrete blocker;its vertical-gap suggestion was incorporated and rerun.
+
+LIMITATIONS
+Procedural power icons/VFX are prototype treatment,not final accepted production art. No creation/unlock cadence,campaign balance,newlevels,pause menu,Android or human acceptance. Existing audio reused. Original campaign does not yet contain the new powers. User feedback on the live prototype is the next useful input;no repeated three-way design vote is required.
+
+SOURCE DELTA
+NATURAL_POWERS_LAB_REVIEW_PATCH_2026-10-17.txt holds exact unified diffs for modified/new local source. This requires the recorded predecessor/art;not a complete downloadable game. Source identities:
+project.godot | 969 bytes | SHA-256 af19e14d98e80573010c2d0af23832ae8b1fa4bbc5a441ff223b9465e77def7f
+scripts/board_view.gd | 33490 bytes | SHA-256 c0f68b6a37805278db1684200e7d5c6bc3672bfdc04fb5d6b9b908d177a44781
+scripts/lab/natural_power_core.gd | 7441 bytes | SHA-256 1383ab2b866a44cef82d3e6b16d45f011a60109d901acaa04dacbbfa2558c2ff
+scripts/lab/natural_power_board.gd | 10704 bytes | SHA-256 9225666048153c7c7c2cf44aba9871f75b4222f0dfafbfcb622ba8002e65d61b
+scripts/lab/natural_power_lab.gd | 9329 bytes | SHA-256 f89dadeb726b8fbba3be814dbb108710bca94675d261ab196b7117f6dc390616
+natural_powers.tscn | 314 bytes | SHA-256 7ffd521c68920b4f59364990a62eba81cab814875a739a1ea60d907e66ed6029
+tools/play_natural_powers.gd | 315 bytes | SHA-256 046c77294a99c25eecf0c304f46706e973976738eb32ca23e8f9747c3d27e14a
+PLAY_NATURAL_POWERS.cmd | 181 bytes | SHA-256 8ee226fdda2ed013b6a8c42c92f0c3aec4074dad889c7efc3a25d35a9ed0b971
+README_NATURAL_POWERS.txt | 496 bytes | SHA-256 889813ccae94f0e6776a8d8b5795d44f9e6eff2c5b12d7c98354913d5c214503
+docs/lab/IMPLEMENTATION_PLAN.txt | 5005 bytes | SHA-256 90788fed68a9e8019d118cc8aa076549f8dcb713f6ada7076ddb0aeb85d69481
+tests/test_natural_powers.gd | 12854 bytes | SHA-256 9e1a0d94807c84e41f01b6eebb2a5958cd79a0dcbf6da568aaa2ff1fe5e78a84
+tests/test_natural_power_board.gd | 5213 bytes | SHA-256 c6b10f00feedb25bebf6f0a84e60001ed887294cc199b54e72543cd26f085614
+tests/capture_natural_powers.gd | 4916 bytes | SHA-256 cbab290b9b3150b621c704861b87c2c5d54f294202734c3cc526c9c0ec55f12e
+
+Literal delta TXT: {'bytes': 60116, 'sha256': '1b1d7f3a46750143bd02040dd221d182c1382642368f02c17eb4cfad1d0f058c'}
+Recommended model/effort:GPT-6.1 Sol / High for mechanics/VFX;Medium sufficient for text-only publication. Actual model/effort not attested.

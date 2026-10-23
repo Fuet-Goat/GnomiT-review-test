@@ -1,0 +1,13 @@
+{
+  "status": "DERIVED_SOURCE_ONE_NORMALS_CORRECTION",
+  "base_commit": "a55cce4a0f0ba879615e6661f861159c7edfa785",
+  "unchanged_source": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\AiryIsland_GPT_Review_a55cce4_2026-10-21\\SOURCE_MATERIALIZED",
+  "derived_source": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\AiryIsland_GPT_Review_a55cce4_2026-10-21\\SOURCE_NORMALS_FIX",
+  "changed_files": [
+    "boardwalk.py"
+  ],
+  "before_sha256": "1821342922a5c9c91a6fda0dfe2efa2f1b015654bfe3b2f6226a716eb3b04430",
+  "after_sha256": "2c4030e61efa3117e88efa494353fdfae47f13ebc32f3eb0d23934b8243157c6",
+  "reason": "Native reopen and GLB reimport measured underdeck signed volume -2.828529381870276 m3; winding is inward.",
+  "art_changes": "NONE; no camera, palette, layout, path, decoration, lighting or asset changes"
+}

@@ -1,0 +1,88 @@
+--- a/scripts/lab/material_power_board.gd
++++ b/scripts/lab/material_power_board.gd
+@@ -226,6 +226,33 @@
+ 	_draw_active_constituent(_cell_size())
+ 	_draw_birth()
+ 	_draw_black_hole_hit_feedback()
++	_draw_floor_layer_badges()
++
++func floor_layer_badges() -> Array[Dictionary]:
++	# Terrain badges use the visible transaction snapshot, never solved future
++	# Core data. At the Black Hole impact they switch to that one-hit result.
++	var snapshot: Array = _display_floor
++	if _power_event.get("power", "") == "black_hole" and _power_epoch == _epoch and _power_t >= 0.78:
++		snapshot = _copy_array(_power_event.get("floor_after", _display_floor))
++	var result: Array[Dictionary] = []
++	for index in mini(snapshot.size(),_display_grid.size()):
++		if int(_display_grid[index]) == HOLE or int(snapshot[index]) <= 0: continue
++		result.append({"index":index,"layers":int(snapshot[index]),"position":_center(index)+Vector2(.33,-.31)*_cell_size()})
++	return result
++
++func _draw_floor_layer_badges() -> void:
++	var step := _cell_size()
++	var font := ThemeDB.fallback_font
++	var font_size := maxi(12,int(step*.25))
++	for badge in floor_layer_badges():
++		var point: Vector2 = badge.position
++		var text := str(badge.layers)
++		var radius := step*.155
++		draw_circle(point+Vector2(0,1.0),radius+1.0,Color(.035,.045,.035,.70),true,-1,true)
++		draw_circle(point,radius,Color("68401f"),true,-1,true)
++		draw_arc(point,radius,0,TAU,24,Color("ffe6a1"),maxf(1.0,step*.023),true)
++		var width := font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x
++		draw_string(font,point+Vector2(-width*.5,(font.get_ascent(font_size)-font.get_descent(font_size))*.5),text,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,Color("fff5d6"))
+ 
+ func _draw_black_hole_hit_feedback() -> void:
+ 	if _power_event.get("power", "") != "black_hole" or _power_epoch != _epoch: return
+--- a/project.godot
++++ b/project.godot
+@@ -2,7 +2,7 @@
+ config_version=5
+ 
+ [application]
+-config/name="GnomiT - Black Hole One Hit - v005"
++config/name="GnomiT - Visible Layers - v006"
+ config/use_custom_user_dir=true
+ config/custom_user_dir_name="GnomiT-CampaignTutorial-Volcano-2026-10-20"
+ config/version="0.1.0-campaign-powers-r2"
+--- a/black_hole_one_hit.gd
++++ b/black_hole_one_hit.gd
+@@ -6,9 +6,9 @@
+ 
+ func _ready() -> void:
+ 	super._ready()
+-	DisplayServer.window_set_title("GnomiT - Black Hole - One Hit v005")
++	DisplayServer.window_set_title("GnomiT - Black Hole - Visible Layers v006")
+ 	for label in find_children("*","Label",true,false):
+-		if label.text=="MOUNTAIN VOLCANO":label.text="BLACK HOLE · ONE HIT"
++		if label.text=="MOUNTAIN VOLCANO":label.text="BLACK HOLE · LAYERS"
+ 	if DisplayServer.get_name() != "headless":
+ 		DisplayServer.window_set_current_screen(1 if DisplayServer.get_screen_count()>1 else 0)
+ 	print("BLACK_HOLE_ONE_HIT_READY")
+@@ -17,7 +17,7 @@
+ 	super._on_power_started(power,targets)
+ 	if power=="black_hole":
+ 		effect_label.text="BLACK HOLE · ONE HIT"
+-		helper.text="Every real cell is hit once. Each remaining obstacle loses one layer. Other powers are swallowed without chaining."
++		helper.text="One hit per real cell. Watch the numbers on orange tiles decrease by one. Other powers are swallowed without chaining."
+ 
+ func reset_scenario(value: String) -> void:
+ 	super.reset_scenario(value)
+@@ -27,7 +27,7 @@
+ 		board.show_hint(core.fixture_pair)
+ 		_update_stats()
+ 		effect_label.text = "BLACK HOLE · ONE HIT"
+-		helper.text = "Top runes: 3 / 2 / 1 layers. Soil: 3 / 2 / 1. Drag Storm onto Tornado. Every real cell takes one hit."
++		helper.text = "Numbers on orange tiles = layers left. Drag Storm onto Tornado: 3→2, 2→1, 1→clear."
+ 
+ func _update_stats() -> void:
+ 	super._update_stats()
+@@ -38,5 +38,7 @@
+ 	await super._on_swap(a,b)
+ 	for event in last_result.get("events",[]):
+ 		if event.get("power","") == "black_hole":
+-			helper.text = "Direct hit: runes 3→2, 2→1, 1→0. Refill cascades are separate hits. Reset to repeat."
++			var counts: Array[String] = []
++			for badge in board.floor_layer_badges():counts.append(str(badge.layers))
++			helper.text = "Orange layers left: "+(", ".join(counts) if not counts.is_empty() else "none")+". Refill cascades are separate hits. Reset to repeat."
+ 			return

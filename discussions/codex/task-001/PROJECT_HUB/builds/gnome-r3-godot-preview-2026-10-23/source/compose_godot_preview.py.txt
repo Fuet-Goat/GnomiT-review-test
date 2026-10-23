@@ -1,0 +1,41 @@
+from pathlib import Path
+import json,hashlib
+from PIL import Image,ImageDraw,ImageFont
+ROOT=Path(__file__).resolve().parents[1];OUT=ROOT/'outputs'
+BLENDER=ROOT.parent/'Gnome_Rig_R3_Separated_Sleeve_2026-10-23/frames'
+font=ImageFont.truetype('C:/Windows/Fonts/segoeui.ttf',19)
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def get(frame):return Image.open(OUT/('GODOT_PREVIEW_%04d.png'%frame)).convert('RGB')
+palette_image=Image.new('RGB',(480*3,672*3))
+for i,f in enumerate((1,19,37,55,73,91,109,127,144)):palette_image.paste(get(f),(480*(i%3),672*(i//3)))
+palette=palette_image.quantize(colors=256,method=Image.Quantize.MEDIANCUT)
+frames=[get(i).quantize(palette=palette,dither=Image.Dither.NONE) for i in range(1,145)]
+duration=[(round((i+1)*100/24)-round(i*100/24))*10 for i in range(144)]
+gif=OUT/'GODOT_R3_GREETING.gif';assert not gif.exists()
+frames[0].save(gif,save_all=True,append_images=frames[1:],duration=duration,loop=0,disposal=2,optimize=False)
+with Image.open(gif) as decoded:
+    count=decoded.n_frames;total=0
+    for i in range(count):decoded.seek(i);decoded.load();total+=decoded.info['duration']
+assert total==6000
+keyframes=(37,55,73,91,109)
+sheet=Image.new('RGB',(1200,748),'#f4f2ea');draw=ImageDraw.Draw(sheet)
+for row in range(2):
+    for col,frame in enumerate(keyframes):
+        image=Image.open(BLENDER/('AFTER_%04d.png'%frame)) if row==0 else get(frame)
+        x,y=col*240,row*374
+        draw.text((x+6,y+7),('%s | F%d'%('Blender R3' if row==0 else 'Godot R3',frame)),font=font,fill='#253a36')
+        sheet.paste(image.convert('RGB').resize((240,336),Image.Resampling.LANCZOS),(x,y+38))
+sheet.save(OUT/'BLENDER_GODOT_KEYPOSES.png')
+detail=Image.new('RGB',(1200,374),'#f4f2ea');draw=ImageDraw.Draw(detail)
+for col,frame in enumerate((1,55,73,109,145)):
+    path=OUT/('GODOT_PREVIEW_DETAIL_%03d.png'%frame)
+    image=Image.open(path).convert('RGB').resize((240,336),Image.Resampling.LANCZOS)
+    draw.text((col*240+7,7),'Godot | F%d'%frame,font=font,fill='#253a36');detail.paste(image,(col*240,38))
+detail.save(OUT/'GODOT_SLEEVE_KEYPOSES.png')
+record={'status':'REAL_GODOT_CAPTURE_ENCODED','gif':gif.name,'bytes':gif.stat().st_size,'sha256':sha(gif),
+    'decoded_frames':count,'decoded_duration_ms':total,'native_clip_loops':False,'GIF_preview_loops_for_review':True,
+    'no_AI_raster_generation_or_synthetic_motion':True,'lossy_256_colour_quantisation':True,
+    'comparison':'Same native model/gesture/camera framing, separate Blender/Godot studios; not pixel-identical lighting',
+    'comparison_blender_frames':{str(f):sha(BLENDER/('AFTER_%04d.png'%f)) for f in keyframes}}
+(ROOT/'documentation/MEDIA_RECEIPT.json').write_text(json.dumps(record,indent=2)+'\n',encoding='utf-8')
+print(json.dumps(record))

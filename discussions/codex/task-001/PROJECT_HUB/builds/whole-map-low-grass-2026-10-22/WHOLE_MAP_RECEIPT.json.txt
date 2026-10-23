@@ -1,0 +1,53 @@
+{
+  "status": "WHOLE_MAP_SAVED_REOPENED_RENDERED",
+  "source_sha256": "5baeaadab55c144fd554cbae9122db30d3ce6104b41b3a48b9eaa301635b0260",
+  "square_b_sha256": "635bb27fa3567701ca1fc9f1d1ed4a8ff04ce18186cc2bc287d173e8db59b09f",
+  "candidate_sha256": "6f08ae54a5fe21a2db5eca22bcc14928bbaa24a04f79b0e5d8ad3312ee681677",
+  "builder_sha256": "6363f87a161140e7bb94651afc876b2a9a987607eb07b159368f092211ff8b0a",
+  "seed": 2026102215,
+  "root_grid_m": 0.021,
+  "body_instances": 178938,
+  "edge_instances": 1068,
+  "verified_instances": 180006,
+  "actual_blades": 450016,
+  "prototype_count": 17,
+  "geometry": "Shared actual B 3D blades, Geometry Nodes instances; no image plane or turf-square objects",
+  "protected_original_objects": 646,
+  "original_cap_geometry_unchanged": true,
+  "original_camera_light_colour_management_unchanged": true,
+  "original_material_nodes_unchanged": true,
+  "inherited_materials_retained_with_fake_user": true,
+  "changes": [
+    "Whole body grass",
+    "Whole border grass",
+    "Terrain turf material slot0",
+    "17 shared prototype source objects"
+  ],
+  "footprint_limit": "35mm cached occupancy mask and55mm cardinal clearance; not exhaustive triangle/leaf collision proof",
+  "mask_cells": 111330,
+  "lowest_instance_z": 0.5840293765068054,
+  "prototype_source_z": -100,
+  "selector_unchanged_sha256": "e1f2f766c10d2b80267893e86ded85f42f6941266f7500c8658a06a9bf9474b3",
+  "renders": [
+    {
+      "path": "outputs/WHOLE_MAP_LOW_GRASS.png",
+      "bytes": 687266,
+      "sha256": "a01b77842233dbc62fdfd96aa6e1af48666438ab5bd1a547dd8ff4b1c7093476",
+      "width": 432,
+      "height": 960,
+      "samples": 128
+    },
+    {
+      "path": "outputs/LOW_GRASS_DETAIL.png",
+      "bytes": 527036,
+      "sha256": "91b8c13b76e265a2f34482f64f7d6a8370c970e3a0bfcc8900981255ef819724",
+      "width": 512,
+      "height": 512,
+      "samples": 128
+    }
+  ],
+  "game_integration": "NOT_PERFORMED",
+  "runtime_export": "NOT_PERFORMED",
+  "phone_performance": "NOT_MEASURED",
+  "human_choice": "PENDING"
+}

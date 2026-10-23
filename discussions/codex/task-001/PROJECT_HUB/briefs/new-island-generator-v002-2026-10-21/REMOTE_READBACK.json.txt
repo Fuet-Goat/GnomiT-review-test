@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "source_commit": "fbae5cc6f26f5ad8343744d2e4dbd67f2e1b1054",
+  "zip_sha256": "a69318529b44e78a9912c95253bd38c9f03ff0779ca544cf71163ae8a5be0f47",
+  "entries": 19,
+  "no_engine_or_project_code_executed": true,
+  "all_local_files_equal": true,
+  "kind": "UNAPPLIED_GENERATOR_HANDOFF_NOT_3D_SCENE",
+  "middle_panel_authoritative_for": [
+    "composition",
+    "style"
+  ]
+}

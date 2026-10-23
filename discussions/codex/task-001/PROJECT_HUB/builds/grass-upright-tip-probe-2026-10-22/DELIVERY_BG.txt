@@ -1,0 +1,6 @@
+Пълен native ZIP:GNOMIT_GRASS_UPRIGHT_TIP_PROBE_2026-10-22.zip,bytes=44400911,SHA256=d131fdda77f04133f6d9032d2567f30043b5c0721af3ec95f5a8961a8e29ce59,entries=25.
+Реални Base64 части:8;ред/хешове:PACKAGE_RECEIPT.json.txt.
+За изтегляне:DOWNLOAD_VERIFIED_PROBE.py.txt запазен като.py:
+python download_verified_probe.py --commit <EXACT_40_HEX_COMMIT> --destination <NEW_ABSOLUTE_FOLDER>
+Проверява части/ZIP/всекифайл преди и след извличане;не изпълнява кода.
+Няма merge/main/grant промени;current оставаv014. Human choicePENDING.

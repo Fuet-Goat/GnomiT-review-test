@@ -1,0 +1,89 @@
+GNOMIT v014 TREE FOLIAGE TRIAL — 2026-10-22
+Status: LOCAL_REMOTE_GAME_PASS / COMPARISON_CANDIDATE / HUMAN_SELECTION_PENDING
+
+User scope: refine the trees towards the existing reference; subsequent go on.
+Separate local copy; Git handoff remains own text-report paths. Git parent:
+c6f403dd32af98d4a2e2d926c192ec5a4fa9b430
+Main grant/scope identity: d803005f3b123ca2b1ab617a37098a43c43b5da8.
+No private Cradle work, main/grant update, merge or next art stage.
+
+Exact native v013 input SHA-256:
+856ebcb4641e689c00f3de456220bebc43a20efc2e632c919e2509bf3373e7b7
+Included smooth crown-library SHA-256:
+eda6edf13d496d2bf86018339db6778ccb632bd4ee307b25d683424bf07897f4
+Selected native candidate SHA-256:
+d763d19318e47bf4801f4e3bc8cfedef9b99791b092ac88cf30bd508f92137b4
+Executed generator SHA-256:
+9d1939beb61b0f879bc20ddf222c3c04577cbd3f0e5ff8b5be7f95ffbba7b086
+Runtime GLB:29738484 bytes /568nodes /SHA-256:
+26f4a9805bf3300ebaa5343dec6933ca236802671c2524a916a00a23e53c339b
+Light B recipe SHA-256 remains:
+10960ab40527705e5a9fb2fd4a485e5d3fd578a9c50d44f717aed84dcd9ea887
+
+Five continuous crown meshes, existing transforms/bounds/materials retained;
+130 unequal medium clusters and1198–1287 shallow leaf caps per crown.
+Ten old daisy anchors follow the changed surface, maximum local delta
+0.11898649615346377m; child local form/orientation/scale is protected.
+Grassv013, bark, sprigs, ground, props, camera, lighting and layout unchanged.
+Native save/reopen/render/export PASS,634 protected native records.
+
+Actual artistic review: draft1 too sparse/smooth, draft2 protruding repeated
+scales/cabbage. Exact sources/exports/renders/receipts retained under native.
+Selected third changes only relief scale0.22 from draft2. Most protrusions
+are subdued; denser leaf marking remains. Still rounded solid crowns with
+a surface pattern relative to reference. NOT a clear artistic win or proven
+reference match. Human selection PENDING. No obvious clipping/placement
+blocker at observed432x960. Independent read-only reviewer agrees.
+
+CODE/RESOURCE VERIFICATION
+60 scripts unchanged;61st title-only;85 other runtime resources unchanged.
+Lighting recipe, main scene and island_map adapter byte-identical to v013.
+332 v013 manifest entries remain unchanged. Native/Godot separate light rigs.
+Fresh import +57 scripted Godot checks PASS: map/route/grass/crowns, level1
+goals, both Volcano intro pages, valid swap, return to map. Same-camera/B/
+frozen-guide comparison actual screenshots saved. Win NOT_TESTED; desktop
+scripted evidence only. Android/FPS/touch and human playtest NOT_MEASURED.
+
+The independent exported-mesh check initially rejected float32 UV drift.
+Diagnosis:539protectedmeshes/542primitives; only TEXCOORD_0 differs on184
+nodes,2322components. U1341/max1.1920928955078125e-07;V981/max5.960464477539063e-08.
+All POSITION/NORMAL/index/colour/UV1, materials, embedded images, cameras and
+hierarchy match exactly. Changed transforms confined to canopy daisies.
+Final verifier preserves exact layout/count/non-UV/index/material guards and
+records the narrow finite-float32-VEC2 TEXCOORD_0 tolerance2^-23 explicitly.
+It does not claim byte identity for those UVs. Native UV data remains exact.
+EXPORT_DIAGNOSTIC.json and INHERITED_CODE_CHECK.json record every exception.
+quiet_fraction_leaf_relief_below_1mm is the intermediate unscaled leaf field;
+max-relief statistics include the0.22 scale. Projected pixel sizes are design
+targets, not measured visible features or proof of artistic acceptance.
+
+Desktopv014 Tree Foliage Trial registered/read back, current selector points
+to v014 with previous selector preserved. v013 remains intact for comparison.
+Interactive v014 launched separately. Godot sees one screen,screen0fallback;
+monitor2 placement is not claimed. Full package/remote proof appended after
+actual packaging and fresh exact-commit download. No placeholder delivery.
+GPT-6.1 Sol / Extra high.
+
+LOCAL PACKAGE AND CODE REVIEW — actually completed
+Full ZIP: GNOMIT_R3_REFERENCE_TREES_V014_2026-10-22.zip / 207922953 bytes / 355 entries
+SHA-256: b204f824446687f57fb67214b27d9b3d8d8d2d89acf5ab48a2ac54bef14ec41f
+Delta: 150802637 bytes / 75 entries / 26 parts
+SHA-256: 2f51b390b73284b6dfe9dcd17c0b8d125e77c776e4d6afc285bb01d3f207e35d
+Full/delta ZIP CRC and every archived entry match their source bytes.
+Fresh read-only code review found no Critical/Important issue. Its Minor
+rebuild-instruction finding is addressed by documentation/REBUILD_BG.txt
+with actual tool versions, fresh staging workflow, exact commands and
+explicit existing-output refusal. Review excludes artistic acceptance,
+Android/performance, legal ownership and still-pending remote readback.
+
+REMOTE READBACK — actually completed after push
+Artifact commit:8c68df0f46064be817340034b9c4007c3da2c79c
+Remote helper matched locally reviewed bytes, SHA-256:
+ee53ff2bbde6ecef1f1b9a2b4330d300404e506dd088f32643b8d5aa6afc5b91
+Fresh raw Git downloads:15parts pinnedv009 base +26parts v014delta. All355
+final files match size/SHA before and after write. ZIP/path/CRC checks PASS.
+Downloader executed no code. Subsequent cold Godot import and57checks PASS
+from the reconstructed GAME with selected lightB;no recorded import/script
+errors. Evidence byte hashes are in REMOTE_READBACK.json.txt.
+This closes delivery verification;it does not accept the art,prove reference
+parity,phone performance,human playtest or legal ownership. No merge.

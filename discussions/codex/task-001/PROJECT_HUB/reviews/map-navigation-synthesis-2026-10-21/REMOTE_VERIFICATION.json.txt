@@ -1,0 +1,82 @@
+{
+  "status": "REMOTE_REPORT_BYTES_AND_ARCHIVE_PASS",
+  "source_commit": "ef59c39493b177410a3f8859a29fd9d9d3e65334",
+  "files": [
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/START_HERE.txt",
+      "bytes": 63230,
+      "sha256": "decc54ecd69119ec8bcf3d68db4302b283c6d3a00d123ead986f38b3c9322358"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/map-navigation-synthesis-2026-10-21/CODE_EVIDENCE.txt",
+      "bytes": 652,
+      "sha256": "243c80d7290d551573bece408ca2f85ca95c4fc8009ce6b68a4c6e26f1a93ed0"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/map-navigation-synthesis-2026-10-21/COMMON_FOLLOWUP_FOR_GPT_GROK_BG.txt",
+      "bytes": 2344,
+      "sha256": "2c80fd51a58682262b134989446de67c29721031122e2c208d1e49be7f212448"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/map-navigation-synthesis-2026-10-21/DECISION_MATRIX.json.txt",
+      "bytes": 1156,
+      "sha256": "fe0b64e9f7fd490f836e5334ef554352854159cf48663731d356b1cc6f91a56d"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/map-navigation-synthesis-2026-10-21/FINAL_RESPONSE.txt",
+      "bytes": 888,
+      "sha256": "3f96d6a86bd418d0e1c3bf618d96bbe78b21df7022dc0bbb41fbe8cca26ba1dd"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/map-navigation-synthesis-2026-10-21/INPUT_RECEIPT.json.txt",
+      "bytes": 1260,
+      "sha256": "6e992dc57307263dc88b540c3b64edfd6445ab42518456d1be47873d9223c410"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/map-navigation-synthesis-2026-10-21/INTERNAL_REVIEW.txt",
+      "bytes": 480,
+      "sha256": "2092e17916d3cf3f24b784830a661fa13158780323c43221ec6bb06e9d6f9e70"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/map-navigation-synthesis-2026-10-21/MANIFEST.json.txt",
+      "bytes": 1936,
+      "sha256": "f5a1cdfe3253dc2d9a395c3fcda3e31a3f85e4cf61a9610b68a0a62aaf00fba0"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/map-navigation-synthesis-2026-10-21/PACKAGE_RECEIPT.json.txt",
+      "bytes": 287,
+      "sha256": "3794806d002c7a68f4257b68c012ff0e42004e8d566fe75d692e7ad378cd7d58"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/map-navigation-synthesis-2026-10-21/PACKET.base64.txt",
+      "bytes": 76365,
+      "sha256": "e13a75f049bbe20139df4366ed77b3bf77ac8421815ab1cd2101a5d8ec8caa77"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/map-navigation-synthesis-2026-10-21/README.txt",
+      "bytes": 656,
+      "sha256": "09353e6f679e6d8d32075600a26e317d5cad2adb51f5e2952742728ff57a6df6"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/map-navigation-synthesis-2026-10-21/SCOPE_CHECK.json.txt",
+      "bytes": 138,
+      "sha256": "cd7034a172f004db8908f776e9979e6f7c5bd6d4ccd3bbd33e2e8f5e873883e9"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/map-navigation-synthesis-2026-10-21/START_HERE_BG.txt",
+      "bytes": 688,
+      "sha256": "567c927122f9f1fbfd36d2106680a48f05131526159f060b8e987c0ebae153b3"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/map-navigation-synthesis-2026-10-21/SYNTHESIS_BG.txt",
+      "bytes": 11996,
+      "sha256": "d6191a1c9d92daa3ee7c87be8457550310e5b4012b1d5473d583578575cfdc4f"
+    }
+  ],
+  "zip_bytes": 57273,
+  "zip_sha256": "eeb092091e8d2b4b9f6e59154231d3aeaad11c1bdb2a4567490cdedae293e670",
+  "entries": 13,
+  "game_executed": false,
+  "game_modified": false,
+  "deep_research_launched": false
+}

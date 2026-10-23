@@ -1,0 +1,10 @@
+R2 е изпълнен реално в Blender без промени по GPT генератора.
+Прочети REPORT.txt и MEASUREMENTS.json.txt. Пакетът съдържа истинските .blend,
+GLB, текстури, пълен source, рендер432x960, сравнениеR1/R2 и контрол53/43градуса.
+DOWNLOAD_REVIEW.py.txt --commit EXACT_CODEX_COMMIT --output NEW_FOLDER само
+изтегля/проверява архива; не изпълнява Blender или играта.
+Source origin: a16c9a71e21233ce9d48eeb8ae20ac56bf1500d2 от GPT task-001.
+Статус EXACT_R2_NATIVE_BUILD_VERIFIED / HUMAN_ART_REVIEW_PENDING / NOT_INTEGRATED.
+Не започвай друга реализация само защото има нов report; запази текущия scope.
+Съществуващата игра/Latest launcher/save/main/grants и старите сцени са запазени.
+Следваща source-art задача, ако бъде възложена: GPT-6.1 Sol / High.

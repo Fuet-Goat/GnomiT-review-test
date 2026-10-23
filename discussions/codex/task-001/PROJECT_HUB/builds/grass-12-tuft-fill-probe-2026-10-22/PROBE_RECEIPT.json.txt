@@ -1,0 +1,473 @@
+{
+  "status": "NATIVE_12_TUFT_PROBE_SAVED_REOPENED_RENDERED",
+  "source_sha256": "d763d19318e47bf4801f4e3bc8cfedef9b99791b092ac88cf30bd508f92137b4",
+  "candidate_sha256": "565ef994f53900d63995c8618c5099bb7d90788ece3415d675d4d3ed5e373869",
+  "generator_sha256": "a5236b57514843c8308761e10d7ea5b4a021bc6417ca0bd00bce09c4be162708",
+  "tool": "Blender5.2.2 LTS",
+  "proposal_commit": "5c697a527fed521432c424302262d459514adc96",
+  "selected_tufts": [
+    {
+      "zone": "foreground",
+      "cell": [
+        15,
+        -52
+      ],
+      "old_leaf_indices": [
+        489,
+        490,
+        491
+      ],
+      "old_accepted_leaves": 3,
+      "added_leaves": 3,
+      "final_leaves": 6,
+      "screen_root_estimate": [
+        337.9902391433716,
+        744.6745920181274
+      ],
+      "root_estimate": [
+        2.547410011291504,
+        -8.183647155761719,
+        0.6128326654434204
+      ],
+      "original_centre": "NOT_RECOVERED; existing roots unchanged, additions pivot around existing roots.",
+      "templates": [
+        489,
+        490,
+        491
+      ],
+      "new_angles": [
+        5.124665026684836,
+        -0.12604247994515383,
+        4.141384826813002
+      ]
+    },
+    {
+      "zone": "foreground",
+      "cell": [
+        16,
+        -49
+      ],
+      "old_leaf_indices": [
+        611,
+        612,
+        613
+      ],
+      "old_accepted_leaves": 3,
+      "added_leaves": 3,
+      "final_leaves": 6,
+      "screen_root_estimate": [
+        345.22880458831787,
+        732.8048086166382
+      ],
+      "root_estimate": [
+        2.6979892253875732,
+        -7.813251495361328,
+        0.6050523519515991
+      ],
+      "original_centre": "NOT_RECOVERED; existing roots unchanged, additions pivot around existing roots.",
+      "templates": [
+        611,
+        612,
+        613
+      ],
+      "new_angles": [
+        2.800109533304541,
+        -2.316888695361773,
+        1.7500973640859339
+      ]
+    },
+    {
+      "zone": "foreground",
+      "cell": [
+        16,
+        -50
+      ],
+      "old_leaf_indices": [
+        571,
+        572,
+        573
+      ],
+      "old_accepted_leaves": 3,
+      "added_leaves": 3,
+      "final_leaves": 6,
+      "screen_root_estimate": [
+        340.3037281036377,
+        734.1661262512207
+      ],
+      "root_estimate": [
+        2.5955357551574707,
+        -7.856692314147949,
+        0.6068414449691772
+      ],
+      "original_centre": "NOT_RECOVERED; existing roots unchanged, additions pivot around existing roots.",
+      "templates": [
+        571,
+        572,
+        573
+      ],
+      "new_angles": [
+        4.43338135208759,
+        5.419564608861584,
+        3.484692328808693
+      ]
+    },
+    {
+      "zone": "foreground",
+      "cell": [
+        15,
+        -51
+      ],
+      "old_leaf_indices": [
+        528,
+        529,
+        530
+      ],
+      "old_accepted_leaves": 3,
+      "added_leaves": 3,
+      "final_leaves": 6,
+      "screen_root_estimate": [
+        333.4996290206909,
+        739.1697120666504
+      ],
+      "root_estimate": [
+        2.4539947509765625,
+        -8.013731956481934,
+        0.6109625101089478
+      ],
+      "original_centre": "NOT_RECOVERED; existing roots unchanged, additions pivot around existing roots.",
+      "templates": [
+        528,
+        529,
+        530
+      ],
+      "new_angles": [
+        6.717511066791781,
+        1.4070985615415248,
+        -0.5947038360795616
+      ]
+    },
+    {
+      "zone": "inner_bend",
+      "cell": [
+        -16,
+        3
+      ],
+      "old_leaf_indices": [
+        3936,
+        3937,
+        3938
+      ],
+      "old_accepted_leaves": 3,
+      "added_leaves": 3,
+      "final_leaves": 6,
+      "screen_root_estimate": [
+        93.03206992149353,
+        455.01983642578125
+      ],
+      "root_estimate": [
+        -2.5482890605926514,
+        0.5580376982688904,
+        0.6999008059501648
+      ],
+      "original_centre": "NOT_RECOVERED; existing roots unchanged, additions pivot around existing roots.",
+      "templates": [
+        3936,
+        3937,
+        3938
+      ],
+      "new_angles": [
+        6.169002664015513,
+        1.2342076233920398,
+        4.90822836889674
+      ]
+    },
+    {
+      "zone": "inner_bend",
+      "cell": [
+        -16,
+        2
+      ],
+      "old_leaf_indices": [
+        3856,
+        3857,
+        3858
+      ],
+      "old_accepted_leaves": 3,
+      "added_leaves": 3,
+      "final_leaves": 6,
+      "screen_root_estimate": [
+        97.24861192703247,
+        461.8537902832031
+      ],
+      "root_estimate": [
+        -2.4605751037597656,
+        0.34592515230178833,
+        0.7033173441886902
+      ],
+      "original_centre": "NOT_RECOVERED; existing roots unchanged, additions pivot around existing roots.",
+      "templates": [
+        3856,
+        3857,
+        3858
+      ],
+      "new_angles": [
+        5.1591802801111,
+        4.1460638273854356,
+        0.00450980263473566
+      ]
+    },
+    {
+      "zone": "inner_bend",
+      "cell": [
+        -17,
+        1
+      ],
+      "old_leaf_indices": [
+        3772,
+        3773
+      ],
+      "old_accepted_leaves": 2,
+      "added_leaves": 3,
+      "final_leaves": 5,
+      "screen_root_estimate": [
+        89.88417148590088,
+        463.8571357727051
+      ],
+      "root_estimate": [
+        -2.6137726306915283,
+        0.2968994677066803,
+        0.6920520067214966
+      ],
+      "original_centre": "NOT_RECOVERED; existing roots unchanged, additions pivot around existing roots.",
+      "templates": [
+        3772,
+        3773,
+        3772
+      ],
+      "new_angles": [
+        2.5963250568310983,
+        3.8813033857960555,
+        1.3011731361076273
+      ]
+    },
+    {
+      "zone": "inner_bend",
+      "cell": [
+        -16,
+        1
+      ],
+      "old_leaf_indices": [
+        3774,
+        3775,
+        3776,
+        3777
+      ],
+      "old_accepted_leaves": 4,
+      "added_leaves": 3,
+      "final_leaves": 7,
+      "screen_root_estimate": [
+        95.26413989067078,
+        465.96227645874023
+      ],
+      "root_estimate": [
+        -2.501856803894043,
+        0.22556862235069275,
+        0.6986910104751587
+      ],
+      "original_centre": "NOT_RECOVERED; existing roots unchanged, additions pivot around existing roots.",
+      "templates": [
+        3774,
+        3775,
+        3776
+      ],
+      "new_angles": [
+        4.56158345447971,
+        3.8638442022379804,
+        -0.9270480751624681
+      ]
+    },
+    {
+      "zone": "quiet_transition",
+      "cell": [
+        11,
+        -4
+      ],
+      "old_leaf_indices": [
+        3419,
+        3420,
+        3421,
+        3422
+      ],
+      "old_accepted_leaves": 4,
+      "added_leaves": 3,
+      "final_leaves": 7,
+      "screen_root_estimate": [
+        301.9038848876953,
+        491.35268211364746
+      ],
+      "root_estimate": [
+        1.7967299222946167,
+        -0.6172083616256714,
+        0.7623986005783081
+      ],
+      "original_centre": "NOT_RECOVERED; existing roots unchanged, additions pivot around existing roots.",
+      "templates": [
+        3419,
+        3420,
+        3421
+      ],
+      "new_angles": [
+        6.757702902917246,
+        7.732412123860079,
+        -0.41550799450507503
+      ]
+    },
+    {
+      "zone": "quiet_transition",
+      "cell": [
+        12,
+        -5
+      ],
+      "old_leaf_indices": [
+        3360,
+        3361,
+        3362
+      ],
+      "old_accepted_leaves": 3,
+      "added_leaves": 3,
+      "final_leaves": 6,
+      "screen_root_estimate": [
+        311.6247253417969,
+        493.9508056640625
+      ],
+      "root_estimate": [
+        1.998945951461792,
+        -0.6876427531242371,
+        0.7541796565055847
+      ],
+      "original_centre": "NOT_RECOVERED; existing roots unchanged, additions pivot around existing roots.",
+      "templates": [
+        3360,
+        3361,
+        3362
+      ],
+      "new_angles": [
+        7.966211484427764,
+        6.819650404201938,
+        2.760004438156158
+      ]
+    },
+    {
+      "zone": "quiet_transition",
+      "cell": [
+        12,
+        -6
+      ],
+      "old_leaf_indices": [
+        3310,
+        3311,
+        3312
+      ],
+      "old_accepted_leaves": 3,
+      "added_leaves": 3,
+      "final_leaves": 6,
+      "screen_root_estimate": [
+        312.9487237930298,
+        499.16725158691406
+      ],
+      "root_estimate": [
+        2.0264883041381836,
+        -0.8426504135131836,
+        0.7503522634506226
+      ],
+      "original_centre": "NOT_RECOVERED; existing roots unchanged, additions pivot around existing roots.",
+      "templates": [
+        3310,
+        3311,
+        3312
+      ],
+      "new_angles": [
+        3.4873468035455257,
+        2.432753399418716,
+        4.512812800732187
+      ]
+    },
+    {
+      "zone": "quiet_transition",
+      "cell": [
+        12,
+        -4
+      ],
+      "old_leaf_indices": [
+        3423,
+        3424,
+        3425
+      ],
+      "old_accepted_leaves": 3,
+      "added_leaves": 3,
+      "final_leaves": 6,
+      "screen_root_estimate": [
+        311.21920108795166,
+        488.6184310913086
+      ],
+      "root_estimate": [
+        1.9905104637145996,
+        -0.5284117460250854,
+        0.7573668360710144
+      ],
+      "original_centre": "NOT_RECOVERED; existing roots unchanged, additions pivot around existing roots.",
+      "templates": [
+        3423,
+        3424,
+        3425
+      ],
+      "new_angles": [
+        0.17982763393936763,
+        -0.8817125623173254,
+        1.295090593753678
+      ]
+    }
+  ],
+  "old_blades": 7554,
+  "new_blades": 7590,
+  "body_tuft_count_unchanged": 2559,
+  "old_prefix_counts": [
+    120864,
+    188850,
+    287052,
+    75540
+  ],
+  "old_prefix_sha256": "135ff64b44739e193eeabbeaadcec17321f0a18837a6964fb399ed3093f35d53",
+  "original_vertex_edge_loop_face_colour_prefix_unchanged": true,
+  "protected_non_body_records": 648,
+  "edge_and_all_other_scene_records_unchanged": true,
+  "material_camera_lighting_settings_unchanged": true,
+  "added_blades": 36,
+  "limited_candidates_skipped": 0,
+  "unused_material_retention_flags_added": [],
+  "geometry_method": "Clone existing leaf profile/colour; rotate around an existing exact root. Three additions per selected2-4leaf tuft. Independent per-cell random order; no global scatter replay.",
+  "centre_limit": "Grid cells identify existing tufts. Original unjittered centres are unavailable; root means are labelled estimates. No existing root moves.",
+  "collision_limit": "Sampled all new leaf vertices from above and root camera visibility; not exhaustive triangle/leaf-leaf collision proof.",
+  "renders": [
+    {
+      "path": "outputs/00_A_V014_CONTROL_432x960.png",
+      "bytes": 721794,
+      "sha256": "49e2065fbd8db3b61eee683b6211b03b4a73a878598df93528953ab49cc73503",
+      "samples": 128,
+      "width": 432,
+      "height": 960
+    },
+    {
+      "path": "outputs/01_B_12_FULLER_TUFTS_432x960.png",
+      "bytes": 721828,
+      "sha256": "782850ede559c26880d11962f3090165a3b8017e33e1cdbdd6293593bd1b26a4",
+      "samples": 128,
+      "width": 432,
+      "height": 960
+    }
+  ],
+  "game_integration": "NOT_PERFORMED",
+  "godot_tests": "NOT_RUN_FOR_THIS_NATIVE_PROBE",
+  "human_choice": "PENDING",
+  "android_performance": "NOT_MEASURED"
+}

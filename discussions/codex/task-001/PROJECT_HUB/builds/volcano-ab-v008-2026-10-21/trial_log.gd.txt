@@ -1,0 +1,150 @@
+extends RefCounted
+## Local research observations only. Event presence never scores understanding.
+const ROOT_DIRECTORY := "user://research_sessions"
+const WINDOW_MS := 300000
+
+var session_id: String = ""
+var directory: String = ""
+var failed: bool = false
+var finished: bool = false
+var entries: Array = []
+var board_ready_ms: int = -1
+
+var _begun := false
+var _start_tick_ms := -1
+var _arm := ""
+var _seed := 0
+var _run_kind := ""
+var _file: FileAccess
+var _window_marked := false
+var _summary: Dictionary = {}
+var _milestones: Dictionary = {
+	"reward_birth":{"status":"NOT_REACHED", "count":0,
+		"first_total_elapsed_ms":null, "first_gameplay_elapsed_ms":null},
+	"volcano_activation":{"status":"NOT_REACHED", "count":0,
+		"first_total_elapsed_ms":null, "first_gameplay_elapsed_ms":null},
+}
+
+func begin(arm: String, seed: int, run_kind: String = "OWNER_PREVIEW") -> bool:
+	if _begun or finished or failed: return false
+	if arm not in ["A", "B"]:
+		failed = true
+		return false
+	if DirAccess.make_dir_recursive_absolute(ROOT_DIRECTORY) != OK:
+		failed = true
+		return false
+	var root := DirAccess.open(ROOT_DIRECTORY)
+	if root == null:
+		failed = true
+		return false
+	# Claim a fresh leaf before opening WRITE mode; never truncate a predecessor.
+	for attempt in range(8):
+		var random_bytes := Crypto.new().generate_random_bytes(16)
+		if random_bytes.size() != 16:
+			failed = true
+			return false
+		var candidate := random_bytes.hex_encode()
+		var result := root.make_dir(candidate)
+		if result == ERR_ALREADY_EXISTS: continue
+		if result != OK:
+			failed = true
+			return false
+		session_id = candidate
+		directory = ROOT_DIRECTORY.path_join(session_id) + "/"
+		break
+	if directory.is_empty():
+		failed = true
+		return false
+	_file = FileAccess.open(directory.path_join("events.jsonl"), FileAccess.WRITE)
+	if _file == null:
+		failed = true
+		return false
+	_arm = arm
+	_seed = seed
+	_run_kind = run_kind
+	_start_tick_ms = _now_ms()
+	_begun = true
+	_record("session_begin", {"arm":arm, "seed":seed, "run_kind":run_kind})
+	return not failed
+
+func append_event(event_name: String, details: Dictionary = {}) -> void:
+	if not _begun or finished or failed: return
+	tick()
+	_record(event_name, details)
+
+func mark_board_ready() -> void:
+	if not _begun or finished or failed or board_ready_ms >= 0: return
+	board_ready_ms = _total_ms()
+	_record("board_ready", {})
+
+func tick() -> void:
+	if not _begun or finished or failed or _window_marked or board_ready_ms < 0: return
+	if _total_ms() - board_ready_ms >= WINDOW_MS:
+		_window_marked = true
+		_record("window_5m", {"window_ms":WINDOW_MS})
+
+func finish(reason: String) -> Dictionary:
+	if finished: return _summary.duplicate(true)
+	if not _begun:
+		failed = true
+		finished = true
+		_summary = {"failed":true, "status":"NOT_STARTED", "finish_reason":reason}
+		return _summary.duplicate(true)
+	tick()
+	_record("session_finish", {"reason":reason})
+	var total := _total_ms()
+	_summary = {
+		"session_id":session_id, "arm":_arm, "seed":_seed, "run_kind":_run_kind,
+		"finish_reason":reason, "total_elapsed_ms":total,
+		"gameplay_elapsed_ms":_gameplay_ms(total), "board_ready_ms":board_ready_ms,
+		"event_count":entries.size(), "window_5m_observed":_window_marked,
+		"milestones":_milestones.duplicate(true), "failed":failed,
+		"human_understanding":"NOT_ASSESSED", "manual_scoring":"MANUAL_ONLY",
+	}
+	if _file != null:
+		_file.close()
+		_file = null
+	var summary_path := directory.path_join("summary.json")
+	if FileAccess.file_exists(summary_path):
+		failed = true
+	else:
+		var output := FileAccess.open(summary_path, FileAccess.WRITE)
+		if output == null:
+			failed = true
+		else:
+			output.store_string(JSON.stringify(_summary, "\t"))
+			output.flush()
+			if output.get_error() != OK: failed = true
+			output.close()
+	_summary["failed"] = failed
+	finished = true
+	return _summary.duplicate(true)
+
+func _now_ms() -> int:
+	return Time.get_ticks_msec()
+
+func _total_ms() -> int:
+	return maxi(0, _now_ms() - _start_tick_ms)
+
+func _gameplay_ms(total: int) -> Variant:
+	return null if board_ready_ms < 0 else maxi(0, total - board_ready_ms)
+
+func _record(event_name: String, details: Dictionary) -> void:
+	if _file == null or failed: return
+	var total := _total_ms()
+	var row := {"seq":entries.size() + 1, "event":event_name,
+		"total_elapsed_ms":total, "gameplay_elapsed_ms":_gameplay_ms(total),
+		"details":details.duplicate(true)}
+	_file.store_line(JSON.stringify(row))
+	_file.flush()
+	if _file.get_error() != OK:
+		failed = true
+		return
+	entries.append(row)
+	if _milestones.has(event_name):
+		var milestone: Dictionary = _milestones[event_name]
+		if int(milestone["count"]) == 0:
+			milestone["first_total_elapsed_ms"] = total
+			milestone["first_gameplay_elapsed_ms"] = _gameplay_ms(total)
+		milestone["count"] = int(milestone["count"]) + 1
+		milestone["status"] = "OBSERVED_EVENT"

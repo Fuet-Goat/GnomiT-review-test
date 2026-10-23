@@ -1,0 +1,148 @@
+GNOMIT — VOLCANO FIRE AND CELL SCORCH — 2026-10-17
+Status: LOCAL_IMPLEMENTED / NATIVE_RENDER_PASS / AWAITING_HUMAN_FEEL
+Human request: iskmae da ima i ogun da e po-detailna animaciqta kamunite ot lava da gorqt i kato padnat da izgorqt kvadratcheto.
+Predecessor: painted Volcano receipt4360b5cbea37ad59d8e0495cb8f036c0d3c84d97. Original modified files preserved under verification/before_fire_pass_2026-10-17. No original artifacts silently replaced.
+
+TRY THE UPDATE
+Project:C:\Users\fruch\Documents\Codex\GnomiT_Playtests\MagicAnimations_2026-10-17
+Launcher:C:\Users\fruch\Documents\Codex\GnomiT_Playtests\MagicAnimations_2026-10-17\PLAY_MAGIC_ANIMATIONS.cmd
+Live unique Magic Animation Lab reopened and observed on Windows monitor1 (Godot screen0),432x960. Painted ON by default. Drag the Volcano to the glowing neighboring gem. Reset repeats the fixture. Painted OFF remains the inherited procedural reference. Other powers remain baseline;no new Tornado/BlackHole art claimed.
+
+WHAT CHANGED
+One real transparent lava_flame.png generated with built-in image_gen and copied unchanged into the project. Existing magma/ash/impact PNGs retained exactly. Prompt saved at assets/vfx/volcano/FIRE_GENERATION_PROMPT.txt.
+Layered,deterministically flickering flames envelop each flying magma stone;flame tips follow the reverse trajectory tangent. Short fire tails and hot embers,plus a brief crater flame plume. On actual impact,three upward flame tongues and sparks accompany the existing dust/chips.
+Each impacted ordinary target briefly shows a dark rounded0.8-cell scorch square and ember cracks BEHIND the shrinking gem. This is a temporary draw effect. No persistent burn object,tile damage-over-time,extra target,soil/rune hit,move cost,reward or gameplay RNG is added. It is not described as a permanent destroyed hole.
+Base _draw_gem icon,Core,terrain rules,save,audio and configured1.04s duration remain unchanged. Reduced motion still uses the inherited short cue;skip/reset/normal expiry leave no fire or scorch. UI helper text describes burning lava;debug/implementation caveats stay in this report/README.
+
+VERIFICATION ACTUALLY RUN
+New missing-feature RED assertion saved,then fire22/22 checks clean. Existing painted26/26,base board18/18,Core80/80,all clean. Actual drawing spy observes the real flame texture in crater/flight/impact and scorch only at Core target coordinates. It verifies Core/RNG/event immutability and cleanup on awaited expiry,skip,reset,reduced motion.
+During test development,a manual0.99 sample initially expected all targets expired. The last staggered target is legitimately still active at0.99;the test was corrected to expect that final target and independently verify actual event cleanup. No impossible normalized time>1 is claimed as runtime proof.
+Final headless integration9cases0failures. Both final native Godot movie runs exit0,PASS,without ERROR/WARNING. Entire432x960 root,screen0,real Input.parse_input_event press/drag/release. Six PNG phases per mode include04b_burn around normalized0.76. Parent inspected actual flight/burn/hit images and observed the live restarted window. This is agent/runtime verification,not human/Android acceptance.
+Control and fire candidate EVENT,RESULT,FINAL_STATE JSON files are byte-identical. Same targets[2,15,18,20,25],one move,same terrain and RNG. Configured1.04s unchanged;recording is fixed30fps,not a performance benchmark. Last staggered burn is shorter and ends when the inherited event clears.
+Independent read-only source review found no critical/important issue;it did not perform tests or visual acceptance. Only helper wording changed afterward,then final integration and both movies were run again.
+
+FILES AND DELIVERY
+New capture flag --fire-pass routes evidence to outputs/fire;earlier captures remain in their original directories. First fire captures before helper-copy cleanup preserved under verification/fire_first_render. Existing packages,PNGs,movies and old imagegen originals retained.
+Native AVI movies with existing game audio:outputs/fire/volcano_control.avi and volcano_candidate.avi. Silent GIF preview derives from those actualMJPEGframes,not an AI animation. Keyframes preserve full PNG quality. Package contains source delta,real flame PNG,metadata,prompts,checks,keyframes and GIF;full AVI recordings remain in the local project.
+Governed Git remains REPORTS_ONLY:own text receipt and literal delta proposal only. Native game/PNG files are NOT claimed uploaded to Git. No grants,main,private repo,baseline,external bot assignment or merge changes.
+
+ACTUAL NEW MATERIAL
+{
+  "path": "assets/vfx/volcano/lava_flame.png",
+  "source": "C:\\Users\\fruch\\.codex\\generated_images\\01a11973-52a1-7a10-b9c3-69a7fee84ca5\\exec-e2501b47-a3da-4802-9811-dd70c79147c5.png",
+  "size": [
+    1269,
+    1240
+  ],
+  "mode": "RGBA",
+  "alpha_range": [
+    0,
+    254
+  ],
+  "alpha_bbox": [
+    0,
+    21,
+    1255,
+    1240
+  ],
+  "bytes": 892449,
+  "sha256": "c44ea2aa05e0d681f61956a84a6d6262e109ef52227985cdf707f33cc43f7c81",
+  "processing": "unaltered copy of built-in imagegen output;no bitmap editing"
+}
+
+SOURCE AND RESULT IDENTITIES
+{
+  "unchanged_sources": {
+    "scripts/lab/natural_power_core.gd": {
+      "bytes": 7441,
+      "sha256": "1383ab2b866a44cef82d3e6b16d45f011a60109d901acaa04dacbbfa2558c2ff"
+    },
+    "scripts/lab/natural_power_board.gd": {
+      "bytes": 10704,
+      "sha256": "9225666048153c7c7c2cf44aba9871f75b4222f0dfafbfcb622ba8002e65d61b"
+    },
+    "scripts/board_view.gd": {
+      "bytes": 33490,
+      "sha256": "c0f68b6a37805278db1684200e7d5c6bc3672bfdc04fb5d6b9b908d177a44781"
+    },
+    "scripts/match_core.gd": {
+      "bytes": 10023,
+      "sha256": "12f1d987e5a5ab194cfc1ea555a5905922290a23e67f370b9f3a4813d42166bb"
+    },
+    "scripts/main.gd": {
+      "bytes": 24717,
+      "sha256": "6f8bc515339735b907fb94e3c0b621def3f9e6e75591e849bde73b2be91e5737"
+    },
+    "scripts/progress.gd": {
+      "bytes": 4151,
+      "sha256": "2d7dce425fb70fe47d07bd14777a957ac2d7e08929a43ef56216b13fba22e501"
+    },
+    "scripts/rock_audio.gd": {
+      "bytes": 1784,
+      "sha256": "24fac13dc7093ac423121b6862b123ba32359c0b10d439d0e3f286c45093112d"
+    }
+  },
+  "original_three_pngs_preserved": true,
+  "new_flame": {
+    "path": "assets/vfx/volcano/lava_flame.png",
+    "source": "C:\\Users\\fruch\\.codex\\generated_images\\01a11973-52a1-7a10-b9c3-69a7fee84ca5\\exec-e2501b47-a3da-4802-9811-dd70c79147c5.png",
+    "size": [
+      1269,
+      1240
+    ],
+    "mode": "RGBA",
+    "alpha_range": [
+      0,
+      254
+    ],
+    "alpha_bbox": [
+      0,
+      21,
+      1255,
+      1240
+    ],
+    "bytes": 892449,
+    "sha256": "c44ea2aa05e0d681f61956a84a6d6262e109ef52227985cdf707f33cc43f7c81",
+    "processing": "unaltered copy of built-in imagegen output;no bitmap editing"
+  },
+  "control_vs_fire_identical_streams": {
+    "EVENT": {
+      "bytes": 1565,
+      "sha256": "01d2aef81612089a4f4b43074b9c064af3cc315452a819aee37d694f05b3e4f8"
+    },
+    "RESULT": {
+      "bytes": 4082,
+      "sha256": "865846c4c57e702b3a67e18d2aa4dab8d668415b69d5501926bf1a2e087121e4"
+    },
+    "FINAL_STATE": {
+      "bytes": 978,
+      "sha256": "34527a359c9b42eac447575f80152f651ef9b468f5b219f44668a92787ba70ef"
+    }
+  },
+  "configured_duration_seconds": 1.04,
+  "target_indices": [
+    2,
+    15,
+    18,
+    20,
+    25
+  ]
+}
+
+CHANGED LOCAL TEXT IDENTITIES
+scripts/lab/magic_volcano_board.gd | {'bytes': 13095, 'sha256': '3a2c830fccb0cb85d0607601a4ddb5b82facf8d4160f9abcbeda890fb478ace4'}
+scripts/lab/natural_power_lab.gd | {'bytes': 10323, 'sha256': '17c2661169b15f440ba4373c98c7c8dbc64754838209ec2b89a2bc7276935838'}
+tests/capture_painted_volcano.gd | {'bytes': 20132, 'sha256': '6d5707e402c9d81d7a715e6555f2f212c1a0b1421866f47620acfa3529644158'}
+README_MAGIC_ANIMATIONS.txt | {'bytes': 1507, 'sha256': 'c966743022807cac881aaace6d9e4301072bdd40813bff95d1587533a25129d6'}
+assets/vfx/volcano/MATERIALS.json | {'bytes': 2757, 'sha256': '3c5079cd348c4b19510e83ce289e4359a81943146cdaa76b8c2eca3a1e3e76ee'}
+tests/test_volcano_fire.gd | {'bytes': 10077, 'sha256': '36c648f731a00513744eed77c82b39bfdbf299d6cc2c3a1ab9a5edfe103cc7d8'}
+assets/vfx/volcano/FIRE_GENERATION_PROMPT.txt | {'bytes': 1474, 'sha256': 'bbb84f19bdc35018271859fc882b64ace510117965c4dbcd5f98d67c51b08ea4'}
+
+FULL GENERATION PROMPT
+BUILT-IN IMAGE_GEN FIRE MATERIAL — 2026-10-17
+Mode: new transparent project-bound image; transparent_background=true.
+Selected output copied unchanged to lava_flame.png; original retained in generated_images. No bitmap editing or CLI fallback.
+
+Use case: stylized-concept. Asset type: ONE transparent 2D game VFX flame tuft for GnomiT, a richly painted storybook fantasy mining match-3. Primary request: a lively compact cluster of three curling tongues of real orange fire with a warm golden-yellow inner core, copper-red translucent outer wisps and two tiny warm embers very close to the tuft. Upright flame, widest around lower middle, narrow curling pointed top, no stone underneath. Painted volumetric cartoon fantasy shading, soft luminous interior but crisp readable curling fire silhouette when rendered at 25-40 pixels high. Isolated centered, approximately 55 percent of canvas width and 70 percent height, generous truly transparent padding on all sides; soft alpha only on the wispy outer tips. No background, no checkerboard, no icon or badge, no circle, no volcano, no border, no text, no black soot cloud, no blue fire, no solid white aura, no large scattered sparks, no multi-frame sheet. This is only the flame material that Godot will layer around an existing airborne magma rock and on a small hit tile, not a replacement for that rock or the approved volcano icon. True RGBA transparent background. Detailed stylized game asset, not a flat flame logo.
+
+Recommended:GPT-6.1 Sol / High for VFX;Medium for text-only publication. Actual current effort not independently attested.

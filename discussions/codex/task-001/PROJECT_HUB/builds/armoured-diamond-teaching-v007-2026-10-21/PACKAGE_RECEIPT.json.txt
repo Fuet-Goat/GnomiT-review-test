@@ -1,0 +1,8 @@
+{
+  "zip": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\GNOMIT_ARMOURED_DIAMOND_V007_2026-10-21.zip",
+  "bytes": 2682308,
+  "sha256": "b65b84f623c15bce21bb42771d38670ef3b7716ba23f02029879f425c329aae0",
+  "entries": 39,
+  "status": "LOCAL_VERIFIED",
+  "scope": "ISOLATED_TEACHING_PREVIEW"
+}

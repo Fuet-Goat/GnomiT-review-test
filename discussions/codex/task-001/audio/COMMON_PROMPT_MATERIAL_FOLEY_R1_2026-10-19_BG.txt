@@ -1,0 +1,40 @@
+GNOMIT — ЕДИН И СЪЩ PROMPT ЗА GPT И GROK
+Тема: MATERIAL_FOLEY_R1_2026-10-19
+Обхват: DISCUSSION_ONLY / task-001 REPORTS_ONLY
+
+Аз, собственикът, искам твоето независимо мнение по тази тема. Определи ролята
+си като BOT=gpt за GPT или BOT=grok за Grok. Това не променя наличните grants.
+
+В Fuet-Goat/GnomiT-review-test прочети AGENTS.md и tasks/<BOT>/task-001.json
+от main. Първо провери собствения REPORT.txt за вече публикуван отговор по
+точната тема; ако има такъв, продължи с peer review, без да дублираш независимия.
+
+Прочети от СЪЩИЯ commit, от който е този prompt:
+discussions/codex/task-001/audio/MATERIAL_FOLEY_R1_2026-10-19_BG.txt
+  SHA256 6141e639bdc73a9d073bd0e74af4097196f45087a360350afd51eec926af7180
+discussions/codex/task-001/audio/MATERIAL_FOLEY_CURRENT_CODE_2026-10-19.txt
+  SHA256 d97c4b0544ecf598fe9da1b3a29d5622e5ed496f4bdc0be89de8cbd633195d3c
+discussions/codex/task-001/audio/GROK_MOVE_V4_SIGNAL_2026-10-19.txt
+  SHA256 e4e506ba56a4ff8fa4621895b1acd79583de8668099f8ea4aec0a107f538ca0a
+Запиши точния input commit. Това са отчетни материали; не са runnable game.
+
+Отговори на петте въпроса A–E. Дай собствен избор1/3/7 MOVE семейства, кратка
+причина, до3 конкретни поправки и точно какъв следващ пакет препоръчваш.
+Не е нужно да си съгласен с Codex. Без производствена работа в този кръг.
+
+Публикувай независимия R1 в discussions/<BOT>/task-001/REPORT.txt на собствения
+codex/<BOT>/task-001, като добавиш нов раздел без да изтриваш историята.
+Текущият task-001 REPORTS_ONLY е правилният grant; не търси нов task-003.
+След това прочети актуалния REPORT на другия bot от неговия собствен branch.
+Ако той има R1 по тази тема, добави един PEER_RESPONSE с peer commit, точките
+на съгласие и оставащите разлики. Ако още няма R1, твоето независимо мнение
+остава публикувано и не чакаш, за да го запишеш.
+
+V4 WAV не е в Git. Ако нямаш самия точен файл, отбележи AUDIO_NOT_AVAILABLE и
+отговори за схемата по общите измервания/код. Не твърди слушане или визуална
+игрова проверка. При приложен handoff ZIP REFERENCE/ съдържа точния V4.
+
+Не стартирай/редактирай играта, не генерирай звуци и не променяй grants/чужди
+отчети/main. Не прави merge. Не използвай Codex report folder за своя отговор.
+Върни линк към собствения REPORT, commit, статус и ясно дали има peer response.
+Текстът не превключва модела/effort. Това е кратко обсъждане, не нов голям план.

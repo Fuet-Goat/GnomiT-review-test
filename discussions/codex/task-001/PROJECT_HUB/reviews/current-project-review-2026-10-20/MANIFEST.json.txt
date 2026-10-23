@@ -1,0 +1,1502 @@
+{
+  "schema": 1,
+  "scope": "Current v001 review data and reusable contribution documentation; no new game version",
+  "excludes": "failed take, raw AVI, logs, caches, personal saves; raw AVI identities retained in VIDEOS.json",
+  "files": [
+    {
+      "path": "ASSET_METADATA.json",
+      "bytes": 46978,
+      "sha256": "e0c367947edac5f988dbb1752499a344eb181dd34bf2d1dce386a5dd60eea213"
+    },
+    {
+      "path": "audio/elements/earthquake_stones_v1.wav",
+      "bytes": 127934,
+      "sha256": "590a68abb33743b1ea6d5c86f85dd6cc331cbf915fb9f36e61580d1b8e099071"
+    },
+    {
+      "path": "audio/elements/elements_quiet_short_v1.wav",
+      "bytes": 15920,
+      "sha256": "af248c4586538890719119c5fea51e0ce9e246cf719011b1fd932b3eb31da786"
+    },
+    {
+      "path": "audio/elements/fusion_gravity_v1.wav",
+      "bytes": 163214,
+      "sha256": "7c643a4bef093f491d6cdc6d56d0c4be4f486d6dcdc07207d96142dd0ab1302d"
+    },
+    {
+      "path": "audio/elements/fusion_material_v2.wav",
+      "bytes": 247004,
+      "sha256": "42eca2b5f8769d5ff67db83f2f41d6ef41e91876c0a31ff2c3084551f368ad69"
+    },
+    {
+      "path": "audio/lightning/storm_cartoon_v1.wav",
+      "bytes": 282284,
+      "sha256": "6d231b86864c703e417282b9379698adc3577ef47eb1a4903f36577b9fd2a8c7"
+    },
+    {
+      "path": "audio/lightning/storm_cartoon_v2.wav",
+      "bytes": 282284,
+      "sha256": "bd3ecf606774106f0426800e475c33e97b2d15d6b16433bed306b5da23ee3ddc"
+    },
+    {
+      "path": "audio/lightning/storm_short_v1.wav",
+      "bytes": 15920,
+      "sha256": "4ef3ab02c180016bc205f659b4155c62c052a8e4df317f84c8a39e39689badd5"
+    },
+    {
+      "path": "audio/reward_rules/fusion_10_10_soft_v1.wav",
+      "bytes": 493964,
+      "sha256": "bbd8fc607a45292b43c5dafb4e949bb6f784a5dbd41016ff9b3e2637fb12ebed"
+    },
+    {
+      "path": "audio/reward_rules/fusion_6_10_soft_v1.wav",
+      "bytes": 493964,
+      "sha256": "d1c54a133812655412269831aad325fa8b16b21411e284579ed106afbc839076"
+    },
+    {
+      "path": "audio/reward_rules/fusion_6_6_soft_v1.wav",
+      "bytes": 493964,
+      "sha256": "4da029773bf66834ca4a5d93154d641d43c9c4ff96efe060e8beff3ed9a04782"
+    },
+    {
+      "path": "audio/reward_rules/fusion_6_9_soft_v1.wav",
+      "bytes": 493964,
+      "sha256": "5cd7b0e8a59190af0f5ef89c9a7e1703de4e70650f39b1e9a8bb24f9e98400b1"
+    },
+    {
+      "path": "audio/reward_rules/fusion_9_10_soft_v1.wav",
+      "bytes": 493964,
+      "sha256": "ca9ee0bda217b0cfc7b329853ba575035d7ae149e51489b61e7e411c6ad9218e"
+    },
+    {
+      "path": "audio/reward_rules/fusion_9_9_soft_v1.wav",
+      "bytes": 493964,
+      "sha256": "7893bd5c6d89fce8a41e018ceae4cda1c74c683bc42d846b0db1887c73fbfa0c"
+    },
+    {
+      "path": "audio/reward_rules/reward_birth_soft_v1.wav",
+      "bytes": 44144,
+      "sha256": "4b424d949d554ba572f63260d2ee3bb158d8a2d0fc50842be75ebd18426dffb9"
+    },
+    {
+      "path": "audio/stone_break_full_v1.wav",
+      "bytes": 185298,
+      "sha256": "9e573bc03b5f427614005774116ef3c84cfa5b9ba486440871331d0d54ac307f"
+    },
+    {
+      "path": "audio/stone_break_v1.wav",
+      "bytes": 60076,
+      "sha256": "b122dd28955f51fe4ea8d7db8cd9d53fd3a569de02ca8429b8a9eb2adb60f6e8"
+    },
+    {
+      "path": "audio/stone_break_v2.wav",
+      "bytes": 10662,
+      "sha256": "00bea1bced131b1565429109de2c75ca4bf6aa719e078bac1047898da57124f5"
+    },
+    {
+      "path": "audio/stone_move_cartoon_selected_v1.ogg",
+      "bytes": 7360,
+      "sha256": "45ac41d8bbf97f713ba5d979ffd497b63a79f530acf3d4c73eb591832880c8b9"
+    },
+    {
+      "path": "audio/stone_move_mid_soft_v1.wav",
+      "bytes": 44366,
+      "sha256": "d205cf45a27c556998c4d02c64b3870b41380ae76035f2bad0b167272139722b"
+    },
+    {
+      "path": "audio/stone_move_short_soft_v1.wav",
+      "bytes": 31054,
+      "sha256": "1744ac35f1200bd8219197f7a585fc478f3f326785589be2e406745c7a667bcc"
+    },
+    {
+      "path": "audio/stone_move_v1.wav",
+      "bytes": 42414,
+      "sha256": "db6039cb201e2cdc51c3e1fd4849d92492a5fef025731ef2a0260c1ce1fb74c8"
+    },
+    {
+      "path": "audio/stone_move_v2.wav",
+      "bytes": 14190,
+      "sha256": "1bda455077d0ff829ff0aeb2882f7faf31aa9b510fab96636034ae677f37d286"
+    },
+    {
+      "path": "audio/tornado/tornado_cartoon_magic_v1.wav",
+      "bytes": 250532,
+      "sha256": "c599537fb85b98f7bb11432eda5b4657915150b327f70b19dd2233fc9711fa53"
+    },
+    {
+      "path": "audio/tornado/tornado_soft_short_v1.wav",
+      "bytes": 19448,
+      "sha256": "55a20721ee57df1b8a39b93995281792c812bba5e1587b55272188f2b112e193"
+    },
+    {
+      "path": "audio/volcano/eruption_soft_v1.wav",
+      "bytes": 81188,
+      "sha256": "3ba1530e006b39b3e20af8683085cb2f1ffb7db4ad26051d6fa683434b38f9e4"
+    },
+    {
+      "path": "audio/volcano/gnomit_volcano_cartoon_eruption.mp3",
+      "bytes": 16724,
+      "sha256": "165bba4707d48883e96d1c7626400e36a454e206469d58b3b21ec9c536fda27c"
+    },
+    {
+      "path": "audio/volcano/lava_flight_soft_v1.wav",
+      "bytes": 26504,
+      "sha256": "9451170e02e409789852074b013989807bb55d55a6fb1a0e76064c2a8828f903"
+    },
+    {
+      "path": "audio/volcano/magma_impact_burn_v1.wav",
+      "bytes": 63548,
+      "sha256": "39c9ebfd6313cb00aa30f6d3b45d9096fc3c94b6c9a3cf49f904b8ed46b38364"
+    },
+    {
+      "path": "audio/volcano/volcano_eruption_v4_3s.wav",
+      "bytes": 297644,
+      "sha256": "e14235fd8ae7af0f3ec0565053fa1c21885e7fd4f057a7f2a91c43dcb25ada4d"
+    },
+    {
+      "path": "AUDIO_INDEX.json",
+      "bytes": 5422,
+      "sha256": "b999ff708487c33c84f296e92015153252c84f9740475bcfe65b5e1b160eaf69"
+    },
+    {
+      "path": "build_review.py",
+      "bytes": 22975,
+      "sha256": "df5b85d935289fa1390ffc33ee76187414bf6ceee0c2482fc273e2db5abe111c"
+    },
+    {
+      "path": "capture_campaign_review.gd",
+      "bytes": 6395,
+      "sha256": "87def71b0b76fbfaf82ac6a6ff3fd27443b947bc10d5c69378ba7cde67da89a7"
+    },
+    {
+      "path": "CAPTURE_HISTORY.txt",
+      "bytes": 260,
+      "sha256": "bf4789c5697bdb8b35a21c902fa95be80be1980b9fb9b4761efb4dc1d4fdf6cc"
+    },
+    {
+      "path": "capture_power_review.gd",
+      "bytes": 3190,
+      "sha256": "c3673a169e08f4b9e90ed438c1ae4059f7f014410d1c913de72ce78cff7aaa81"
+    },
+    {
+      "path": "CONTRIBUTION_REPORT.txt",
+      "bytes": 1211,
+      "sha256": "a185b8451092e750de6840c7c1a6f29afc1b749c0ce6bc9882e7c9cf0e121d20"
+    },
+    {
+      "path": "CURRENT_RUNTIME_BINDING.json",
+      "bytes": 34530,
+      "sha256": "62db7c759a502fa69636bbffd8e853b1588dcfb5acb8ec89a66caaf53a204b77"
+    },
+    {
+      "path": "documentation/ASSET_METADATA.template.json",
+      "bytes": 4380,
+      "sha256": "3ae0ad8598539e22e9829be9230d88c8c0259259153d9531337d47e43726c244"
+    },
+    {
+      "path": "documentation/COMMON_GPT_GROK_PROMPT_BG.txt",
+      "bytes": 6289,
+      "sha256": "1e2d0799880ec1822b728d76109fe9d3d75a6cf4f605c848da4a03779fefdeb9"
+    },
+    {
+      "path": "documentation/CONTRIBUTION_REPORT.template.txt",
+      "bytes": 5365,
+      "sha256": "5e0d25bf0e8cd915d562f634928128f72da8d510eb0df72e2af66cace9676154"
+    },
+    {
+      "path": "documentation/DOCUMENTATION_MANIFEST.json",
+      "bytes": 2592,
+      "sha256": "50c594a99eb47e4c83dae25090ab26b7d829f04f84c8cf9720803abb6b5c52d6"
+    },
+    {
+      "path": "documentation/MANIFEST.template.json",
+      "bytes": 1800,
+      "sha256": "331480f121dfd3a24283614b9500b6b63d61c045b9069410aee5b96d82e08ac4"
+    },
+    {
+      "path": "documentation/PROVENANCE.template.json",
+      "bytes": 3442,
+      "sha256": "bc8caa8f3d11b2463f884b7b2e7c5575c5d79b2e9a6d099c8a82c21a46b48f41"
+    },
+    {
+      "path": "documentation/README_CONTRIBUTIONS_BG.txt",
+      "bytes": 10366,
+      "sha256": "d82183e799b3d591b0f19ec2e37ddf49c9d3919114a6912118c48125ad7773eb"
+    },
+    {
+      "path": "DOWNLOAD_REVIEW.py",
+      "bytes": 3474,
+      "sha256": "bacd01d35072225c88665c5fe2fd063c8207e3a854b4f9d12c4953e98ef1e10b"
+    },
+    {
+      "path": "FINAL_RESPONSE.txt",
+      "bytes": 420,
+      "sha256": "930f3b7f4ccea6f39b06398dd45663ec620df472e00cde2e64d4983acf7f3b81"
+    },
+    {
+      "path": "GALLERY.html",
+      "bytes": 24743,
+      "sha256": "fc1398325c1b7d33b52930335c6a5a86c03bd172abeca5d47fc6da54539c024f"
+    },
+    {
+      "path": "GAME_REFERENCE.json",
+      "bytes": 446,
+      "sha256": "b05b0afaf6b1ddb587a3eb4e2bdb1686f1f8a528fd40f9c6d8a51b942ab6cc33"
+    },
+    {
+      "path": "media/CAMPAIGN_REVIEW_NATIVE.mp4",
+      "bytes": 1650845,
+      "sha256": "b1999f2d2792989161a55425f088a13695e284b0f71e933ec1e45bb811aab598"
+    },
+    {
+      "path": "media/campaign_take2/01_WORLD_1_PATH_2_LOCKED_MINE.png",
+      "bytes": 398227,
+      "sha256": "7fd4ddc1f82b0aa54f7e038dd491165c5cf69ae325c8f902ff8be8168efc1d55"
+    },
+    {
+      "path": "media/campaign_take2/02_LEVEL1_PREVIEW.png",
+      "bytes": 346326,
+      "sha256": "b1cd0c4f378dce55bd6a9516615be3955eacb7f2fd7aa09563d38ed189141fe0"
+    },
+    {
+      "path": "media/campaign_take2/03_LESSON1_ADJACENT_SWAP.png",
+      "bytes": 172435,
+      "sha256": "7be5f5fc7dc86a1e8de4ec9c8339f7e7d065774fd5fc3735c2bbf69d58d70aa0"
+    },
+    {
+      "path": "media/campaign_take2/04_LESSON1_FOUR_MATCH.png",
+      "bytes": 172786,
+      "sha256": "f707e9026f8bbe3eb2a26f0ca60e01be65f02707d63c8015d81bc53035cc8c9f"
+    },
+    {
+      "path": "media/campaign_take2/05_LESSON1_VOLCANO_CREATED.png",
+      "bytes": 166680,
+      "sha256": "09f3e1ad98e3bc266c56bc44fec15692544c85795b2a51424345aac5025abcc2"
+    },
+    {
+      "path": "media/campaign_take2/06_LESSON2_ACTIVATION.png",
+      "bytes": 181514,
+      "sha256": "ae14f58d83f391110a82ac6c493009e8af67f6aa6c3e8b068387661ce5a74df9"
+    },
+    {
+      "path": "media/campaign_take2/07_LESSON2_BURNING_PROJECTILES.png",
+      "bytes": 187347,
+      "sha256": "c7603069dc7054c5aa372c04f807debcbe3480457a423426093a14c23ee94bc0"
+    },
+    {
+      "path": "media/campaign_take2/08_LESSON2_CLEARED_MINERALS.png",
+      "bytes": 174926,
+      "sha256": "54e9d77cb65469d920d02b97983b0d2d393bd27f37b5983caa30fcfdd0b6a88f"
+    },
+    {
+      "path": "media/campaign_take2/09_LEVEL1_BOARD_READY.png",
+      "bytes": 637815,
+      "sha256": "6bc26d09a1b9ddedc238f386ffb0a4c9b00d6993b4f55cf5c81f524a382a1b53"
+    },
+    {
+      "path": "media/campaign_take2/10_PAUSE_AND_GUIDE_REOPEN.png",
+      "bytes": 438127,
+      "sha256": "dd7f0d5686ca88498339e67d01571dab7eb792d50b2d0fb716e75a33449aaa0a"
+    },
+    {
+      "path": "media/campaign_take2/11_SETTINGS.png",
+      "bytes": 443768,
+      "sha256": "12245404b636eaffdbf2b2f5e5a12602c7a3232c2d84dd76b657cccfd73fbe31"
+    },
+    {
+      "path": "media/campaign_take2/12_REAL_LEVEL1_VICTORY.png",
+      "bytes": 464820,
+      "sha256": "cfa5a637dc40e208c7a8a44507560c08ec7f6191a5af68f6f9ec2869eb143644"
+    },
+    {
+      "path": "media/campaign_take2/13_SAME_WORLD_MINE2_UNLOCKED.png",
+      "bytes": 402301,
+      "sha256": "d7d04d9aeae819b095349a5ec88e62a8253dfa5c94f1c3be4a1957b58073c19b"
+    },
+    {
+      "path": "media/campaign_take2/14_MINE2_PREVIEW.png",
+      "bytes": 346226,
+      "sha256": "62beba68fb3bae7d6a626b25c0769604099bd53c7660e632c6a69fe58a9270ab"
+    },
+    {
+      "path": "media/campaign_take2/15_LEVEL2_ROOT_PASSAGE.png",
+      "bytes": 619565,
+      "sha256": "02d325525173077a89e3ca75eb6304895bd7a19d15af70baff715c8480bea3af"
+    },
+    {
+      "path": "media/campaign_take2/CAPTURE_RECEIPT.json",
+      "bytes": 13463,
+      "sha256": "74bd4efa88ddb71ac86427d2289699ecbe57d3d444d40f0c11b1c2aa14b4e69a"
+    },
+    {
+      "path": "media/powers/black_hole_01_READY.png",
+      "bytes": 570528,
+      "sha256": "f5ef31b5805a0875e5c3a7c00c7ea737da7278aa6e834b31ef94fe07614b82c7"
+    },
+    {
+      "path": "media/powers/black_hole_99_SETTLED.png",
+      "bytes": 564300,
+      "sha256": "896d6a6fde70a6996dd2fa6a8dc7276b5c80540c4c2c4cad8e24dcda673ec784"
+    },
+    {
+      "path": "media/powers/black_hole_black_hole_28.png",
+      "bytes": 568483,
+      "sha256": "e47c32b7bf1b72b6e783f90dac968f07bf59b4695be2ff9229aee242db8b316a"
+    },
+    {
+      "path": "media/powers/black_hole_black_hole_57.png",
+      "bytes": 586141,
+      "sha256": "f121eb77a91b9ed7d1418b84d430b5944d35b748691ed23156f1f9c0c2c170ea"
+    },
+    {
+      "path": "media/powers/black_hole_black_hole_80.png",
+      "bytes": 436739,
+      "sha256": "4eed82951cb811221671b021074c8cc09b9f5b5871ac1b9c412354a0f35fbace"
+    },
+    {
+      "path": "media/powers/black_hole_REWARD_BIRTH.png",
+      "bytes": 546886,
+      "sha256": "4ac5ed59f5a2c291647845c674431998a8859900414d3b45d9f0e3227f1ac00a"
+    },
+    {
+      "path": "media/powers/CAPTURE_RECEIPT.json",
+      "bytes": 202199,
+      "sha256": "9347fede86f70d13cd5b3b106f6c80bcdab217f7ecac61f77276aa43959732d8"
+    },
+    {
+      "path": "media/powers/create_five_01_READY.png",
+      "bytes": 573043,
+      "sha256": "bd9d62f120536aedf780dd65a76a12676917cf09d94f22577d95ad2c2bff69e2"
+    },
+    {
+      "path": "media/powers/create_five_99_SETTLED.png",
+      "bytes": 575845,
+      "sha256": "d43a6f2ddb85efbe3270a59bab2d59dd3c48136752ba9f0503f8a06904468196"
+    },
+    {
+      "path": "media/powers/create_five_REWARD_BIRTH.png",
+      "bytes": 559756,
+      "sha256": "75ed91b5aa64179ad0b84fe2a942830206a61373e1aa9d3d1cdf79b91ca58a38"
+    },
+    {
+      "path": "media/powers/create_four_01_READY.png",
+      "bytes": 573642,
+      "sha256": "df02c57318a643a8919fcb454d5d3682253ca2a98730a08678fa877c57774ec8"
+    },
+    {
+      "path": "media/powers/create_four_99_SETTLED.png",
+      "bytes": 576864,
+      "sha256": "67a65f783d6587cfa94ee79c51fb02637490d8196f58a92a30d2174dd8f91411"
+    },
+    {
+      "path": "media/powers/create_four_REWARD_BIRTH.png",
+      "bytes": 563893,
+      "sha256": "51a76f0647d596527b6fb45d2f69f46ee094f00594a1af7c3e7d53380089562d"
+    },
+    {
+      "path": "media/powers/create_l_01_READY.png",
+      "bytes": 571568,
+      "sha256": "02e9b9ea35ae6d755e2f6656c2361bd9e8584b73ded921a4e54b5fb3143edbf3"
+    },
+    {
+      "path": "media/powers/create_l_99_SETTLED.png",
+      "bytes": 574733,
+      "sha256": "f77c12d67fec477770d8b2449c3f9ba8c20f583bbe8c832066a7522fa178a050"
+    },
+    {
+      "path": "media/powers/create_l_REWARD_BIRTH.png",
+      "bytes": 557523,
+      "sha256": "dba9b052e121fda7ac922eef0dccb7fc88a6cb07d0c7b499609e80422d06bfe9"
+    },
+    {
+      "path": "media/powers/create_t_01_READY.png",
+      "bytes": 571347,
+      "sha256": "f365cada80104af57dfde01da4d139a254c1f3f800e1b01ca2ed162415a6dbee"
+    },
+    {
+      "path": "media/powers/create_t_99_SETTLED.png",
+      "bytes": 572006,
+      "sha256": "e0936bc9e4b3f0f8abc24f545caafefdd7ef3a077d32730fdbe1548e54baf71f"
+    },
+    {
+      "path": "media/powers/create_t_REWARD_BIRTH.png",
+      "bytes": 557407,
+      "sha256": "fef82b86ca5f86b840e95d1694d3130ff1b0fd1f9e298d074e6e6c02a46218bb"
+    },
+    {
+      "path": "media/powers/earthquake_01_READY.png",
+      "bytes": 568849,
+      "sha256": "30669b3124b355f3148497b0c2fa0f3bcbc4d4f3d95aa617d7ddd479bfb8f65d"
+    },
+    {
+      "path": "media/powers/earthquake_99_SETTLED.png",
+      "bytes": 562361,
+      "sha256": "5f0f8ef8f12315a57d5926e3777e3fb6904d7bd5920e21e85611ea719e97f73d"
+    },
+    {
+      "path": "media/powers/earthquake_earthquake_28.png",
+      "bytes": 565285,
+      "sha256": "694b78af46f56682e5943c74d12b1a47c470d9a6241ca8f98765b26733a52875"
+    },
+    {
+      "path": "media/powers/earthquake_earthquake_57.png",
+      "bytes": 538939,
+      "sha256": "3b8720e20d9e1279af13f631adafe112981863c224ee67c19b070ebab9c87cb3"
+    },
+    {
+      "path": "media/powers/earthquake_earthquake_80.png",
+      "bytes": 525735,
+      "sha256": "9e3919fcaf597adc7939d781fb052569b136c77e3decbb2c7ff619fb9193e50b"
+    },
+    {
+      "path": "media/powers/earthquake_REWARD_BIRTH.png",
+      "bytes": 537361,
+      "sha256": "a32754b41817b696d3375d9dc02b61274f933ddc941f3df17b93cb0830e91e17"
+    },
+    {
+      "path": "media/powers/lightning_storm_01_READY.png",
+      "bytes": 570696,
+      "sha256": "262b795d24a29a8984726ca34ce3f67611bba6f078c86cd0a6a329b39c73ca88"
+    },
+    {
+      "path": "media/powers/lightning_storm_99_SETTLED.png",
+      "bytes": 568870,
+      "sha256": "6aa9f0da0ddb11a45cd7093e3a4a7d5ba22af1ff84c9d5a7f8193e6920f87201"
+    },
+    {
+      "path": "media/powers/lightning_storm_lightning_storm_28.png",
+      "bytes": 578755,
+      "sha256": "2ce865e33a047c749a868491949d5754208be18b3f5bf67942aba1f8b9d5e389"
+    },
+    {
+      "path": "media/powers/lightning_storm_lightning_storm_57.png",
+      "bytes": 549234,
+      "sha256": "78fed49c98e53a1ff87edae8c12f121bfe64bd3e959c7badc798863fb52d8e2b"
+    },
+    {
+      "path": "media/powers/lightning_storm_lightning_storm_80.png",
+      "bytes": 486113,
+      "sha256": "3486dfdb75b5bea499c49dfa6838d11fef0244c5e12e5e64652f86ef4931cbf0"
+    },
+    {
+      "path": "media/powers/lightning_storm_REWARD_BIRTH.png",
+      "bytes": 521980,
+      "sha256": "4e0d97dbb6dabb5ab7c4e17a6d82567f44a0dfac7cf20581c66e5a88bc8f1dc4"
+    },
+    {
+      "path": "media/powers/pair44_01_READY.png",
+      "bytes": 576178,
+      "sha256": "b39dec54e7e7022d368113a25fd1c6e2fa9ed9d4d534eedc6df004341a0234e5"
+    },
+    {
+      "path": "media/powers/pair44_99_SETTLED.png",
+      "bytes": 571079,
+      "sha256": "fdc17091da565c2a4a26529c9cf00bd836ef7f02c0c9dc0e43bf6b1394335837"
+    },
+    {
+      "path": "media/powers/pair44_mega_volcano_28.png",
+      "bytes": 588530,
+      "sha256": "09aa9ef14f2f1e18036fe90eaf37c681057bf2243bdfd966d1eb8f55b836094f"
+    },
+    {
+      "path": "media/powers/pair44_mega_volcano_57.png",
+      "bytes": 602116,
+      "sha256": "98a9426310832f5152e8eb92c88e98bae7e5196ad26f28ccd8415b4beaa6d998"
+    },
+    {
+      "path": "media/powers/pair44_mega_volcano_80.png",
+      "bytes": 577999,
+      "sha256": "9b5d6b7a6e98107e35d694d34478b2d76eed8f81cdfe25e1964930735836619e"
+    },
+    {
+      "path": "media/powers/pair44_REWARD_BIRTH.png",
+      "bytes": 533747,
+      "sha256": "5902aec5693af10dba2c91f9f9ad45144b846edd77df844a343f52bef13b4427"
+    },
+    {
+      "path": "media/powers/pair45_01_READY.png",
+      "bytes": 572018,
+      "sha256": "719d8bb715aea3d9b0c930909cd996db505d83c1f7b24be7290aced15bb51037"
+    },
+    {
+      "path": "media/powers/pair45_99_SETTLED.png",
+      "bytes": 570000,
+      "sha256": "8529155d4a86647fed88a90cfa80fc182698f7b33a14d4e85f6898cb1f4b6f95"
+    },
+    {
+      "path": "media/powers/pair45_tornado_h_28.png",
+      "bytes": 568044,
+      "sha256": "bbab3ce6c09724a1afb8108aa02136210856c702ac5ccbbb47face88372d3f00"
+    },
+    {
+      "path": "media/powers/pair45_tornado_h_57.png",
+      "bytes": 556546,
+      "sha256": "24ed92f6147422827317e201bfabffaf16c5d10631069684badeb562e17508ac"
+    },
+    {
+      "path": "media/powers/pair45_tornado_h_80.png",
+      "bytes": 551526,
+      "sha256": "359ed95eb1935cffa352758782882334c24d4dd068b29112a5312ae43fd1604c"
+    },
+    {
+      "path": "media/powers/pair45_volcano_28.png",
+      "bytes": 550538,
+      "sha256": "e22310f79000242b68183e13f07698f3da1a3034320ef2b9d5047fccbea3375e"
+    },
+    {
+      "path": "media/powers/pair45_volcano_57.png",
+      "bytes": 551060,
+      "sha256": "a6c966b5b8ab571f9522de09ac30010f42e1a720d32c5a965148741336c6bb8a"
+    },
+    {
+      "path": "media/powers/pair45_volcano_80.png",
+      "bytes": 544083,
+      "sha256": "68dfe5045e8d6aa65df3f634f1d82d72a2fc99078ebd3257b689c83fc2f575bd"
+    },
+    {
+      "path": "media/powers/tornado_h_01_READY.png",
+      "bytes": 570840,
+      "sha256": "0b61ea95fc646142c1fd6ccf798611e29c9dcb6dd1e532299b21c6f210f03f3b"
+    },
+    {
+      "path": "media/powers/tornado_h_99_SETTLED.png",
+      "bytes": 567107,
+      "sha256": "a75f75ce8aa59ac6b9985a69358dcf7031b6150abfebf5190d7ff613161e97d0"
+    },
+    {
+      "path": "media/powers/tornado_h_REWARD_BIRTH.png",
+      "bytes": 547352,
+      "sha256": "413422446be1afce63dcf556a0170ab293fddcc1a40bf95a0695d03bd5caed26"
+    },
+    {
+      "path": "media/powers/tornado_h_tornado_h_28.png",
+      "bytes": 568033,
+      "sha256": "3c1fdfc61819c498797b0b121200cd171f3f8d56502343eefca1130b02d50d85"
+    },
+    {
+      "path": "media/powers/tornado_h_tornado_h_57.png",
+      "bytes": 549434,
+      "sha256": "4b9331d4029b881abb3a851b15cddd3a45983e06ff449437990ecf197ee6f728"
+    },
+    {
+      "path": "media/powers/tornado_h_tornado_h_80.png",
+      "bytes": 543110,
+      "sha256": "9155d721a8867968b4b6f038a8d0dc41997fc69f98e00e2bec60906435cde190"
+    },
+    {
+      "path": "media/powers/volcano_01_READY.png",
+      "bytes": 571869,
+      "sha256": "9ebc0fa6034f58673b7f2d12543945c053ef127877529de278950e46900c8efc"
+    },
+    {
+      "path": "media/powers/volcano_99_SETTLED.png",
+      "bytes": 567376,
+      "sha256": "b6e77493c835b183a06872ad9b4d8478d1e7281074f1155ecac025aa9ede5eca"
+    },
+    {
+      "path": "media/powers/volcano_volcano_28.png",
+      "bytes": 573468,
+      "sha256": "4730bca10f529758613395d5f0fcc77cee467e771df888e445a11d9100c8a696"
+    },
+    {
+      "path": "media/powers/volcano_volcano_57.png",
+      "bytes": 574173,
+      "sha256": "932a040a4b281096956167606aa37229372a451b30303078531f793de107243f"
+    },
+    {
+      "path": "media/powers/volcano_volcano_80.png",
+      "bytes": 566173,
+      "sha256": "8cb897b80916193e850cabfb0153b970f8d99362833c4357fa532c5412788a6b"
+    },
+    {
+      "path": "media/POWERS_REVIEW_NATIVE.mp4",
+      "bytes": 5184150,
+      "sha256": "346f14d57e2c4e69dabb7a01d9c283ec99f1915cae28a10abbd0dbe0087fe269"
+    },
+    {
+      "path": "ONE_PROMPT_FOR_GPT_AND_GROK_BG.txt",
+      "bytes": 6289,
+      "sha256": "1e2d0799880ec1822b728d76109fe9d3d75a6cf4f605c848da4a03779fefdeb9"
+    },
+    {
+      "path": "OVERVIEW.png",
+      "bytes": 1225146,
+      "sha256": "01475631a5483b792ad1cac299aeb0b66c90ce602312740cc8da5505bac17904"
+    },
+    {
+      "path": "owner_workflow/AGENTS.md",
+      "bytes": 1678,
+      "sha256": "c99d47d4fdab9f1040919095186e555e65069eb1bfd9d6349f1c559ff2236058"
+    },
+    {
+      "path": "owner_workflow/CURRENT_GNOMIT.json",
+      "bytes": 498,
+      "sha256": "1ac6e44aa7d19f1d9dcc73eddd676465927b844787fbada688ccc37996ea8929"
+    },
+    {
+      "path": "owner_workflow/desktop_versions.json",
+      "bytes": 5111,
+      "sha256": "7ad710fb3b7f5fdffa77dca76a7310eaf4539f95aa9cfad0fc5c93a13a2b5e74"
+    },
+    {
+      "path": "owner_workflow/shortcut_tools/Register-GnomiTSample.ps1",
+      "bytes": 3496,
+      "sha256": "0f73305615a52fc479c27e993c454d6775c901bc5ecb1fdd2da88c5f44663b8f"
+    },
+    {
+      "path": "owner_workflow/shortcut_tools/SHORTCUT_VERIFICATION.json",
+      "bytes": 6915,
+      "sha256": "c6dca4e51f0c1c238ef2b811d87eaa78d74a6460b7ca01013b516ad51257ef4c"
+    },
+    {
+      "path": "PROVENANCE.json",
+      "bytes": 3266,
+      "sha256": "bf1ed907e34bb63ff3c8ce85bdfd4b83b3e15cc4e5e4c56cff00557a36705afb"
+    },
+    {
+      "path": "README.txt",
+      "bytes": 5689,
+      "sha256": "a1055a609a1a46b3a6fd69c0659998f475b9293d39546e5c0b462c85da1d91a8"
+    },
+    {
+      "path": "SCREENSHOTS.json",
+      "bytes": 24410,
+      "sha256": "ab100de7403c952c5eb7c1acd0407a12646fe3009ae139d93a4f118ff4c43a61"
+    },
+    {
+      "path": "source_current/docs/audio/volcano_v4/generate_volcano_eruption_v4_3s.py.txt",
+      "bytes": 1910,
+      "sha256": "fa9c6ecc795024a66d75398e3e514c36c67e7039be4b99cfce8f846202615797"
+    },
+    {
+      "path": "source_current/docs/audio/volcano_v4/MANIFEST.txt",
+      "bytes": 514,
+      "sha256": "8e2e0c1806dcda97ce4b1a3dc20b7fa3b7f46b5b09d7ccde3ce21af9d20dcb3f"
+    },
+    {
+      "path": "source_current/docs/audio/volcano_v4/PROVENANCE_volcano_eruption_v4_3s.md",
+      "bytes": 3216,
+      "sha256": "a35c2e91fa25def10a851a8ec999111936c96acd341674fd24c78df1f82b055d"
+    },
+    {
+      "path": "source_current/docs/JOURNEY_ART_PROMPTS_2026-10-14.json",
+      "bytes": 2208,
+      "sha256": "26ab56c2b3b92b3c67437451d7703b7db9efef256cb43bbd5bf9dac60310bb7e"
+    },
+    {
+      "path": "source_current/docs/lab/IMPLEMENTATION_PLAN.txt",
+      "bytes": 5005,
+      "sha256": "90788fed68a9e8019d118cc8aa076549f8dcb713f6ada7076ddb0aeb85d69481"
+    },
+    {
+      "path": "source_current/docs/progress.md",
+      "bytes": 339,
+      "sha256": "aa73363bc32b23535090eff547f6d8a7a339f5502d8a97a277427ef89fbd10d7"
+    },
+    {
+      "path": "source_current/docs/REVIEW_REQUEST.md",
+      "bytes": 1910,
+      "sha256": "57d6afd4cf53370e9ed0d0eaeee1042f69080bdf967e33bf4bc13dd8ae80aa63"
+    },
+    {
+      "path": "source_current/docs/SINGLE_FINGER_JOURNEY_2026-10-14.md",
+      "bytes": 1876,
+      "sha256": "99799ffb4ca09a525b7d13181b9295b1e7133c865b67b72eea25ad8f4776bce5"
+    },
+    {
+      "path": "source_current/docs/superpowers/plans/2026-10-11-gnomit-first-boss-plan.md",
+      "bytes": 2998,
+      "sha256": "ce2dd6bb31b5d6ad4ff939099a1415e3a659195aec52bd170e371032247acbd5"
+    },
+    {
+      "path": "source_current/docs/superpowers/specs/2026-10-11-gnomit-first-boss-design.md",
+      "bytes": 2158,
+      "sha256": "3e01a10a9f19bdbaf5114010114dcb83c9d089e76022155d2ef45c7b9e07d414"
+    },
+    {
+      "path": "source_current/docs/work/2026-10-12-digging-sound-character.txt",
+      "bytes": 975,
+      "sha256": "3fe4280d099193d8f29354c897ae01f80b613b06e1d650656375eb94a1411880"
+    },
+    {
+      "path": "source_current/docs/work/2026-10-12-storybook-progress.txt",
+      "bytes": 2161,
+      "sha256": "2560f633daf6de6fa7bd8fffe12f88b24866bba8f1e31a31b4a9d144a037b8d3"
+    },
+    {
+      "path": "source_current/main.tscn",
+      "bytes": 273,
+      "sha256": "f5c5cd61db14bd3dc5f674e9dce44eca1c452ef29e1309e485729fe2e506b9b2"
+    },
+    {
+      "path": "source_current/project.godot",
+      "bytes": 961,
+      "sha256": "6a5cbefd7ba1841897b3cb29df6957219bd3ce1bc48c97313fc7deb7520e96bc"
+    },
+    {
+      "path": "source_current/scripts/alive/alive_hero.gd",
+      "bytes": 6684,
+      "sha256": "baa510d3fbb4337caf94525ba9b35ffc10d42ab40bad9410df793cb8e998f543"
+    },
+    {
+      "path": "source_current/scripts/alive/ambient_light.gd",
+      "bytes": 1557,
+      "sha256": "2b5e9e87e40b507733d14d510d6d389ff7f033f3a5c429e46eec39f5783017f0"
+    },
+    {
+      "path": "source_current/scripts/alive/mine_entry.gd",
+      "bytes": 3593,
+      "sha256": "5d8923b688bebead8d4378b42364312122efc16b311238a37ba747687dcc54ba"
+    },
+    {
+      "path": "source_current/scripts/board_view.gd",
+      "bytes": 33490,
+      "sha256": "c0f68b6a37805278db1684200e7d5c6bc3672bfdc04fb5d6b9b908d177a44781"
+    },
+    {
+      "path": "source_current/scripts/campaign/power_audio.gd",
+      "bytes": 5724,
+      "sha256": "69ddc4b54fbee1692d0dc85bc8c1b6f6efc68fb6d63f622449db9f12d4cb7c67"
+    },
+    {
+      "path": "source_current/scripts/first_crystals_view.gd",
+      "bytes": 11944,
+      "sha256": "53947d62c372247d38086f284b323bdc3bccb0bba6f4d960773d267ab9a3bf36"
+    },
+    {
+      "path": "source_current/scripts/goal_trails.gd",
+      "bytes": 1780,
+      "sha256": "c16c29810c294cbf6b0d16b1e4033acd5e4796f31786e0081775f60662bb12ee"
+    },
+    {
+      "path": "source_current/scripts/lab/element_audio.gd",
+      "bytes": 1796,
+      "sha256": "1a50e1d87ed4118e6754deee71b9c26be7bc325b2771a69aa2fd26bf79ab5b16"
+    },
+    {
+      "path": "source_current/scripts/lab/lightning_audio.gd",
+      "bytes": 1694,
+      "sha256": "eeaf09e6cf1cd0a49decd4c12c0b8b748126e0e88b14030ebbeac3ab622c4899"
+    },
+    {
+      "path": "source_current/scripts/lab/magic_black_hole_material_board.gd",
+      "bytes": 11327,
+      "sha256": "a67fb3ec112927bcfa89f0e0885bb6459d80b2e0264eecaf8cff2407f387e901"
+    },
+    {
+      "path": "source_current/scripts/lab/magic_earthquake_board.gd",
+      "bytes": 11132,
+      "sha256": "80a23b5045267721e54bb3b4da93e5f9f1ed3a3014be4b1355985d9c021ee3b8"
+    },
+    {
+      "path": "source_current/scripts/lab/magic_fusion_board.gd",
+      "bytes": 6499,
+      "sha256": "d0df31cabceb72daa137777a4055ccef731474e5b59bea4e02b858ffe1bfd71a"
+    },
+    {
+      "path": "source_current/scripts/lab/magic_landslide_board.gd",
+      "bytes": 7319,
+      "sha256": "357b27b4a897984d6e9932d12eefb611a672447fd1cfc693ac350d52db25f42f"
+    },
+    {
+      "path": "source_current/scripts/lab/magic_volcano_board.gd",
+      "bytes": 33413,
+      "sha256": "ed552847329150210101846182f7486da9b5135a9428386814973f02e2868ed1"
+    },
+    {
+      "path": "source_current/scripts/lab/material_power_board.gd",
+      "bytes": 17300,
+      "sha256": "21edd9b9e4685fb1bd446b030efdf95f673970f064e739a1cd28dc07620dcd0c"
+    },
+    {
+      "path": "source_current/scripts/lab/material_power_core.gd",
+      "bytes": 29897,
+      "sha256": "3131c41908a4c5abd3a362247e2ca7b777ca7c9782e74c172aeaf24885c403cb"
+    },
+    {
+      "path": "source_current/scripts/lab/material_power_fixtures.gd",
+      "bytes": 4725,
+      "sha256": "d44263ce4bc411cea0d2c852500cbb52907af4b5243109ba2b614b51b7d8aa96"
+    },
+    {
+      "path": "source_current/scripts/lab/material_power_lab.gd",
+      "bytes": 20199,
+      "sha256": "2f5a196c3899d2906d273c120e0b58841152c6385c9dc724637d0b30efc9d692"
+    },
+    {
+      "path": "source_current/scripts/lab/mega_volcano_audio.gd",
+      "bytes": 2317,
+      "sha256": "05e345bfc9c8105bbbb03cc41f8218b8d2cc461b13cb24c8413e98031524c544"
+    },
+    {
+      "path": "source_current/scripts/lab/mega_volcano_board.gd",
+      "bytes": 10143,
+      "sha256": "a1777cd8d34beb983e561d358c90542591f159a0c378360d8d8280e1903cc9ba"
+    },
+    {
+      "path": "source_current/scripts/lab/mega_volcano_core.gd",
+      "bytes": 1899,
+      "sha256": "98197cc636ca126a12f6a7dc2a977e3b39bc20e42776fd5acdaded54e34adece"
+    },
+    {
+      "path": "source_current/scripts/lab/mega_volcano_lab.gd",
+      "bytes": 20969,
+      "sha256": "835cfc163abbec7ec6bc61cc3d2ba4e9117bafa2121bbbb7ccedaf4c40df1122"
+    },
+    {
+      "path": "source_current/scripts/lab/mega_volcano_v4_audio.gd",
+      "bytes": 1114,
+      "sha256": "85908a1be87c5e4db8e05fda46ef10a466d2eccffa70e5a2e34c8d7564d84dfc"
+    },
+    {
+      "path": "source_current/scripts/lab/mountain_volcano_board.gd",
+      "bytes": 7733,
+      "sha256": "d2d4adadd38f32dc9bc793b5b06940ba9ebbc40c8e78e4ed7237d435879b8343"
+    },
+    {
+      "path": "source_current/scripts/lab/mountain_volcano_lab.gd",
+      "bytes": 21010,
+      "sha256": "fcfb0d6856d3a9bd9eb068fac58ab40b7827f7484deb3d1d11aa637115ec6676"
+    },
+    {
+      "path": "source_current/scripts/lab/natural_power_board.gd",
+      "bytes": 11579,
+      "sha256": "59b1f5b5444903e3f5bbe0d5b2fb69adb9aa535e8dc3673c162b62d5999f311c"
+    },
+    {
+      "path": "source_current/scripts/lab/natural_power_core.gd",
+      "bytes": 10548,
+      "sha256": "d6219ab8d92d32cd7b65661105b81e16389002d4e2ce9406ee19e877db7e5a05"
+    },
+    {
+      "path": "source_current/scripts/lab/natural_power_lab.gd",
+      "bytes": 15561,
+      "sha256": "3f47417dc49813bc9442ce69f89cfb58926fff04dd167b3a970320dce15e821a"
+    },
+    {
+      "path": "source_current/scripts/lab/reward_rules_audio.gd",
+      "bytes": 2049,
+      "sha256": "bcd83ecbf372387689f34d443770ebec429d08252a9bb4be837af40c210b3e4a"
+    },
+    {
+      "path": "source_current/scripts/lab/reward_rules_board.gd",
+      "bytes": 13889,
+      "sha256": "1a94561e384213beb5002942d47e87239a1d15f9dac3d7a08429fd2230fb6e1e"
+    },
+    {
+      "path": "source_current/scripts/lab/reward_rules_core.gd",
+      "bytes": 19221,
+      "sha256": "c771d019270f5015f64ff5a86a0e2cac81f1e39f7c9afaa0d0e1747c2d7e2934"
+    },
+    {
+      "path": "source_current/scripts/lab/reward_rules_fixtures.gd",
+      "bytes": 3143,
+      "sha256": "1fd411a5cf2ff7b62f3452d5b371619e151cbaa80f6bd1201483972101c91e40"
+    },
+    {
+      "path": "source_current/scripts/lab/reward_rules_lab.gd",
+      "bytes": 17303,
+      "sha256": "7323211b46aa8cccb1422aad1ffa762dbd6a9e1d3aefb7c59a9d22e5530274f2"
+    },
+    {
+      "path": "source_current/scripts/lab/tornado_audio.gd",
+      "bytes": 2866,
+      "sha256": "f762aaf1e89d6148907b30cf50a71bdec5decd9e8baee5511dae9fc4e00eeaad"
+    },
+    {
+      "path": "source_current/scripts/lab/volcano_audio.gd",
+      "bytes": 5591,
+      "sha256": "9f42169292b7d6c8ca7a3e7d79c553c8b29cb58c193005a2a01fb0a9787d0247"
+    },
+    {
+      "path": "source_current/scripts/levels.gd",
+      "bytes": 6960,
+      "sha256": "7c582ddf6a1747fb0302413e61a343fcaf7809065788888d6a672b59ba60f850"
+    },
+    {
+      "path": "source_current/scripts/main.gd",
+      "bytes": 31995,
+      "sha256": "289149fb4d792e948b7939e2864937c68068cd5042b623245449921fbdfdfb63"
+    },
+    {
+      "path": "source_current/scripts/match_core.gd",
+      "bytes": 10023,
+      "sha256": "12f1d987e5a5ab194cfc1ea555a5905922290a23e67f370b9f3a4813d42166bb"
+    },
+    {
+      "path": "source_current/scripts/native_mine/native_mine_base.gd",
+      "bytes": 24459,
+      "sha256": "1239baf6fc79b33811c263d4481ee6df0ee6bcc121335837ae57ad96105dd4f8"
+    },
+    {
+      "path": "source_current/scripts/native_mine/native_mine_map.gd",
+      "bytes": 3864,
+      "sha256": "398a41164edb7108672a3f855df9e611a734cf2f4650218754b3581f453ace1f"
+    },
+    {
+      "path": "source_current/scripts/native_mine/native_mine_scene.gd",
+      "bytes": 1401,
+      "sha256": "c1b7841638c0c3b7c271dedfcd7c0de4ed243693ab7f27ec23b2cf19046f8851"
+    },
+    {
+      "path": "source_current/scripts/pre_level_view.gd",
+      "bytes": 11364,
+      "sha256": "2859df1429d2720ea67afcbc1c3346c107f71e9668dfc0b30b493e178f18767f"
+    },
+    {
+      "path": "source_current/scripts/progress.gd",
+      "bytes": 4151,
+      "sha256": "2d7dce425fb70fe47d07bd14777a957ac2d7e08929a43ef56216b13fba22e501"
+    },
+    {
+      "path": "source_current/scripts/rock_audio.gd",
+      "bytes": 2167,
+      "sha256": "0febfc5e9c7eb37519d968bff5b7a81f9326da9b16ff9660183c3329d1c8d311"
+    },
+    {
+      "path": "source_current/scripts/slice_map_view.gd",
+      "bytes": 13840,
+      "sha256": "e9c44754c78cbe1cb7be9e89d0052152dd73f8ab05146dfd1f5010a6b03b9d07"
+    },
+    {
+      "path": "source_current/scripts/slice_route.gd",
+      "bytes": 1377,
+      "sha256": "44daeeeac47131b0476f7949f1f0e4d0912bd198c33d2c7fae3f422a5f9fb052"
+    },
+    {
+      "path": "source_current/scripts/story_art.gd",
+      "bytes": 2458,
+      "sha256": "a047857f713c08bfc528bf7d10c37da2ac778298b46c235873dd81d8d7961bd2"
+    },
+    {
+      "path": "source_current/scripts/story_chamber_view.gd",
+      "bytes": 6103,
+      "sha256": "64334eed0078a0aeb349659f98d3b4b89416b143e94bcf5f46251974b2c29210"
+    },
+    {
+      "path": "source_current/scripts/story_map_view.gd",
+      "bytes": 25260,
+      "sha256": "db13897e7f0fbd6a7c749e5029e57d5e274878e716f6746720ccc946ebf70fd7"
+    },
+    {
+      "path": "source_current/scripts/tutorial/power_tutorial.gd",
+      "bytes": 8465,
+      "sha256": "a4b4eb8e758283b7e1b6352812e13518e56d571acc1a2caec53b4dedce791bfc"
+    },
+    {
+      "path": "source_current/scripts/tutorial/volcano_mini_animation.gd",
+      "bytes": 8798,
+      "sha256": "45a7d1f882f9effc61f7ffd1868759bb2d6ae4c0533b79acb4e20c83c14bd6a9"
+    },
+    {
+      "path": "source_current/scripts/world/scene_prop.gd",
+      "bytes": 13181,
+      "sha256": "fd68f473262b9d13bb5defbd96c4cbc304e3ffbc69691c561142701a54ce5b72"
+    },
+    {
+      "path": "source_current/scripts/world/world_environment.gd",
+      "bytes": 3454,
+      "sha256": "0fb46695cdf9bd97c65103da22f3f19e5a2f0566a6c06df8e01fccea189f8660"
+    },
+    {
+      "path": "source_current/scripts/world/world_map_view.gd",
+      "bytes": 8100,
+      "sha256": "2b71fab59dea6a1d66d604ecdcb0611f23ac64d47cfea0b527e678b525b5ed71"
+    },
+    {
+      "path": "source_current/scripts/world/world_road.gd",
+      "bytes": 2075,
+      "sha256": "064d84b54374dbb4fdde7d1defe1bbf5f36965a3f8e9b589ea57dc85a321e32e"
+    },
+    {
+      "path": "source_current/scripts/world_view.gd",
+      "bytes": 11362,
+      "sha256": "7c6bd2397d7778cf36501b2ca2d7f5bf0fcc3ed60822e7c279fb775e9bff43f8"
+    },
+    {
+      "path": "source_current/tests/capture_alive_experience.gd",
+      "bytes": 8734,
+      "sha256": "e5f862ee419ea1e4d44b77880ecb563a168d0529a6dced58dbeb54fe5b13db88"
+    },
+    {
+      "path": "source_current/tests/capture_black_hole_material_v2.gd",
+      "bytes": 23917,
+      "sha256": "fdc1af7e05977a3e8270a0f9e162167d3e7296393e2f510bb86c832185fd5e50"
+    },
+    {
+      "path": "source_current/tests/capture_campaign_powers.gd",
+      "bytes": 9660,
+      "sha256": "dcae6ae25e76c33349df3f3258a47222707a00451dced110fbce6c5d2f3902a4"
+    },
+    {
+      "path": "source_current/tests/capture_candy_navigation.gd",
+      "bytes": 5208,
+      "sha256": "3f152d3e8154cd5a385911e28bca7a332ef9ad16e547da2d87dc6928bc0ac99e"
+    },
+    {
+      "path": "source_current/tests/capture_digging_sound.gd",
+      "bytes": 2645,
+      "sha256": "5d473c96b92731bf84f6d028ec29f98ec6943cc2361be28c24052dcec9bf685e"
+    },
+    {
+      "path": "source_current/tests/capture_first_scene.gd",
+      "bytes": 3118,
+      "sha256": "8bb09a5e706e1ae804bad5ff5ac995f8a77d3769109ed34d2f08e4b03cde13c7"
+    },
+    {
+      "path": "source_current/tests/capture_fusion_earthquake.gd",
+      "bytes": 23336,
+      "sha256": "fe175768422dc747ffa9d53abc3f2ddea35859d7818c9e68585163e552092fe6"
+    },
+    {
+      "path": "source_current/tests/capture_journey_map.gd",
+      "bytes": 4036,
+      "sha256": "6274290fd4fbf40c8e42b6c44d9f782870e83624d214ff4afa12f00e170f9831"
+    },
+    {
+      "path": "source_current/tests/capture_landslide_visual.gd",
+      "bytes": 24109,
+      "sha256": "65c58e2e19d959cbcc9589e4d66d24dabf6411816a761b20df54170417c9d2bd"
+    },
+    {
+      "path": "source_current/tests/capture_lightning_storm.gd",
+      "bytes": 21753,
+      "sha256": "de0da39d62891a4a6624982fdabb207ca51903d0c4d3a3acc368db5df21db247"
+    },
+    {
+      "path": "source_current/tests/capture_material_rewards.gd",
+      "bytes": 10791,
+      "sha256": "c347aace23a2a8aa5fb28f078ce6f69c6b69617fb2262d695e175e0454ceb81b"
+    },
+    {
+      "path": "source_current/tests/capture_mega_volcano.gd",
+      "bytes": 13370,
+      "sha256": "076faff1708de7a3e8c7d7aa070362697a2782037d7d462cbb4b0cd9beaa11bc"
+    },
+    {
+      "path": "source_current/tests/capture_mountain_volcano.gd",
+      "bytes": 13687,
+      "sha256": "c471d28ca7738f91766eec0a4bad171e2d77b6970fe8befe0e9a8d61249d9f4d"
+    },
+    {
+      "path": "source_current/tests/capture_natural_powers.gd",
+      "bytes": 4916,
+      "sha256": "cbab290b9b3150b621c704861b87c2c5d54f294202734c3cc526c9c0ec55f12e"
+    },
+    {
+      "path": "source_current/tests/capture_one_cell_drag.gd",
+      "bytes": 5707,
+      "sha256": "2e538c46637995275452b1cfb2726e9fe85b30dca796668d20c65f24d9ee5cfa"
+    },
+    {
+      "path": "source_current/tests/capture_painted_volcano.gd",
+      "bytes": 20850,
+      "sha256": "ad2755062dc4f25dd1fb3e9f6e19973fcfb0e69c6b75039e2e76a054b1d1b1e7"
+    },
+    {
+      "path": "source_current/tests/capture_paired_swap.gd",
+      "bytes": 7172,
+      "sha256": "2c40295734365881b190e1557379fb700021cc330d8901a21840cdb522015a00"
+    },
+    {
+      "path": "source_current/tests/capture_power_tutorial.gd",
+      "bytes": 4072,
+      "sha256": "ba1c2882e208a273730e0482f3d82bc4cee5f7818f72dc5ae9432d995d2de681"
+    },
+    {
+      "path": "source_current/tests/capture_preview.gd",
+      "bytes": 2257,
+      "sha256": "290cb7b400393fdb5f713ff0ee1757940b41248be67ce76e7e36ef967b20048c"
+    },
+    {
+      "path": "source_current/tests/capture_reward_rules.gd",
+      "bytes": 8317,
+      "sha256": "226976d6e5261adfe38d07c6673ecba5cd9948c68fcee5bd0d337441c33f090a"
+    },
+    {
+      "path": "source_current/tests/capture_single_stone_cue.gd",
+      "bytes": 4994,
+      "sha256": "2deef25ccc7158ff039851e777763675387aa817a9c03391a57d7773a0507ec9"
+    },
+    {
+      "path": "source_current/tests/capture_stone_drag.gd",
+      "bytes": 5045,
+      "sha256": "fbbd7689d34885b93b5751e38d72e505da064fb4525f2ab07d6623a8ee453522"
+    },
+    {
+      "path": "source_current/tests/capture_story_probe.gd",
+      "bytes": 1103,
+      "sha256": "a00e7bb7bddc4b18718895ed46c440134c665c449ff7174f968a90081aba46fa"
+    },
+    {
+      "path": "source_current/tests/capture_storybook_final.gd",
+      "bytes": 4407,
+      "sha256": "8fa549b89ec84450213688405f82a244f8a3a3fafb1b973c5981f9eb0cbea816"
+    },
+    {
+      "path": "source_current/tests/capture_tornado_top.gd",
+      "bytes": 21681,
+      "sha256": "f5175af3e52b005161d7f705faeece6578fe345485139cb1bf3ca3c4620fb3e5"
+    },
+    {
+      "path": "source_current/tests/capture_vertical_slice.gd",
+      "bytes": 8132,
+      "sha256": "d8f03d00212304be1d1dcde5935ac5992c504a3ea8f81b9e5541ea869a4f0f0f"
+    },
+    {
+      "path": "source_current/tests/capture_world_map.gd",
+      "bytes": 4983,
+      "sha256": "849fdc64ba20b839749826594ede2b219f4b8cd654d860ee8a9cec9e00a706b9"
+    },
+    {
+      "path": "source_current/tests/diagnose_panels.gd",
+      "bytes": 1074,
+      "sha256": "aa7eb312f9fd86cc34b01fb2fa085d71e86d57a8b4099cd479f818e15ecef52b"
+    },
+    {
+      "path": "source_current/tests/storybook_paths_v1.json",
+      "bytes": 7243,
+      "sha256": "e2e4e10eff6223754aa3abdbde6cb7f451b5292dff3401ec0774ca9292fd5515"
+    },
+    {
+      "path": "source_current/tests/test_alive_experience.gd",
+      "bytes": 9342,
+      "sha256": "5c94dd01b7956b3ddc03fa98a9045489e7056c3465f6b8e0fd1a15b5987465fb"
+    },
+    {
+      "path": "source_current/tests/test_app.gd",
+      "bytes": 2744,
+      "sha256": "98498c26c8a58ca7b67b2d1fc4824d3c9899dcf0d38b1c56777f4bdd8e0554e5"
+    },
+    {
+      "path": "source_current/tests/test_audio_voice_continuity.gd",
+      "bytes": 1012,
+      "sha256": "320dbab617796a79311b718781f45ba270aaaf2efae1e640c7d234f5628a781c"
+    },
+    {
+      "path": "source_current/tests/test_black_hole_material_v2.gd",
+      "bytes": 17171,
+      "sha256": "cc64cb24c772d9244487c54f8daa83fe095bd69c7363d2bcd27a133283c65413"
+    },
+    {
+      "path": "source_current/tests/test_board.gd",
+      "bytes": 7412,
+      "sha256": "1c094f60adca29acce12648a885211b4a139479f8b065a63ac57280a97260e56"
+    },
+    {
+      "path": "source_current/tests/test_campaign.gd",
+      "bytes": 10702,
+      "sha256": "8822df42106e77ac30e75e6b719b72ff8e4d8624e9d4b1a6787a0b9852f9a805"
+    },
+    {
+      "path": "source_current/tests/test_campaign_power_audio.gd",
+      "bytes": 5181,
+      "sha256": "d9c664dd1285f99cca3b8f174a206a3aa6b3b7e9b43fa971f42851831ddd16a2"
+    },
+    {
+      "path": "source_current/tests/test_campaign_power_integration.gd",
+      "bytes": 18540,
+      "sha256": "293c769b6b5f3480231f0d679bb8e47a019e0d0a0c87408b0fd249cb27c0d249"
+    },
+    {
+      "path": "source_current/tests/test_candy_navigation.gd",
+      "bytes": 22081,
+      "sha256": "2cda746f3bd10e1fd1b8fdc9ba94d21388ce71c9ce126011ccdb1ea7857d31c5"
+    },
+    {
+      "path": "source_current/tests/test_core.gd",
+      "bytes": 10635,
+      "sha256": "0f202db1c7e4a579a19a97fb18cf3f5c894b550a54670ece6c1bdd5eed169f66"
+    },
+    {
+      "path": "source_current/tests/test_dark_storm.gd",
+      "bytes": 9755,
+      "sha256": "d3c20d467dd994bc89f420e5b0e0060ca104405960af7fa7843311a1f8c7cf6f"
+    },
+    {
+      "path": "source_current/tests/test_first_scene.gd",
+      "bytes": 6089,
+      "sha256": "42231d1c6bb4ac828c21599777b6c4fe00f6ff7b83498f0647f2cf0d4fb34590"
+    },
+    {
+      "path": "source_current/tests/test_fusion_earthquake.gd",
+      "bytes": 23720,
+      "sha256": "f001a01caa5a580f3ed018e366df693828240740248f1eda0b39f38231288af4"
+    },
+    {
+      "path": "source_current/tests/test_journey_edges.gd",
+      "bytes": 16396,
+      "sha256": "83b20afadaca1e602dd355a29ab7a4d415d5037aea9191c1aee62c5f93996672"
+    },
+    {
+      "path": "source_current/tests/test_journey_map.gd",
+      "bytes": 11031,
+      "sha256": "ed19e99dc86a56334af0748ea02c89f1ba39f146e1b607566da25d0c8b4993a8"
+    },
+    {
+      "path": "source_current/tests/test_landslide_visual.gd",
+      "bytes": 11731,
+      "sha256": "39db01a81d50142fd5f4add73679494af289824bddefb983f016f308310eba44"
+    },
+    {
+      "path": "source_current/tests/test_lightning_audio.gd",
+      "bytes": 6549,
+      "sha256": "3f012f766d26cbee512b8f9b0254272d2f96ca54622f3aec41bb315363c99241"
+    },
+    {
+      "path": "source_current/tests/test_lightning_storm.gd",
+      "bytes": 12118,
+      "sha256": "94018c3677e4dc4c1c17a898676975612702fd15e79452063950bf03b7826678"
+    },
+    {
+      "path": "source_current/tests/test_manual_volcano_match.gd",
+      "bytes": 13774,
+      "sha256": "60f3fc46e0c48f6fdeeac026b22b6bc1052c1e307af6c669de28f0df788879b9"
+    },
+    {
+      "path": "source_current/tests/test_material_power_core.gd",
+      "bytes": 31022,
+      "sha256": "3716d48ad432ad7f2122f4f81a4f47171ae6a7caf0be6582183654393af7dbd9"
+    },
+    {
+      "path": "source_current/tests/test_material_presentation.gd",
+      "bytes": 10462,
+      "sha256": "d39eaf51bc15f571f1f7ad4228b1fd61e9f71d4f28fc4e237e1632cdb35913d1"
+    },
+    {
+      "path": "source_current/tests/test_mega_presentation.gd",
+      "bytes": 7343,
+      "sha256": "e8f79f4fc6f4f3a5401faa27ecc69de55057dd598b23836e757f928cbd5ff467"
+    },
+    {
+      "path": "source_current/tests/test_mega_volcano.gd",
+      "bytes": 12760,
+      "sha256": "ac9f2d6347c6e1506878fcddead33a36ee3e254aa6e39e239ac4d6f189e8abf6"
+    },
+    {
+      "path": "source_current/tests/test_mountain_presentation.gd",
+      "bytes": 9500,
+      "sha256": "9bdcc121b8e658ed67169c2ed64f46ffd69e733fccaef4ae0bcd8d080672bbf4"
+    },
+    {
+      "path": "source_current/tests/test_native_mine_flow.gd",
+      "bytes": 4847,
+      "sha256": "d9d5fd9c01594cbb31047be426dd6ead71aa21068bace41e31617d81516fe8c6"
+    },
+    {
+      "path": "source_current/tests/test_natural_power_board.gd",
+      "bytes": 5213,
+      "sha256": "c6b10f00feedb25bebf6f0a84e60001ed887294cc199b54e72543cd26f085614"
+    },
+    {
+      "path": "source_current/tests/test_natural_powers.gd",
+      "bytes": 13078,
+      "sha256": "fab515818c813f08ce6a6cddddc28fba859696317846ed596b15e4d37b4f9095"
+    },
+    {
+      "path": "source_current/tests/test_painted_volcano.gd",
+      "bytes": 8129,
+      "sha256": "077e18b0715a830353883f17a18a034812872818d4eeab3bf0772cca741d3215"
+    },
+    {
+      "path": "source_current/tests/test_power_tutorial.gd",
+      "bytes": 12393,
+      "sha256": "312b22173a39fca4ec9c18f15c56839e5428d9aee867ef787c78013deaf8befb"
+    },
+    {
+      "path": "source_current/tests/test_presentation_order.gd",
+      "bytes": 1770,
+      "sha256": "6538330c0fb459b4b232afba91df78d2243c631293afa1922e10171702cd6be5"
+    },
+    {
+      "path": "source_current/tests/test_progress.gd",
+      "bytes": 3603,
+      "sha256": "53eabc1bebabcdfd03edc58e013878486beef78fbf3e958b110f25737dd813af"
+    },
+    {
+      "path": "source_current/tests/test_reward_rules.gd",
+      "bytes": 19904,
+      "sha256": "1e54c2ae40415a93f1c43d0a38a3a8a54b4f5602103c4f9754e727c70326811a"
+    },
+    {
+      "path": "source_current/tests/test_reward_rules_audio.gd",
+      "bytes": 2022,
+      "sha256": "84e1b82492d739a1c8f1ae146fc9a363a210fd7af29992ba8bdd39071ffe6989"
+    },
+    {
+      "path": "source_current/tests/test_reward_rules_presentation.gd",
+      "bytes": 15170,
+      "sha256": "e943a1b3267535675f1b731ece528dad5386ddddb91e5c91b6bca87231a862e0"
+    },
+    {
+      "path": "source_current/tests/test_reward_stone_cancellation.gd",
+      "bytes": 4324,
+      "sha256": "9b3a0cba7120959778262980cc67efea6b02e57bd6915b229218f90ba50cb58a"
+    },
+    {
+      "path": "source_current/tests/test_rock_audio.gd",
+      "bytes": 3974,
+      "sha256": "951129c0d632d09b3a238e303192fa2021d564515aa8e43c4024e9eaa318c335"
+    },
+    {
+      "path": "source_current/tests/test_save_recovery.gd",
+      "bytes": 1502,
+      "sha256": "5587cbccfcd7dc9dae4f8583f56280027c1a2ebf7ef95a3cbdffbddc99ce2227"
+    },
+    {
+      "path": "source_current/tests/test_shared_hero_render.gd",
+      "bytes": 2003,
+      "sha256": "88741b8524a7550b39755510070e359421e54ba670a7f8e822d5a0ed72941194"
+    },
+    {
+      "path": "source_current/tests/test_single_stone_cue.gd",
+      "bytes": 3594,
+      "sha256": "8a016997eec925e98b0283e597d3a99e21879f6758159674fc5fcd28756ef471"
+    },
+    {
+      "path": "source_current/tests/test_stone_drag.gd",
+      "bytes": 7890,
+      "sha256": "adba5b3128a320de0f31b8c14bcb91d6d5d863a9dce17d51f7cdcf90acc810a7"
+    },
+    {
+      "path": "source_current/tests/test_storybook_contract.gd",
+      "bytes": 3770,
+      "sha256": "00e462cd2e528fba1b03f7f14c16f17ede2c880e0975c9eddd0e002f7afe095c"
+    },
+    {
+      "path": "source_current/tests/test_storybook_runtime.gd",
+      "bytes": 3311,
+      "sha256": "caf4d996558c04782a222777137de6a1092562ac505ab6b7029265f1d6229b9a"
+    },
+    {
+      "path": "source_current/tests/test_tornado_audio.gd",
+      "bytes": 11506,
+      "sha256": "1b0c8c07bff11f15fc5574a47abb4732215eed517116bb4456f7fdb8c6cfe358"
+    },
+    {
+      "path": "source_current/tests/test_tornado_top.gd",
+      "bytes": 14452,
+      "sha256": "c6aa2f6e9daf6f90d1a0c3e09236e838c8e9feb4625c7c92108219c5ba9fa51b"
+    },
+    {
+      "path": "source_current/tests/test_volcano_audio.gd",
+      "bytes": 10430,
+      "sha256": "42646760bcc0d54e321a457735dc4cc442d45062d765db740656f384a7940b27"
+    },
+    {
+      "path": "source_current/tests/test_volcano_clip_audio.gd",
+      "bytes": 10412,
+      "sha256": "688824a608fedb8f4a3ff1658a86636f0e273ccacf60554ad536e98a61ba7693"
+    },
+    {
+      "path": "source_current/tests/test_volcano_fire.gd",
+      "bytes": 10307,
+      "sha256": "a48f03d1aef318e61cfb5dee51b70fb2eb867f2a572a33705fea99614402206a"
+    },
+    {
+      "path": "source_current/tests/test_volcano_v4.gd",
+      "bytes": 4207,
+      "sha256": "a1f7b79e759b92c7d8529313e7cd1ac802a83711bdebbe9b005505ec7edf280c"
+    },
+    {
+      "path": "source_current/tests/test_world_map.gd",
+      "bytes": 15075,
+      "sha256": "d62d639ca71b487ace83583421077236f210fca8af3d1ae3712386ea2a0373d8"
+    },
+    {
+      "path": "source_current/tests/test_world_scene.gd",
+      "bytes": 5326,
+      "sha256": "e4b2e5ae5880cafda66b5fe6914e8f198ae43957fb2f217b52e99727bd7690cc"
+    },
+    {
+      "path": "source_current/tools/avi_preview.py",
+      "bytes": 1781,
+      "sha256": "501ffa876eb5346d680d0144c8cd0b61c01349f42006647d03f999c5460c1ab9"
+    },
+    {
+      "path": "source_current/tools/build_black_hole_material_audio_v2.py",
+      "bytes": 2408,
+      "sha256": "e5da1e3cc4ce4ce6acde4b525558125a51e8642a2aed931f0d3dd02f3bd25cfe"
+    },
+    {
+      "path": "source_current/tools/build_fusion_earthquake_audio.py",
+      "bytes": 3077,
+      "sha256": "6515fdcc5e1cceb6e238eb5186fc48528890e1fb22fb33ef1fb75ba040a6158e"
+    },
+    {
+      "path": "source_current/tools/build_lightning_audio.py",
+      "bytes": 2986,
+      "sha256": "eca3e9276668d32fb748e22c1a541014801611836407a7d9ba37773b9454b51c"
+    },
+    {
+      "path": "source_current/tools/build_reward_rules_audio.py",
+      "bytes": 4272,
+      "sha256": "c66ca370ca04f4c70be8200397d97f828aec699e730bd0235381ca71209244e8"
+    },
+    {
+      "path": "source_current/tools/build_tornado_audio.py",
+      "bytes": 4401,
+      "sha256": "0604297f3cc34f286684f4870bb192900152d903be5652b9894ce7756417577a"
+    },
+    {
+      "path": "source_current/tools/build_volcano_audio.py",
+      "bytes": 4844,
+      "sha256": "8fd9f0c2e6000ba45d64203e77341d438ffe9955a1825465cbff1ae7039604e1"
+    },
+    {
+      "path": "source_current/tools/extract_movie_audio.py",
+      "bytes": 19904,
+      "sha256": "35aac9380476eedc36a54a6e06dfe43e9be0832b455ecb4ca46f26c3b4a4640c"
+    },
+    {
+      "path": "source_current/tools/package_campaign.py",
+      "bytes": 4748,
+      "sha256": "f3c0a578b2c1575b8b9d887ef2fb4d69a30a2f56494e8add57699a94eddc48b9"
+    },
+    {
+      "path": "source_current/tools/package_native_tutorial.py",
+      "bytes": 6488,
+      "sha256": "8b40378fbde838cab0488de2795cb2bb485f61548e3f6e32a347a33d206b148e"
+    },
+    {
+      "path": "source_current/tools/play_natural_powers.gd",
+      "bytes": 315,
+      "sha256": "046c77294a99c25eecf0c304f46706e973976738eb32ca23e8f9747c3d27e14a"
+    },
+    {
+      "path": "source_current/tools/play_stones.gd",
+      "bytes": 292,
+      "sha256": "ef7ed11c567bbcff04dfa4d39c1d5ab06c250135dd21b8bc3a8f375dd95bf81b"
+    },
+    {
+      "path": "source_current/tools/prepare_campaign_handoff.py",
+      "bytes": 7721,
+      "sha256": "f9042fcca25702289f1683aef05b8e6b02bc2aeeba061247b26f4bfcd7f398fd"
+    },
+    {
+      "path": "source_current/tools/publish_native_tutorial_report.py",
+      "bytes": 7415,
+      "sha256": "0fadd7f89d3566e0a40d1cb5b525f8c1476825640448c8f163a245892c97a532"
+    },
+    {
+      "path": "source_current/tools/verify_remote_delivery.py",
+      "bytes": 2385,
+      "sha256": "27e28f8df792add546866661842781929a16d6a54c4daf2edd218c2d99dd3c4c"
+    },
+    {
+      "path": "START_HERE.txt",
+      "bytes": 231,
+      "sha256": "c0130f5e2bd7cb563b69348ebdf2d0e9d5b32ff791a3be183e4204a4c6272531"
+    },
+    {
+      "path": "TASK_QUEUE.txt",
+      "bytes": 469,
+      "sha256": "3ff7f992a74fa122ad026dfe412cc6d219b230c7f9b389142dd52c74d6cb4000"
+    },
+    {
+      "path": "VIDEOS.json",
+      "bytes": 1032,
+      "sha256": "582680b47d2b9c3b939e291bd182e74269eaf15a80fc2d39a19c6ee4358ac6e0"
+    }
+  ]
+}

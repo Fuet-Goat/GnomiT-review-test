@@ -1,0 +1,19 @@
+OWNER ACTIVATION REQUIRED — scope proposal, NOT an active grant
+20.10.2026
+
+Freshly checked main bd2dfe7fddd300bd8425cd1c5b0846fe50c4f3d2:
+GPT and Grok task-002 grants are APPROVED only for one independent gnome variant on the fixed First Bend background and optional small gait study. They explicitly prohibit game/source/scene execution and allow PNG/GIF/WebM/JSON/TXT/MD, not native Blender sources. This scope does not cover the new current-world art/animation prototype.
+
+Owner should register a fresh specific creative task or explicitly update the existing task-002 objective/authority. The bot may not self-update its grant. A task-001 report permission is not implementation authority. No grant/main change has been made by this prompt publication.
+
+Concrete proposed scope for EACH bot separately:
+- Current native v001 mine world + small guide; one coherent art/animation prototype chosen using artistic judgment.
+- Own branch codex/<bot>/<registered-task-id>; own sandbox/<bot>/<registered-task-id>/art/, outputs/, game/ and discussions/<bot>/<registered-task-id>/ only. Do not reuse the other bot's paths.
+- Editable art and animation source, generators, textures, Blender/GLB exports; only Godot scene/code changes required to preview/integrate those visuals in the isolated copy.
+- Allowed formats as needed: .blend/.glb/.gltf/.bin/.png/.jpg/.webp/.gif/.webm/.mp4/.tscn/.tres/.gd/.gdshader/.godot/.py/.json/.txt/.md and task-specific sidecars. Explicitly name formats and narrower subdirectories when issuing the actual grant.
+- Allowed checks: source/export/import, inspect 432x960 before/after, inspect RGBA/pivots/animation frames; render asset previews; Godot run/capture only in the authorized isolated copy and isolated save profile.
+- Required: REPORT/PROVENANCE/ASSET_METADATA/MANIFEST, editable sources and actual output delivery with fresh remote readback.
+- Keep engine/UI language, match-3 rules, levels/goals/rewards/power recipes, audio and save/progress unchanged. No gameplay redesign, new features, purchases, private project, foreign folders, self-updating permissions, merge, force push or publication of a release.
+- Stop after a delivered candidate and Draft PR for owner acceptance; no transfer into current v001/main by the contributing bot.
+
+The existing creative prompt is ready. Registration should be done through the trusted human-owner workflow, with explicit objective, tests, exact paths and formats. The active grant in main, not this proposal, is checked by the scope guard.

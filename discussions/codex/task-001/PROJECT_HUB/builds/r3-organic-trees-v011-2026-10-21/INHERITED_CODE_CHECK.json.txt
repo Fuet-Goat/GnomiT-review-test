@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "base": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\R3_Trees_Applied_2026-10-21",
+  "unchanged_scripts": 60,
+  "changed_scripts": [
+    "scripts/r3/preview_main.gd"
+  ],
+  "changes": "Window title only in the one GDScript file.",
+  "base_manifest_entries_unchanged": 361,
+  "base_modified_entries": [],
+  "gameplay_audio_progress": "INHERITED_SCRIPTS_BYTE_IDENTICAL",
+  "native_protection": "634 protected records; v010 bark, grass, camera and lighting retained."
+}

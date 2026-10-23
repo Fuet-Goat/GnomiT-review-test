@@ -1,0 +1,31 @@
+{
+  "status": "INPUT_REFERENCE_METADATA_ONLY",
+  "references": [
+    {
+      "path": "REFERENCE_COMPOSITION.png",
+      "original_filename": "GnomiT Island_ Cozy Mine Adventure.png",
+      "role": "Composition: island, winding wooden road, mine, rounded trees; ignore text and buttons",
+      "bytes": 2054056,
+      "sha256": "0431ca1845913d568430590fba9af71df4274fb0ff2a434130b66256885192b6",
+      "dimensions": [
+        941,
+        1672
+      ],
+      "modified": false
+    },
+    {
+      "path": "REFERENCE_STYLE_COMPARISON.png",
+      "original_filename": "codex-clipboard-e0e55003-c09d-4e59-b911-6f4ea615dc93.png",
+      "role": "Style: middle panel only; ignore labels/crown/frame",
+      "bytes": 2634535,
+      "sha256": "a7d9b4f82fe73a2e5ab641261b9cbc14765e6360c9c108ab7ee9a51b0bc84add",
+      "dimensions": [
+        1448,
+        1086
+      ],
+      "modified": false
+    }
+  ],
+  "future_scene_filename": "gnomit_airy_island_v001.blend",
+  "future_scene_delivered": false
+}

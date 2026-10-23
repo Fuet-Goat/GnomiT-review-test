@@ -1,0 +1,45 @@
+{
+  "scope": "Human-authorized GPT task003 one-file owner activation, not artwork completion",
+  "files": [
+    {
+      "path": "ACTIVATION_RECEIPT.json",
+      "bytes": 699,
+      "sha256": "3718eeb1ed801b3385a2da0ddf0c19732183141a74b6235ba98f33045d0711ad"
+    },
+    {
+      "path": "APPROVED_TASK003.json",
+      "bytes": 6699,
+      "sha256": "c31be56a1a17706ade953eead7b4df7b30b843086f156f4719db2094aa008153"
+    },
+    {
+      "path": "CI_CHECK.json",
+      "bytes": 958,
+      "sha256": "445b46951985bad090ae633c5a34c5228a009379fb10910d8799b2ec9dfea403"
+    },
+    {
+      "path": "CONTINUE_GPT_BG.txt",
+      "bytes": 4387,
+      "sha256": "d77506b32e7080cb7f93700754437bd1222c48f8a4ad2b8735d47522cb6dc4ec"
+    },
+    {
+      "path": "FINAL_RESPONSE.txt",
+      "bytes": 317,
+      "sha256": "50bbd51e24385f6aa33b7cf5ab973ac6e48ae49ee44c81db4bdad4d64115a243"
+    },
+    {
+      "path": "INDEPENDENT_REVIEW.txt",
+      "bytes": 761,
+      "sha256": "a643f3310a1f70b562079d81387d92af8fc34dd344d7b8d2bbd773e9126e8ac5"
+    },
+    {
+      "path": "LOCAL_PREFLIGHT.json",
+      "bytes": 335,
+      "sha256": "ebd504905aa0de29f3be2ec6aef9839e529ef76bbeb1568f4a2462074dc4864b"
+    },
+    {
+      "path": "README_BG.txt",
+      "bytes": 1703,
+      "sha256": "2ffb5e32a786260f1bbd418b736892d6485e84b17875231cbe5856a276fb84c9"
+    }
+  ]
+}

@@ -1,0 +1,149 @@
+"""One broad cloth fold on a new R3 cap; static clay geometry only.
+
+The existing folded cap band belongs to the calling scene and is untouched.
+All dimensions, including target_top_z, are in the supplied root's local space.
+No scene or predecessor mesh is read by this helper.
+"""
+
+import math
+import bpy
+import bmesh
+from mathutils import Vector
+from shape_helpers import _closed_rings, _catmull
+
+
+def _angular_difference(a, b):
+    return (a - b + math.pi) % math.tau - math.pi
+
+
+def _evaluated_local_top(obj):
+    graph = bpy.context.evaluated_depsgraph_get()
+    evaluated = obj.evaluated_get(graph)
+    mesh = evaluated.to_mesh()
+    try:
+        return max(float(vertex.co.z) for vertex in mesh.vertices)
+    finally:
+        evaluated.to_mesh_clear()
+
+
+def build_cap(api):
+    """Build and return {'object': cap, 'objects': [cap], 'metadata': {...}}.
+
+    Required: collection, clay, root, target_top_z. The last value must be the
+    old cap's evaluated maximum local Z, measured by the caller before removal.
+    The helper never alters the band or removes/reads the predecessor cap.
+    """
+    collection, clay, root = api['collection'], api['clay'], api['root']
+    target_top = float(api['target_top_z'])
+    base_z = 1.264
+    if not math.isfinite(target_top) or target_top <= base_z + .08:
+        raise ValueError('target_top_z must be the original cap evaluated local top')
+
+    # The main fabric mass slopes to viewer-left instead of forming a centred
+    # Santa cone. The long outer flap turns down gently, with a round end.
+    sections = [
+        ((.000, .018, base_z), .244, .180),
+        ((-.014, .025, 1.327), .238, .178),
+        ((-.074, .040, 1.405), .209, .155),
+        ((-.164, .056, 1.460), .164, .129),
+        ((-.246, .061, 1.443), .123, .101),
+        ((-.309, .045, 1.382), .088, .080),
+        ((-.343, .019, 1.300), .055, .058),
+        ((-.354, -.004, 1.237), .029, .035),
+        ((-.341, -.020, 1.207), .006, .010),
+    ]
+    centers = [s[0] for s in sections]
+    sweep_x = _catmull(centers, [s[1] for s in sections], 8)
+    sweep_y = _catmull(centers, [s[2] for s in sections], 8)
+    ring_vertices = 64
+    rings = []
+    largest_indent = 0.0
+    for k, ((center, rx), (_, ry)) in enumerate(zip(sweep_x, sweep_y)):
+        before = sweep_x[max(k - 1, 0)][0]
+        after = sweep_x[min(k + 1, len(sweep_x) - 1)][0]
+        tangent = (after - before).normalized()
+        depth = Vector((0, 1, 0))
+        across = depth.cross(tangent).normalized()
+        t = k / (len(sweep_x) - 1)
+        # Seat the first ring exactly on the unchanged brim's base plane;
+        # then blend into the tilted sweep frame above the concealed hem.
+        base_blend = max(0.0, 1.0 - t / .10) ** 2
+        across = across.lerp(Vector((1, 0, 0)), base_blend).normalized()
+
+        # A single continuous diagonal valley traverses the front of the
+        # crown. Its broad rolled bank is one fold, not repeated wrinkles.
+        # Both disappear beneath the brim and before the rounded flap end.
+        axial = math.exp(-((t - .36) / .235) ** 4)
+        end_fade = math.sin(math.pi * t) ** .90
+        envelope = axial * end_fade
+        fold_angle = -math.pi / 2 + .72 - 1.60 * t
+        ring = []
+        for i in range(ring_vertices):
+            a = math.tau * i / ring_vertices
+            delta = _angular_difference(a, fold_angle)
+            valley = math.exp(-((delta / .34) ** 2))
+            bank = math.exp(-(((delta + .57) / .40) ** 2))
+            # Positive Y moves the front surface inward. Neighbouring cloth
+            # rolls outward as a soft broad bank, producing a clear shade
+            # transition in clay without relying on texture or new lighting.
+            indent = .078 * envelope * valley
+            roll = .023 * envelope * bank
+            largest_indent = max(largest_indent, indent)
+            point = center + across * (rx * math.cos(a))
+            point += depth * (ry * math.sin(a) + indent - roll)
+            # A slight downward drape along the same valley reinforces the
+            # diagonal fabric motion while preserving a smooth outer outline.
+            point.z -= .013 * envelope * valley
+            ring.append(point)
+        rings.append(ring)
+
+    cap = _closed_rings('R3_OneFoldStorybookCap', rings, collection)
+    cap.parent = root
+    cap.data.materials.append(clay)
+    normal_mesh = bmesh.new()
+    try:
+        normal_mesh.from_mesh(cap.data)
+        bmesh.ops.recalc_face_normals(normal_mesh, faces=list(normal_mesh.faces))
+        normal_mesh.to_mesh(cap.data)
+    finally:
+        normal_mesh.free()
+    for polygon in cap.data.polygons:
+        polygon.use_smooth = True
+    sub = cap.modifiers.new('R3 broad folded cloth surface', 'SUBSURF')
+    sub.subdivision_type = 'CATMULL_CLARK'
+    sub.levels = 2
+    sub.render_levels = 2
+    cap.data.update()
+    bpy.context.view_layer.update()
+
+    original_top = _evaluated_local_top(cap)
+    z_scale = (target_top - base_z) / (original_top - base_z)
+    # Subdivision is affine invariant. Scaling all control points about the
+    # base plane keeps its first ring fixed and matches the evaluated top,
+    # including the upper silhouette between vertices, without a root resize.
+    for vertex in cap.data.vertices:
+        vertex.co.z = base_z + z_scale * (vertex.co.z - base_z)
+    cap.data.update()
+    bpy.context.view_layer.update()
+    final_top = _evaluated_local_top(cap)
+    if abs(final_top - target_top) > 2e-6:
+        raise AssertionError('Cap top failed its evaluated local-height match')
+
+    metadata = {
+        'object': cap.name,
+        'construction': 'new continuous swept cloth with one dominant diagonal front fold',
+        'base_center': [0.0, .018, base_z],
+        'base_radii': [.244, .180],
+        'dominant_fold_count': 1,
+        'maximum_authored_front_indent': largest_indent,
+        'target_top_local_z': target_top,
+        'unscaled_top_local_z': original_top,
+        'evaluated_top_local_z': final_top,
+        'control_z_scale_about_base': z_scale,
+        'subdivision': 2,
+        'existing_brim': 'UNCHANGED BY HELPER',
+        'root_transform': 'UNCHANGED BY HELPER',
+        'rig_or_animation': 'NOT_CREATED',
+        'material_source': 'existing caller clay only',
+    }
+    return {'object': cap, 'objects': [cap], 'metadata': metadata}

@@ -1,0 +1,1 @@
+Updated still concept: existing mushroom cottage relocated beside the starting gnome. Previous target/source context preserved. Git handoff only, not a Blender/game implementation.

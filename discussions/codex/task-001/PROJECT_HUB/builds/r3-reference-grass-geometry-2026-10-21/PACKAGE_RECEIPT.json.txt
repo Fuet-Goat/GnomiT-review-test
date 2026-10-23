@@ -1,0 +1,9 @@
+{
+  "status": "LOCAL_ARCHIVE_ALL_ENTRY_HASHES_PASS",
+  "zip_name": "GNOMIT_REFERENCE_GRASS_GEOMETRY_2026-10-21.zip",
+  "bytes": 25805504,
+  "sha256": "259001120a94390a5abb397d5fdfdcd6b90859f7905b3ba23b0bcdb9ec135e99",
+  "entries": 31,
+  "encoded": "NATIVE_REFERENCE_GRASS.base64.txt",
+  "kind": "NATIVE_ART_TRIAL_NOT_GAME_BUILD"
+}

@@ -1,0 +1,87 @@
+{
+  "document_type": "GNOMIT_PROVENANCE",
+  "template_status": "TEMPLATE_NOT_A_RESULT",
+  "schema_version": "1.0",
+  "contribution_id": "<ID>",
+  "report_path": "<relative path>",
+  "base_commit": "NOT_MEASURED",
+  "authorization_reference": "UNKNOWN",
+  "records": [
+    {
+      "record_id": "<ID>",
+      "file_path": "<relative path>",
+      "role": "<code|image|model|animation|audio|font|dependency|other>",
+      "creation_mode": "UNKNOWN",
+      "creation_mode_allowed": ["generated", "imported", "derived", "mixed", "human_authored", "UNKNOWN"],
+      "creation_date_timezone": "UNKNOWN",
+      "origin_chain": [
+        {
+          "origin_type": "<human|AI|tool|service|third_party|UNKNOWN>",
+          "name_or_public_identifier": "UNKNOWN",
+          "model_tool_service_version": "UNKNOWN",
+          "action_and_date": "UNKNOWN",
+          "input_record_ids": [],
+          "evidence_paths": [],
+          "note": "Record transformations and imported sources separately; no private account IDs."
+        }
+      ],
+      "editable_sources": [
+        {
+          "path": "UNKNOWN",
+          "kind": "<blend|script|layered_image|audio_project|source_code|other>",
+          "bytes": null,
+          "sha256": "NOT_MEASURED",
+          "measurement_status": "NOT_MEASURED",
+          "tool_version": "UNKNOWN"
+        }
+      ],
+      "generation_or_import": {
+        "script_path": "UNKNOWN",
+        "script_sha256": "NOT_MEASURED",
+        "prompt_path": "UNKNOWN",
+        "prompt_sha256": "NOT_MEASURED",
+        "seed": "UNKNOWN",
+        "seed_availability_reason": "UNKNOWN",
+        "settings_path": "UNKNOWN",
+        "reference_inputs": [],
+        "original_download_or_source_url": "UNKNOWN",
+        "source_artifact_date_or_version": "UNKNOWN",
+        "source_artifact_sha256": "NOT_MEASURED",
+        "reproduction_steps_path": "UNKNOWN",
+        "reproduction_status": "NOT_RUN"
+      },
+      "third_party_dependencies": [
+        {
+          "name": "UNKNOWN",
+          "version": "UNKNOWN",
+          "used_by_files": [],
+          "source_url_or_local_path": "UNKNOWN",
+          "license_or_terms_name_version": "UNKNOWN",
+          "license_or_terms_evidence_path_or_url": "UNKNOWN",
+          "evidence_date_timezone": "UNKNOWN",
+          "evidence_sha256_if_local": "NOT_MEASURED",
+          "required_attribution_text_or_path": "UNKNOWN",
+          "attribution_location_if_added": "UNKNOWN",
+          "evidence_status": "UNKNOWN"
+        }
+      ],
+      "reuse_evidence": {
+        "rights_holder_or_author_claim": "UNKNOWN",
+        "claim_source": "UNKNOWN",
+        "claim_independently_verified": false,
+        "actual_license_or_service_terms_evidence": "UNKNOWN",
+        "terms_version_date": "UNKNOWN",
+        "scope_or_restrictions_observed": "UNKNOWN",
+        "attribution_obligations_observed": "UNKNOWN",
+        "missing_information": [],
+        "status": "UNKNOWN",
+        "note": "Documentation supports a reuse assessment; it creates no ownership and replaces no actual agreement, license or service terms."
+      },
+      "predecessor_record_id": "UNKNOWN",
+      "predecessor_file_sha256": "NOT_MEASURED",
+      "known_limits": [],
+      "privacy_check": "NOT_RUN"
+    }
+  ],
+  "completion_rule": "Replace every placeholder honestly. Use UNKNOWN, NOT_MEASURED, NOT_RUN or NOT_APPLICABLE with a reason. Never invent rights, source, author, license, seed or measurements."
+}

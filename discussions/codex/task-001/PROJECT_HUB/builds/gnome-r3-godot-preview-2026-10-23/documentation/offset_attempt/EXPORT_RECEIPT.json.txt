@@ -1,0 +1,130 @@
+{
+  "status": "GLB_EXPORTED_FROM_ACCEPTED_R3",
+  "source_sha256": "0335bcc275bfbc8e3b7d3ea43bde2fad6c8ece5281a750007290ef154ac8bffc",
+  "source_unchanged": true,
+  "glb_sha256": "ecb21b8d6ef93562dff89857bc1ae9d65dad2fa58dd8cf8b092e614219ff61c7",
+  "glb_bytes": 29222752,
+  "baked_transport_fields": [
+    {
+      "object": "R2_OneSweptBeard",
+      "source_material": "M1 cream beard and brows",
+      "transport_material": "M1 cream beard and brows [GLB R2_OneSweptBeard]",
+      "size": 1024,
+      "emission_strength": 1.0,
+      "textures": {
+        "base": "source/baked_transport_textures/R2_OneSweptBeard_base.png",
+        "orm": "source/baked_transport_textures/R2_OneSweptBeard_orm.png",
+        "emission": "source/baked_transport_textures/R2_OneSweptBeard_emission.png"
+      }
+    },
+    {
+      "object": "R2 moustache -1",
+      "source_material": "M1 cream beard and brows",
+      "transport_material": "M1 cream beard and brows [GLB R2 moustache -1]",
+      "size": 512,
+      "emission_strength": 1.0,
+      "textures": {
+        "base": "source/baked_transport_textures/R2_moustache_-1_base.png",
+        "orm": "source/baked_transport_textures/R2_moustache_-1_orm.png",
+        "emission": "source/baked_transport_textures/R2_moustache_-1_emission.png"
+      }
+    },
+    {
+      "object": "R2 moustache 1",
+      "source_material": "M1 cream beard and brows",
+      "transport_material": "M1 cream beard and brows [GLB R2 moustache 1]",
+      "size": 512,
+      "emission_strength": 1.0,
+      "textures": {
+        "base": "source/baked_transport_textures/R2_moustache_1_base.png",
+        "orm": "source/baked_transport_textures/R2_moustache_1_orm.png",
+        "emission": "source/baked_transport_textures/R2_moustache_1_emission.png"
+      }
+    },
+    {
+      "object": "R1_LanternBlockout",
+      "source_material": "M1 framed amber lantern",
+      "transport_material": "M1 framed amber lantern [GLB R1_LanternBlockout]",
+      "size": 512,
+      "emission_strength": 1.5,
+      "textures": {
+        "base": "source/baked_transport_textures/R1_LanternBlockout_base.png",
+        "orm": "source/baked_transport_textures/R1_LanternBlockout_orm.png",
+        "emission": "source/baked_transport_textures/R1_LanternBlockout_emission.png"
+      }
+    },
+    {
+      "object": "R4 pupil -1",
+      "source_material": "M1 brown iris and pupil",
+      "transport_material": "M1 brown iris and pupil [GLB R4 pupil -1]",
+      "size": 512,
+      "emission_strength": 1.0,
+      "textures": {
+        "base": "source/baked_transport_textures/R4_pupil_-1_base.png",
+        "orm": "source/baked_transport_textures/R4_pupil_-1_orm.png",
+        "emission": "source/baked_transport_textures/R4_pupil_-1_emission.png"
+      }
+    },
+    {
+      "object": "R4 soft brow -1",
+      "source_material": "M1 cream beard and brows",
+      "transport_material": "M1 cream beard and brows [GLB R4 soft brow -1]",
+      "size": 512,
+      "emission_strength": 1.0,
+      "textures": {
+        "base": "source/baked_transport_textures/R4_soft_brow_-1_base.png",
+        "orm": "source/baked_transport_textures/R4_soft_brow_-1_orm.png",
+        "emission": "source/baked_transport_textures/R4_soft_brow_-1_emission.png"
+      }
+    },
+    {
+      "object": "R4 pupil 1",
+      "source_material": "M1 brown iris and pupil",
+      "transport_material": "M1 brown iris and pupil [GLB R4 pupil 1]",
+      "size": 512,
+      "emission_strength": 1.0,
+      "textures": {
+        "base": "source/baked_transport_textures/R4_pupil_1_base.png",
+        "orm": "source/baked_transport_textures/R4_pupil_1_orm.png",
+        "emission": "source/baked_transport_textures/R4_pupil_1_emission.png"
+      }
+    },
+    {
+      "object": "R4 soft brow 1",
+      "source_material": "M1 cream beard and brows",
+      "transport_material": "M1 cream beard and brows [GLB R4 soft brow 1]",
+      "size": 512,
+      "emission_strength": 1.0,
+      "textures": {
+        "base": "source/baked_transport_textures/R4_soft_brow_1_base.png",
+        "orm": "source/baked_transport_textures/R4_soft_brow_1_orm.png",
+        "emission": "source/baked_transport_textures/R4_soft_brow_1_emission.png"
+      }
+    }
+  ],
+  "options": {
+    "filepath": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\Gnome_R3_Godot_Preview_2026-10-23\\godot\\assets\\gnome_r3.glb",
+    "export_format": "GLB",
+    "use_selection": true,
+    "export_apply": true,
+    "export_yup": true,
+    "export_skins": true,
+    "export_animations": true,
+    "export_frame_range": true,
+    "export_frame_step": 1,
+    "export_force_sampling": true,
+    "export_animation_mode": "ACTIVE_ACTIONS",
+    "export_cameras": false,
+    "export_lights": false,
+    "export_materials": "EXPORT",
+    "export_image_format": "AUTO"
+  },
+  "native_saved": false,
+  "geometry_weight_action_edits": false,
+  "caveats": [
+    "PBR field baking approximates arbitrary shader mixtures; native shaders remain unchanged.",
+    "glTF skinning uses matrix blending; source Preserve Volume uses dual quaternions. Parity measured separately."
+  ],
+  "human_Godot_acceptance": "PENDING",
+  "game_integration": false
+}

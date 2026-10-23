@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "download_stage": {
+    "status": "PASS",
+    "source_commit": "aee780b856f8bfd4e87a2f9b9227a5f140af5795",
+    "zip_sha256": "b65b84f623c15bce21bb42771d38670ef3b7716ba23f02029879f425c329aae0",
+    "entries": 39,
+    "no_engine_or_project_code_executed": true,
+    "all_local_files_equal": true,
+    "decoder_sha256": "768cb988c93f35709e051afef28d68c94a2aeee8db7c83d0e1593b671474ea94"
+  },
+  "published_choice_verified": true,
+  "later_separate_cache_free_import_and_headless_start": "PASS",
+  "human_acceptance": "PENDING",
+  "android_performance": "NOT_MEASURED"
+}

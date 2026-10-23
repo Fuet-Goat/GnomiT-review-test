@@ -1,0 +1,40 @@
+{
+  "objects": 1193,
+  "mesh_objects": 993,
+  "materials": 73,
+  "images": [
+    "Authored_Oak_Colour",
+    "Authored_Oak_Endgrain",
+    "Authored_Oak_Normal",
+    "Authored_Oak_Shadow"
+  ],
+  "mine": {
+    "asset": "rounded storybook mine",
+    "components": 131,
+    "arch_blocks": 9,
+    "tunnel_depth": 1.92,
+    "reused_cylinder_meshes": 5,
+    "animation": "real point-light energy, frames 1..145, 144-frame six-second loop at 24fps",
+    "energy_watts_at_unit_scale": [
+      22.9,
+      25.5
+    ],
+    "emission_strength_max": 3.2,
+    "entrance_facing": "-Y"
+  },
+  "camera": {
+    "position": [
+      1.2999999523162842,
+      -11.5,
+      13.399999618530273
+    ],
+    "ortho_scale": 14.5
+  },
+  "reference": "Visual style reference only; no raster is used as rendered geometry.",
+  "source": "Native Python-authored geometry and deterministic oak textures; artistic acceptance pending.",
+  "not_implemented": [
+    "chapter gameplay",
+    "gnome navigation",
+    "Android acceptance"
+  ]
+}

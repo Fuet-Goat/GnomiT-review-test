@@ -1,0 +1,55 @@
+{
+  "files": [
+    {
+      "path": "CURRENT_DISCUSSION_STATUS.txt",
+      "bytes": 1177,
+      "sha256": "adf9bbb707e7a36672c4e75cd5425cca11eb214f247ce9bef4b77728516f5668"
+    },
+    {
+      "path": "DEEP_RESEARCH_01_FIRST_MINUTES_BG.txt",
+      "bytes": 3343,
+      "sha256": "4a1bb404f7e63649ae3753c7ac80452626d22d055e0b334061794fe41a4bd9ba"
+    },
+    {
+      "path": "DEEP_RESEARCH_02_ANDROID_ART_BG.txt",
+      "bytes": 3331,
+      "sha256": "697e94db45755e97ab0f7cd0f873d962418fe6a08152617680ead2911c714a5b"
+    },
+    {
+      "path": "DEEP_RESEARCH_03_ONE_FINGER_BG.txt",
+      "bytes": 3282,
+      "sha256": "2035baf17d78c8fbebb8a608009e0139df0d4a231017d1cb8e8dbde10541dd1c"
+    },
+    {
+      "path": "FINAL_RESPONSE.txt",
+      "bytes": 942,
+      "sha256": "e16f91163a9e6f50436b563d786c431d0f9d908e4024cd6994576012b7d1f832"
+    },
+    {
+      "path": "FOLLOWUP_FOR_GPT_GROK_BG.txt",
+      "bytes": 2361,
+      "sha256": "9a1f80913aa076b0022a81632b8166a6f2c08169050a2f92719fa478720c497a"
+    },
+    {
+      "path": "PROJECT_FACTS_BG.txt",
+      "bytes": 4408,
+      "sha256": "cced0b207d6d3888ff34c4b1eabb0d350facdcb9ba1768b6d5e835a6fa8f866d"
+    },
+    {
+      "path": "README.txt",
+      "bytes": 600,
+      "sha256": "f99f1a24a04c7b58e07bf9f78cf77ea105c70958d3faa8a087c36d8bb1c3717f"
+    },
+    {
+      "path": "RESEARCH_QUEUE_BG.txt",
+      "bytes": 6336,
+      "sha256": "1e69485d18cee6b3c68e8144400c4079bd72a553a33217a4c9caf5c1625ce50e"
+    },
+    {
+      "path": "SOURCES_BG.txt",
+      "bytes": 1819,
+      "sha256": "6346031cc130ca375581e987bf8feec564099db00e0f5333bbf289d2e53b1d7b"
+    }
+  ],
+  "note": "Excludes manifest itself."
+}

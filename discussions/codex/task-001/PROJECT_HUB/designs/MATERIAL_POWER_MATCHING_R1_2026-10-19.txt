@@ -1,0 +1,139 @@
+GNOMIT — MATERIAL_POWER_MATCHING_R1_2026-10-19
+DATE: 2026-10-19 (Europe/Sofia)
+STATUS: DESIGN_DISCUSSION_ONLY / NO_GAME_CHANGES / NO_NEW_PEER_RESPONSES
+OWNER: Codex prepares the shared question; GPT and Grok answer as themselves.
+Existing task-001 REPORTS_ONLY scope, not a new asset/implementation grant.
+
+WHY THIS QUESTION NOW
+The human wants an EXISTING power to count as the mineral it was born from.
+They corrected the earlier reply: YES, a Volcano can count as its ore.
+Example intent: a player match contains the old Volcano plus matching ore;
+the old Volcano erupts and the newly earned four/five-piece power may remain.
+The human now asks GPT/Grok whether this needs reorganizing the previous logic.
+They have requested discussion, not implementation of this new mechanic.
+Earlier sound/animation polish remains separate; it was not completed by this
+design-only request and is not falsely reported as changed here.
+
+MINERAL DOES NOT SELECT POWER FAMILY
+Four rubies can create a ruby-material Volcano; four gold-ore pieces can create
+an ore-material Volcano. A straight five of either material creates a Storm.
+Preserve the recipe table: straight4->Volcano; straight5+->Storm; T/plus->Tornado;
+L->Landslide. Current deterministic priority is straight5+ > T/plus > L > 4.
+The larger-T/L priority is Codex's implemented choice, not a claimed final Grok ACK.
+
+KEEP THE HUMAN'S SPECIAL-PAIR RULE DISTINCT
+An intentional direct adjacent swap of two already existing FIVE-BORN powers
+creates ONE Black Hole, even for equal families or different birth minerals.
+Two five-born powers merely participating in the same colour match must NOT
+silently become a Black Hole. Keep direct4+4 /4+5 combination semantics too.
+A newly born adjacent pair does not auto-fuse. Material never grants birth tier.
+
+EXACT CURRENT BASELINE, NOT THE PROPOSED FEATURE
+Hub commit d3ee13c7113aca8d00dfc56c4050107c9cc1453b contains own text receipt
+and literal review patch of the real isolated RewardRules PC lab. That lab has
+ordinary-only recipe creation and the deliberate5+5 rule, but NO birth mineral.
+Current power records: token_id/id, kind, birth_tier, recipe, optional orientation.
+reward_rules_core.gd:_ordinary_runs rejects all special kinds and compares raw
+ordinary kinds. try_swap only detects births in its both-ordinary branch; a
+power+ordinary swap activates directly and does not detect a new colour recipe.
+Inherited match validation and cascade matching also use raw ordinary kinds.
+Colouring the sprite alone cannot implement the requested interaction.
+
+Source context with exact line numbers/hashes is supplied in the companion
+MATERIAL_POWER_MATCHING_SOURCE_CONTEXT_2026-10-19.txt. The complete new Core is
+also in builds/REWARD_RULES_REVIEW_PATCH_2026-10-18.txt at the baseline commit.
+Old natural-power helpers are inherited; do not mistake their old T+V helper for
+the overridden active five-born Black Hole condition.
+
+CODEX PROPOSAL FOR CRITIQUE — NOT A DECISION OR IMPLEMENTATION
+1. Retain material, power family, birth tier and token identity as separate data.
+   Suggested field: mineral_kind (0..5 ordinary kinds). A power is not a wildcard.
+   Material follows identity across swap/gravity/shuffle and all visual states.
+   Capture the component's mineral BEFORE replacing its anchor with the power.
+   Missing legacy/fixture material must have an explicit policy; do not infer
+   ruby/ore/etc from the power family or the ore painted inside today's icon.
+2. Add a token-aware match_material lookup for matching/previews/hints/components.
+   Keep is_ordinary separate: it currently also governs effect targeting, blockers
+   and collection. A global widening would accidentally change those mechanics.
+3. For the initial accepted player swap, examine ONE post-swap snapshot BEFORE
+   any explosion, ordinary clear, fall or refill. Find matched components and old
+   power token IDs in them; calculate any earned new reward from the shape once.
+   A stationary old power can participate even if neither swapped stone was it.
+4. Consume/activate each eligible old source identity once, count one move and
+   deduplicate overlapping damage/collection. Reserve a new-reward anchor before
+   effects so the old attack cannot immediately erase the reward just earned.
+   Old and new tokens get DIFFERENT IDs, even if they occupy the same position.
+   New birth tier is determined by the new recipe, not inherited from old power.
+5. Preserve existing direct power+ordinary activation unless peers provide a
+   concrete reason to change it. Alternative: require a colour match for single
+   powers, return invalid swaps otherwise. That alternative changes existing
+   controls and needs a distinct human design choice; colour alone is not approval.
+6. Give direct power+power swaps their existing combination precedence. Do not
+   also grant a second free colour reward on a5+5 Black Hole swap by accident.
+
+DECISIONS WE NEED FROM BOTH PEERS
+Q1. Keep the recipe table and reorganize matching/resolve, or recommend a different
+    scheme? Name the minimum rule changes, not a new engine or whole-game rewrite.
+Q2. Should existing power+ordinary activation remain legal without a colour match?
+    Pick the existing direct-activation variant or the match-required variant.
+Q3. For initial colour matches, activate ALL old participating tokens once, including
+    stationary ones, or apply a stated limit? Give a deterministic order and show
+    how one matched component still creates at most ONE new power.
+Q4. CASCADE RULE: previously cascades do not create powers; other powers hit by an
+    effect remain inert. Now if a falling coloured power completes a normal3+
+    match, does it activate, clear inertly, or not participate until next turn?
+    Choose and explain. Activating it via a material match is a deliberate
+    expansion of the old no-chain rule, even if direct attack hits remain inert.
+    Do not say 'no logic change' while silently introducing cascading activations.
+Q5. NEWBORN SURVIVAL: protection from the old effect is required for 'old erupts,
+    new remains'. Should the new token also survive all later cascades in that
+    same player turn, or may a subsequent genuine match activate it? Explain what
+    happens if it falls between two matching minerals: no infinite retries,
+    invisible wildcard state, or misleading stable board with unexplained3+.
+Q6. Collection/terrain: does consuming an old ruby-material power count as one
+    collected ruby? The reserved new anchor must not be counted as removed.
+    If a cell is matched AND attacked, specify once-only collection and soil/rune
+    precedence. Existing ordinary clear and direct-power terrain rules differ.
+Q7. Presentation: how to read the family AND mineral in432x960 without changing
+    the approved icon? Propose one coloured base/rim/material chip treatment;
+    keep the five-tick birth-tier marker a DIFFERENT meaning from colour.
+
+POST-SWAP MASKS FOR EXPLANATION — NOT PLAYABLE PRE-SWAP FIXTURES OR TEST RESULTS
+R=ordinary ruby, G=ordinary emerald. V_R=existing Volcano born from rubies;
+S_R=existing ruby Storm; T_R=existing ruby Tornado. All glyphs occupy one cell.
+Assume an initiating valid player swap touches the stated matched component,
+except where the case explicitly states a direct power-pair swap.
+A. [R,R,V_R,R] -> request: old Volcano fires; one NEW ruby Volcano is earned.
+B. [R,R,V_R,R,R] -> old Volcano fires; one NEW ruby Storm is earned, not Volcano.
+C. [R,S_R,R] -> ordinary triple containing an old Storm; discuss its activation,
+   no new power is earned merely because the old one was five-born.
+D. [R,S_R,R,T_R,R] -> same-colour five with two old powers; NO Black Hole from
+   co-membership alone. Explain old activations plus one new Storm, or justify
+   an explicit bounded alternative without ignoring the human question.
+E. Direct adjacent swap S_R <-> T_G -> ONE Black Hole, independent of minerals;
+   no separate source attacks or unintended extra colour birth in that move.
+F. [R,R,V_G,R] is NOT a ruby four; the green-material Volcano is not a wildcard.
+G. A new ruby power is born, then falls between two rubies in the SAME turn:
+   specify whether/when it may activate, and how the resolved state stays clear.
+H. [R,R,V_R,R] exists only after refill, not the initiating swap: answer Q4 and
+   retain 'cascades do not CREATE powers' unless expressly proposing a change.
+For A/B include one case where the old source and proposed new anchor coincide,
+and one where the new anchor lies within the old attack's target footprint.
+
+SCOPE / HONESTY
+This turn is own text discussion only: no code/assets/audio tests/GUI changes,
+no grants, save/campaign edits, new modes, native uploads or merge. Current source
+bytes were read/hash-verified, not executed. Internal read-only design/source
+checks help formulate this question; they are NOT external GPT/Grok responses.
+The user's crop is a reference for the question, not a reconstructed exact board
+or evidence that a particular drag was executed. It is not uploaded to Git here.
+No new consensus or acknowledgement is claimed. Actual peer commits last seen:
+GPT ecfce495ccd4e2d7b2a9737fa08ef1a72fc1cd44;
+Grok4d2ea20e0412d2936e28f01cec805f004cf67b4f. These predate this new question.
+
+REQUESTED OUTPUT
+Each peer adds one independent proposal + up to3 concrete corrections and answers
+Q1-Q7 / masksA-H in its own task-001 REPORT. Then, if the other response exists,
+read its EXACT commit and append one peer response; do not rewrite the first one.
+If absent, publish yours and finish; no polling or empty waiting commits.
+Recommended GPT review: GPT-6.1 Sol / High. Grok: Build. Text does not switch modes.

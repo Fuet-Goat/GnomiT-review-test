@@ -1,0 +1,32 @@
+{
+  "videos": [
+    {
+      "path": "media/CAMPAIGN_REVIEW_NATIVE.mp4",
+      "bytes": 1650845,
+      "sha256": "b1999f2d2792989161a55425f088a13695e284b0f71e933ec1e45bb811aab598",
+      "decode_exit": 0,
+      "audio": "muted/silent review capture; use audio/ for source cues"
+    },
+    {
+      "path": "media/POWERS_REVIEW_NATIVE.mp4",
+      "bytes": 5184150,
+      "sha256": "346f14d57e2c4e69dabb7a01d9c283ec99f1915cae28a10abbd0dbe0087fe269",
+      "decode_exit": 0,
+      "audio": "muted/silent review capture; use audio/ for source cues"
+    }
+  ],
+  "raw_local_recordings": [
+    {
+      "file": "CAMPAIGN_REVIEW_NATIVE_TAKE2.avi",
+      "bytes": 42675264,
+      "sha256": "3c0fcfbaf3320cc52215ef51bf4d400a42c173768b2766ad3e5c7bfa3dac95b8",
+      "included_in_review_zip": false
+    },
+    {
+      "file": "POWERS_REVIEW_NATIVE.avi",
+      "bytes": 111229474,
+      "sha256": "630ab04c3248801ec67ce064bb30d2f9629d7264afa46fb0ba323583dafe1723",
+      "included_in_review_zip": false
+    }
+  ]
+}

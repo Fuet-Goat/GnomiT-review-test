@@ -1,0 +1,89 @@
+GNOMIT — R2 EXACT NATIVE BLENDER REVIEW
+2026-10-21 Europe/Sofia
+GPT source: a16c9a71e21233ce9d48eeb8ae20ac56bf1500d2
+Input: discussions/gpt/task-001/new-island-generator-r2/
+Status: EXACT_R2_NATIVE_BUILD_VERIFIED / HUMAN_ART_REVIEW_PENDING / NOT_INTEGRATED
+
+RESULT
+All seven R2 modules and settings were materialized without byte changes.
+The EXACT generator ran in local Blender5.2.2 LTS d13f752e3b9c, CPU Cycles,
+48samples, producing actual .blend, embedded-texture GLB and432x960 PNG.
+No generator patch was needed. R1 exact and its separate normals fix remain.
+This report is a real Blender result, not the original source-only proposal.
+
+MEASURED ROAD IMPROVEMENT
+R1 corrected-source draft:76planks, minimum depth0.08931492934143596m,
+maximum outer seam0.2853608862638055m.
+R2 exact draft:107planks, minimum depth0.12218010436770542m,
+maximum outer seam0.08773513524294523m; minimum depth/spacing ratio
+0.730651714430682; visible seam bound0.10373513524294523m;0 SAT overlaps.
+Six earlier count candidates95,97,99,101,103,105 were rejected for seam width;
+the planner accepted107 without relaxing its configured .09m outer limit.
+These geometric results were read from actual build metadata. They do not
+replace human judgment of the bevelled, lit road at432x960.
+
+OBSERVED VISUAL CHANGE
+The road reads as a continuous honey-colored boardwalk; former dark fan-like
+gaps are largely gone. Earth is visibly thicker. Cottage wall/door are easier
+to read. Mine stones are more distinct and the entrance remains hollow.
+R2_CAMERA_CONTROL shows the same R2 scene at53 and43degrees. The earthen side
+is visible even at53, so the change is not only a camera trick. Both control
+views are actual renders; neither is an image-generation mockup.
+
+REMAINING ART GAPS — VISUAL-JUDGMENT
+1. Tree crowns still read as intersecting soft blobs with very simple small
+   leaves; improve coherent crown silhouette, foliage grouping and trunk form.
+2. Mine is still a squat block arrangement with flat top and black interior.
+   Refine it toward the middle reference's irregular rounded rock mound and
+   warm readable entrance; avoid returning to identical cushion-shaped stones.
+3. Palette/lighting remain subdued versus the middle reference's warm highlights,
+   vivid greens and blue sky. Refine materials and key/fill balance, not a
+   postprocessed replacement of the actual scene.
+Human explicitly preferred fewer stones/flowers and more empty grass. Preserve
+that direction. A reviewer noted lower reference density; this is NOT an
+instruction to refill the lawns with clutter.
+
+CHECKS ACTUALLY PERFORMED
+-17 Git documents preserved;15 declared payloads verified by bytes/SHA256 and
+ Git blob SHA1; all7 Python modules parsed, JSON parsed.
+-Reconstructed base checked against all8 actual Codex-corrected source files;
+ geometry.py and materials.py remain byte-identical to that base.
+-Source-only delegated audit: no network, subprocess, deletion, add-on install,
+ external scene loading or missing local module; fresh-output guards reviewed.
+-Exact native build exit0. .blend freshly reopened with scripts disabled and
+ rerendered at432x960. Relative-output and existing-output guards both refused.
+-Base topology of turf, earth, underdeck and9 arch stones:12 meshes, no open or
+ nonmanifold edges; positive signed volumes before modifiers and after evaluation.
+-GLB imported in a new empty Blender scene:580 meshes,205350 evaluated triangles;
+ measured bounds and3 named anchor translations match native with max error0m.
+ Five embedded256x256 images survive; required camera/route/level nodes present.
+-Positive underdeck/earth/turf/arch volumes remain after GLB import.
+-All source .blend/GLB input bytes remain unchanged after checks.
+Native checker output/guard receipts, actual renders and logs are preserved.
+
+FAILED CHECKER ATTEMPT, RETAINED
+The first Codex checker stopped on a literal string comparison of render path.
+Blender reload normalizes //RENDERS/ to //RENDERS\ on Windows. A diagnostic
+read confirmed the actual absolute target was correct. The checker was fixed
+to compare resolved paths; generator and saved scene were not changed.
+The original failing checker and exit1 log remain; the full next attempt exited0.
+After successful import/checks Blender printed one unfreed memory-block notice
+(0.000023MB) at shutdown. It is recorded, not counted as an Android memory test.
+
+LIMITS AND FOLLOW-UP
+No game launch/integration, Godot import, Android/performance acceptance, gnome,
+animation, save or reward mechanics work. No final art or legal clearance claim.
+GLB omits Cycles lights/world; runtime look still needs a later separate step.
+Minor source reliability note: build_scene.py ignores final save operator return;
+this run's reopened render path/seed/camera and output hashes prove actual save.
+No need to patch that source merely to produce another candidate today.
+User judges the real R2 images before a further art revision or integration.
+
+PRESERVATION / GIT
+Local art review follows the ongoing human-assigned Blender trial. The GPT
+report did not itself grant authority. Publication is own Codex REPORTS_ONLY
+documentation plus verified archive transport under discussions/codex/task-001/.
+No grants/main/private game/campaign/save/Cradle/other bot files changed; no merge.
+A separate version-specific Blender Desktop shortcut was added under Art Previews;
+existing game launchers and previous scenes remain unchanged.
+Next source-art iteration setting, if requested: GPT-6.1 Sol / High.

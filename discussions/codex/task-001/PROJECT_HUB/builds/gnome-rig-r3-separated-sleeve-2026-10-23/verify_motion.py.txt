@@ -1,0 +1,30 @@
+"""Read-only native reopen and numerical split-sleeve measurement."""
+from pathlib import Path
+import hashlib
+import json
+import sys
+import traceback
+import bpy
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / 'source'))
+from validate_split_sleeve import validate
+
+native = ROOT / 'native/GNOME_R3_SEPARATED_SLEEVE_A.blend'
+expected = '0335bcc275bfbc8e3b7d3ea43bde2fad6c8ece5281a750007290ef154ac8bffc'
+receipt = {'native': str(native), 'expected_sha256': expected}
+try:
+    assert bpy.app.background
+    before = hashlib.sha256(native.read_bytes()).hexdigest()
+    assert before == expected, 'Native identity mismatch'
+    bpy.ops.wm.open_mainfile(filepath=str(native))
+    receipt['measurements'] = validate(bpy.context.scene, bpy.data.collections['R2_NEW_GNOME'])
+    receipt['status'] = 'NUMERICAL_PASS_VISUAL_ACCEPTANCE_PENDING'
+except Exception:
+    receipt.update(status='FAILED', error=traceback.format_exc())
+    raise
+finally:
+    after = hashlib.sha256(native.read_bytes()).hexdigest()
+    receipt.update(native_sha256_after=after, native_bytes_unchanged=after == expected)
+    (ROOT / 'documentation/SPLIT_MOTION_RECEIPT.json').write_text(json.dumps(receipt, indent=2)+'\n', encoding='utf-8')
+    print('SPLIT_MOTION ' + json.dumps({'status': receipt['status'], 'native_bytes_unchanged': receipt['native_bytes_unchanged']}), flush=True)

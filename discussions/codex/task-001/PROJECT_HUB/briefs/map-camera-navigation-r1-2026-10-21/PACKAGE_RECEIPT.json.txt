@@ -1,0 +1,7 @@
+{
+  "zip": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\GNOMIT_MAP_CAMERA_NAVIGATION_RESEARCH_R1_2026-10-21.zip",
+  "bytes": 999084,
+  "entries": 15,
+  "sha256": "7b48b6de9abc1230f59401a44c76fa308cd4706d6018e90d12db0dff748b2a76",
+  "status": "ZIP_MANIFEST_CRC_PASS_AFTER_INTERNAL_REVIEW"
+}

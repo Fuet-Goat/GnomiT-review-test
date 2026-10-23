@@ -1,0 +1,32 @@
+{
+  "date": "2026-10-23",
+  "input_handoff_commit": "1cbbe60b90806d9fb2d28d02db85da4cf7ddc9d4",
+  "r1_sha256": "43e9832811a89f9f4af660097f9b3abd69744f919f6179859763b00bdd0283be",
+  "m2_sha256": "ceab58183d8abee88e56731795ab13751661966ef9ef85c05de015d494d0fb2e",
+  "r2_sha256": "960953832b5963192c13d0fbf78f6800fdb80aee7d83447eb9aee207215d23ad",
+  "tools": [
+    "Blender5.2.2LTS/Python API",
+    "Blender bundled NumPy",
+    "Python/Pillow"
+  ],
+  "new_work": "Right sleeve weight field and the recorded minimal deform helper only",
+  "external_assets": [],
+  "textures_mesh_sources_downloaded": false,
+  "accepted_form_and_materials": "PRESERVED",
+  "new_animation_curves": 0,
+  "helpers_added": 1,
+  "front": "-Y",
+  "canonical_units": "Blender metres",
+  "animation_endpoints": [
+    1,
+    145
+  ],
+  "fps": 24,
+  "preview_frames": [
+    1,
+    144
+  ],
+  "runtime_integration": false,
+  "human_visual_acceptance": "PENDING",
+  "legal_note": "Factual source record; no new exclusivity guarantee"
+}

@@ -1,0 +1,24 @@
+[
+  {
+    "candidate": "01_GPT_EXACT",
+    "png_decode": "PASS",
+    "dimensions": [
+      432,
+      960
+    ],
+    "original_pixel_sha256": "43a71588004162774cd613e5da8da25805b4d2cd77add3ee5ae17c3f131fe99d",
+    "reopened_pixel_sha256": "2fc681ec3d02cac0a75c503956137f78434a17dc68a30f60106cd88e54ecd486",
+    "identical_reopen_pixels": false
+  },
+  {
+    "candidate": "02_CODEX_NORMALS_FIX",
+    "png_decode": "PASS",
+    "dimensions": [
+      432,
+      960
+    ],
+    "original_pixel_sha256": "c24c2e64de8b6d54d716b5cb0af7a0e91396e63404b81601ea6eee8ea10bb6dd",
+    "reopened_pixel_sha256": "714a3b2e38f2e0871b8588025a4e762c9e79aa78fc3ecf9b0fa7ef8424b30751",
+    "identical_reopen_pixels": false
+  }
+]

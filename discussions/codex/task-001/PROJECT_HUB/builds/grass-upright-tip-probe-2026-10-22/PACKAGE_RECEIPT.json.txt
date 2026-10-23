@@ -1,0 +1,196 @@
+{
+  "schema": 1,
+  "zip": {
+    "name": "GNOMIT_GRASS_UPRIGHT_TIP_PROBE_2026-10-22.zip",
+    "bytes": 44400911,
+    "sha256": "d131fdda77f04133f6d9032d2567f30043b5c0721af3ec95f5a8961a8e29ce59",
+    "entries": 25
+  },
+  "parts": [
+    {
+      "path": "PROBE_ZIP.part001.base64.txt",
+      "bytes": 8000001,
+      "sha256": "7af5cb430d4117a4e37c2a324ca0a1e6465c91239dd51f037f70d003f25b9685",
+      "base64_chars": 8000000,
+      "payload_sha256": "da556b5eee24145a4961a1fce1f9415f81b7b7e076a91d6017f7f35d5e72da10"
+    },
+    {
+      "path": "PROBE_ZIP.part002.base64.txt",
+      "bytes": 8000001,
+      "sha256": "630ff8028ae5c2521a5b23312945b9570556c9a456c9d424c0cc4a5dabd0c0f3",
+      "base64_chars": 8000000,
+      "payload_sha256": "c822375fcd3fe664b9999698d1b686590866ebd9ec1ed22b20bd0adf28e15181"
+    },
+    {
+      "path": "PROBE_ZIP.part003.base64.txt",
+      "bytes": 8000001,
+      "sha256": "905589716f59227ddb44726684f44ba203ea3dac89364b951e670510dea03b89",
+      "base64_chars": 8000000,
+      "payload_sha256": "462fb726a7de04e11c07662cfe389f551d79c607bbfa11fc699c0645c10c266e"
+    },
+    {
+      "path": "PROBE_ZIP.part004.base64.txt",
+      "bytes": 8000001,
+      "sha256": "c38ab4533167273d0fba731d1b9365008e17ee42f75cbfa352d4f7bdff6c4c19",
+      "base64_chars": 8000000,
+      "payload_sha256": "71debef6ee7dc8b69dcb35e7b321e6ed5952eae93da34ad1df09c86e4f6a258e"
+    },
+    {
+      "path": "PROBE_ZIP.part005.base64.txt",
+      "bytes": 8000001,
+      "sha256": "00408af67f67a9c165c76f5463be68f2b0091be521eda7cfc0f8c4ce43ca8f38",
+      "base64_chars": 8000000,
+      "payload_sha256": "dbee6471385627733d2eac137546da566096a210dc48455defb949ceacf815ee"
+    },
+    {
+      "path": "PROBE_ZIP.part006.base64.txt",
+      "bytes": 8000001,
+      "sha256": "f6c9f0991efae7d1370e6a4d73e1c7504d18cecfe17b0365148b145fa225d684",
+      "base64_chars": 8000000,
+      "payload_sha256": "71fd7c5ae1d089247a826048dac7af30cd1c84c099333d9936fe14b7cf2f9918"
+    },
+    {
+      "path": "PROBE_ZIP.part007.base64.txt",
+      "bytes": 8000001,
+      "sha256": "234f67b67a0d1e3e5adb8c7cd3da9076549d4e1f49d4cb79a3aef1feb30f778b",
+      "base64_chars": 8000000,
+      "payload_sha256": "9e0efd6b3c4091bf795bb633a63117bd5766fd1f2433bf3753b716328421f686"
+    },
+    {
+      "path": "PROBE_ZIP.part008.base64.txt",
+      "bytes": 3201217,
+      "sha256": "146d4b53e5c637c84cefc6b7a4ea8c8c98ea38da072b39762e63b0edb7f267be",
+      "base64_chars": 3201216,
+      "payload_sha256": "cc3b3bbed76b1b7213e84ab3b301e1ef28409fc7b91e70fdc5f52133b0269dfa"
+    }
+  ],
+  "files": [
+    {
+      "path": "documentation/EXTERNAL_RESPONSE_REVIEW_BG.txt",
+      "bytes": 954,
+      "sha256": "7e193b9f63b6cd920ba6746514ff0b3176d533a27962c3cea1cefe3e397af6e7"
+    },
+    {
+      "path": "documentation/INHERITED_C_PROVENANCE.txt",
+      "bytes": 1872,
+      "sha256": "dbceb18c6a10dabaf2450537c47185900d80495bdd2ffa256f22515afaf492e5"
+    },
+    {
+      "path": "documentation/INPUT_C_RECEIPT.json",
+      "bytes": 33957,
+      "sha256": "eaaf52f14c12d2858095f002dac75844f982292374fd3826c91d4d2179184aab"
+    },
+    {
+      "path": "documentation/INPUT_PIN.json",
+      "bytes": 437,
+      "sha256": "677804e07ce00028ed58984e8b2079eadc855b855afe9a7e534c4dbd78ea5ab2"
+    },
+    {
+      "path": "documentation/PROVENANCE.txt",
+      "bytes": 2205,
+      "sha256": "a4b6868213bcb6ceb71cc40a3751efb15ddbccd9c2ff0f852e96cc808c5062fa"
+    },
+    {
+      "path": "documentation/UPRIGHT_TIP_RECEIPT.json",
+      "bytes": 2510,
+      "sha256": "bc77fb3c49e0ca5599822eb37420aa08e6b0696b26d5618be268b5f148b0857d"
+    },
+    {
+      "path": "documentation/VISUAL_REVIEW.txt",
+      "bytes": 709,
+      "sha256": "6b31bfb20e5c060f087db17a302ff2c63bc61780a4b5d2383eea1131575db34a"
+    },
+    {
+      "path": "FINAL_RESPONSE.txt",
+      "bytes": 497,
+      "sha256": "21686b75beed950509b296905c4df816c0adf3cdae24e10d6dadb9e450b24a01"
+    },
+    {
+      "path": "MANIFEST.json",
+      "bytes": 4003,
+      "sha256": "a8b3aaf6f5579d9b0a466832a7226646ea3c6297dfc35c109690d124a5a63ed3"
+    },
+    {
+      "path": "native/INPUT_C.blend",
+      "bytes": 19773186,
+      "sha256": "afd0c35e0450bd46c26a8cd5c65762510ef409b738454c410b5ea614ab0daee5"
+    },
+    {
+      "path": "native/UPRIGHT_TIP_D.blend",
+      "bytes": 19773394,
+      "sha256": "290b34b6f36f0c0358b963e9a3a001ef6106eca8427aecedeaf7e696f44832c2"
+    },
+    {
+      "path": "outputs/00_C_FULL_432x960.png",
+      "bytes": 721830,
+      "sha256": "06f84498dc227f45efeb20c60deddfc087b90fa6316a69a807a3c1a91c2357bf"
+    },
+    {
+      "path": "outputs/01_D_UPRIGHT_432x960.png",
+      "bytes": 722146,
+      "sha256": "5a0c08db38b70ac76336d9099417b9d3d4cdb11c222c11601914f0f102481f66"
+    },
+    {
+      "path": "outputs/02_C_DETAIL_8X.png",
+      "bytes": 418364,
+      "sha256": "53aaf997183bb3a3ce586f111b2f2945630b81193f631bfebee81a5c05ca796c"
+    },
+    {
+      "path": "outputs/03_D_DETAIL_8X.png",
+      "bytes": 417671,
+      "sha256": "a54cbc43f3682db735add50dcbf89f421b1cc27feadaf623c725d78a5ff55706"
+    },
+    {
+      "path": "outputs/04_FULL_C_D.png",
+      "bytes": 620174,
+      "sha256": "a83bf1bc96a67438bcb34e090a4d9ab0e4366ba060c0bdeabaa92fcacacf4977"
+    },
+    {
+      "path": "outputs/05_DETAIL_C_D.png",
+      "bytes": 454244,
+      "sha256": "d714a68e1cc5e232f924db6b409307c9fb2c2227a2594fa2aa8d7f2a2075e0d2"
+    },
+    {
+      "path": "outputs/UPRIGHT_BUILD.log",
+      "bytes": 1023,
+      "sha256": "165507e841ac82e4199b52d682bd769aeb6d14954a54ee17f38093483f8dcb20"
+    },
+    {
+      "path": "README_BG.txt",
+      "bytes": 773,
+      "sha256": "0ad71125b32ddacd2fcc1a8cd96bff83dc332a09c849f8e33884bc5087089383"
+    },
+    {
+      "path": "reference/TARGET_HOME_START.png",
+      "bytes": 2256314,
+      "sha256": "a8ba8f00cba8f715e4633941f65b7f79da7caa174520a2a6e2072c60538e73c9"
+    },
+    {
+      "path": "tools/build_upright_tip.py",
+      "bytes": 8729,
+      "sha256": "52cd1ce5cbb39ff2524608fcff1fe6d5a6a1b9990ba79e040c7a26eb59a97263"
+    },
+    {
+      "path": "tools/compare_upright.py",
+      "bytes": 4011,
+      "sha256": "a562658aa8d6f5d018e5a3bda40459b5f1abe4bb84ca559e84e472bbf0708e15"
+    },
+    {
+      "path": "tools/download_verified_probe.py",
+      "bytes": 8081,
+      "sha256": "26c25af62d5ba758017a7c4be33573906ab7511a15144d12b5da201381f978ad"
+    },
+    {
+      "path": "tools/guard_utils.py",
+      "bytes": 10802,
+      "sha256": "1ec5055c90347cbc688013c97d02723bd5d7bb3e7541b0b958f9b84b3e6e6fa9"
+    },
+    {
+      "path": "tools/record_helpers.py",
+      "bytes": 15317,
+      "sha256": "a5236b57514843c8308761e10d7ea5b4a021bc6417ca0bd00bce09c4be162708"
+    }
+  ],
+  "payload_sha256_definition": "SHA256 of individually decoded binary part",
+  "game_integration": "NOT_PERFORMED"
+}

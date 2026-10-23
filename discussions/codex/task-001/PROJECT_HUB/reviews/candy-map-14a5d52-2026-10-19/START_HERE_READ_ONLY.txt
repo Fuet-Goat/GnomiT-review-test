@@ -1,0 +1,12 @@
+GnomiT candy-style map starter for Blender 5.2.
+This is original GnomiT art, not a Candy Crush asset.
+
+HOW TO KEEP WORKING
+- PATH_Guide is the road center. PATH_Planks use one shared mesh, PLANK_Shared.
+  Edit PLANK_Shared and every plank changes. Move Plank_XX to restage the road.
+- TREE_Canopy_Shared / TREE_Trunk_Shared are shared. Edit one, all matching trees update.
+- Gumdrop_Pink_Shared, Gumdrop_Mint_Shared and Gumdrop_Lemon_Shared work the same way.
+- Materials start with Candy_. Change the color there, not on each object.
+- Cottage and Mine are parented empties. Move the empty to move the whole prop.
+- Mine_Lantern pulses on frames 1-36. Render camera is Camera.
+- Do not expect game hitboxes here. This file is the art source.

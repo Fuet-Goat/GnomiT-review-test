@@ -1,0 +1,48 @@
+GNOMIT — ТРЕВНИ ТУФИ v013 — 22.10.2026
+
+Изрично човешко задание: „sega doopravi trevata“.
+Отделна playable версия върху v012; променени са само геометрията и
+vertex colours на Reference_Grass_Carpet и Reference_Grass_Edge.
+Извити заострени листа в общи туфи, петниста гъстота и нисък тревен ръб.
+Светлина B, материалите, шейдърите, camera/layout, дървета, цветя, дом,
+гном, път, gameplay, прогрес и аудио са запазени. Няма нов етап за цветя.
+
+РЕАЛЕН СЪСТАВ
+333 крайни файла. Native GRASS_V013_CLUMPS.blend, точен V012_SOURCE.blend,
+детерминиран генератор със seed 26102213, embedded GLB, runtime, 8 реални
+кадъра, проверки, provenance и manifest. Няма нов imagegen/външна текстура.
+PNG сравнение: outputs/06_GRASS_BEFORE_AFTER.png, еднакви профил B, camera,
+route и frozen guide. Това са реални Godot кадри, не дорисувана картинка.
+
+ПРОВЕРКА
+Native save/reopen/export PASS; 647 non-grass записа пазят геометрия,
+материали, камера и светлини. 60/61 runtime scripts byte-identical;
+единствената script промяна е заглавието. 85 други runtime ресурса са
+byte-identical. 57 scripted Godot checks PASS. Предишната v012 е запазена.
+Пълният ZIP е 123989421 bytes, SHA-256:
+93ca19520982d28a99e3f5ae6e127ddb11e3864ddcb4db6fb59f66ff0ba2af60
+
+ВЪЗСТАНОВЯВАНЕ ОТ GIT БЕЗ ПРЕПРАЩАНЕ НА ФАЙЛОВЕ
+1. Свали DOWNLOAD_V013.py.txt от точния artifact commit; прегледай го и
+   запази локално като download_v013.py. Само Python standard library.
+2. python download_v013.py --commit <exact-40-hex-artifact-commit> --output <NEW_DIR>
+3. Скриптът проверява immutable v009 base плюс 12 части на v013 delta;
+   SHA на частите, ZIP/CRC и всеки от 333 крайни файла преди и след запис.
+   Не изпълнява изтегления код и отказва съществуваща папка.
+4. GAME е пълната финална папка. PLAY_GRASS_CLUMPS.cmd използва местния
+   Godot 4.7.2 в C:/Tools/Godot; на друга машина отвори project.godot със
+   съвместим Godot. За Blender: native/GRASS_V013_CLUMPS.blend.
+Точният artifact commit и последващият fresh-readback са в REPORT.txt.
+
+ВИЗУАЛЕН ИЗВОД И ГРАНИЦИ
+Туфите са по-четливи и по-спокойно разположени спрямо v012. Още приличат
+на къси кълнове; не са доказано равни на плавната трева в референцията.
+Няма очевиден placement blocker в наблюдаваните 432x960 кадри. Лъчите
+по корени/ширина/връх не доказват всяко възможно triangle пресичане.
+Human acceptance PENDING; Android/FPS/touch NOT_MEASURED. Броят полигони
+не доказва по-добра производителност. Native/Godot pixel parity не се твърди.
+
+Git съдържа само собствените report .txt файлове; реалните бинарни байтове
+са кодирани в delta за независимо възстановяване. Няма промяна на main,
+grants, чужди доклади, merge или частния Cradle проект.
+GPT-6.1 Sol / Extra high.

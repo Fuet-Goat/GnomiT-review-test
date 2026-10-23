@@ -1,0 +1,34 @@
+extends SceneTree
+var app
+var output:=""
+var start_frame:=0
+func _initialize() -> void:
+	for arg in OS.get_cmdline_user_args():
+		if arg.begins_with("--output="):output=arg.trim_prefix("--output=")
+	call_deferred("run")
+func run() -> void:
+	root.size=Vector2i(432,960)
+	start_frame=Engine.get_process_frames()
+	app=load("res://preview.tscn").instantiate();root.add_child(app)
+	await create_timer(1).timeout
+	await RenderingServer.frame_post_draw
+	root.get_texture().get_image().save_png(output+"/GODOT_3D_ART_PROOF.png")
+	var transforms: Dictionary={}
+	for node in app.model.find_children("*","Node3D",true,false):transforms[String(node.get_path())]=node.transform
+	var clock: float=app.age
+	var tracks: int=0
+	for player in app.players:
+		tracks+=player.get_animation("preview/living_world").get_track_count()
+	var receipt: Dictionary={"renderer":RenderingServer.get_video_adapter_name(),"viewport":[432,960],"screen_index":DisplayServer.window_get_current_screen(),"animation_players":app.players.size(),"animation_tracks":tracks,"navigation":"Separate art proof, no campaign navigation or Core loaded","human_art_acceptance":"PENDING"}
+	await create_timer(2).timeout
+	await RenderingServer.frame_post_draw
+	root.get_texture().get_image().save_png(output+"/GODOT_3D_ART_PROOF_MOTION.png")
+	var moved: int=0
+	for node in app.model.find_children("*","Node3D",true,false):
+		if transforms.has(String(node.get_path())) and not node.transform.is_equal_approx(transforms[String(node.get_path())]):moved+=1
+	receipt["animated_object_transforms_changed"]=moved
+	receipt["animation_clock_advanced"]=app.age>clock
+	receipt["frames_at_receipt"]=Engine.get_process_frames()-start_frame
+	var file=FileAccess.open(output+"/GODOT_PROOF_RECEIPT.json",FileAccess.WRITE);file.store_string(JSON.stringify(receipt,"\t")+"\n");file.close()
+	await create_timer(3).timeout
+	print("GODOT_ART_PROOF "+JSON.stringify(receipt));quit()

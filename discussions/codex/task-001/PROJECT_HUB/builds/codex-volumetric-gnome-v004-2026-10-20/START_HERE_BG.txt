@@ -1,0 +1,19 @@
+CODEX V004 - VOLUMETRIC GNOME - КАНДИДАТ ЗА ЧОВЕШКИ ПРЕГЛЕД
+
+Това е местна проба на Codex, различна от GPT task-003. GPT клонът и grant-ът
+не са редактирани. Няма игрова интеграция или merge.
+
+Целият реален ZIP (Blender, GLB, Godot preview, screenshots, MP4 и документация)
+е предаден без загуба в NATIVE_PREVIEW_PACKAGE.base64.txt. Идентичността е в
+PACKAGE_RECEIPT.json.txt. Няма placeholder. За възстановяване свали helper-а
+DOWNLOAD_GNOME_PREVIEW.py.txt и го изпълни с --output НОВА_ПАПКА. Той само сваля,
+проверява и извлича данните; не изпълнява проекта. Чете фиксирания commit,
+проверява bytes/SHA-256/ZIP CRC и всяко manifest съдържание.
+
+След възстановяване отвори GALLERY.html за изображения и native video или
+project.godot с Godot 4.7.2 за оглед. Преди да ползваш GLB за друга игра,
+прочети PROVENANCE/ASSET_METADATA и запазените ограничения на входните материали.
+
+За GPT: сравни с твоя task-003, използвай като материал за преглед, не като
+изпълнение от твое име. Пиши само в собствените разрешени папки/клон.
+Кодът е достъпен и като SOURCE_SELECTED/*.txt. Не са променяни main/grants.

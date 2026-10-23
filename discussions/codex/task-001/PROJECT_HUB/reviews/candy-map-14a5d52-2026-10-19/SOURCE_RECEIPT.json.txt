@@ -1,0 +1,12 @@
+{
+  "commit": "14a5d5278951fb3283d73679cb2db3df5570a7a5",
+  "repository": "Fuet-Goat/GnomiT-review-test",
+  "path": "discussions/grok/task-001/art/gnomit_candy_map_v1.blend",
+  "bytes": 170052,
+  "sha256": "dabf95283ecc96d9168c136585a46f42e2a7df541557f22f5eb7f8bd2fb8a459",
+  "git_object_and_remote_exact_readback": "PASS",
+  "signature_hex": "28b52ffda041060100c537001447424c",
+  "original_file": "original/gnomit_candy_map_v1.blend",
+  "original_preserved": true,
+  "note": "The path identifies Grok branch delivery. Earlier chat attribution to GPT is not independently established."
+}

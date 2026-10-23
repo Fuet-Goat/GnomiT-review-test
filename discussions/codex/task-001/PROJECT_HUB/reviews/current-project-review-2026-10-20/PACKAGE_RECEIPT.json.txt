@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "zip": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\GNOMIT_CURRENT_REVIEW_MEDIA_DOCS_2026-10-20_R3.zip",
+  "bytes": 48659183,
+  "sha256": "9d17a5a61be7361bb34b111c700d722f083073c1a95d60f8f66da235f30035ba",
+  "verified_entries": 300,
+  "screenshots": 70,
+  "videos": 2,
+  "audio_sources": 29,
+  "input_commit": "f9864651015b5b57f94c439d311f03408fab4446",
+  "manifest_sha256": "b943630c0051127e8d56253c40240e0421f9f8e2902cd529607438b5463fb462"
+}

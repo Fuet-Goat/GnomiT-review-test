@@ -1,0 +1,27 @@
+{
+  "status": "SCOPE_AND_EXACT_SOURCE_HASHES_PASS",
+  "changed_paths": [
+    "discussions/codex/task-001/PROJECT_HUB/START_HERE.txt",
+    "discussions/codex/task-001/PROJECT_HUB/briefs/warm-map-six-levels-direction-2026-10-21/CODEX_DIRECTION_BG.txt",
+    "discussions/codex/task-001/PROJECT_HUB/briefs/warm-map-six-levels-direction-2026-10-21/DOWNLOAD_HANDOFF.py.txt",
+    "discussions/codex/task-001/PROJECT_HUB/briefs/warm-map-six-levels-direction-2026-10-21/EXISTING_MATERIALS.json.txt",
+    "discussions/codex/task-001/PROJECT_HUB/briefs/warm-map-six-levels-direction-2026-10-21/FINAL_RESPONSE.txt",
+    "discussions/codex/task-001/PROJECT_HUB/briefs/warm-map-six-levels-direction-2026-10-21/GIT_SCOPE_CHECK.json.txt",
+    "discussions/codex/task-001/PROJECT_HUB/briefs/warm-map-six-levels-direction-2026-10-21/HANDOFF_PACKAGE.base64.txt",
+    "discussions/codex/task-001/PROJECT_HUB/briefs/warm-map-six-levels-direction-2026-10-21/HANDOFF_REVIEW.txt",
+    "discussions/codex/task-001/PROJECT_HUB/briefs/warm-map-six-levels-direction-2026-10-21/LAST_IMAGE_EDIT_PROMPT.txt",
+    "discussions/codex/task-001/PROJECT_HUB/briefs/warm-map-six-levels-direction-2026-10-21/MANIFEST.json.txt",
+    "discussions/codex/task-001/PROJECT_HUB/briefs/warm-map-six-levels-direction-2026-10-21/PACKAGE_RECEIPT.json.txt",
+    "discussions/codex/task-001/PROJECT_HUB/briefs/warm-map-six-levels-direction-2026-10-21/PROMPT_FOR_GPT_BG.txt",
+    "discussions/codex/task-001/PROJECT_HUB/briefs/warm-map-six-levels-direction-2026-10-21/PROVENANCE.json.txt",
+    "discussions/codex/task-001/PROJECT_HUB/briefs/warm-map-six-levels-direction-2026-10-21/README.txt",
+    "discussions/codex/task-001/PROJECT_HUB/briefs/warm-map-six-levels-direction-2026-10-21/REPORT.txt",
+    "discussions/codex/task-001/PROJECT_HUB/briefs/warm-map-six-levels-direction-2026-10-21/SOURCE_RECEIPT.json.txt",
+    "discussions/codex/task-001/PROJECT_HUB/briefs/warm-map-six-levels-direction-2026-10-21/START_HERE_BG.txt"
+  ],
+  "scope_errors": [],
+  "own_text_documents_only": true,
+  "original_source_hashes_verified": true,
+  "game_execution": false,
+  "grant_main_policy_changes": false
+}

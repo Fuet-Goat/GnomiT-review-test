@@ -1,0 +1,25 @@
+ПРОБА:12 ПО-ПЪЛНИ ТУФИ ВЪРХУ ТОЧНАТА v014 —2026-10-22
+Реална native Blender проба,не нова игрова версия.12 съществуващи туфи×3 листа.
+7554→7590 листа;2559 туфи;старият vertex/edge/loop/face/colour префикс е точен.
+648 други scene records,тревният ръб,материалите,камерата и светлината са запазени.
+Кандидатът е записан,отворен повторно и рендериран с Blender5.2.2 LTS.
+В общия кадър разликата е слаба.Отблизо има по-пълен ветрилообразен силует,
+но листата остават остри/ъгловати.Това не е доказано цялостно подобрение.
+Не се разгръща по поляната,не се прилага в Godot;CURRENT остава v014.
+Human choice PENDING;Godot tests NOT_RUN;Android/performance NOT_MEASURED.
+Native/runtime light parity NOT_CLAIMED.Няма нови дървета/цветя/игрови промени.
+
+Архив:GNOMIT_GRASS_12_TUFT_FILL_PROBE_2026-10-22.zip,bytes=44374192,SHA256=1eca8a617e4c5f65b299ef03a2ee02678c7e76fd19ca9f5ca827486a4515f2c6,entries=46.
+Реалните байтове са в8 Base64 части.Ред/хешове:PACKAGE_RECEIPT.json.txt.
+Не е placeholder.При възстановяване използвайте точния commit на този пакет.
+DOWNLOAD_VERIFIED_PROBE.py.txt е stdlib helper;запазете като.py и изпълнете:
+python download_verified_probe.py --commit <EXACT_40_HEX_COMMIT> --destination <ABSOLUTE_NEW_FOLDER>
+Проверява всички части,ZIP,файлове преди извличане и после повторно всеки файл.
+Не стартира изтеглен код.Отворете native/TWELVE_TUFTS_PLUS_THREE.blend за оглед.
+outputs/02_FULL_BEFORE_AFTER.png:общ кадър A/B432×960.
+outputs/03_THREE_ZONE_DETAILS.png:еднакви изрезки,4x nearest само за оглед.
+outputs/06_NATIVE_DETAIL_BEFORE_AFTER.png:реални512×512 гранични рендери,
+8x пикселна плътност без интерполация;същият участък/камера/светлина.
+Четимите source/receipt/visual/provenance са и директно в тази Git папка.
+СтариятV013 main не се изпълнява:зареждаv012 и преразполага трева.
+Произходът включва наследенатаv014 документация;не е правна гаранция.

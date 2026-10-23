@@ -1,0 +1,24 @@
+{
+  "status": "OWN_TEXT_SCOPE_PASS",
+  "paths": [
+    "discussions/codex/task-001/PROJECT_HUB/START_HERE.txt",
+    "discussions/codex/task-001/PROJECT_HUB/builds/r3-home-start-composition-2026-10-21/COMPOSITION_RECEIPT.json.txt",
+    "discussions/codex/task-001/PROJECT_HUB/builds/r3-home-start-composition-2026-10-21/DOWNLOAD_COMPOSITION.py.txt",
+    "discussions/codex/task-001/PROJECT_HUB/builds/r3-home-start-composition-2026-10-21/EXISTING_MATERIALS.json.txt",
+    "discussions/codex/task-001/PROJECT_HUB/builds/r3-home-start-composition-2026-10-21/FINAL_RESPONSE.txt",
+    "discussions/codex/task-001/PROJECT_HUB/builds/r3-home-start-composition-2026-10-21/NATIVE_COMPOSITION.base64.txt",
+    "discussions/codex/task-001/PROJECT_HUB/builds/r3-home-start-composition-2026-10-21/NATIVE_REOPEN_AND_REIMPORT.json.txt",
+    "discussions/codex/task-001/PROJECT_HUB/builds/r3-home-start-composition-2026-10-21/PACKAGE_RECEIPT.json.txt",
+    "discussions/codex/task-001/PROJECT_HUB/builds/r3-home-start-composition-2026-10-21/PIXEL_AND_ORIGINALS_CHECK.json.txt",
+    "discussions/codex/task-001/PROJECT_HUB/builds/r3-home-start-composition-2026-10-21/PROMPT_FOR_GPT_BG.txt",
+    "discussions/codex/task-001/PROJECT_HUB/builds/r3-home-start-composition-2026-10-21/PROVENANCE.json.txt",
+    "discussions/codex/task-001/PROJECT_HUB/builds/r3-home-start-composition-2026-10-21/README.txt",
+    "discussions/codex/task-001/PROJECT_HUB/builds/r3-home-start-composition-2026-10-21/README_BG.txt",
+    "discussions/codex/task-001/PROJECT_HUB/builds/r3-home-start-composition-2026-10-21/REPORT.txt",
+    "discussions/codex/task-001/PROJECT_HUB/builds/r3-home-start-composition-2026-10-21/START_HERE_BG.txt",
+    "discussions/codex/task-001/PROJECT_HUB/builds/r3-home-start-composition-2026-10-21/ZIP_MANIFEST.json.txt"
+  ],
+  "game_files_modified": false,
+  "grant_or_main_modified": false,
+  "local_native_art_scope": "Explicit human continuation of agreed composition-first Blender plan; isolated outside game."
+}

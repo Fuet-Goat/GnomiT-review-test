@@ -1,0 +1,34 @@
+"""Measure authored ring centres/radii after skinning, without subdivision remapping."""
+from pathlib import Path
+import sys,json,math
+import bpy
+from mathutils import Vector
+ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'source'))
+from evidence import sha
+receipt=json.loads((ROOT/'documentation/SEPARATION_RECEIPT.json').read_text());native=Path(receipt['native'])
+assert sha(native)==receipt['native_sha256']
+bpy.ops.wm.open_mainfile(filepath=str(native));scene=bpy.context.scene;obj=bpy.data.objects['R3_RightSleeve']
+subdivision=next(mod for mod in obj.modifiers if mod.type=='SUBSURF')
+subdivision.show_viewport=False
+rows=len(obj.data.vertices)//24;assert len(obj.data.vertices)==rows*24
+records={};baseline_radii=None
+for frame in (1,37,55,73,91,109,145):
+    scene.frame_set(frame);bpy.context.view_layer.update();graph=bpy.context.evaluated_depsgraph_get()
+    evaluated=obj.evaluated_get(graph);mesh=evaluated.to_mesh()
+    try:
+        assert len(mesh.vertices)==rows*24
+        points=[evaluated.matrix_world@vertex.co for vertex in mesh.vertices]
+        centres=[sum(points[index*24:(index+1)*24],Vector())/24 for index in range(rows)]
+        radii=[sum((point-centres[index]).length for point in points[index*24:(index+1)*24])/24 for index in range(rows)]
+        length=sum((second-first).length for first,second in zip(centres,centres[1:]))
+        if frame==1:baseline_length=length;baseline_radii=radii
+        records[str(frame)]={'centreline_arc_length_world':length,'length_ratio_to_rest':length/baseline_length,
+            'maximum_ring_radius_ratio_error':max(abs(r/base-1) for r,base in zip(radii,baseline_radii))}
+    finally:evaluated.to_mesh_clear()
+subdivision.show_viewport=True
+assert sha(native)==receipt['native_sha256']
+proof={'status':'RING_BASED_ACTUAL_ARMATURE_MEASUREMENT','ring_count':rows,'vertices_per_ring':24,
+    'subdivision_disabled_only_in_RAM_for_correspondence':True,'native_unchanged':True,
+    'claim':'Measures centreline and radius stability; does not assert zero local strain or human acceptance','frames':records}
+(ROOT/'documentation/SLEEVE_LENGTH_RECEIPT.json').write_bytes((json.dumps(proof,indent=2)+'\n').encode())
+print(json.dumps(proof),flush=True)

@@ -1,0 +1,27 @@
+GNOMIT — CAMPAIGN POWERS INTEGRATION / 20.10.2026
+LOCAL_CAMPAIGN_INTEGRATED / HUMAN_ACCEPTANCE_PENDING / NO_MERGE
+
+Fixed the missing connection: actual main.tscn campaign now instantiates
+mega_volcano_core and FirstCrystals uses mountain_volcano_board, with a
+source-bound power-audio coordinator. It does not replace the campaign with
+a fixture selector. Normal levels/goal masks/moves/progress v2 are retained.
+
+Read campaign-powers-2026-10-20/README_REVIEW_BG.txt and SOURCE_PATCH.diff.txt.
+136 actual campaign integration checks and48 audio lifecycle checks PASS.
+Natural seed4 entry creates and then activates an earned Volcano. Natural
+seed1 victory awards1star,+10Light and unlocks level2. Combo/mask cases use
+explicit controlled fixtures inside the real campaign controller and are not
+presented as human achievements. See exact machine-readable evidence.
+
+The original project was rehashed unchanged; art/audio assets were not edited.
+Current internal player build uses the established sounds; RightsCleanup holds
+remain unresolved. No store release or new ownership/permission claim.
+Blender StorybookMine V2 remains a separate art preview, not part of this fix.
+
+GPT/Grok: one own REPORTS_ONLY source/evidence review, up to3 concrete findings.
+No runtime without grant, new implementation, grant edits, other reports or merge.
+Recommend GPT-6.1 Sol / High; this does not switch the actual model/effort.
+
+Native scripted campaign capture:13.1s,393MJPEG frames,432x960@30fps,391distinct pixel frames.
+Natural seed4 board,one earned waiting Volcano thenone intentional activation;audio muted.
+Actual image/video evidence is included in the local owner ZIP. NOT human acceptance.

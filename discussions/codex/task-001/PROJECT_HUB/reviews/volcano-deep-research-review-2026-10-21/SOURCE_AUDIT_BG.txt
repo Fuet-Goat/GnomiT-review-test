@@ -1,0 +1,80 @@
+ПРОВЕРКА НА ОСЕМТЕ ЦИТИРАНИ РАБОТИ — 21.10.2026
+Само първични авторски/издателски материали; няколко URL към една и съща
+работа не са отделни изследвания. Не са гледани конкурентни first-launch
+видеа и не са пренасяни чужди business резултати към GnomiT.
+
+1. ANDERSEN ET AL., CHI 2012 — проверена статия, Table 3/discussion.
+https://grail.cs.washington.edu/projects/game-abtesting/chi2012/
+https://grail.cs.washington.edu/wp-content/uploads/2015/08/andersen2012tio.pdf
+Осем условия, три игри, над 45 000 играчи; нови играчи се разпределят случайно.
+Refraction/Hello Worlds са Flash browser; Foldit изисква download/install.
+Контекстно срещу upfront: Foldit има повече playtime/levels, но без значима
+полза за връщането; Refraction няма предимство; Hello Worlds има по-ниско
+връщане при contextual — 17.96% срещу 20.59%, p=.013. Това е важен пропуснат
+контрарезултат. До 29% playtime не е D1/D7. „Сложността“ не е независимо
+рандомизирана между трите различни игри/аудитории/платформи.
+
+2. PASSALACQUA ET AL., 11.07.2020 — проверени article/published PDF §§3–4.
+https://www.mdpi.com/2414-4088/4/3/41
+https://publications.polymtl.ca/9418/1/2020_Passalacqua_Demystifying_firsttime_experience_mobile_games.pdf
+N=40, 18–40 г., лаборатория, unreleased Saber’s Edge match3 RPG, iPad Air 2;
+крайни групи по игрови опит, random tutorial/no-tutorial. Урокът е около
+7 минути overlays/glove в 15-минутна игра. Отчетен е по-висок flow при
+начинаещите с tutorial. Ограничения: interaction p=.07, novice contrast
+one-tailed p=.024, EDA остава N=30 без tutorial ефект; flow–intention r=.58
+е корелация. Има несъответствие 20/20 при набиране спрямо крайни 18/22.
+Не сравнява два формата и не измерва реален retention. При root повторното
+извличане имаше 429/недостъпен PDF; пълната статия бе проверена от независим
+вътрешен evidence reviewer в този преглед, а не заменена с вторичен обзор.
+
+3. CHI ET AL., 1994 — проверен пълен публикуван текст.
+https://onlinelibrary.wiley.com/doi/10.1207/s15516709cog1803_3
+https://education.asu.edu/sites/g/files/litvpz656/files/lcl/chideleeuwchiulavancher_2.pdf
+N=24 доброволци от едно училище: 14 подканени да обясняват срещу 10
+препрочитащи контроли; осми клас, текст за кръвообращение, сесии 1–3 часа.
+Има по-голям pre/post gain; не е описана random assignment. High/low
+explainers са подгрупи, а не отделни randomized treatments. Подканата е
+учебна намеса: приложението ѝ като неутрална кратка game проверка е INFERENCE.
+
+4. RENKL, ATKINSON & GROSSE, януари 2004 — проверен publisher abstract.
+https://link.springer.com/article/10.1023/B:TRUC.0000021815.74806.f6
+Два експеримента в computer learning environment. Fading е свързан с
+по-малко непродуктивни събития и по-добри резултати; в Experiment 2 няма
+намерен ефект върху productive events, включително self-explanations.
+Не доказва схема „един гном пример → разбиране“. Пълните методи/N не бяха
+достъпни в издателския текст: UNAVAILABLE, не VERIFIED full paper.
+
+5. KLAHR & NIGAM, октомври 2004 — проверени publisher abstract/author manuscript.
+https://journals.sagepub.com/doi/abs/10.1111/j.0956-7976.2004.00737.x
+https://www.researchgate.net/profile/David-Klahr/publication/8266887_The_Equivalence_of_Learning_Paths_in_Early_Science_Instruction_Effects_of_Direct_Instruction_and_Discovery_Learning/links/5ebae3ff458515626ca547bb/The-Equivalence-of-Learning-Paths-in-Early-Science-Instruction-Effects-of-Direct-Instruction-and-Discovery-Learning.pdf
+112 деца, 3–4 клас, научен experimental-control метод и transfer към posters.
+След изключване на 8 вече умеещи: mastery 40/52 direct срещу 12/52 discovery.
+Transfer сравнението е между успешните ученици, без значима разлика; това
+не е формално доказателство за равностойност. И двете групи работят с
+апаратура. Не доказва контекстни подсказки срещу две GnomiT страници.
+
+6. KING — LUCIEN YEN-CHU CHEN, GDC SUMMER 2020.
+https://www.gdcvault.com/play/1026879/Blockers-Analyzing-Difficulty-Drivers-in
+Прочетено официално описание на лекцията; не е гледан пълният запис.
+Blocker stats като общ език за поведение/трудност между роли и играчи.
+Няма предоставена app build версия или causal tutorial/retention експеримент.
+
+7. DREAM GAMES — ROYAL MATCH HELP CENTER, достъп 21.10.2026.
+https://dreamgames.helpshift.com/hc/en/3-royal-match/faq/4-how-can-i-play-the-levels/
+Официалното правило различава 3+ matching, power-up/booster hits и комбиниране
+на сили. Страницата е прочетена. Няма app build или first-launch observation.
+Относителното Last Updated е променливо, не точна дата на публикуване.
+
+8. PLAYRIX — DMITRIY MOLCHANOV, GAME DESIGN AT PLAYRIX, 2020.
+https://sga.rs/en/events/1342/
+https://www.slideshare.net/slideshow/game-design-at-playrix/239197742
+Прочетени организаторска страница и реалните слайдове 7/10, не автоматичното
+SlideShare резюме. Handmade levels, careful playtest, идея на ниво, ограничени
+елементи за забелязване на patterns. Докладът дава 05.11.2020; точният ден
+не е независимо потвърден от видимото event съдържание в този преглед.
+Това е студийна практика, не randomized доказателство за retention.
+
+СИНТЕЗ
+Препоръката „запази A и сравни B“ е защитима. Твърдението „B е доказано
+по-добър за GnomiT“ не е установено. Източниците дават основания и
+контраоснования за проба; продуктови резултати още няма.

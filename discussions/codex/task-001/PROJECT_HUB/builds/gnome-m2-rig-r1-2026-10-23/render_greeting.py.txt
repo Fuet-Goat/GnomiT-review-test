@@ -1,0 +1,21 @@
+"""Render native six-second greeting; saved native and studio remain unchanged."""
+from pathlib import Path
+import json,hashlib
+import bpy
+ROOT=Path(__file__).resolve().parents[1]
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+native=ROOT/'native/GNOME_RIG_R1_GREETING.blend'
+receipt=json.loads((ROOT/'documentation/RIG_R1_RECEIPT.json').read_text())
+assert sha(native)==receipt['native_sha256']
+bpy.ops.wm.open_mainfile(filepath=str(native));scene=bpy.context.scene
+scene.render.resolution_x=480;scene.render.resolution_y=672
+scene.render.resolution_percentage=100
+scene.render.image_settings.file_format='PNG';scene.render.filepath=str(ROOT/'frames/greeting_')
+scene.frame_start=1;scene.frame_end=144
+assert scene.render.fps==24
+assert 'FINISHED' in bpy.ops.render.render(animation=True)
+assert sha(native)==receipt['native_sha256']
+frames=sorted((ROOT/'frames').glob('greeting_*.png'))
+assert len(frames)==144
+(ROOT/'documentation/ANIMATION_RENDER.json').write_bytes((json.dumps({'status':'ACTUAL_NATIVE_BLENDER_ANIMATION_RENDERED','frame_range':[1,144],'endpoint_check_frame':145,'fps':24,'seconds':6,'resolution':[480,672],'native_sha256':sha(native),'source_unchanged':True,'frame_sha256':{p.name:sha(p) for p in frames}},indent=2)+'\n').encode())
+print('NATIVE_ANIMATION_RENDER_COMPLETE',flush=True)

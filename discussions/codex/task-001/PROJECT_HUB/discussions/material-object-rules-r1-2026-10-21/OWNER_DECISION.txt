@@ -1,0 +1,18 @@
+OWNER DECISION — 21.10.2026
+Question: Различните условия да важат за ясно маркирани разновидности — например
+обикновен диамант и диамант с каменна броня — или всеки диамант винаги да изисква
+специално разбиване?
+Human answer: Обикновени + защитени разновидности (препоръчвам).
+
+Meaning: ordinary minerals retain their normal matching. Explicitly identifiable
+protected variants may introduce other damage conditions. Material, protection
+and power stay separate. This resolves the strategy choice, not every future recipe.
+
+First Codex proposal is demonstrated in separate local v007: fixed stone-cased
+diamond2HP, one adjacent match wave/direct power/BH hit removes1HP; zero reveals
+an ordinary diamond, never collects it in the same event. A later distinct valid
+match/power may collect it, including a later cascade in future integration.
+The current sample illustrates resolved events; no campaign resolver integration.
+Current normal game/Latest remains v006, all older sample shortcuts preserved.
+Review package: builds/armoured-diamond-teaching-v007-2026-10-21/.
+No grant/main changes or merge. No other bot role/scope is expanded.

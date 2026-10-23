@@ -1,0 +1,17 @@
+{
+  "status": "WORLD_ONLY_GLB_AND_GROUND_COLOUR_BAKE_EXPORTED",
+  "input_sha256": "15cb15f8ec0e82449f85247d6b34d486ff9f7b8e0fc13e13e4dd1a42f104678d",
+  "glb_bytes": 19348760,
+  "glb_sha256": "5c9d8344245549ed2182723c5662016bff5a69386d5b11e457ba85332b729c4b",
+  "node_count": 568,
+  "ground_bake": [
+    1024,
+    2048
+  ],
+  "ground_png_sha256": "71185b8526a5af1cb9218f1a17b0b1386694516ce8e0d0e56cde8af2b1b62492",
+  "grass_color0_exported": true,
+  "guide_excluded": true,
+  "route_camera_anchors_preserved": true,
+  "ground_geometry_unchanged": true,
+  "lighting": "Godot existing R3 lighting unchanged; native Cycles is not runtime lighting."
+}

@@ -1,0 +1,8 @@
+{
+  "status": "LOCAL_ARCHIVE_VERIFIED",
+  "kind": "CODEX_R3_NATIVE_ART_DERIVATIVE_NOT_INTEGRATED",
+  "zip": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\GNOMIT_CODEX_R3_TREE_MINE_LIGHT_POLISH_2026-10-21.zip",
+  "bytes": 16833817,
+  "sha256": "63ef3f9523295210e9213d31b0635b9290e1bc2d33a41ed91e56297032f3ad21",
+  "entries": 71
+}

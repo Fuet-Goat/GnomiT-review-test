@@ -1,0 +1,17 @@
+{
+  "status": "ACTIVE_VERIFIED",
+  "main_commit": "d803005f3b123ca2b1ab617a37098a43c43b5da8",
+  "owner_pr": "https://github.com/Fuet-Goat/GnomiT-review-test/pull/7",
+  "owner_head": "742fbd8fb2fc997db53b409828a7e692f4353f57",
+  "only_changed_path": [
+    "tasks/gpt/task-003.json"
+  ],
+  "grant_bytes": 6699,
+  "grant_sha256": "c31be56a1a17706ade953eead7b4df7b30b843086f156f4719db2094aa008153",
+  "raw_http_matches_fetched_git": true,
+  "required_checks": "Scope boundary and Scope policy runner SUCCESS at exact owner head",
+  "independent_review": "PASS at exact owner head; no scope expansion",
+  "art_created_by_activation": false,
+  "current_game_replaced": false,
+  "grok_authorized": false
+}

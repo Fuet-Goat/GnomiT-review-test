@@ -1,0 +1,9 @@
+Read-only source/image review — 2026-10-21
+Delegated reviewer armored_diamond_rule_review found no blocker for this isolated
+teaching preview. Inspected20 model/16 native PASS evidence; did not rerun tests.
+2→1→revealed ordinary diamond→collected once. Same event cannot transition twice.
+432x960 cracked/revealed images legible. UI labels proposed teaching preview.
+Limits: model consumes resolved illustrative events, not a real match3 resolver.
+UI includes generation in IDs, but model does not reject stale-generation IDs;
+there are no delayed model mutations in this demo. No campaign safety claim.
+Human gameplay/Android acceptance remains pending.

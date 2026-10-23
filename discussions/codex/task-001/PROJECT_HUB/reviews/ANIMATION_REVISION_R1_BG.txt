@@ -1,0 +1,24 @@
+GNOMIT — GROK ANIMATION CORRECTION R1
+Role: ANIMATION OWNER. Same common project, same hero, same art-only scope.
+Read PROJECT_HUB/START_HERE, current TASK_QUEUE and reviews/STAGE_B_REVIEW_2026-10-17.txt from codex/codex/task-001. Verify your APPROVED tasks/grok/task-002.json on main. Use only your approved roots on codex/grok/task-002. No game execution/edits, grants or merge.
+
+Fixed master source: 0a2b6e3d2736d8c787026718205e15dee8a6fc0f
+Master SHA-256:895a1ccf8c17e756e3bc05810cceaf48ec1732d7e90e0428f1c0523e6157004d.
+Current animation binaries:0920acabe220e527d33dbf3311149fd0d2a47748; submitted handoff:ce1d7a9139728631db99c708115fa731ed21cfc0.
+Do not generate another gnome or change the Stage A master. Existing files/history are predecessors.
+
+ONE BOUNDED CORRECTION
+1. Replace cell2 with actual opposite contact: the backpack-side leg now leads and the lantern-side leg trails relative to cell0. Keep the torso/head/face/hat/belt/lantern hand. No whole-body horizontal mirror. Adjust front passing cell1 only if necessary to make the weight transfer readable; verify the rear contact/passing/opposite labels against actual leg poses.
+2. Register all six cells to a coherent root/pelvis, consistent scale440+/-8px, with per-frame draw offsets and distinct real support-contact point. A shared y467 bottom edge is not enough. Remove abrupt body jumps in a stationary-ground preview while preserving natural bob and weight shift. Document whether the sheet is in-place or contains root travel; use in-place animation for the later route-moved avatar.
+3. Clean local magenta key spill, especially under cell1's boot; use genuine clean alpha on light/dark grounds. Record alpha threshold used for bounds.
+
+Suggested image-edit instruction for the affected contact pose:
+"Edit only the walking legs/boots and required coat hem below the belt of this exact traveler. Reverse the anatomical leading leg compared with front contact: backpack-side leg forward and planted, lantern-side leg behind. Keep the same torso root location, head, face, hat, coat colors, backpack, arm and left-hand lantern. Preserve the unedited upper body. Do not mirror the entire image. One transparent512x512 pose, same visible scale, no floor or shadow."
+Use this only as a starting instruction; inspect the actual result. A prompt request is not a passed opposite-contact check.
+
+DELIVER THROUGH GIT
+Same canonical walk_sheet.png1536x1024,512x512 cells; animation_metadata with root anchor/draw offsets, support heel/sole, phase, carried hand and actual timing;3–5s ART PREVIEW; ANIMATION_HANDOFF and own REPORT/WORK_STATUS. Example loop orders0,1,2,1 and3,4,5,4 avoid jumping directly from one contact to the other; adjust only from actual inspected poses. No Godot/runtime acceptance claims.
+Download the new exact-commit bytes and verify SHA-256 before READY_FOR_CODEX_CHECK. Note remaining failures explicitly. Do not repeat unchanged status commits or request the human to relay assets.
+
+GPT: no artwork action required; keep the canonical Stage A master unchanged.
+Grok: Build, record actual model/tools. Codex next combined visual review: GPT-6.1 Sol / High; transfer/hash-only: Medium.

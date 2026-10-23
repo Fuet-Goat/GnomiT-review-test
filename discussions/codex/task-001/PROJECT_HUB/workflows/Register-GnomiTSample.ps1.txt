@@ -1,0 +1,56 @@
+param(
+    [Parameter(Mandatory=$true)][string]$ProjectPath,
+    [Parameter(Mandatory=$true)][string]$Label,
+    [string]$VersionDate = (Get-Date -Format 'yyyy-MM-dd'),
+    [string]$EnginePath = 'C:\Tools\Godot\4.7.2\engine\Godot_v4.7.2-stable_win64.exe'
+)
+$ErrorActionPreference = 'Stop'
+$sampleRoot = Join-Path ([Environment]::GetFolderPath('Desktop')) 'GnomiT Samples'
+$sampleRegistry = Join-Path $sampleRoot 'versions.json'
+$sampleProject = (Get-Item -LiteralPath $ProjectPath).FullName
+$sampleEngine = (Get-Item -LiteralPath $EnginePath).FullName
+$sampleConfig = Join-Path $sampleProject 'project.godot'
+if (!(Test-Path -LiteralPath $sampleConfig -PathType Leaf)) { throw 'The sample needs an existing project.godot.' }
+$sampleMainLine = Get-Content -LiteralPath $sampleConfig | Select-String '^run/main_scene="res://(.+)"$'
+if (!$sampleMainLine) { throw 'The Godot project has no file-based main scene.' }
+$sampleMain = $sampleMainLine.Matches[0].Groups[1].Value
+if (!(Test-Path -LiteralPath (Join-Path $sampleProject $sampleMain) -PathType Leaf)) { throw 'The main scene file is missing.' }
+[void][System.IO.Directory]::CreateDirectory($sampleRoot)
+if (Test-Path -LiteralPath $sampleRegistry) {
+    $sampleData = Get-Content -LiteralPath $sampleRegistry -Raw | ConvertFrom-Json
+    if ($sampleData.schema_version -ne 1) { throw 'Unknown sample registry; preserved without modification.' }
+} else {
+    $sampleData = [pscustomobject]@{schema_version=1;versions=@();archive=@()}
+}
+$sampleExisting = @($sampleData.versions | Where-Object { $_.project -eq $sampleProject })
+if ($sampleExisting.Count -gt 0) {
+    $sampleEntry = $sampleExisting[0]
+} else {
+    $sampleNext = 1
+    if (@($sampleData.versions).Count -gt 0) {
+        $sampleNext = 1 + [int](($sampleData.versions | Measure-Object -Property number -Maximum).Maximum)
+    }
+    $sampleSafeLabel = $Label
+    foreach ($sampleInvalid in [System.IO.Path]::GetInvalidFileNameChars()) { $sampleSafeLabel = $sampleSafeLabel.Replace([string]$sampleInvalid,'_') }
+    $sampleFilename = 'v{0:D3} - {1} - {2}.lnk' -f $sampleNext,$VersionDate,$sampleSafeLabel
+    $sampleEntry = [pscustomobject]@{
+        number=$sampleNext;version=('v{0:D3}' -f $sampleNext);date=$VersionDate;label=$Label
+        project=$sampleProject;main_scene=$sampleMain;shortcut=$sampleFilename
+    }
+    if (Test-Path -LiteralPath (Join-Path $sampleRoot $sampleFilename)) { throw 'Shortcut name already exists; no file was overwritten.' }
+    $sampleData.versions = @($sampleData.versions) + @($sampleEntry)
+}
+$sampleShell = New-Object -ComObject WScript.Shell
+$sampleLinkPath = Join-Path $sampleRoot $sampleEntry.shortcut
+$sampleLink = $sampleShell.CreateShortcut($sampleLinkPath)
+$sampleLink.TargetPath = $sampleEngine
+$sampleLink.Arguments = '--path "{0}" --resolution 432x960' -f $sampleProject
+$sampleLink.WorkingDirectory = $sampleProject
+$sampleLink.Description = '{0} | {1} | {2}' -f $sampleEntry.version,$sampleEntry.date,$sampleEntry.label
+$sampleLink.IconLocation = $sampleEngine + ',0'
+$sampleLink.WindowStyle = 1
+$sampleLink.Save()
+$sampleReadback = $sampleShell.CreateShortcut($sampleLinkPath)
+if ($sampleReadback.TargetPath -ne $sampleEngine -or $sampleReadback.Arguments -ne $sampleLink.Arguments) { throw 'Shortcut readback did not match.' }
+$sampleData | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $sampleRegistry -Encoding utf8
+[pscustomobject]@{version=$sampleEntry.version;shortcut=$sampleLinkPath;project=$sampleProject;verified=$true}

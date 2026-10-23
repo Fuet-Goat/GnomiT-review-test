@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "unchanged_scripts": 59,
+  "changed_scripts": [
+    "scripts/r3/island_map.gd",
+    "scripts/r3/preview_main.gd"
+  ],
+  "changes": "tree material colour binding; window title only",
+  "base_manifest_entries_unchanged": 323,
+  "base_modified_entries": [],
+  "gameplay_audio_progress": "BYTE_IDENTICAL_IN_INHERITED_SCRIPTS"
+}

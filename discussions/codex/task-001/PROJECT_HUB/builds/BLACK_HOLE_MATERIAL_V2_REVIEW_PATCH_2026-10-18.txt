@@ -1,0 +1,1162 @@
+LITERAL LOCAL PATCH PROPOSAL, NOT APPLIED TO GOVERNED GAME
+
+--- before/scripts/lab/natural_power_board.gd
++++ after/scripts/lab/natural_power_board.gd
+@@ -77,7 +77,7 @@
+ 	if reduced: return 0.13
+ 	match power:
+ 		"volcano": return 1.04
+-		"black_hole": return 1.65
++		"black_hole": return 2.60
+ 		"earthquake": return 1.25
+ 		"lightning_storm": return 1.40
+ 	return 1.10
+
+--- before/scripts/lab/natural_power_lab.gd
++++ after/scripts/lab/natural_power_lab.gd
+@@ -1,6 +1,6 @@
+ extends Control
+ const LabCore = preload("res://scripts/lab/natural_power_core.gd")
+-const LabBoard = preload("res://scripts/lab/magic_fusion_board.gd")
++const LabBoard = preload("res://scripts/lab/magic_black_hole_material_board.gd")
+ const Art = preload("res://scripts/story_art.gd")
+ const RockAudio = preload("res://scripts/rock_audio.gd")
+ const VolcanoAudio = preload("res://scripts/lab/volcano_audio.gd")
+@@ -136,7 +136,7 @@
+ 	board.setup(core,reduced.button_pressed)
+ 	board.show_hint(core.fixture_pair)
+ 	effect_label.text = {"volcano":"VOLCANO · FIRE","tornado_h":"TORNADO · WHIRL","tornado_v":"TORNADO · WHIRL","black_hole":"BLACK HOLE · COLOUR FUSION","lightning_storm":"LIGHTNING STORM · OUTER EDGE"}.get(scenario,"L · EARTHQUAKE")
+-	helper.text = {"volcano":("Drag it to the glow; burning lava briefly singes 3–5 marked stones." if painted_toggle.button_pressed else "Baseline reference. Drag it to the glow; magma hits 3–5 stones."),"tornado_h":"Drag the whirlwind to the glow. It spins in place and pulls in nearby stones.","tornado_v":"Drag the whirlwind to the glow. Gaps and runes stay in place.","black_hole":"Swap Tornado and Volcano. Their colours merge before the gravity pull.","lightning_storm":"Drag the cloud to the glow. Lightning strikes the outer edge stones."}.get(scenario,"Drag the split stone to the glow. Two L-shaped cracks stop at gaps and runes.")
++	helper.text = {"volcano":("Drag it to the glow; burning lava briefly singes 3–5 marked stones." if painted_toggle.button_pressed else "Baseline reference. Drag it to the glow; magma hits 3–5 stones."),"tornado_h":"Drag the whirlwind to the glow. It spins in place and pulls in nearby stones.","tornado_v":"Drag the whirlwind to the glow. Gaps and runes stay in place.","black_hole":"Swap Tornado and Volcano. Stones and wind orbit before a Black Hole forms.","lightning_storm":"Drag the cloud to the glow. Lightning strikes the outer edge stones."}.get(scenario,"Drag the split stone to the glow. Two L-shaped cracks stop at gaps and runes.")
+ 	_update_stats();_update_controls()
+ 
+ func _rotate_earthquake() -> void:
+@@ -193,7 +193,7 @@
+ 	match power:
+ 		"volcano": effect_label.text = "VOLCANO · " + str(targets.size()) + " MAGMA HITS";helper.text = "Watch burning lava scorch the marked cells." if painted_toggle.button_pressed else "Watch the marked stones — one magma pebble per target."
+ 		"tornado_h", "tornado_v": effect_label.text = "TORNADO · " + str(targets.size()) + " NEARBY STONES";helper.text = "The marked stones swirl into the centre. Gaps and runes remain."
+-		"black_hole": effect_label.text = "BLACK HOLE · COLOUR FUSION";helper.text = "Fire and wind merge, darken, then pull in the stones. Soil and runes remain."
++		"black_hole": effect_label.text = "BLACK HOLE · MATERIAL FUSION";helper.text = "Stones and wind orbit, a Black Hole forms, then the minerals spiral inward."
+ 		"earthquake": effect_label.text = "EARTHQUAKE · " + str(targets.size()) + " STONES";helper.text = "Two travelling cracks split the marked stones. Gaps and runes stop the waves."
+ 		"lightning_storm": effect_label.text = "LIGHTNING · " + str(targets.size()) + " EDGE STONES";helper.text = "Dark clouds strike the marked outer edge. Inner gaps stay untouched."
+ 
+
+--- before/scripts/lab/element_audio.gd
++++ after/scripts/lab/element_audio.gd
+@@ -1,7 +1,7 @@
+ extends Node
+ ## One recording per event, with actual playback and cancellation evidence.
+ const BUS_NAME := "GnomiT Fusion and Quake"
+-const PATHS := {"black_hole":"res://assets/sfx/elements/fusion_gravity_v1.wav","earthquake":"res://assets/sfx/elements/earthquake_stones_v1.wav","reduced":"res://assets/sfx/elements/elements_quiet_short_v1.wav"}
++const PATHS := {"black_hole":"res://assets/sfx/elements/fusion_material_v2.wav","earthquake":"res://assets/sfx/elements/earthquake_stones_v1.wav","reduced":"res://assets/sfx/elements/elements_quiet_short_v1.wav"}
+ var players: Array[AudioStreamPlayer] = []
+ var streams: Dictionary = {}
+ var event_active := false
+
+--- before/tests/test_fusion_earthquake.gd
++++ after/tests/test_fusion_earthquake.gd
+@@ -270,7 +270,7 @@
+ 			var elapsed := float(Time.get_ticks_msec()-began)/1000.0
+ 			await process_frame
+ 			await process_frame
+-			var expected := 0.13 if reduced else (1.65 if scenario == "black_hole" else 1.25)
++			var expected := 0.13 if reduced else (2.60 if scenario == "black_hole" else 1.25)
+ 			check(absf(elapsed-expected) < 0.16, scenario + " normal/reduced event duration matches its specification")
+ 			check(presentation_clear(view) and view._display_grid == core.grid and view._display_floor == core.floor and view._display_runes == core.runes, scenario + " completion clears the effect and shows exact resolved Core")
+ 			observations.append({"scenario":scenario,"reduced":reduced,"expected_seconds":expected,"measured_wall_seconds":elapsed})
+@@ -289,7 +289,7 @@
+ 				view.finish_now()
+ 			else:
+ 				view.setup(replacement,false)
+-			await create_timer(1.8).timeout
++			await create_timer(2.8).timeout
+ 			view.queue_redraw()
+ 			await process_frame
+ 			check(presentation_clear(view) and view.fusion_draws == 0 and view.quake_draws.is_empty(), scenario + " " + action + " removes all old drawing and hidden/moving state")
+@@ -342,7 +342,7 @@
+ 			check(active and manager.cue_log.size() == 1 and playing(manager) == 1, scenario + " " + action + " starts one actual playing voice")
+ 			var cue: Dictionary = manager.cue_log[0] if manager.cue_log.size() == 1 else {}
+ 			var short: bool = action == "reduced"
+-			var expected_length := 0.18 if short else (1.85 if scenario == "black_hole" else 1.45)
++			var expected_length := 0.18 if short else (2.80 if scenario == "black_hole" else 1.45)
+ 			check(not cue.is_empty() and cue.get("power","") == scenario and cue.get("kind","") == ("reduced" if short else scenario) and absf(float(cue.get("length",0.0))-expected_length) < 0.00001 and is_equal_approx(float(cue.get("pitch_scale",0.0)),1.0), scenario + " " + action + " selects its complete actual recording at original pitch")
+ 			if not cue.is_empty():
+ 				check(is_equal_approx(float(cue.get("volume_db",0.0)),-17.0 if short else -8.0), scenario + " " + action + " uses the separate reduced or normal gain")
+
+--- before/tests/test_volcano_fire.gd
++++ after/tests/test_volcano_fire.gd
+@@ -71,7 +71,10 @@
+ 	_expect(loaded and image.detect_alpha() != Image.ALPHA_NONE and image.get_used_rect().has_area(),"flame PNG has genuine nonempty transparent pixels")
+ 	_expect(texture.get_size() == Vector2(image.get_size()) and texture.get_image().get_data() == image.get_data(),"flame ImageTexture retains every original pixel")
+ 	_set_event(view,event)
+-	await _sample(view,0.34)
++	# The current delivered sound launches magma at 0.36 seconds. Progress0.34
++	# is only0.3536seconds and correctly shows no flight. Sample0.44 instead:
++	# 0.4576seconds, with independently calculated first-flight fraction below.
++	await _sample(view,0.44)
+ 	_expect(_count(view,"lava_flame","crater") > 0,"actual crater drawing submits the new flame texture")
+ 	_expect(_count(view,"lava_flame","flight") >= 2 and _count(view,"magma_pebble","flight") > 0,"flight submits layered real flame textures around readable magma")
+ 	var substantial_flame := false
+@@ -81,7 +84,7 @@
+ 		if item.extent.y >= view._cell_size()*0.55: substantial_flame = true
+ 		var source: Vector2 = view._center(int(event.origin))
+ 		var destination: Vector2 = view._center(int(event.targets[0]))
+-		var flight := (0.34-0.23)/0.42
++		var flight := 0.3088607594936709
+ 		var point: Vector2 = view._volcano_arc(source,destination,flight,view._cell_size())
+ 		var prior: Vector2 = view._volcano_arc(source,destination,flight-0.055,view._cell_size())
+ 		var tangent: Vector2 = (point-prior).normalized()
+
+--- before/README_MAGIC_ANIMATIONS.txt
++++ after/README_MAGIC_ANIMATIONS.txt
+@@ -2,7 +2,12 @@
+ 
+ Run PLAY_MAGIC_ANIMATIONS.cmd. The lab opens on user monitor 1 (Godot screen 0) at 432x960 and starts with Black Hole selected.
+ 
+-CURRENT PASS — COLOUR FUSION AND L EARTHQUAKE (2026-10-18)
++CURRENT PASS — MATERIAL ORBIT AND PAINTED BLACK HOLE V2 (2026-10-18)
++BLACK HOLE now uses actual painted ore fragments and separate layered air ribbons. Source materials orbit first, feed a gradually appearing painted vortex, then all actual removed minerals spiral into it. The new transparent image is assets/vfx/black_hole/black_hole_core_v2.png, generated with the built-in image tool; the exact prompt and source bytes are preserved. No painted checkerboard/background replacement was used. The real dark mouth and accretion ring replace the old simple vector disk.
++The fuller sequence lasts2.60s; the new original fusion_material_v2.wav is2.80s with soft stone grains,wind,pressure and a suction finish. Reduced motion remains the same quiet short static cue. Only the existing Tornado+Volcano pair qualifies. Core,targets,terrain,other powers/campaign/save are unchanged. This pass does not implement match4/5 creation. New tests/capture are test_black_hole_material_v2.gd and capture_black_hole_material_v2.gd; fresh evidence outputs/black_hole_material_v2_2026-10-18,270encodedframes at30fps,9seconds. Previous images/captures remain preserved.
++Blender5.2.2LTS is separately installed per user and verified for future authoring. This V2 animation currently runs in Godot with a generated PNG and procedural material motion; it is not claimed as a Blender-rendered sequence.
++
++PREVIOUS PASS — COLOUR FUSION AND L EARTHQUAKE (2026-10-18)
+ BLACK HOLE: swap the marked Tornado and Volcano. Their actual source positions/kinds drive two differently coloured orbiting streams, a blended and darkening core, then the spiral gravity pull. Only the existing Tornado+Volcano pair qualifies, once per lab attempt. Normal duration is now 1.65s; Reduced motion retains the 0.13s static target cue. Fixed soil/runes stay grounded and direct-sweep protection is unchanged; ordinary later cascades retain their rules. Other specials are consumed inertly without chains.
+ L EARTHQUAKE: drag the split stone to the marked neighbour. A travelling fissure splits ordinary minerals along two perpendicular rays. Rays stop before holes, runes, other powers and the board edge. Rotate L resets the isolated fixture in the next orientation so all four directions can be previewed. Existing single-layer soil damage and ordinary refill/cascades apply. Duration 1.25s; Reduced motion is 0.13s. This is a pre-placed test power: automatic creation from match4/match5 and campaign unlocks are still design proposals.
+ New element_audio bank plays one original locally synthesized gravity or stone-fault recording per event, with a separate quieter short reduced cue. Skip/Reset/exit cancel it, normal completion allows its short tail, and ordinary cascade stone foley remains. Existing Volcano/Tornado/Storm audio files and the previous polished renderer are unchanged. All UI remains English.
+
+--- /dev/null
++++ after/scripts/lab/magic_black_hole_material_board.gd
+@@ -0,0 +1,224 @@
++extends "res://scripts/lab/magic_fusion_board.gd"
++## Presentation only: the authoritative Tornado + Volcano event supplies both
++## sources and every removed mineral. No target selection or gameplay RNG here.
++
++const PAINTED_HOLE_PATH := "res://assets/vfx/black_hole/black_hole_core_v2.png"
++var _painted_hole_texture: ImageTexture
++var _painted_hole_region := Rect2()
++var _painted_hole_size := Vector2i.ZERO
++var _painted_hole_alpha_used := 0.0
++
++func material_v2_phase() -> Dictionary:
++	var t := clampf(_power_t,0.0,1.0)
++	return {"valid":fusion_sources().size() == 2,
++		"orbit":smoothstep(0.0,0.40,t),
++		"birth":smoothstep(0.25,0.62,t),
++		"pull":smoothstep(0.60,0.93,t),
++		"fade":smoothstep(0.93,1.0,t)}
++
++func _ensure_painted_hole() -> bool:
++	if _painted_hole_texture != null: return true
++	# Decode the real PNG directly, including in a plain project before import.
++	# An absent or unusable painted asset remains explicitly unavailable.
++	if not FileAccess.file_exists(PAINTED_HOLE_PATH): return false
++	var image := Image.new()
++	if image.load_png_from_buffer(FileAccess.get_file_as_bytes(PAINTED_HOLE_PATH)) != OK: return false
++	if image.is_empty() or image.detect_alpha() == Image.ALPHA_NONE: return false
++	var used := image.get_used_rect()
++	if not used.has_area(): return false
++	_painted_hole_size = image.get_size()
++	_painted_hole_region = Rect2(used)
++	_painted_hole_texture = ImageTexture.create_from_image(image)
++	return true
++
++func painted_hole_status() -> Dictionary:
++	var ready := _ensure_painted_hole()
++	var visible_alpha := _painted_hole_alpha_used if bool(material_v2_phase().valid) and not reduced_motion and _power_t > 0.25 and _power_t < 1.0 else 0.0
++	return {"ready":ready,"path":PAINTED_HOLE_PATH,"size":_painted_hole_size,
++		"alpha_used":visible_alpha,"alpha_bounds":_painted_hole_region}
++
++func _material_bound(point: Vector2, margin: float) -> Vector2:
++	var bounds := _board_rect().grow(-maxf(1.0,margin))
++	return point.clamp(bounds.position,bounds.end)
++
++func source_material_particles(step: float) -> Array:
++	var result: Array = []
++	var sources := fusion_sources()
++	if sources.size() != 2: return result
++	var t := clampf(_power_t,0.0,1.0)
++	var center := fusion_center()
++	var gather := smoothstep(0.00,0.16,t)
++	var transfer := smoothstep(0.41,0.70,t)
++	var opacity := smoothstep(0.01,0.09,t)*(1.0-smoothstep(0.55,0.71,t))
++	for source_ordinal in sources.size():
++		var source: Dictionary = sources[source_ordinal]
++		var source_kind := int(source.kind)
++		var source_point := _center(int(source.index))
++		var initial_angle := (source_point-center).angle()
++		var material := "rock" if source_kind == VOLCANO else "air"
++		var count := 7 if material == "rock" else 5
++		for ordinal in count:
++			var fraction := float(ordinal)/float(count)
++			# Pieces fan out from the actual source into a readable wide orbit.
++			# The same deterministic curved path then feeds the nascent hole.
++			var angle := initial_angle+t*TAU*2.8+fraction*TAU*0.82
++			var radius := step*(1.10+sin(fraction*TAU+0.6)*0.13)*(1.0-transfer*0.94)
++			var orbit_point := center+Vector2(cos(angle)*radius,sin(angle)*radius*0.72)
++			var point := source_point.lerp(orbit_point,gather)
++			var size_value := (0.86+float(ordinal%3)*0.07)*gather*(1.0-transfer*0.88)
++			point = _material_bound(point,step*(0.27 if material == "rock" else 0.10)*size_value)
++			result.append({"position":point,"scale":size_value,"alpha":opacity,
++				"kind":2 if material == "rock" else source_kind,"material":material,
++				"source_kind":source_kind,"source_index":int(source.index),
++				"ordinal":ordinal,"angle":angle,"radius":radius,"gather":gather,
++				"transfer":transfer,"front":sin(angle) >= 0.0})
++	return result
++
++func material_v2_target_pose(index: int, step: float) -> Dictionary:
++	var before: Array = _power_event.get("before",[])
++	var indices: Array = _power_event.get("indices",[])
++	if not bool(material_v2_phase().valid) or index not in indices: return {"valid":false}
++	if index < 0 or index >= before.size() or int(before[index]) < 0: return {"valid":false}
++	var t := clampf(_power_t,0.0,1.0)
++	var source_ordinal := -1
++	var sources := fusion_sources()
++	for ordinal in sources.size():
++		if int(sources[ordinal].index) == index: source_ordinal = ordinal
++	var point := _center(index)
++	var scale_value := 1.0
++	var alpha := 1.0
++	var pull := 0.0
++	if source_ordinal >= 0:
++		# The two icons physically give way to their own stone and wind material.
++		var transform := smoothstep(0.015,0.18,t)
++		var initial := point-fusion_center()
++		point = fusion_center()+initial.rotated(transform*0.70)*(1.0-transform*0.36)
++		scale_value = maxf(0.001,1.0-transform*0.999)
++		alpha = 1.0-smoothstep(0.025,0.17,t)
++	else:
++		# Every other mineral stays grounded until the painted hole is born.
++		# The total stagger is bounded by .08, independent of board/target count.
++		var rank := maxi(0,indices.find(index))
++		var delay := 0.08*float(rank)/float(maxi(1,indices.size()-1))
++		pull = smoothstep(0.60+delay,0.93,t)
++		var offset := point-fusion_center()
++		var distance_factor := pow(1.0-pull,1.12)
++		point = fusion_center()+offset.rotated(pull*TAU*0.82)*distance_factor
++		scale_value = maxf(0.001,pow(1.0-pull,0.77))
++		alpha = 1.0-smoothstep(0.77,0.985,pull)
++	point = _material_bound(point,step*0.49*scale_value)
++	return {"valid":true,"index":index,"position":point,"scale":scale_value,
++		"alpha":alpha,"pull":pull,"rotation":pull*TAU*0.82}
++
++func _draw_material_particle(particle: Dictionary, step: float) -> void:
++	var alpha := float(particle.alpha)
++	var scale_value := float(particle.scale)
++	if alpha <= 0.0 or scale_value <= 0.0: return
++	var point: Vector2 = particle.position
++	if String(particle.material) == "air":
++		_draw_material_air(particle,step)
++		return
++	# These are the existing painted mineral bodies, not coloured circular motes.
++	# Different silhouettes and uneven sizes keep the seven fragments legible.
++	var ordinal := int(particle.ordinal)
++	var radius := step*(0.125+float(ordinal%3)*0.018)*scale_value
++	var stretch := Vector2(0.90+float(ordinal%2)*0.22,0.69+float(ordinal%3)*0.11)
++	_draw_gem(point,int(particle.kind),radius,alpha,stretch)
++	var angle := float(particle.angle)+float(ordinal)*1.71
++	var fissure := PackedVector2Array()
++	for vertex in [Vector2(-0.55,-0.31),Vector2(-0.12,-0.08),Vector2(0.05,0.31),Vector2(0.46,0.51)]:
++		fissure.append(point+vertex.rotated(angle)*radius)
++	draw_polyline(fissure,Color(0.22,0.10,0.055,alpha*0.80),maxf(1.1,radius*0.13),true)
++	draw_line(fissure[0],fissure[1],Color(1.0,0.72,0.28,alpha*0.78),maxf(0.8,radius*0.055),true)
++
++func _draw_material_air(particle: Dictionary, step: float) -> void:
++	var point: Vector2 = particle.position
++	var angle := float(particle.angle)
++	var radius := float(particle.radius)
++	var gather := float(particle.gather)
++	var ordinal := int(particle.ordinal)
++	var transfer := float(particle.transfer)
++	var alpha := float(particle.alpha)
++	var front := bool(particle.front)
++	var points := PackedVector2Array()
++	var tips := PackedVector2Array()
++	# Long tapering helix ribbons make moving air visible before the hole exists.
++	# Each ribbon trails its orbit head instead of drawing a moving circle.
++	for sample in range(29):
++		var u := float(sample)/28.0
++		var trail_angle := angle-(1.14+float(ordinal%2)*0.20)*u*gather
++		var trail_radius := radius*(1.0+u*0.055)*(1.0-transfer*u*0.18)
++		var relative := Vector2(cos(trail_angle)*trail_radius,sin(trail_angle)*trail_radius*0.72)
++		var head_relative := Vector2(cos(angle)*radius,sin(angle)*radius*0.72)
++		var ribbon_point := point+(relative-head_relative)*gather
++		ribbon_point += Vector2(0,sin(u*PI)*step*0.09*sin(angle+float(ordinal)))
++		points.append(_material_bound(ribbon_point,step*0.075))
++		if sample > 15: tips.append(points[-1])
++	var tint := Color(0.84,0.92,0.79) if ordinal%2 == 0 else Color(0.48,0.80,0.81)
++	var strength := alpha*(0.90 if front else 0.48)
++	var width := step*(0.060+float(ordinal%2)*0.016)*float(particle.scale)
++	_draw_tornado_wind_segment(points,Color(0.13,0.31,0.32,strength*0.58),maxf(1.4,width*1.7))
++	_draw_tornado_wind_segment(points,Color(tint,strength),maxf(1.0,width))
++	_draw_tornado_wind_segment(tips,Color(0.97,0.96,0.83,strength*0.84),maxf(0.75,width*0.34))
++	# A second offset filament gives each ribbon a feathered, airy edge.
++	var filament := PackedVector2Array()
++	for sample in points.size():
++		var u := float(sample)/float(points.size()-1)
++		var offset := Vector2(0,-step*0.045*sin(u*PI)*gather)
++		filament.append(_material_bound(points[sample]+offset,step*0.025))
++	_draw_tornado_wind_segment(filament,Color(tint,strength*0.42),maxf(0.7,width*0.27))
++	draw_set_transform(Vector2.ZERO)
++
++func _draw_painted_hole(step: float, phase: Dictionary) -> void:
++	_painted_hole_alpha_used = 0.0
++	var birth := float(phase.birth)
++	var fade := float(phase.fade)
++	if birth <= 0.0 or fade >= 1.0: return
++	var center := fusion_center()
++	var grow := pow(birth,0.74)*(1.0-fade)
++	var board := _board_rect().grow(-step*0.035)
++	var allowed := 2.0*minf(minf(center.x-board.position.x,board.end.x-center.x),minf(center.y-board.position.y,board.end.y-center.y))
++	var diameter := minf(step*2.85,allowed)*grow
++	if diameter <= 0.2: return
++	var alpha := birth*(1.0-fade)
++	# The dark throat remains opaque as its geometry grows and collapses.
++	draw_circle(center,diameter*0.182,Color(0.004,0.003,0.009,1.0),true,-1,true)
++	if _ensure_painted_hole():
++		var extent := _painted_hole_region.size/maxf(1.0,maxf(_painted_hole_region.size.x,_painted_hole_region.size.y))*diameter
++		# Preserve the painted disk's orientation: only a subtle living tilt.
++		var tilt := sin(_power_t*TAU*0.72)*0.022
++		var rotated_half := Vector2(absf(cos(tilt))*extent.x+absf(sin(tilt))*extent.y,absf(sin(tilt))*extent.x+absf(cos(tilt))*extent.y)*0.5
++		var fit := minf(1.0,minf((allowed*0.5)/maxf(1.0,rotated_half.x),(allowed*0.5)/maxf(1.0,rotated_half.y)))
++		extent *= fit
++		draw_set_transform(center,tilt)
++		draw_texture_rect_region(_painted_hole_texture,Rect2(-extent*0.5,extent),_painted_hole_region,Color(1,1,1,alpha),false,true)
++		draw_set_transform(Vector2.ZERO)
++		_painted_hole_alpha_used = alpha
++	else:
++		# Explicitly unavailable painted art keeps the older vector visual usable.
++		var palette := fusion_palette()
++		var mixed: Color = palette.get("mixed",Color(0.73,0.54,0.37))
++		draw_set_transform(center,-0.16,Vector2(1.0,0.42))
++		for ring in range(3):
++			var start := _power_t*TAU+float(ring)*TAU/3.0
++			draw_arc(Vector2.ZERO,diameter*(0.24+float(ring)*0.055),start,start+PI*1.40,44,Color(mixed,alpha*(0.78-float(ring)*0.13)),maxf(1.0,step*0.045),true)
++		draw_set_transform(Vector2.ZERO)
++
++func _draw_black_hole_effect(step: float) -> void:
++	var phase := material_v2_phase()
++	if not bool(phase.valid):
++		super._draw_black_hole_effect(step)
++		return
++	# Event sprites are exactly the minerals Core removed; terrain never moves.
++	for raw_index in _power_event.get("indices",[]):
++		var index := int(raw_index)
++		var pose := material_v2_target_pose(index,step)
++		if bool(pose.valid) and float(pose.alpha) > 0.0:
++			_event_gem(index,pose.position,float(pose.scale),float(pose.alpha))
++	var particles := source_material_particles(step)
++	for particle in particles:
++		if not bool(particle.front): _draw_material_particle(particle,step)
++	_draw_painted_hole(step,phase)
++	for particle in particles:
++		if bool(particle.front): _draw_material_particle(particle,step)
++	draw_set_transform(Vector2.ZERO)
+
+--- /dev/null
++++ after/tests/test_black_hole_material_v2.gd
+@@ -0,0 +1,239 @@
++extends SceneTree
++## Regression: coloured lines alone cannot replace material orbit and painted birth.
++const BOARD_PATH := "res://scripts/lab/magic_black_hole_material_board.gd"
++const ASSET_PATH := "res://assets/vfx/black_hole/black_hole_core_v2.png"
++const CORE_PATH := "res://scripts/lab/natural_power_core.gd"
++var checks := 0
++var failures: Array[String] = []
++var observations: Array = []
++
++func _initialize() -> void:
++	call_deferred("run")
++
++func check(value: bool, label: String) -> void:
++	checks += 1
++	if not value:
++		failures.append(label)
++		print("FAIL: " + label)
++
++func canonical(value: Variant) -> String:
++	return JSON.stringify(JSON.parse_string(JSON.stringify(value)), "", true)
++
++func core_state(core) -> Dictionary:
++	return {"cols":core.cols,"rows":core.rows,"grid":core.grid.duplicate(),"floor":core.floor.duplicate(),"runes":core.runes.duplicate(),"moves_left":core.moves_left,"initial_moves":core.initial_moves,"collected":core.collected,"collect_kind":core.collect_kind,"collect_goal":core.collect_goal,"won":core.won,"lost":core.lost,"goal":core._goal,"black_hole_used":core.black_hole_used,"fixture_pair":core.fixture_pair.duplicate(),"rng_seed_int64":str(core._rng.seed),"rng_state_int64":str(core._rng.state)}
++
++func event_from(result: Dictionary) -> Dictionary:
++	var natural: Array = []
++	for event in result.get("events", []):
++		if event.get("type", "") == "natural_power": natural.append(event)
++	check(natural.size() == 1 and natural[0].get("power", "") == "black_hole", "Actual swap emits one Black Hole event without new combinations")
++	return natural[0] if natural.size() == 1 else {}
++
++func verify_asset() -> void:
++	var image := Image.load_from_file(ASSET_PATH)
++	check(image != null and not image.is_empty(), "Real painted image decodes")
++	if image == null or image.is_empty(): return
++	check(image.detect_alpha() != Image.ALPHA_NONE and image.get_width() >= 256 and image.get_height() >= 256, "Painted image has native alpha and usable resolution")
++	var transparent := 0
++	var visible := 0
++	var intermediate := 0
++	for y in range(image.get_height()):
++		for x in range(image.get_width()):
++			var alpha := image.get_pixel(x,y).a
++			if alpha < 0.01: transparent += 1
++			if alpha > 0.50: visible += 1
++			if alpha > 0.01 and alpha < 0.99: intermediate += 1
++	var total := image.get_width()*image.get_height()
++	check(transparent > total/20 and visible > total/100 and intermediate > 64, "Painted image contains real visible artwork, transparent outside, and soft alpha edges")
++	observations.append({"asset":ASSET_PATH,"size":[image.get_width(),image.get_height()],"transparent_pixels":transparent,"visible_pixels":visible,"soft_edge_pixels":intermediate})
++
++func install_event(view, event: Dictionary) -> void:
++	view._power_event = event.duplicate(true)
++	view._power_epoch = view._epoch
++	for index in event.indices: view._hidden[int(index)] = true
++
++func sample(view, progress: float) -> void:
++	view._power_t = progress
++	view.queue_redraw()
++	await process_frame
++	await process_frame
++
++func clear_presentation(view) -> bool:
++	return not view.busy and view._power_event.is_empty() and view._hidden.is_empty() and view._moving.is_empty() and not view._falling
++
++func verify_renderer() -> void:
++	var renderer = load(BOARD_PATH)
++	check(renderer != null and renderer.can_instantiate(), "Material renderer can instantiate")
++	if renderer == null or not renderer.can_instantiate(): return
++	var view = renderer.new()
++	var api_ok := true
++	for method in ["material_v2_phase","source_material_particles","material_v2_target_pose","painted_hole_status","_draw_material_particle","_draw_painted_hole"]:
++		api_ok = api_ok and view.has_method(method)
++	check(api_ok, "Material renderer exposes the geometry consumed by its real draw path")
++	view.free()
++	if not api_ok: return
++	# Observer calls every real draw. It records actual mineral sprite submission,
++	# not a separate diagnostic implementation or a fabricated Core event.
++	var observer := GDScript.new()
++	observer.source_code = "extends \"" + BOARD_PATH + "\"\nvar particles_drawn: Array = []\nvar material_gems: Array = []\nvar gems_drawn: Array = []\nvar painted_draws := 0\nvar recording_material := false\nfunc _draw() -> void:\n\tparticles_drawn.clear()\n\tmaterial_gems.clear()\n\tgems_drawn.clear()\n\tpainted_draws = 0\n\tsuper._draw()\nfunc _draw_material_particle(particle: Dictionary, step: float) -> void:\n\tparticles_drawn.append(particle.duplicate(true))\n\trecording_material = true\n\tsuper._draw_material_particle(particle,step)\n\trecording_material = false\nfunc _draw_painted_hole(step: float, phase: Dictionary) -> void:\n\tpainted_draws += 1\n\tsuper._draw_painted_hole(step,phase)\nfunc _draw_gem(point: Vector2, kind: int, radius: float, alpha: float, stretch: Vector2 = Vector2.ONE) -> void:\n\tif recording_material: material_gems.append({\"kind\":kind,\"position\":point,\"radius\":radius,\"alpha\":alpha})\n\tsuper._draw_gem(point,kind,radius,alpha,stretch)\nfunc _event_gem(index: int, point: Vector2, scale_value: float=1.0, alpha: float=1.0) -> void:\n\tgems_drawn.append({\"index\":index,\"position\":point,\"scale\":scale_value,\"alpha\":alpha})\n\tsuper._event_gem(index,point,scale_value,alpha)\n"
++	check(observer.reload() == OK and observer.can_instantiate(), "Draw observer retains production material and painted-hole drawing")
++	if not observer.can_instantiate(): return
++	view = observer.new()
++	root.add_child(view)
++	view.size = Vector2(404,550)
++	var core = load(CORE_PATH).new()
++	core.setup_lab("black_hole",42)
++	var result: Dictionary = core.try_swap(25,26)
++	var event := event_from(result)
++	if event.is_empty():
++		view.queue_free()
++		return
++	var expected_targets: Array = []
++	var expected_removals: Array = []
++	for index in range(event.before.size()):
++		if int(event.before[index]) >= 0: expected_removals.append(index)
++		if int(event.before[index]) >= 0 and int(event.before[index]) < 6: expected_targets.append(index)
++	check(canonical(event.targets) == canonical(expected_targets) and canonical(event.indices) == canonical(expected_removals), "Real Core event still pulls every mineral and consumes both source specials")
++	check(canonical(event.floor) == canonical(event.floor_before) and canonical(event.runes) == canonical(event.runes_before), "Direct Black Hole leaves real soil and runes intact")
++	var frozen := canonical(core_state(core))
++	var transaction := canonical(result)
++	view.setup(core,false)
++	view.polished_art = true
++	install_event(view,event)
++	var orbit_samples: Array = []
++	var gradual_birth_before_pull := false
++	var established_birth_during_pull := true
++	var gradual_painted_alpha: Array = []
++	for progress in [0.14,0.28,0.43,0.57,0.72,0.88,0.97]:
++		await sample(view,progress)
++		var phase: Dictionary = view.material_v2_phase()
++		if float(phase.get("birth",0.0)) > 0.0 and float(phase.get("birth",0.0)) < 1.0 and is_zero_approx(float(phase.get("pull",0.0))) and view.painted_draws > 0:
++			gradual_birth_before_pull = true
++		if float(phase.get("pull",0.0)) > 0.0:
++			established_birth_during_pull = established_birth_during_pull and float(phase.get("birth",0.0)) > 0.95
++		var particles: Array = view.source_material_particles(view._cell_size())
++		var all_bounded := true
++		var submitted_target_geometry := true
++		var drawn_by_index: Dictionary = {}
++		for submitted in view.gems_drawn: drawn_by_index[int(submitted.index)] = submitted
++		for particle in particles:
++			all_bounded = all_bounded and particle.get("position",Vector2(INF,INF)).is_finite() and view._board_rect().has_point(particle.position) and float(particle.get("scale",0.0)) > 0.0 and float(particle.get("scale",0.0)) <= 1.0 and float(particle.get("alpha",-1.0)) >= 0.0 and float(particle.get("alpha",2.0)) <= 1.0
++		for target in expected_removals:
++			var pose: Dictionary = view.material_v2_target_pose(int(target),view._cell_size())
++			all_bounded = all_bounded and bool(pose.get("valid",false)) and pose.position.is_finite() and view._board_rect().has_point(pose.position) and float(pose.scale) > 0.0 and float(pose.scale) <= 1.0 and float(pose.alpha) >= 0.0 and float(pose.alpha) <= 1.0
++			if float(pose.alpha) > 0.0:
++				submitted_target_geometry = submitted_target_geometry and drawn_by_index.has(int(target))
++				if drawn_by_index.has(int(target)):
++					var submitted: Dictionary = drawn_by_index[int(target)]
++					submitted_target_geometry = submitted_target_geometry and submitted.position.is_equal_approx(pose.position) and is_equal_approx(float(submitted.scale),float(pose.scale)) and is_equal_approx(float(submitted.alpha),float(pose.alpha))
++		check(submitted_target_geometry, "Real mineral draw uses the checked new geometry for every visible consumed cell at " + str(progress))
++		check(bool(phase.get("valid",false)) and all_bounded, "Actual particles and every consumed mineral remain finite, visible-range and inside the board at " + str(progress))
++		if progress > 0.25 and progress < 0.60:
++			gradual_painted_alpha.append(float(view.painted_hole_status().get("alpha_used",0.0)))
++		if progress < 0.30:
++			var rocks := 0
++			var air := 0
++			for particle in view.particles_drawn:
++				if float(particle.get("alpha",0.0)) <= 0.05: continue
++				if particle.get("material","") == "rock" and int(particle.get("source_kind",-1)) == 8: rocks += 1
++				if particle.get("material","") == "air" and int(particle.get("source_kind",-1)) in [6,7]: air += 1
++			check(rocks >= 4 and air >= 4 and view.material_gems.size() >= 4, "Preparation actually draws multiple mineral sprites and air fragments before the hole at " + str(progress))
++			var real_ore := true
++			for gem in view.material_gems: real_ore = real_ore and int(gem.kind) >= 0 and int(gem.kind) < 6 and float(gem.radius) > 1.0 and float(gem.alpha) > 0.0
++			check(real_ore, "Orbiting rock fragments submit actual mineral art at a visible radius")
++			orbit_samples.append(particles.duplicate(true))
++			var grounded: Dictionary = view.material_v2_target_pose(0,view._cell_size())
++			check(grounded.position.is_equal_approx(view._center(0)) and is_equal_approx(float(grounded.scale),1.0) and is_zero_approx(float(phase.pull)), "Distant board minerals stay grounded while source materials orbit")
++		if is_equal_approx(progress,0.72):
++			var pose: Dictionary = view.material_v2_target_pose(0,view._cell_size())
++			var origin: Vector2 = view._center(0)-view.fusion_center()
++			var moved: Vector2 = pose.position-view.fusion_center()
++			check(float(phase.pull) > 0.0 and moved.length() < origin.length() and absf(origin.cross(moved)) > 1.0 and float(pose.scale) < 1.0, "Late mineral pull is a shrinking inward spiral into the established painted hole")
++		observations.append({"progress":progress,"phase":phase,"drawn_particles":view.particles_drawn.size(),"actual_mineral_sprite_draws":view.material_gems.size(),"painted_draws":view.painted_draws})
++	var orbit_changed := {"rock":false,"air":false}
++	if orbit_samples.size() == 2:
++		for index in range(mini(orbit_samples[0].size(),orbit_samples[1].size())):
++			var first: Dictionary = orbit_samples[0][index]
++			var second: Dictionary = orbit_samples[1][index]
++			var material := String(first.get("material",""))
++			if orbit_changed.has(material) and not first.position.is_equal_approx(second.position): orbit_changed[material] = true
++	check(orbit_changed.rock and orbit_changed.air, "Both actual rock and air particles change orbit positions across preparation frames")
++	check(gradual_birth_before_pull and established_birth_during_pull, "Painted birth appears gradually before any board-wide pull and is established whenever pull is active")
++	check(gradual_painted_alpha.size() >= 2 and gradual_painted_alpha[0] > 0.0 and gradual_painted_alpha[-1] < 1.0 and gradual_painted_alpha[-1] > gradual_painted_alpha[0], "Real painted texture is submitted at increasing partial alpha during birth")
++	var status: Dictionary = view.painted_hole_status()
++	check(bool(status.get("ready",false)) and status.get("path","") == ASSET_PATH, "Actual renderer loads the generated painted asset")
++	for fixed in [24,30,39,-1,999]:
++		check(not bool(view.material_v2_target_pose(fixed,view._cell_size()).get("valid",false)), "New material effect never pulls fixed terrain or invalid index " + str(fixed))
++	check(canonical(core_state(core)) == frozen and canonical(result) == transaction, "All real material drawing preserves complete resolved Core, result, and RNG")
++	view.setup(core,true)
++	install_event(view,event)
++	await sample(view,0.28)
++	check(view.particles_drawn.is_empty() and view.material_gems.is_empty() and view.painted_draws == 0, "Reduced motion suppresses material orbits and painted travel")
++	view.queue_free()
++	await process_frame
++
++func playing(manager) -> int:
++	var count := 0
++	for voice in manager.players:
++		if voice.playing: count += 1
++	return count
++
++func verify_lifecycle() -> void:
++	var lab = load("res://scripts/lab/natural_power_lab.gd")
++	check(lab != null and lab.can_instantiate(), "Actual integrated lab loads")
++	if lab == null or not lab.can_instantiate(): return
++	var app = lab.new()
++	root.add_child(app)
++	await process_frame
++	await process_frame
++	check(app.board.get_script().resource_path == BOARD_PATH, "Actual lab uses the new material renderer")
++	var manager = app.get("element_audio")
++	check(manager != null and manager.players.size() == 1, "Actual element bank owns one playing voice")
++	if manager == null:
++		app.queue_free()
++		return
++	for action in ["normal","reduced","skip","reset"]:
++		app.reduced.button_pressed = action == "reduced"
++		app.reset_scenario("black_hole")
++		manager.cue_log.clear()
++		var resolved_core = app.core
++		app._on_swap(25,26)
++		var deadline := Time.get_ticks_msec()+3000
++		while not manager.event_active and Time.get_ticks_msec() < deadline: await process_frame
++		check(manager.event_active and playing(manager) == 1 and manager.cue_log.size() == 1, action + " begins one real audible element cue")
++		var frozen := canonical(core_state(resolved_core))
++		var transaction := canonical(app.last_result)
++		var cue: Dictionary = manager.cue_log[0] if manager.cue_log.size() == 1 else {}
++		var expected := 0.18 if action == "reduced" else 2.80
++		check(absf(float(cue.get("length",0.0))-expected) < 0.0001 and is_equal_approx(float(cue.get("pitch_scale",0.0)),1.0), action + " plays the full matching recording at original pitch")
++		var stream = manager.players[0].stream
++		check(stream is AudioStreamWAV and stream.mix_rate == 44100 and stream.format == AudioStreamWAV.FORMAT_16_BITS and not stream.stereo and not stream.data.is_empty() and stream.data.count(0) < stream.data.size(), action + " uses actual decoded nonempty mono 44.1kHz 16-bit PCM")
++		var start := Time.get_ticks_msec()
++		var effect_end_seconds := -1.0
++		if action == "skip": app.skip_effect()
++		if action == "reset": app.reset_scenario("black_hole")
++		if action in ["skip","reset"]:
++			check(not manager.event_active and playing(manager) == 0 and clear_presentation(app.board), action + " immediately cancels both actual VFX and audio")
++		var current := canonical(core_state(app.core))
++		while Time.get_ticks_msec()-start < 2900 or ((app._resolving or app.board.busy) and Time.get_ticks_msec()-start < 6500):
++			await process_frame
++			if effect_end_seconds < 0.0 and app.board._power_event.is_empty(): effect_end_seconds = float(Time.get_ticks_msec()-start)/1000.0
++		check(clear_presentation(app.board) and not manager.event_active and playing(manager) == 0 and manager.cue_log.size() == 1, action + " leaves no stale VFX, voice or restarted cue after full effect time")
++		check(canonical(core_state(resolved_core)) == frozen and canonical(core_state(app.core)) == current, action + " preserves original and current complete Core/RNG states")
++		if action in ["normal","reduced"]:
++			check(absf(effect_end_seconds-(0.13 if action == "reduced" else 2.60)) < 0.16, action + " actual active visual duration matches its complete or reduced timeline")
++			check(canonical(app.last_result) == transaction and app.board._display_grid == app.core.grid and app.board._display_floor == app.core.floor and app.board._display_runes == app.core.runes, action + " finishes the exact resolved board and unchanged transaction")
++		observations.append({"lifecycle":action,"actual_cue":cue,"observed_seconds":float(Time.get_ticks_msec()-start)/1000.0,"effect_end_seconds":effect_end_seconds})
++	app.queue_free()
++	await process_frame
++	await create_timer(0.12).timeout
++
++func run() -> void:
++	check(FileAccess.file_exists(BOARD_PATH), "Black Hole material renderer exists for actual material orbit and delayed painted birth")
++	check(FileAccess.file_exists(ASSET_PATH), "Black Hole uses a real transparent painted image asset")
++	if FileAccess.file_exists(ASSET_PATH): verify_asset()
++	if FileAccess.file_exists(BOARD_PATH):
++		await verify_renderer()
++		await verify_lifecycle()
++	print("BLACK_HOLE_MATERIAL_V2 " + JSON.stringify({"status":"PASS" if failures.is_empty() else "FAIL","checks":checks,"failures":failures,"observations":observations}))
++	quit(0 if failures.is_empty() else 1)
+
+--- /dev/null
++++ after/tests/capture_black_hole_material_v2.gd
+@@ -0,0 +1,467 @@
++extends SceneTree
++## Painted Black Hole material v2, through the actual lab and native input.
++## This harness never edits the fixture or calls Core activation methods directly.
++
++const LAB_PATH := "res://scripts/lab/natural_power_lab.gd"
++const BOARD_PATH := "res://scripts/lab/magic_black_hole_material_board.gd"
++const OUTPUT_PATH := "res://outputs/black_hole_material_v2_2026-10-18"
++const SCREEN_SIZE := Vector2i(432, 960)
++const CAPTURE_FPS := 30
++const CAPTURE_FRAMES := 270
++var expected_effect_seconds := 2.60
++const TIMING_TOLERANCE_SECONDS := 2.0 / float(CAPTURE_FPS) + 0.001
++const SEED := 42
++
++var app
++var output := ""
++var scenario := "black_hole"
++var failures: Array[String] = []
++var observations: Array = []
++var frame_observations: Array = []
++var gesture_events: Array = []
++var initial_state: Dictionary = {}
++var frozen_event: Dictionary = {}
++var frozen_result: Dictionary = {}
++var frozen_state: Dictionary = {}
++var frozen_state_json := ""
++var frozen_result_json := ""
++var active_targets: Array = []
++var expected_targets: Array = []
++var geometry: Dictionary = {}
++var start_frame := 0
++var activation_frame := -1
++var effect_end_frame := -1
++var last_sample_frame := -1
++var effect_sampled_seconds := 0.0
++var sampled_frame_delta_seconds := 0.0
++var invariant_sample_count := 0
++var invariant_failed := false
++var result_failed := false
++var invalid_active_delta_failed := false
++var ignored_startup_delta_frames := 0
++var ended := false
++var actual_audio_pcm: Dictionary = {}
++
++
++func _initialize() -> void:
++	call_deferred("run")
++
++func check(value: bool, message: String) -> void:
++	if not value:
++		failures.append(message)
++		push_error(message)
++
++func canonical(value: Variant) -> String:
++	# Normalize local and disk JSON equally; preserve int64 RNG values as strings.
++	return JSON.stringify(JSON.parse_string(JSON.stringify(value)), "", true) + "\n"
++
++func same_json(first: Variant, second: Variant) -> bool:
++	return canonical(first) == canonical(second)
++
++func write_json(suffix: String, value: Variant) -> void:
++	var path := output + "/" + scenario + "_" + suffix + ".json"
++	var file := FileAccess.open(path, FileAccess.WRITE)
++	if file == null:
++		check(false, "Cannot write " + path + ": " + error_string(FileAccess.get_open_error()))
++		return
++	file.store_string(canonical(value))
++	file.close()
++	check(FileAccess.get_file_as_string(path) == canonical(value), "JSON readback differs: " + path)
++
++func core_state(core) -> Dictionary:
++	return {
++		"cols": core.cols, "rows": core.rows,
++		"grid": core.grid.duplicate(), "floor": core.floor.duplicate(),
++		"runes": core.runes.duplicate(), "moves_left": core.moves_left,
++		"initial_moves": core.initial_moves, "collected": core.collected,
++		"collect_kind": core.collect_kind, "collect_goal": core.collect_goal,
++		"won": core.won, "lost": core.lost, "goal": core._goal,
++		"black_hole_used": core.black_hole_used,
++		"fixture_pair": core.fixture_pair.duplicate(),
++		"rng_seed_int64": str(core._rng.seed), "rng_state_int64": str(core._rng.state),
++	}
++
++func fixture_pair() -> Array:
++	return [25,26]
++
++func display_matches() -> bool:
++	return app.board._display_grid == app.core.grid and app.board._display_floor == app.core.floor and app.board._display_runes == app.core.runes
++
++func presentation_clear() -> bool:
++	return not app.board.busy and app.board._power_event.is_empty() and app.board._hidden.is_empty() and not app.board._falling and app.board._moving.is_empty()
++
++func relative_frame() -> int:
++	return Engine.get_process_frames() - start_frame
++
++func capture_time_available() -> bool:
++	# Movie Maker also encodes the initial render before the first completed
++	# process interval. Budget 269 intervals plus that initial frame = 270.
++	return relative_frame() < CAPTURE_FRAMES-1
++
++func sample_frame() -> void:
++	var current := Engine.get_process_frames()
++	if current == last_sample_frame or app == null or app.board == null:
++		return
++	last_sample_frame = current
++	var delta: float = app.board.get_process_delta_time()
++	sampled_frame_delta_seconds += delta
++	var active: bool = not app.board._power_event.is_empty()
++	if delta <= 0.0 and activation_frame < 0:
++		ignored_startup_delta_frames += 1
++	# Movie cadence is requested by --fixed-fps and checked in the recorded AVI.
++	# A node's actual process deltas can vary during startup and remain evidence.
++	if active and (not is_finite(delta) or delta <= 0.0) and not invalid_active_delta_failed:
++		invalid_active_delta_failed = true
++		check(false, "Every active effect frame has a positive finite measured delta")
++	var state_matches := true
++	var result_matches := true
++	if activation_frame >= 0:
++		invariant_sample_count += 1
++		state_matches = canonical(core_state(app.core)) == frozen_state_json
++		result_matches = canonical(app.last_result) == frozen_result_json
++		if not state_matches and not invariant_failed:
++			invariant_failed = true
++			check(false, "Rendering changed complete resolved Core/RNG state")
++		if not result_matches and not result_failed:
++			result_failed = true
++			check(false, "Rendering changed the actual frozen Core result")
++		if effect_end_frame < 0:
++			if active:
++				effect_sampled_seconds += delta
++			else:
++				effect_end_frame = current
++	frame_observations.append({
++		"process_frame": relative_frame(), "delta_seconds": delta,
++		"power_active": active, "power_t": app.board._power_t,
++		"board_busy": app.board.busy, "lab_resolving": app._resolving,
++		"resolved_core_rng_unchanged": state_matches,
++		"actual_result_unchanged": result_matches,
++	})
++
++func next_frame() -> void:
++	await process_frame
++	sample_frame()
++
++func wait_frames(count: int) -> void:
++	for ignored in range(count):
++		if not capture_time_available():
++			return
++		await next_frame()
++
++func mouse(point: Vector2, down: bool) -> void:
++	var event := InputEventMouseButton.new()
++	event.position = root.get_final_transform() * point
++	event.global_position = event.position
++	event.button_index = MOUSE_BUTTON_LEFT
++	event.pressed = down
++	event.button_mask = MOUSE_BUTTON_MASK_LEFT if down else 0
++	gesture_events.append({
++		"kind": "press" if down else "release", "process_frame": relative_frame(),
++		"viewport_point": [point.x, point.y], "native_point": [event.position.x, event.position.y],
++	})
++	Input.parse_input_event(event)
++
++func motion(point: Vector2, relative: Vector2) -> void:
++	var event := InputEventMouseMotion.new()
++	event.position = root.get_final_transform() * point
++	event.global_position = event.position
++	event.relative = root.get_final_transform().basis_xform(relative)
++	event.button_mask = MOUSE_BUTTON_MASK_LEFT
++	gesture_events.append({
++		"kind": "motion", "process_frame": relative_frame(),
++		"viewport_point": [point.x, point.y], "native_point": [event.position.x, event.position.y],
++	})
++	Input.parse_input_event(event)
++
++func native_fixture_drag() -> void:
++	var pair: Array = app.core.fixture_pair
++	check(pair == fixture_pair(), "Actual scenario retains its established fixture pair")
++	if pair.size() != 2:
++		return
++	var first: Vector2 = app.board.get_global_transform() * app.board._center(int(pair[0]))
++	var last: Vector2 = app.board.get_global_transform() * app.board._center(int(pair[1]))
++	check(Rect2(Vector2.ZERO, Vector2(SCREEN_SIZE)).has_point(first) and Rect2(Vector2.ZERO, Vector2(SCREEN_SIZE)).has_point(last), "Both native fixture endpoints lie inside the portrait viewport")
++	mouse(first, true)
++	await wait_frames(3)
++	var previous := first
++	for index in range(1, 7):
++		var point := first.lerp(last, float(index) / 6.0 * 0.85)
++		motion(point, point - previous)
++		previous = point
++		await next_frame()
++	mouse(previous, false)
++	await wait_frames(2)
++
++func derive_targets(event: Dictionary) -> Array:
++	var derived: Array = []
++	var before: Array = event.get("before", [])
++	check(before.size() == 56, "Actual event contains complete post-swap pre-effect board")
++	for index in range(before.size()):
++		if int(before[index]) >= 0 and int(before[index]) < app.core.GEM_KINDS:
++			derived.append(index)
++	return derived
++
++func on_power_started(power: String, targets: Array) -> void:
++	check(power == scenario, "Native fixture gesture activates the actual Black Hole")
++	check(activation_frame < 0, "Native capture activates exactly one natural power")
++	if activation_frame >= 0:
++		return
++	activation_frame = Engine.get_process_frames()
++	active_targets = targets.duplicate()
++	# Emitted synchronously before this effect queues its first redraw. The lab's
++	# last_result is the actual completed transaction, never a fabricated stream.
++	frozen_result = app.last_result.duplicate(true)
++	frozen_state = core_state(app.core)
++	frozen_state_json = canonical(frozen_state)
++	frozen_result_json = canonical(frozen_result)
++	var count := 0
++	for event in frozen_result.get("events", []):
++		if String(event.get("type", "")) == "natural_power":
++			count += 1
++			frozen_event = event.duplicate(true)
++	check(count == 1, "Actual Core result contains exactly one natural_power event")
++	check(bool(frozen_result.get("valid", false)), "Actual native-input Core transaction is valid")
++	check(String(frozen_event.get("power", "")) == scenario, "Frozen Core event belongs to the actual Black Hole scenario")
++	check(int(frozen_event.get("origin", -1)) == int(fixture_pair()[1]), "Actual event origin is the fixture's swap destination")
++	check(same_json(active_targets, frozen_event.get("targets", [])), "Signal targets equal actual Core event targets")
++	expected_targets = derive_targets(frozen_event)
++	check(same_json(active_targets, expected_targets), "Actual target list equals the independently derived eligible cells")
++	var expected_removed: Array = []
++	for index in range(frozen_event.before.size()):
++		if int(frozen_event.before[index]) >= 0:
++			expected_removed.append(index)
++	check(same_json(frozen_event.get("fusion_sources", []), [{"index":25,"kind":8},{"index":26,"kind":6}]), "Material sources use the actual post-swap kinds and positions")
++	check(same_json(frozen_event.floor, frozen_event.floor_before) and same_json(frozen_event.runes, frozen_event.runes_before), "Direct Black Hole preserves soil and runes")
++	check(same_json(frozen_event.get("indices", []), expected_removed), "Actual direct removals match the independent scenario oracle")
++	check(same_json(app.board._power_event, frozen_event) and is_zero_approx(float(app.board._power_t)), "Event and state freeze synchronously before the effect advances or redraws")
++	check(int(frozen_state.moves_left) == int(initial_state.moves_left) - 1, "Native activation spends exactly one move")
++	write_json("EVENT", frozen_event)
++	write_json("RESULT", frozen_result)
++	write_json("ACTIVATION_STATE", frozen_state)
++	# Lab's actual audio handler is connected before this observer. Read the
++	# playing bank and PCM exactly once at the synchronous actual event.
++	var manager = app.get("element_audio")
++	check(manager != null and manager.event_active and manager.players.size() == 1, "Actual material v2 audio bank is active at the real power event")
++	if manager != null and manager.players.size() == 1:
++		var voice = manager.players[0]
++		var stream = voice.stream
++		check(voice.playing and stream is AudioStreamWAV, "The real event plays decoded WAV PCM")
++		if stream is AudioStreamWAV:
++			var context := HashingContext.new()
++			context.start(HashingContext.HASH_SHA256)
++			context.update(stream.data)
++			actual_audio_pcm = {"pcm_sha256":context.finish().hex_encode(),"pcm_bytes":stream.data.size(),"mix_rate":stream.mix_rate,"format":stream.format,"stereo":stream.stereo,"length_seconds":stream.get_length(),"pitch_scale":voice.pitch_scale,"playing_at_actual_event":voice.playing,"cue_log":manager.cue_log.duplicate(true)}
++			check(stream.mix_rate == 44100 and stream.format == AudioStreamWAV.FORMAT_16_BITS and not stream.stereo and absf(stream.get_length()-2.80) < 0.0001 and stream.data.count(0) < stream.data.size(), "Active real source is complete nonzero 2.80-second mono 44.1kHz 16-bit PCM")
++	write_json("ACTIVE_AUDIO_PCM", actual_audio_pcm)
++	observations.append({
++		"phase": "event_frozen_before_draw", "process_frame": relative_frame(),
++		"actual_targets": active_targets.duplicate(), "actual_target_count": active_targets.size(),
++		"derived_eligible_targets": expected_targets.duplicate(),
++	})
++
++func shot(phase: String, requested_progress: float = -1.0) -> void:
++	await RenderingServer.frame_post_draw
++	var path := output + "/" + scenario + "_" + phase + ".png"
++	var captured := root.get_texture().get_image()
++	check(captured.get_size() == SCREEN_SIZE, "Entire root capture is exactly 432x960")
++	check(captured.save_png(path) == OK, "Screenshot saves " + path)
++	var actual_visual_state: Dictionary = {}
++	if not app.board._power_event.is_empty():
++		actual_visual_state["phase"] = app.board.material_v2_phase().duplicate(true)
++		actual_visual_state["painted_asset"] = app.board.painted_hole_status().duplicate(true)
++		var particles: Array = []
++		for particle in app.board.source_material_particles(app.board._cell_size()):
++			var submitted: Dictionary = particle.duplicate(true)
++			var position: Vector2 = submitted.get("position",Vector2.ZERO)
++			submitted.position = [position.x,position.y]
++			particles.append(submitted)
++		actual_visual_state["source_material_particles"] = particles
++		var target_poses: Array = []
++		for target in active_targets:
++			var pose: Dictionary = app.board.material_v2_target_pose(int(target),app.board._cell_size()).duplicate(true)
++			if pose.get("position") is Vector2:
++				var point: Vector2 = pose.position
++				pose.position = [point.x,point.y]
++			target_poses.append(pose)
++		actual_visual_state["mineral_target_poses"] = target_poses
++	observations.append({
++		"phase": phase, "file": path, "process_frame": relative_frame(),
++		"requested_progress": requested_progress, "actual_power_t": app.board._power_t,
++		"power_active": not app.board._power_event.is_empty(),
++		"actual_targets": active_targets.duplicate(), "actual_target_count": active_targets.size(),
++		"moves_left": app.core.moves_left,
++		"actual_visual_state": actual_visual_state,
++	})
++
++func wait_for_phase(progress: float) -> bool:
++	while capture_time_available():
++		if activation_frame >= 0:
++			if app.board._power_event.is_empty():
++				check(false, "Effect ended before requested phase " + str(progress))
++				return false
++			if float(app.board._power_t) >= progress:
++				return true
++		await next_frame()
++	check(false, "Nine-second capture ended before phase " + str(progress))
++	return false
++
++func validate_fixture() -> void:
++	check(app.scenario == scenario and app.seed_value == SEED, "Actual lab is reset to the selected seeded scenario")
++	check(app.core.fixture_pair == fixture_pair(), "Existing fixture pair is unchanged")
++	check(app.core.cols == 7 and app.core.rows == 8, "Existing seven-column eight-row fixture dimensions are unchanged")
++	check(app.core.grid.size() == 56 and app.core.floor.size() == 56 and app.core.runes.size() == 56, "Complete fixture arrays are present")
++	if app.core.grid.size() != 56 or app.core.floor.size() != 56 or app.core.runes.size() != 56:
++		return
++	check(int(app.core.grid[25]) == 6, "Real fixture starts with Tornado at its established source")
++	check(int(app.core.grid[26]) == 8, "Real fixture has Volcano at its established destination")
++	check(int(app.core.grid[24]) == -2 and int(app.core.grid[30]) == -2, "Established gap cells remain unchanged")
++	check(int(app.core.grid[39]) == -3 and int(app.core.runes[39]) == 1, "Established rune remains unchanged")
++	check(int(app.core.floor[23]) == 1 and int(app.core.floor[26]) == 1 and int(app.core.floor[43]) == 1, "Established soil fixtures remain unchanged")
++	check(app.core.moves_left == 12 and app.last_result.is_empty(), "Capture starts before any activation with the original move budget")
++
++func validate_geometry() -> void:
++	var board_rect: Rect2 = app.board.get_global_rect()
++	var cells_rect: Rect2 = app.board.get_global_transform() * app.board._board_rect()
++	var viewport_rect := Rect2(Vector2.ZERO, Vector2(SCREEN_SIZE))
++	var actual_window := DisplayServer.window_get_size()
++	check(root.size == SCREEN_SIZE and root.content_scale_size == SCREEN_SIZE, "Root and content viewport remain 432x960")
++	check(actual_window == SCREEN_SIZE, "Actual native window content size is 432x960")
++	check(DisplayServer.window_get_current_screen() == 0, "Actual native window is on monitor 0")
++	check(viewport_rect.encloses(board_rect) and viewport_rect.encloses(cells_rect), "Entire board control and all cells fit inside the portrait capture")
++	check(board_rect.size.x >= 300.0 and board_rect.size.y >= 350.0, "Actual board meets the established usable minimum size")
++	geometry = {
++		"native_screen": DisplayServer.window_get_current_screen(),
++		"native_window_size": [actual_window.x, actual_window.y],
++		"root_size": [root.size.x, root.size.y],
++		"content_scale_size": [root.content_scale_size.x, root.content_scale_size.y],
++		"board_rect": [board_rect.position.x, board_rect.position.y, board_rect.size.x, board_rect.size.y],
++		"cells_rect": [cells_rect.position.x, cells_rect.position.y, cells_rect.size.x, cells_rect.size.y],
++	}
++
++func run_capture() -> void:
++	root.content_scale_size = SCREEN_SIZE
++	root.size = SCREEN_SIZE
++	if DisplayServer.get_name() == "headless":
++		check(false, "Native painted Black Hole capture requires a graphical Godot driver")
++		finish_capture()
++		return
++	DisplayServer.window_set_current_screen(0)
++	var lab_script = load(LAB_PATH)
++	if lab_script == null or not lab_script.can_instantiate():
++		check(false, "Actual natural power lab script must load")
++		finish_capture()
++		return
++	app = lab_script.new()
++	root.add_child(app)
++	app.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
++	await wait_frames(3)
++	check(app.board != null and app.board.get_script().resource_path == BOARD_PATH, "Actual lab uses the new painted material renderer")
++	if not failures.is_empty():
++		finish_capture()
++		return
++	app.reduced.button_pressed = false
++	app.seed_value = SEED
++	app.reset_scenario(scenario)
++	app.board.power_started.connect(on_power_started)
++	await wait_frames(2)
++	validate_fixture()
++	validate_geometry()
++	initial_state = core_state(app.core)
++	write_json("INITIAL_STATE", initial_state)
++	if not failures.is_empty():
++		finish_capture()
++		return
++	while relative_frame() < CAPTURE_FPS:
++		await next_frame()
++	await shot("00_ready")
++	await native_fixture_drag()
++	var phases: Array = [["01_rocks_and_air",0.14],["02_material_orbits",0.28],["03_painted_birth",0.43],["04_formed_hole",0.57],["05_all_minerals_pull",0.74],["06_fade",0.95]]
++	for phase in phases:
++		if await wait_for_phase(float(phase[1])):
++			await shot(String(phase[0]), float(phase[1]))
++		else:
++			break
++	while (app._resolving or app.board.busy) and capture_time_available():
++		await next_frame()
++	check(not app._resolving and not app.board.busy, "Actual lab finishes its complete result inside the nine-second capture")
++	check(not frozen_event.is_empty(), "Actual Core event froze before effect rendering")
++	check(app.core.moves_left == int(initial_state.moves_left) - 1, "Completed native gesture spends exactly one move")
++	check(same_json(core_state(app.core), frozen_state), "Complete Core/RNG state remains equal to the synchronous resolution snapshot")
++	check(display_matches(), "Final displayed grid, soil and runes match actual resolved Core")
++	check(presentation_clear(), "Final presentation has no busy stream, hidden cells, moving stones or stale power overlay")
++	write_json("FINAL_STATE", core_state(app.core))
++	if capture_time_available():
++		await shot("07_final")
++	while capture_time_available():
++		await next_frame()
++	check(relative_frame()+1 == CAPTURE_FRAMES, "Capture contains 269 elapsed process intervals plus its initial encoded frame at fixed 30 fps")
++	check(presentation_clear() and display_matches(), "Final hold remains clean and equal to the resolved Core")
++	check(invariant_sample_count > 0 and not invariant_failed and not result_failed, "Every sampled frame after activation preserves complete Core/RNG and actual result")
++	check(effect_end_frame >= activation_frame and activation_frame >= 0, "Actual effect start and cleanup frames are measured")
++	check(absf(effect_sampled_seconds - expected_effect_seconds) <= TIMING_TOLERANCE_SECONDS, "Measured active effect duration agrees with the configured scenario within two frame intervals")
++	finish_capture()
++
++func finish_capture() -> void:
++	if ended:
++		return
++	ended = true
++	if app != null:
++		var actual_cues: Dictionary = {}
++		for property in ["element_audio", "storm_audio", "tornado_audio", "volcano_audio"]:
++			var manager: Variant = app.get(property)
++			if manager != null:
++				var log: Variant = manager.get("cue_log")
++				if log is Array:
++					actual_cues[property] = log.duplicate(true)
++		check(actual_cues.has("element_audio"), "Actual new element audio bank is present")
++		if actual_cues.has("element_audio"):
++			check(actual_cues.element_audio.size() == 1 and actual_cues.element_audio[0].get("power", "") == scenario, "One actual element sound cue matches the activated power")
++		write_json("AUDIO_CUES", actual_cues)
++	var effect_frames := effect_end_frame - activation_frame if effect_end_frame >= 0 and activation_frame >= 0 else -1
++	var receipt := {
++		"status": "PASS" if failures.is_empty() else "FAIL", "failures": failures,
++		"scenario": scenario, "seed": SEED, "fixture_pair": fixture_pair(),
++		"visual_pass": "painted_black_hole_material_v2",
++		"actual_targets": active_targets, "actual_target_count": active_targets.size(),
++		"derived_eligible_targets": expected_targets, "derived_target_count": expected_targets.size(),
++		"geometry": geometry, "fixed_fps_expected": CAPTURE_FPS,
++		"clip_elapsed_process_intervals": relative_frame(), "clip_encoded_frames_expected": relative_frame()+1, "clip_seconds_at_fixed_fps": float(relative_frame()+1) / float(CAPTURE_FPS),
++		"expected_effect_seconds": expected_effect_seconds,
++		"effect_start_frame": activation_frame - start_frame if activation_frame >= 0 else -1,
++		"effect_end_frame": effect_end_frame - start_frame if effect_end_frame >= 0 else -1,
++		"effect_elapsed_process_frames": effect_frames,
++		"effect_frame_seconds_at_fixed_fps": float(effect_frames) / float(CAPTURE_FPS) if effect_frames >= 0 else -1.0,
++		"effect_sampled_delta_seconds": effect_sampled_seconds,
++		"effect_delta_from_configured_seconds": effect_sampled_seconds - expected_effect_seconds if activation_frame >= 0 else null,
++		"effect_timing_tolerance_seconds": TIMING_TOLERANCE_SECONDS,
++		"actual_audio_pcm_at_event": actual_audio_pcm,
++		"sampled_frame_delta_seconds": sampled_frame_delta_seconds,
++		"ignored_uninitialized_startup_delta_frames": ignored_startup_delta_frames,
++		"resolved_core_rng_invariant_sample_count": invariant_sample_count,
++		"observations": observations, "frame_observations": frame_observations,
++		"native_input_events": gesture_events,
++		"proof": "Actual Godot lab root renders and Input.parse_input_event press/drag/release; synchronous actual Core event/result/state freeze; no human, Android or visual acceptance claim",
++	}
++	write_json("REPORT", receipt)
++	print("BLACK_HOLE_MATERIAL_V2_CAPTURE " + JSON.stringify({"status": receipt.status, "scenario": scenario, "failures": failures, "actual_targets": active_targets, "clip_elapsed_process_intervals": relative_frame(),"clip_encoded_frames_expected":relative_frame()+1}))
++	quit(0 if failures.is_empty() else 1)
++
++func run() -> void:
++	start_frame = Engine.get_process_frames()
++	var arguments := OS.get_cmdline_user_args()
++	check(arguments.size() == 1 and arguments[0] == "--black-hole", "Choose exactly --black-hole for this bounded capture")
++	if not failures.is_empty():
++		quit(1)
++		return
++	scenario = "black_hole"
++	expected_effect_seconds = 2.60
++	output = ProjectSettings.globalize_path(OUTPUT_PATH + "/black_hole")
++	check(not DirAccess.dir_exists_absolute(output), "Fresh capture output must not already exist")
++	if not failures.is_empty():
++		quit(1)
++		return
++	check(DirAccess.make_dir_recursive_absolute(output) == OK, "Dedicated material v2 output directory exists")
++	if not failures.is_empty():
++		finish_capture()
++		return
++	await run_capture()
+
+--- /dev/null
++++ after/tools/build_black_hole_material_audio_v2.py
+@@ -0,0 +1,54 @@
++"""Original rock/wind fusion Foley, timed to the material V2 animation."""
++from pathlib import Path
++import hashlib,io,json,wave
++import numpy as np
++
++ROOT=Path(__file__).resolve().parents[1]
++RATE=44100
++
++
++def band(rng,n,low,high):
++    hz=np.fft.rfftfreq(n,1/RATE)
++    x=np.fft.irfft(np.fft.rfft(rng.normal(size=n))*(1-np.exp(-(hz/low)**4))*np.exp(-(hz/high)**4),n=n)
++    return x/max(float(np.sqrt(np.mean(x*x))),1e-9)
++
++
++def main():
++    rng=np.random.default_rng(1810202602)
++    n=round(2.80*RATE);t=np.arange(n)/RATE
++    wind=band(rng,n,150,2200);stone=band(rng,n,500,2900);low=band(rng,n,48,330)
++    orbit=np.sin(np.pi*np.clip(t/1.85,0,1))**2
++    x=.065*wind*orbit*(1+.30*np.sin(2*np.pi*(2.2*t+1.1*t*t)))
++    for at in [.16,.29,.43,.58,.72,.87,1.02,1.17]:
++        u=np.maximum(t-at,0)
++        envelope=(t>=at)*(1-np.exp(-u/.004))*np.exp(-u/.022)
++        x+=.044*stone*envelope
++    birth=np.exp(-((t-1.33)/.25)**2)
++    x+=.075*low*birth
++    suction=np.sin(np.pi*np.clip((t-1.49)/1.15,0,1))**2
++    x+=.15*wind*suction+.045*np.sin(2*np.pi*(130*t-12*t*t))*suction
++    x+=.022*low*np.exp(-((t-2.43)/.085)**2)
++    x=np.tanh(x*.65);x*=.60/max(float(np.max(np.abs(x))),1e-9)
++    fade=round(.022*RATE)
++    x[:fade]*=np.linspace(0,1,fade);x[-fade:]*=np.linspace(1,0,fade)**2
++    pcm=np.round(x*32767).astype('<i2')
++    path=ROOT/'assets/sfx/elements/fusion_material_v2.wav'
++    buffer=io.BytesIO()
++    with wave.open(buffer,'wb') as audio:
++        audio.setparams((1,2,RATE,len(pcm),'NONE','not compressed'));audio.writeframes(pcm.tobytes())
++    data=buffer.getvalue()
++    if path.exists():
++        assert path.read_bytes()==data,'Existing sample differs; never overwrite it'
++    else:
++        path.write_bytes(data)
++    value={'method':'original deterministic local NumPy synthesis; no external sample','seed':1810202602,
++           'human_listening':'PENDING','visual_seconds':2.60,
++           'files':[{'path':path.relative_to(ROOT).as_posix(),'bytes':path.stat().st_size,
++                     'sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'seconds':len(x)/RATE,
++                     'sample_rate':RATE,'channels':1,'peak':float(np.max(np.abs(pcm))/32768)}]}
++    receipt=ROOT/'verification/black_hole_material_v2_audio_assets_2026-10-18.json';assert not receipt.exists()
++    receipt.write_text(json.dumps(value,indent=2)+'\n',encoding='utf-8');print(json.dumps(value))
++
++
++if __name__=='__main__':
++    main()
+
+--- /dev/null
++++ after/assets/vfx/black_hole/GENERATION_PROMPT_V2.txt
+@@ -0,0 +1,4 @@
++Built-in image_gen; new transparent asset generation, 2026-10-18.
++Original generated bytes copied to the project without pixel edits.
++
++Use case: stylized-concept. Asset type: one production-ready transparent PNG sprite for the central BLACK HOLE magical effect in GnomiT, a polished storybook underground match-3 game. Primary request: an unmistakable beautifully illustrated black hole that forms from a vortex of minerals and wind, designed to absorb board gems. Generate ONLY the black-hole core with its accretion ring; individual orbiting rocks and wind will be animated separately in the engine. The centre must be a completely opaque deep near-black round void with a convincing sense of inward depth. Around it, thick dimensional twisting accretion ribbons in violet/indigo and cool cyan, with restrained molten-amber highlights where fire material has mixed in. A dark sculpted inward spiral, sharply readable black mouth, painted luminous rim, layered curved streaks and tiny restrained edge sparks. Rich softly rounded semi-3D storybook game art with real material volume and a clear silhouette, NOT a plain black vector circle or thin wire ring. View almost straight down, slight depth, roughly circular outer silhouette so this sprite can rotate gently in a 2D game. Composition: single isolated centred black-hole sprite, all swirls fit inside canvas with about15percent clean transparent padding on every side, no cropping. Medium: polished hand-painted 3D-looking casual fantasy game effect, crisp detail that remains legible at150px wide. Alpha: genuinely transparent outside the vortex, opaque black centre, smoothly fading alpha only on the outer glow. No background, no environment, no starfield, no board, no text, no UI, no logo, no characters, no detached rocks baked into the sprite, no checkerboard painted into the pixels. No huge white bloom that fills the mouth; black mouth must remain dark.
+
+--- /dev/null
++++ after/assets/vfx/black_hole/MATERIAL_V2_METADATA.json
+@@ -0,0 +1,24 @@
++{
++  "method": "built-in image_gen transparent new asset; exact generated bytes copied without pixel edits",
++  "source": "C:/Users/fruch/.codex/generated_images/01a11973-52a1-7a10-b9c3-69a7fee84ca5/exec-88677270-1b4f-467a-9f01-2b105f2ed1d3.png",
++  "project_path": "assets/vfx/black_hole/black_hole_core_v2.png",
++  "bytes": 1910081,
++  "sha256": "035c8650327cae9c84b8e8b611ce18f6e3b88fedbb46e24de951c218b0b9d6ce",
++  "mode": "RGBA",
++  "size": [
++    1254,
++    1254
++  ],
++  "alpha_range": [
++    0,
++    253
++  ],
++  "center": [
++    0,
++    0,
++    0,
++    252
++  ],
++  "fully_transparent_pixels": 664030,
++  "prompt_path": "assets/vfx/black_hole/GENERATION_PROMPT_V2.txt"
++}
+

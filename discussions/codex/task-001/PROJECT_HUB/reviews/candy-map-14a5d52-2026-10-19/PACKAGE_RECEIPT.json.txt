@@ -1,0 +1,9 @@
+{
+  "path": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\CandyMapReview_14a5d52_2026-10-19\\GNOMIT_CANDY_MAP_SOURCE_REVIEW_14a5d52.zip",
+  "bytes": 1867036,
+  "sha256": "3c3c1e5c0ce6797489e45e28cab9061c40fa2377c00900d11e8efdfd1b8fd32f",
+  "entries": 16,
+  "crc_and_exact_readback": "PASS",
+  "original_source_sha256": "dabf95283ecc96d9168c136585a46f42e2a7df541557f22f5eb7f8bd2fb8a459",
+  "status": "SOURCE_VERIFIED_ART_TARGET_NOT_MET"
+}

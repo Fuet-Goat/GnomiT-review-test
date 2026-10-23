@@ -1,0 +1,334 @@
+{
+  "native": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\Gnome_Rig_R3_Separated_Sleeve_2026-10-23\\native\\GNOME_R3_SEPARATED_SLEEVE_A.blend",
+  "expected_sha256": "0335bcc275bfbc8e3b7d3ea43bde2fad6c8ece5281a750007290ef154ac8bffc",
+  "measurements": {
+    "status": "NUMERICAL_CHECKS_PASSED_VISUAL_REVIEW_PENDING",
+    "samples": [
+      {
+        "frame": 1,
+        "feet_max_vertex_delta_world": 0.0,
+        "sleeve_edge_ratio_min": 1.0,
+        "sleeve_edge_ratio_max": 1.0,
+        "evaluated_cuff_surface_centroid_world": [
+          -0.3492056131362915,
+          -0.09299855679273605,
+          0.6908865571022034
+        ],
+        "cuff_forearm_tracking_error_world": 5.21540641784668e-08,
+        "torso_patch_max_vertex_delta_world": 0.0,
+        "torso_patch_max_face_centroid_delta_world": 0.0
+      },
+      {
+        "frame": 37,
+        "feet_max_vertex_delta_world": 0.0,
+        "sleeve_edge_ratio_min": 0.7147014977983205,
+        "sleeve_edge_ratio_max": 1.7118777388276774,
+        "evaluated_cuff_surface_centroid_world": [
+          -0.40273603796958923,
+          -0.09299856424331665,
+          0.7746177911758423
+        ],
+        "cuff_forearm_tracking_error_world": 7.957833959352189e-07,
+        "torso_patch_max_vertex_delta_world": 0.0021131069735754156,
+        "torso_patch_max_face_centroid_delta_world": 0.00210018924681941
+      },
+      {
+        "frame": 55,
+        "feet_max_vertex_delta_world": 0.0,
+        "sleeve_edge_ratio_min": 0.5717154876369276,
+        "sleeve_edge_ratio_max": 2.1522910528507477,
+        "evaluated_cuff_surface_centroid_world": [
+          -0.41476067900657654,
+          -0.09299846738576889,
+          0.8797866702079773
+        ],
+        "cuff_forearm_tracking_error_world": 1.4907865208320868e-06,
+        "torso_patch_max_vertex_delta_world": 0.004240988673551475,
+        "torso_patch_max_face_centroid_delta_world": 0.004213061675811682
+      },
+      {
+        "frame": 73,
+        "feet_max_vertex_delta_world": 0.0,
+        "sleeve_edge_ratio_min": 0.5729121283360217,
+        "sleeve_edge_ratio_max": 2.1483598962278925,
+        "evaluated_cuff_surface_centroid_world": [
+          -0.41683247685432434,
+          -0.09299854934215546,
+          0.8695862889289856
+        ],
+        "cuff_forearm_tracking_error_world": 1.3235217747561134e-06,
+        "torso_patch_max_vertex_delta_world": 0.0015429591572666136,
+        "torso_patch_max_face_centroid_delta_world": 0.0015349880283496548
+      },
+      {
+        "frame": 91,
+        "feet_max_vertex_delta_world": 0.0,
+        "sleeve_edge_ratio_min": 0.6058994150282822,
+        "sleeve_edge_ratio_max": 2.041905606612116,
+        "evaluated_cuff_surface_centroid_world": [
+          -0.4176012873649597,
+          -0.09299851953983307,
+          0.8665000796318054
+        ],
+        "cuff_forearm_tracking_error_world": 1.175965050277046e-06,
+        "torso_patch_max_vertex_delta_world": 0.002179944802418683,
+        "torso_patch_max_face_centroid_delta_world": 0.002167133239134533
+      },
+      {
+        "frame": 109,
+        "feet_max_vertex_delta_world": 0.0,
+        "sleeve_edge_ratio_min": 0.6822066758444927,
+        "sleeve_edge_ratio_max": 1.8074648065499561,
+        "evaluated_cuff_surface_centroid_world": [
+          -0.41423988342285156,
+          -0.09299852699041367,
+          0.8151543140411377
+        ],
+        "cuff_forearm_tracking_error_world": 1.3018703734983618e-06,
+        "torso_patch_max_vertex_delta_world": 0.002914590108398185,
+        "torso_patch_max_face_centroid_delta_world": 0.002896208332741308
+      },
+      {
+        "frame": 145,
+        "feet_max_vertex_delta_world": 0.0,
+        "sleeve_edge_ratio_min": 1.0,
+        "sleeve_edge_ratio_max": 1.0,
+        "evaluated_cuff_surface_centroid_world": [
+          -0.3492056131362915,
+          -0.09299855679273605,
+          0.6908865571022034
+        ],
+        "cuff_forearm_tracking_error_world": 5.21540641784668e-08,
+        "torso_patch_max_vertex_delta_world": 0.0,
+        "torso_patch_max_face_centroid_delta_world": 0.0
+      }
+    ],
+    "evaluated_mesh_closure": {
+      "R2_ContinuousCoat": {
+        "vertices": 26444,
+        "faces": 26297,
+        "boundary_edges": 292,
+        "wire_edges": 0,
+        "overfull_edges": 0
+      },
+      "R2_OneSweptBeard": {
+        "vertices": 51714,
+        "faces": 51712,
+        "boundary_edges": 0,
+        "wire_edges": 0,
+        "overfull_edges": 0
+      },
+      "R2 moustache -1": {
+        "vertices": 3138,
+        "faces": 3136,
+        "boundary_edges": 0,
+        "wire_edges": 0,
+        "overfull_edges": 0
+      },
+      "R2 moustache 1": {
+        "vertices": 3138,
+        "faces": 3136,
+        "boundary_edges": 0,
+        "wire_edges": 0,
+        "overfull_edges": 0
+      },
+      "R2 smile": {
+        "vertices": 2114,
+        "faces": 2112,
+        "boundary_edges": 0,
+        "wire_edges": 0,
+        "overfull_edges": 0
+      },
+      "R1_FoldedCapBand": {
+        "vertices": 2690,
+        "faces": 2688,
+        "boundary_edges": 0,
+        "wire_edges": 0,
+        "overfull_edges": 0
+      },
+      "R2 broad folded collar -1": {
+        "vertices": 282,
+        "faces": 280,
+        "boundary_edges": 0,
+        "wire_edges": 0,
+        "overfull_edges": 0
+      },
+      "R2 broad folded collar 1": {
+        "vertices": 282,
+        "faces": 280,
+        "boundary_edges": 0,
+        "wire_edges": 0,
+        "overfull_edges": 0
+      },
+      "R2 trouser -1": {
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "wire_edges": 0,
+        "overfull_edges": 0
+      },
+      "R1_Boot_-1": {
+        "vertices": 13712,
+        "faces": 13710,
+        "boundary_edges": 0,
+        "wire_edges": 0,
+        "overfull_edges": 0
+      },
+      "R2 curved sole -1": {
+        "vertices": 2690,
+        "faces": 2688,
+        "boundary_edges": 0,
+        "wire_edges": 0,
+        "overfull_edges": 0
+      },
+      "R2 trouser 1": {
+        "vertices": 610,
+        "faces": 640,
+        "boundary_edges": 0,
+        "wire_edges": 0,
+        "overfull_edges": 0
+      },
+      "R1_Boot_1": {
+        "vertices": 13712,
+        "faces": 13710,
+        "boundary_edges": 0,
+        "wire_edges": 0,
+        "overfull_edges": 0
+      },
+      "R2 curved sole 1": {
+        "vertices": 2690,
+        "faces": 2688,
+        "boundary_edges": 0,
+        "wire_edges": 0,
+        "overfull_edges": 0
+      },
+      "R2_OpenInvitationHand": {
+        "vertices": 13356,
+        "faces": 13354,
+        "boundary_edges": 0,
+        "wire_edges": 0,
+        "overfull_edges": 0
+      },
+      "R2_LanternGripHand": {
+        "vertices": 12064,
+        "faces": 12068,
+        "boundary_edges": 0,
+        "wire_edges": 0,
+        "overfull_edges": 0
+      },
+      "R1_LanternBlockout": {
+        "vertices": 96,
+        "faces": 98,
+        "boundary_edges": 0,
+        "wire_edges": 0,
+        "overfull_edges": 0
+      },
+      "R2 lantern handle": {
+        "vertices": 4162,
+        "faces": 4160,
+        "boundary_edges": 0,
+        "wire_edges": 0,
+        "overfull_edges": 0
+      },
+      "R3_OneFoldStorybookCap": {
+        "vertices": 66050,
+        "faces": 66048,
+        "boundary_edges": 0,
+        "wire_edges": 0,
+        "overfull_edges": 0
+      },
+      "R4_ContinuousFacialPlanes": {
+        "vertices": 205872,
+        "faces": 205866,
+        "boundary_edges": 0,
+        "wire_edges": 0,
+        "overfull_edges": 0
+      },
+      "R4 inset eye -1": {
+        "vertices": 922,
+        "faces": 960,
+        "boundary_edges": 0,
+        "wire_edges": 0,
+        "overfull_edges": 0
+      },
+      "R4 pupil -1": {
+        "vertices": 922,
+        "faces": 960,
+        "boundary_edges": 0,
+        "wire_edges": 0,
+        "overfull_edges": 0
+      },
+      "R4 soft brow -1": {
+        "vertices": 2354,
+        "faces": 2352,
+        "boundary_edges": 0,
+        "wire_edges": 0,
+        "overfull_edges": 0
+      },
+      "R4 inset eye 1": {
+        "vertices": 922,
+        "faces": 960,
+        "boundary_edges": 0,
+        "wire_edges": 0,
+        "overfull_edges": 0
+      },
+      "R4 pupil 1": {
+        "vertices": 922,
+        "faces": 960,
+        "boundary_edges": 0,
+        "wire_edges": 0,
+        "overfull_edges": 0
+      },
+      "R4 soft brow 1": {
+        "vertices": 2354,
+        "faces": 2352,
+        "boundary_edges": 0,
+        "wire_edges": 0,
+        "overfull_edges": 0
+      },
+      "R3_RightTorsoPatch": {
+        "vertices": 297,
+        "faces": 263,
+        "boundary_edges": 49,
+        "wire_edges": 0,
+        "overfull_edges": 0
+      },
+      "R3_RightSleeve": {
+        "vertices": 3506,
+        "faces": 3504,
+        "boundary_edges": 0,
+        "wire_edges": 0,
+        "overfull_edges": 0
+      }
+    },
+    "weights": {
+      "R3_RightSleeve": {
+        "allowed_bones": [
+          "forearm.R",
+          "upperarm.R"
+        ],
+        "vertices": 888,
+        "centreline_length_local": 0.3899133682983958,
+        "maximum_adjacent_ring_weight_step": 0.1694490909576416
+      },
+      "R3_RightTorsoPatch": {
+        "allowed_bones": [
+          "Chest",
+          "Root"
+        ],
+        "vertices": 297
+      }
+    },
+    "feet_max_vertex_delta_world": 0.0,
+    "root_driver_max_matrix_delta": 0.0,
+    "separate_sleeve_topology": true,
+    "evaluated_cuff_surface_vertex_count": 258,
+    "old_coat_evaluated_faces_remaining_in_cut_region": 0,
+    "source_bone_and_action_preservation": "CHECK_SEPARATELY_AGAINST_BUILD_BASELINE",
+    "shoulder_cap_coverage": "VISUAL_UNKNOWN_FRONT_THREE_QUARTER_SIDE_REQUIRED",
+    "underarm_clearance": "VISUAL_UNKNOWN_NO_BOUNDING_BOX_VERDICT"
+  },
+  "status": "NUMERICAL_PASS_VISUAL_ACCEPTANCE_PENDING",
+  "native_sha256_after": "0335bcc275bfbc8e3b7d3ea43bde2fad6c8ece5281a750007290ef154ac8bffc",
+  "native_bytes_unchanged": true
+}

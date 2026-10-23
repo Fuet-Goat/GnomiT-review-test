@@ -1,0 +1,63 @@
+{
+  "document_type": "ACTUAL_REVIEW_PROVENANCE",
+  "template": false,
+  "task_date": "2026-10-20 Europe/Sofia",
+  "contribution": "Review capture and documentation, no game code/art/sound edits",
+  "input_commit": "f9864651015b5b57f94c439d311f03408fab4446",
+  "source_game_package": {
+    "commit": "f9864651015b5b57f94c439d311f03408fab4446",
+    "package_path": "discussions/codex/task-001/PROJECT_HUB/builds/native-mine-campaign-tutorial-2026-10-20/NATIVE_PROJECT_PACKAGE.base64.txt",
+    "bytes": 59743347,
+    "sha256": "3853c032565c3d4d2c087dd6f50eb76ab8c12e4f2b95b01904042f9e7e260e28",
+    "verified_entries": 438,
+    "contents": "Runnable current v001, assets/audio, editable native Blender source and original provenance"
+  },
+  "assistant": "Codex; exact model/effort NOT_MEASURED",
+  "new_screenshots": {
+    "creation": "Native Godot4.7.2 viewport renders of existing game",
+    "scripts": [
+      "capture_campaign_review.gd",
+      "capture_power_review.gd"
+    ],
+    "script_sha256": {
+      "capture_campaign_review.gd": "87def71b0b76fbfaf82ac6a6ff3fd27443b947bc10d5c69378ba7cde67da89a7",
+      "capture_power_review.gd": "c3673a169e08f4b9e90ed438c1ae4059f7f014410d1c913de72ce78cff7aaa81"
+    },
+    "campaign_seed": 1,
+    "power_fixture_seed": 42,
+    "human_playtest": false,
+    "image_generation_tool_used": false,
+    "material_origin": "Existing pinned game assets; this capture does not change their original provenance or terms"
+  },
+  "videos": {
+    "creation": "Actual Godot MovieMaker AVI, existing FFmpeg H264 transcode",
+    "fps": 30,
+    "audio": "silent/muted",
+    "raw_identity": "VIDEOS.json"
+  },
+  "overview": {
+    "creation": "Pillow resize/layout of twelve original screenshots for navigation only",
+    "originals_kept": true
+  },
+  "copied_audio_and_source": {
+    "creation": "Byte copies from current game",
+    "inherited_origin_documents": "source_current/docs plus game package authoring/PROVENANCE.txt",
+    "licence_and_attribution_verification": "NOT_REASSESSED; unresolved original-asset lineage/licence evidence must not be replaced by this handoff"
+  },
+  "rebuild_review": [
+    "Use existing Godot4.7.2 with the pinned project --path and external capture scripts. Each expects a new evidence directory.",
+    "Run with --resolution 432x960 --fixed-fps 30 --write-movie NEW.avi. Campaign capture uses an isolated save and deletes it on completion.",
+    "Transcode native AVI with existing FFmpeg: -an -c:v libx264 -crf 20 -pix_fmt yuv420p -movflags +faststart.",
+    "build_review.py uses Python/Pillow for gallery/catalog/package; DOWNLOAD_REVIEW.py only requires Python standard library and never runs game code."
+  ],
+  "rebuild_example": "Godot --path PINNED_GAME --script ABSOLUTE_CAPTURE_SCRIPT.gd --resolution 432x960 --fixed-fps 30 --write-movie NEW.avi",
+  "rebuild_example_note": "The capture scripts are bound to their original evidence directories; use a new directory when reproducing.",
+  "tools": {
+    "python": "3.12.14",
+    "Godot": "4.7.2 stable",
+    "FFmpeg": "existing v7.1 binary",
+    "Pillow": "12.3.0"
+  },
+  "copyright_or_exclusive_ownership_guarantee": false,
+  "new_third_party_content_imported_into_game": false
+}

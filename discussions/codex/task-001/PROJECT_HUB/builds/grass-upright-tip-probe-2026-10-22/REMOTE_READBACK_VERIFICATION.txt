@@ -1,0 +1,24 @@
+ACTUAL REMOTE DELIVERY —2026-10-22
+Artifact commit:2968b846505051a377c3831ed7e43ebdb8036b4f
+Branch:codex/codex/task-001. No merge/main/grant changes.
+
+Downloaded exact-commit receipt and all8real Base64 parts. Checked part bytes,
+hashes,strict Base64,decoded-part hashes,ZIP bytes/hash/CRC/safe exact entries,
+all25file hashes before extraction and again after extraction. Result:PASS.
+
+ZIP:GNOMIT_GRASS_UPRIGHT_TIP_PROBE_2026-10-22.zip
+Bytes:44400911
+SHA256:d131fdda77f04133f6d9032d2567f30043b5c0721af3ec95f5a8961a8e29ce59
+Entries:25
+
+Downloaded D opened in fresh Blender5.2.2 LTS with --factory-startup and
+--disable-autoexec. No downloaded script executed. Checked124725vertices,
+78674faces,7590leaves,2559tufts,5packed images,no linked libraries.
+No native save;exit0. NativeSHA before/after:
+290b34b6f36f0c0358b963e9a3a001ef6106eca8427aecedeaf7e696f44832c2
+
+Internal source review found no implementation blocker. Clarification:
+angles_or_randomness_changed=False in raw receipt means horizontal fan/azimuth
+and randomness only. Vertical inclination changes intentionally.
+Human art choice PENDING. No Godot/Android/performance/game acceptance inferred.
+Current selector unchanged;v014 remains the active game. D is a native probe.

@@ -1,0 +1,57 @@
+GNOMIT — RELEASE CHECKLIST ЗА GOOGLE PLAY / 19.10.2026
+Състояние: НЕ Е ИЗПЪЛНЕН ЗА КРАЕН ANDROID БИЛД.
+
+1. ЕДНА ТОЧНА ВЕРСИЯ
+Определи repository/commit, работеща интеграция, engine/export template версия,
+package ID и конкретния asset manifest. Отделни labs не са общ Android release.
+Безплатно/платено изтегляне, ads и IAP са отделни решения; не ги предполагай.
+
+2. ASSET РЕГИСТЪР
+Всеки включен media/font/model/code asset има exact hash, input-и, source,
+tool/provider/date, лиценз/право и задължения. Runtime captures/reference images
+се преглеждат отделно, ако ще има public Git, трейлър или store screenshots.
+UNKNOWN се разрешава с доказателство, изключване от конкретния билд или нов
+приет заместител. Не обявявай целия архив за лицензиран след една подмяна.
+
+3. ИЗВЕСТНИ ЧУЖДИ СЕМПЛИ
+Вътрешна release политика: SHA групите в audit/audio/replacement_required.csv
+не се включват без доказани нужни права. Предложените нови аудио кандидати са
+отделни и не са интегрирани/прослушани от собственика. Свери и производните,
+особено magma impact, не само Volcano eruption body.
+
+4. PROVIDER / АВТОРСКИ ПРАВА
+Установи приложимите условия за конкретните OpenAI/Grok output-и и input-и.
+Запази версия/дата на условията и отговорите от доставчика, ако има неяснота.
+За Grok: SuperGrok е потвърден текущ план; конкретните исторически feature/date
+records и достатъчността на Credits за code-to-asset остават за проверка.
+За човешки автор: документирай придобитите права. Credits не замества договора.
+AI договорно output ownership не доказва изключителна copyright закрила.
+
+5. SOURCE И ЗАВИСИМОСТИ
+Godot game code, exported assets и published bpy scripts са различни обекти.
+Реши лицензите на вече публикуваните bpy scripts конкретно, без автоматично
+GPL-ване на цялата игра и без фалшиво приписване на авторство.
+Описани са authoring/runtime зависимости и точните notices. Nunito Sans OFL е
+намерен до файла; провери реалния export да го запазва. Подготвените Godot
+notices са от desktop engine; Android template проверката остава отделна.
+
+6. GOOGLE PLAY
+Провери final AAB: действителни assets/notices, permissions, SDKs и network/data
+поведение. Прочит на source без SDK hooks не доказва съдържанието на бъдещия AAB.
+Google изисква права за third-party материали и при безплатно разпространение.
+Подготви точни Data safety и достъпна privacy policy; актуалната Play User Data
+policy ги изисква и за приложения без достъп до personal/sensitive data.
+Не попълвай „не събира данни“ преди проверката на избрания Android билд/SDKs.
+Content rating/target audience, ads/IAP declarations, developer verification,
+testing/target API и store listing се проверяват за акаунта при реален release.
+Play Console/signing/backups остават под контрола на собственика.
+
+7. ПРИЕМАНЕ И ПОДДРЪЖКА
+Отделни решения: техническа проверка; човешко визуално/слухово приемане;
+лицензи/входни права; store готовност. Текущият audit не затваря последните.
+При нов asset/tool/SDK/provider или промяна на версия/условията актуализирай
+само засегнатите редове и преди следващ release сверявай целия exact manifest.
+Одитът сега намалява риска от преработка; не гарантира липса на бъдещи промени
+по изискванията на магазина, договорите, сигурността или самата игра.
+
+Първични източници: evidence/LEGAL_SOURCES.json.

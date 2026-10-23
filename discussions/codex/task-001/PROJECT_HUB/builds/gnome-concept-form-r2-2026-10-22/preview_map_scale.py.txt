@@ -1,0 +1,211 @@
+"""Render a temporary R2 placement in the unchanged M4 map; never save that map.
+
+Run in a separate Blender process. Optional candidate path follows ``--``.
+Only the comparison PNGs and a JSON receipt are written.
+"""
+from __future__ import annotations
+
+import hashlib
+import json
+import math
+from pathlib import Path
+import sys
+
+import bpy
+from mathutils import Vector
+
+
+ROOT = Path(__file__).resolve().parents[1]
+WORLD = Path("C:/Users/fruch/Documents/Codex/GnomiT_Playtests/Gnome_Form_M_2026-10-22/native/GNOME_FORM_M4.blend")
+EXPECTED_WORLD_SHA256 = "71b3f6d87cb689447adc25ac55a99c8d68a6006e6b8a12970e37592ea7f9bd21"
+OUTPUT = ROOT / "outputs"
+RECEIPT = ROOT / "documentation" / "MAP_SCALE_RECEIPT.json"
+
+
+def sha256(path):
+    digest = hashlib.sha256()
+    with Path(path).open("rb") as stream:
+        for block in iter(lambda: stream.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
+def plain(value):
+    if value is None or isinstance(value, (str, int, float, bool)):
+        return value
+    if isinstance(value, bpy.types.ID):
+        return {"id_type": value.bl_rna.identifier, "name": value.name}
+    try:
+        return [plain(item) for item in value]
+    except TypeError:
+        return str(value)
+
+
+def tree_record(tree):
+    if tree is None:
+        return None
+    nodes = []
+    for node in sorted(tree.nodes, key=lambda n: n.name):
+        item = {"name": node.name, "type": node.bl_idname,
+                "inputs": [{"name": socket.name, "identifier": socket.identifier,
+                            "value": plain(socket.default_value)}
+                           for socket in node.inputs if hasattr(socket, "default_value")]}
+        if hasattr(node, "color_ramp"):
+            item["ramp"] = [[element.position, list(element.color)]
+                            for element in node.color_ramp.elements]
+        nodes.append(item)
+    return {"nodes": nodes, "links": sorted([
+        [link.from_node.name, link.from_socket.identifier,
+         link.to_node.name, link.to_socket.identifier] for link in tree.links])}
+
+
+def matrix_record(matrix):
+    return [list(row) for row in matrix]
+
+
+def presentation_record(scene):
+    """Fingerprint the map's original camera, every light, and world settings."""
+    camera = scene.camera
+    assert camera is not None, "The source map has no active camera"
+    camera_data = camera.data
+    camera_record = {"name": camera.name, "matrix_world": matrix_record(camera.matrix_world),
+                     "hide_render": camera.hide_render,
+                     "settings": {key: plain(getattr(camera_data, key)) for key in
+                                  ("type", "lens", "ortho_scale", "shift_x", "shift_y",
+                                   "clip_start", "clip_end", "sensor_width", "sensor_height")}}
+    lights = []
+    for obj in sorted((obj for obj in scene.objects if obj.type == "LIGHT"), key=lambda o: o.name):
+        data = obj.data
+        lights.append({"name": obj.name, "matrix_world": matrix_record(obj.matrix_world),
+                       "hide_render": obj.hide_render,
+                       "settings": {key: plain(getattr(data, key)) for key in
+                                    ("type", "energy", "color", "size", "size_y", "shape",
+                                     "angle", "spot_size", "spot_blend", "use_shadow")
+                                    if hasattr(data, key)},
+                       "nodes": tree_record(data.node_tree)})
+    world = scene.world
+    return {"camera": camera_record, "lights": lights,
+            "world": None if world is None else {
+                "name": world.name, "color": list(world.color), "use_nodes": world.use_nodes,
+                "nodes": tree_record(world.node_tree)},
+            "color_management": {key: plain(getattr(scene.view_settings, key)) for key in
+                                 ("view_transform", "look", "exposure", "gamma")}}
+
+
+def hierarchy(root):
+    return [root, *root.children_recursive]
+
+
+def evaluated_bounds(objects):
+    bpy.context.view_layer.update()
+    graph = bpy.context.evaluated_depsgraph_get()
+    points = []
+    for obj in objects:
+        if obj.type != "MESH":
+            continue
+        evaluated = obj.evaluated_get(graph)
+        points.extend(evaluated.matrix_world @ Vector(corner) for corner in evaluated.bound_box)
+    assert points, "No evaluated mesh geometry in character hierarchy"
+    low = [min(point[axis] for point in points) for axis in range(3)]
+    high = [max(point[axis] for point in points) for axis in range(3)]
+    assert high[2] > low[2], "Character has zero evaluated height"
+    return {"min": low, "max": high, "height": high[2] - low[2],
+            "bottom_center": [(low[0] + high[0]) / 2, (low[1] + high[1]) / 2, low[2]]}
+
+
+def render(scene, filename):
+    scene.render.resolution_x = 432
+    scene.render.resolution_y = 960
+    scene.render.resolution_percentage = 100
+    scene.render.image_settings.file_format = "PNG"
+    scene.render.filepath = str(OUTPUT / filename)
+    bpy.ops.render.render(write_still=True)
+
+
+def main():
+    args = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
+    candidate = Path(args[0]).resolve() if args else ROOT / "native" / "GNOME_R2_FORM_A.blend"
+    assert candidate.is_file(), f"Candidate not found: {candidate}"
+    assert WORLD.is_file(), f"Source map not found: {WORLD}"
+    original_hash = sha256(WORLD)
+    assert original_hash == EXPECTED_WORLD_SHA256, "Source map SHA-256 mismatch"
+    candidate_hash = sha256(candidate)
+    OUTPUT.mkdir(parents=True, exist_ok=True)
+    RECEIPT.parent.mkdir(parents=True, exist_ok=True)
+    bpy.ops.wm.open_mainfile(filepath=str(WORLD))
+    scene = bpy.context.scene
+    scene.frame_set(1)
+    original_root = scene.objects.get("Guide_Root")
+    assert original_root is not None, "Source Guide_Root missing"
+    old_objects = hierarchy(original_root)
+    assert not any(obj.type in {"LIGHT", "CAMERA"} for obj in old_objects), \
+        "Guide contains a camera/light: hiding it would change protected presentation"
+    old_bbox = evaluated_bounds(old_objects)
+    presentation_before = presentation_record(scene)
+    render(scene, "MAP_BASELINE.png")
+
+    assert "R2_NEW_GNOME" not in bpy.data.collections, "Unexpected R2 collection in source map"
+    with bpy.data.libraries.load(str(candidate), link=False) as (available, requested):
+        assert "R2_NEW_GNOME" in available.collections, "Candidate collection missing"
+        requested.collections = ["R2_NEW_GNOME"]
+    collection = requested.collections[0]
+    scene.collection.children.link(collection)
+    collection.hide_render = False
+    collection.hide_viewport = False
+    candidate_objects = list(collection.all_objects)
+    assert not any(obj.type in {"LIGHT", "CAMERA"} for obj in candidate_objects), \
+        "Candidate collection must contain the character only"
+    root = next((obj for obj in candidate_objects if obj.name == "R2_GnomeRoot"), None)
+    assert root is not None and root.parent is None, "Candidate root missing or has an external parent"
+    new_objects = hierarchy(root)
+    assert all(obj in new_objects for obj in candidate_objects if obj.type == "MESH"), \
+        "Candidate contains meshes outside its root hierarchy"
+    for obj in new_objects:
+        obj.hide_render = False
+    bpy.context.view_layer.update()
+    unscaled_bbox = evaluated_bounds(new_objects)
+    scale_factor = old_bbox["height"] / unscaled_bbox["height"]
+    assert math.isfinite(scale_factor) and scale_factor > 0
+    original_scale = list(root.scale)
+    root.scale = tuple(component * scale_factor for component in root.scale)
+    scaled_bbox = evaluated_bounds(new_objects)
+    translation = Vector(old_bbox["bottom_center"]) - Vector(scaled_bbox["bottom_center"])
+    root.matrix_world.translation += translation
+    final_bbox = evaluated_bounds(new_objects)
+    assert abs(final_bbox["height"] - old_bbox["height"]) < 1e-5, "Height placement mismatch"
+    assert max(abs(a - b) for a, b in zip(final_bbox["bottom_center"], old_bbox["bottom_center"])) < 1e-5, \
+        "Foot-bottom bbox alignment mismatch"
+    old_hidden_state = {obj.name: obj.hide_render for obj in old_objects}
+    for obj in old_objects:
+        obj.hide_render = True
+    assert presentation_record(scene) == presentation_before, "Map camera/lights/world changed"
+    render(scene, "R2_MAP_SCALE.png")
+    presentation_after = presentation_record(scene)
+    assert presentation_after == presentation_before, "Map presentation changed during rendering"
+    final_source_hash = sha256(WORLD)
+    assert final_source_hash == original_hash, "Source map bytes changed"
+    assert sha256(candidate) == candidate_hash, "Candidate bytes changed"
+    receipt = {"status": "NATIVE_MAP_SCALE_RENDER_ONLY", "frame": 1,
+               "source_world": str(WORLD), "source_sha256_before": original_hash,
+               "source_sha256_after": final_source_hash, "candidate": str(candidate),
+               "candidate_sha256": candidate_hash, "old_evaluated_bbox": old_bbox,
+               "candidate_evaluated_bbox_before": unscaled_bbox,
+               "candidate_evaluated_bbox_after": final_bbox,
+               "uniform_scale_multiplier": scale_factor, "root_scale_before": original_scale,
+               "root_scale_after": list(root.scale), "root_world_location": list(root.matrix_world.translation),
+               "root_world_translation_delta": list(translation),
+               "alignment_rule": "evaluated mesh bbox bottom-center XY and minZ; equal height",
+               "original_guide_hide_render_before": old_hidden_state,
+               "original_guide_hidden_object_names": [obj.name for obj in old_objects],
+               "camera_lights_world_preserved": True,
+               "presentation_before": presentation_before, "presentation_after": presentation_after,
+               "resolution": [432, 960], "world_blend_saved": False,
+               "game_integration": False, "human_visual_acceptance": "NOT_MEASURED",
+               "renders": ["MAP_BASELINE.png", "R2_MAP_SCALE.png"]}
+    RECEIPT.write_bytes((json.dumps(receipt, indent=2, ensure_ascii=False) + "\n").encode("utf-8"))
+    print(json.dumps({"receipt": str(RECEIPT), "source_unchanged": True,
+                      "old_height": old_bbox["height"], "new_height": final_bbox["height"]}))
+
+
+if __name__ == "__main__":
+    main()

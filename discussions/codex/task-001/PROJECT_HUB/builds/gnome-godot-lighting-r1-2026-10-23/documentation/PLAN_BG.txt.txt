@@ -1,0 +1,2 @@
+Само Godot Lighting R1. Приети R4/M2/RigR3/GLB/controls се пазят. Еднакъв GLB, shaders, textures, animation, full/detail cameras, viewport. Малка осветителна A/B проба със среда/key/fill/rim/сенки и отражения. Без rebake, geometry, weights, blink или Android оптимизация.
+Кадри: rest0s, peak2.25s; face crop от еднакъв full кадър; map scale по проверен документ. Сравнение с M2 Blender и стария Godot baseline. Довършване: движение на избран светлинен кандидат; проверка на immutable hashes и controls; ZIP/Git handoff; човекът избира визуалния резултат.

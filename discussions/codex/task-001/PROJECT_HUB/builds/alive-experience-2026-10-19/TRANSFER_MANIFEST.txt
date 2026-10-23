@@ -1,0 +1,191 @@
+{
+  "schema_version": 1,
+  "topic": "ALIVE_EXPERIENCE_PILOT_2026-10-19",
+  "encoding": "base64 RFC4648; ASCII with line breaks; concatenate/decode bytes, never retype",
+  "source_project": "Full isolated application source ZIP; imported .godot cache excluded",
+  "runtime_authority": "Local implementation explicitly authorized; Git attachments remain text under own REPORTS_ONLY root",
+  "files": [
+    {
+      "name": "GNOMIT_ALIVE_EXPERIENCE_PROJECT_V2.zip",
+      "source_path": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\AliveExperience_2026-10-19_HANDOFF\\GNOMIT_ALIVE_EXPERIENCE_PROJECT_V2.zip",
+      "bytes": 46859613,
+      "sha256": "ad0d7711487f21fff6c947687e5f3ac506c4997d00ad334d1bb8569fb5f83838",
+      "parts": [
+        {
+          "order": 0,
+          "path": "00_GNOMIT_ALIVE_EXPERIENCE_PROJECT_V2.zip.part001.b64.txt",
+          "bytes": 4264210,
+          "sha256": "457a0b16cd73972a83d5feb112f10099902ef2bfa77b1cc78fa9b8fdfad1a5f0"
+        },
+        {
+          "order": 1,
+          "path": "00_GNOMIT_ALIVE_EXPERIENCE_PROJECT_V2.zip.part002.b64.txt",
+          "bytes": 4264210,
+          "sha256": "779786b62b3052a6aea910cafd0130437ae8a9996b44fabe9ac095556ae3ddf4"
+        },
+        {
+          "order": 2,
+          "path": "00_GNOMIT_ALIVE_EXPERIENCE_PROJECT_V2.zip.part003.b64.txt",
+          "bytes": 4264210,
+          "sha256": "e1f6c25b13ae484ad5239787ff50444bd82f5fd16b71b4d07952c4731dcac30c"
+        },
+        {
+          "order": 3,
+          "path": "00_GNOMIT_ALIVE_EXPERIENCE_PROJECT_V2.zip.part004.b64.txt",
+          "bytes": 4264210,
+          "sha256": "041fb99a75e81f3c87af81938bdc8a8d4b03ea0fddabf0341ce0a8824c7d03f6"
+        },
+        {
+          "order": 4,
+          "path": "00_GNOMIT_ALIVE_EXPERIENCE_PROJECT_V2.zip.part005.b64.txt",
+          "bytes": 4264210,
+          "sha256": "26ed26299a78454242933ae6357ad3bbae1323ed6793c8bd8a782e9a46858cf5"
+        },
+        {
+          "order": 5,
+          "path": "00_GNOMIT_ALIVE_EXPERIENCE_PROJECT_V2.zip.part006.b64.txt",
+          "bytes": 4264210,
+          "sha256": "24c7cd9cc8c828db8aa547557973c94f9539ff5930cd58c342300fb13dded846"
+        },
+        {
+          "order": 6,
+          "path": "00_GNOMIT_ALIVE_EXPERIENCE_PROJECT_V2.zip.part007.b64.txt",
+          "bytes": 4264210,
+          "sha256": "fb57d6317de9e898536ed9b11e3f60284d68088e692cd92b7b6c495e11865348"
+        },
+        {
+          "order": 7,
+          "path": "00_GNOMIT_ALIVE_EXPERIENCE_PROJECT_V2.zip.part008.b64.txt",
+          "bytes": 4264210,
+          "sha256": "4f740cf43bf4d10cbace7357786e3ac6b270b3822883c404f841c77db05c309c"
+        },
+        {
+          "order": 8,
+          "path": "00_GNOMIT_ALIVE_EXPERIENCE_PROJECT_V2.zip.part009.b64.txt",
+          "bytes": 4264210,
+          "sha256": "f257ba156c210f14b1a76f704f0e7f0fef5df4234130d0b07e97b3dffb384598"
+        },
+        {
+          "order": 9,
+          "path": "00_GNOMIT_ALIVE_EXPERIENCE_PROJECT_V2.zip.part010.b64.txt",
+          "bytes": 4264210,
+          "sha256": "2aad341b11272495f7f86a6b11ca87b7330772eef9575afd02b944bf082a1646"
+        },
+        {
+          "order": 10,
+          "path": "00_GNOMIT_ALIVE_EXPERIENCE_PROJECT_V2.zip.part011.b64.txt",
+          "bytes": 4264210,
+          "sha256": "0710bfabd2e441a2db8598cdbecd5c0dbc4964026367bf28a7f08b13d7de56cd"
+        },
+        {
+          "order": 11,
+          "path": "00_GNOMIT_ALIVE_EXPERIENCE_PROJECT_V2.zip.part012.b64.txt",
+          "bytes": 4264210,
+          "sha256": "34e12bdd1033896002e00434cb2b9b06de3ce6bbd2117164a800bf621736b455"
+        },
+        {
+          "order": 12,
+          "path": "00_GNOMIT_ALIVE_EXPERIENCE_PROJECT_V2.zip.part013.b64.txt",
+          "bytes": 4264210,
+          "sha256": "23ba30ccd6346e14aee645ccdf959deea76858b03d3377b1ce8a87a423bad477"
+        },
+        {
+          "order": 13,
+          "path": "00_GNOMIT_ALIVE_EXPERIENCE_PROJECT_V2.zip.part014.b64.txt",
+          "bytes": 4264210,
+          "sha256": "d7308cef74bb3b7d310ebef01da06bea6dbbc610365818c83d8604abd90f7d1d"
+        },
+        {
+          "order": 14,
+          "path": "00_GNOMIT_ALIVE_EXPERIENCE_PROJECT_V2.zip.part015.b64.txt",
+          "bytes": 3821882,
+          "sha256": "b5eec77d44cf01f793514bdbfe007840e0dc04971c22cc888f92f71cbb18bbe8"
+        }
+      ]
+    },
+    {
+      "name": "hero_expressions_v1.png",
+      "source_path": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\AliveExperience_2026-10-19\\assets\\alive\\hero_expressions_v1.png",
+      "bytes": 1557601,
+      "sha256": "3bee14309112a98c7decf3535c00ba0661c3c1dec0b82f9ffc8581ef47143339",
+      "parts": [
+        {
+          "order": 0,
+          "path": "01_hero_expressions_v1.png.b64.txt",
+          "bytes": 2111418,
+          "sha256": "03710c42ec5684ba9bab194b840c7c4b506a22ce7d440beb69f234290724d852"
+        }
+      ]
+    },
+    {
+      "name": "ALIVE_OPENING_FINAL.mp4",
+      "source_path": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\AliveExperience_2026-10-19_HANDOFF\\ALIVE_OPENING_FINAL.mp4",
+      "bytes": 1869619,
+      "sha256": "41513d62a1d9124a2ee27360aa9748783ee062931ef32c17aff46b36fc18dbdc",
+      "parts": [
+        {
+          "order": 0,
+          "path": "02_ALIVE_OPENING_FINAL.mp4.b64.txt",
+          "bytes": 2534376,
+          "sha256": "c284729e587347ee561064782d495766b82dd9fd72abcd60249b36fd9f28bc19"
+        }
+      ]
+    },
+    {
+      "name": "CONTROL_OPENING.mp4",
+      "source_path": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\AliveExperience_2026-10-19_HANDOFF\\CONTROL_OPENING.mp4",
+      "bytes": 1632806,
+      "sha256": "d946d58b93dcc46040855727d87bfdc9e9cf6092aea1ed60cf0dd4e2c8ae197f",
+      "parts": [
+        {
+          "order": 0,
+          "path": "03_CONTROL_OPENING.mp4.b64.txt",
+          "bytes": 2213362,
+          "sha256": "7b9051270e821a59cda798b3d0191d0a3cdfd5a372c3a849363a2bd09659e629"
+        }
+      ]
+    },
+    {
+      "name": "ALIVE_GENUINE_WIN.mp4",
+      "source_path": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\AliveExperience_2026-10-19_HANDOFF\\ALIVE_GENUINE_WIN.mp4",
+      "bytes": 2625406,
+      "sha256": "ff544ebc1da7738159a82005a26256d63cc68bb02f388aaa65be110b0e00763e",
+      "parts": [
+        {
+          "order": 0,
+          "path": "04_ALIVE_GENUINE_WIN.mp4.b64.txt",
+          "bytes": 3558888,
+          "sha256": "ebe500b39e62fa2cabd57107f3b99a4c63dcabbdcede51f2ef183580f2de7a65"
+        }
+      ]
+    },
+    {
+      "name": "01_OPENING_VILLAGE.png",
+      "source_path": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\AliveExperience_2026-10-19_HANDOFF\\alive_opening_final\\01_OPENING_VILLAGE.png",
+      "bytes": 811168,
+      "sha256": "5d3e0904f107523fd3e30ef7a988cd17994ec5b304644be9d02ad2c13f291c38",
+      "parts": [
+        {
+          "order": 0,
+          "path": "05_01_OPENING_VILLAGE.png.b64.txt",
+          "bytes": 1099586,
+          "sha256": "833442e4113def268159665b78eb622c248397393695e61401236496394e38e9"
+        }
+      ]
+    },
+    {
+      "name": "06_ACTUAL_VICTORY.png",
+      "source_path": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\AliveExperience_2026-10-19_HANDOFF\\alive_win\\06_ACTUAL_VICTORY.png",
+      "bytes": 523307,
+      "sha256": "2bf0f8999225b0e0999eb198412716a6811d1f2ea27521c0950be2415213933d",
+      "parts": [
+        {
+          "order": 0,
+          "path": "06_06_ACTUAL_VICTORY.png.b64.txt",
+          "bytes": 709374,
+          "sha256": "560d68afcfeca82ae4bba131f7c7190003334771443a0cc46a00b1c79b3788bc"
+        }
+      ]
+    }
+  ]
+}

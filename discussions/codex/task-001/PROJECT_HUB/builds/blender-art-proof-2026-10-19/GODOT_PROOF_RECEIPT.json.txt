@@ -1,0 +1,15 @@
+{
+	"animated_object_transforms_changed": 21,
+	"animation_clock_advanced": true,
+	"animation_players": 1,
+	"animation_tracks": 441,
+	"frames_at_receipt": 90,
+	"human_art_acceptance": "PENDING",
+	"navigation": "Separate art proof, no campaign navigation or Core loaded",
+	"renderer": "NVIDIA GeForce RTX 5070 Ti",
+	"screen_index": 0,
+	"viewport": [
+		432,
+		960
+	]
+}

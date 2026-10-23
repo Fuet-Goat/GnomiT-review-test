@@ -1,0 +1,44 @@
+{
+  "contribution": "Isolated two-page interactive armoured-diamond teaching prototype",
+  "owner_approved_direction": "ordinary minerals plus visibly protected variants",
+  "specific_damage_recipe": "Codex proposed first candidate, not human accepted or campaign integrated",
+  "new_source": [
+    "scripts/armored_demo_model.gd",
+    "scripts/casing_diagram.gd",
+    "scripts/armored_preview.gd"
+  ],
+  "new_visuals": "Code-native stone ring, crack lines, count badge and stone crumbs; inherited diamond sprite unchanged",
+  "inherited_assets": [
+    {
+      "source": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\BlackHoleVisibleLayers_2026-10-21\\assets\\storybook\\treasures_v4.png",
+      "destination": "assets/treasures_v4.png",
+      "bytes": 2042938,
+      "sha256": "fa58ce349165e6c37d409ad3c7876a5c201ddf7d0723417961ec682b636197e0"
+    },
+    {
+      "source": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\BlackHoleVisibleLayers_2026-10-21\\assets\\font.ttf",
+      "destination": "assets/font.ttf",
+      "bytes": 571240,
+      "sha256": "f934d7142fb4784bf828da485b7dcbd90c0c80d514e9d49a5da0ed3a1ae2491d"
+    }
+  ],
+  "tools": {
+    "Godot": "4.7.2 stable",
+    "implementation": "Codex authored GDScript",
+    "packaging": "Python standard library"
+  },
+  "font_settings": "Inherited variable font wght650 UI/wght700 illustration",
+  "third_party_asset_licence": "Inherited v006 material; exact original atlas/font licence evidence UNKNOWN in this small package; not newly licensed by this record",
+  "no_new_audio": true,
+  "save_writes": false,
+  "campaign_modified": false,
+  "scope_limit": "Illustrative resolved-event model, not real campaign match3 input/resolver. No generic stale-callback guard claimed.",
+  "rebuild": "Godot4.7.2 --headless --path THIS_FOLDER --editor --import --quit; launch project normally.",
+  "viewport": [
+    432,
+    960
+  ],
+  "native_image_count": 5,
+  "human_acceptance": "PENDING",
+  "android_performance": "NOT_MEASURED"
+}

@@ -1,0 +1,251 @@
+{
+  "schema_version": 1,
+  "kind": "EXACT_REFERENCE_AND_SELECTED_SOURCE_HANDOFF",
+  "files": [
+    {
+      "path": "BLENDER_SOURCE_SELECTED/BUILD_RECEIPT.json",
+      "bytes": 4628,
+      "sha256": "29ea95caf79f9b44939802c0a2226421446f993c4d068d56ffca528678c6aec3"
+    },
+    {
+      "path": "BLENDER_SOURCE_SELECTED/OUTPUT_MANIFEST.json",
+      "bytes": 3308,
+      "sha256": "b3e5ce2f244cc70a522537572b4b2355d7c61aa732ff75548119ee2578c8f662"
+    },
+    {
+      "path": "BLENDER_SOURCE_SELECTED/PROVENANCE.json",
+      "bytes": 2238,
+      "sha256": "73ee22c446ac4675c4fb40d0e293ed7e5ae529edf96a7356a09088ca723b9b28"
+    },
+    {
+      "path": "BLENDER_SOURCE_SELECTED/README_BG.txt",
+      "bytes": 364,
+      "sha256": "850f51c0d66ab4e50e9df53c498b3d518423d4b5e645f15265142afbf56be25e"
+    },
+    {
+      "path": "BLENDER_SOURCE_SELECTED/README_FULL_MODEL_LOCATION.txt",
+      "bytes": 320,
+      "sha256": "0215dc77a3001c31a23d4b50325d2e0b1f30b2edc3eef68f1615f5bdd0d9b1a0"
+    },
+    {
+      "path": "BLENDER_SOURCE_SELECTED/SCENE_METADATA.json",
+      "bytes": 21319,
+      "sha256": "b9e65f1ecedbe6e2e516b23d93568468e83cd66cd72e216789eade4cf19c7be3"
+    },
+    {
+      "path": "BLENDER_SOURCE_SELECTED/SETTINGS_USED.json",
+      "bytes": 4882,
+      "sha256": "26a49ff9361949bf6407db05e814a54e3b62d56521e6ed6ffb030e70b9183503"
+    },
+    {
+      "path": "BLENDER_SOURCE_SELECTED/SOURCE/boardwalk.py",
+      "bytes": 9961,
+      "sha256": "f143de084142f171d029de07fdf72c60872bb2a0063946a419a57b6a0ec30333"
+    },
+    {
+      "path": "BLENDER_SOURCE_SELECTED/SOURCE/build_scene.py",
+      "bytes": 11307,
+      "sha256": "2b6ed1094a523dd4fedf203fd7776ef292cd4d142a95aa5540700fa3f7d2a601"
+    },
+    {
+      "path": "BLENDER_SOURCE_SELECTED/SOURCE/environment.py",
+      "bytes": 14066,
+      "sha256": "d99f22500a9aad28818a9618a05a2dc3e88434900e7b8b1d6457da594f2bdfd6"
+    },
+    {
+      "path": "BLENDER_SOURCE_SELECTED/SOURCE/geometry.py",
+      "bytes": 7449,
+      "sha256": "5b4ed5846a26fc46062d8b1c158130625b4eb5d5a2ae8691e9c6f61e9837b130"
+    },
+    {
+      "path": "BLENDER_SOURCE_SELECTED/SOURCE/materials.py",
+      "bytes": 4147,
+      "sha256": "e5c128d943469bf3bf700ac1eac3a5e383ea57f83f1dc713981b8c65eec22cf8"
+    },
+    {
+      "path": "BLENDER_SOURCE_SELECTED/SOURCE/mine.py",
+      "bytes": 9001,
+      "sha256": "df683df2d750b823ba36a0abaf79ea2d6531b366150c4d28cf2e30069549798b"
+    },
+    {
+      "path": "BLENDER_SOURCE_SELECTED/SOURCE/presentation.py",
+      "bytes": 9552,
+      "sha256": "9efaa599772f8485f222dcb93bd089fce111ceeef51f083eb2a6836c8f39eab7"
+    },
+    {
+      "path": "BLENDER_SOURCE_SELECTED/SOURCE/scene_settings.json",
+      "bytes": 4610,
+      "sha256": "8c2ce7a64b8560506413a4fb7bdf69aacf3652e1055cb0e1747bbf4345de19b5"
+    },
+    {
+      "path": "CODEX_DIRECTION_BG.txt",
+      "bytes": 2331,
+      "sha256": "426a6f2f353b86d0a77efa197b591ede38931860589e0429b47de00fb00a231a"
+    },
+    {
+      "path": "EVIDENCE/01_ACTUAL_R3_GODOT_WIP_START.png",
+      "bytes": 392135,
+      "sha256": "eb907dfbce8ef2bc2370bd3ea8704f562c39073547d9dca0dd6a18f94c3c1f5a"
+    },
+    {
+      "path": "EVIDENCE/02_ACTUAL_R3_BLENDER_RENDER.png",
+      "bytes": 584729,
+      "sha256": "164711a1256a44a48a636756476e254e80770aae28a659667e497ad06495bcd7"
+    },
+    {
+      "path": "EVIDENCE/PRIOR_CAPTURE_START.log",
+      "bytes": 464,
+      "sha256": "1fdc36bf48d7ae3d7ee0ca6ddeea4d173a32e2ff57cf7cb80b8ad933e3ddb463"
+    },
+    {
+      "path": "EXISTING_MATERIALS.json.txt",
+      "bytes": 2442,
+      "sha256": "563fd497db4f93fd1e8d9bd6a5aaf0feb02eaba26c69a16ef42250716bb0991d"
+    },
+    {
+      "path": "FINAL_RESPONSE.txt",
+      "bytes": 212,
+      "sha256": "52324af0abb50d3d6c77229da3500883f7fa2ec710d6da4fc55fe68a32ebadca"
+    },
+    {
+      "path": "GNOME_EXTRACTION/EXTRACTION_RECEIPT.json",
+      "bytes": 2330,
+      "sha256": "5f6088a2b66a637a246019ccfd8b506fe26dca9444f6cc0262f56ffd18a3a2e0"
+    },
+    {
+      "path": "GNOME_EXTRACTION/README.txt",
+      "bytes": 2964,
+      "sha256": "fe1a4d0573956dfa3f2aab19a1779883b59d10b167e685a3835b136e2d41d0fa"
+    },
+    {
+      "path": "GNOME_EXTRACTION/source/audit_glb.py",
+      "bytes": 1643,
+      "sha256": "efd12b2648a3b9ee2f15455cb898c0a31f69a39dc28fc5fe44098390be8c17ff"
+    },
+    {
+      "path": "GNOME_EXTRACTION/source/extract_guide.py",
+      "bytes": 3737,
+      "sha256": "7051ed32f6ddd3e4cf86e2246fcd8285bc751e9299d5e7120e6122ad6846246c"
+    },
+    {
+      "path": "GNOME_SELECTED/gnome_guide.glb",
+      "bytes": 2665104,
+      "sha256": "c5abfa4a4688d370966edcebf662e4d4692314ea3ea67f3180b1c5f60e3b9e16"
+    },
+    {
+      "path": "GNOME_SOURCE_SELECTED/build_candidate.py",
+      "bytes": 3029,
+      "sha256": "f9571abbf8911466cc0fe84db561b28e2bc1a1e4523f652e5ce7bff96824098c"
+    },
+    {
+      "path": "GNOME_SOURCE_SELECTED/guide_v5.py",
+      "bytes": 14561,
+      "sha256": "5fd5f763a53b41fdf6fa6e86644b2773e7e2891877a70249ab94660549003a69"
+    },
+    {
+      "path": "GNOME_SOURCE_SELECTED/README_DEPENDENCIES.txt",
+      "bytes": 297,
+      "sha256": "9dd02047ff5dbd75df867578ddfec9808dca5588a01716dd1b3bf7b0dfc4911d"
+    },
+    {
+      "path": "GNOME_SOURCE_SELECTED/volumetric_forms.py",
+      "bytes": 7714,
+      "sha256": "fd440091d0b2dad80d8ea558f7a60981587cd22107bbe48d6e2428d8e863ac2b"
+    },
+    {
+      "path": "GODOT_SOURCE_SELECTED/main.tscn",
+      "bytes": 284,
+      "sha256": "298634778f42d6488cfe1ca49c1146770d710fccad88b967bd36471c301168a2"
+    },
+    {
+      "path": "GODOT_SOURCE_SELECTED/project.godot",
+      "bytes": 952,
+      "sha256": "b7dfe2c11259b448c2add24ecf618d72a46f1e11993e6a276b0a98024954057a"
+    },
+    {
+      "path": "GODOT_SOURCE_SELECTED/README_NOT_A_STANDALONE_PROJECT.txt",
+      "bytes": 353,
+      "sha256": "32de4fa5a4d3fba9c0f92175ed41c12fd69dfa20d2fa7e272eac5bdbd9dd30e7"
+    },
+    {
+      "path": "GODOT_SOURCE_SELECTED/scripts/main.gd",
+      "bytes": 31995,
+      "sha256": "289149fb4d792e948b7939e2864937c68068cd5042b623245449921fbdfdfb63"
+    },
+    {
+      "path": "GODOT_SOURCE_SELECTED/scripts/progress.gd",
+      "bytes": 4151,
+      "sha256": "2d7dce425fb70fe47d07bd14777a957ac2d7e08929a43ef56216b13fba22e501"
+    },
+    {
+      "path": "GODOT_SOURCE_SELECTED/scripts/r3/island_map.gd",
+      "bytes": 15214,
+      "sha256": "d30441cd8d3cdf14e108e65544f814fb20887c534f992da8e4e18f11bd8cff28"
+    },
+    {
+      "path": "GODOT_SOURCE_SELECTED/scripts/r3/island_route.gd",
+      "bytes": 2637,
+      "sha256": "400c50a8b503a39a5dfb7ee1ae118fa853c7b3ffcdafac3fb1b621a6753eddfd"
+    },
+    {
+      "path": "GODOT_SOURCE_SELECTED/scripts/r3/preview_main.gd",
+      "bytes": 976,
+      "sha256": "870aaa28da4e2289e9d99c613cdcf192abc3f4180b125303979eb883bfa82f5c"
+    },
+    {
+      "path": "GODOT_SOURCE_SELECTED/scripts/r3/r3_guide.gd",
+      "bytes": 6906,
+      "sha256": "0a3c6a40a89dadba72d05ca2b6ef6adbb90b00b608e48d3de7e056da650af4c5"
+    },
+    {
+      "path": "HANDOFF_REVIEW.txt",
+      "bytes": 439,
+      "sha256": "165d15c644a381eb925015f96fc7544172401773c02272fec5c060647f4237e2"
+    },
+    {
+      "path": "LAST_IMAGE_EDIT_PROMPT.txt",
+      "bytes": 1498,
+      "sha256": "8057425ebc2b380f1c0aad7f240fb0c488607804e426feb27141000a6e67ec90"
+    },
+    {
+      "path": "PROMPT_FOR_GPT_BG.txt",
+      "bytes": 6432,
+      "sha256": "32d2f30bafb7794649c711c7fe75e8235c19812381b8ab8089aa9efcab9a4754"
+    },
+    {
+      "path": "PROVENANCE.json.txt",
+      "bytes": 2011,
+      "sha256": "5fc0ebe7246d44b665c984ad0067dd863095eaa349a8663232c589e8e85163a6"
+    },
+    {
+      "path": "README.txt",
+      "bytes": 2963,
+      "sha256": "c7d9af1a998b268db7f7372485185d4f5008b4f35236d5b15d9eee13753c196e"
+    },
+    {
+      "path": "REFERENCES/01_TARGET_WARM_MAP_6_LEVELS.png",
+      "bytes": 2269103,
+      "sha256": "38abdf8a8a642090cbdc1d163bbd58582dde3b11ffed5032d563a9a86c51678d"
+    },
+    {
+      "path": "REFERENCES/02_PREVIOUS_WAVING_GNOME_2_MARKERS.png",
+      "bytes": 2326784,
+      "sha256": "6ffdb5ef3f6dbc245498fa5a247ec12a9335e3a5d9ff03549df3fb70b9e49096"
+    },
+    {
+      "path": "REFERENCES/03_PREVIOUS_WARM_MAP_2_MARKERS.png",
+      "bytes": 2436731,
+      "sha256": "672c5f54ed0b8fba2a76ee8f9d4e34d99e000440fa10e733141db07b482b95c4"
+    },
+    {
+      "path": "SOURCE_RECEIPT.json.txt",
+      "bytes": 13896,
+      "sha256": "ac39da1e1973c79b26057459e38aec727a5865f4ad954ace63f636294d6f71da"
+    },
+    {
+      "path": "START_HERE_BG.txt",
+      "bytes": 2963,
+      "sha256": "c7d9af1a998b268db7f7372485185d4f5008b4f35236d5b15d9eee13753c196e"
+    }
+  ]
+}

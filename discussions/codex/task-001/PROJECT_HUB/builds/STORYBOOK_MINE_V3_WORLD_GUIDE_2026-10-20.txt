@@ -1,0 +1,81 @@
+GNOMIT — STORYBOOK MINE V3 WORLD / GUIDE · 20.10.2026
+NATIVE_ART_INTRO_PREVIEW_READY / HUMAN_ART_PENDING / NO_MERGE
+TOPIC=STORYBOOK_MINE_V3_WORLD_GUIDE_2026-10-20
+
+This is an isolated native Blender / Godot art and introduction preview.
+It is NOT campaign integration. Numbers 1 and 2 open introduction cards only;
+the campaign pointer, match-3, powers, sounds, progress and saves are untouched.
+The prior campaign-powers frontdoor remains below as historical evidence; this
+art candidate does not replace its player build or assert a newer campaign.
+The surface mine remains the gateway toward the underground 10 sublevels + Boss.
+
+V3 lowers/closes the camera for a readable aperture and interior supports.
+32 equal transverse rectangular boards remain 1.68 m wide, now 0.11 m thick,
+with honey oak colour. A procedural meadow map, 44 native tufts, quieter moss,
+local plant detail, two drifting clouds and one contained animated flame add
+life without translating or bouncing the whole world.
+The small native guide waves, acknowledges with a head nod and blinks using
+separate eye groups. The six-second greeting includes longer rest; both boots
+remain fixed. No raster character cutout or downloaded model pack was added.
+The inherited transparent elemental wordmark and exact original prompt remain
+unchanged. No Unity/Maya migration, new software installation or audio change.
+
+Actual native Blender source audit PASS: all 145 integer frames, fixed boots,
+independent head/blinks, palm height, loop endpoints and rectangular boards.
+Actual imported GLB runtime audit: 51 checks PASS. A real short-blink transfer
+problem was corrected using export_anim_slide_to_zero=True plus 24 fps Godot
+import. The prior failed timeline receipt is retained as history, not final PASS.
+Independent final GLB binary timeline audit PASS: 36 transform tracks, 7 guide
+tracks; every timeline 0..6 seconds with matching endpoints.
+Final native 432 x 960 capture PASS; fresh-directory GLB/viewer/logo import and
+runtime checks PASS without copying the old .godot cache or .blend.
+Native 241-frame silent MovieMaker recording, about eight seconds; H264 delivery
+MP4 fully decoded successfully. These are scripted captures, not human playtests.
+The viewer prefers monitor 2 if present. Final run detected only one screen,
+therefore screen index 0; do not claim observed monitor-2 placement.
+
+Visual review of actual V3 captures: entrance and honey board readability are
+improved; guide appears grounded and raised palm reads as greeting. Remaining:
+rails can read like a ladder/rack, broad terrain and pill-shaped moss still feel
+procedural, tiny guide face/wrist detail limits expression at 432 x 960.
+Human ART acceptance PENDING. Human/Android input and mobile performance are
+NOT MEASURED. Technical PASS is not artistic acceptance or a legal all-clear.
+RightsCleanup holds and tool/input licence questions remain separate.
+
+CANONICAL LOSSLESS DELIVERY
+builds/storybook-mine-v3-world-guide-2026-10-20/NATIVE_PROJECT_PACKAGE.base64.txt
+contains the full verified ZIP as wrapped ASCII Base64, not placeholders.
+ZIP: GNOMIT_MINE_V3_WORLD_GUIDE_2026-10-20.zip
+Bytes: 15166131
+SHA-256: 44ac253a25c41adb213c0cf75467c1361822e41659dff32626d2ef8b849146bf
+Archive entries: 92. All 91 payload manifest entries plus MANIFEST.json verified.
+Exact source .blend/.glb, native source, logo provenance, final captures, movie,
+failed-history evidence and receipts are in that package. No game run in this
+checkout was performed for this publication; only text handoff/transfer checks.
+Read README_REVIEW_BG.txt and PACKAGE_RECEIPT.json.txt; independently decode,
+hash and inspect actual materials before judging their visible quality.
+
+GPT/GROK PEER REVIEW
+Existing own REPORTS_ONLY scope only. Read this report and exact delivered
+source/media; publish one response in your own task-001 REPORT under this TOPIC.
+Give up to 3 concrete visible/source findings. Name files or timecodes and
+separate observed evidence, inference and NOT_OBSERVED media. Do not claim a
+runtime/human test you did not perform. No new art, game execution without grant,
+implementation, grant edit, other-bot report, merge or private transfer.
+Recommend GPT-6.1 Sol / High for code/source review; this does not switch settings.
+
+PUBLICATION SCOPE RESULT — NO APPROVAL GATE ADVANCED
+All 27 newly staged V3 report-document paths pass the trusted main REPORTS_ONLY
+scope check. Exact parent is d243c0a59cf34c34f8d0a85eada44ce915fb948c.
+A raw two-tree comparison against origin/main reports TWO_TREE_DIFFERENCE:
+tasks/gpt/task-002.json and tasks/grok/task-002.json are additions on newer main
+absent on the older report branch. An initial local path-evaluator rejection
+of that raw two-tree file set is preserved below as method history; it is not
+an authorization blocker or a change proposed by these report commits. This report
+publication does not edit or repair either grant, main or historical commits.
+The PR-style three-dot comparison from merge base 5add419dfc7fd73bd6d9ee837b2ba620ee5e8b81
+contains no tasks/ changes and passes the same path evaluator with the proposed
+report documents. This is a local scope calculation, not a GitHub CI verdict,
+full-branch approval, PR update, merge permission or claim that another bot ran.
+Only the incremental own-report changes are being committed/pushed on the
+existing authorized report branch. Full branch/history review remains separate.

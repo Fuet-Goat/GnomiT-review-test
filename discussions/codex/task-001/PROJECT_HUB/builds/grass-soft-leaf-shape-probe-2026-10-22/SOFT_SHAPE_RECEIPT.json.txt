@@ -1,0 +1,1268 @@
+{
+  "status": "NATIVE_SOFT_SHAPE_SAVED_REOPENED_RENDERED",
+  "source_sha256": "565ef994f53900d63995c8618c5099bb7d90788ece3415d675d4d3ed5e373869",
+  "candidate_sha256": "afd0c35e0450bd46c26a8cd5c65762510ef409b738454c410b5ea614ab0daee5",
+  "builder_sha256": "db6b388632a51c257d13d353bf730b6c38356aa7163431e64456c16fdafd1450",
+  "tool": "Blender5.2.2 LTS",
+  "selected_tufts": 12,
+  "reshaped_leaves": 73,
+  "total_leaves_unchanged": 7590,
+  "total_tufts_unchanged": 2559,
+  "untargeted_exact_semantic_leaf_records": 7517,
+  "untargeted_leaf_record_sha256": "14a4a9b782516e744393988d35b92b84bfd005e835afb16403dadd895f79de1f",
+  "protected_non_body_records": 648,
+  "camera_lighting_material_records_unchanged": true,
+  "before_vertices": 121440,
+  "after_vertices": 124725,
+  "before_faces": 75900,
+  "after_faces": 78674,
+  "before_triangles": 136620,
+  "after_triangles": 142022,
+  "topology_limit": "Selected topology denser;global indices/prefix NOT unchanged. Unselected per-leaf coords/colour/face/edge records exact.",
+  "colour_limit": "Same inherited normalized leaf colour gradient,interpolated at new sample positions;selected vertex colours are not byte-identical.",
+  "collision_check": {
+    "tested_vertices": 4453,
+    "blocked": 0,
+    "limit": "Point samples from above,not triangle/leaf-leaf collision proof."
+  },
+  "parameters": {
+    "rows_t": [
+      0,
+      0.08,
+      0.16,
+      0.25,
+      0.34,
+      0.43,
+      0.5,
+      0.59,
+      0.68,
+      0.77,
+      0.86,
+      0.94
+    ],
+    "across": [
+      -1,
+      -0.5,
+      0,
+      0.5,
+      1
+    ],
+    "z_bezier_controls": [
+      0,
+      0.95,
+      1.22,
+      0.72
+    ],
+    "width_exponent": 0.8,
+    "root_width_term": ".18*(1-t)^12",
+    "max_height_width": "Inherited maxima preserved within1e-6m"
+  },
+  "leaves": [
+    {
+      "height_m": 0.152074933052063,
+      "width_m": 0.04868453370186027,
+      "final_lean_m": 0.06907782902068516,
+      "root": [
+        2.547069787979126,
+        -8.186783790588379,
+        0.6128326654434204
+      ],
+      "tip_z_before": 0.7649075984954834,
+      "tip_z_after": 0.7233508825302124,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 489
+    },
+    {
+      "height_m": 0.13775062561035156,
+      "width_m": 0.03910146014600785,
+      "final_lean_m": 0.08232212649432313,
+      "root": [
+        2.5428621768951416,
+        -8.182398796081543,
+        0.6128326654434204
+      ],
+      "tip_z_before": 0.750583291053772,
+      "tip_z_after": 0.7132202386856079,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 490
+    },
+    {
+      "height_m": 0.16140246391296387,
+      "width_m": 0.05150590365293246,
+      "final_lean_m": 0.10332893974031607,
+      "root": [
+        2.552297830581665,
+        -8.181758880615234,
+        0.6128326654434204
+      ],
+      "tip_z_before": 0.7742351293563843,
+      "tip_z_after": 0.7301387190818787,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 491
+    },
+    {
+      "height_m": 0.1228175163269043,
+      "width_m": 0.058969613384931986,
+      "final_lean_m": 0.056304078754695445,
+      "root": [
+        2.457008123397827,
+        -8.015153884887695,
+        0.6109625101089478
+      ],
+      "tip_z_before": 0.733780026435852,
+      "tip_z_after": 0.6991362571716309,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 528
+    },
+    {
+      "height_m": 0.09403949975967407,
+      "width_m": 0.041572211661829124,
+      "final_lean_m": 0.05638715947662406,
+      "root": [
+        2.452699899673462,
+        -8.014852523803711,
+        0.6109625101089478
+      ],
+      "tip_z_before": 0.7050020098686218,
+      "tip_z_after": 0.6786710619926453,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 529
+    },
+    {
+      "height_m": 0.11550593376159668,
+      "width_m": 0.056113974793161686,
+      "final_lean_m": 0.0648847831733561,
+      "root": [
+        2.4522759914398193,
+        -8.011189460754395,
+        0.6109625101089478
+      ],
+      "tip_z_before": 0.7264684438705444,
+      "tip_z_after": 0.6938514709472656,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 530
+    },
+    {
+      "height_m": 0.16648417711257935,
+      "width_m": 0.03987433808726452,
+      "final_lean_m": 0.09757352886850792,
+      "root": [
+        2.5938708782196045,
+        -7.852630138397217,
+        0.6068414449691772
+      ],
+      "tip_z_before": 0.7733256220817566,
+      "tip_z_after": 0.7285842299461365,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 571
+    },
+    {
+      "height_m": 0.15605711936950684,
+      "width_m": 0.04679167874774726,
+      "final_lean_m": 0.08453431525155143,
+      "root": [
+        2.5988800525665283,
+        -7.859701156616211,
+        0.6068414449691772
+      ],
+      "tip_z_before": 0.7628985643386841,
+      "tip_z_after": 0.7204304933547974,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 572
+    },
+    {
+      "height_m": 0.17029917240142822,
+      "width_m": 0.03698541617529492,
+      "final_lean_m": 0.10915317349940525,
+      "root": [
+        2.593855619430542,
+        -7.857743263244629,
+        0.6068414449691772
+      ],
+      "tip_z_before": 0.7771406173706055,
+      "tip_z_after": 0.7315889596939087,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 573
+    },
+    {
+      "height_m": 0.1506563425064087,
+      "width_m": 0.05557658302592083,
+      "final_lean_m": 0.0931533938323237,
+      "root": [
+        2.7015864849090576,
+        -7.81349515914917,
+        0.6050523519515991
+      ],
+      "tip_z_before": 0.7557086944580078,
+      "tip_z_after": 0.7141317129135132,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 611
+    },
+    {
+      "height_m": 0.19643592834472656,
+      "width_m": 0.044493007368725856,
+      "final_lean_m": 0.09799626048939825,
+      "root": [
+        2.696481466293335,
+        -7.810412883758545,
+        0.6050523519515991
+      ],
+      "tip_z_before": 0.8014882802963257,
+      "tip_z_after": 0.7488419413566589,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 612
+    },
+    {
+      "height_m": 0.17008638381958008,
+      "width_m": 0.04775494009295223,
+      "final_lean_m": 0.07644536061253737,
+      "root": [
+        2.695899248123169,
+        -7.815845966339111,
+        0.6050523519515991
+      ],
+      "tip_z_before": 0.7751387357711792,
+      "tip_z_after": 0.7290344834327698,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 613
+    },
+    {
+      "height_m": 0.14156359434127808,
+      "width_m": 0.038618493927016974,
+      "final_lean_m": 0.08348058394776253,
+      "root": [
+        2.0288233757019043,
+        -0.8369764685630798,
+        0.7503522634506226
+      ],
+      "tip_z_before": 0.8919158577919006,
+      "tip_z_after": 0.8536064028739929,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 3310
+    },
+    {
+      "height_m": 0.15506219863891602,
+      "width_m": 0.04255181827866546,
+      "final_lean_m": 0.07812074560263982,
+      "root": [
+        2.0303049087524414,
+        -0.8441416621208191,
+        0.7503522634506226
+      ],
+      "tip_z_before": 0.9054144620895386,
+      "tip_z_after": 0.8634380102157593,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 3311
+    },
+    {
+      "height_m": 0.19043409824371338,
+      "width_m": 0.047191588381971926,
+      "final_lean_m": 0.08866086205930106,
+      "root": [
+        2.020336866378784,
+        -0.8468331098556519,
+        0.7503522634506226
+      ],
+      "tip_z_before": 0.9407863616943359,
+      "tip_z_after": 0.889519453048706,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 3312
+    },
+    {
+      "height_m": 0.13402187824249268,
+      "width_m": 0.03902909817750271,
+      "final_lean_m": 0.08030459171862457,
+      "root": [
+        1.9967868328094482,
+        -0.6916493773460388,
+        0.7541795969009399
+      ],
+      "tip_z_before": 0.8882014751434326,
+      "tip_z_after": 0.8517945408821106,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 3360
+    },
+    {
+      "height_m": 0.12299072742462158,
+      "width_m": 0.044263335533425,
+      "final_lean_m": 0.0873998649607957,
+      "root": [
+        2.004277229309082,
+        -0.6885027885437012,
+        0.7541795969009399
+      ],
+      "tip_z_before": 0.8771703243255615,
+      "tip_z_after": 0.8432895541191101,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 3361
+    },
+    {
+      "height_m": 0.12064123153686523,
+      "width_m": 0.052818968924431615,
+      "final_lean_m": 0.07955584794647612,
+      "root": [
+        1.9957730770111084,
+        -0.6827758550643921,
+        0.7541795969009399
+      ],
+      "tip_z_before": 0.8748208284378052,
+      "tip_z_after": 0.8410695195198059,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 3362
+    },
+    {
+      "height_m": 0.10544735193252563,
+      "width_m": 0.038569923203958696,
+      "final_lean_m": 0.07485209200526158,
+      "root": [
+        1.7970669269561768,
+        -0.6138960719108582,
+        0.7623986005783081
+      ],
+      "tip_z_before": 0.8678459525108337,
+      "tip_z_after": 0.8387635946273804,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 3419
+    },
+    {
+      "height_m": 0.12193489074707031,
+      "width_m": 0.04794774562012261,
+      "final_lean_m": 0.07479769197645711,
+      "root": [
+        1.7961559295654297,
+        -0.617822527885437,
+        0.7623986005783081
+      ],
+      "tip_z_before": 0.8843334913253784,
+      "tip_z_after": 0.8505190014839172,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 3420
+    },
+    {
+      "height_m": 0.10318994522094727,
+      "width_m": 0.05760689417171684,
+      "final_lean_m": 0.07190691515357109,
+      "root": [
+        1.799055576324463,
+        -0.6182259917259216,
+        0.7623986005783081
+      ],
+      "tip_z_before": 0.8655885457992554,
+      "tip_z_after": 0.8360452651977539,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 3421
+    },
+    {
+      "height_m": 0.11214333772659302,
+      "width_m": 0.04220009690624089,
+      "final_lean_m": 0.06569923450985035,
+      "root": [
+        1.794641137123108,
+        -0.6188889145851135,
+        0.7623986005783081
+      ],
+      "tip_z_before": 0.8745419383049011,
+      "tip_z_after": 0.843547523021698,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 3422
+    },
+    {
+      "height_m": 0.2040621042251587,
+      "width_m": 0.041411768797398864,
+      "final_lean_m": 0.1458191357382977,
+      "root": [
+        1.9943535327911377,
+        -0.5299280285835266,
+        0.7573667764663696
+      ],
+      "tip_z_before": 0.9614288806915283,
+      "tip_z_after": 0.907011091709137,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 3423
+    },
+    {
+      "height_m": 0.15533369779586792,
+      "width_m": 0.037894843159125086,
+      "final_lean_m": 0.0780203390170127,
+      "root": [
+        1.9872366189956665,
+        -0.529455840587616,
+        0.7573667764663696
+      ],
+      "tip_z_before": 0.9127004742622375,
+      "tip_z_after": 0.8709167242050171,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 3424
+    },
+    {
+      "height_m": 0.1610250473022461,
+      "width_m": 0.058352166083916114,
+      "final_lean_m": 0.07968965989404357,
+      "root": [
+        1.9899412393569946,
+        -0.5258513689041138,
+        0.7573667764663696
+      ],
+      "tip_z_before": 0.9183918237686157,
+      "tip_z_after": 0.8740113973617554,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 3425
+    },
+    {
+      "height_m": 0.20903903245925903,
+      "width_m": 0.05988857775604483,
+      "final_lean_m": 0.12011498162329794,
+      "root": [
+        -2.616152048110962,
+        0.2942645251750946,
+        0.6920520067214966
+      ],
+      "tip_z_before": 0.9010910391807556,
+      "tip_z_after": 0.8443610668182373,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 3772
+    },
+    {
+      "height_m": 0.15842247009277344,
+      "width_m": 0.04093996651791125,
+      "final_lean_m": 0.09771208516648103,
+      "root": [
+        -2.6113932132720947,
+        0.299534410238266,
+        0.6920520067214966
+      ],
+      "tip_z_before": 0.85047447681427,
+      "tip_z_after": 0.8077307939529419,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 3773
+    },
+    {
+      "height_m": 0.13759982585906982,
+      "width_m": 0.04901957604148553,
+      "final_lean_m": 0.06392803092863691,
+      "root": [
+        -2.498990535736084,
+        0.22528697550296783,
+        0.6986910104751587
+      ],
+      "tip_z_before": 0.8362908363342285,
+      "tip_z_after": 0.7984134554862976,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 3774
+    },
+    {
+      "height_m": 0.16021376848220825,
+      "width_m": 0.04613589309021088,
+      "final_lean_m": 0.08580436336743005,
+      "root": [
+        -2.502490520477295,
+        0.23006106913089752,
+        0.6986910104751587
+      ],
+      "tip_z_before": 0.8589047789573669,
+      "tip_z_after": 0.8154120445251465,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 3775
+    },
+    {
+      "height_m": 0.18139594793319702,
+      "width_m": 0.04242941066678939,
+      "final_lean_m": 0.11143173867162946,
+      "root": [
+        -2.5003511905670166,
+        0.22269199788570404,
+        0.6986910104751587
+      ],
+      "tip_z_before": 0.8800869584083557,
+      "tip_z_after": 0.8313955664634705,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 3776
+    },
+    {
+      "height_m": 0.15091842412948608,
+      "width_m": 0.052579912115500775,
+      "final_lean_m": 0.07224750958677452,
+      "root": [
+        -2.5055954456329346,
+        0.2242344319820404,
+        0.6986910104751587
+      ],
+      "tip_z_before": 0.8496094346046448,
+      "tip_z_after": 0.8081315159797668,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 3777
+    },
+    {
+      "height_m": 0.12024205923080444,
+      "width_m": 0.051052115026414026,
+      "final_lean_m": 0.06628507539765684,
+      "root": [
+        -2.4617745876312256,
+        0.34264081716537476,
+        0.7033172845840454
+      ],
+      "tip_z_before": 0.8235593438148499,
+      "tip_z_after": 0.7900069952011108,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 3856
+    },
+    {
+      "height_m": 0.16810452938079834,
+      "width_m": 0.0496877338436535,
+      "final_lean_m": 0.09698712830632387,
+      "root": [
+        -2.4600014686584473,
+        0.3478482961654663,
+        0.7033172845840454
+      ],
+      "tip_z_before": 0.8714218139648438,
+      "tip_z_after": 0.8257153630256653,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 3857
+    },
+    {
+      "height_m": 0.14703166484832764,
+      "width_m": 0.054826106182144445,
+      "final_lean_m": 0.08595431270715047,
+      "root": [
+        -2.459949254989624,
+        0.34728625416755676,
+        0.7033172845840454
+      ],
+      "tip_z_before": 0.850348949432373,
+      "tip_z_after": 0.8097398281097412,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 3858
+    },
+    {
+      "height_m": 0.11575138568878174,
+      "width_m": 0.039161390804750756,
+      "final_lean_m": 0.07085809361078353,
+      "root": [
+        -2.541318416595459,
+        0.5532286763191223,
+        0.69990074634552
+      ],
+      "tip_z_before": 0.8156521320343018,
+      "tip_z_after": 0.7839041948318481,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 3936
+    },
+    {
+      "height_m": 0.13674664497375488,
+      "width_m": 0.04645688125324093,
+      "final_lean_m": 0.09025399721520679,
+      "root": [
+        -2.5508861541748047,
+        0.562457799911499,
+        0.69990074634552
+      ],
+      "tip_z_before": 0.8366473913192749,
+      "tip_z_after": 0.7991302609443665,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 3937
+    },
+    {
+      "height_m": 0.15034931898117065,
+      "width_m": 0.04432564502511379,
+      "final_lean_m": 0.10064001388968363,
+      "root": [
+        -2.5526623725891113,
+        0.5584266185760498,
+        0.69990074634552
+      ],
+      "tip_z_before": 0.8502500653266907,
+      "tip_z_after": 0.8093774914741516,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 3938
+    },
+    {
+      "height_m": 0.152074933052063,
+      "width_m": 0.04868436990316788,
+      "final_lean_m": 0.06907761709669474,
+      "root": [
+        2.547069787979126,
+        -8.186783790588379,
+        0.6128326654434204
+      ],
+      "tip_z_before": 0.7649075984954834,
+      "tip_z_after": 0.7233508825302124,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 7554
+    },
+    {
+      "height_m": 0.13775062561035156,
+      "width_m": 0.039101907756296524,
+      "final_lean_m": 0.0823221021445316,
+      "root": [
+        2.5428621768951416,
+        -8.182398796081543,
+        0.6128326654434204
+      ],
+      "tip_z_before": 0.750583291053772,
+      "tip_z_after": 0.7132202386856079,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 7555
+    },
+    {
+      "height_m": 0.16140246391296387,
+      "width_m": 0.05150623120903525,
+      "final_lean_m": 0.10332914866285481,
+      "root": [
+        2.552297830581665,
+        -8.181758880615234,
+        0.6128326654434204
+      ],
+      "tip_z_before": 0.7742351293563843,
+      "tip_z_after": 0.7301387190818787,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 7556
+    },
+    {
+      "height_m": 0.1506563425064087,
+      "width_m": 0.05557624473359207,
+      "final_lean_m": 0.09315327979563451,
+      "root": [
+        2.7015864849090576,
+        -7.81349515914917,
+        0.6050523519515991
+      ],
+      "tip_z_before": 0.7557086944580078,
+      "tip_z_after": 0.7141317129135132,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 7557
+    },
+    {
+      "height_m": 0.19643592834472656,
+      "width_m": 0.04449321603297884,
+      "final_lean_m": 0.09799630800765784,
+      "root": [
+        2.696481466293335,
+        -7.810412883758545,
+        0.6050523519515991
+      ],
+      "tip_z_before": 0.8014882802963257,
+      "tip_z_after": 0.7488419413566589,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 7558
+    },
+    {
+      "height_m": 0.17008638381958008,
+      "width_m": 0.047755033108832654,
+      "final_lean_m": 0.07644517529970044,
+      "root": [
+        2.695899248123169,
+        -7.815845966339111,
+        0.6050523519515991
+      ],
+      "tip_z_before": 0.7751387357711792,
+      "tip_z_after": 0.7290344834327698,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 7559
+    },
+    {
+      "height_m": 0.16648417711257935,
+      "width_m": 0.03987422773705768,
+      "final_lean_m": 0.09757332171568746,
+      "root": [
+        2.5938708782196045,
+        -7.852630138397217,
+        0.6068414449691772
+      ],
+      "tip_z_before": 0.7733256220817566,
+      "tip_z_after": 0.7285842895507812,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 7560
+    },
+    {
+      "height_m": 0.15605711936950684,
+      "width_m": 0.046791515164798445,
+      "final_lean_m": 0.08453430561159282,
+      "root": [
+        2.5988800525665283,
+        -7.859701156616211,
+        0.6068414449691772
+      ],
+      "tip_z_before": 0.7628985643386841,
+      "tip_z_after": 0.7204305529594421,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 7561
+    },
+    {
+      "height_m": 0.17029917240142822,
+      "width_m": 0.0369853243045854,
+      "final_lean_m": 0.10915308817683433,
+      "root": [
+        2.593855619430542,
+        -7.857743263244629,
+        0.6068414449691772
+      ],
+      "tip_z_before": 0.7771406173706055,
+      "tip_z_after": 0.7315889596939087,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 7562
+    },
+    {
+      "height_m": 0.1228175163269043,
+      "width_m": 0.05896966273885616,
+      "final_lean_m": 0.05630399191467612,
+      "root": [
+        2.457008123397827,
+        -8.015153884887695,
+        0.6109625101089478
+      ],
+      "tip_z_before": 0.733780026435852,
+      "tip_z_after": 0.6991362571716309,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 7563
+    },
+    {
+      "height_m": 0.09403949975967407,
+      "width_m": 0.041571944230808504,
+      "final_lean_m": 0.05638737264322742,
+      "root": [
+        2.452699899673462,
+        -8.014852523803711,
+        0.6109625101089478
+      ],
+      "tip_z_before": 0.7050020098686218,
+      "tip_z_after": 0.67867112159729,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 7564
+    },
+    {
+      "height_m": 0.11550593376159668,
+      "width_m": 0.05611423152712453,
+      "final_lean_m": 0.06488457232821086,
+      "root": [
+        2.4522759914398193,
+        -8.011189460754395,
+        0.6109625101089478
+      ],
+      "tip_z_before": 0.7264684438705444,
+      "tip_z_after": 0.6938514709472656,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 7565
+    },
+    {
+      "height_m": 0.11575138568878174,
+      "width_m": 0.039161363469775785,
+      "final_lean_m": 0.07085807379286374,
+      "root": [
+        -2.541318416595459,
+        0.5532286763191223,
+        0.69990074634552
+      ],
+      "tip_z_before": 0.8156521320343018,
+      "tip_z_after": 0.7839041948318481,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 7566
+    },
+    {
+      "height_m": 0.13674664497375488,
+      "width_m": 0.046456805567803454,
+      "final_lean_m": 0.09025399761828908,
+      "root": [
+        -2.5508861541748047,
+        0.562457799911499,
+        0.69990074634552
+      ],
+      "tip_z_before": 0.8366473913192749,
+      "tip_z_after": 0.7991302609443665,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 7567
+    },
+    {
+      "height_m": 0.15034931898117065,
+      "width_m": 0.04432557534431313,
+      "final_lean_m": 0.1006400089734966,
+      "root": [
+        -2.5526623725891113,
+        0.5584266185760498,
+        0.69990074634552
+      ],
+      "tip_z_before": 0.8502500653266907,
+      "tip_z_after": 0.8093774914741516,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 7568
+    },
+    {
+      "height_m": 0.12024205923080444,
+      "width_m": 0.05105214752100915,
+      "final_lean_m": 0.06628507539765684,
+      "root": [
+        -2.4617745876312256,
+        0.34264081716537476,
+        0.7033172845840454
+      ],
+      "tip_z_before": 0.8235593438148499,
+      "tip_z_after": 0.7900069952011108,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 7569
+    },
+    {
+      "height_m": 0.16810452938079834,
+      "width_m": 0.04968773325791879,
+      "final_lean_m": 0.09698716191520067,
+      "root": [
+        -2.4600014686584473,
+        0.3478482961654663,
+        0.7033172845840454
+      ],
+      "tip_z_before": 0.8714218139648438,
+      "tip_z_after": 0.8257153630256653,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 7570
+    },
+    {
+      "height_m": 0.14703166484832764,
+      "width_m": 0.0548261021557519,
+      "final_lean_m": 0.08595434936467897,
+      "root": [
+        -2.459949254989624,
+        0.34728625416755676,
+        0.7033172845840454
+      ],
+      "tip_z_before": 0.850348949432373,
+      "tip_z_after": 0.8097398281097412,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 7571
+    },
+    {
+      "height_m": 0.20903903245925903,
+      "width_m": 0.059888611287710045,
+      "final_lean_m": 0.12011494770132763,
+      "root": [
+        -2.616152048110962,
+        0.2942645251750946,
+        0.6920520067214966
+      ],
+      "tip_z_before": 0.9010910391807556,
+      "tip_z_after": 0.8443610668182373,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 7572
+    },
+    {
+      "height_m": 0.15842247009277344,
+      "width_m": 0.04094008602508293,
+      "final_lean_m": 0.09771215745861715,
+      "root": [
+        -2.6113932132720947,
+        0.299534410238266,
+        0.6920520067214966
+      ],
+      "tip_z_before": 0.85047447681427,
+      "tip_z_after": 0.8077307343482971,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 7573
+    },
+    {
+      "height_m": 0.20903903245925903,
+      "width_m": 0.05988844508709838,
+      "final_lean_m": 0.12011497241590693,
+      "root": [
+        -2.616152048110962,
+        0.2942645251750946,
+        0.6920520067214966
+      ],
+      "tip_z_before": 0.9010910391807556,
+      "tip_z_after": 0.8443610668182373,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 7574
+    },
+    {
+      "height_m": 0.13759982585906982,
+      "width_m": 0.04901970717888966,
+      "final_lean_m": 0.06392803280658149,
+      "root": [
+        -2.498990535736084,
+        0.22528697550296783,
+        0.6986910104751587
+      ],
+      "tip_z_before": 0.8362908363342285,
+      "tip_z_after": 0.7984134554862976,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 7575
+    },
+    {
+      "height_m": 0.16021376848220825,
+      "width_m": 0.04613580729747214,
+      "final_lean_m": 0.08580434844314647,
+      "root": [
+        -2.502490520477295,
+        0.23006106913089752,
+        0.6986910104751587
+      ],
+      "tip_z_before": 0.8589047789573669,
+      "tip_z_after": 0.8154120445251465,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 7576
+    },
+    {
+      "height_m": 0.18139594793319702,
+      "width_m": 0.04242937122549141,
+      "final_lean_m": 0.11143180553389376,
+      "root": [
+        -2.5003511905670166,
+        0.22269199788570404,
+        0.6986910104751587
+      ],
+      "tip_z_before": 0.8800869584083557,
+      "tip_z_after": 0.8313955664634705,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 7577
+    },
+    {
+      "height_m": 0.10544735193252563,
+      "width_m": 0.03856989566202698,
+      "final_lean_m": 0.07485211766723614,
+      "root": [
+        1.7970669269561768,
+        -0.6138960719108582,
+        0.7623986005783081
+      ],
+      "tip_z_before": 0.8678459525108337,
+      "tip_z_after": 0.8387635946273804,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 7578
+    },
+    {
+      "height_m": 0.12193489074707031,
+      "width_m": 0.047947817510516855,
+      "final_lean_m": 0.07479767787155726,
+      "root": [
+        1.7961559295654297,
+        -0.617822527885437,
+        0.7623986005783081
+      ],
+      "tip_z_before": 0.8843334913253784,
+      "tip_z_after": 0.8505190014839172,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 7579
+    },
+    {
+      "height_m": 0.10318994522094727,
+      "width_m": 0.05760682546252223,
+      "final_lean_m": 0.07190695603261636,
+      "root": [
+        1.799055576324463,
+        -0.6182259917259216,
+        0.7623986005783081
+      ],
+      "tip_z_before": 0.8655885457992554,
+      "tip_z_after": 0.8360452651977539,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 7580
+    },
+    {
+      "height_m": 0.13402187824249268,
+      "width_m": 0.03902920147952263,
+      "final_lean_m": 0.08030455796844013,
+      "root": [
+        1.9967868328094482,
+        -0.6916493773460388,
+        0.7541795969009399
+      ],
+      "tip_z_before": 0.8882014751434326,
+      "tip_z_after": 0.8517945408821106,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 7581
+    },
+    {
+      "height_m": 0.12299072742462158,
+      "width_m": 0.04426338008007964,
+      "final_lean_m": 0.0873997743857589,
+      "root": [
+        2.004277229309082,
+        -0.6885027885437012,
+        0.7541795969009399
+      ],
+      "tip_z_before": 0.8771703243255615,
+      "tip_z_after": 0.8432895541191101,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 7582
+    },
+    {
+      "height_m": 0.12064123153686523,
+      "width_m": 0.05281897691408984,
+      "final_lean_m": 0.07955580953442956,
+      "root": [
+        1.9957730770111084,
+        -0.6827758550643921,
+        0.7541795969009399
+      ],
+      "tip_z_before": 0.8748208284378052,
+      "tip_z_after": 0.8410695195198059,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 7583
+    },
+    {
+      "height_m": 0.14156359434127808,
+      "width_m": 0.0386184992023858,
+      "final_lean_m": 0.08348058394776253,
+      "root": [
+        2.0288233757019043,
+        -0.8369764685630798,
+        0.7503522634506226
+      ],
+      "tip_z_before": 0.8919158577919006,
+      "tip_z_after": 0.8536064028739929,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 7584
+    },
+    {
+      "height_m": 0.15506219863891602,
+      "width_m": 0.042551900696017185,
+      "final_lean_m": 0.078120712818293,
+      "root": [
+        2.0303049087524414,
+        -0.8441416621208191,
+        0.7503522634506226
+      ],
+      "tip_z_before": 0.9054144620895386,
+      "tip_z_after": 0.8634380102157593,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 7585
+    },
+    {
+      "height_m": 0.19043409824371338,
+      "width_m": 0.04719159134991991,
+      "final_lean_m": 0.08866087576416248,
+      "root": [
+        2.020336866378784,
+        -0.8468331098556519,
+        0.7503522634506226
+      ],
+      "tip_z_before": 0.9407863616943359,
+      "tip_z_after": 0.889519453048706,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 7586
+    },
+    {
+      "height_m": 0.2040621042251587,
+      "width_m": 0.04141172588318342,
+      "final_lean_m": 0.14581906408598916,
+      "root": [
+        1.9943535327911377,
+        -0.5299280285835266,
+        0.7573667764663696
+      ],
+      "tip_z_before": 0.9614288806915283,
+      "tip_z_after": 0.907011091709137,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 7587
+    },
+    {
+      "height_m": 0.15533369779586792,
+      "width_m": 0.037894775621693653,
+      "final_lean_m": 0.0780202879120556,
+      "root": [
+        1.9872366189956665,
+        -0.529455840587616,
+        0.7573667764663696
+      ],
+      "tip_z_before": 0.9127004742622375,
+      "tip_z_after": 0.8709167242050171,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 7588
+    },
+    {
+      "height_m": 0.1610250473022461,
+      "width_m": 0.058352082291876245,
+      "final_lean_m": 0.07968967413741326,
+      "root": [
+        1.9899412393569946,
+        -0.5258513689041138,
+        0.7573667764663696
+      ],
+      "tip_z_before": 0.9183918237686157,
+      "tip_z_after": 0.8740114569664001,
+      "vertices_before": 16,
+      "vertices_after": 61,
+      "faces_after": 48,
+      "blade": 7589
+    }
+  ],
+  "renders": [
+    {
+      "path": "outputs/00_B_FULLER_432x960.png",
+      "bytes": 721828,
+      "sha256": "782850ede559c26880d11962f3090165a3b8017e33e1cdbdd6293593bd1b26a4",
+      "width": 432,
+      "height": 960,
+      "samples": 128
+    },
+    {
+      "path": "outputs/01_C_SOFT_432x960.png",
+      "bytes": 721830,
+      "sha256": "06f84498dc227f45efeb20c60deddfc087b90fa6316a69a807a3c1a91c2357bf",
+      "width": 432,
+      "height": 960,
+      "samples": 128
+    },
+    {
+      "path": "outputs/02_B_DETAIL_8X.png",
+      "bytes": 417493,
+      "sha256": "a49728a6998de83945d9d2352606e064169f39f1a8962767b52531301caf68f2",
+      "width": 512,
+      "height": 512,
+      "samples": 128
+    },
+    {
+      "path": "outputs/03_C_DETAIL_8X.png",
+      "bytes": 418364,
+      "sha256": "53aaf997183bb3a3ce586f111b2f2945630b81193f631bfebee81a5c05ca796c",
+      "width": 512,
+      "height": 512,
+      "samples": 128
+    }
+  ],
+  "game_integration": "NOT_PERFORMED",
+  "godot_tests": "NOT_RUN",
+  "android_performance": "NOT_MEASURED",
+  "human_choice": "PENDING"
+}

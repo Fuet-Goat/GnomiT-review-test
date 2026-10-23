@@ -1,0 +1,15 @@
+{
+  "stage_fresh_open": "PASS",
+  "stage_objects": 80,
+  "active_animated_nodes": 9,
+  "first_last_pose_max_basis_error": 0.0,
+  "old_shoulder": {
+    "excursion_degrees": 139.99999699451794,
+    "max_degrees_per_frame": 11.201168729362408
+  },
+  "new_shoulder": {
+    "excursion_degrees": 108.99999392628244,
+    "max_degrees_per_frame": 5.8781017808479845
+  },
+  "interpretation": "Measures excursion and maximum step only; does not prove human-rated fluidity."
+}

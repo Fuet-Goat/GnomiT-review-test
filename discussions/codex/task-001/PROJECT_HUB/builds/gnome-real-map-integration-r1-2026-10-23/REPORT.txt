@@ -1,0 +1,8 @@
+GNOMIT REAL MAP CONTEXT R1
+STATUS: ISOLATED_CONTEXT_READY_FOR_HUMAN_REVIEW
+Exact accepted master placed in exact current map source. Same original camera/world lightingB/ACES. Accepted studioLightingR1B preserved separately. Master native/GLB/materials/rig/action unchanged. Old/masterA/B same routeposition/scale; finite6s greeting and reducedmotion. No walking clip: route travel blocked, no invented gait/slide. Memory-onlyprogressstub; originalselector/game unchanged.95checksPASS;144actualframes;GIF6000ms. RuntimeFPS/Android NOT_MEASURED. HumancontextacceptancePENDING. Separate explicit owner activation addedonlytasks/grok/task003.jsonviaPR8andmain dabe1793398d9ceb6afcb0b459ba91e8687c6ac6; existinggrantsunchanged. No artworkmerge/campaignchange.
+ZIP GNOMIT_REAL_MAP_INTEGRATION_R1_2026-10-23.zip
+BYTES 76144710
+SHA256 9ec51b98900ba292b33a937b905ea70a273c7e75d9a1b80fd4aa0cf183d03e54
+ENTRIES 134
+Source/publicmedia readbacks follow separately.

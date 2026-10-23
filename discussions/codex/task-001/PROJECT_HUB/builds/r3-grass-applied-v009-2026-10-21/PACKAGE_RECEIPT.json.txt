@@ -1,0 +1,85 @@
+{
+  "status": "LOCAL_FULL_GAME_ZIP_CRC_ALL_ENTRY_HASHES_PASS",
+  "zip_name": "GNOMIT_R3_GRASS_APPLIED_V009_2026-10-21.zip",
+  "bytes": 87008816,
+  "sha256": "bb5417e8349fc24266fd11fc4ff274d449e90afd6fc541154cb02ac914eeed92",
+  "entries": 324,
+  "parts": [
+    {
+      "path": "RUNTIME_ZIP.part001.base64.txt",
+      "base64_chars": 8000000,
+      "sha256": "73e929d492c89db76ac4059358d92b225a800e23f2b82d2706e1d7fa0aba95b6"
+    },
+    {
+      "path": "RUNTIME_ZIP.part002.base64.txt",
+      "base64_chars": 8000000,
+      "sha256": "490085ffdfebcef9773ac8f912e041532dd5bbc5ba953b7ecf389b7240b0dd21"
+    },
+    {
+      "path": "RUNTIME_ZIP.part003.base64.txt",
+      "base64_chars": 8000000,
+      "sha256": "5b14edf49f01c6829ca2a9447e7ecd5dec9271c2127491f9fcb162ee3a43dbf2"
+    },
+    {
+      "path": "RUNTIME_ZIP.part004.base64.txt",
+      "base64_chars": 8000000,
+      "sha256": "3e8d838e1546b3e56d010d3aabcb3db3cdc73af10dd7d7ee3856a3aa37821bbd"
+    },
+    {
+      "path": "RUNTIME_ZIP.part005.base64.txt",
+      "base64_chars": 8000000,
+      "sha256": "eaedf693083893a20c032416638f62a8a82b0f268f8e6242238ac0f17d24b252"
+    },
+    {
+      "path": "RUNTIME_ZIP.part006.base64.txt",
+      "base64_chars": 8000000,
+      "sha256": "01f72a94019bfe600f5db42edfdb15af7dfa0a577773906b8d927220950f1fd2"
+    },
+    {
+      "path": "RUNTIME_ZIP.part007.base64.txt",
+      "base64_chars": 8000000,
+      "sha256": "15ebc20935203e297939a5c4b0d6209646e12ad9aab7f02f0b71857d964b91ce"
+    },
+    {
+      "path": "RUNTIME_ZIP.part008.base64.txt",
+      "base64_chars": 8000000,
+      "sha256": "3f0db1d5c1ba44c8b13f7a7a4ae7a0cf180ca2f7ab20f6c3a5d03088b7f6a07a"
+    },
+    {
+      "path": "RUNTIME_ZIP.part009.base64.txt",
+      "base64_chars": 8000000,
+      "sha256": "047961b203b55a8eec893508bd02950eacbd5124bfde80da2d4c82f4dbb6cb51"
+    },
+    {
+      "path": "RUNTIME_ZIP.part010.base64.txt",
+      "base64_chars": 8000000,
+      "sha256": "d2e2532bd6f70376b076809ef48767c0f92b895378f716637a1c9e65c17e7db6"
+    },
+    {
+      "path": "RUNTIME_ZIP.part011.base64.txt",
+      "base64_chars": 8000000,
+      "sha256": "1bcf5bab382544eb20e82a3c6f748e71730d7d5d80e8938288713e62690ea1a5"
+    },
+    {
+      "path": "RUNTIME_ZIP.part012.base64.txt",
+      "base64_chars": 8000000,
+      "sha256": "6e36c1263b7b7dd322f734db29097add4bf385c388c1e259e42a56bd80fd4e0f"
+    },
+    {
+      "path": "RUNTIME_ZIP.part013.base64.txt",
+      "base64_chars": 8000000,
+      "sha256": "767832b0c1b965463cb1501c3901d40e03b44052d1174bf87d4d3a6746fe8ba8"
+    },
+    {
+      "path": "RUNTIME_ZIP.part014.base64.txt",
+      "base64_chars": 8000000,
+      "sha256": "3d51f85219791b6be54b24b3adee1c2474401f61982e6f6ee9c36f947b8a6343"
+    },
+    {
+      "path": "RUNTIME_ZIP.part015.base64.txt",
+      "base64_chars": 4011756,
+      "sha256": "41cb22ee6e9434953c517534fd3d8bf9f50ce53899189d9580778055691ee017"
+    }
+  ],
+  "kind": "PLAYABLE_GODOT_V009_WITH_NATIVE_SOURCES"
+}

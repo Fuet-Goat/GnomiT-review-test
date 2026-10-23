@@ -1,0 +1,15 @@
+DESKTOP SAMPLES WORKFLOW - 2026-10-20
+
+The human requests a desktop shortcut for each new game/sample version from now on.
+Owner Windows folder: C:/Users/fruch/Desktop/GnomiT Samples.
+Current fixed version: v001 - 2026-10-20 - Mine World + Volcano Tutorial.
+Latest shortcut follows PLAY_CURRENT_GNOMIT.cmd. Archive has18 earlier samples.
+20 shortcuts read back with existing targets and working directories. No game execution was used to verify shortcuts.
+
+For every newly authorized/tested candidate, keep a separate project directory and run:
+Register-GnomiTSample.ps1 -ProjectPath <absolute project folder> -Label <short title>
+The helper is in GnomiT_Playtests/shortcut_tools. It assigns v002,v003,...
+and writes versions.json; registering the same project again keeps its number.
+Local workflow is also in GnomiT_Playtests/AGENTS.md.
+This applies to Codex on the owner Windows host; cloud bots do not create
+substitute shortcuts in their containers. Existing Git report scopes remain.

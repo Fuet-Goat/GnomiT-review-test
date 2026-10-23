@@ -1,0 +1,26 @@
+GNOMIT — ACCEPTED R3 / ISOLATED GLB-GODOT PREVIEW
+STATUS: ISOLATED_GODOT_PREVIEW_READY_FOR_REVIEW
+Accepted Blender baseline retained, no geometry/weights/bones/gesture/blink edits.
+Native hash0335bcc275bfbc8e3b7d3ea43bde2fad6c8ece5281a750007290ef154ac8bffc.
+Final GLB3b72702cb1c995d2553dddd4895a1e2327be14d5a22cc38a60a88603d47c529f.
+Procedural PBR field baking on RAM-only copies, embedded images/UVs for transport.
+Exporter timeline starts0; Godot24fps, optimiser/compression disabled. Joint PASS:
+max2.40274005136598e-7m; rest endpoints0; foot nodes0. Six-second nonlooping clip.
+Replay/Reduced Motion assertions pass in actual rendered Godot capture.
+GLB sampled skinning is MEASURED: valid rest matching, max2.5392876868mm difference
+from Blender DQ, RMS.163346929mm; strict.1mm parity flag FAIL retained honestly.
+Actual144 PNG poses encoded into6000ms GIF,117 decoded frames after coalescing holds.
+Root/independent reviewer inspect real frames: free underarm, shoulder covered,
+no new detachment or cuff gap; old torso seam remains. Lighting is separate Godot
+AgX/SSAO studio. No claim of pixel-identical Blender rendering.
+High-resolution studio export:874805 triangles; no Android optimisation/performance
+claim. No campaign/game selector changes, no merge, no main/grant/foreign-report edits.
+Human Godot acceptance PENDING. Prior R3 acceptance preserved rather than overwritten.
+ZIP: GNOMIT_R3_GODOT_PREVIEW_2026-10-23.zip
+BYTES: 31409095
+SHA256: 7019c749dbb9cbf6b8b940a2c9f857c82252c57a116e31242b387c803320f5fc
+ENTRIES: 138
+
+Entire ZIP entry bytes read back and verified; remote readback recorded after publish.
+Import key retention verified against local Godot runtime, guided by official source:
+https://github.com/godotengine/godot/blob/master/editor/import/3d/resource_importer_scene.cpp

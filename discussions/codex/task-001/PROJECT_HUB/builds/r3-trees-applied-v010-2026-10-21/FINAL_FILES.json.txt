@@ -1,0 +1,1816 @@
+{
+  "schema_version": 1,
+  "entries": 362,
+  "files": [
+    {
+      "path": "FINAL_RESPONSE.txt",
+      "bytes": 547,
+      "sha256": "cff386e2082e4ea121ae1c36a4dd0c5078e4e769da14705e8fa7053d823a40a7"
+    },
+    {
+      "path": "MANIFEST.json",
+      "bytes": 61971,
+      "sha256": "ad924980a362c59c8569886136a1882d02d31125ea6f3479bdb978b8ef0bdc6f"
+    },
+    {
+      "path": "PLAY_GRASS.cmd",
+      "bytes": 123,
+      "sha256": "1b0122a8e0f1e0e14af53a9ff1fb3b44f3b57d217f20b2dbdce2696ed86dace4"
+    },
+    {
+      "path": "PLAY_TREES.cmd",
+      "bytes": 120,
+      "sha256": "3a587fedcf5668922845ced373103e75c01f8a14949ef9516a29a4ca76af09fc"
+    },
+    {
+      "path": "README_BG.txt",
+      "bytes": 1842,
+      "sha256": "2616e1da785085cba1ace1764592ba253229980179c4e6e006db8d24c0f0ccb1"
+    },
+    {
+      "path": "assets/NunitoSans-OFL.txt",
+      "bytes": 4486,
+      "sha256": "f22dcf7224df30722ce6c3257c33a9ea965d8a523cac976e9c5ac02eb59920a1"
+    },
+    {
+      "path": "assets/alive/hero_expressions_v1.json",
+      "bytes": 2567,
+      "sha256": "2eadbdd6f3a67d2dc57b7cb6b4678a654083dbbd0944107e2dd235554272e676"
+    },
+    {
+      "path": "assets/alive/hero_expressions_v1.png",
+      "bytes": 1557601,
+      "sha256": "3bee14309112a98c7decf3535c00ba0661c3c1dec0b82f9ffc8581ef47143339"
+    },
+    {
+      "path": "assets/alive/hero_expressions_v1.png.import",
+      "bytes": 974,
+      "sha256": "55c7f1ef4acb2dbefb679db41c67ed59af2586231f202b3fb91ee06e5572bce6"
+    },
+    {
+      "path": "assets/first_crystals/cave_background_v1.png",
+      "bytes": 2183669,
+      "sha256": "3d3141f299507f6668f04987c201660b852969d9a7d6afc42d01c45b9c7ad5b4"
+    },
+    {
+      "path": "assets/first_crystals/cave_background_v1.png.import",
+      "bytes": 980,
+      "sha256": "e574141220f18bfad8e9c70355c8e2b84bc0e1735948301731fc8556327347cc"
+    },
+    {
+      "path": "assets/first_crystals/gems_atlas_v1.png",
+      "bytes": 2242029,
+      "sha256": "96077491d9d067466bdc7ca557e31bee9fe5ef1f545af1b9365250e567e06a1d"
+    },
+    {
+      "path": "assets/first_crystals/gems_atlas_v1.png.import",
+      "bytes": 965,
+      "sha256": "43c6b45b17b5ad926f173c7c3ff6a03dc4af99df97d2c143a458895dfe45d9fc"
+    },
+    {
+      "path": "assets/first_crystals/treasures_atlas_v2.png",
+      "bytes": 1916351,
+      "sha256": "27541f44e67dc6673c691c337d498f82948201f4967481f2c9d4e852f77679b6"
+    },
+    {
+      "path": "assets/first_crystals/treasures_atlas_v2.png.import",
+      "bytes": 980,
+      "sha256": "2b5fbd86196f16c2b6742acfa8da3b7cc24a9b4aa8112ea05cca7234ea14a658"
+    },
+    {
+      "path": "assets/first_crystals/treasures_atlas_v3.png",
+      "bytes": 2068980,
+      "sha256": "bbd9c8b70e0ff46cd2eebca17d766580b29a96b303fc9964faf3f55ce5ad9ba8"
+    },
+    {
+      "path": "assets/first_crystals/treasures_atlas_v3.png.import",
+      "bytes": 980,
+      "sha256": "1b4f8c33f24b13df4d430c09a551470882e387894dd74df5a23aa00b90c2fe55"
+    },
+    {
+      "path": "assets/font.ttf",
+      "bytes": 571240,
+      "sha256": "f934d7142fb4784bf828da485b7dcbd90c0c80d514e9d49a5da0ed3a1ae2491d"
+    },
+    {
+      "path": "assets/font.ttf.import",
+      "bytes": 744,
+      "sha256": "472bf55ca712f95aa6a1216bc1dfb4a11382505ce0426e2849dca7215ac216cc"
+    },
+    {
+      "path": "assets/gnome.png",
+      "bytes": 1662640,
+      "sha256": "176420aac7da1f97ba741258e11a83f4d7b6530748b2e07afa3639aecc8e3bb7"
+    },
+    {
+      "path": "assets/gnome.png.import",
+      "bytes": 925,
+      "sha256": "6b3474210e0eaf3955247a7fd5e31ebec0949e1916f721a6aa47e1b1922b19e9"
+    },
+    {
+      "path": "assets/match.wav",
+      "bytes": 12392,
+      "sha256": "def389e5c027ace59b201e0b93fb348ff24ef546c9dcb1596e08bff92020c061"
+    },
+    {
+      "path": "assets/match.wav.import",
+      "bytes": 479,
+      "sha256": "65c19f5793bff0c2f31ee50b740a8ad6ac0507df5832e2bfeec049724e02dc54"
+    },
+    {
+      "path": "assets/native_mine/branding/gnomit_element_wordmark_v1.png",
+      "bytes": 1485630,
+      "sha256": "90a07215598d9d3cb95741dc417e96d14aec5e03fea1b0875c40b7f52dabe262"
+    },
+    {
+      "path": "assets/native_mine/branding/gnomit_element_wordmark_v1.png.import",
+      "bytes": 1010,
+      "sha256": "fa818880848920076bd5afe0dfa4d7ae6f879dc8db2f7adba7dd893d7b96c7f9"
+    },
+    {
+      "path": "assets/native_mine/storybook_mine.glb",
+      "bytes": 13651192,
+      "sha256": "19ec82b314f75e43580408e1f42bbb2ea617f3ad41bd9767b3a97ed0893cf0d3"
+    },
+    {
+      "path": "assets/native_mine/storybook_mine.glb.import",
+      "bytes": 1176,
+      "sha256": "0e5f74e8092bed926a4d84ebbf7d09e9265c431509af0533b2f8126e4c1ece04"
+    },
+    {
+      "path": "assets/native_mine/storybook_mine_Authored_Meadow_Colour.png",
+      "bytes": 77492,
+      "sha256": "6986000b68b24a1e93e7442f2028634b65d6b374a079038a304d5873920ddde0"
+    },
+    {
+      "path": "assets/native_mine/storybook_mine_Authored_Meadow_Colour.png.import",
+      "bytes": 1100,
+      "sha256": "4cc0ee05ee5d64a9a63f89dce874471c1b207fd0459cca68b5d46a17a5ca0720"
+    },
+    {
+      "path": "assets/native_mine/storybook_mine_Authored_Oak_Colour.png",
+      "bytes": 283833,
+      "sha256": "5764fdec8c8e489285550adfe447d70d089c1b62446c191eb1f59ef9f3541008"
+    },
+    {
+      "path": "assets/native_mine/storybook_mine_Authored_Oak_Colour.png.import",
+      "bytes": 1091,
+      "sha256": "0e20a445285e8086a6eff0904ab08c34c05f76628e4b151e07f484e8ab05e126"
+    },
+    {
+      "path": "assets/native_mine/storybook_mine_Authored_Oak_Endgrain.png",
+      "bytes": 202674,
+      "sha256": "cf1bf5465cc3b0ca45e0e416356efffa5a90d571c5cea9035759d853d4a0e91a"
+    },
+    {
+      "path": "assets/native_mine/storybook_mine_Authored_Oak_Endgrain.png.import",
+      "bytes": 1097,
+      "sha256": "3e00af98a0ba6d7a2cff8e54cb89013f6086ecab245835bffc34c9e93e9c24cc"
+    },
+    {
+      "path": "assets/native_mine/storybook_mine_Authored_Oak_Normal.png",
+      "bytes": 98420,
+      "sha256": "6ec4ea541cf96310a1bb04dd66ff5b8ad8fa1940f04ac1a1133300ba29015324"
+    },
+    {
+      "path": "assets/native_mine/storybook_mine_Authored_Oak_Normal.png.import",
+      "bytes": 1091,
+      "sha256": "70c3135d7c7798eee58c13a2f13cec5857e4a94af060e638cb6f2666f9ea7bf4"
+    },
+    {
+      "path": "assets/native_mine/storybook_mine_Authored_Oak_Shadow.png",
+      "bytes": 169776,
+      "sha256": "86265173c190bcb9dfa59836463163cef8cff97201b855e1fc2e796018d2d0ab"
+    },
+    {
+      "path": "assets/native_mine/storybook_mine_Authored_Oak_Shadow.png.import",
+      "bytes": 1091,
+      "sha256": "77e877b6ca0edfe8b1615b9108fa2679ff759641f25ea1d0da81731a9fa3d7a3"
+    },
+    {
+      "path": "assets/r3/airy_island.glb",
+      "bytes": 33844808,
+      "sha256": "5f1098d97ff6ad0064a1ff0dca9917f5c73b68598b502af934b430e2e83c2c99"
+    },
+    {
+      "path": "assets/r3/airy_island.glb.import",
+      "bytes": 1157,
+      "sha256": "0a07d82f16dbaaf1cc9e4e4e003d36447fbb5a53ec4131f63c064a8bc946c2cc"
+    },
+    {
+      "path": "assets/r3/airy_island_Airy_bark.png",
+      "bytes": 36770,
+      "sha256": "16a1ec98b1ef5159434778d401b01375fe78bc9a141a3caa51c8cff32691c0d0"
+    },
+    {
+      "path": "assets/r3/airy_island_Airy_bark.png.import",
+      "bytes": 1043,
+      "sha256": "81023e4df5a31dcb8b7b2bac5cc3fe29e716ad1c0b25577f671edbf916f20a7c"
+    },
+    {
+      "path": "assets/r3/airy_island_Airy_endgrain.png",
+      "bytes": 57184,
+      "sha256": "e048f16dfcf0b8df0ebbc306bb1a000d5811794fd347be522018907320d1e39f"
+    },
+    {
+      "path": "assets/r3/airy_island_Airy_endgrain.png.import",
+      "bytes": 1055,
+      "sha256": "137717380b2d17d11471630915343d65cb2dd283f659e1ec02f55d7d837ddc25"
+    },
+    {
+      "path": "assets/r3/airy_island_Airy_wood.png",
+      "bytes": 38683,
+      "sha256": "fc439d6471305ec93fa09fc80008a6bf73c38af0930957b6c63525bb550964c2"
+    },
+    {
+      "path": "assets/r3/airy_island_Airy_wood.png.import",
+      "bytes": 1043,
+      "sha256": "f677ab02a85c6c0e359838f2249cc674ee63ad385b51244dcdeb0cf93e5559df"
+    },
+    {
+      "path": "assets/r3/airy_island_Airy_wood_dark.png",
+      "bytes": 28659,
+      "sha256": "bf7b308ef09ac9aba7e8f82bc938255f2f0890136db69adf8a98237ca8052fb6"
+    },
+    {
+      "path": "assets/r3/airy_island_Airy_wood_dark.png.import",
+      "bytes": 1057,
+      "sha256": "960a92a81053ca7f0bd0566d10535e7886d127e021554ff1b9da1273504e4931"
+    },
+    {
+      "path": "assets/r3/airy_island_Airy_wood_light.png",
+      "bytes": 42274,
+      "sha256": "5bad7a0aa083af863eba53c596a1bed3f714ce543186c88b4232bfdcd018f4bd"
+    },
+    {
+      "path": "assets/r3/airy_island_Airy_wood_light.png.import",
+      "bytes": 1060,
+      "sha256": "bb711c33e0a935483859f374e5c74a7cd7635d777776eb0a9d406de6979801bd"
+    },
+    {
+      "path": "assets/r3/airy_island_grass_ground_baked.png",
+      "bytes": 772445,
+      "sha256": "71185b8526a5af1cb9218f1a17b0b1386694516ce8e0d0e56cde8af2b1b62492"
+    },
+    {
+      "path": "assets/r3/airy_island_grass_ground_baked.png.import",
+      "bytes": 1070,
+      "sha256": "fd691cd2d448ebb50a40a33bd4a716942868517f233c9d0ade27788326427849"
+    },
+    {
+      "path": "assets/r3/gnome_guide.glb",
+      "bytes": 2665104,
+      "sha256": "c5abfa4a4688d370966edcebf662e4d4692314ea3ea67f3180b1c5f60e3b9e16"
+    },
+    {
+      "path": "assets/r3/gnome_guide.glb.import",
+      "bytes": 1158,
+      "sha256": "790a8b28701974cbebb3b1f821cd00f7f525d5354a9438165325887f8537b55b"
+    },
+    {
+      "path": "assets/select.wav",
+      "bytes": 5776,
+      "sha256": "b5faa573a4057b98d7b994c73dd77c5fd103e5b9f62b1825c408d619e623a3b9"
+    },
+    {
+      "path": "assets/select.wav.import",
+      "bytes": 482,
+      "sha256": "3bdc804730b9c81f60277e7385a95a26d46115ed61aed39e46e68bedd17e8c6a"
+    },
+    {
+      "path": "assets/sfx/elements/earthquake_stones_v1.wav",
+      "bytes": 127934,
+      "sha256": "590a68abb33743b1ea6d5c86f85dd6cc331cbf915fb9f36e61580d1b8e099071"
+    },
+    {
+      "path": "assets/sfx/elements/earthquake_stones_v1.wav.import",
+      "bytes": 538,
+      "sha256": "293cce1c97c4770bfb74a1ec9a5e56a73749a05001c1db684120affb0a401ddd"
+    },
+    {
+      "path": "assets/sfx/elements/elements_quiet_short_v1.wav",
+      "bytes": 15920,
+      "sha256": "af248c4586538890719119c5fea51e0ce9e246cf719011b1fd932b3eb31da786"
+    },
+    {
+      "path": "assets/sfx/elements/elements_quiet_short_v1.wav.import",
+      "bytes": 547,
+      "sha256": "eea439820c81d59c8d1e9bd64bc2971fc2e64c5e1041e00786d4d1654c48ae02"
+    },
+    {
+      "path": "assets/sfx/elements/fusion_gravity_v1.wav",
+      "bytes": 163214,
+      "sha256": "7c643a4bef093f491d6cdc6d56d0c4be4f486d6dcdc07207d96142dd0ab1302d"
+    },
+    {
+      "path": "assets/sfx/elements/fusion_gravity_v1.wav.import",
+      "bytes": 529,
+      "sha256": "bb89d08d1dfdbe525dd2f58b0f0859b0fd3d68a45a51958a56fcc4ee4108caaa"
+    },
+    {
+      "path": "assets/sfx/elements/fusion_material_v2.wav",
+      "bytes": 247004,
+      "sha256": "42eca2b5f8769d5ff67db83f2f41d6ef41e91876c0a31ff2c3084551f368ad69"
+    },
+    {
+      "path": "assets/sfx/elements/fusion_material_v2.wav.import",
+      "bytes": 532,
+      "sha256": "12bae5eeab5a4584b22fd80ac29d43dd86b7d91bcc8ce6d395f99905d9856ea0"
+    },
+    {
+      "path": "assets/sfx/lightning/storm_cartoon_v1.wav",
+      "bytes": 282284,
+      "sha256": "6d231b86864c703e417282b9379698adc3577ef47eb1a4903f36577b9fd2a8c7"
+    },
+    {
+      "path": "assets/sfx/lightning/storm_cartoon_v1.wav.import",
+      "bytes": 527,
+      "sha256": "57bdddb6d41b3ec78694253dc58b4b28574f44fc7524f57fcdbe584329cc3e0f"
+    },
+    {
+      "path": "assets/sfx/lightning/storm_cartoon_v2.wav",
+      "bytes": 282284,
+      "sha256": "bd3ecf606774106f0426800e475c33e97b2d15d6b16433bed306b5da23ee3ddc"
+    },
+    {
+      "path": "assets/sfx/lightning/storm_cartoon_v2.wav.import",
+      "bytes": 526,
+      "sha256": "bd309b5cc8b1d3990184d10ff40217144eacdff9f71a51b64a99ca106f980a7d"
+    },
+    {
+      "path": "assets/sfx/lightning/storm_short_v1.wav",
+      "bytes": 15920,
+      "sha256": "4ef3ab02c180016bc205f659b4155c62c052a8e4df317f84c8a39e39689badd5"
+    },
+    {
+      "path": "assets/sfx/lightning/storm_short_v1.wav.import",
+      "bytes": 521,
+      "sha256": "85e61591b19261ed2048a0b22b31dccf820c2adc8c98244d482d29485dbc004d"
+    },
+    {
+      "path": "assets/sfx/reward_rules/fusion_10_10_soft_v1.wav",
+      "bytes": 493964,
+      "sha256": "bbd8fc607a45292b43c5dafb4e949bb6f784a5dbd41016ff9b3e2637fb12ebed"
+    },
+    {
+      "path": "assets/sfx/reward_rules/fusion_10_10_soft_v1.wav.import",
+      "bytes": 542,
+      "sha256": "d8940c9b22cc6299fa172ecd4cf248c01d76d0674069d1b15514dc437d387aa4"
+    },
+    {
+      "path": "assets/sfx/reward_rules/fusion_6_10_soft_v1.wav",
+      "bytes": 493964,
+      "sha256": "d1c54a133812655412269831aad325fa8b16b21411e284579ed106afbc839076"
+    },
+    {
+      "path": "assets/sfx/reward_rules/fusion_6_10_soft_v1.wav.import",
+      "bytes": 537,
+      "sha256": "63a571414fc6c7df8990386a812316ef795757835c2d4fa530143bac5e0615ae"
+    },
+    {
+      "path": "assets/sfx/reward_rules/fusion_6_6_soft_v1.wav",
+      "bytes": 493964,
+      "sha256": "4da029773bf66834ca4a5d93154d641d43c9c4ff96efe060e8beff3ed9a04782"
+    },
+    {
+      "path": "assets/sfx/reward_rules/fusion_6_6_soft_v1.wav.import",
+      "bytes": 534,
+      "sha256": "f110d49787d26ae1ea397bf96267f677497a3068c4778021911e4c810a7a5f4e"
+    },
+    {
+      "path": "assets/sfx/reward_rules/fusion_6_9_soft_v1.wav",
+      "bytes": 493964,
+      "sha256": "5cd7b0e8a59190af0f5ef89c9a7e1703de4e70650f39b1e9a8bb24f9e98400b1"
+    },
+    {
+      "path": "assets/sfx/reward_rules/fusion_6_9_soft_v1.wav.import",
+      "bytes": 536,
+      "sha256": "40bf940319ebc0e72c6113560c5a6cbd804cf121ec9aca6a3bab7cda8e39694a"
+    },
+    {
+      "path": "assets/sfx/reward_rules/fusion_9_10_soft_v1.wav",
+      "bytes": 493964,
+      "sha256": "ca9ee0bda217b0cfc7b329853ba575035d7ae149e51489b61e7e411c6ad9218e"
+    },
+    {
+      "path": "assets/sfx/reward_rules/fusion_9_10_soft_v1.wav.import",
+      "bytes": 539,
+      "sha256": "65623fa37a02f7427bc71fcd8c7622014ee664477f3bef692c241128aeaaef9b"
+    },
+    {
+      "path": "assets/sfx/reward_rules/fusion_9_9_soft_v1.wav",
+      "bytes": 493964,
+      "sha256": "7893bd5c6d89fce8a41e018ceae4cda1c74c683bc42d846b0db1887c73fbfa0c"
+    },
+    {
+      "path": "assets/sfx/reward_rules/fusion_9_9_soft_v1.wav.import",
+      "bytes": 536,
+      "sha256": "020e8954ab91b2fbd3a69b4eb8ba1ddc1a624cda3a8dfa712c4b533ae9be55f7"
+    },
+    {
+      "path": "assets/sfx/reward_rules/reward_birth_soft_v1.wav",
+      "bytes": 44144,
+      "sha256": "4b424d949d554ba572f63260d2ee3bb158d8a2d0fc50842be75ebd18426dffb9"
+    },
+    {
+      "path": "assets/sfx/reward_rules/reward_birth_soft_v1.wav.import",
+      "bytes": 541,
+      "sha256": "b113b79e1ae7f194b23bdfb619cd38c12f8441ba3cb8d355492958054aaf8e6e"
+    },
+    {
+      "path": "assets/sfx/stone_break_full_v1.wav",
+      "bytes": 185298,
+      "sha256": "9e573bc03b5f427614005774116ef3c84cfa5b9ba486440871331d0d54ac307f"
+    },
+    {
+      "path": "assets/sfx/stone_break_full_v1.wav.import",
+      "bytes": 526,
+      "sha256": "a5d04fef61457dbd65c1a731a7fb2c0f31ab6caf9cbe37f43e4cb9e8c01fb11c"
+    },
+    {
+      "path": "assets/sfx/stone_break_v1.wav",
+      "bytes": 60076,
+      "sha256": "b122dd28955f51fe4ea8d7db8cd9d53fd3a569de02ca8429b8a9eb2adb60f6e8"
+    },
+    {
+      "path": "assets/sfx/stone_break_v1.wav.import",
+      "bytes": 511,
+      "sha256": "2fc93cd18247270a1b94e5ce7ef588754cdb6d8a3a8c5b98b85c0760e160f853"
+    },
+    {
+      "path": "assets/sfx/stone_break_v2.wav",
+      "bytes": 10662,
+      "sha256": "00bea1bced131b1565429109de2c75ca4bf6aa719e078bac1047898da57124f5"
+    },
+    {
+      "path": "assets/sfx/stone_break_v2.wav.import",
+      "bytes": 511,
+      "sha256": "89a1bd58677f7015820acb4fb3d8afc0ae2b1a7520a7aed4fc669b068c3a1c3d"
+    },
+    {
+      "path": "assets/sfx/stone_move_cartoon_selected_v1.ogg",
+      "bytes": 7360,
+      "sha256": "45ac41d8bbf97f713ba5d979ffd497b63a79f530acf3d4c73eb591832880c8b9"
+    },
+    {
+      "path": "assets/sfx/stone_move_cartoon_selected_v1.ogg.import",
+      "bytes": 457,
+      "sha256": "d47a264af5cd77911e30c28e938d0317c1cf3b510a6ced6f12fb77d4f18fd67c"
+    },
+    {
+      "path": "assets/sfx/stone_move_mid_soft_v1.wav",
+      "bytes": 44366,
+      "sha256": "d205cf45a27c556998c4d02c64b3870b41380ae76035f2bad0b167272139722b"
+    },
+    {
+      "path": "assets/sfx/stone_move_mid_soft_v1.wav.import",
+      "bytes": 535,
+      "sha256": "8aa0897449e4fecab6593bc2e8647bb915a98becccac896ec106d8dbcc38cbb1"
+    },
+    {
+      "path": "assets/sfx/stone_move_short_soft_v1.wav",
+      "bytes": 31054,
+      "sha256": "1744ac35f1200bd8219197f7a585fc478f3f326785589be2e406745c7a667bcc"
+    },
+    {
+      "path": "assets/sfx/stone_move_short_soft_v1.wav.import",
+      "bytes": 541,
+      "sha256": "19151220d5c23f5d3725282f561e64a7d739c6b1f1e8c1e589f4adb402f3ccbf"
+    },
+    {
+      "path": "assets/sfx/stone_move_v1.wav",
+      "bytes": 42414,
+      "sha256": "db6039cb201e2cdc51c3e1fd4849d92492a5fef025731ef2a0260c1ce1fb74c8"
+    },
+    {
+      "path": "assets/sfx/stone_move_v1.wav.import",
+      "bytes": 508,
+      "sha256": "cd4a8996193729b766f681159672d719cefce5385575f2ee7f64ff9b3d550930"
+    },
+    {
+      "path": "assets/sfx/stone_move_v2.wav",
+      "bytes": 14190,
+      "sha256": "1bda455077d0ff829ff0aeb2882f7faf31aa9b510fab96636034ae677f37d286"
+    },
+    {
+      "path": "assets/sfx/stone_move_v2.wav.import",
+      "bytes": 508,
+      "sha256": "ecdc7ac3b57750a1134d3785c6cef537a553ac1e22c1e99d925913675c2a13a7"
+    },
+    {
+      "path": "assets/sfx/tornado/tornado_cartoon_magic_v1.wav",
+      "bytes": 250532,
+      "sha256": "c599537fb85b98f7bb11432eda5b4657915150b327f70b19dd2233fc9711fa53"
+    },
+    {
+      "path": "assets/sfx/tornado/tornado_cartoon_magic_v1.wav.import",
+      "bytes": 549,
+      "sha256": "fe64a6a0996c39f3b1590dcf8c3f649e351a911de64a2bd86499a0acb84423ee"
+    },
+    {
+      "path": "assets/sfx/tornado/tornado_soft_short_v1.wav",
+      "bytes": 19448,
+      "sha256": "55a20721ee57df1b8a39b93995281792c812bba5e1587b55272188f2b112e193"
+    },
+    {
+      "path": "assets/sfx/tornado/tornado_soft_short_v1.wav.import",
+      "bytes": 540,
+      "sha256": "748a27bb56ab1a9aeb34a3805ba43fdb8869d18fe11c05e9f72bb5ce5d5193fb"
+    },
+    {
+      "path": "assets/sfx/volcano/eruption_soft_v1.wav",
+      "bytes": 81188,
+      "sha256": "3ba1530e006b39b3e20af8683085cb2f1ffb7db4ad26051d6fa683434b38f9e4"
+    },
+    {
+      "path": "assets/sfx/volcano/eruption_soft_v1.wav.import",
+      "bytes": 525,
+      "sha256": "6415a33ae7a9d9276df852bb98355bc44d5ce847b64309f2721d80eb27385656"
+    },
+    {
+      "path": "assets/sfx/volcano/gnomit_volcano_cartoon_eruption.mp3",
+      "bytes": 16724,
+      "sha256": "165bba4707d48883e96d1c7626400e36a454e206469d58b3b21ec9c536fda27c"
+    },
+    {
+      "path": "assets/sfx/volcano/gnomit_volcano_cartoon_eruption.mp3.import",
+      "bytes": 440,
+      "sha256": "8330f7a284f5e543cba2d42acf4880f2bcb3767591d03f88e7de43696e4a620e"
+    },
+    {
+      "path": "assets/sfx/volcano/lava_flight_soft_v1.wav",
+      "bytes": 26504,
+      "sha256": "9451170e02e409789852074b013989807bb55d55a6fb1a0e76064c2a8828f903"
+    },
+    {
+      "path": "assets/sfx/volcano/lava_flight_soft_v1.wav.import",
+      "bytes": 534,
+      "sha256": "4d0ed2206f2ff28d628769951efc89d2b03ec65107a1904e46d6561684cb4c04"
+    },
+    {
+      "path": "assets/sfx/volcano/magma_impact_burn_v1.wav",
+      "bytes": 63548,
+      "sha256": "39c9ebfd6313cb00aa30f6d3b45d9096fc3c94b6c9a3cf49f904b8ed46b38364"
+    },
+    {
+      "path": "assets/sfx/volcano/magma_impact_burn_v1.wav.import",
+      "bytes": 537,
+      "sha256": "6f89157ee71255fb9d67f2710b05026c2b58f92f15d6579c41df0185097be6ec"
+    },
+    {
+      "path": "assets/sfx/volcano/volcano_eruption_v4_3s.wav",
+      "bytes": 297644,
+      "sha256": "e14235fd8ae7af0f3ec0565053fa1c21885e7fd4f057a7f2a91c43dcb25ada4d"
+    },
+    {
+      "path": "assets/sfx/volcano/volcano_eruption_v4_3s.wav.import",
+      "bytes": 543,
+      "sha256": "dc009a0a5d14eedc1b78c39c9b30375a13536c4e7fc310732514a61d9d05d0f7"
+    },
+    {
+      "path": "assets/shared_v2/contact_shadow.png",
+      "bytes": 7824,
+      "sha256": "d87d66aab4d1183c48c54b023f90e7ff2b07eb1d8e0ee125f5c5b15b43082057"
+    },
+    {
+      "path": "assets/shared_v2/contact_shadow.png.import",
+      "bytes": 963,
+      "sha256": "d1c4b8b708f2e65d6f22ea8984d9ea015dd8178bcfa5b4cbe8e2eb19e6ed2533"
+    },
+    {
+      "path": "assets/shared_v2/hero_master.png",
+      "bytes": 238352,
+      "sha256": "895a1ccf8c17e756e3bc05810cceaf48ec1732d7e90e0428f1c0523e6157004d"
+    },
+    {
+      "path": "assets/shared_v2/hero_master.png.import",
+      "bytes": 954,
+      "sha256": "44575ee6ff9b1e612379f8cb6b4c6ec90fb84d19398347857b2d24a57464fb6e"
+    },
+    {
+      "path": "assets/shared_v2/walk_sheet.png",
+      "bytes": 881007,
+      "sha256": "b03cfaf1022ee72367a820c262dec8f8d7730ce94a5d6f729ce81275505cefda"
+    },
+    {
+      "path": "assets/shared_v2/walk_sheet.png.import",
+      "bytes": 950,
+      "sha256": "43f5a2ed03609c85a12fa1db0ee2d7061d957abc036b65a48828761ee02d5b9d"
+    },
+    {
+      "path": "assets/storybook/descending_world_v1.png",
+      "bytes": 2867280,
+      "sha256": "7fdb2d06aaffd2ee2e8fb2f3a7a794e615ee7242535fdc78ae39010589048297"
+    },
+    {
+      "path": "assets/storybook/descending_world_v1.png.import",
+      "bytes": 978,
+      "sha256": "d18a07fb30c70255db6d186a334b8dcb9277c2e3e850fcb895156cccd018e766"
+    },
+    {
+      "path": "assets/storybook/descending_world_v2.png",
+      "bytes": 2743119,
+      "sha256": "6d1db0d6a8f810568ffc4713a42dbf1b3551a171e0fa54c05d0c61c464be2049"
+    },
+    {
+      "path": "assets/storybook/descending_world_v2.png.import",
+      "bytes": 978,
+      "sha256": "e2be8558b90766ac862de4c52c9497dc372c468597ee67cbc4ad69cc3eaf3a79"
+    },
+    {
+      "path": "assets/storybook/gnome_lantern_cutout_v3.png",
+      "bytes": 1631921,
+      "sha256": "d68bc1873723d2b6751fb05c4680dd13d43926be88818601bcff2961816e8da2"
+    },
+    {
+      "path": "assets/storybook/gnome_lantern_cutout_v3.png.import",
+      "bytes": 990,
+      "sha256": "b5d6df72ee3226b67faef7fc19cc9430666c45675843500b5221b44369d650aa"
+    },
+    {
+      "path": "assets/storybook/gnome_lantern_poses_v1.png",
+      "bytes": 2288423,
+      "sha256": "7ae18c272b49ac5c4b2c9497c0d708fc3d596a9a493ddb7c058530132c54f446"
+    },
+    {
+      "path": "assets/storybook/gnome_lantern_poses_v1.png.import",
+      "bytes": 986,
+      "sha256": "3cc9f2670abfe540b831df814e6722e46272f8de0cbb23341af7def83a9a7f9b"
+    },
+    {
+      "path": "assets/storybook/gnome_lantern_poses_v2.png",
+      "bytes": 2270450,
+      "sha256": "969fb63b915164fea1499c6be9fab8f43ab8af9da4832e06e87c4899de9053b9"
+    },
+    {
+      "path": "assets/storybook/gnome_lantern_poses_v2.png.import",
+      "bytes": 987,
+      "sha256": "8c2696cbdcf4dc83de8e16ddb53814d0a79fde7b5c28226a40b0724b865bb808"
+    },
+    {
+      "path": "assets/storybook/gnome_slice_walk_v1.png",
+      "bytes": 2195950,
+      "sha256": "b73f19278c9791bd44b33296511085353abe471d3ce5c2f753a077e47ba7df62"
+    },
+    {
+      "path": "assets/storybook/gnome_slice_walk_v1.png.import",
+      "bytes": 977,
+      "sha256": "4629daba06c695f084dd95ab334bec720f72d9d4cdc1edb292e267c11bce0215"
+    },
+    {
+      "path": "assets/storybook/gnome_walk_atlas_v1.png",
+      "bytes": 1562761,
+      "sha256": "f383d64e6f853b764468bbaae394eb9143136c397ea105acc778bff83604455a"
+    },
+    {
+      "path": "assets/storybook/gnome_walk_atlas_v1.png.import",
+      "bytes": 977,
+      "sha256": "af1ecaf9be096bb07ebb8c6367605257a270e660b344d30066e15c824c1f9b66"
+    },
+    {
+      "path": "assets/storybook/side_gnomes_v1.png",
+      "bytes": 1629578,
+      "sha256": "0a0fa09ed33b7afa89bdee503241233455d9833f4b2dcc99dbe9fc536219627b"
+    },
+    {
+      "path": "assets/storybook/side_gnomes_v1.png.import",
+      "bytes": 963,
+      "sha256": "5d1dfa21688d25861ed9f5733eed70f931970d4e7957991a8bd15ecc7d928e21"
+    },
+    {
+      "path": "assets/storybook/soil_goal.svg",
+      "bytes": 1063,
+      "sha256": "ab4fb873e93af5f05f8fe378188f9ad0a10e2b6bed1bc3ebda810f6dd0ab3b77"
+    },
+    {
+      "path": "assets/storybook/soil_goal.svg.import",
+      "bytes": 1044,
+      "sha256": "eceaecf67550abefcdcf05b9ee7a306c4f1c79050a5b778271d34b761ba5be79"
+    },
+    {
+      "path": "assets/storybook/treasures_v4.png",
+      "bytes": 2042938,
+      "sha256": "fa58ce349165e6c37d409ad3c7876a5c201ddf7d0723417961ec682b636197e0"
+    },
+    {
+      "path": "assets/storybook/treasures_v4.png.import",
+      "bytes": 957,
+      "sha256": "15430f8ec631eaddd0cbf59137048fbce30fc9699e51480e21d94aebdc4f7666"
+    },
+    {
+      "path": "assets/storybook/ui_materials_v1.png",
+      "bytes": 2461261,
+      "sha256": "daba04ef5dbe8f4bea7544329d3902a743bf041576cd8cbe77ac4004eceb9da4"
+    },
+    {
+      "path": "assets/storybook/ui_materials_v1.png.import",
+      "bytes": 966,
+      "sha256": "b06e754507fc450b52fd6bb2df69ab3ca9aa808288414a23785925656c5e0180"
+    },
+    {
+      "path": "assets/vfx/black_hole/GENERATION_PROMPT_V2.txt",
+      "bytes": 1921,
+      "sha256": "46feae0b14df03ad906c2a6a357939b520f9aef9772a85e938bb6c12a9049d6e"
+    },
+    {
+      "path": "assets/vfx/black_hole/MATERIAL_V2_METADATA.json",
+      "bytes": 682,
+      "sha256": "73b82dbcd8be6439cd0a4fc2af2f841de2be6b26ba1d34948ebb48f4a1301e09"
+    },
+    {
+      "path": "assets/vfx/black_hole/black_hole_core_v2.png",
+      "bytes": 1910081,
+      "sha256": "035c8650327cae9c84b8e8b611ce18f6e3b88fedbb46e24de951c218b0b9d6ce"
+    },
+    {
+      "path": "assets/vfx/black_hole/black_hole_core_v2.png.import",
+      "bytes": 980,
+      "sha256": "6de93702442414bba2f664c329f9194d941e68b7e9fc53df1b30a3bf05e6044c"
+    },
+    {
+      "path": "assets/vfx/mountain_volcano_body_v2.png",
+      "bytes": 1462674,
+      "sha256": "6726a3b3c7c79fae6b4685077f8c917eaac1cecf1a2176371ff9227a0156d8d1"
+    },
+    {
+      "path": "assets/vfx/mountain_volcano_body_v2.png.import",
+      "bytes": 986,
+      "sha256": "1bdf0d6373391df2447efa5afca0ead8c94830c1feea1fdbdb16c3690a5d634e"
+    },
+    {
+      "path": "assets/vfx/volcano/FIRE_GENERATION_PROMPT.txt",
+      "bytes": 1474,
+      "sha256": "bbb84f19bdc35018271859fc882b64ace510117965c4dbcd5f98d67c51b08ea4"
+    },
+    {
+      "path": "assets/vfx/volcano/GENERATION_PROMPTS.txt",
+      "bytes": 2825,
+      "sha256": "ad920ef80d198e8d6978983a4c943d58a4da620fe3850e93ee9cf7538899f2da"
+    },
+    {
+      "path": "assets/vfx/volcano/MATERIALS.json",
+      "bytes": 2757,
+      "sha256": "3c5079cd348c4b19510e83ce289e4359a81943146cdaa76b8c2eca3a1e3e76ee"
+    },
+    {
+      "path": "assets/vfx/volcano/ash_puff.png",
+      "bytes": 1119153,
+      "sha256": "13dbb9000304e6230daa49ffd56f2e759707277a75648631e79f7ae96a7823cd"
+    },
+    {
+      "path": "assets/vfx/volcano/ash_puff.png.import",
+      "bytes": 947,
+      "sha256": "26d2f9d27194e18e46800063bc4b3c9a24ce6dd44f7320a90900af5eefba5ea2"
+    },
+    {
+      "path": "assets/vfx/volcano/impact_dust.png",
+      "bytes": 1560121,
+      "sha256": "be07b75b7bcd86f4720b422b11f4aef583879395199b5abcf7d48b9e45112881"
+    },
+    {
+      "path": "assets/vfx/volcano/impact_dust.png.import",
+      "bytes": 956,
+      "sha256": "4e3821e37959ff143cc46c42aaaff24ec663806efaedc03169bbc0dae9dcf93a"
+    },
+    {
+      "path": "assets/vfx/volcano/lava_flame.png",
+      "bytes": 892449,
+      "sha256": "c44ea2aa05e0d681f61956a84a6d6262e109ef52227985cdf707f33cc43f7c81"
+    },
+    {
+      "path": "assets/vfx/volcano/lava_flame.png.import",
+      "bytes": 953,
+      "sha256": "6ea7e5c43968a34d5ea0d73d2f9a2d04f020aa8a1ae63c3bc1d85a2ba1cd8ffa"
+    },
+    {
+      "path": "assets/vfx/volcano/magma_pebble.png",
+      "bytes": 1232022,
+      "sha256": "1de6a6be56a3f714a8de53cceb96018f196a5cff3ebd9414e6a4a5d64e6d397d"
+    },
+    {
+      "path": "assets/vfx/volcano/magma_pebble.png.import",
+      "bytes": 959,
+      "sha256": "46e2ddc2310acb01ba9375e2e5e7c2f6b8032745469c7b5d915000ee67eb7698"
+    },
+    {
+      "path": "assets/victory.wav",
+      "bytes": 41938,
+      "sha256": "43e31b883d719de5282df86f91bb7c1923eda38a25854beecf98b0dfa792041a"
+    },
+    {
+      "path": "assets/victory.wav.import",
+      "bytes": 486,
+      "sha256": "5ef2c50f0d89e00e4d00d7d5e93a9c61c6bc8c922286167879537d6a0fc1824d"
+    },
+    {
+      "path": "assets/world/authored_village.tscn",
+      "bytes": 29506,
+      "sha256": "2982c59722817bcefc0784a528ca884b831bfe40fdbb7957d7916ae91dfc99bf"
+    },
+    {
+      "path": "assets/world/scene_inventory.json",
+      "bytes": 22569,
+      "sha256": "cd053bde326903cde25eb5e02fae8bbe7f149318bef6557b01b003e679fd93a7"
+    },
+    {
+      "path": "documentation/BEFORE_GRASS_CURRENT_GNOMIT.json",
+      "bytes": 596,
+      "sha256": "ff289cbf0af3e4336e03141656cdaeb6983423616c7dec548a07b934755aba27"
+    },
+    {
+      "path": "documentation/BEFORE_GRASS_PLAY_CURRENT_GNOMIT.cmd",
+      "bytes": 76,
+      "sha256": "ee06f28cd3759f00463ff5fb86c3c80efb04e874072401a18861638b7e051eda"
+    },
+    {
+      "path": "documentation/BEFORE_TREES_CURRENT_GNOMIT.json",
+      "bytes": 799,
+      "sha256": "2d09900097a7ccc3e3348d66da3f3293f7a3a53fb7f569d5490db6c93dc5cb41"
+    },
+    {
+      "path": "documentation/BEFORE_TREES_PLAY_CURRENT_GNOMIT.cmd",
+      "bytes": 67,
+      "sha256": "1b9c9e7f5dff66ce509b879f5cdf33f6d3b92a583c9779352b826e8e978313b3"
+    },
+    {
+      "path": "documentation/CURRENT_VERSION.json",
+      "bytes": 882,
+      "sha256": "b7a4663417dd46a0c4d32390c8997b3ab528cb672878ff428eda052ccd27d39e"
+    },
+    {
+      "path": "documentation/GRASS_EXPORT_RECEIPT.json",
+      "bytes": 647,
+      "sha256": "5e0e9bd3d31b5ce750d818578b5109a4d9356f3fac3324610d22da90e1fcc0fc"
+    },
+    {
+      "path": "documentation/GRASS_INPUT_RECEIPT.json",
+      "bytes": 6928,
+      "sha256": "9625e4847e657d1e64d3fc9b163d96d44559052aa5b223bb897e3fb8956221d0"
+    },
+    {
+      "path": "documentation/GRASS_INTEGRATION_REPORT.txt",
+      "bytes": 2883,
+      "sha256": "102ce075b21ff27e79e79021d870e6b3326128135b7c621ba8caa026ef3ce444"
+    },
+    {
+      "path": "documentation/GRASS_PROVENANCE.json",
+      "bytes": 887,
+      "sha256": "21dab50f51d5c87c340618fab92d05c66d9a6212f65efa7ec85f1e6dec460df8"
+    },
+    {
+      "path": "documentation/INHERITED_CODE_CHECK.json",
+      "bytes": 348,
+      "sha256": "c9c69a7a5a3aca1fd769e47c08d2f9def40c79618f206b0cab3846e7ff3a00c7"
+    },
+    {
+      "path": "documentation/INTERACTIVE_PID.txt",
+      "bytes": 7,
+      "sha256": "5cab4353b07afa4a79bdb0eaf0a26561c5732ccb1a14f0368b4f3e9823cbb0bc"
+    },
+    {
+      "path": "documentation/PARENT_V009/CURRENT_VERSION.json",
+      "bytes": 799,
+      "sha256": "2d09900097a7ccc3e3348d66da3f3293f7a3a53fb7f569d5490db6c93dc5cb41"
+    },
+    {
+      "path": "documentation/PARENT_V009/INTERACTIVE_PID.txt",
+      "bytes": 7,
+      "sha256": "5cab4353b07afa4a79bdb0eaf0a26561c5732ccb1a14f0368b4f3e9823cbb0bc"
+    },
+    {
+      "path": "documentation/PARENT_V009/SHORTCUT_RECEIPT.json",
+      "bytes": 249,
+      "sha256": "b6282b3e06fa3f6b8d0992f9f04b621191e19c49474373397afb4c999dfcdf64"
+    },
+    {
+      "path": "documentation/SHORTCUT_RECEIPT.json",
+      "bytes": 249,
+      "sha256": "b6282b3e06fa3f6b8d0992f9f04b621191e19c49474373397afb4c999dfcdf64"
+    },
+    {
+      "path": "documentation/TREES_BUILD_RECEIPT.json",
+      "bytes": 8406,
+      "sha256": "821506cdd6fd94bf8cc9de4b1a0b4ef6609cbd32d2ba7d89e30b5e513d9f5a00"
+    },
+    {
+      "path": "documentation/TREES_INPUT_RECEIPT.json",
+      "bytes": 6982,
+      "sha256": "32963be55c45630769004942c719827c8cec8b23264279ae99aeafa932f90534"
+    },
+    {
+      "path": "documentation/TREES_PROVENANCE.json",
+      "bytes": 2456,
+      "sha256": "5acc406ce08f0c134021756dcd7d7b2974852d4852ea98a451c90c319c0d2e94"
+    },
+    {
+      "path": "documentation/TREES_SHORTCUT_RECEIPT.json",
+      "bytes": 249,
+      "sha256": "9a597c94c5ac631c880c6312ab7eb7e4bd2458d2c6fb28e1a136f7a6c6f09fb2"
+    },
+    {
+      "path": "documentation/TREES_VISUAL_REVIEW.txt",
+      "bytes": 304,
+      "sha256": "1d1a77000bfe711d058007bde7a865c2823df2f95a6ce67443cd37ed0f4ac377"
+    },
+    {
+      "path": "main.tscn",
+      "bytes": 284,
+      "sha256": "298634778f42d6488cfe1ca49c1146770d710fccad88b967bd36471c301168a2"
+    },
+    {
+      "path": "native/.gdignore",
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "native/TREES_V010.blend",
+      "bytes": 13182628,
+      "sha256": "a483dd4b156ac178d2607a94eb0b8331c62127f970552f93442d8977995db9a2"
+    },
+    {
+      "path": "native/TREES_V010_FINAL.blend",
+      "bytes": 22489608,
+      "sha256": "967a578a797d3d4d2d6d83d53af9bd392ce6b0b64ff03b64dcf4a6950327bb54"
+    },
+    {
+      "path": "native/TREES_V010_SOFT.blend",
+      "bytes": 22479614,
+      "sha256": "7051d5c969b1b78c92edf4f112d77d9f02c304b0fc488c64f0f9b90c8c286b31"
+    },
+    {
+      "path": "native/V009_SOURCE.blend",
+      "bytes": 9364372,
+      "sha256": "eda6edf13d496d2bf86018339db6778ccb632bd4ee307b25d683424bf07897f4"
+    },
+    {
+      "path": "outputs/00_NATIVE_TREES_432x960.png",
+      "bytes": 744129,
+      "sha256": "467750a3ee6c151c21cb52615f66836143cff1e207c1f438cb511f624d0b9548"
+    },
+    {
+      "path": "outputs/00_NATIVE_TREES_432x960.png.import",
+      "bytes": 981,
+      "sha256": "f6fc8bbb06bfd7245833da7e38b830de8106af576a7f556dbe69817b2a7dde14"
+    },
+    {
+      "path": "outputs/00_NATIVE_TREES_DRAFT01.png",
+      "bytes": 739111,
+      "sha256": "1286dab29b2ddb6d3f7ea5d85e83e2f006490761bb7f3a9953f382b725fdc3e2"
+    },
+    {
+      "path": "outputs/00_NATIVE_TREES_DRAFT01.png.import",
+      "bytes": 980,
+      "sha256": "c0758196e7e65d3b2bf6f1a81ee8f6ac4b8f3464fe06005f6830c4b97fddd977"
+    },
+    {
+      "path": "outputs/00_NATIVE_TREES_DRAFT02.png",
+      "bytes": 741612,
+      "sha256": "beea3bb5cfe3aad33e8f437119090df7b69f4ff37df4cc368acc37c79e6a7139"
+    },
+    {
+      "path": "outputs/00_NATIVE_TREES_DRAFT02.png.import",
+      "bytes": 981,
+      "sha256": "57fbe317de524f22b30507ee1c8780f71c0fabc652b2160ce98a441904aa3773"
+    },
+    {
+      "path": "outputs/01_TREES_MAP.png",
+      "bytes": 443798,
+      "sha256": "ceafe4c888c76bc54bc76004a1f9428c3767ed8a673356d704a0b697aa9b04aa"
+    },
+    {
+      "path": "outputs/01_TREES_MAP.png.import",
+      "bytes": 948,
+      "sha256": "3b884597a5599a4058ea3e8dc3613587cc6afcf3cb08c5645d5a701f78d293da"
+    },
+    {
+      "path": "outputs/02_LEVEL1_GOALS.png",
+      "bytes": 330101,
+      "sha256": "b1e40abc0994a70287586c79ebecfc1f9ab8decf0f47c3e73295cf643ad2999a"
+    },
+    {
+      "path": "outputs/02_LEVEL1_GOALS.png.import",
+      "bytes": 957,
+      "sha256": "c35aa00c81f34d8fa35256cac5b9bce2447bc6e0b4db4ceb9bea74390b24091e"
+    },
+    {
+      "path": "outputs/03_VOLCANO_INTRO.png",
+      "bytes": 172435,
+      "sha256": "d1bfe42d873c028ffbcdd4778978fc4cc719d66209fe6c1eabc0fcbeb84d3335"
+    },
+    {
+      "path": "outputs/03_VOLCANO_INTRO.png.import",
+      "bytes": 960,
+      "sha256": "53dd469ad3c1aa3ddda1aa118fe6ff6834298132f590f5bc338fca1bfbd74a3e"
+    },
+    {
+      "path": "outputs/04_BOARD_AFTER_SWAP.png",
+      "bytes": 638970,
+      "sha256": "b09041eb2a75c72bc2d3dc3517ee0aea8fa2d03d0d4c64f72ca903b1a6a3d5f1"
+    },
+    {
+      "path": "outputs/04_BOARD_AFTER_SWAP.png.import",
+      "bytes": 969,
+      "sha256": "3993fb5360af353c9cf56d31d19da4899ea2d972714d73de37cc5665f33348fc"
+    },
+    {
+      "path": "outputs/05_RETURN_MAP.png",
+      "bytes": 444250,
+      "sha256": "d5b0a76bfefc3bc592c902c72a27dc72ba3f9076678691e89065cc3822c629b1"
+    },
+    {
+      "path": "outputs/05_RETURN_MAP.png.import",
+      "bytes": 951,
+      "sha256": "23392796acc171eed8e7b5327e6bea2203cbb2d2bfb0939aa0c8864d1580c06d"
+    },
+    {
+      "path": "outputs/06_TREES_BEFORE_AFTER.png",
+      "bytes": 864506,
+      "sha256": "4cc7501924643db8ebafd902255e54266183a6ded8eb58941aab00a9632dc858"
+    },
+    {
+      "path": "outputs/TREES_BUILD.log",
+      "bytes": 63727,
+      "sha256": "b1596d3d3b37ebbe8e7f8e3f4e1b279f9b9eca7146889888b8e3c3d976f27b0f"
+    },
+    {
+      "path": "outputs/TREES_BUILD_DRAFT01.log",
+      "bytes": 63727,
+      "sha256": "b1596d3d3b37ebbe8e7f8e3f4e1b279f9b9eca7146889888b8e3c3d976f27b0f"
+    },
+    {
+      "path": "outputs/TREES_BUILD_FINAL.log",
+      "bytes": 63746,
+      "sha256": "7f586df926ebeef8e85744b69887d446e9aa5f6d4ac5bab955b5ef5f93d8dc39"
+    },
+    {
+      "path": "outputs/TREES_BUILD_SOFT.log",
+      "bytes": 63749,
+      "sha256": "3ab01847bd0a5de60a4eab3ce6a8202bb838ad45e057325ff36d7b4f41f16064"
+    },
+    {
+      "path": "outputs/TREES_BUILD_TYPE_ERROR_PRESERVED.log",
+      "bytes": 1463,
+      "sha256": "cf211ddae30d296a6911bfc500bf249377953cb81513164740b0af32b6a68f6d"
+    },
+    {
+      "path": "outputs/TREES_COLOUR_FLAG_BEFORE_FIX.png",
+      "bytes": 427153,
+      "sha256": "2edf8b88d2319f1685e9df73d3e8b8afd281d047ac18760459c2453a384e64ab"
+    },
+    {
+      "path": "outputs/TREES_COLOUR_FLAG_BEFORE_FIX.png.import",
+      "bytes": 995,
+      "sha256": "0cf0d353f52de2eca412d13f39c8dfec7f14c39d5853405840bad2ed24491f8f"
+    },
+    {
+      "path": "outputs/TREES_DRAFT02_FOLDED.png",
+      "bytes": 438793,
+      "sha256": "70e07d388a7e6b27cfa961baae831d4783764c70aa1d851885b8dea203012142"
+    },
+    {
+      "path": "outputs/TREES_DRAFT02_FOLDED.png.import",
+      "bytes": 972,
+      "sha256": "a56ed017b9b92ea120d766100afa92763bb827fa015be8f3e2e9c0a79466380e"
+    },
+    {
+      "path": "outputs/TREES_FINAL_IMPORT.log",
+      "bytes": 3718,
+      "sha256": "4cbca0f3ceb6e7b91501d1f3dd318faa1b6409adc148693c7604b905a1067033"
+    },
+    {
+      "path": "outputs/TREES_IMPORT.log",
+      "bytes": 23412,
+      "sha256": "f452afbc9fc598aa45c54a2c1db80c4e66b95e92e0922973d575df0ed7c6005f"
+    },
+    {
+      "path": "outputs/TREES_RUNTIME_COLOUR_BEFORE_FIX.log",
+      "bytes": 2292,
+      "sha256": "31b1f8bfdc2f766b71511d2d9cea62816e6084e933b87b48f644ca312d19e6de"
+    },
+    {
+      "path": "outputs/TREES_RUNTIME_FINAL.log",
+      "bytes": 2597,
+      "sha256": "96682905c727541b170298e6899dae0957ed4a644ebf17c386369ff0db7d84b6"
+    },
+    {
+      "path": "outputs/TREES_RUNTIME_SMOKE.log",
+      "bytes": 2292,
+      "sha256": "31b1f8bfdc2f766b71511d2d9cea62816e6084e933b87b48f644ca312d19e6de"
+    },
+    {
+      "path": "outputs/TREES_SOFT_IMPORT.log",
+      "bytes": 5603,
+      "sha256": "6efa1c1a457b5d4eedfe614f26ad11d178744cae9c094d2afde2f33bb15a020d"
+    },
+    {
+      "path": "outputs/TREES_SOFT_RUNTIME.log",
+      "bytes": 2597,
+      "sha256": "96682905c727541b170298e6899dae0957ed4a644ebf17c386369ff0db7d84b6"
+    },
+    {
+      "path": "project.godot",
+      "bytes": 920,
+      "sha256": "5987c633cb740723a72d2d0811671fa174dd81e0be9e171dcaa65ab76a56d61c"
+    },
+    {
+      "path": "reference/REFERENCE_RECEIPT.json",
+      "bytes": 454,
+      "sha256": "33de27625e544126a28965c94b8d81c08d71b933b6ffd393bb78b6a544e34c44"
+    },
+    {
+      "path": "reference/TARGET_HOME_START.png",
+      "bytes": 2256314,
+      "sha256": "a8ba8f00cba8f715e4633941f65b7f79da7caa174520a2a6e2072c60538e73c9"
+    },
+    {
+      "path": "scripts/alive/alive_hero.gd",
+      "bytes": 6684,
+      "sha256": "baa510d3fbb4337caf94525ba9b35ffc10d42ab40bad9410df793cb8e998f543"
+    },
+    {
+      "path": "scripts/alive/alive_hero.gd.uid",
+      "bytes": 19,
+      "sha256": "ce42fae84e8cea494d5acc8076667a438873645ef282f360f7e5ea6e1d78abc6"
+    },
+    {
+      "path": "scripts/alive/ambient_light.gd",
+      "bytes": 1557,
+      "sha256": "2b5e9e87e40b507733d14d510d6d389ff7f033f3a5c429e46eec39f5783017f0"
+    },
+    {
+      "path": "scripts/alive/ambient_light.gd.uid",
+      "bytes": 20,
+      "sha256": "5210b96c7d562b5533b7bcff5a01ee8654af7285051a5f096a3ed09cefb27aa1"
+    },
+    {
+      "path": "scripts/alive/mine_entry.gd",
+      "bytes": 3593,
+      "sha256": "5d8923b688bebead8d4378b42364312122efc16b311238a37ba747687dcc54ba"
+    },
+    {
+      "path": "scripts/alive/mine_entry.gd.uid",
+      "bytes": 20,
+      "sha256": "886766aff35ae6124e8927ba670076d35ccba6985989d8841998490d443e6f08"
+    },
+    {
+      "path": "scripts/black_hole_one_hit_fixture.gd",
+      "bytes": 357,
+      "sha256": "49467f949c44c4688c35056b26ac4162cce2a6ea20955c5f8b02832fdb565628"
+    },
+    {
+      "path": "scripts/black_hole_one_hit_fixture.gd.uid",
+      "bytes": 20,
+      "sha256": "419523897e7e917b8d3772b0e81567e83fd63f1f452c8b84aa1fb3470ca274fe"
+    },
+    {
+      "path": "scripts/board_view.gd",
+      "bytes": 33490,
+      "sha256": "c0f68b6a37805278db1684200e7d5c6bc3672bfdc04fb5d6b9b908d177a44781"
+    },
+    {
+      "path": "scripts/board_view.gd.uid",
+      "bytes": 20,
+      "sha256": "a6f6b077082c4c5a08c6efbd59ab5c898a8c2a729a3d2c8e58c9298c28bebd93"
+    },
+    {
+      "path": "scripts/campaign/power_audio.gd",
+      "bytes": 5724,
+      "sha256": "69ddc4b54fbee1692d0dc85bc8c1b6f6efc68fb6d63f622449db9f12d4cb7c67"
+    },
+    {
+      "path": "scripts/campaign/power_audio.gd.uid",
+      "bytes": 20,
+      "sha256": "e1e5268afe9d9f7bdeac69324b8f43dbd39a2fcd48953588970c8df959e42349"
+    },
+    {
+      "path": "scripts/first_crystals_view.gd",
+      "bytes": 11944,
+      "sha256": "53947d62c372247d38086f284b323bdc3bccb0bba6f4d960773d267ab9a3bf36"
+    },
+    {
+      "path": "scripts/first_crystals_view.gd.uid",
+      "bytes": 20,
+      "sha256": "abf43d34c16ad157540393712ee7f0292c7796708c380f23886a582a73809973"
+    },
+    {
+      "path": "scripts/goal_trails.gd",
+      "bytes": 1780,
+      "sha256": "c16c29810c294cbf6b0d16b1e4033acd5e4796f31786e0081775f60662bb12ee"
+    },
+    {
+      "path": "scripts/goal_trails.gd.uid",
+      "bytes": 20,
+      "sha256": "300fd64bef8e9679985dc143628ba10d1f32ba4d368dadc5acf0916c8ed93084"
+    },
+    {
+      "path": "scripts/lab/element_audio.gd",
+      "bytes": 1796,
+      "sha256": "1a50e1d87ed4118e6754deee71b9c26be7bc325b2771a69aa2fd26bf79ab5b16"
+    },
+    {
+      "path": "scripts/lab/element_audio.gd.uid",
+      "bytes": 20,
+      "sha256": "7632a8d4b6dbdd8cff9b578edd410a2e0ac902fa8b83f96d911c51b19e73f9bb"
+    },
+    {
+      "path": "scripts/lab/lightning_audio.gd",
+      "bytes": 1694,
+      "sha256": "eeaf09e6cf1cd0a49decd4c12c0b8b748126e0e88b14030ebbeac3ab622c4899"
+    },
+    {
+      "path": "scripts/lab/lightning_audio.gd.uid",
+      "bytes": 20,
+      "sha256": "5645fa599f25b045536b053c817f3d979b2896045c314bcbbdf3ed486d9132e2"
+    },
+    {
+      "path": "scripts/lab/magic_black_hole_material_board.gd",
+      "bytes": 11327,
+      "sha256": "a67fb3ec112927bcfa89f0e0885bb6459d80b2e0264eecaf8cff2407f387e901"
+    },
+    {
+      "path": "scripts/lab/magic_black_hole_material_board.gd.uid",
+      "bytes": 20,
+      "sha256": "2664dea434a2126238d3b10684da95782057b4abc26a97b2077c724e7b6ab834"
+    },
+    {
+      "path": "scripts/lab/magic_earthquake_board.gd",
+      "bytes": 11132,
+      "sha256": "80a23b5045267721e54bb3b4da93e5f9f1ed3a3014be4b1355985d9c021ee3b8"
+    },
+    {
+      "path": "scripts/lab/magic_earthquake_board.gd.uid",
+      "bytes": 19,
+      "sha256": "476f1d7dab1534d92c8db770adf85b323a5c0441afc3ef9a34033496d6759853"
+    },
+    {
+      "path": "scripts/lab/magic_fusion_board.gd",
+      "bytes": 6499,
+      "sha256": "d0df31cabceb72daa137777a4055ccef731474e5b59bea4e02b858ffe1bfd71a"
+    },
+    {
+      "path": "scripts/lab/magic_fusion_board.gd.uid",
+      "bytes": 19,
+      "sha256": "27c53325fbce2f7050a3e4e722181fc348bb2f632adcefe7c21b7f12950fba49"
+    },
+    {
+      "path": "scripts/lab/magic_landslide_board.gd",
+      "bytes": 7319,
+      "sha256": "357b27b4a897984d6e9932d12eefb611a672447fd1cfc693ac350d52db25f42f"
+    },
+    {
+      "path": "scripts/lab/magic_landslide_board.gd.uid",
+      "bytes": 20,
+      "sha256": "619d6101242218a36fda6261d4696d9f20f192bf3746b90de80cfa2396a6e06b"
+    },
+    {
+      "path": "scripts/lab/magic_volcano_board.gd",
+      "bytes": 33413,
+      "sha256": "ed552847329150210101846182f7486da9b5135a9428386814973f02e2868ed1"
+    },
+    {
+      "path": "scripts/lab/magic_volcano_board.gd.uid",
+      "bytes": 20,
+      "sha256": "db9b8bb54aa81152625e408312e7e832b3d4e6b3a8c3b5539c5c3573e9f6a4ab"
+    },
+    {
+      "path": "scripts/lab/material_power_board.gd",
+      "bytes": 19663,
+      "sha256": "bec1b982d0f2fcca4e13d7150200cf81338f970c2557a5a47c8950d6adc4200e"
+    },
+    {
+      "path": "scripts/lab/material_power_board.gd.uid",
+      "bytes": 20,
+      "sha256": "e5aab042810097bb416470552a530b27b6c2f232e024ecaa5e64aaa9397e0265"
+    },
+    {
+      "path": "scripts/lab/material_power_core.gd",
+      "bytes": 31113,
+      "sha256": "cb2417fe782327b47ea595a44386259ec138f73e8ef294d72fc1e94bcaac16d7"
+    },
+    {
+      "path": "scripts/lab/material_power_core.gd.uid",
+      "bytes": 20,
+      "sha256": "63e52dacc0b05e3242b9b06d9606b323ff0ef432547d7fc5b5b649cde7469c1c"
+    },
+    {
+      "path": "scripts/lab/material_power_fixtures.gd",
+      "bytes": 4725,
+      "sha256": "d44263ce4bc411cea0d2c852500cbb52907af4b5243109ba2b614b51b7d8aa96"
+    },
+    {
+      "path": "scripts/lab/material_power_fixtures.gd.uid",
+      "bytes": 20,
+      "sha256": "c254bc1cfa527dff28f06c5f432a05f4859fd04d782a4ce0a8b27f93d1eb07ee"
+    },
+    {
+      "path": "scripts/lab/material_power_lab.gd",
+      "bytes": 20199,
+      "sha256": "2f5a196c3899d2906d273c120e0b58841152c6385c9dc724637d0b30efc9d692"
+    },
+    {
+      "path": "scripts/lab/material_power_lab.gd.uid",
+      "bytes": 20,
+      "sha256": "8ccd30f65a698cd9004db2acadd0c8561be6b844d3e7903ccc23e7b3ac10db23"
+    },
+    {
+      "path": "scripts/lab/mega_volcano_audio.gd",
+      "bytes": 2317,
+      "sha256": "05e345bfc9c8105bbbb03cc41f8218b8d2cc461b13cb24c8413e98031524c544"
+    },
+    {
+      "path": "scripts/lab/mega_volcano_audio.gd.uid",
+      "bytes": 20,
+      "sha256": "1b0a8f0cace8575cbc9f9d06032bfb31354fb02fd4ce0bc9f0b6d89ef37cd0c4"
+    },
+    {
+      "path": "scripts/lab/mega_volcano_board.gd",
+      "bytes": 10143,
+      "sha256": "a1777cd8d34beb983e561d358c90542591f159a0c378360d8d8280e1903cc9ba"
+    },
+    {
+      "path": "scripts/lab/mega_volcano_board.gd.uid",
+      "bytes": 20,
+      "sha256": "e11f1e19f57bb200d23bd7e54465598be0b5d5904b56ec25a07a7ca0eb8e2829"
+    },
+    {
+      "path": "scripts/lab/mega_volcano_core.gd",
+      "bytes": 1899,
+      "sha256": "98197cc636ca126a12f6a7dc2a977e3b39bc20e42776fd5acdaded54e34adece"
+    },
+    {
+      "path": "scripts/lab/mega_volcano_core.gd.uid",
+      "bytes": 20,
+      "sha256": "8a92c2fc6cea2c571805f225df1620e8c14f76b9e6c5a67cb91612d6302f0ad0"
+    },
+    {
+      "path": "scripts/lab/mega_volcano_lab.gd",
+      "bytes": 20969,
+      "sha256": "835cfc163abbec7ec6bc61cc3d2ba4e9117bafa2121bbbb7ccedaf4c40df1122"
+    },
+    {
+      "path": "scripts/lab/mega_volcano_lab.gd.uid",
+      "bytes": 19,
+      "sha256": "9ffa5d29542dec31c3b1f986a2b6651a6d5fdc6b3ed13e576fde6049d1408f6e"
+    },
+    {
+      "path": "scripts/lab/mega_volcano_v4_audio.gd",
+      "bytes": 1114,
+      "sha256": "85908a1be87c5e4db8e05fda46ef10a466d2eccffa70e5a2e34c8d7564d84dfc"
+    },
+    {
+      "path": "scripts/lab/mega_volcano_v4_audio.gd.uid",
+      "bytes": 20,
+      "sha256": "eb4a11a2b6f2242c6b7e6d69a9cc30698823c39219ba70bc699a868eaba88b6c"
+    },
+    {
+      "path": "scripts/lab/mountain_volcano_board.gd",
+      "bytes": 7733,
+      "sha256": "d2d4adadd38f32dc9bc793b5b06940ba9ebbc40c8e78e4ed7237d435879b8343"
+    },
+    {
+      "path": "scripts/lab/mountain_volcano_board.gd.uid",
+      "bytes": 20,
+      "sha256": "d526b7243a56605dfb859f45c5a2d3ab8706d4a406fd47e1999f9b9cbf65fc77"
+    },
+    {
+      "path": "scripts/lab/mountain_volcano_lab.gd",
+      "bytes": 21010,
+      "sha256": "fcfb0d6856d3a9bd9eb068fac58ab40b7827f7484deb3d1d11aa637115ec6676"
+    },
+    {
+      "path": "scripts/lab/mountain_volcano_lab.gd.uid",
+      "bytes": 20,
+      "sha256": "d40031b06990a947cd7ee5da21813743fa17d260e42d9f871fe08c5c7b4bec5b"
+    },
+    {
+      "path": "scripts/lab/natural_power_board.gd",
+      "bytes": 11579,
+      "sha256": "59b1f5b5444903e3f5bbe0d5b2fb69adb9aa535e8dc3673c162b62d5999f311c"
+    },
+    {
+      "path": "scripts/lab/natural_power_board.gd.uid",
+      "bytes": 19,
+      "sha256": "a943ca1dfba15baf6bff5a2d2b3c311fb50a7629d0986a20c7af8ede56513254"
+    },
+    {
+      "path": "scripts/lab/natural_power_core.gd",
+      "bytes": 10548,
+      "sha256": "d6219ab8d92d32cd7b65661105b81e16389002d4e2ce9406ee19e877db7e5a05"
+    },
+    {
+      "path": "scripts/lab/natural_power_core.gd.uid",
+      "bytes": 20,
+      "sha256": "86ad64c604f10a0d8b24638ad932961364dcba22d6f0195241b7664ab7a218a6"
+    },
+    {
+      "path": "scripts/lab/natural_power_lab.gd",
+      "bytes": 15561,
+      "sha256": "3f47417dc49813bc9442ce69f89cfb58926fff04dd167b3a970320dce15e821a"
+    },
+    {
+      "path": "scripts/lab/natural_power_lab.gd.uid",
+      "bytes": 20,
+      "sha256": "e36ffaf76df3a8cb5a4b6904bb67a4f910dbf8f481e29e3ab900f932815395d8"
+    },
+    {
+      "path": "scripts/lab/reward_rules_audio.gd",
+      "bytes": 2049,
+      "sha256": "bcd83ecbf372387689f34d443770ebec429d08252a9bb4be837af40c210b3e4a"
+    },
+    {
+      "path": "scripts/lab/reward_rules_audio.gd.uid",
+      "bytes": 20,
+      "sha256": "e1ab6c8cc3b1a2d839eb4af11a23a1c5ac1df09cece48ed0c84e519a0810d02b"
+    },
+    {
+      "path": "scripts/lab/reward_rules_board.gd",
+      "bytes": 13889,
+      "sha256": "1a94561e384213beb5002942d47e87239a1d15f9dac3d7a08429fd2230fb6e1e"
+    },
+    {
+      "path": "scripts/lab/reward_rules_board.gd.uid",
+      "bytes": 20,
+      "sha256": "f67f0b289bc01f6960bc7eb4a2bdbd166ecaee6064f54f8561e9c9a2e147eef3"
+    },
+    {
+      "path": "scripts/lab/reward_rules_core.gd",
+      "bytes": 19221,
+      "sha256": "c771d019270f5015f64ff5a86a0e2cac81f1e39f7c9afaa0d0e1747c2d7e2934"
+    },
+    {
+      "path": "scripts/lab/reward_rules_core.gd.uid",
+      "bytes": 20,
+      "sha256": "a9c7dcd64f03835972040ba7a2090b88ec3bc8ef32cb9551ab4b7621fade4ced"
+    },
+    {
+      "path": "scripts/lab/reward_rules_fixtures.gd",
+      "bytes": 3143,
+      "sha256": "1fd411a5cf2ff7b62f3452d5b371619e151cbaa80f6bd1201483972101c91e40"
+    },
+    {
+      "path": "scripts/lab/reward_rules_fixtures.gd.uid",
+      "bytes": 20,
+      "sha256": "412786374df0f1faaab9877bd8cb9685a7e49b83c0bced63eb809a11d547787e"
+    },
+    {
+      "path": "scripts/lab/reward_rules_lab.gd",
+      "bytes": 17303,
+      "sha256": "7323211b46aa8cccb1422aad1ffa762dbd6a9e1d3aefb7c59a9d22e5530274f2"
+    },
+    {
+      "path": "scripts/lab/reward_rules_lab.gd.uid",
+      "bytes": 20,
+      "sha256": "5c9b477dd0d64f7e1f99e4cd192f89b1ea2b49e3fe31d5db5cb79eebe66156b6"
+    },
+    {
+      "path": "scripts/lab/tornado_audio.gd",
+      "bytes": 2866,
+      "sha256": "f762aaf1e89d6148907b30cf50a71bdec5decd9e8baee5511dae9fc4e00eeaad"
+    },
+    {
+      "path": "scripts/lab/tornado_audio.gd.uid",
+      "bytes": 19,
+      "sha256": "b25b6d65397280146ea3842855261ee4e275045e1bef60b900a5ee356633e47c"
+    },
+    {
+      "path": "scripts/lab/volcano_audio.gd",
+      "bytes": 5591,
+      "sha256": "9f42169292b7d6c8ca7a3e7d79c553c8b29cb58c193005a2a01fb0a9787d0247"
+    },
+    {
+      "path": "scripts/lab/volcano_audio.gd.uid",
+      "bytes": 20,
+      "sha256": "f604c15c272cc32ba67d0d53e053d1f0327ca94728c9b9b84322d8fb02c9f891"
+    },
+    {
+      "path": "scripts/levels.gd",
+      "bytes": 6960,
+      "sha256": "7c582ddf6a1747fb0302413e61a343fcaf7809065788888d6a672b59ba60f850"
+    },
+    {
+      "path": "scripts/levels.gd.uid",
+      "bytes": 20,
+      "sha256": "dc2b530de4373fb821448f1f3a4cfdfd04e443118655c64f2b67f16b5b79cf15"
+    },
+    {
+      "path": "scripts/main.gd",
+      "bytes": 31995,
+      "sha256": "289149fb4d792e948b7939e2864937c68068cd5042b623245449921fbdfdfb63"
+    },
+    {
+      "path": "scripts/main.gd.uid",
+      "bytes": 19,
+      "sha256": "5e4804f4fe60917c7dfcad85fc6e7e91e8a3e69c80b34aa3011c748a72ff6224"
+    },
+    {
+      "path": "scripts/match_core.gd",
+      "bytes": 10023,
+      "sha256": "12f1d987e5a5ab194cfc1ea555a5905922290a23e67f370b9f3a4813d42166bb"
+    },
+    {
+      "path": "scripts/match_core.gd.uid",
+      "bytes": 20,
+      "sha256": "181521b11d9f2dff63e468b22eefabe87a427e950c6ce8bffab0560bc62b0620"
+    },
+    {
+      "path": "scripts/native_mine/native_mine_base.gd",
+      "bytes": 24459,
+      "sha256": "1239baf6fc79b33811c263d4481ee6df0ee6bcc121335837ae57ad96105dd4f8"
+    },
+    {
+      "path": "scripts/native_mine/native_mine_base.gd.uid",
+      "bytes": 19,
+      "sha256": "eebc7bfe9d83f9c7fd224e3b4323db0b74d4fe55c2debd07a01c317cd41e3d6f"
+    },
+    {
+      "path": "scripts/native_mine/native_mine_map.gd",
+      "bytes": 3864,
+      "sha256": "398a41164edb7108672a3f855df9e611a734cf2f4650218754b3581f453ace1f"
+    },
+    {
+      "path": "scripts/native_mine/native_mine_map.gd.uid",
+      "bytes": 20,
+      "sha256": "8d760907747fafc096ddc7c1f2bd8bb71fc3bb657b8955e078d01f7d77c6bb1b"
+    },
+    {
+      "path": "scripts/native_mine/native_mine_scene.gd",
+      "bytes": 1401,
+      "sha256": "c1b7841638c0c3b7c271dedfcd7c0de4ed243693ab7f27ec23b2cf19046f8851"
+    },
+    {
+      "path": "scripts/native_mine/native_mine_scene.gd.uid",
+      "bytes": 20,
+      "sha256": "f5e3612535381b979966298fb7d71b1b0ba2238623af2cfbaafc8fe17b5a7379"
+    },
+    {
+      "path": "scripts/pre_level_view.gd",
+      "bytes": 11364,
+      "sha256": "2859df1429d2720ea67afcbc1c3346c107f71e9668dfc0b30b493e178f18767f"
+    },
+    {
+      "path": "scripts/pre_level_view.gd.uid",
+      "bytes": 20,
+      "sha256": "f8371aeda1ea2a61361296d51ecefdd6a00e24f1a3124a14011148be43685d7d"
+    },
+    {
+      "path": "scripts/progress.gd",
+      "bytes": 4151,
+      "sha256": "2d7dce425fb70fe47d07bd14777a957ac2d7e08929a43ef56216b13fba22e501"
+    },
+    {
+      "path": "scripts/progress.gd.uid",
+      "bytes": 19,
+      "sha256": "d3b1c1a05efb3e1b3759274b52aa410bb3fc09b565ce0d8ed13c18f06574d861"
+    },
+    {
+      "path": "scripts/r3/island_map.gd",
+      "bytes": 16227,
+      "sha256": "9b19ff3cf8d38d3cbdd4a0beb72430add4f250345aa371862f3edf14df05c9dd"
+    },
+    {
+      "path": "scripts/r3/island_map.gd.uid",
+      "bytes": 20,
+      "sha256": "f34b76989460d153d64ad244c141ee61a3e51ffa4c8a577fd3cfd989c268d18b"
+    },
+    {
+      "path": "scripts/r3/island_route.gd",
+      "bytes": 2637,
+      "sha256": "400c50a8b503a39a5dfb7ee1ae118fa853c7b3ffcdafac3fb1b621a6753eddfd"
+    },
+    {
+      "path": "scripts/r3/island_route.gd.uid",
+      "bytes": 20,
+      "sha256": "3e096da3893ad000f73e339ebb5d7fee4379a278940d09cad001b06de2115617"
+    },
+    {
+      "path": "scripts/r3/preview_main.gd",
+      "bytes": 975,
+      "sha256": "a8638a20d0232a55c268d9c70a3fbfde9b5fb1b2d157ceee0ddf311dc5e85543"
+    },
+    {
+      "path": "scripts/r3/preview_main.gd.uid",
+      "bytes": 19,
+      "sha256": "91ba9d8cff9712dbf9ec3dd4c0975d959c6e14c52e8eab4f5db0da69641a7cbb"
+    },
+    {
+      "path": "scripts/r3/r3_guide.gd",
+      "bytes": 6906,
+      "sha256": "0a3c6a40a89dadba72d05ca2b6ef6adbb90b00b608e48d3de7e056da650af4c5"
+    },
+    {
+      "path": "scripts/r3/r3_guide.gd.uid",
+      "bytes": 20,
+      "sha256": "31bac5425cf3139a019b9b7c269ab6cd5638fe179db78f065ddcd7e7bbee570f"
+    },
+    {
+      "path": "scripts/rock_audio.gd",
+      "bytes": 2167,
+      "sha256": "0febfc5e9c7eb37519d968bff5b7a81f9326da9b16ff9660183c3329d1c8d311"
+    },
+    {
+      "path": "scripts/rock_audio.gd.uid",
+      "bytes": 20,
+      "sha256": "4e4b1dc698351cf3ca7843cf0c2d9a658e2debc907ac648e5123deb3a5469b71"
+    },
+    {
+      "path": "scripts/slice_map_view.gd",
+      "bytes": 13840,
+      "sha256": "e9c44754c78cbe1cb7be9e89d0052152dd73f8ab05146dfd1f5010a6b03b9d07"
+    },
+    {
+      "path": "scripts/slice_map_view.gd.uid",
+      "bytes": 19,
+      "sha256": "60dbc79aabc2e12bd8eb7e71a757be329323a1ad9342e0e2ab2698c135a8a522"
+    },
+    {
+      "path": "scripts/slice_route.gd",
+      "bytes": 1377,
+      "sha256": "44daeeeac47131b0476f7949f1f0e4d0912bd198c33d2c7fae3f422a5f9fb052"
+    },
+    {
+      "path": "scripts/slice_route.gd.uid",
+      "bytes": 20,
+      "sha256": "101fde654067a77db508f554001b8edb5249e0d85238532bb192510000b51bae"
+    },
+    {
+      "path": "scripts/story_art.gd",
+      "bytes": 2458,
+      "sha256": "a047857f713c08bfc528bf7d10c37da2ac778298b46c235873dd81d8d7961bd2"
+    },
+    {
+      "path": "scripts/story_art.gd.uid",
+      "bytes": 20,
+      "sha256": "0e78c0b24162dd9001c1b8374815487ddfc181258856fcb71b587e60acb3bc03"
+    },
+    {
+      "path": "scripts/story_chamber_view.gd",
+      "bytes": 6103,
+      "sha256": "64334eed0078a0aeb349659f98d3b4b89416b143e94bcf5f46251974b2c29210"
+    },
+    {
+      "path": "scripts/story_chamber_view.gd.uid",
+      "bytes": 20,
+      "sha256": "211ae82ede068ca5de48b305bd9486ee6c97fdb17790177fc70a0ed350a3bffe"
+    },
+    {
+      "path": "scripts/story_map_view.gd",
+      "bytes": 25260,
+      "sha256": "db13897e7f0fbd6a7c749e5029e57d5e274878e716f6746720ccc946ebf70fd7"
+    },
+    {
+      "path": "scripts/story_map_view.gd.uid",
+      "bytes": 19,
+      "sha256": "1cb351088393c9ae8da97b125ee9823fd6fe0280bc10a336c278a699cc291f95"
+    },
+    {
+      "path": "scripts/tutorial/power_tutorial.gd",
+      "bytes": 8465,
+      "sha256": "a4b4eb8e758283b7e1b6352812e13518e56d571acc1a2caec53b4dedce791bfc"
+    },
+    {
+      "path": "scripts/tutorial/power_tutorial.gd.uid",
+      "bytes": 20,
+      "sha256": "1184384dd2ffc99430a68e80fd4d01dc12123994feafc4c726d0b6a1f69986b1"
+    },
+    {
+      "path": "scripts/tutorial/volcano_mini_animation.gd",
+      "bytes": 8798,
+      "sha256": "45a7d1f882f9effc61f7ffd1868759bb2d6ae4c0533b79acb4e20c83c14bd6a9"
+    },
+    {
+      "path": "scripts/tutorial/volcano_mini_animation.gd.uid",
+      "bytes": 20,
+      "sha256": "f4d3a1a65dabae112dab5ff252a6e144a81ec62caabbe1301717ba1af1ddfe52"
+    },
+    {
+      "path": "scripts/world/scene_prop.gd",
+      "bytes": 13181,
+      "sha256": "fd68f473262b9d13bb5defbd96c4cbc304e3ffbc69691c561142701a54ce5b72"
+    },
+    {
+      "path": "scripts/world/scene_prop.gd.uid",
+      "bytes": 20,
+      "sha256": "1b70dff9f0e2d4833a7a1bfc5edbecadfbc2eec6f3eab39c74b32043689150b1"
+    },
+    {
+      "path": "scripts/world/world_environment.gd",
+      "bytes": 3454,
+      "sha256": "0fb46695cdf9bd97c65103da22f3f19e5a2f0566a6c06df8e01fccea189f8660"
+    },
+    {
+      "path": "scripts/world/world_environment.gd.uid",
+      "bytes": 19,
+      "sha256": "2a4c9f8dd5ac7000c1023b373bead1a2ffc0f666dbb85aabd635388e909fdd5b"
+    },
+    {
+      "path": "scripts/world/world_map_view.gd",
+      "bytes": 8100,
+      "sha256": "2b71fab59dea6a1d66d604ecdcb0611f23ac64d47cfea0b527e678b525b5ed71"
+    },
+    {
+      "path": "scripts/world/world_map_view.gd.uid",
+      "bytes": 20,
+      "sha256": "93887b466dc1c8cb299f6ea9294ab2024a764afaafd4b125e5f63a5a25649ba4"
+    },
+    {
+      "path": "scripts/world/world_road.gd",
+      "bytes": 2075,
+      "sha256": "064d84b54374dbb4fdde7d1defe1bbf5f36965a3f8e9b589ea57dc85a321e32e"
+    },
+    {
+      "path": "scripts/world/world_road.gd.uid",
+      "bytes": 20,
+      "sha256": "477597ec5ec08f5f44aa024830d45f80e909d1df9abe864d54af2e8c4e144b4b"
+    },
+    {
+      "path": "scripts/world_view.gd",
+      "bytes": 11362,
+      "sha256": "7c6bd2397d7778cf36501b2ca2d7f5bf0fcc3ed60822e7c279fb775e9bff43f8"
+    },
+    {
+      "path": "scripts/world_view.gd.uid",
+      "bytes": 20,
+      "sha256": "9cf605390e00a255cbd21ea69ef58c3e168fbc56589c3ff1ff9806d1e044d346"
+    },
+    {
+      "path": "shaders/reference_grass.gdshader",
+      "bytes": 312,
+      "sha256": "c7b82792f02c7537aaf9c433d083c04d207191af71b97780130fef2093fdfe8b"
+    },
+    {
+      "path": "shaders/reference_grass.gdshader.uid",
+      "bytes": 19,
+      "sha256": "3160137f3436ae48b22685963af615874ff4d11ee72ec9b3ddd8901c5112e532"
+    },
+    {
+      "path": "tools/build_trees.py",
+      "bytes": 13470,
+      "sha256": "fad9e799c6ac9ac62bca82f31da52d83d08bda3aa04573bbe586e49aa6e6a053"
+    },
+    {
+      "path": "tools/build_trees_draft01.py",
+      "bytes": 13071,
+      "sha256": "1d1e7e4dfab7c9f361025865dcd87a7545396bad544b7f1be0aa7f9ad5e1659e"
+    },
+    {
+      "path": "tools/build_trees_draft02.py",
+      "bytes": 13495,
+      "sha256": "44b1588ee39961362183b6998564ed43fcf08a8dcba545e8c2358912db0a6310"
+    },
+    {
+      "path": "tools/download_v010.py",
+      "bytes": 13342,
+      "sha256": "459b612ac7135815ca111c0c72373b42109c9d05d5ae354071d8a93db34723ad"
+    },
+    {
+      "path": "tools/export_grass_world.py",
+      "bytes": 5638,
+      "sha256": "5b39e4e4729bdab40eb4302079cb2ba22e07ce57de0cc31a96bd28c85fe205f7"
+    },
+    {
+      "path": "tools/finalize_trees.py",
+      "bytes": 7977,
+      "sha256": "3dff0570a10063cc62c75890d6ea719f638110bc845b0fe6cd76a92ca79a920b"
+    },
+    {
+      "path": "tools/guard_utils.py",
+      "bytes": 10802,
+      "sha256": "1ec5055c90347cbc688013c97d02723bd5d7bb3e7541b0b958f9b84b3e6e6fa9"
+    },
+    {
+      "path": "tools/package_runtime.py",
+      "bytes": 7809,
+      "sha256": "c5bc44c9c5623ac90b4a81919a8a64271e08209dadca5140477a5d784ab15e76"
+    },
+    {
+      "path": "tools/package_trees.py",
+      "bytes": 4129,
+      "sha256": "c3d0018ec79a8ce89438e50bbcfe6e4d610bcdee84c9e1fbbabe5b447188699f"
+    },
+    {
+      "path": "verification/TREES_SMOKE.json",
+      "bytes": 2167,
+      "sha256": "ff2c1f285549038ca8a080fbb2df6448fcffb9a3e32a78d6462ed16f9cb0a9c1"
+    },
+    {
+      "path": "verification/inspect_tree_colours.gd",
+      "bytes": 541,
+      "sha256": "9812790cf019738d317a7c5a3eb161f80a733264a4b03a6a5b3cdf0cdfe5113b"
+    },
+    {
+      "path": "verification/inspect_tree_colours.gd.uid",
+      "bytes": 19,
+      "sha256": "0e9cf465241cd3556ef59256b19f9f71e69c9af66be268e9e35e80067b061dc7"
+    },
+    {
+      "path": "verification/smoke_trees.gd",
+      "bytes": 5448,
+      "sha256": "175c83150799069bbb823ecd54f802531ecf32ebb5bb03613c09efa1d8831d61"
+    },
+    {
+      "path": "verification/smoke_trees.gd.uid",
+      "bytes": 19,
+      "sha256": "3000867b155dc236a9e9594846f10cdf3ca2d5f13b463e6d71a53438915c5a09"
+    }
+  ]
+}

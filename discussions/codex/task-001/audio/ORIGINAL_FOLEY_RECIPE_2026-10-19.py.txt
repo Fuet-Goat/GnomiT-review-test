@@ -1,0 +1,171 @@
+"""Four original GnomiT listening previews. No sample, recording or network inputs.
+
+Only procedural noise, damped oscillators and authored envelopes are used.
+Requires NumPy. Does not access or modify any game installation or save.
+"""
+from pathlib import Path
+import argparse, hashlib, json, math, wave
+import numpy as np
+
+RATE = 48000
+SEED = 2026101901
+
+def noise(rng, count, low, high):
+    white = rng.normal(0, 1, count)
+    hz = np.fft.rfftfreq(count, 1/RATE)
+    # Smooth filters avoid the pre/post ringing of an abrupt FFT cutoff.
+    response = (1-np.exp(-(hz/low)**4))*np.exp(-(hz/high)**4)
+    band = np.fft.irfft(np.fft.rfft(white)*response, n=count)
+    return band/max(float(np.sqrt(np.mean(band*band))), 1e-12)
+
+def env(count, attack, decay):
+    t = np.arange(count)/RATE
+    result = (1-np.exp(-t/attack))*np.exp(-t/decay)
+    fade = min(round(.018*RATE), count//3)
+    result[-fade:] *= np.linspace(1,0,fade)**2
+    result[0] = result[-1] = 0
+    return result
+
+def place(dst, src, at, gain=1):
+    start = round(at*RATE)
+    n = min(len(src), len(dst)-start)
+    if n>0: dst[start:start+n] += gain*src[:n]
+
+def stone(rng, seconds, weight=1, crisp=.25):
+    n = round(seconds*RATE);t=np.arange(n)/RATE
+    result = np.zeros(n)
+    # Inharmonic, heavily damped modes rather than musical bells.
+    for hz, level, decay in [(245,.30,.045),(418,.22,.032),(793,.15,.022),
+                             (1375,.10,.016),(2280,.045,.011)]:
+        freq=hz*rng.uniform(.94,1.06)/weight
+        result += level*np.sin(2*np.pi*freq*t+rng.uniform(-.6,.6))*env(n,.0008,decay*weight)
+    result += crisp*noise(rng,n,650,4800)*env(n,.0008,.010*weight)
+    result += .12*noise(rng,n,140,1500)*env(n,.0015,.038*weight)
+    return result
+
+def move(rng):
+    seconds=.24;n=round(seconds*RATE);t=np.arange(n)/RATE;x=np.zeros(n)
+    # Uneven micro-contacts give dry stone friction instead of a whoosh.
+    for at in np.linspace(.006,.187,17)+rng.uniform(-.002,.002,17):
+        length=round(rng.uniform(.014,.026)*RATE)
+        grain=noise(rng,length,450,3300)*env(length,.0028,.007)
+        place(x,grain,float(at),float(rng.uniform(.045,.105)))
+    bed=noise(rng,n,210,2300)
+    rub=np.sin(np.pi*np.clip(t/.213,0,1))**1.3
+    texture=.72+.16*np.sin(2*np.pi*38*t)+.12*np.sin(2*np.pi*71*t+.7)
+    x += .055*bed*rub*texture
+    place(x,stone(rng,.07,weight=.85,crisp=.045),.010,.13)
+    # Finish like rounded surfaces easing apart, with no hard scrape at the end.
+    return x,seconds,{'main_contact_seconds':.010,'final_fade_seconds':.055}
+
+def break_stone(rng):
+    seconds=.78;n=round(seconds*RATE);x=np.zeros(n)
+    place(x,stone(rng,.19,weight=1.22,crisp=.35),.006,1.0)
+    # Distinct chips keep the rock-breaking part audible through the body/tail.
+    for at, gain, weight in [(.043,.40,.8),(.091,.32,.72),(.157,.25,.65),
+                            (.229,.19,.61),(.315,.13,.55),(.412,.085,.5),(.505,.048,.46)]:
+        place(x,stone(rng,.13,weight,crisp=.19),at,gain)
+    t=np.arange(n)/RATE
+    grit=noise(rng,n,360,3100)*env(n,.012,.17)
+    x += .038*grit*(.7+.3*np.sin(2*np.pi*29*t+.8)**2)
+    return x,seconds,{'main_fracture_seconds':.006,'fragment_contacts_seconds':[.043,.091,.157,.229,.315,.412,.505],
+                     'final_fade_seconds':.10}
+
+def fire(rng, seconds, density, gain):
+    n=round(seconds*RATE);t=np.arange(n)/RATE
+    result=.13*noise(rng,n,380,3800)*env(n,.030,.26)
+    # Granular pops are small hot bubbles, not a stream of digital clicks.
+    for at in np.sort(rng.uniform(.028,max(.029,seconds-.060),density)):
+        count=round(rng.uniform(.010,.025)*RATE)
+        pop=noise(rng,count,820,4200)*env(count,.0012,.0038)
+        place(result,pop,float(at),float(rng.uniform(.024,.085))*(1-float(at)/seconds))
+    return result*gain
+
+def chime(seconds, hz):
+    n=round(seconds*RATE);t=np.arange(n)/RATE
+    # Quiet, round ending on the eruption only; no tune in routine stone moves.
+    return (np.sin(2*np.pi*hz*t)+.17*np.sin(2*np.pi*hz*2.006*t)+
+            .04*np.sin(2*np.pi*hz*3.02*t))*env(n,.004,.071)
+
+def volcano(rng):
+    seconds=1.62;n=round(seconds*RATE);t=np.arange(n)/RATE;x=np.zeros(n)
+    rise=np.clip(t/.35,0,1)**1.65*(1-np.clip((t-.35)/.12,0,1))
+    pressure=noise(rng,n,48,680)*(.83+.17*np.sin(2*np.pi*14*t))
+    x += .13*pressure*rise
+    place(x,stone(rng,.25,weight=1.55,crisp=.24),.36,1.07)
+    m=round(.79*RATE);u=np.arange(m)/RATE
+    blast=(.18*noise(rng,m,65,1100)+.09*noise(rng,m,300,3100))*env(m,.008,.17)
+    blast += .10*np.sin(2*np.pi*(84*u-22*u*u))*env(m,.006,.12)
+    place(x,blast,.36)
+    place(x,fire(rng,.83,24,.30),.42)
+    # Restrained, original three-note magical resolution after the eruption.
+    for at,hz,gain in [(.97,523.25,.045),(1.095,659.25,.042),(1.225,783.99,.036)]:
+        place(x,chime(.31,hz),at,gain)
+    return x,seconds,{'eruption_seconds':.36,'magic_notes_seconds':[.97,1.095,1.225],
+                     'magic_notes_hz':[523.25,659.25,783.99],'final_fade_seconds':.105}
+
+def lava_impact(rng):
+    seconds=.76;n=round(seconds*RATE);x=np.zeros(n)
+    place(x,stone(rng,.19,weight=1.08,crisp=.29),.005,.90)
+    for at,gain,weight in [(.048,.27,.75),(.109,.19,.65),(.181,.10,.57),(.263,.055,.52)]:
+        place(x,stone(rng,.10,weight,crisp=.16),at,gain)
+    # Delayed sizzle: rock lands first, then the hot material burns out softly.
+    place(x,fire(rng,.675,18,.68),.040)
+    return x,seconds,{'main_impact_seconds':.005,'burn_start_seconds':.040,
+                     'fragment_contacts_seconds':[.048,.109,.181,.263], 'final_fade_seconds':.115}
+
+def master(x, peak_db, rms_db, final_fade):
+    x=np.asarray(x,dtype=np.float64)
+    x-=np.mean(x)
+    # Gentle saturation rounds rare granular peaks without a hard limiter.
+    x=np.tanh(x*1.6)/1.6
+    start=round(.002*RATE);end=round(final_fade*RATE)
+    x[:start] *= np.sin(np.linspace(0,np.pi/2,start))**2
+    x[-end:] *= np.cos(np.linspace(0,np.pi/2,end))**2
+    gain=min(10**(peak_db/20)/max(float(np.max(np.abs(x))),1e-12),
+             10**(rms_db/20)/max(float(np.sqrt(np.mean(x*x))),1e-12))
+    x*=gain;x[0]=x[-1]=0
+    return np.round(x*32767).astype('<i2')
+
+def write_wav(path,pcm):
+    path.parent.mkdir(parents=True,exist_ok=True)
+    assert not path.exists(),path
+    with wave.open(str(path),'wb') as stream:
+        stream.setparams((1,2,RATE,len(pcm),'NONE','not compressed'))
+        stream.writeframes(pcm.tobytes())
+    return {'path':path.name,'bytes':path.stat().st_size,'sha256':hashlib.sha256(path.read_bytes()).hexdigest(),
+            'pcm_sha256':hashlib.sha256(pcm.tobytes()).hexdigest(),'sample_rate':RATE,'channels':1,
+            'sample_width_bytes':2,'frames':len(pcm),'seconds':len(pcm)/RATE}
+
+def generate(output):
+    assert not output.exists(), 'Preserve prior takes: select a new output directory'
+    output.mkdir(parents=True)
+    specs=[('01_stone_move_original_v1.wav','MOVE',move,-7.5,-23),
+           ('02_stone_break_original_v1.wav','BREAK',break_stone,-4.5,-20),
+           ('03_volcano_original_v1.wav','VOLCANO',volcano,-4.0,-19),
+           ('04_lava_impact_original_v1.wav','LAVA_IMPACT',lava_impact,-5.0,-21)]
+    rows=[];mix=[]
+    for i,(name,key,make,peak_db,rms_db) in enumerate(specs):
+        rng=np.random.default_rng(SEED+i)
+        x,seconds,timing=make(rng)
+        pcm=master(x,peak_db,rms_db,timing['final_fade_seconds'])
+        row=write_wav(output/name,pcm)
+        row.update(key=key,seed=SEED+i,event_timing=timing,
+                   mastering={'peak_ceiling_dbfs':peak_db,'rms_ceiling_dbfs':rms_db},
+                   external_sample_dependencies=[],method='Original deterministic NumPy synthesis')
+        rows.append(row)
+        mix += [np.zeros(round(.32*RATE),dtype='<i2'),pcm,np.zeros(round(.65*RATE),dtype='<i2')]
+    comparison=write_wav(output/'05_all_four_listening_strip.wav',np.concatenate(mix))
+    data={'schema':1,'status':'LISTENING_PREVIEW_NOT_INTEGRATED','method':'Original procedural noise/oscillators/envelopes; no sample recordings, no network inputs',
+          'sample_dependencies':[],'generator_seed':SEED,'numpy_version':np.__version__,
+          'human_listening_acceptance':'PENDING','game_modified':False,
+          'audacity_processing':'NOT_USED; standard PCM WAVs ready to import for listening/editing',
+          'files':rows,'comparison':comparison}
+    (output/'AUDIO_PROVENANCE.json').write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+    return data
+
+if __name__=='__main__':
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--output',type=Path,required=True)
+    data=generate(parser.parse_args().output.resolve())
+    print(json.dumps({'status':data['status'],'files':len(data['files']),'seconds':[x['seconds'] for x in data['files']]},indent=2))

@@ -1,0 +1,28 @@
+CODEX LOCAL V004 - ART CANDIDATE - HUMAN REVIEW PENDING
+
+Changed: continuous sculpted face with broad cheek/socket shaping and shallow eyes;
+continuous jaw-wrapping beard with broad grooves/sideburn/back-hair transition;
+tailored ring-mesh coat with shoulder/waist profile, broad folds, collar/front overlap;
+tapered sleeves, wrapped belt, differentiated cloth/leather/brass roughness.
+Preserved hat/boots/lantern identity, source placement/scale, fixed soles and guide pivots.
+Finite greeting and world playback are inherited, not a new walking rig. Eyelid outlines
+now close with the stylized blink. Separate front/3-4/profile inspection uses same light;
+whole scene restores original camera. No production/gameplay integration.
+
+Actual tools: Blender 5.2.2 LTS native mesh/export; Godot 4.7.2 native import/playback;
+ffmpeg full native-video decode; Pillow comparison layout only. No new image generation.
+Authoring input: preserved local v002 Blender candidate; exact inputs in PREDECESSOR_INPUTS.
+Blender signature verifies 1290 non-guide objects plus camera unchanged. Mesh audit verifies
+positive signed volume, zero boundary edges, single connected component in face/beard/coat.
+Runtime capture: 50 checks PASS on final GLB hash, including foot contacts/blink/6s settle,
+idle/replay/reduced motion and before/after camera. Native video: 250 frames at30fps, silent.
+See native_capture_release.log and RUNTIME_CAPTURE.json for final success evidence.
+
+Earlier logs intentionally retained: first capture missed copied branding; initial vertex
+color material export made face white; later shader was replaced by constant PBR. Independent
+source review found inward beard/ribbon winding; reversed before final export. Belt clearance
+and closed-eye outline were corrected. Superseded logs are not final approval evidence.
+No Human or Android/performance acceptance. 102732 evaluated guide triangles: art prototype
+needs a later mobile optimization pass. No exclusive rights/ownership conclusion is made.
+Codex has not acted as GPT or changed its branch/grant. Git handoff, if published, is own
+task-001 text-only report transport, not native game integration and not a GPT task003 result.

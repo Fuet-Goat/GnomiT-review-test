@@ -1,0 +1,393 @@
+{
+  "status": "READ_ONLY_SCALE_INPUT_INSPECTED",
+  "scope": "Lighting comparison input only; no game integration or runtime map modification. Current live-selected game and prior static M2 placement are distinct.",
+  "current_selector": {
+    "path": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\CURRENT_GNOMIT.json",
+    "sha256": "e1f2f766c10d2b80267893e86ded85f42f6941266f7500c8658a06a9bf9474b3",
+    "selected_project": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\R3_Trees_Reference_2026-10-22",
+    "classification": "VERIFIED_FROM_CURRENT_SELECTOR_BYTES"
+  },
+  "current_map": {
+    "classification": "VERIFIED_STATIC_SOURCE_AND_GLTF",
+    "viewport": [
+      432,
+      960
+    ],
+    "script": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\R3_Trees_Reference_2026-10-22\\scripts\\r3\\island_map.gd",
+    "source_lines": {
+      "viewport": 68,
+      "model_load": 76,
+      "camera_keep_height": 84,
+      "guide_instantiation": 88,
+      "default_avatar_s": 91,
+      "guide_position": 95,
+      "camera_scroll_only": 405
+    },
+    "world_glb": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\R3_Trees_Reference_2026-10-22\\assets\\r3\\airy_island.glb",
+    "camera_gltf": {
+      "name": "Portrait_Camera",
+      "orthographic": {
+        "xmag": 4.493301773071289,
+        "ymag": 9.985115051269531,
+        "zfar": 200,
+        "znear": 0.05000000074505806
+      },
+      "type": "orthographic"
+    },
+    "camera_node_gltf": {
+      "camera": 0,
+      "name": "Portrait_Camera",
+      "rotation": [
+        -0.36650118231773376,
+        0,
+        0,
+        0.9304175972938538
+      ],
+      "translation": [
+        0.009729623794555664,
+        27.392305374145508,
+        28.828012466430664
+      ]
+    },
+    "camera_orthographic_vertical_span": 19.970230102539062,
+    "camera_up_gltf_from_prior_preserved_camera": [
+      0.0,
+      0.731353759765625,
+      -0.6819983124732971
+    ],
+    "camera_equal_span_to_prior_native": true,
+    "guide_asset": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\R3_Trees_Reference_2026-10-22\\assets\\r3\\gnome_guide.glb",
+    "guide_character_scale": 0.85,
+    "guide_character_scale_script_line": 7,
+    "guide_model_scale_script_line": 33,
+    "default_route_s": 0.4,
+    "default_route_position_godot_inferred": [
+      -1.201418818678827,
+      0.8501962516496748,
+      8.372768718213864
+    ],
+    "route_position_classification": "INFERRED_FROM_AUTHORED_GLTF_EXTRAS_AND_CURRENT_ROUTE_INTERPOLATION",
+    "runtime_guide_footprint": "UNKNOWN_NOT_RUN",
+    "runtime_session_avatar_s": "UNKNOWN",
+    "runtime_session_camera_scroll": "UNKNOWN",
+    "note": "Existing runtime guide uses old gnome_guide.glb with procedural animation. New gnome_r3.glb is not integrated. Current camera has matching orthographic scale and basis after Blender-to-glTF coordinate conversion; this does not establish current M2 placement."
+  },
+  "prior_static_m2": {
+    "classification": "VERIFIED_RECEIPT_BYTES_NOT_RERENDERED",
+    "receipt_path": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\Gnome_M2_Rig_R1_2026-10-23\\documentation\\MAP_M2_RECEIPT.json",
+    "placement_receipt_path": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\Gnome_M2_Rig_R1_2026-10-23\\reference\\R2_MAP_PLACEMENT.json",
+    "source_world": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\Gnome_Form_M_2026-10-22\\native\\GNOME_FORM_M4.blend",
+    "source_world_sha256_recorded": "71b3f6d87cb689447adc25ac55a99c8d68a6006e6b8a12970e37592ea7f9bd21",
+    "root_transform": {
+      "scale": [
+        0.61279296875,
+        0.61279296875,
+        0.61279296875
+      ],
+      "world_location": [
+        -1.2133331298828125,
+        -8.362190246582031,
+        0.8483578562736511
+      ],
+      "rotation_euler": [
+        0.0,
+        -0.0,
+        0.0
+      ],
+      "matrix_world": [
+        [
+          0.61279296875,
+          0.0,
+          0.0,
+          -1.2133331298828125
+        ],
+        [
+          0.0,
+          0.61279296875,
+          0.0,
+          -8.362190246582031
+        ],
+        [
+          0.0,
+          0.0,
+          0.61279296875,
+          0.8483578562736511
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    "evaluated_bbox_blender_world_recorded": {
+      "min": [
+        -1.5160562992095947,
+        -8.539114952087402,
+        0.8502714037895203
+      ],
+      "max": [
+        -0.9480997323989868,
+        -8.236175537109375,
+        1.851144552230835
+      ],
+      "height": 1.0008731484413147,
+      "bottom_center": [
+        -1.2320780158042908,
+        -8.387645244598389,
+        0.8502714037895203
+      ]
+    },
+    "camera_blender_world_recorded": {
+      "name": "Portrait_Camera",
+      "matrix_world": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.009729623794555664
+        ],
+        [
+          0.0,
+          0.6819983124732971,
+          -0.731353759765625,
+          -28.828012466430664
+        ],
+        [
+          0.0,
+          0.731353759765625,
+          0.6819983124732971,
+          27.392305374145508
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "hide_render": false,
+      "settings": {
+        "type": "ORTHO",
+        "lens": 50.0,
+        "ortho_scale": 19.970230102539062,
+        "shift_x": 0.0,
+        "shift_y": 0.0,
+        "clip_start": 0.05000000074505806,
+        "clip_end": 200.0,
+        "sensor_width": 36.0,
+        "sensor_height": 24.0
+      }
+    },
+    "resolution": [
+      432,
+      960
+    ],
+    "render": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\Gnome_M2_Rig_R1_2026-10-23\\outputs\\M2_MAP_SCALE.png",
+    "render_sha256_measured_now": "d0c1b5a7da2177ef8e2979fd75764b5c5eedc0069abf41601e0055ea05bd1f86",
+    "render_matches_recorded_sha256": true,
+    "rig_used_recorded": false,
+    "game_integration_recorded": false,
+    "human_visual_acceptance_recorded": "PENDING",
+    "aabb_projected_height_upper_bound_px": 45.11979305860915,
+    "aabb_bound_classification": "INFERRED_CONSERVATIVE_BOUND_NOT_SILHOUETTE_HEIGHT"
+  },
+  "projection_formula": "height_px=(max(dot(camera_up, transformed_mesh_vertex))-min(dot(camera_up, transformed_mesh_vertex)))*external_uniform_scale*960/orthographic_vertical_span",
+  "new_glb_at_prior_static_scale": {
+    "classification": "INFERRED_STATIC_REST_GEOMETRY_PROJECTION",
+    "source": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\Gnome_Godot_Lighting_R1_2026-10-23\\godot\\assets\\gnome_r3.glb",
+    "sha256": "3b72702cb1c995d2553dddd4895a1e2327be14d5a22cc38a60a88603d47c529f",
+    "position_accessor_vertex_entries": 445842,
+    "external_uniform_scale": 0.61279296875,
+    "bbox_gltf_unscaled": {
+      "min": [
+        -0.49400559067726135,
+        0.003122650319710374,
+        -0.20563945174217224
+      ],
+      "max": [
+        0.4328271150588989,
+        1.6364201307296753,
+        0.2887182831764221
+      ]
+    },
+    "camera_up_dot_unscaled_min": -0.1451547783625573,
+    "camera_up_dot_unscaled_max": 1.2631704646738164,
+    "continuous_projected_height_px": 41.48631889197188,
+    "limitations": "POSITION vertices and node transforms only. No skin or animation evaluation; no rasterization, visibility, occlusion, anti-alias bounds, or Godot runtime measurement. Translation does not change orthographic footprint. Heading is zero. Current runtime animated pose can differ."
+  },
+  "current_old_guide_at_runtime_scale_static_rest": {
+    "classification": "INFERRED_STATIC_REST_GEOMETRY_PROJECTION",
+    "source": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\R3_Trees_Reference_2026-10-22\\assets\\r3\\gnome_guide.glb",
+    "sha256": "c5abfa4a4688d370966edcebf662e4d4692314ea3ea67f3180b1c5f60e3b9e16",
+    "position_accessor_vertex_entries": 63701,
+    "external_uniform_scale": 0.85,
+    "bbox_gltf_unscaled": {
+      "min": [
+        -0.4168708459987035,
+        0.0,
+        -0.17243441556340067
+      ],
+      "max": [
+        0.3674999922513962,
+        1.1728588251431344,
+        0.2200402172425085
+      ]
+    },
+    "camera_up_dot_unscaled_min": -0.11995241899989882,
+    "camera_up_dot_unscaled_max": 0.9318196721942209,
+    "continuous_projected_height_px": 42.976271280183305,
+    "limitations": "POSITION vertices and node transforms only. No skin or animation evaluation; no rasterization, visibility, occlusion, anti-alias bounds, or Godot runtime measurement. Translation does not change orthographic footprint. Heading is zero. Current runtime animated pose can differ."
+  },
+  "use_for_lighting_control": "Use the exact camera and prior frozen M2 scale/location if recreating prior static placement. For isolated 432x960 lighting pairs, match the new GLB static rest projected footprint recorded here (about 41.49 continuous pixels) with heading zero and same pose; clearly label it a prior-static-map-scale control. Do not label it current full-game integration or exact current animated footprint.",
+  "inputs": [
+    {
+      "path": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\CURRENT_GNOMIT.json",
+      "bytes": 1385,
+      "sha256": "e1f2f766c10d2b80267893e86ded85f42f6941266f7500c8658a06a9bf9474b3"
+    },
+    {
+      "path": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\Gnome_M2_Rig_R1_2026-10-23\\reference\\R2_MAP_PLACEMENT.json",
+      "bytes": 34736,
+      "sha256": "bda2475ee10016f4010996ff12a9ee8d78fc07b68abe4057fab2a171927999ef"
+    },
+    {
+      "path": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\Gnome_M2_Rig_R1_2026-10-23\\documentation\\MAP_M2_RECEIPT.json",
+      "bytes": 33994,
+      "sha256": "0b3f1af51446efac3f05d33ee0c06fa7ab1610cd782ecb1dc5472063680f89ab"
+    },
+    {
+      "path": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\Gnome_M2_Rig_R1_2026-10-23\\outputs\\M2_MAP_SCALE.png",
+      "bytes": 633038,
+      "sha256": "d0c1b5a7da2177ef8e2979fd75764b5c5eedc0069abf41601e0055ea05bd1f86"
+    },
+    {
+      "path": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\R3_Trees_Reference_2026-10-22\\scripts\\r3\\island_map.gd",
+      "bytes": 17589,
+      "sha256": "79bfbe44cc982787aa86ef70176e6335b1e08f1c86794c141476f8794bc795da"
+    },
+    {
+      "path": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\R3_Trees_Reference_2026-10-22\\scripts\\r3\\r3_guide.gd",
+      "bytes": 6906,
+      "sha256": "0a3c6a40a89dadba72d05ca2b6ef6adbb90b00b608e48d3de7e056da650af4c5"
+    },
+    {
+      "path": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\R3_Trees_Reference_2026-10-22\\scripts\\r3\\island_route.gd",
+      "bytes": 2637,
+      "sha256": "400c50a8b503a39a5dfb7ee1ae118fa853c7b3ffcdafac3fb1b621a6753eddfd"
+    },
+    {
+      "path": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\R3_Trees_Reference_2026-10-22\\assets\\r3\\airy_island.glb",
+      "bytes": 29738484,
+      "sha256": "26f4a9805bf3300ebaa5343dec6933ca236802671c2524a916a00a23e53c339b"
+    },
+    {
+      "path": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\R3_Trees_Reference_2026-10-22\\assets\\r3\\gnome_guide.glb",
+      "bytes": 2665104,
+      "sha256": "c5abfa4a4688d370966edcebf662e4d4692314ea3ea67f3180b1c5f60e3b9e16"
+    },
+    {
+      "path": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\Gnome_Godot_Lighting_R1_2026-10-23\\godot\\assets\\gnome_r3.glb",
+      "bytes": 29222684,
+      "sha256": "3b72702cb1c995d2553dddd4895a1e2327be14d5a22cc38a60a88603d47c529f"
+    }
+  ],
+  "writes": [
+    "documentation/MAP_SCALE_INPUT.json"
+  ],
+  "isolated_godot_control": {
+    "classification": "INFERRED_COORDINATE_CONVERSION_OF_VERIFIED_FROZEN_RECEIPT_AND_MATCHING_CURRENT_CAMERA",
+    "blender_to_godot_rule": "(x,y,z)_Blender -> (x,z,-y)_Godot; glTF mesh vertices already have this conversion. Camera local axes remain camera local axes.",
+    "viewport": [
+      432,
+      960
+    ],
+    "camera": {
+      "projection": "ORTHOGONAL",
+      "keep_aspect": "KEEP_HEIGHT",
+      "size": 19.970230102539062,
+      "position": [
+        0.009729623794555664,
+        27.392305374145508,
+        28.828012466430664
+      ],
+      "basis_columns": {
+        "x": [
+          1.0,
+          0.0,
+          -0.0
+        ],
+        "y": [
+          0.0,
+          0.731353759765625,
+          -0.6819983124732971
+        ],
+        "z": [
+          0.0,
+          0.6819983124732971,
+          0.731353759765625
+        ]
+      },
+      "up": [
+        0.0,
+        0.731353759765625,
+        -0.6819983124732971
+      ],
+      "view_direction": [
+        -0.0,
+        -0.6819983124732971,
+        -0.731353759765625
+      ],
+      "transform_rows": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.009729623794555664
+        ],
+        [
+          0.0,
+          0.731353759765625,
+          0.6819983124732971,
+          27.392305374145508
+        ],
+        [
+          -0.0,
+          -0.6819983124732971,
+          0.731353759765625,
+          28.828012466430664
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ]
+      ],
+      "near": 0.05000000074505806,
+      "far": 200.0,
+      "camera_scroll": 0.0
+    },
+    "new_glb_root": {
+      "position": [
+        -1.2133331298828125,
+        0.8483578562736511,
+        8.362190246582031
+      ],
+      "scale": [
+        0.61279296875,
+        0.61279296875,
+        0.61279296875
+      ],
+      "rotation_euler_godot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "heading_y": 0.0
+    },
+    "expected_continuous_rest_height_px": 41.48631889197188,
+    "label": "Prior M2 placement with camera matching current selected map; isolated new GLB static rest diagnostic; no full world integration."
+  }
+}

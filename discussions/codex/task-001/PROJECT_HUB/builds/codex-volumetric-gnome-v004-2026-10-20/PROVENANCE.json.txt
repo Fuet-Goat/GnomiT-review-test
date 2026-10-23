@@ -1,0 +1,19 @@
+{
+  "contribution": "Codex local v004 volumetric gnome art candidate; not GPT task-003 output",
+  "authority": "Direct human-supplied Codex art brief, local isolated candidate. GPT task-003 roots/grant/branch not used or modified.",
+  "base_project": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\GnomeGreeting_Codex_2026-10-20",
+  "base_glb_sha256": "6598473c272d8773b654effb1807f4cc170f346db5ad5bc73a601885e553aaf0",
+  "source": "source/guide_v5.py + source/volumetric_forms.py + preserved source/scene_api.py and predecessor_world.blend",
+  "tools": {
+    "Blender": "5.2.2 LTS",
+    "Godot": "4.7.2 stable",
+    "ffmpeg": "7.1",
+    "comparison_layout": "Pillow; exact native screenshots placed side by side"
+  },
+  "new_assets": "Procedural native geometry/material changes; no external model, photo, generated bitmap or new sound",
+  "inherited": "Fixed world/wood textures/wordmark and lighting; see source/PREDECESSOR_PROVENANCE.json and PREDECESSOR_ASSET_METADATA.json",
+  "rights": "Predecessor limitations remain. Documentation does not establish exclusive ownership or replace licences/terms.",
+  "rebuild": "Blender --background --python source/build_candidate.py, then Godot import at 24fps; see README_BG.txt",
+  "human_art_acceptance": "PENDING",
+  "android_performance": "NOT_MEASURED"
+}

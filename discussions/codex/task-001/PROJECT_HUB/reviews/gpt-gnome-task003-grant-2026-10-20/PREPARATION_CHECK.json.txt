@@ -1,0 +1,11 @@
+{
+  "status": "PASS_FOR_PENDING_PROPOSAL_ONLY",
+  "active": false,
+  "trusted_main": "bd2dfe7fddd300bd8425cd1c5b0846fe50c4f3d2",
+  "pending_owner_schema_and_scope_errors": [],
+  "grant_sha256": "d3925f6f1a7a72b098af73f0f3a4b9692c66d8ec0cf63991681429978f88b87f",
+  "authorization": null,
+  "runtime_run": false,
+  "owner_changes_performed": false,
+  "hash_basis": "Actual final on-disk grant bytes, including line endings"
+}

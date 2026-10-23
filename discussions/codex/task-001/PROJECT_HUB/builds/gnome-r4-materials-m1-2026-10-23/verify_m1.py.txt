@@ -1,0 +1,42 @@
+"""Read back already saved M1 after correcting plain-name receipt serialization."""
+from pathlib import Path
+import sys,json
+import bpy
+ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'source'))
+from evidence import sha,digest,fingerprint,material_record
+from build_m1 import SOURCE,EXPECTED
+
+assert bpy.app.background and sha(SOURCE)==EXPECTED
+native=ROOT/'native/GNOME_M1_COLORED_R4.blend';native_before=sha(native)
+bpy.ops.wm.open_mainfile(filepath=str(SOURCE))
+asset_names=set(o.name for o in bpy.data.collections['R2_NEW_GNOME'].objects)
+before={o.name:fingerprint(o) for o in bpy.data.objects}
+for name,state in before.items():
+    if name in asset_names:state.pop('materials',None)
+original_materials=material_record()
+bpy.ops.wm.open_mainfile(filepath=str(native))
+assert set(o.name for o in bpy.data.objects)==set(before)
+for obj in bpy.data.objects:
+    current=fingerprint(obj)
+    if obj.name in asset_names:current.pop('materials',None)
+    assert current==before[obj.name],'Geometry/pose/studio changed: '+obj.name
+after=material_record();dropped=sorted(set(original_materials)-set(after))
+assert set(dropped)<= {'R1 Clay — form review only','R1 Eye direction — blockout marker'}
+assert all(after[n]==v for n,v in original_materials.items() if n in after)
+assert not bpy.data.actions and not any(o.type=='ARMATURE' for o in bpy.data.objects)
+assert sha(native)==native_before and sha(SOURCE)==EXPECTED
+assignments={o.name:[m.name for m in o.data.materials] for o in bpy.data.collections['R2_NEW_GNOME'].objects if o.type=='MESH'}
+for slots in assignments.values():assert slots and all(n.startswith('M1 ') for n in slots)
+for name in ('M1_FRONT.png','M1_THREE_QUARTER.png','M1_FACE_DETAIL.png'):assert (ROOT/'outputs'/name).is_file()
+receipt={'status':'NATIVE_SAVED_REOPENED_RENDERED_VERIFIED','source_native':str(SOURCE),'source_sha256_before':EXPECTED,'source_sha256_after':sha(SOURCE),
+    'native':str(native),'native_sha256':sha(native),'protected_objects':len(before),'protected_geometry_pose_modifiers_studio':'EXACT_MATCH_TO_ACCEPTED_R4',
+    'protected_object_fingerprints':{n:digest(v) for n,v in before.items()},'retained_original_material_definitions':'UNCHANGED',
+    'unreferenced_replaced_clay_materials_omitted_by_blender_save':dropped,
+    'new_materials':sorted(n for n in after if n not in original_materials),'assignments':assignments,
+    'new_images_or_geometry_or_lights':0,'actions':0,'armatures':0,'stage_dimensions':[600,840],'face_detail_dimensions':[640,640],
+    'human_form_acceptance':{'status':'ACCEPTED','evidence':'haresva mi','date':'2026-10-23'},
+    'material_scope_authorization':'taka , napravi vsichko kakto se razbrahme + iskame da vidim dokude sme ,zaz da mojem da produljim natataka',
+    'human_material_acceptance':'PENDING','rig_animation':'NOT_STARTED','game_integration':False,
+    'receipt_recovery':'First build saved/reopened/rendered and shape guards passed, then receipt serialization referenced a stale Material pointer. build_m1.py now snapshots plain material names before reopen. This verification read both native inputs without changing or saving them; no rerender or material edit.'}
+(ROOT/'documentation/M1_RECEIPT.json').write_bytes((json.dumps(receipt,ensure_ascii=False,indent=2)+'\n').encode())
+print('M1_VERIFIED '+json.dumps({k:v for k,v in receipt.items() if k not in ('protected_object_fingerprints','assignments')}),flush=True)

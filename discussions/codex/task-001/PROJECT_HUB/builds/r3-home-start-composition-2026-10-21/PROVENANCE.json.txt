@@ -1,0 +1,16 @@
+{
+  "kind": "NATIVE_BLENDER_R3_COMPOSITION_DERIVATIVE",
+  "new_authored_work": "Wrapper script transforms the existing Cottage subtree. Adds the same existing guide to A/B as comparison context. No new character/house meshes, textures, sounds or animations authored.",
+  "island_source_sha256": "404d28bd351bf31b878862bd50359e6d66db225fdf553c3816bbcf03f478e7e5",
+  "guide_source_sha256": "77beabbb144932b1e54a957e95f7aa932a6cf3e4627c47b2c733199d666551b7",
+  "parent_native_commit": "d1ed5aa1dc0794531ef4f9e0ec9e597116647ff7",
+  "parent_home_reference_commit": "c7601e4370cad81f3809bf886075545f7cc35713",
+  "tools": {
+    "Blender": "5.2.2 LTS",
+    "renderer": "Cycles CPU192samples",
+    "comparison": "Pillow; full A/B original pixels unscaled; detail explicitly nearest-neighbour zoom"
+  },
+  "rights": "Inherited source provenance limitations remain. No new external asset download. Documentation does not establish exclusive ownership or replace licences/terms.",
+  "generated_reference": "Built-in image_gen reference, not a claimed native model/render",
+  "runtime_status": "NOT_INTEGRATED"
+}

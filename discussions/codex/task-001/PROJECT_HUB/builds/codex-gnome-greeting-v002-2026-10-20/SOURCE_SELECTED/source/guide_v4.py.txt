@@ -1,0 +1,243 @@
+"""Codex greeting candidate: same silhouette, clearer face and finite wave.
+
+Z is up; face looks toward -Y. The source scene owns lights, camera and export.
+All vertices and animation curves are authored here; there are no image cutouts.
+"""
+import math
+import bpy
+from mathutils import Vector
+
+
+def build_guide(api, position, scale=1):
+    mat = api['mat']; ball = api['ball']; tube = api['tube']
+    cube = api['cube']; empty = api['empty']; parent = api['parent_keep_world']
+    root = empty('Guide_Root')
+    body = empty('Guide_BreathingTorso', (0, 0, .30))
+    parent(body, root)
+    objects = [root, body]
+    skin = mat('Guide warm peach skin', '#EDB38E', .57)
+    blush = mat('Guide cheek warmth', '#DE9D84', .61)
+    cap = mat('Guide cap soft vermilion', '#BC342D', .60)
+    cap_edge = mat('Guide cap folded rim', '#CF4032', .57)
+    cream = mat('Guide beard warm ivory', '#F6EDD9', .62)
+    cream_shadow = mat('Guide beard shaded ivory', '#E4D9C2', .66)
+    teal = mat('Guide teal cloth', '#287779', .67)
+    teal_light = mat('Guide teal raised seams', '#3C9290', .65)
+    trousers = mat('Guide ochre trousers', '#82613C', .72)
+    boot = mat('Guide leather chestnut', '#68442D', .70)
+    sole = mat('Guide leather sole', '#453B2C', .76)
+    belt = mat('Guide leather belt', '#754B2F', .70)
+    gold = mat('Guide brass fittings', '#C99542', .39, .45)
+    white = mat('Guide eye whites', '#FFF5DC', .48)
+    iris = mat('Guide teal irises', '#287787', .43)
+    pupil = mat('Guide deep pupils', '#15292D', .45)
+    glint = mat('Guide eye catchlight', '#FFF9EA', .30)
+    mouth = mat('Guide smile recess', '#703E2C', .65)
+    warm = mat('Guide lantern golden glass', '#FFC56B', .35, 0, .65)
+
+    def sphere(name, loc, dimensions, material, owner=body, sub=3):
+        obj = ball('Guide_' + name, loc, dimensions, material, sub)
+        parent(obj, owner); objects.append(obj)
+        return obj
+
+    def line(name, pts, radius, material, owner=body):
+        obj = tube('Guide_' + name, pts, radius, material)
+        parent(obj, owner); objects.append(obj)
+        return obj
+
+    def block(name, loc, dimensions, material, bevel=.012, owner=body):
+        obj = cube('Guide_' + name, loc, dimensions, material, bevel)
+        parent(obj, owner); objects.append(obj)
+        return obj
+
+    # Boots stay on the ground, independently of the tiny breathing movement.
+    for side in [-1, 1]:
+        x = side * .112
+        sphere('planted boot sole', (x, -.052, .036), (.104, .158, .034), sole, root)
+        sphere('rounded leather boot', (x, -.058, .092), (.103, .150, .071), boot, root)
+        sphere('trouser cuff', (x, .002, .209), (.071, .077, .109), trousers, root)
+        line('boot stitch', [(x-.063,-.173,.093),(x,-.193,.103),(x+.063,-.173,.093)], .0045, belt, root)
+
+    sphere('pear shaped coat', (0, .009, .403), (.209, .141, .216), teal)
+    sphere('coat lower rounded hem', (0, .008, .256), (.205, .140, .054), teal_light)
+    # Trim and a readable buckle are deliberately larger than realistic scale.
+    line('coat opening', [(0,-.137,.276),(0,-.142,.397),(0,-.105,.564)], .008, teal_light)
+    block('wide leather belt', (0,-.127,.337), (.358,.036,.056), belt, .014)
+    block('brass buckle', (0,-.154,.337), (.078,.020,.069), gold, .010)
+    block('buckle leather inset', (0,-.167,.337), (.042,.009,.038), belt, .005)
+    for z in [.405,.464,.516]:
+        sphere('little brass coat button', (0,-.147,z), (.012,.009,.013), gold)
+
+    # The whole head has one anatomical pivot; the face is never stretched to
+    # fake a blink. Eye components have their own thin, native blink groups.
+    head=empty('Guide_HeadAcknowledge',(0,-.012,.755))
+    parent(head,body);objects.append(head)
+
+    def face_sphere(name, loc, dimensions, material, sub=3):
+        return sphere(name,loc,dimensions,material,head,sub)
+
+    def face_line(name, pts, radius, material):
+        return line(name,pts,radius,material,head)
+
+    face_sphere('head', (0,-.012,.758), (.178,.143,.172), skin)
+    face_sphere('left ear', (-.172,-.010,.759), (.043,.039,.057), skin)
+    face_sphere('right ear', (.172,-.010,.759), (.043,.039,.057), skin)
+    eye_groups=[]
+    for side in [-1, 1]:
+        x=side*.073
+        side_name='Left' if side < 0 else 'Right'
+        eye_group=empty('Guide_EyeBlink'+side_name,(x,-.148,.805))
+        parent(eye_group,head);objects.append(eye_group);eye_groups.append(eye_group)
+        sphere(side_name+' eye white', (x,-.140,.805), (.036,.020,.041), white,eye_group)
+        sphere(side_name+' eye iris', (x,-.159,.807), (.023,.010,.029), iris,eye_group)
+        sphere(side_name+' eye pupil', (x,-.167,.809), (.013,.006,.020), pupil,eye_group)
+        sphere(side_name+' eye catchlight', (x-.006,-.170,.815), (.006,.003,.008), glint,eye_group,sub=2)
+        face_sphere('rosy cheek', (side*.117,-.126,.746), (.046,.018,.035), blush)
+        face_line('soft white eyebrow', [(side*.039,-.145,.850),(side*.072,-.151,.862),(side*.108,-.136,.851)], .015, cream)
+        face_sphere('sideburn', (side*.141,-.077,.686), (.048,.070,.089), cream)
+    face_sphere('round nose', (0,-.172,.756), (.064,.052,.048), skin)
+    # The former smile was hidden behind the beard. Keep one clear opening
+    # above its rim, with a restrained warm lower lip and tooth highlight.
+    smile=empty('Guide_SmileExpression',(0,-.190,.700))
+    parent(smile,head);objects.append(smile)
+    line('friendly smile',[(-.046,-.188,.706),(0,-.203,.690),(.046,-.188,.706)],.008,mouth,smile)
+    face_sphere('beard main rounded mass', (0,-.083,.591), (.148,.099,.115), cream_shadow)
+    # Pointed oval tufts give a continuous beard silhouette rather than balls.
+    for x,z,sx,sz in [(-.102,.608,.061,.086),(.102,.608,.061,.086),(-.055,.562,.068,.094),(.055,.562,.068,.094),(0,.535,.067,.087)]:
+        tuft=face_sphere('tapered ivory beard lock', (x,-.132,z), (sx,.053,sz), cream)
+        tuft.rotation_euler[1]=(-x)*1.35
+    for side in [-1, 1]:
+        moustache=face_sphere('swept moustache', (side*.057,-.172,.732), (.060,.028,.025), cream)
+        moustache.rotation_euler[1]=side*.19
+
+    # Curved hat is one smoothly subdivided mesh with a bent tip.
+    rings=[((0,.010,.893),.187,.147),((0,.011,.944),.180,.142),
+           ((.010,.016,1.025),.151,.124),((.038,.024,1.102),.119,.102),
+           ((.087,.024,1.161),.082,.077),((.145,.017,1.182),.050,.052),
+           ((.196,.006,1.159),.022,.030),((.214,.001,1.133),.007,.009)]
+    count=32;vertices=[]
+    for (x,y,z),rx,ry in rings:
+        for i in range(count):
+            a=i*math.tau/count;vertices.append((x+math.cos(a)*rx,y+math.sin(a)*ry,z))
+    faces=[]
+    for row in range(len(rings)-1):
+        for i in range(count):
+            j=(i+1)%count;a=row*count;b=(row+1)*count
+            faces.append((a+i,a+j,b+j,b+i))
+    faces.append(tuple(reversed(range(count))))
+    faces.append(tuple((len(rings)-1)*count+i for i in range(count)))
+    mesh=bpy.data.meshes.new('Guide_CurvedCapMesh');mesh.from_pydata(vertices,[],faces);mesh.update()
+    hat=bpy.data.objects.new('Guide_bent red cap',mesh);bpy.context.collection.objects.link(hat)
+    api['finish'](hat,hat.name,cap,0,True)
+    sub=hat.modifiers.new('Soft stitched cap curvature','SUBSURF');sub.levels=2;sub.render_levels=2
+    parent(hat,head);objects.append(hat)
+    face_sphere('cap thick folded rim', (0,.003,.902), (.195,.155,.041), cap_edge)
+    face_line('cap front seam', [(-.132,-.103,.940),(-.091,-.125,1.009),(-.032,-.104,1.082),(.070,-.060,1.153)], .0045, cap_edge)
+
+    # His left arm holds the quiet lantern; the opposite hand makes a wave.
+    shoulder=empty('Guide_ShoulderWave',(-.175,.005,.526));parent(shoulder,body);objects.append(shoulder)
+    elbow=empty('Guide_ElbowWave',(-.279,-.014,.656));parent(elbow,shoulder);objects.append(elbow)
+    hand_pivot=empty('Guide_HandWave',(-.292,-.030,.779));parent(hand_pivot,elbow);objects.append(hand_pivot)
+    line('raised upper sleeve',[(-.174,.005,.526),(-.226,-.008,.583),(-.279,-.014,.656)],.056,teal,shoulder)
+    sphere('rounded elbow seam',(-.279,-.014,.656),(.057,.055,.057),teal_light,elbow)
+    line('raised forearm sleeve',[(-.279,-.014,.656),(-.288,-.023,.712),(-.292,-.030,.763)],.046,teal,elbow)
+    sphere('raised cream cuff',(-.292,-.030,.765),(.050,.046,.021),cream,elbow)
+    sphere('waving open palm',(-.292,-.035,.824),(.047,.026,.057),skin,hand_pivot)
+    sphere('waving thumb',(-.246,-.039,.811),(.022,.022,.036),skin,hand_pivot)
+    # Small finger scallops read as an open hand even at portrait viewing size.
+    for x,z in [(-.325,.860),(-.304,.875),(-.281,.876),(-.261,.862)]:
+        sphere('wave finger',(x,-.037,z),(.012,.018,.026),skin,hand_pivot,sub=2)
+
+    line('lantern upper sleeve',[(.177,.002,.521),(.232,-.003,.463),(.256,-.031,.416)],.054,teal)
+    sphere('lantern sleeve cuff',(.266,-.042,.403),(.052,.050,.023),cream)
+    sphere('lantern hand',(.276,-.061,.385),(.043,.035,.049),skin)
+    line('lantern hanging handle',[(.248,-.073,.357),(.247,-.073,.401),(.292,-.073,.427),(.333,-.073,.400),(.333,-.073,.356)],.009,gold)
+    block('lantern warm pane',(.292,-.073,.279),(.109,.083,.121),warm,.014)
+    block('lantern base',(.292,-.073,.207),(.145,.113,.025),gold,.009)
+    block('lantern roof',(.292,-.073,.353),(.151,.120,.030),gold,.011)
+    for x in [.230,.354]:
+        for y in [-.121,-.025]:
+            line('lantern cage rib',[(x,y,.222),(x,y,.337)],.0075,gold)
+
+    lantern=empty('Guide_LanternLag',(.292,-.073,.427))
+    parent(lantern,body);objects.append(lantern)
+    parts=('Guide_lantern hanging handle','Guide_lantern warm pane',
+           'Guide_lantern base','Guide_lantern roof','Guide_lantern cage rib')
+    for part in list(objects):
+        if part.name.startswith(parts): parent(part,lantern)
+
+    # The greeting has anticipation, two small waves, recovery and a genuine
+    # resting interval. Wrist and elbow are phased rather than a rigid pendulum.
+    # Shoulder rotation uses the authored anatomical pivot, never the root.
+    greeting=[(1,70,-138,6),(19,70,-138,6),(27,65,-125,4),
+              (35,32,-72,0),(43,-10,-3,6),(51,-7,0,-11),
+              (60,8,-1,12),(69,-5,2,-7),(78,4,-5,4),
+              (87,35,-70,2),(99,65,-130,4),(111,70,-138,6),
+              (145,70,-138,6)]
+    for frame,roll,lift,wrist in greeting:
+        elbow.rotation_euler[1]=math.radians(roll)
+        elbow.keyframe_insert(data_path='rotation_euler',frame=frame,group='Welcoming wave')
+        hand_pivot.rotation_euler[1]=math.radians(wrist)
+        hand_pivot.rotation_euler[2]=math.radians(wrist*.35)
+        hand_pivot.keyframe_insert(data_path='rotation_euler',frame=frame,group='Open hand wave')
+        shoulder.rotation_euler[1]=math.radians(lift)
+        shoulder.keyframe_insert(data_path='rotation_euler',frame=frame,group='Gentle arm support')
+
+    # Short acknowledgement after the hand rises. Cap, beard, nose and ears
+    # move together; the tilt is deliberately modest at the map's small scale.
+    for frame,pitch,roll in [(1,-6,0),(23,-6,0),(35,-9,-1.5),
+                             (49,-4,-2),(67,-7,-1),(91,-6,0),(145,-6,0)]:
+        head.rotation_euler=(math.radians(pitch),math.radians(roll),0)
+        head.keyframe_insert(data_path='rotation_euler',frame=frame,group='Small greeting acknowledgement')
+
+    # Two 5-frame blinks, separated from the hand's most expressive poses.
+    # Only the eye groups flatten; neither the head nor facial proportions do.
+    blink_keys=[(1,1),(14,1),(16,.035),(19,1),
+                (116,1),(118,.035),(121,1),(145,1)]
+    for eye_group in eye_groups:
+        for frame,openness in blink_keys:
+            eye_group.scale=(1,1,openness)
+            eye_group.keyframe_insert(data_path='scale',frame=frame,group='Native eye blink')
+
+    # A 0.45% cloth breath from a low torso pivot. Feet and root never animate.
+    for frame,s in [(1,1),(37,1.0035),(73,1),(109,1.0035),(145,1)]:
+        body.scale=(1,1,s);body.keyframe_insert(data_path='scale',frame=frame,group='Breathing; boots fixed')
+    # Light assembly follows the torso with a delayed, damped two-degree lag.
+    for frame,angle in [(1,0),(27,0),(39,-1),(51,2.2),(65,-1.3),
+                        (80,.8),(96,-.4),(113,0),(145,0)]:
+        lantern.rotation_euler[1]=math.radians(angle)
+        lantern.keyframe_insert(data_path='rotation_euler',frame=frame,group='Restrained lantern lag')
+    for frame,width in [(1,.90),(29,.90),(43,1.05),(78,1.05),(111,.90),(145,.90)]:
+        smile.scale=(width,1,1)
+        smile.keyframe_insert(data_path='scale',frame=frame,group='Small greeting smile')
+    animated_nodes=[shoulder,elbow,hand_pivot,head,*eye_groups,body,lantern,smile]
+    for node in animated_nodes:
+        if node.animation_data and node.animation_data.action:
+            try:
+                action=node.animation_data.action
+                for layer in action.layers:
+                    for strip in layer.strips:
+                        for bag in strip.channelbags:
+                            for curve in bag.fcurves:
+                                for key in curve.keyframe_points:
+                                    key.interpolation='BEZIER'
+                                    key.handle_left_type='AUTO_CLAMPED'
+                                    key.handle_right_type='AUTO_CLAMPED'
+            except AttributeError:
+                pass
+    root.location=position;root.scale=(scale,scale,scale)
+    root['art_role']='Small introductory guide, not campaign navigation logic'
+    root['face_direction']='-Y';root['boots_grounded']=True
+    root['wave_hand']='right hand at negative local X; lantern in left hand'
+    return {'root':root,'animated_nodes':animated_nodes,
+            'height':1.22*scale,'wave_hand':'right','lantern_hand':'left',
+            'foot_pivot_local':(0,0,0),'object_count':len(objects),
+            'animation_frames':(1,145),'fps':24,
+            'greeting_seconds':6.0,'rest_frames':(111,145),
+            'wave_peak_frames':(43,51,60,69),
+            'blink_closed_frames':(16,118),'blink_keys':blink_keys,
+            'lantern_pivot':'Guide_LanternLag','finite_playback':'Godot candidate viewer; idle after one greeting',
+            'head_pivot':'Guide_HeadAcknowledge',
+            'blink_groups':[node.name for node in eye_groups],
+            'boots_animation':'NONE; boot and trouser cuff meshes parented to fixed root',
+            'native_geometry':True,'texture_inputs':[]}

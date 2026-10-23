@@ -1,0 +1,39 @@
+GNOMIT v014 TREES — actual pixel review — 2026-10-22
+
+Observed: actual selected Blender render 00_NATIVE_TREES_432x960.png,
+Godot TREES_V014_FROZEN.png, preserved v013 GRASS_V013_FROZEN.png,
+reference/TARGET_HOME_START.png and both native/draft1 and native/draft2
+renders. Runtime comparison uses identical verified camera, light B,
+161-point route, frozen guide pose and map clock. Native and Godot have
+separate inherited lighting rigs; pixel parity between engines is not claimed.
+
+VISUAL-JUDGMENT: draft1 was too sparse/smooth with isolated raised caps.
+Draft2 had visible but repeated protruding scales and cabbage-like rosettes.
+Both are preserved as unselected trials with exact source, generator,
+export, render and build receipt. They are not accepted improvements.
+
+The selected third candidate changes one variable from draft2: all sculpted
+relief is scaled by 0.22. It removes most protruding wart-like shapes and
+keeps a denser, shallow leaf marking pattern with a calmer green surface.
+Five main crown envelopes, tree placement, bark, sprigs, grass and lighting
+remain the same. Existing ten daisies follow the crown surface; their local
+forms/orientations/scales are unchanged. No obvious placement or clipping
+blocker is visible in the inspected 432x960 frames.
+
+Remaining artistic gap: these still read mostly as rounded solid crowns
+with a surface pattern. The reference has more convincing overlapping
+foliage. This is a comparison candidate, not a clear artistic win or a
+claim of reference parity. Independent read-only visual review agrees.
+Human visual selection is PENDING; no fourth creative pass is started.
+
+Measurement note: receipt crown field quiet_fraction_leaf_relief_below_1mm
+is the intermediate unscaled leaf-field statistic, before relief_scale.
+It must not be interpreted as the final mesh's fraction above/below 1mm.
+The reported max_cluster_relief_m and max_leaf_relief_m include that scale.
+Projected cluster/leaf pixel sizes are design targets, not measured visible
+rendered features or evidence of human visual acceptance.
+
+Scripted desktop checks are separate from art acceptance. Android/FPS/touch
+and human playtesting remain NOT_MEASURED. Geometry counts do not establish
+performance. Native/GLB guards check preserved geometry/materials, not
+universal absence of every possible hidden triangle intersection.

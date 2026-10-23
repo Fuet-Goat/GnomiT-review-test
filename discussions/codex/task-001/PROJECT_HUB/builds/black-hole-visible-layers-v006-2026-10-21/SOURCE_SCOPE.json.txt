@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "base": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\BlackHoleOneHit_2026-10-20",
+  "inherited_inputs_verified": 209,
+  "changed_inherited_files": [
+    "scripts/lab/material_power_board.gd",
+    "project.godot",
+    "black_hole_one_hit.gd"
+  ],
+  "core_identical": true,
+  "art_audio_identical": true
+}

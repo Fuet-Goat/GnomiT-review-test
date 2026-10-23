@@ -1,0 +1,26 @@
+GnomiT element wordmark v1
+Method: built-in image_gen__imagegen; imagegen skill; one generation.
+Tool parameter: transparent_background=true
+Source file: C:/Users/fruch/.codex/generated_images/01a154d8-49a2-75a3-ae99-4814f39b0996/exec-8c60911e-76b9-428c-887f-d0a626586881.png
+Saved asset: C:/Users/fruch/Documents/Codex/GnomiT_Playtests/StorybookMine_V2_2026-10-19/assets/branding/gnomit_element_wordmark_v1.png
+The selected PNG was copied byte-for-byte unchanged; source retained.
+Dimensions: 1983 x 793 pixels
+Bytes: 1485630
+SHA-256: 90A07215598D9D3CB95741DC417E96D14AEC5E03FEA1B0875C40B7F52DABE262
+Alpha verification: 32-bit ARGB PNG; 907030 fully transparent pixels; 664886 partially transparent pixels; 603 fully opaque pixels.
+Nonzero-alpha bounds: x=0..1954, y=23..792 (very faint fringe reaches left and bottom edges).
+Visual inspection: Full-size output inspected, then an in-memory 360 x 144 preview inspected. The six letters read GnomiT, with torch i and pickaxe T, green G, teal n, spiral o, and volcanic m.
+Visual judgment limits: Motifs are more pronounced than the prompt's word subtle. The spiral reads as a water-like vortex rather than a literal airborne tornado. The original alpha contains extensive partial transparency, which has been preserved. Actual integration contrast must be checked against the game scene. No OCR or runtime integration performed by this image-generation subtask.
+No fallback CLI/API or external paid service was used. No existing vector asset was edited. This bitmap is separate from the native 3D scene.
+
+EXACT FINAL PROMPT
+Use case: logo-brand.
+Asset type: a single polished bitmap game-title wordmark, overlay asset for a cheerful rounded fantasy mine game.
+Primary request: Design the exact word "GnomiT" as six unmistakably legible letters in one horizontal word: G n o m i T. Capital G, lowercase n o m i, capital T. The full word must be readable at 360 pixels wide.
+Scene/backdrop: REAL transparent alpha background, isolated wordmark, no scene or plate.
+Subject and typography: coherent thick rounded hand-lettering with soft 3D storybook volume, sweet cute cheerful game art, gently beveled edges. The letters form a compact balanced single line, with modest transparent padding. Wide landscape canvas, tightly composed wordmark.
+Letter details: G is friendly rounded green stone with a warm gold rim. Lowercase n is soft teal with a very subtle nature hint. Lowercase o is clearly round with an open round counter, with a subtle tornado spiral incorporated inside the letter while preserving its recognizable open counter. Lowercase m is a clearly legible rounded m with a small volcanic warm glow detail. Lowercase i is a simple wooden torch stem at normal i position, with one small warm flame in the dot position, so it still unmistakably reads i. Final uppercase T is a friendly gold and steel pickaxe whose horizontal crossbar and vertical handle still unmistakably read capital T. All motifs are secondary to readable text.
+Lighting/mood: warm, inviting, playful, softly lit storybook game emblem.
+Color palette: warm gold, coral, teal, leaf green; harmonized warm highlights.
+Text (verbatim): "GnomiT".
+Constraints: exactly six letters G n o m i T, no extra letters or words, no slogan, no characters, no Candy Crush name, no full background, no mockup. All letters visually belong to the same rounded game wordmark. Real transparent pixels around the silhouette, no fake checkerboard, no painted white background. Output a raster PNG asset, not SVG.

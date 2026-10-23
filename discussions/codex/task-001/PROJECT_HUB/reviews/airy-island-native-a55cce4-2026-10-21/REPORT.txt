@@ -1,0 +1,80 @@
+GNOMIT — CODEX NATIVE REVIEW OF GPT ISLAND SOURCE
+Date: 2026-10-21 Europe/Sofia
+Input commit: a55cce4a0f0ba879615e6661f861159c7edfa785
+Input path: discussions/gpt/task-001/new-island-generator-r1/
+Result: NATIVE_BUILD_VERIFIED / ART_REVISION_REQUIRED / NOT_INTEGRATED
+
+VERDICT
+The source handoff is complete and usable in the local Blender environment.
+The exact unmodified GPT generator actually produced a native .blend, a GLB,
+five generated texture PNGs and a real 432x960 Cycles draft. This is now an
+executed scene, not a source-only claim. It is visually far from the requested
+MIDDLE reference panel and is not approved final art.
+
+EXACT VS DERIVED
+01_GPT_EXACT preserves the unmodified source build and original results.
+02_CODEX_NORMALS_FIX is a separately rebuilt derivative. Only boardwalk.py was
+changed: reverse the underdeck face winding. The actual path, boards, terrain,
+camera, palette, light, trees and decoration were not redesigned.
+REVIEW/NORMALS_FIX.patch and NORMALS_FIX_RECEIPT.json identify the difference.
+The .blend basename v001 is chosen by the proposal; it is not the game version.
+The GPT workflow proposal was called v002. These names do not imply integration.
+
+FINDINGS
+1. TECHNICAL, VERIFIED: boardwalk.py:120-129 constructs an inward closed timber
+   underdeck. Original evaluated signed volume: -2.828529381870276 m3; observed
+   again after GLB reimport. The isolated correction reverses all faces before
+   mesh construction. Corrected evaluated signed volume: +2.828538109848813 m3;
+   observed again in GLB reimport. Original is retained unchanged.
+2. VISUAL-JUDGMENT: road bends show large triangular dark seams and thin fan-like
+   boards, unlike the continuous honey timber reference. Source:
+   boardwalk.py:plank_plan, lines76-107; scene_settings.json:road. The actual
+   maximum outer seam is 0.2853608862638055m, minimum board depth
+   0.08931492934143596m, 76 boards. Zero SAT overlap did not give attractive
+   joins. Revise bend radii and spacing/depth together, keep rectangles, and
+   reduce underdeck colour contrast. A relaxed test threshold is not an art fix.
+3. VISUAL-JUDGMENT: the land reads as a thin smooth oval platform rather than
+   the reference's suspended earthen mass. environment.py:terrain (lines28-66)
+   and presentation.py:fit_camera (lines57-80) / 53-degree elevation need joint
+   art revision. The current geometry fits the frame correctly; containment
+   alone does not achieve the desired presentation. Preserve the open lawns.
+4. VISUAL-JUDGMENT: mine rocks resemble pale rounded cushions, the cottage wall
+   is largely hidden, crown lobes are visibly primitive, and the palette/sky are
+   muted gray-green. Refine mine.py:build, environment.py:tree/cottage and
+   presentation.py:configure / materials palette. Use the SAME landmarks; do
+   not fill the quiet grass with more scatter to hide weak primary forms.
+
+WHAT ACTUALLY PASSED
+- Exact Git payloads: 15 preserved files; 13 declared manifest payload hashes
+  and Git blob identities checked; all7 Python modules parsed; JSON parsed.
+- Blender5.2.2 LTS build d13f752e3b9c; factory startup, background, autoexec
+  disabled, Python error exit code1; actual candidate process exit0.
+- CPU Cycles draft, 48 samples, denoised, actual432x960 PNG, decoded with PIL.
+- .blend reopened in a fresh process with scripts disabled and rendered again.
+- GLB imported into a new empty Blender scene; 552 meshes, 218098 evaluated
+  triangles, exact measured bounds match (maximum error0m), five packed256x256
+  images and Road_Centerline/Level_1_Anchor/Level_2_Anchor/Portrait_Camera remain.
+- Corrected source rebuilt separately and underwent the same reopen/reimport.
+- Verified input .blend/GLB bytes unchanged by verification.
+Detailed exact values are in receipts, not rounded performance estimates.
+
+WHAT HAS NOT BEEN PROVED
+No Godot integration/import, Android performance, animation, gnome, gameplay,
+player movement, save compatibility or human final art acceptance was tested.
+218098 triangles and 552 meshes describe this prototype; they are not a mobile
+performance approval. GLB deliberately excludes Blender lighting/world, so a
+matching Godot appearance requires a later lighting step. The new island is
+static. No claim of legal clearance or exclusive ownership is made.
+
+AUTHORITY AND PRESERVATION
+This is the local isolated art review/trial requested in the ongoing human
+workflow. The report from GPT did not itself grant execution authority. Git
+publication stays under Codex's own REPORTS_ONLY document root and packages the
+evidence as a report attachment; it does not expand grants or enable runtime.
+No main/grant/private game/campaign/save/other bot branch/Cradle changes, merge
+or game launch. Existing game versions and original art sources are preserved.
+
+NEXT
+One GPT source revision aimed at road seams, land thickness/presentation and
+landmark/material quality. PROMPT_FOR_GPT_R2_BG.txt is ready. Do not integrate
+this draft as the finished new map. GPT-6.1 Sol / High for the next source task.

@@ -1,0 +1,27 @@
+{
+  "purpose": "Human-authorised local underarm topology separation after weight-only R2 was insufficient",
+  "input_file": "reference/GNOME_RIG_R1_GREETING.blend",
+  "input_sha256": "43e9832811a89f9f4af660097f9b3abd69744f919f6179859763b00bdd0283be",
+  "input_source_commit": "1cbbe60b90806d9fb2d28d02db85da4cf7ddc9d4",
+  "output_file": "native/GNOME_R3_SEPARATED_SLEEVE_A.blend",
+  "output_sha256": "0335bcc275bfbc8e3b7d3ea43bde2fad6c8ece5281a750007290ef154ac8bffc",
+  "analytic_source": "source/original_body_r2.py",
+  "analytic_original_path": "Gnome_Concept_Form_R2_2026-10-22/source/new_body.py",
+  "creation": "Procedural Blender Python; local right torso/sleeve reconstruction, ring-based bone weights",
+  "new_external_models_textures_or_downloads": false,
+  "raster_AI_generation": false,
+  "software": [
+    "Blender 5.2.2",
+    "Python standard library",
+    "Pillow for native-render comparison"
+  ],
+  "materials": "Original accepted M2 materials, unchanged",
+  "runtime_scope": "Isolated Blender preview; no game edits, no merge",
+  "limitations": [
+    "watertight production topology",
+    "zero local strain",
+    "GLB/Godot parity",
+    "Android performance"
+  ],
+  "human_visual_acceptance": "PENDING"
+}

@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "base": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\R3_Trees_Organic_2026-10-21",
+  "unchanged_scripts": 59,
+  "changed_scripts": [
+    "scripts/r3/island_map.gd",
+    "scripts/r3/preview_main.gd"
+  ],
+  "allowed_script_changes": "Map lighting recipe/rig and recipe-based lantern flicker; window title.",
+  "map_text_outside_lighting_adapter": "EXACT_UTF8_TEXT_MATCH_TO_V011",
+  "project_changes": "Window title and isolated v012 user-data directory only.",
+  "unchanged_inherited_resources": 85,
+  "new_runtime_resource": "assets/r3/lighting_v012.json",
+  "runtime_glb": "BYTE_IDENTICAL_TO_V011",
+  "main_scene": "BYTE_IDENTICAL_TO_V011",
+  "base_manifest_entries_unchanged": 340,
+  "base_modified_entries": [],
+  "gameplay_audio_progress": "UNCHANGED",
+  "native_protected_nonlight_records": 644
+}

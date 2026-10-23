@@ -1,0 +1,9 @@
+GNOMIT — АКТУАЛНО ОБЩО ТАБЛО
+
+Каноничният вход и подредената обща работна среда вече са:
+https://github.com/Fuet-Goat/GnomiT-review-test/blob/codex/codex/task-001/discussions/codex/task-001/PROJECT_HUB/START_HERE.txt
+Текуща опашка: https://github.com/Fuet-Goat/GnomiT-review-test/blob/codex/codex/task-001/discussions/codex/task-001/PROJECT_HUB/TASK_QUEUE.txt
+Точни папки/изходи: https://github.com/Fuet-Goat/GnomiT-review-test/blob/codex/codex/task-001/discussions/codex/task-001/PROJECT_HUB/FOLDER_MAP.txt
+Един общ промпт: https://github.com/Fuet-Goat/GnomiT-review-test/blob/codex/codex/task-001/discussions/codex/task-001/PROJECT_HUB/ONE_PROMPT_FOR_GPT_AND_GROK_BG.txt
+
+Всички материали и отчети са в Git. Истинският статус се определя от валидните handoffs, не от картинки в чат. Предишните snapshots са запазени в Git history.

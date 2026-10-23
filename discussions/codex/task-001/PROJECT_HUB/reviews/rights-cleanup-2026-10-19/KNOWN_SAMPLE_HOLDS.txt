@@ -1,0 +1,7 @@
+3 known sample-derived hashes; 18 occurrences in scoped playtests.
+Internal release hold until permission is evidenced or a replacement is accepted.
+This is not a finding of infringement. Scratch candidates remain unintegrated.
+stone_move_cartoon_selected_v1.ogg 45ac41d8bbf97f713ba5d979ffd497b63a79f530acf3d4c73eb591832880c8b9
+stone_break_full_v1.wav 9e573bc03b5f427614005774116ef3c84cfa5b9ba486440871331d0d54ac307f
+magma_impact_burn_v1.wav 39c9ebfd6313cb00aa30f6d3b45d9096fc3c94b6c9a3cf49f904b8ed46b38364
+Only magma impact uses the external break sample in that generator; eruption and flight use separate synthesis.

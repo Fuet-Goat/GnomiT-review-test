@@ -1,0 +1,50 @@
+GNOMIT STORYBOOK MINE V3 — INDEPENDENT SUBAGENT REVIEW
+20 OCTOBER 2026
+
+SCOPE AND METHOD
+Reviewed V2 ART_DIRECTION_BG.txt, README.txt, native builder/modules, preview.gd
+and actual V2 GODOT_STORYBOOK_1S.png and guide contact sheet. Recommended better
+entrance readability, less uniform terrain/materials and a clearer articulated
+greeting. Root implemented V3 in a separate directory.
+This reviewer authored only source/audit_scene_v3.py and these four handoff
+texts in V3; it did not modify scene builder, guide, materials, world, viewer,
+V2 or campaign. Root executed the audit after the native build.
+
+Final visual review used these actual files through view_image:
+renders/final_native/GODOT_STORYBOOK_1S.png
+renders/final_native/GODOT_STORYBOOK_3S.png
+renders/GUIDE_WAVE_NATIVE.png
+The visual judgement is based on those stills, not an independently viewed
+continuous movie or human playtest. The reviewer ran no additional game,
+download or renderer during this final image review.
+
+VISUAL VERDICT — IMPROVED, READY FOR HUMAN PREVIEW
+1. Mine: opening is substantially clearer than V2. Posts, lintel, threshold and
+   interior separate visibly. Rails/sleepers still read somewhat like a ladder
+   or rack; stronger recession into darkness would improve depth.
+2. Boardwalk: honey-coloured wood and rectangular transverse seams read clearly.
+   The curved approach silhouette remains intact. Broad green ground and
+   pill-like moss still look more procedural than the polished storybook target.
+3. Guide: boots appear seated on terrain, and the raised palm reads as a greeting.
+   Face, blinking and wrist detail remain tiny at 432 x 960. The 1-second and
+   3-second stills have similar guide poses; the separate wave pose is clearer.
+   These images alone do not establish appealing smooth motion.
+
+TECHNICAL EVIDENCE — SEPARATE FROM VISUAL ACCEPTANCE
+Saved native source audit is PASS: all 145 integer frames, stationary boot/root
+transforms, separate head/eyes, palm height, loop endpoints and 32 rectangular
+boards at 1.68 m width and 0.11 m thickness.
+Final imported GLB audit reports 51 checks and no failures. Root corrected the
+transfer timeline with export_anim_slide_to_zero=True and 24 fps import. The
+failed intermediate timeline receipt remains under verification/.
+Final native capture receipt is PASS. These results demonstrate the checked
+native/imported behaviour; they are not Android, human or performance acceptance.
+
+BOUNDARY AND NEXT DECISION
+Human ART acceptance is PENDING. Recommend showing this version to the owner
+before another polish pass. The native recording supplies continuous playback
+for that assessment. Do not claim finished production art or mobile quality.
+Markers 1/2 remain introduction cards; campaign match-3, saves, powers and sound
+were not integrated or changed by this art-preview pass.
+No legal all-clear or exclusive authorship is established by this review.
+Recommended code/integration model: GPT-6.1 Sol / High.

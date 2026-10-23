@@ -1,0 +1,26 @@
+{
+  "pr_url": "https://github.com/Fuet-Goat/GnomiT-review-test/pull/8",
+  "state": "open",
+  "merged": false,
+  "mergeable": true,
+  "mergeable_state": "clean",
+  "base": "d803005f3b123ca2b1ab617a37098a43c43b5da8",
+  "head": "945bb6cfce1cadac906835eb410314036736bb17",
+  "checks": [
+    {
+      "name": "Scope boundary",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/runs/120510513243",
+      "summary": "Approved task; all proposal paths are inside the registered scope. No proposal code executed."
+    },
+    {
+      "name": "Scope policy runner",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/actions/runs/39981728723/job/120510457425",
+      "summary": null
+    }
+  ],
+  "status": "pending"
+}

@@ -1,0 +1,6 @@
+{
+  "shortcut": "C:/Users/fruch/Desktop/GnomiT Samples/v004 - 2026-10-20 - Volumetric Gnome - Codex Art Preview.lnk",
+  "target": "C:\\Tools\\Godot\\4.7.2\\engine\\Godot_v4.7.2-stable_win64.exe",
+  "arguments": "--path \"C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\GnomeVolume_Codex_2026-10-20\" --resolution 432x960",
+  "verified": true
+}

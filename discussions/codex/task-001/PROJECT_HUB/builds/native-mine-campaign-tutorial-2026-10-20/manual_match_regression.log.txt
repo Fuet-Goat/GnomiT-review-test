@@ -1,0 +1,3 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+MANUAL_VOLCANO_MATCH {"checks":185,"failures":[],"observations":[{"award_kinds":[],"case":"CONTROLLED_MANUAL_COLOR_MATCH","components":1,"length":3,"swap":[17,24]},{"award_kinds":[8],"case":"CONTROLLED_MANUAL_COLOR_MATCH","components":1,"length":4,"swap":[17,24]},{"award_kinds":[9],"case":"CONTROLLED_MANUAL_COLOR_MATCH","components":1,"length":5,"swap":[17,24]}],"proof":"Controlled deterministic Core contracts and real manual try_swap calls. Automatic cascade masks are explicitly separate. No human or visual acceptance.","status":"PASS"}

@@ -1,0 +1,68 @@
+[
+  {
+    "file": "ALIVE_OPENING_FINAL.mp4",
+    "tracks": [
+      {
+        "handler": "vide",
+        "codec": "avc1",
+        "duration_s": 15.99998888888889,
+        "samples": 481,
+        "width": 432.0,
+        "height": 960.0,
+        "average_fps": 30.062520876750607
+      },
+      {
+        "handler": "soun",
+        "codec": "mp4a",
+        "duration_s": 16.085708333333333,
+        "samples": 754
+      }
+    ],
+    "source_nominal_s": 16.1,
+    "kind": "Derivative encoding; original native AVI and its exact frame receipt retained locally"
+  },
+  {
+    "file": "CONTROL_OPENING.mp4",
+    "tracks": [
+      {
+        "handler": "vide",
+        "codec": "avc1",
+        "duration_s": 15.99998888888889,
+        "samples": 481,
+        "width": 432.0,
+        "height": 960.0,
+        "average_fps": 30.062520876750607
+      },
+      {
+        "handler": "soun",
+        "codec": "mp4a",
+        "duration_s": 16.085708333333333,
+        "samples": 754
+      }
+    ],
+    "source_nominal_s": 16.1,
+    "kind": "Derivative encoding; original native AVI and its exact frame receipt retained locally"
+  },
+  {
+    "file": "ALIVE_GENUINE_WIN.mp4",
+    "tracks": [
+      {
+        "handler": "vide",
+        "codec": "avc1",
+        "duration_s": 17.99998888888889,
+        "samples": 541,
+        "width": 432.0,
+        "height": 960.0,
+        "average_fps": 30.055574108379076
+      },
+      {
+        "handler": "soun",
+        "codec": "mp4a",
+        "duration_s": 18.091041666666666,
+        "samples": 848
+      }
+    ],
+    "source_nominal_s": 18.1,
+    "kind": "Derivative encoding; original native AVI and its exact frame receipt retained locally"
+  }
+]

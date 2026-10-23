@@ -1,0 +1,1110 @@
+GNOMIT MOUNTAIN VOLCANO V2 — LITERAL PATCH ON MEGA COPY
+New PNG is in local ZIP only; SHA/size/path in receipt. Existing Core/audio unchanged.
+
+--- a/project.godot
++++ b/project.godot
+@@ -2,11 +2,11 @@
+ config_version=5
+ 
+ [application]
+-config/name="GnomiT Mega Volcano Lab"
++config/name="GnomiT Mountain Volcano V2"
+ config/use_custom_user_dir=true
+-config/custom_user_dir_name="GnomiT-MegaVolcano-Lab-2026-10-19"
++config/custom_user_dir_name="GnomiT-MountainVolcano-Lab-2026-10-19"
+ config/version="0.1.0-local-frankenstein-r1"
+-run/main_scene="res://mega_volcano.tscn"
++run/main_scene="res://mountain_volcano.tscn"
+ config/features=PackedStringArray("4.7", "GL Compatibility")
+ 
+ [display]
+
+--- /dev/null
++++ b/scripts/lab/mountain_volcano_board.gd
+@@ -0,0 +1,156 @@
++extends "res://scripts/lab/mega_volcano_board.gd"
++## Mountain body replaces only the temporary Mega presentation. Core, the
++## original reward icons, timings and damage budget are inherited unchanged.
++const MOUNTAIN_PATH := "res://assets/vfx/mountain_volcano_body_v2.png"
++const MOUNTAIN_TEXTURE = preload("res://assets/vfx/mountain_volcano_body_v2.png")
++const MOUNTAIN_REGION := Rect2(28,179,1406,801)
++const CRATER_UV := Vector2(0.516,0.125)
++var _mountain_texture: Texture2D
++
++func _ensure_mountain() -> bool:
++	if _mountain_texture != null:return true
++	_mountain_texture = MOUNTAIN_TEXTURE
++	return _mountain_texture != null
++
++func mountain_asset_status() -> Dictionary:
++	var ready := _ensure_mountain()
++	return {"ready":ready,"path":MOUNTAIN_PATH,"region":MOUNTAIN_REGION,
++		"size":_mountain_texture.get_size() if ready else Vector2.ZERO,"crater_uv":CRATER_UV}
++
++func mountain_geometry() -> Dictionary:
++	var step := _cell_size()
++	var phase := mega_phase()
++	var center := mega_center()
++	var bounds := _board_rect().grow(-step*0.08)
++	var growth := 0.68+float(phase.growth)*0.32
++	var width := minf(step*3.55,bounds.size.x)*growth
++	var extent := Vector2(width,width*MOUNTAIN_REGION.size.y/MOUNTAIN_REGION.size.x)
++	var foot := center+Vector2(0.0,step*0.78)
++	var position := foot-Vector2(extent.x*0.5,extent.y)
++	position=position.clamp(bounds.position,bounds.end-extent)
++	var rect := Rect2(position,extent)
++	return {"rect":rect,"foot":Vector2(rect.get_center().x,rect.end.y),
++		"crater":rect.position+rect.size*CRATER_UV,"bounds":bounds,"growth":growth}
++
++func mega_target_poses() -> Array:
++	var poses := super.mega_target_poses()
++	var source: Vector2=mountain_geometry().crater
++	for pose in poses:
++		var destination: Vector2=pose.destination
++		var flight:=float(pose.flight)
++		var ordinal:=int(pose.ordinal)
++		var point:=_mega_arc(source,destination,flight,_cell_size(),ordinal)
++		var prior:=_mega_arc(source,destination,maxf(0.0,flight-0.035),_cell_size(),ordinal)
++		var tangent:=(point-prior).normalized()
++		if tangent==Vector2.ZERO:tangent=(destination-source).normalized()
++		if tangent==Vector2.ZERO:tangent=Vector2.UP
++		pose["source"]=source;pose["point"]=point;pose["tangent"]=tangent
++	return poses
++
++func _draw_mega_volcano(step: float) -> void:
++	if not _ensure_mountain():
++		super._draw_mega_volcano(step)
++		return
++	var phase:=mega_phase()
++	var geometry:=mountain_geometry()
++	var center:=mega_center()
++	var t:=float(phase.t)
++	var sources:=mega_sources()
++	var ready:=_ensure_painted_assets()
++	var poses:=mega_target_poses()
++	# Minerals are drawn before the large mountain, so none are pasted on its
++	# slopes. All gameplay targets still come exclusively from the Core event.
++	for pose in poses:
++		var flight:=float(pose.flight)
++		var hit:=float(pose.hit)
++		if flight<1.0:
++			_event_gem(int(pose.index),pose.destination)
++			var warning:=(1.0-smoothstep(0.25,0.58,t))*0.59
++			draw_arc(pose.destination,step*0.36,0.10,PI-0.10,22,Color(1.0,0.64,0.25,warning),1.4,true)
++		elif hit<1.0:
++			_event_gem(int(pose.index),pose.destination,1.0-hit*0.88,1.0-hit)
++	if t<0.22:
++		var merge:=float(phase.merge)
++		for source in sources:
++			var index:=int(source.index)
++			var point:=_center(index).lerp(center,merge)
++			point.y-=sin(merge*PI)*step*0.13
++			_event_gem(index,point,1.0-merge*0.40,1.0-smoothstep(0.13,0.22,t))
++	var alpha:=float(phase.body_alpha)
++	if alpha>0.0:
++		_draw_mountain_body(geometry,alpha,t,step,ready)
++	if ready:_draw_mountain_plume(geometry,step,t)
++	for pose in poses:
++		if bool(pose.flying):_draw_mega_magma(pose,step,ready)
++		var hit:=float(pose.hit)
++		if hit>0.0 and hit<1.0:
++			_draw_burning_cell(pose.destination,step,hit,int(pose.ordinal))
++			_draw_mineral_impact(pose.destination,step*1.07,hit,int(pose.ordinal),int(pose.mineral_kind))
++	draw_set_transform(Vector2.ZERO)
++
++func _draw_mountain_body(geometry: Dictionary, alpha: float, t: float, step: float, ready: bool) -> void:
++	var rect: Rect2=geometry.rect
++	var foot: Vector2=geometry.foot
++	var crater: Vector2=geometry.crater
++	draw_set_transform(foot-Vector2(0,step*0.08),0.0,Vector2(1.0,0.20))
++	draw_circle(Vector2.ZERO,rect.size.x*0.46,Color(0.025,0.02,0.025,alpha*0.43),true,-1,true)
++	draw_set_transform(Vector2.ZERO)
++	# The original generated RGBA pixels are untouched. The source region only
++	# omits nearly transparent outer dust; it is not an alpha-threshold edit.
++	draw_texture_rect_region(_mountain_texture,rect,MOUNTAIN_REGION,Color(1,1,1,alpha))
++	var charge:=smoothstep(0.20,0.31,t)*(1.0-smoothstep(0.36,0.52,t))
++	draw_set_transform(crater,0.0,Vector2(1.0,0.30))
++	draw_circle(Vector2.ZERO,rect.size.x*0.095,Color(1.0,0.42,0.05,alpha*charge*0.57),true,-1,true)
++	draw_circle(Vector2.ZERO,rect.size.x*0.055,Color(1.0,0.89,0.44,alpha*charge*0.84),true,-1,true)
++	draw_set_transform(Vector2.ZERO)
++	if not ready:return
++	# Small moving hot tongues travel DOWN the already-painted lava channels;
++	# the rock silhouette remains stable instead of wobbling like rubber.
++	var channels: Array=[
++		[Vector2(0.457,0.165),Vector2(0.379,0.295),Vector2(0.289,0.454),Vector2(0.187,0.653),Vector2(0.106,0.861)],
++		[Vector2(0.509,0.209),Vector2(0.520,0.340),Vector2(0.581,0.532),Vector2(0.698,0.785),Vector2(0.741,0.940)],
++		[Vector2(0.596,0.200),Vector2(0.681,0.415),Vector2(0.756,0.549),Vector2(0.860,0.740)],
++	]
++	for channel_number in channels.size():
++		var channel: Array=channels[channel_number]
++		for ordinal in 3:
++			var progress:=fposmod(t*1.35+float(ordinal)*0.31+float(channel_number)*0.13,1.0)
++			var part:=progress*float(channel.size()-1)
++			var index:=mini(int(part),channel.size()-2)
++			var uv: Vector2=Vector2(channel[index]).lerp(channel[index+1],part-float(index))
++			var point:=rect.position+uv*rect.size
++			var direction: Vector2=(Vector2(channel[index+1])-Vector2(channel[index])).normalized()
++			var opacity:=sin(progress*PI)*alpha*0.39
++			_painted_sprite("lava_flame",point,Vector2(step*0.10,step*0.22),direction.angle()-PI*0.5,Color(1.0,0.92,0.65,opacity))
++
++func mountain_plume_geometry() -> Dictionary:
++	var step:=_cell_size()
++	var throat: Vector2=mountain_geometry().crater
++	var bounds:=_board_rect().grow(-step*0.06)
++	var headroom:=maxf(0.0,throat.y-bounds.position.y)
++	var height:=minf(step*(1.55+sin(_power_t*TAU*12.0)*0.07),headroom*0.92)
++	var blast_limit:=minf(minf(throat.x-bounds.position.x,bounds.end.x-throat.x),minf(headroom,bounds.end.y-throat.y))
++	return {"throat":throat,"height":height,"bounds":bounds,"blast_limit":maxf(0.0,blast_limit-step*0.03)}
++
++func _draw_mountain_plume(geometry: Dictionary, step: float, t: float) -> void:
++	var throat: Vector2=geometry.crater
++	var plume:=mountain_plume_geometry()
++	var eruption:=smoothstep(0.29,0.34,t)*(1.0-smoothstep(0.51,0.69,t))
++	if eruption>0.0:
++		var flicker:=sin(t*TAU*12.0)
++		var height:=float(plume.height)
++		_painted_sprite("lava_flame",throat-Vector2(0.0,height*0.43),Vector2(step*0.91,height),flicker*0.04,Color(1.0,0.95,0.69,eruption*0.95))
++		_painted_sprite("lava_flame",throat+Vector2(step*0.12,-height*0.31),Vector2(step*0.43,height*0.80),-0.16,Color(1.0,0.81,0.40,eruption*0.80))
++	for puff in 6:
++		var age:=(t-0.25-float(puff)*0.035)/0.52
++		if age<=0.0 or age>=1.0:continue
++		var side:=float(puff%3)-1.0
++		var extent:=Vector2(0.62+age*0.68,0.64+age*0.76)*step
++		var point:=throat+Vector2(side*(0.12+age*0.24),-0.30-age*1.16)*step
++		var bounds:=_board_rect().grow(-maxf(extent.x,extent.y)*0.5)
++		point=point.clamp(bounds.position,bounds.end)
++		_painted_sprite("ash_puff",point,extent,side*0.10,Color(0.31,0.24,0.22,sin(age*PI)*0.60))
++	var blast:=clampf((t-0.32)/0.16,0.0,1.0)
++	if blast>0.0 and blast<1.0:
++		var radius:=minf(step*(0.22+blast*0.91),float(plume.blast_limit))
++		draw_arc(throat,radius,0.0,TAU,48,Color(1.0,0.78,0.35,(1.0-blast)*0.52),maxf(1.0,step*0.045*(1.0-blast)),true)
+
+--- /dev/null
++++ b/scripts/lab/mountain_volcano_lab.gd
+@@ -0,0 +1,428 @@
++extends Control
++## Standalone material-power lab. Every result is Core-owned; no campaign/save writes.
++const LabCore = preload("res://scripts/lab/mega_volcano_core.gd")
++const Fixtures = preload("res://scripts/lab/material_power_fixtures.gd")
++const LabBoard = preload("res://scripts/lab/mountain_volcano_board.gd")
++const Art = preload("res://scripts/story_art.gd")
++const RockAudio = preload("res://scripts/rock_audio.gd")
++const MegaAudio = preload("res://scripts/lab/mega_volcano_audio.gd")
++const VolcanoAudio = preload("res://scripts/lab/volcano_audio.gd")
++const TornadoAudio = preload("res://scripts/lab/tornado_audio.gd")
++const LightningAudio = preload("res://scripts/lab/lightning_audio.gd")
++const ElementAudio = preload("res://scripts/lab/reward_rules_audio.gd")
++const Background = preload("res://assets/first_crystals/cave_background_v1.png")
++
++const MINERAL_GOALS := ["RUBIES", "AMETHYST", "ORE", "DIAMONDS", "EMERALDS", "PEARLS"]
++const SCENARIOS := [
++	["moved_volcano_four", "Move ore Volcano → eruption + new Volcano"],
++	["moved_volcano_five", "Move ore Volcano → eruption + new Storm"],
++	["catalyst_four", "Match 4 · waiting Volcano stays"],
++	["catalyst_five", "Match 5 · waiting Volcano stays"],
++	["cascade_four", "Falling 4 → waiting Volcano"],
++	["cascade_five", "Falling 5 → waiting Storm"],
++	["cascade_three_births", "Three falling fours → three rewards"],
++	["waiting_between", "Falling stones · waiting power is a barrier"],
++	["black_hole_swallow", "5 + 5 · swallow other waiting powers"],
++	["create_four", "Create 4 → Volcano"],
++	["create_five", "Create straight 5 → Storm"],
++	["create_t", "Create T → Tornado"],
++	["create_l", "Create L → Landslide"],
++	["create_plus", "Create Extended T → Tornado"],
++	["pair44", "4 + 4 · MOUNTAIN VOLCANO"],
++	["pair45", "4 + 5 · Tornado then Volcano"],
++	["black_hole", "5 + 5 · Tornado + Storm"],
++	["black_hole_same", "5 + 5 · Tornado + Tornado"],
++	["storm_storm", "5 + 5 · Storm + Storm"],
++	["storm_landslide", "5 + 5 · Storm + Landslide"],
++	["tornado_landslide", "5 + 5 · Tornado + Landslide"],
++	["landslide_landslide", "5 + 5 · Landslide + Landslide"],
++	["volcano", "Single Volcano · 4-born"],
++	["tornado_h", "Single Tornado · 5-born"],
++	["tornado_v", "Single Tornado · alternate icon"],
++	["lightning_storm", "Single Storm · 5-born"],
++	["earthquake", "Single Landslide · SE"],
++	["earthquake_sw", "Single Landslide · SW"],
++	["earthquake_nw", "Single Landslide · NW"],
++	["earthquake_ne", "Single Landslide · NE"],
++]
++
++var core
++var board
++var stone_audio
++var volcano_audio
++var mega_audio
++var tornado_audio
++var storm_audio
++var element_audio
++var last_result: Dictionary = {}
++var scenario := "pair44"
++var seed_value := 42
++var _generation := 0
++var _resolving := false
++var scenario_picker: OptionButton
++var moves_label: Label
++var soil_label: Label
++var rune_label: Label
++var collect_label: Label
++var helper: Label
++var effect_label: Label
++var reduced: CheckButton
++var painted_toggle: CheckButton
++var skip_button: Button
++var reset_button: Button
++var hint_button: Button
++
++func _ready() -> void:
++	get_window().content_scale_size = Vector2i(432, 960)
++	DisplayServer.window_set_title("GnomiT — Mountain Volcano V2 · PLAYABLE LAB")
++	if DisplayServer.get_name() != "headless": DisplayServer.window_set_current_screen(0)
++	var lab_theme := Theme.new()
++	lab_theme.default_font = Art.font(750.0)
++	lab_theme.default_font_size = 13
++	lab_theme.set_color("font_color", "Label", Color("fff2ce"))
++	lab_theme.set_color("font_color", "Button", Color("fff2ce"))
++	lab_theme.set_color("font_color", "OptionButton", Color("fff2ce"))
++	for state in ["normal", "hover", "pressed", "disabled"]:
++		var skin := StyleBoxFlat.new()
++		skin.bg_color = Color("16424d") if state == "normal" else Color("286267")
++		if state == "pressed": skin.bg_color = Color("875426")
++		if state == "disabled": skin.bg_color = Color("25383f")
++		skin.border_color = Color("bda367")
++		skin.set_border_width_all(1)
++		skin.set_corner_radius_all(9)
++		skin.content_margin_left = 7
++		skin.content_margin_right = 7
++		lab_theme.set_stylebox(state, "Button", skin)
++		lab_theme.set_stylebox(state, "OptionButton", skin)
++	theme = lab_theme
++	var backdrop := TextureRect.new()
++	backdrop.texture = Background
++	backdrop.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
++	backdrop.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
++	backdrop.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
++	backdrop.mouse_filter = Control.MOUSE_FILTER_IGNORE
++	add_child(backdrop)
++	var shade := ColorRect.new()
++	shade.color = Color(0.015, 0.035, 0.055, 0.46)
++	shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
++	shade.mouse_filter = Control.MOUSE_FILTER_IGNORE
++	add_child(shade)
++	var margin := MarginContainer.new()
++	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
++	for side in ["left", "top", "right", "bottom"]:
++		margin.add_theme_constant_override("margin_" + side, 10)
++	add_child(margin)
++	var stack := VBoxContainer.new()
++	stack.add_theme_constant_override("separation", 6)
++	margin.add_child(stack)
++	var heading := HBoxContainer.new()
++	stack.add_child(heading)
++	var title := _label("MOUNTAIN VOLCANO", 20)
++	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
++	heading.add_child(title)
++	reset_button = _button("Reset", func() -> void: reset_scenario(scenario))
++	reset_button.custom_minimum_size = Vector2(66, 34)
++	heading.add_child(reset_button)
++	var subtitle := _label("PLAYABLE LAB · real Core · no campaign save", 12)
++	subtitle.modulate = Color("b5d9d2")
++	stack.add_child(subtitle)
++	scenario_picker = OptionButton.new()
++	scenario_picker.custom_minimum_size.y = 37
++	scenario_picker.size_flags_horizontal = Control.SIZE_EXPAND_FILL
++	scenario_picker.fit_to_longest_item = false
++	for entry in SCENARIOS: scenario_picker.add_item(String(entry[1]))
++	scenario_picker.item_selected.connect(func(index: int) -> void: reset_scenario(String(SCENARIOS[index][0])))
++	stack.add_child(scenario_picker)
++	var rules := _label("4 → Volcano  |  straight 5 → Storm\nT / plus → Tornado  |  L → Landslide\nFalling matches create powers. Move a power to use it.\n5 + 5 → Black Hole · other powers are swallowed", 12)
++	rules.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
++	rules.modulate = Color("f3d8a0")
++	stack.add_child(rules)
++	var legend := _label("Colour + mineral chip = stored material\nFIVE-TICK badge = five-born power", 11)
++	legend.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
++	legend.modulate = Color("bde5d8")
++	stack.add_child(legend)
++	var stats := HBoxContainer.new()
++	stats.add_theme_constant_override("separation", 5)
++	stack.add_child(stats)
++	moves_label = _stat("MOVES 12", stats)
++	soil_label = _stat("SOIL 3", stats)
++	rune_label = _stat("RUNES 1", stats)
++	collect_label = _stat("ORE 0", stats)
++	board = LabBoard.new()
++	board.polished_art = true
++	board.size_flags_vertical = Control.SIZE_EXPAND_FILL
++	board.size_flags_horizontal = Control.SIZE_EXPAND_FILL
++	board.custom_minimum_size = Vector2(300, 390)
++	stack.add_child(board)
++	stone_audio = RockAudio.new(); add_child(stone_audio)
++	volcano_audio = VolcanoAudio.new(); add_child(volcano_audio)
++	mega_audio = MegaAudio.new(); add_child(mega_audio)
++	tornado_audio = TornadoAudio.new(); add_child(tornado_audio)
++	storm_audio = LightningAudio.new(); add_child(storm_audio)
++	element_audio = ElementAudio.new(); add_child(element_audio)
++	board.foley_requested.connect(_on_board_foley)
++	board.swap_requested.connect(_on_swap)
++	board.power_started.connect(_on_power_started)
++	board.reward_born.connect(func(awards: Array) -> void:
++		if not awards.is_empty(): element_audio.begin_birth(int(awards[0].get("birth_tier",5)),board.reduced_motion))
++	var info := PanelContainer.new()
++	info.add_theme_stylebox_override("panel", Art.panel(Color("c9d6bd")))
++	info.custom_minimum_size.y = 98
++	stack.add_child(info)
++	var words := VBoxContainer.new()
++	words.add_theme_constant_override("separation", 3)
++	info.add_child(words)
++	effect_label = _label("MOVE AN ORE VOLCANO", 16)
++	effect_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
++	effect_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
++	words.add_child(effect_label)
++	helper = _label("", 13)
++	helper.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
++	helper.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
++	helper.custom_minimum_size.y = 58
++	words.add_child(helper)
++	var actions := HBoxContainer.new()
++	actions.add_theme_constant_override("separation", 6)
++	stack.add_child(actions)
++	hint_button = _button("Show move", _show_hint)
++	hint_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
++	hint_button.custom_minimum_size.y = 36
++	actions.add_child(hint_button)
++	skip_button = _button("Skip effect", skip_effect)
++	skip_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
++	skip_button.custom_minimum_size.y = 36
++	actions.add_child(skip_button)
++	var options := HBoxContainer.new()
++	options.alignment = BoxContainer.ALIGNMENT_CENTER
++	options.add_theme_constant_override("separation", 12)
++	stack.add_child(options)
++	painted_toggle = CheckButton.new()
++	painted_toggle.text = "Painted Volcano"
++	painted_toggle.add_theme_font_size_override("font_size", 12)
++	painted_toggle.button_pressed = true
++	painted_toggle.toggled.connect(func(value: bool) -> void:
++		if not _resolving: board.set_painted_volcano(value))
++	options.add_child(painted_toggle)
++	reduced = CheckButton.new()
++	reduced.text = "Reduced motion"
++	reduced.add_theme_font_size_override("font_size", 12)
++	reduced.toggled.connect(func(value: bool) -> void:
++		if not _resolving: board.reduced_motion = value)
++	options.add_child(reduced)
++	reset_scenario(scenario)
++
++func _label(value: String, font_size: int) -> Label:
++	var label := Label.new()
++	label.text = value
++	label.add_theme_font_size_override("font_size", font_size)
++	return label
++
++func _button(value: String, action: Callable) -> Button:
++	var button := Button.new()
++	button.text = value
++	button.focus_mode = Control.FOCUS_NONE
++	button.pressed.connect(action)
++	return button
++
++func _stat(value: String, parent: Control) -> Label:
++	var label := _label(value, 12)
++	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
++	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
++	parent.add_child(label)
++	return label
++
++func reset_scenario(value: String) -> void:
++	_stop_audio()
++	_generation += 1
++	_resolving = false
++	scenario = value
++	last_result.clear()
++	core = LabCore.new()
++	Fixtures.configure(core, scenario, seed_value)
++	board.setup(core, reduced.button_pressed)
++	board.set_painted_volcano(painted_toggle.button_pressed)
++	board.show_hint(core.fixture_pair)
++	for index in SCENARIOS.size():
++		if String(SCENARIOS[index][0]) == scenario:
++			scenario_picker.select(index)
++			effect_label.text = _scenario_caption(String(SCENARIOS[index][1]))
++	helper.text = _scenario_help()
++	_update_stats()
++	_update_controls()
++
++func _scenario_caption(fallback: String) -> String:
++	match scenario:
++		"moved_volcano_four": return "ORE VOLCANO → NEW VOLCANO"
++		"moved_volcano_five": return "ORE VOLCANO → NEW STORM"
++		"catalyst_four": return "WAITING CATALYST · FOUR"
++		"catalyst_five": return "WAITING CATALYST · FIVE"
++		"cascade_four": return "FALLING FOUR · VOLCANO"
++		"cascade_five": return "FALLING FIVE · STORM"
++		"cascade_three_births": return "THREE CASCADE REWARDS"
++		"waiting_between": return "WAITING POWER · NO AUTO-USE"
++		"black_hole_swallow": return "BLACK HOLE · INERT SWALLOW"
++	return fallback.to_upper()
++
++func _scenario_help() -> String:
++	match scenario:
++		"moved_volcano_four": return "Grab the ore Volcano and drag it to the glowing neighbour. It erupts once; the ore four leaves a new Volcano."
++		"moved_volcano_five": return "Move the ore Volcano into the glowing line of ore. The old Volcano erupts once; the five leaves a waiting Storm."
++		"catalyst_four": return "Move the ordinary glowing ore, not the Volcano. Its material helps make four; the waiting Volcano stays and a new one is born."
++		"catalyst_five": return "Move the ordinary ore to complete five. The unmoved Volcano helps by material, stays still, and a new Storm waits."
++		"cascade_four": return "Swap the glowing minerals. Break, fall, then four ordinary stones create a Volcano. It waits until YOU move it."
++		"cascade_five": return "Swap the glowing minerals. After the first break, five falling stones create a Storm. Birth does not activate it."
++		"cascade_three_births": return "One real swap causes falling fours in three separate groups. Each creates its own waiting power."
++		"waiting_between": return "Make the glowing ordinary move. Falling same-material stones do not trigger or consume the waiting power."
++		"black_hole_swallow": return "Swap the two FIVE-TICK sources. Black Hole swallows the other waiting powers without firing their effects."
++		"create_four": return "Drag either glowing stone to its neighbour. The real four-match leaves a Volcano; play on to activate it."
++		"create_five": return "Swap the glowing pair to make five in a line. A Storm appears at the reserved match anchor."
++		"create_t": return "Swap the glowing pair to complete the T. Five matched stones award a Tornado."
++		"create_l": return "Swap the glowing pair to complete the L. Its Landslide keeps that L orientation."
++		"create_plus": return "Extended T fixture: one swap joins six stones. It awards a Tornado. A true plus is detector-supported."
++		"pair44": return "Drag one glowing Volcano into the other. They form a volcanic mountain: flowing lava, smoke and ONE eruption with the strength of THREE Volcanos."
++		"pair45": return "Swap the four-born and five-born powers. The five effect resolves first; Volcano hits the residual stones."
++	if scenario.begins_with("black_hole") or scenario in ["storm_storm", "storm_landslide", "tornado_landslide", "landslide_landslide"]:
++		return "Swap the two FIVE-TICK powers. Both materials form the painted Black Hole before ordinary stones spiral in."
++	return "Pre-placed reward fixture. Drag the glowing power to its neighbour to activate it, then continue playing."
++
++func _show_hint() -> void:
++	if _resolving: return
++	# The board's real native pointer path performs the move. After the first
++	# fixture move, use Core's current legal move instead of stale coordinates.
++	var pair: Array = core.fixture_pair.duplicate() if last_result.is_empty() else core._find_move()
++	board.show_hint(pair)
++	helper.text = "Drag a glowing stone to the other glowing neighbour." if pair.size() == 2 else "No legal move is available. Reset this fixture."
++
++func _update_stats() -> void:
++	moves_label.text = "MOVES " + str(core.moves_left)
++	soil_label.text = "SOIL " + str(core.floor.count(1))
++	rune_label.text = "RUNES " + str(core.runes.count(1))
++	collect_label.text = MINERAL_GOALS[clampi(int(core.collect_kind), 0, 5)] + " " + str(core.collected)
++
++func _update_controls() -> void:
++	scenario_picker.disabled = _resolving
++	skip_button.disabled = not _resolving
++	hint_button.disabled = _resolving
++	reduced.disabled = _resolving
++	painted_toggle.disabled = _resolving
++
++func _on_swap(a: int, b: int) -> void:
++	if _resolving: return
++	if core.won or core.lost:
++		helper.text = "This test is finished. Press Reset to replay the fixture."
++		return
++	var generation := _generation
++	var result: Dictionary = core.try_swap(a, b)
++	last_result = result
++	_resolving = true
++	_update_controls()
++	moves_label.text = "MOVES " + str(core.moves_left)
++	await board.animate_result(result)
++	if generation != _generation: return
++	_resolving = false
++	_update_stats()
++	_update_controls()
++	if not bool(result.get("valid", false)):
++		helper.text = "That swap cannot activate a power or make a match. No move spent."
++	elif core.lost:
++		helper.text = "No moves left. Press Reset or choose another fixture."
++	else:
++		var names: Array[String] = []
++		for event in result.get("events", []):
++			if String(event.get("type", "")) == "reward_birth":
++				for award in event.get("awards", []):
++					var name_value := _power_title(int(award.get("kind", -1)))
++					if not names.has(name_value): names.append(name_value)
++		if not names.is_empty():
++			effect_label.text = "CREATED · " + ", ".join(names).to_upper()
++			helper.text = "Your move created " + ", ".join(names) + ". It waits on the board. Drag that power to a neighbour when you want to use it."
++		else:
++			helper.text = "One move resolved. Keep playing this board, Show move for a hint, or choose another fixture."
++
++func _power_title(kind: int) -> String:
++	if kind == 8: return "Volcano"
++	if kind in [6, 7]: return "Tornado"
++	if kind == 9: return "Storm"
++	if kind in [10, 11, 12, 13]: return "Landslide"
++	return "reward"
++
++func _on_power_started(power: String, targets: Array) -> void:
++	if not _active_power(power): return
++	if power == "mega_volcano":
++		mega_audio.begin_mega(targets, board.reduced_motion)
++		effect_label.text = "MEGA VOLCANO · " + str(targets.size()) + " MAGMA HITS"
++		helper.text = "One volcanic mountain erupts: lava flows down its slopes while flaming rocks strike the targeted stones."
++		return
++	if power == "volcano" and board.painted_volcano:
++		volcano_audio.begin(targets, board.reduced_motion)
++	elif power in ["tornado_h", "tornado_v"]:
++		tornado_audio.begin(board.reduced_motion)
++	elif power == "lightning_storm":
++		storm_audio.begin(board.reduced_motion)
++	elif power == "black_hole":
++		var kinds: Array = []
++		for source in board.fusion_sources(): kinds.append(int(source.kind))
++		element_audio.begin_fusion(kinds, board.reduced_motion)
++	elif power == "earthquake":
++		element_audio.begin(power, board.reduced_motion)
++	match power:
++		"volcano": effect_label.text = "VOLCANO · " + str(targets.size()) + " MAGMA HITS"
++		"tornado_h", "tornado_v": effect_label.text = "TORNADO · " + str(targets.size()) + " NEARBY STONES"
++		"black_hole": effect_label.text = "BLACK HOLE · TWO FIVE-BORN MATERIALS"
++		"earthquake": effect_label.text = "LANDSLIDE · " + str(targets.size()) + " STONES"
++		"lightning_storm": effect_label.text = "STORM · " + str(targets.size()) + " EDGE STONES"
++	if power == "black_hole":
++		helper.text = "Two five-born sources form Black Hole. Other waiting powers are swallowed without their own effects."
++	elif String(board._combo_parent.get("type", "")) == "material_turn":
++		helper.text = "Your moved power fires once. The material match also creates a new power, which stays for your next choice."
++	elif String(board._combo_parent.get("power", "")) == "power_combo":
++		helper.text = "One swap, one move. Combined effects resolve in order; cleared stones stay cleared."
++	else:
++		helper.text = "Only the power you moved fires. Other waiting powers keep their identity and material."
++
++func _active_power(power: String) -> bool:
++	return is_instance_valid(board) and not board._power_event.is_empty() and board._power_epoch == board._epoch and String(board._power_event.get("power", "")) == power
++
++func _has_element_event() -> bool:
++	return _active_power("black_hole") or _active_power("earthquake")
++
++func _process(_delta: float) -> void:
++	if is_instance_valid(mega_audio) and mega_audio.event_active:
++		if _active_power("mega_volcano"): mega_audio.sync_progress(board._power_t)
++		else: mega_audio.finish_event()
++	if is_instance_valid(element_audio) and element_audio.event_active and not _has_element_event(): element_audio.finish_event()
++	if is_instance_valid(storm_audio) and storm_audio.event_active and not _active_power("lightning_storm"): storm_audio.finish_event()
++	if is_instance_valid(volcano_audio) and volcano_audio.event_active:
++		if _active_power("volcano") and board.painted_volcano: volcano_audio.sync_progress(board._power_t)
++		else: volcano_audio.finish_event()
++	if is_instance_valid(tornado_audio) and tornado_audio.event_active and not (_active_power("tornado_h") or _active_power("tornado_v")): tornado_audio.finish_event()
++
++func _on_board_foley(kind: String, strength: float = 1.0) -> void:
++	if kind == "break":
++		if _active_power("mega_volcano") and is_instance_valid(mega_audio) and mega_audio.event_active: return
++		if _has_element_event() and is_instance_valid(element_audio) and element_audio.event_active: return
++		if _active_power("lightning_storm") and is_instance_valid(storm_audio) and storm_audio.event_active: return
++		if _active_power("volcano") and board.painted_volcano and is_instance_valid(volcano_audio) and volcano_audio.event_active: return
++		if (_active_power("tornado_h") or _active_power("tornado_v")) and is_instance_valid(tornado_audio) and tornado_audio.event_active: return
++	stone_audio.play_cue(kind, strength)
++
++func _stop_audio() -> void:
++	if is_instance_valid(mega_audio): mega_audio.stop_all()
++	if is_instance_valid(stone_audio): stone_audio.stop_all()
++	if is_instance_valid(element_audio): element_audio.stop_all()
++	if is_instance_valid(storm_audio): storm_audio.stop_all()
++	if is_instance_valid(volcano_audio): volcano_audio.stop_all()
++	if is_instance_valid(tornado_audio): tornado_audio.stop_all()
++
++func skip_effect() -> void:
++	_stop_audio()
++	if not _resolving: return
++	_generation += 1
++	board.finish_now()
++	_resolving = false
++	_update_stats()
++	_update_controls()
++	helper.text = "Animation skipped. The same resolved board is shown; no extra move spent."
++
++func _exit_tree() -> void:
++	_stop_audio()
+
+--- /dev/null
++++ b/mountain_volcano.tscn
+@@ -0,0 +1,12 @@
++[gd_scene load_steps=2 format=3]
++
++[ext_resource type="Script" path="res://scripts/lab/mountain_volcano_lab.gd" id="1"]
++
++[node name="MountainVolcanoLab" type="Control"]
++layout_mode = 3
++anchors_preset = 15
++anchor_right = 1.0
++anchor_bottom = 1.0
++grow_horizontal = 2
++grow_vertical = 2
++script = ExtResource("1")
+
+--- /dev/null
++++ b/PLAY_MOUNTAIN_VOLCANO.cmd
+@@ -0,0 +1,2 @@
++@echo off
++"C:\Tools\Godot\4.7.2\engine\Godot_v4.7.2-stable_win64.exe" --path "%~dp0." --screen 0 --position 80,65 --resolution 432x960
+
+--- /dev/null
++++ b/tests/capture_mountain_volcano.gd
+@@ -0,0 +1,231 @@
++extends SceneTree
++## Real graphical driver and actual mouse events; scripted, not a human test.
++const Lab = preload("res://scripts/lab/mountain_volcano_lab.gd")
++var app
++var scenario := ""
++var output := ""
++var start_frame := 0
++var failures: Array[String] = []
++var observations: Array = []
++var frozen := ""
++var invariant_samples := 0
++var moves_before := 0
++var transaction := ""
++var shots: Dictionary = {}
++var powers: Array = []
++var births: Array = []
++var collected_signals := 0
++var transactions: Array = []
++
++func _initialize() -> void:
++	call_deferred("run")
++
++func check(value: bool, message: String) -> void:
++	if not value and not failures.has(message):
++		failures.append(message)
++		push_error(message)
++
++func state() -> Dictionary:
++	var rewards: Dictionary = {}
++	for index in app.core.grid.size():
++		var item: Dictionary = app.core.reward_at(index)
++		if not item.is_empty(): rewards[index] = item
++	return {"grid":app.core.grid.duplicate(), "floor":app.core.floor.duplicate(), "runes":app.core.runes.duplicate(), "moves":app.core.moves_left, "collected":app.core.collected, "rewards":rewards, "material_ids":app.core._material_ids.duplicate(), "rng":str(app.core._rng.state)}
++
++func canonical(value: Variant) -> String:
++	return JSON.stringify(value,"",true)
++
++func write(name: String, value: Variant) -> void:
++	var p := output+"/"+name+".json"
++	var bytes := (JSON.stringify(value,"\t",true)+"\n").to_utf8_buffer()
++	var f := FileAccess.open(p,FileAccess.WRITE)
++	f.store_buffer(bytes); f.close()
++	check(FileAccess.get_file_as_bytes(p)==bytes,"JSON readback "+name)
++
++func next_frame() -> void:
++	await process_frame
++	if not transaction.is_empty() and frozen.is_empty() and app.core.moves_left < moves_before:
++		frozen = canonical(state())
++		write(transaction+"_RESULT",app.last_result)
++		write(transaction+"_RESOLVED_STATE",state())
++	if not frozen.is_empty():
++		invariant_samples += 1
++		check(canonical(state())==frozen,"Presentation changed resolved state/RNG")
++	if not app.board._power_event.is_empty():
++		var power := String(app.board._power_event.get("power",""))
++		var t := float(app.board._power_t)
++		if t>=0.28 and not shots.has(transaction+"_"+power+"_materials"):
++			await shot(transaction+"_"+power+"_materials")
++		if power=="mega_volcano":
++			for stage in [["eruption",0.41],["impacts",0.63],["burn",0.79]]:
++				if t>=float(stage[1]) and not shots.has(transaction+"_mega_"+String(stage[0])):
++					await shot(transaction+"_mega_"+String(stage[0]))
++		if power=="black_hole" and t>=0.65 and not shots.has(transaction+"_black_hole_pull"):
++			await shot(transaction+"_black_hole_pull")
++	if not app.board._birth_event.is_empty() and not shots.has(transaction+"_reward_birth"):
++		await shot(transaction+"_reward_birth")
++
++func shot(name: String) -> void:
++	shots[name]=true
++	await RenderingServer.frame_post_draw
++	var image := root.get_texture().get_image()
++	check(image.get_size()==Vector2i(432,960),"432x960 capture "+name)
++	check(image.save_png(output+"/"+name+".png")==OK,"Save screenshot "+name)
++	var info := {"phase":name,"frame":Engine.get_process_frames()-start_frame,"power":app.board._power_event.duplicate(true),"power_t":app.board._power_t,"birth":app.board._birth_event.duplicate(true),"material_draw_samples":app.board.material_draw_samples()}
++	if not app.board._power_event.is_empty() and String(app.board._power_event.get("power",""))=="black_hole":
++		info["sources"]=app.board.fusion_sources()
++		info["materials"]=app.board.source_material_particles(app.board._cell_size())
++		info["painted_hole"]=app.board.painted_hole_status()
++	if String(app.board._power_event.get("power",""))=="mega_volcano":
++		info["mega_phase"]=app.board.mega_phase()
++		info["mountain_geometry"]=app.board.mountain_geometry()
++		info["mountain_plume_geometry"]=app.board.mountain_plume_geometry()
++		info["mountain_asset_status"]=app.board.mountain_asset_status()
++		info["mega_target_poses"]=app.board.mega_target_poses()
++	observations.append(info)
++
++func native_move(a: int, b: int) -> void:
++	var first: Vector2=app.board.get_global_transform()*app.board._center(a)
++	var last: Vector2=app.board.get_global_transform()*app.board._center(b)
++	var down:=InputEventMouseButton.new()
++	down.button_index=MOUSE_BUTTON_LEFT; down.pressed=true; down.position=first; down.global_position=first
++	Input.parse_input_event(down)
++	await next_frame()
++	for n in range(1,6):
++		var motion:=InputEventMouseMotion.new()
++		motion.position=first.lerp(last,float(n)/5.0); motion.global_position=motion.position
++		motion.button_mask=MOUSE_BUTTON_MASK_LEFT
++		Input.parse_input_event(motion)
++		await next_frame()
++	var up:=InputEventMouseButton.new()
++	up.button_index=MOUSE_BUTTON_LEFT; up.pressed=false; up.position=last; up.global_position=last
++	Input.parse_input_event(up)
++	await next_frame()
++
++func perform(pair: Array, label: String) -> void:
++	check(pair.size()==2,"Native pair supplies two cells")
++	if pair.size()!=2:return
++	transaction=label
++	frozen=""
++	moves_before=app.core.moves_left
++	var before_collected: int=app.core.collected
++	var previous_signals:=collected_signals
++	var previous_powers:=powers.size()
++	var before:=state()
++	var deadline:=Engine.get_process_frames()+250
++	await native_move(int(pair[0]),int(pair[1]))
++	while (app._resolving or app.board.busy or app.core.moves_left==moves_before) and Engine.get_process_frames()<deadline:
++		await next_frame()
++	check(app.core.moves_left==moves_before-1,"Exactly one move spent "+label)
++	check(not app.last_result.is_empty() and bool(app.last_result.get("valid",false)),"Actual valid native move "+label)
++	check(not app._resolving and not app.board.busy,"Animation completes "+label)
++	check(app.board._display_grid==app.core.grid and app.board._display_floor==app.core.floor and app.board._display_runes==app.core.runes,"Display equals actual Core "+label)
++	check(app.board._power_event.is_empty() and app.board._birth_event.is_empty() and app.board._combo_parent.is_empty(),"No stale VFX "+label)
++	check(collected_signals-previous_signals==app.core.collected-before_collected,"Goal signals agree exactly once "+label)
++	transactions.append({"label":label,"pair":pair,"before":before,"after":state(),"result":app.last_result.duplicate(true),"power_signals":powers.slice(previous_powers),"goal_signals":collected_signals-previous_signals})
++	await shot(label+"_settled")
++
++func find_token(token_id: int) -> int:
++	for i in app.core.grid.size():
++		if int(app.core.reward_at(i).get("token_id",-1))==token_id:return i
++	return -1
++
++func manual_pair(index: int) -> Array:
++	for other in app.core._neighbors(index):
++		if app.core._is_ordinary(app.core.grid[int(other)]):
++			return [index,other]
++	return []
++
++func run() -> void:
++	start_frame=Engine.get_process_frames()
++	var args:=OS.get_cmdline_user_args()
++	if args.size()<1 or args.size()>2:push_error("Pass material scenario and optional take suffix");quit(1);return
++	scenario=String(args[0])
++	var take_suffix: String="_"+String(args[1]) if args.size()==2 else ""
++	output=ProjectSettings.globalize_path("res://outputs/native_mountain/"+scenario+take_suffix)
++	if DirAccess.dir_exists_absolute(output):push_error("Refusing to overwrite native evidence");quit(1);return
++	DirAccess.make_dir_recursive_absolute(output)
++	if DisplayServer.get_name()=="headless":push_error("Graphical driver required");quit(1);return
++	root.content_scale_size=Vector2i(432,960);root.size=Vector2i(432,960)
++	DisplayServer.window_set_current_screen(0)
++	app=Lab.new();root.add_child(app);app.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
++	await process_frame;await process_frame
++	app.reset_scenario(scenario)
++	await process_frame;await process_frame
++	app.board.power_started.connect(func(power: String, _targets: Array) -> void: powers.append(power))
++	app.board.reward_born.connect(func(awards: Array) -> void: births.append_array(awards.duplicate(true)))
++	app.board.goal_piece_cleared.connect(func(_point: Vector2) -> void: collected_signals+=1)
++	check(app.core.get_matches().is_empty(),"Honest fixture without initial ordinary matches")
++	var initial:=state()
++	write("INITIAL_STATE",initial)
++	var view:=Rect2(Vector2.ZERO,Vector2(432,960))
++	check(view.encloses(app.board.get_global_rect()),"Board fits portrait")
++	check(view.encloses(app.helper.get_global_rect()) and view.encloses(app.reduced.get_global_rect()),"Instructions/controls fit portrait")
++	write("GEOMETRY",{"screen":DisplayServer.window_get_current_screen(),"root_size":[root.size.x,root.size.y],"board_rect":str(app.board.get_global_rect()),"helper_rect":str(app.helper.get_global_rect()),"scenario":scenario})
++	while Engine.get_process_frames()-start_frame<25:await next_frame()
++	await shot("00_ready")
++	await perform(app.core.fixture_pair.duplicate(),"one")
++	if scenario=="pair44":
++		# This scripted capture has exactly one gesture. Lock only its own GUI
++		# during the remaining movie tail so an additional physical test gesture
++		# cannot change the receipt after FINAL_STATE was recorded.
++		root.gui_disable_input=true
++		check(powers==["mega_volcano"],"One shared mountain eruption, not two ordinary effects")
++		check(bool(app.board.mountain_asset_status().ready),"Actual separate mountain RGBA asset is loaded")
++		var mega_events: Array=[]
++		for event in app.last_result.get("events",[]):
++			if String(event.get("power",""))=="mega_volcano": mega_events.append(event)
++		check(mega_events.size()==1,"Exactly one atomic Mega event")
++		if mega_events.size()==1:
++			var event: Dictionary=mega_events[0]
++			check(int(event.budget)>=9 and int(event.budget)<=15,"Three real Volcano budgets")
++			check(event.targets.size()==int(event.budget),"Real full-board fixture supplies every unique target")
++			var eruption_cues:=0
++			var impact_cues:=0
++			for cue in app.mega_audio.cue_log:
++				if String(cue.kind)=="mega_eruption":eruption_cues+=1
++				if String(cue.kind)=="mega_impact":impact_cues+=1
++			check(eruption_cues==1 and impact_cues==event.targets.size(),"One eruption body and one synced quiet impact per target")
++			var body_voice: int=-1
++			var body_end: float=0.0
++			for cue in app.mega_audio.cue_log:
++				if String(cue.kind)=="mega_eruption":
++					body_voice=int(cue.voice)
++					body_end=float(cue.progress)*2.4+app.mega_audio.streams.clip.get_length()/float(cue.pitch_scale)
++			var body_preserved: bool=body_voice>=0
++			for cue in app.mega_audio.cue_log:
++				if String(cue.kind)!="mega_eruption" and int(cue.voice)==body_voice and float(cue.progress)*2.4<body_end:body_preserved=false
++			check(body_preserved,"No flight or burn steals the long eruption voice")
++		check(app.volcano_audio.cue_log.is_empty(),"No duplicate ordinary Volcano audio")
++		check(shots.has("one_mega_eruption") and shots.has("one_mega_impacts") and shots.has("one_mega_burn"),"Real merge/eruption/impact/burn captured")
++	elif scenario in ["moved_volcano_four","moved_volcano_five"]:
++		check(powers==["volcano"],"Only the deliberately moved old Volcano fires")
++		check(births.size()==1,"One new protected reward")
++	elif scenario.begins_with("catalyst"):
++		check(powers.is_empty() and births.size()==1,"Stationary catalyst does not activate; a new power waits")
++	elif scenario.begins_with("cascade"):
++		check(powers.is_empty() and births.size()>=1,"Cascade birth never activates itself")
++		var token_id:=int(births[0].get("token_id",-1)) if not births.is_empty() else -1
++		var expected:=state()
++		for n in 18:await next_frame()
++		check(state()==expected and powers.is_empty(),"Waiting power does not expire or fire with time")
++		await shot("02_waiting_for_player")
++		var index:=find_token(token_id)
++		check(index>=0,"Actual born token remains available")
++		if index>=0:await perform(manual_pair(index),"two_manual_use")
++		check(powers==["lightning_storm"] if scenario=="cascade_five" else powers==["volcano"],"Only the player's second deliberate move activates that reward")
++		check(find_token(token_id)==-1,"Manual activation consumes exactly the original waiting token")
++	elif scenario=="black_hole_swallow":
++		check(powers==["black_hole"],"Black Hole swallows other powers without native attacks")
++		check(app.volcano_audio.cue_log.is_empty() and app.tornado_audio.cue_log.is_empty() and app.storm_audio.cue_log.is_empty(),"No swallowed-power attack audio")
++		check(shots.has("one_black_hole_materials") and shots.has("one_black_hole_pull"),"Real fusion and pull captured")
++	await shot("99_final")
++	write("FINAL_STATE",state())
++	write("TRANSACTIONS",transactions)
++	write("AUDIO_CUES",{"mega":app.mega_audio.cue_log,"element":app.element_audio.cue_log,"volcano":app.volcano_audio.cue_log,"tornado":app.tornado_audio.cue_log,"storm":app.storm_audio.cue_log})
++	var minimum_frames:=450 if scenario.begins_with("cascade") else 270
++	while Engine.get_process_frames()-start_frame<minimum_frames-1:await next_frame()
++	var report:={"status":"PASS" if failures.is_empty() else "FAIL","failures":failures,"scenario":scenario,"viewport":[432,960],"screen":DisplayServer.window_get_current_screen(),"fixed_fps":30,"elapsed_intervals":Engine.get_process_frames()-start_frame,"encoded_frames_expected":minimum_frames,"immutable_resolved_state_samples":invariant_samples,"powers":powers,"births":births,"observations":observations,"proof":"Scripted actual graphical Godot Input.parse_input_event press/motion/release and rendered audio. Not a human/Android/performance test."}
++	write("REPORT",report)
++	print("MOUNTAIN_NATIVE "+JSON.stringify({"status":report.status,"failures":failures,"scenario":scenario,"powers":powers,"samples":invariant_samples}))
++	quit(0 if failures.is_empty() else 1)
+
+--- /dev/null
++++ b/tests/test_mountain_presentation.gd
+@@ -0,0 +1,171 @@
++extends SceneTree
++const Lab = preload("res://scripts/lab/mountain_volcano_lab.gd")
++var app
++var checks := 0
++var failures: Array[String] = []
++var powers: Array = []
++var goals := 0
++var sampled_frames := 0
++var pose_checks := 0
++
++func _initialize() -> void:call_deferred("run")
++func check(value: bool, message: String) -> void:
++	checks+=1
++	if not value:failures.append(message);push_error(message)
++	else:print("PASS: "+message)
++
++func state(core) -> String:
++	return JSON.stringify({"grid":core.grid,"floor":core.floor,"runes":core.runes,"rewards":core._reward_snapshot(),"ids":core._material_ids,"moves":core.moves_left,"collected":core.collected,"rng":str(core._rng.state)},"",true)
++
++func play(reduced: bool) -> void:
++	app.reduced.button_pressed=reduced
++	app.reset_scenario("pair44")
++	await process_frame
++	powers.clear();goals=0
++	var cue_start: int=app.mega_audio.cue_log.size()
++	var ordinary_cues: int=app.volcano_audio.cue_log.size()
++	var collected_before: int=app.core.collected
++	var moves_before: int=app.core.moves_left
++	var pair: Array=app.core.fixture_pair.duplicate()
++	app._on_swap(int(pair[0]),int(pair[1]))
++	var frozen:=state(app.core)
++	var deadline:=Time.get_ticks_msec()+12000
++	var pure:=true
++	var poses_valid:=true
++	while (app._resolving or app.board.busy) and Time.get_ticks_msec()<deadline:
++		await process_frame
++		sampled_frames+=1
++		pure=pure and state(app.core)==frozen
++		if String(app.board._power_event.get("power",""))=="mega_volcano" and not reduced:
++			var phase: Dictionary=app.board.mega_phase()
++			var sources: Array=app.board.mega_sources()
++			poses_valid=poses_valid and sources.size()==2
++			if sources.size()==2:
++				var expected: Vector2=(app.board._center(int(sources[0].index))+app.board._center(int(sources[1].index)))*0.5
++				poses_valid=poses_valid and app.board.mega_center().is_equal_approx(expected)
++			if float(phase.t)>0.30 and float(phase.t)<0.67:poses_valid=poses_valid and int(phase.merged_body_count)==1
++			var event: Dictionary=app.board._power_event
++			for pose in app.board.mega_target_poses():
++				pose_checks+=1
++				poses_valid=poses_valid and event.targets.has(int(pose.index)) and Vector2(pose.point).is_finite()
++				poses_valid=poses_valid and is_equal_approx(float(pose.impact_t)-float(pose.launch_t),0.25)
++	check(not app._resolving and not app.board.busy,"Mega finishes actual board playback reduced="+str(reduced))
++	check(pure,"Presentation never mutates resolved Core/material IDs/RNG reduced="+str(reduced))
++	check(app.core.moves_left==moves_before-1 and powers==["mega_volcano"],"One move, one Mega signal reduced="+str(reduced))
++	check(app.board._display_grid==app.core.grid and app.board._display_floor==app.core.floor and app.board._display_runes==app.core.runes,"Final display equals actual Core reduced="+str(reduced))
++	check(goals==app.core.collected-collected_before,"Actual goal signals count once reduced="+str(reduced))
++	check(app.volcano_audio.cue_log.size()==ordinary_cues,"No ordinary eruption audio is duplicated reduced="+str(reduced))
++	check(poses_valid,"One merged center/body and target-only finite geometry reduced="+str(reduced))
++	var cues: Array=app.mega_audio.cue_log.slice(cue_start)
++	if reduced:
++		check(cues.size()==1 and String(cues[0].kind)=="mega_reduced","Reduced motion uses one softer short cue")
++	else:
++		var targets: Array=[]
++		for event in app.last_result.events:
++			if String(event.get("power",""))=="mega_volcano":targets=event.targets
++		var bodies:=0
++		var flights: Array=[]
++		var impacts: Array=[]
++		var aligned:=true
++		for cue in cues:
++			var kind:=String(cue.kind)
++			if kind=="mega_eruption":bodies+=1
++			if kind=="mega_flight":flights.append(int(cue.target))
++			if kind=="mega_impact":impacts.append(int(cue.target))
++			aligned=aligned and float(cue.progress)+0.00001>=float(cue.threshold)
++		check(bodies==1 and flights==targets and impacts==targets,"One eruption body and exactly one launch/impact per target")
++		check(aligned,"Every cue follows the rendered event clock")
++		var body_voice: int=-1
++		var body_start:=0.0
++		var body_end:=0.0
++		for cue in cues:
++			if String(cue.kind)=="mega_eruption":
++				body_voice=int(cue.voice)
++				body_start=float(cue.progress)*app.board.MEGA_DURATION
++				body_end=body_start+app.mega_audio.streams.clip.get_length()/float(cue.pitch_scale)
++		var body_preserved:=body_voice>=0
++		for cue in cues:
++			if String(cue.kind)=="mega_eruption":continue
++			var cue_time: float=float(cue.progress)*app.board.MEGA_DURATION
++			if int(cue.voice)==body_voice and cue_time>=body_start and cue_time<body_end:body_preserved=false
++		check(body_preserved,"Flight/impact voices never cut off the shared eruption clip")
++	check(app.board._power_event.is_empty() and app.board._combo_parent.is_empty(),"No stale VFX after completion reduced="+str(reduced))
++
++func cancel_case(mode: String) -> void:
++	app.reduced.button_pressed=false
++	app.reset_scenario("pair44")
++	await process_frame
++	var pair: Array=app.core.fixture_pair.duplicate()
++	app._on_swap(int(pair[0]),int(pair[1]))
++	await create_timer(0.88).timeout
++	var old_core=app.core
++	var frozen:=state(old_core)
++	if mode=="skip":app.skip_effect()
++	else:app.reset_scenario("pair44")
++	var cue_size: int=app.mega_audio.cue_log.size()
++	var quiet:=true
++	for bank in [app.mega_audio,app.volcano_audio,app.tornado_audio,app.storm_audio,app.element_audio]:
++		for player in bank.players:quiet=quiet and not player.playing
++	await create_timer(2.70).timeout
++	check(quiet and app.mega_audio.cue_log.size()==cue_size,"Cancel stops all power voices and prevents queued Mega sounds "+mode)
++	check(state(old_core)==frozen,"Cancel preserves old resolved data "+mode)
++	check(not app.board.busy and app.board._power_event.is_empty() and app.board._combo_parent.is_empty(),"No stale callbacks/VFX after cancel "+mode)
++	if mode=="reset":check(app.core!=old_core and app.core.moves_left==12,"Reset really installs a fresh fixture")
++
++func run() -> void:
++	root.content_scale_size=Vector2i(432,960);root.size=Vector2i(432,960)
++	app=Lab.new();root.add_child(app);app.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
++	await process_frame;await process_frame
++	app.board.power_started.connect(func(power: String,_targets: Array) -> void:powers.append(power))
++	app.board.goal_piece_cleared.connect(func(_position: Vector2) -> void:goals+=1)
++	check(app.scenario=="pair44","Default UI opens the approved Mega pair")
++	var viewport:=Rect2(Vector2.ZERO,Vector2(432,960))
++	check(viewport.encloses(app.board.get_global_rect()) and viewport.encloses(app.helper.get_global_rect()) and viewport.encloses(app.reduced.get_global_rect()),"Actual board and controls fit 432x960")
++	await check_mountain_geometry()
++	await play(false)
++	await play(true)
++	await cancel_case("skip")
++	await cancel_case("reset")
++	var report:={"status":"PASS" if failures.is_empty() else "FAIL","checks":checks,"failures":failures,"presentation_frames":sampled_frames,"target_pose_samples":pose_checks,"scope":"Actual headless board/audio integration plus cancellation; not human/Android visual acceptance"}
++	var text:=JSON.stringify(report,"\t",true)+"\n"
++	var args:=OS.get_cmdline_user_args()
++	var path:=String(args[0]) if not args.is_empty() else "res://verification/mountain_presentation_final.json"
++	FileAccess.open(path,FileAccess.WRITE).store_string(text)
++	print("MOUNTAIN_PRESENTATION "+JSON.stringify(report))
++	await create_timer(0.20).timeout
++	quit(0 if failures.is_empty() else 1)
++
++func check_mountain_geometry() -> void:
++	check(bool(app.board.mountain_asset_status().ready),"Separate transparent volcanic-mountain asset loads")
++	var old_event: Dictionary=app.board._power_event.duplicate(true)
++	var old_t: float=app.board._power_t
++	var pair: Array=app.core.fixture_pair.duplicate()
++	var result: Dictionary=app.core.try_swap(int(pair[0]),int(pair[1]))
++	var actual: Dictionary={}
++	for event in result.events:
++		if String(event.get("power",""))=="mega_volcano":actual=event.duplicate(true)
++	check(not actual.is_empty(),"Mountain geometry uses actual resolved Mega event")
++	app.board._power_event=actual
++	app.board._power_t=0.42
++	var source_valid:=true
++	var bounds_valid:=true
++	var original_targets: Array=actual.targets.duplicate()
++	for sources in [[0,1],[5,6],[49,50],[54,55],[0,7],[6,13],[42,49],[48,55],[25,26]]:
++		app.board._power_event.fusion_sources[0]["index"]=int(sources[0])
++		app.board._power_event.fusion_sources[1]["index"]=int(sources[1])
++		var geometry: Dictionary=app.board.mountain_geometry()
++		var plume: Dictionary=app.board.mountain_plume_geometry()
++		var rect: Rect2=geometry.rect
++		var crater: Vector2=geometry.crater
++		bounds_valid=bounds_valid and Rect2(geometry.bounds).grow(0.5).encloses(rect) and rect.has_point(crater)
++		var flame_top: float=crater.y-float(plume.height)*0.93
++		bounds_valid=bounds_valid and flame_top>=Rect2(plume.bounds).position.y-0.5 and float(plume.blast_limit)>=0.0
++		var poses: Array=app.board.mega_target_poses()
++		for pose in poses:
++			source_valid=source_valid and Vector2(pose.source).is_equal_approx(crater) and original_targets.has(int(pose.index))
++	check(bounds_valid,"Mountain/crater and plume headroom fit top/bottom/left/right edge fusions")
++	check(source_valid,"All projectile trajectories start at the mountain's actual crater and keep Core targets")
++	app.board._power_event=old_event
++	app.board._power_t=old_t
++	app.reset_scenario("pair44")
++	await process_frame
+
+--- /dev/null
++++ b/README_MOUNTAIN_VOLCANO.txt
+@@ -0,0 +1,48 @@
++GNOMIT — MOUNTAIN VOLCANO V2 /19 OCTOBER2026
++
++Run PLAY_MOUNTAIN_VOLCANO.cmd on this PC: Godot4.7.2,monitor1(screen0),432x960.
++Choose4+4 MOUNTAIN VOLCANO (default). Drag either highlighted Volcano into
++its highlighted neighbour. Reset repeats the fixture. Skip and Reduced motion
++remain available. Other dropdown cases keep their predecessor behavior.
++
++VISUAL CHANGE
++The temporary Mega body is now a volcanic MOUNTAIN, not an enlarged cell icon.
++It has a wide rocky cone, readable open crater and bright lava on its slopes.
++The two icons converge, the mountain grows to3.55cells wide, lava tongues move
++down its painted channels, dark smoke rises, and flaming rocks launch from the
++actual crater. Impacted cells crack/burn before gravity. Headroom bounds keep
++top-edge flames and the blast within the board. Original reward icons remain.
++
++ART PROVENANCE
++New generated asset: assets/vfx/mountain_volcano_body_v2.png
++Built-in imagegen tool, genuine RGBA1448x1086,1,462,674bytes.
++SHA2566726a3b3c7c79fae6b4685077f8c917eaac1cecf1a2176371ff9227a0156d8d1.
++The user's attached volcano photo supplies only cone/crater/lava subject shape;
++the actual game screenshot supplies its storybook rendering style.
++Original generated PNG bytes/alpha are preserved. Godot draws a source region
++around the painted mountain; nearly transparent outer dust is omitted at runtime.
++No Python image editing or substitute vector mountain was used.
++verification/IMAGEGEN_PROMPT.txt stores the exact generation prompt and inputs.
++Animation is real Godot code using this sprite and existing VFX textures.
++
++RULES AND SOUND
++Core, material/goal accounting,9..15unique-target budget and2.4s event timing
++are byte-identical to the previous Mega lab. No new rules, sounds or rewards.
++Three ordinary3..5 rolls give triple strength; defaultseed42 gives13hits.
++One shared eruption clip and softer flights/impacts remain synchronized.
++All364 predecessor source/asset files are unchanged; only fresh project.godot
++differs among existing files. The previous playable copy and ZIP remain intact.
++
++EVIDENCE
++verification/mountain_presentation_final.json: actual board/audio/cancel checks
++and synthetic top/bottom/left/right body/crater/plume geometry checks.
++outputs/Mountain-Volcano-V2-Final.avi: native9s Godot432x960/30fps capture,
++scripted real mouse events, frozen resolved Core/material/RNG, actual audio.
++outputs/native_mountain/pair44_final/: screenshots, event/pose/asset receipts.
++The GIF is a SILENT derivative; WAV is captured original48kHz16bit stereo PCM.
++Early native log warned about Image.load_from_file export support; changed to
++an imported preloaded Texture2D, and final log is the current proof.
++
++Human artistic/listening acceptance, Android and performance remain pending.
++No campaign/save changes, merge or external GPT/Grok final agreement claimed.
++Recommended next task: GPT-6.1 Sol / High. Grok Build.
+
+--- /dev/null
++++ b/verification/IMAGEGEN_PROMPT.txt
+@@ -0,0 +1,10 @@
++BUILT-IN IMAGEGEN / PROJECT ASSET / 19 OCTOBER 2026
++Mode: built-in image_gen.imagegen; transparent_background=true.
++Reference1 (subject): C:/Users/fruch/AppData/Local/Temp/codex-clipboard-96e4dd61-4373-47f3-a0a7-d594b440f837.png
++Reference2 (style): predecessor outputs/native_mega/pair44_final2/00_ready.png
++Generated source: C:/Users/fruch/.codex/generated_images/01a11973-52a1-7a10-b9c3-69a7fee84ca5/exec-24347b3c-5456-40f0-9ba6-7cd7e5b9d3c0.png
++Project copy: assets/vfx/mountain_volcano_body_v2.png (original PNG bytes unchanged).
++
++EXACT PROMPT
++Create one production-ready transparent 2D game sprite for GnomiT's MEGA VOLCANO eruption. The FIRST reference photo supplies only the volcano's mountain/cone silhouette, summit crater and lava running down steep slopes. The SECOND reference is the actual game screenshot: match its polished, richly painted whimsical storybook material rendering and warm highlights. Do not reproduce either entire scene. Subject: ONE large recognizable volcanic mountain, wide asymmetrical base of dark charcoal and warm brown sculpted rocks, a steep conical peak with an open clearly readable elliptical summit crater, brilliant yellow-orange molten lava in that crater and three branching red-orange lava channels cascading down the front rocky slopes. It must read as a VOLCANIC MOUNTAIN, not a round ore nugget, boulder, crystal, badge or upscaled existing cell icon. Friendly stylized fantasy game art, rounded rich material volume, believable light from upper left and lava reflected on nearby rock; not photorealistic, not vector-flat, no neon outline. Near-front three-quarter view, same perspective as the minerals in the screenshot; extremely clear silhouette at 160-200 pixel display width. Balanced horizontal 4:3 composition with complete cone and base inside the image and a little transparent padding all around. The summit crater center should be near the horizontal center, about 23 percent from the top of the nontransparent mountain bounds. The base should be near the lower edge of the nontransparent mountain bounds. Body and contained flowing lava ONLY: no airborne lava, flames above crater, smoke, sparks or ash cloud because those will be animated separately in Godot. No background, no scenery, no sky, no ground plane, no board, no letters, no numbers, no characters, no framing. Genuine RGBA transparency and clean soft-edged silhouette, no black rectangle, no checkerboard painted into the artwork. Deliver only the single isolated finished mountain sprite.
++

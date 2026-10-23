@@ -1,0 +1,103 @@
+{
+  "status": "DESIGN_ONLY_NOT_RUNTIME",
+  "date": "2026-10-21",
+  "materials_current": [
+    {
+      "id": "ruby",
+      "mineral_kind": 0,
+      "current_rule": "ordinary_match"
+    },
+    {
+      "id": "amethyst",
+      "mineral_kind": 1,
+      "current_rule": "ordinary_match"
+    },
+    {
+      "id": "gold_ore",
+      "mineral_kind": 2,
+      "current_rule": "ordinary_match"
+    },
+    {
+      "id": "diamond",
+      "mineral_kind": 3,
+      "current_rule": "ordinary_match"
+    },
+    {
+      "id": "emerald",
+      "mineral_kind": 4,
+      "current_rule": "ordinary_match"
+    },
+    {
+      "id": "pearl",
+      "mineral_kind": 5,
+      "current_rule": "ordinary_match"
+    }
+  ],
+  "obstacles_current": [
+    {
+      "id": "soil",
+      "layer": "underlay",
+      "ordinary_match": "clear_at_removed_piece",
+      "black_hole": "minus_one_hp",
+      "first_level": "hollow"
+    },
+    {
+      "id": "rune",
+      "layer": "blocking_piece",
+      "ordinary_match": "orthogonally_adjacent_once_per_wave",
+      "black_hole": "minus_one_hp",
+      "first_level": "rune"
+    }
+  ],
+  "proposed_variant_definition_fields": [
+    "variant_id",
+    "material_id",
+    "match_policy",
+    "swap_policy",
+    "fall_policy",
+    "damage_rule_id",
+    "default_hp",
+    "on_protection_removed",
+    "black_hole_policy",
+    "reward_eligibility",
+    "lesson_id",
+    "required_capabilities",
+    "damage_vfx_id",
+    "destroy_vfx_id"
+  ],
+  "proposed_instance_fields": [
+    "instance_id",
+    "material_id",
+    "variant_id",
+    "hp"
+  ],
+  "power_metadata_kept_separate": [
+    "kind",
+    "mineral_kind",
+    "birth_tier",
+    "recipe",
+    "token_id"
+  ],
+  "lesson_fields": [
+    "id",
+    "display_name",
+    "page_identification",
+    "page_damage_demo",
+    "valid_action",
+    "invalid_action_if_any",
+    "reduced_motion_states",
+    "replay_label"
+  ],
+  "future_variants_enabled": [],
+  "pending_decision": null,
+  "human_approved_strategy": "ordinary_plus_protected_variants",
+  "first_prototype": {
+    "id": "stone_armoured_diamond",
+    "status": "ISOLATED_TEACHING_PREVIEW_NOT_CAMPAIGN",
+    "layers": 2,
+    "damage": "orthogonally_adjacent_resolved_match_or_direct_power_or_black_hole",
+    "on_zero": "reveal_ordinary_diamond_without_same_event_collection",
+    "sample_version": "v007",
+    "recipe_approval": "PENDING_HUMAN_PLAYTEST"
+  }
+}

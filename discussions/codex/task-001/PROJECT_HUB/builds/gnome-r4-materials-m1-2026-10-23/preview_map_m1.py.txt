@@ -1,0 +1,264 @@
+"""Render paired accepted R4/materials M1 map placements using the frozen R2 root transform.
+
+Run in a separate Blender process. No recentering or rescaling to the revised silhouette is performed.
+The R2 native is checked only as placement provenance; the rendered baseline is the pinned accepted R4 native.
+M1 contributes character materials only; the map camera, lights, and world remain unchanged.
+Only the comparison PNGs and a JSON receipt are written. No native blend is saved.
+"""
+from __future__ import annotations
+
+import hashlib
+import json
+import math
+from pathlib import Path
+import sys
+
+import bpy
+from mathutils import Vector
+
+
+ROOT = Path(__file__).resolve().parents[1]
+WORLD = Path("C:/Users/fruch/Documents/Codex/GnomiT_Playtests/Gnome_Form_M_2026-10-22/native/GNOME_FORM_M4.blend")
+EXPECTED_WORLD_SHA256 = "71b3f6d87cb689447adc25ac55a99c8d68a6006e6b8a12970e37592ea7f9bd21"
+EXPECTED_R4_SHA256 = "b67b725597c82f156b3cf3de36b3f0f1d55a1508d7fcb154d8bed0f7fa12ee7b"
+EXPECTED_R2_PLACEMENT_SHA256 = "5531b9ca48c7e8a9776e3348bd4c007a1ad44a2b2f4b3d362e4bfe8211e19717"
+OUTPUT = ROOT / "outputs"
+RECEIPT = ROOT / "documentation" / "MAP_M1_RECEIPT.json"
+
+
+def sha256(path):
+    digest = hashlib.sha256()
+    with Path(path).open("rb") as stream:
+        for block in iter(lambda: stream.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
+def plain(value):
+    if value is None or isinstance(value, (str, int, float, bool)):
+        return value
+    if isinstance(value, bpy.types.ID):
+        return {"id_type": value.bl_rna.identifier, "name": value.name}
+    try:
+        return [plain(item) for item in value]
+    except TypeError:
+        return str(value)
+
+
+def tree_record(tree):
+    if tree is None:
+        return None
+    nodes = []
+    for node in sorted(tree.nodes, key=lambda n: n.name):
+        item = {"name": node.name, "type": node.bl_idname,
+                "inputs": [{"name": socket.name, "identifier": socket.identifier,
+                            "value": plain(socket.default_value)}
+                           for socket in node.inputs if hasattr(socket, "default_value")]}
+        if hasattr(node, "color_ramp"):
+            item["ramp"] = [[element.position, list(element.color)]
+                            for element in node.color_ramp.elements]
+        nodes.append(item)
+    return {"nodes": nodes, "links": sorted([
+        [link.from_node.name, link.from_socket.identifier,
+         link.to_node.name, link.to_socket.identifier] for link in tree.links])}
+
+
+def matrix_record(matrix):
+    return [list(row) for row in matrix]
+
+
+def presentation_record(scene):
+    """Fingerprint the map's original camera, every light, and world settings."""
+    camera = scene.camera
+    assert camera is not None, "The source map has no active camera"
+    camera_data = camera.data
+    camera_record = {"name": camera.name, "matrix_world": matrix_record(camera.matrix_world),
+                     "hide_render": camera.hide_render,
+                     "settings": {key: plain(getattr(camera_data, key)) for key in
+                                  ("type", "lens", "ortho_scale", "shift_x", "shift_y",
+                                   "clip_start", "clip_end", "sensor_width", "sensor_height")}}
+    lights = []
+    for obj in sorted((obj for obj in scene.objects if obj.type == "LIGHT"), key=lambda o: o.name):
+        data = obj.data
+        lights.append({"name": obj.name, "matrix_world": matrix_record(obj.matrix_world),
+                       "hide_render": obj.hide_render,
+                       "settings": {key: plain(getattr(data, key)) for key in
+                                    ("type", "energy", "color", "size", "size_y", "shape",
+                                     "angle", "spot_size", "spot_blend", "use_shadow")
+                                    if hasattr(data, key)},
+                       "nodes": tree_record(data.node_tree)})
+    world = scene.world
+    return {"camera": camera_record, "lights": lights,
+            "world": None if world is None else {
+                "name": world.name, "color": list(world.color), "use_nodes": world.use_nodes,
+                "nodes": tree_record(world.node_tree)},
+            "color_management": {key: plain(getattr(scene.view_settings, key)) for key in
+                                 ("view_transform", "look", "exposure", "gamma")}}
+
+
+def hierarchy(root):
+    return [root, *root.children_recursive]
+
+
+def evaluated_bounds(objects):
+    bpy.context.view_layer.update()
+    graph = bpy.context.evaluated_depsgraph_get()
+    points = []
+    for obj in objects:
+        if obj.type != "MESH":
+            continue
+        evaluated = obj.evaluated_get(graph)
+        # Subdivision bound_box can include a conservative limit envelope.
+        # Measure actual evaluated vertices, as the cap-height guard does.
+        mesh = evaluated.to_mesh()
+        try:
+            points.extend(evaluated.matrix_world @ vertex.co for vertex in mesh.vertices)
+        finally:
+            evaluated.to_mesh_clear()
+    assert points, "No evaluated mesh geometry in character hierarchy"
+    low = [min(point[axis] for point in points) for axis in range(3)]
+    high = [max(point[axis] for point in points) for axis in range(3)]
+    assert high[2] > low[2], "Character has zero evaluated height"
+    return {"min": low, "max": high, "height": high[2] - low[2],
+            "bottom_center": [(low[0] + high[0]) / 2, (low[1] + high[1]) / 2, low[2]]}
+
+
+def render(scene, filename):
+    scene.render.resolution_x = 432
+    scene.render.resolution_y = 960
+    scene.render.resolution_percentage = 100
+    scene.render.image_settings.file_format = "PNG"
+    scene.render.filepath = str(OUTPUT / filename)
+    bpy.ops.render.render(write_still=True)
+
+
+
+def root_record(root):
+    return {"scale": list(root.scale), "world_location": list(root.matrix_world.translation),
+            "rotation_euler": list(root.rotation_euler),
+            "matrix_world": matrix_record(root.matrix_world)}
+
+
+def append_character(path, scale, world_location):
+    with bpy.data.libraries.load(str(path), link=False) as (available, requested):
+        assert "R2_NEW_GNOME" in available.collections, f"Character collection missing in {path}"
+        requested.collections = ["R2_NEW_GNOME"]
+    collection = requested.collections[0]
+    bpy.context.scene.collection.children.link(collection)
+    collection.hide_render = False
+    collection.hide_viewport = False
+    objects = list(collection.all_objects)
+    assert not any(obj.type in {"LIGHT", "CAMERA"} for obj in objects), "Character contains a presentation object"
+    roots = [obj for obj in objects if obj.type == "EMPTY" and obj.parent is None]
+    assert len(roots) == 1, f"Expected one top-level character Empty, found {len(roots)}"
+    root = roots[0]
+    descendants = hierarchy(root)
+    assert all(obj in descendants for obj in objects if obj.type == "MESH"), "Unparented character mesh"
+    assert max(abs(v) for v in root.rotation_euler) < 1e-10, "Unexpected candidate root rotation"
+    root.rotation_mode = "XYZ"
+    root.rotation_euler = (0, 0, 0)
+    root.scale = tuple(scale)
+    bpy.context.view_layer.update()
+    root.matrix_world.translation = Vector(world_location)
+    for obj in objects:
+        obj.hide_render = False
+    bpy.context.view_layer.update()
+    state = root_record(root)
+    assert state["scale"] == scale, "Frozen R2 scale changed on assignment"
+    assert state["world_location"] == world_location, "Frozen R2 translation changed on assignment"
+    return collection, objects, root, state, evaluated_bounds(descendants)
+
+
+def main():
+    placement_root = ROOT.parent / "Gnome_Concept_Form_R2_2026-10-22"
+    baseline_root = ROOT.parent / "Gnome_Final_Face_R4_2026-10-23"
+    r2_placement_native = placement_root / "native" / "GNOME_R2_FORM_B.blend"
+    r4_path = baseline_root / "native" / "GNOME_R4_FACE_ONLY_A.blend"
+    m1_path = ROOT / "native" / "GNOME_M1_COLORED_R4.blend"
+    placement_path = placement_root / "documentation" / "MAP_SCALE_RECEIPT.json"
+    for path in (WORLD, r2_placement_native, r4_path, m1_path, placement_path):
+        assert path.is_file(), f"Missing input: {path}"
+    source_hashes = {str(path): sha256(path) for path in
+                     (WORLD, r2_placement_native, r4_path, m1_path, placement_path)}
+    assert source_hashes[str(WORLD)] == EXPECTED_WORLD_SHA256, "M4 world SHA-256 mismatch"
+    assert source_hashes[str(r4_path)] == EXPECTED_R4_SHA256, "R4 baseline SHA-256 mismatch"
+    placement = json.loads(placement_path.read_text(encoding="utf-8"))
+    # The R2 receipt identifies the R2 placement native, not the R4 rendered baseline or M1 candidate.
+    assert source_hashes[str(r2_placement_native)] == EXPECTED_R2_PLACEMENT_SHA256, "R2 placement native SHA-256 mismatch"
+    assert placement["candidate_sha256"] == EXPECTED_R2_PLACEMENT_SHA256, "R2 receipt does not identify the pinned placement native"
+    frozen_scale = placement["root_scale_after"]
+    frozen_location = placement["root_world_location"]
+    assert len(frozen_scale) == len(frozen_location) == 3
+    assert all(math.isfinite(v) and v > 0 for v in frozen_scale)
+    assert all(math.isfinite(v) for v in frozen_location)
+    OUTPUT.mkdir(parents=True, exist_ok=True)
+    RECEIPT.parent.mkdir(parents=True, exist_ok=True)
+    bpy.ops.wm.open_mainfile(filepath=str(WORLD))
+    scene = bpy.context.scene
+    scene.frame_set(1)
+    old_root = scene.objects.get("Guide_Root")
+    assert old_root is not None, "M4 Guide_Root missing"
+    old_objects = hierarchy(old_root)
+    assert not any(obj.type in {"LIGHT", "CAMERA"} for obj in old_objects), "Original guide contains protected light/camera"
+    presentation_before = presentation_record(scene)
+    for obj in old_objects:
+        obj.hide_render = True
+    r4_collection, r4_objects, r4_root, r4_transform, r4_bbox = append_character(r4_path, frozen_scale, frozen_location)
+    assert presentation_record(scene) == presentation_before, "Presentation changed while appending R4"
+    render(scene, "R4_MAP_BASELINE.png")
+    assert root_record(r4_root) == r4_transform, "R4 transform changed during rendering"
+    assert presentation_record(scene) == presentation_before, "R4 render changed map presentation"
+    for obj in r4_objects:
+        obj.hide_render = True
+    r4_collection.hide_render = True
+    m1_collection, m1_objects, m1_root, m1_transform, m1_bbox = append_character(m1_path, frozen_scale, frozen_location)
+    assert m1_transform == r4_transform, "M1 does not have the exact frozen R2 root transform"
+    height_delta = m1_bbox["height"] - r4_bbox["height"]
+    top_delta = m1_bbox["max"][2] - r4_bbox["max"][2]
+    bottom_delta = m1_bbox["min"][2] - r4_bbox["min"][2]
+    print('MAP_BOUNDS_DIAGNOSTIC '+json.dumps({'r4':r4_bbox,'m1':m1_bbox,'height_delta':height_delta,'top_delta':top_delta,'bottom_delta':bottom_delta,'simplify':scene.render.use_simplify}),flush=True)
+    assert abs(height_delta) <= 2e-6, "M1 character height changed"
+    assert abs(top_delta) <= 2e-6 and abs(bottom_delta) <= 2e-6, "M1 cap top or foot bottom changed"
+    assert presentation_record(scene) == presentation_before, "Presentation changed while appending M1"
+    render(scene, "M1_MAP_SCALE.png")
+    assert root_record(m1_root) == m1_transform, "M1 transform changed during rendering"
+    assert root_record(r4_root) == r4_transform, "Hidden R4 transform changed"
+    presentation_after = presentation_record(scene)
+    assert presentation_after == presentation_before, "M1 render changed map presentation"
+    final_hashes = {path: sha256(path) for path in source_hashes}
+    assert final_hashes == source_hashes, "An input file changed"
+    receipt = {
+        "status": "PAIRED_NATIVE_MAP_RENDER_ONLY", "frame": 1,
+        "source_world": str(WORLD), "source_sha256_before": source_hashes[str(WORLD)],
+        "source_sha256_after": final_hashes[str(WORLD)],
+        "baseline_native": str(r4_path), "baseline_sha256": source_hashes[str(r4_path)],
+        "candidate_native": str(m1_path), "candidate_sha256": source_hashes[str(m1_path)],
+        "input_sha256_before": source_hashes, "input_sha256_after": final_hashes,
+        "inputs_unchanged": True,
+        "placement_receipt": str(placement_path),
+        "placement_source_native": str(r2_placement_native),
+        "placement_source_native_sha256": source_hashes[str(r2_placement_native)],
+        "placement_rule": "Exact R2 receipt root scale/location, zero rotation; no bbox recentering or rescaling",
+        "root_scale_from_receipt": frozen_scale, "root_world_location_from_receipt": frozen_location,
+        "r4_root_transform_before_and_after_render": r4_transform,
+        "m1_root_transform_before_and_after_render": m1_transform,
+        "root_transforms_exactly_equal": True,
+        "r4_evaluated_bbox": r4_bbox, "m1_evaluated_bbox": m1_bbox,
+        "bounds_method": "actual evaluated mesh vertices, not conservative modifier bounding boxes",
+        "height_difference_m": height_delta, "cap_top_difference_m": top_delta,
+        "foot_bottom_difference_m": bottom_delta, "height_tolerance_m": 2e-6,
+        "camera_lights_world_preserved": True,
+        "presentation_before": presentation_before, "presentation_after": presentation_after,
+        "resolution": [432, 960], "renders": ["R4_MAP_BASELINE.png", "M1_MAP_SCALE.png"],
+        "original_guide_hidden_objects": [obj.name for obj in old_objects],
+        "appended_r4_collection": r4_collection.name, "appended_m1_collection": m1_collection.name,
+        "world_blend_saved": False, "game_integration": False,
+        "human_visual_acceptance": "PENDING"
+    }
+    RECEIPT.write_bytes((json.dumps(receipt, indent=2, ensure_ascii=False) + "\n").encode("utf-8"))
+    print(json.dumps({"receipt": str(RECEIPT), "inputs_unchanged": True,
+                      "height_difference_m": height_delta, "root_transforms_exactly_equal": True}))
+
+
+if __name__ == "__main__":
+    main()

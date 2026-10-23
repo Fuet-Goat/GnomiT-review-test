@@ -1,0 +1,22 @@
+{
+  "source_commit": "cedddc149db9d5abbce482cc0d52667ac99810e8",
+  "native_sha256": "0335bcc275bfbc8e3b7d3ea43bde2fad6c8ece5281a750007290ef154ac8bffc",
+  "glb_sha256": "3b72702cb1c995d2553dddd4895a1e2327be14d5a22cc38a60a88603d47c529f",
+  "scope": "Only Godot Environment/Light3D lighting in subclass; original accepted preview.gd is byte-identical.",
+  "no_geometry_weights_material_texture_animation_camera_control_changes": true,
+  "new_bakes_or_AI_images": false,
+  "source": "lighting.gd uses Godot built-in ProceduralSkyMaterial only for reflection environment, not an asset texture.",
+  "AgX_and_renderer": "Unchanged from accepted preview; no added TAA or postprocess to mask differences.",
+  "map_reference": "documented prior M2 placement / camera matches current map, isolated actual Godot render",
+  "map_height_px": 41.48631889197188,
+  "map_height_classification": "INFERRED static glTF rest-geometry projection; real unscaled viewport controls included",
+  "software": [
+    "Godot4.7.2",
+    "Python/Pillow for panels and GIF"
+  ],
+  "prior_skinning_discrepancy_mm": 2.5392876868,
+  "new_skinning_edits": false,
+  "game_integration": false,
+  "Android_optimisation": false,
+  "human_lighting_choice": "PENDING"
+}

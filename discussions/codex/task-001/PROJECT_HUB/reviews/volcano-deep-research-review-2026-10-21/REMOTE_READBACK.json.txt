@@ -1,0 +1,79 @@
+{
+  "status": "EXACT_COMMIT_HTTP_READBACK_AND_DECODE_PASS",
+  "artifact_commit": "5abf4377be6d024a30035299ed8fb3166613c55f",
+  "files_verified": [
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/START_HERE.txt",
+      "bytes": 63726,
+      "sha256": "226dea2fb79638bd44604dd734040525ce98387f107796dea1e0bd01ac48a707"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/volcano-deep-research-review-2026-10-21/BASELINE_CODE_AUDIT.txt",
+      "bytes": 3879,
+      "sha256": "2cf7f2305839b6c3531254fc33b990fcc1dd9297dd6a02d37636e5a56f2e58a3"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/volcano-deep-research-review-2026-10-21/CODE_IDENTITY.json.txt",
+      "bytes": 2461,
+      "sha256": "b541a8f7704b4df338ddf4b94cc2b694b9e321a4b6c94d9975da9b0f065fd9c5"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/volcano-deep-research-review-2026-10-21/EXTRACTED_DOCUMENT.txt",
+      "bytes": 51157,
+      "sha256": "4bd37e70a6c82a0c249f8c6e99dcd9ed6bf2649d3039d6e561f0e33c5eec1215"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/volcano-deep-research-review-2026-10-21/FINAL_RESPONSE.txt",
+      "bytes": 1063,
+      "sha256": "f9fb4726801a278d1bd374d2e29d2da8f489b128602661864677304730ff84ea"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/volcano-deep-research-review-2026-10-21/INPUT_RECEIPT.json.txt",
+      "bytes": 1620,
+      "sha256": "c709e5462b1dcff00dbd43bf61613c4e95336dde10308f60e483694913572dae"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/volcano-deep-research-review-2026-10-21/MANIFEST.json.txt",
+      "bytes": 1756,
+      "sha256": "8ba6719408e3d3b83d1a4084c5f7f2896e535da4849a343af46134a5ab2bbd0e"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/volcano-deep-research-review-2026-10-21/PACKAGE_RECEIPT.json.txt",
+      "bytes": 363,
+      "sha256": "2323fa78b394fb50fa384473e03543d15a7dda7ec3135ed590e549bedf7440e3"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/volcano-deep-research-review-2026-10-21/PACKET.base64.txt",
+      "bytes": 86485,
+      "sha256": "2a4bc675ccbfd6f2e05ac71d6c84740ceb7171c1bc656272244436684bbf2865"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/volcano-deep-research-review-2026-10-21/README.txt",
+      "bytes": 858,
+      "sha256": "d9d85c16082b57caf66e06d986fff7de210406ec7a70f6918d8d8cd8a51b6100"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/volcano-deep-research-review-2026-10-21/REPORT.txt",
+      "bytes": 9453,
+      "sha256": "44bf0cced4ca6f62601b602dfd253c6b93b6801f62ebb224e430b11efa5ab650"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/volcano-deep-research-review-2026-10-21/SOURCE_AUDIT_BG.txt",
+      "bytes": 7423,
+      "sha256": "0cb043b7dd19d6b23408186665d1f2d360c33b6e12b25b615f1f13e96d1a99bd"
+    },
+    {
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/volcano-deep-research-review-2026-10-21/STORYBOARD_AND_TRIAL_BG.txt",
+      "bytes": 9848,
+      "sha256": "a5927464ac15852558e8578b25581669300ed57b2fc4225b8e38bfd6569b8d11"
+    }
+  ],
+  "zip_bytes": 64862,
+  "zip_sha256": "3db7d6f9ad01b44d89b64014672ad0cae9c039691ebaf37010114f3162c833af",
+  "zip_entries": 11,
+  "original_docx_unchanged": true,
+  "game_execution": false,
+  "game_changes": false,
+  "merge": false,
+  "internal_read_only_review": "NO_MATERIAL_BLOCKER"
+}

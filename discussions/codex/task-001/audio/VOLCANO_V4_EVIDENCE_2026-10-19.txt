@@ -1,0 +1,153 @@
+{
+  "predecessor_unchanged_files": 428,
+  "wav": {
+    "bytes": 297644,
+    "sha256": "e14235fd8ae7af0f3ec0565053fa1c21885e7fd4f057a7f2a91c43dcb25ada4d"
+  },
+  "focused_checks": 11,
+  "targeted_tests": [
+    {
+      "test": "test_mountain_presentation.gd",
+      "exit_code": 0,
+      "seconds": 12.985,
+      "diagnostics": false,
+      "tail": [
+        "MOUNTAIN_PRESENTATION {\"checks\":33,\"failures\":[],\"presentation_frames\":632,\"scope\":\"Actual headless board/audio integration plus cancellation; not human/Android visual acceptance\",\"status\":\"PASS\",\"target_pose_samples\":4381}"
+      ]
+    },
+    {
+      "test": "test_single_stone_cue.gd",
+      "exit_code": 0,
+      "seconds": 1.984,
+      "diagnostics": false,
+      "tail": [
+        "SINGLE_STONE_CUE {\"checks\":12,\"failures\":[],\"scope\":\"real engine playback lifecycle; not human listening\",\"status\":\"PASS\"}"
+      ]
+    },
+    {
+      "test": "test_volcano_clip_audio.gd",
+      "exit_code": 0,
+      "seconds": 5.5,
+      "diagnostics": false,
+      "tail": [
+        "VOLCANO_CLIP_AUDIO {\"cases\":[\"verified_mp3\",\"one_clip_duplicates_and_finish\",\"reduced_short_cue\",\"retained_layered_mode\",\"actual_lab_skip\",\"actual_lab_reset\"],\"checks\":36,\"clip_bytes\":16724,\"clip_godot_seconds\":1.58000004291534,\"clip_sha256\":\"165bba4707d48883e96d1c7626400e36a454e206469d58b3b21ec9c536fda27c\",\"failures\":[],\"normal_cues\":[{\"event_id\":1,\"kind\":\"clip\",\"ordinal\":-1,\"pitch_scale\":1.0,\"progress\":0.0,\"reduced\":false,\"target\":-1,\"threshold\":0.0,\"voice\":0,\"volume_db\":-9.0}],\"reduced_playback\":{\"cue_count\":1,\"elapsed_wall_seconds\":0.366,\"playing_voices_after_wait\":0,\"source_seconds\":0.3},\"status\":\"PASS\"}"
+      ]
+    },
+    {
+      "test": "test_material_power_core.gd",
+      "exit_code": 0,
+      "seconds": 0.906,
+      "diagnostics": false,
+      "tail": [
+        "MATERIAL_CORE_CONTRACT: 89 checks; 0 failures"
+      ]
+    }
+  ],
+  "native": {
+    "status": "PASS",
+    "viewport": [
+      432,
+      960
+    ],
+    "screen": 0,
+    "powers": [
+      "mega_volcano"
+    ],
+    "immutable_resolved_state_samples": 237
+  },
+  "body_cue": {
+    "event_id": 1,
+    "kind": "mega_eruption",
+    "ordinal": -1,
+    "pitch_scale": 1.0,
+    "progress": 0.0833333283662796,
+    "reduced": false,
+    "target": -1,
+    "threshold": 0.07,
+    "voice": 0,
+    "volume_db": -10.0
+  },
+  "calculated_bass_hit_seconds": 0.799999988079071,
+  "visual_blast_seconds": 0.768,
+  "native_audio": {
+    "source_avi": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\VolcanoV4_2026-10-19\\outputs\\VolcanoV4_native.avi",
+    "output_wav": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\VolcanoV4_2026-10-19\\outputs\\VolcanoV4_native.wav",
+    "source_bytes": 32226330,
+    "riff_segments": [
+      "AVI"
+    ],
+    "container_warnings": [
+      "Outer RIFF size ends 70 bytes before EOF inside a complete final idx1; index ignored, media boundaries validated"
+    ],
+    "audio_streams": [
+      {
+        "index": 1,
+        "scale": 4,
+        "rate": 192000,
+        "start": 0,
+        "length": 432000,
+        "sample_size": 4,
+        "format_tag": 1,
+        "channels": 2,
+        "sample_rate": 48000,
+        "byte_rate": 192000,
+        "block_align": 4,
+        "bits_per_sample": 16
+      }
+    ],
+    "selected_stream": 1,
+    "source_format": {
+      "channels": 2,
+      "sample_rate": 48000,
+      "sample_width": 2,
+      "bits_per_sample": 16,
+      "valid_bits_per_sample": 16,
+      "block_align": 4,
+      "channel_mask": null
+    },
+    "wav_encoding": "integer PCM; original sample bytes; conventional PCM header",
+    "audio_chunk_count": 270,
+    "pcm_bytes": 1728000,
+    "sample_frames": 432000,
+    "duration_seconds": 9.0,
+    "pcm_sha256": "172860423a610565b46b1995e0df269a2e9fc0df813994565751f513a4a74c93",
+    "wav_sha256": "c65008788ccfb273678a4fa9d854f6d4f80582e74b346a0cec04b06771a26737",
+    "wav_bytes": 1728044,
+    "statistics": {
+      "sample_count": 864000,
+      "nonzero_samples": 474770,
+      "clipped_samples": 0,
+      "peak_integer": 7021,
+      "peak_normalized": 0.214263916015625,
+      "rms_normalized": 0.02357749907695915,
+      "rms_dbfs": -32.550045269533506,
+      "mean_normalized": -2.9323577880859376e-05,
+      "per_channel": [
+        {
+          "sample_count": 432000,
+          "nonzero_samples": 237385,
+          "clipped_samples": 0,
+          "peak_integer": 7021,
+          "peak_normalized": 0.214263916015625,
+          "rms_normalized": 0.02357749907695915,
+          "rms_dbfs": -32.550045269533506,
+          "mean_normalized": -2.9323577880859376e-05
+        },
+        {
+          "sample_count": 432000,
+          "nonzero_samples": 237385,
+          "clipped_samples": 0,
+          "peak_integer": 7021,
+          "peak_normalized": 0.214263916015625,
+          "rms_normalized": 0.02357749907695915,
+          "rms_dbfs": -32.550045269533506,
+          "mean_normalized": -2.9323577880859376e-05
+        }
+      ]
+    }
+  },
+  "generator_executed": false,
+  "human_listening": "PENDING",
+  "android": "NOT_RUN",
+  "whole_game_rights_clearance": "NOT_CLAIMED"
+}

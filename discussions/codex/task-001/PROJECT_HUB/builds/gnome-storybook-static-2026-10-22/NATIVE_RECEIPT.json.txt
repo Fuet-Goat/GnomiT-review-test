@@ -1,0 +1,15 @@
+{
+  "status": "NATIVE_SAVED_REOPENED_RENDERED",
+  "input_sha256": "c09994b1fe6820c537b56b5699ef8099aeded4645c9c667db338cbc731d8a220",
+  "output_sha256": "c10a83a0ec3911017bb4cb52e202347b7cd01a603ba27db27d345bc64454ba53",
+  "reference_sha256": "ad60800c98014d45a84c5ef6a0c38c07a9dc672ab39e2cf42768f4eaef69d988",
+  "protected_world_objects": 591,
+  "inherited_guide_transforms_parents_unchanged": true,
+  "all_actions_unchanged": true,
+  "original_materials_retained_unchanged": true,
+  "added_guide_objects": [],
+  "copied_painted_materials": 8,
+  "new_animation_render": "NOT_PERFORMED",
+  "Godot_integration_or_shader_bake": "NOT_PERFORMED",
+  "human_visual_choice": "PENDING"
+}

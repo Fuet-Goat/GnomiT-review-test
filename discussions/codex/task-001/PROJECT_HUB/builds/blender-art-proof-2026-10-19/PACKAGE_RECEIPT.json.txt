@@ -1,0 +1,7 @@
+{
+  "path": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\BlenderArtProof_2026-10-19_HANDOFF\\GNOMIT_BLENDER_GODOT_ART_PROOF_2026-10-19.zip",
+  "bytes": 6560038,
+  "sha256": "c801170805c863b3d2e6e9e4d5ba8c2cf69d69427009263b3b0bd4b7c37151eb",
+  "entries": 27,
+  "crc_and_all_readback": "PASS"
+}

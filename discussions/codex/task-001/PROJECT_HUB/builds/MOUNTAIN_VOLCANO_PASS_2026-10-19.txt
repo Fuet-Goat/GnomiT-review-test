@@ -1,0 +1,127 @@
+{
+  "status": "PASS",
+  "client_date": "2026-10-19",
+  "recorded_utc": "2026-10-18T23:04:33.357512+00:00",
+  "local_path": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\MegaVolcanoMountain_2026-10-19",
+  "scope": "New mountain-shaped Mega visual only; no mechanic/audio changes",
+  "predecessor_files_unchanged": 364,
+  "fresh_existing_delta": [
+    "project.godot"
+  ],
+  "new_text_source": {
+    "project.godot": {
+      "bytes": 974,
+      "sha256": "7c915fdf4c73b2e641d8becbdddae76f1910f41e020eabc846ffd38a5e8cc95e"
+    },
+    "scripts/lab/mountain_volcano_board.gd": {
+      "bytes": 7733,
+      "sha256": "d2d4adadd38f32dc9bc793b5b06940ba9ebbc40c8e78e4ed7237d435879b8343"
+    },
+    "scripts/lab/mountain_volcano_lab.gd": {
+      "bytes": 21498,
+      "sha256": "403b3e6d45015d2c735609de4197b885d80e8a0c5131e33e9d2ac659b33762e8"
+    },
+    "mountain_volcano.tscn": {
+      "bytes": 319,
+      "sha256": "7010134ea89858195264c8c2d38ea7aae22f1bbd7faac4aca73a9f5b8e47665f"
+    },
+    "PLAY_MOUNTAIN_VOLCANO.cmd": {
+      "bytes": 137,
+      "sha256": "5c70a0531cf816d084cc8ee43200c8d062bdf72cda53831d5559ebd2126153ad"
+    },
+    "tests/capture_mountain_volcano.gd": {
+      "bytes": 13687,
+      "sha256": "c471d28ca7738f91766eec0a4bad171e2d77b6970fe8befe0e9a8d61249d9f4d"
+    },
+    "tests/test_mountain_presentation.gd": {
+      "bytes": 9500,
+      "sha256": "9bdcc121b8e658ed67169c2ed64f46ffd69e733fccaef4ae0bcd8d080672bbf4"
+    },
+    "README_MOUNTAIN_VOLCANO.txt": {
+      "bytes": 2883,
+      "sha256": "92357ccf955681f3a54969d98739bde681d4f9dd7eac2fef0d2f2b32f4b92f96"
+    },
+    "verification/IMAGEGEN_PROMPT.txt": {
+      "bytes": 2521,
+      "sha256": "c21d8d0633474ee1aec2b700ce0703083f85a9a71d486a0dbc1a58312bd8a823"
+    }
+  },
+  "new_art_asset": {
+    "path": "assets/vfx/mountain_volcano_body_v2.png",
+    "bytes": 1462674,
+    "sha256": "6726a3b3c7c79fae6b4685077f8c917eaac1cecf1a2176371ff9227a0156d8d1",
+    "size": [
+      1448,
+      1086
+    ],
+    "mode": "RGBA",
+    "source": "built-in imagegen, original bytes/alpha unchanged",
+    "prompt": "verification/IMAGEGEN_PROMPT.txt"
+  },
+  "Core_and_audio": "BYTE_IDENTICAL_TO_MEGA_PREDECESSOR; no new Core regression run claimed",
+  "actual_presentation_geometry_audio_cancel_checks": 33,
+  "native_capture": {
+    "path": "outputs/Mountain-Volcano-V2-Final.avi",
+    "bytes": 32226330,
+    "sha256": "0273984fc063d3c44ba01c678b73e3d9c2c95b8577b8c1e1107d4ce2348849d9",
+    "frames": 270,
+    "fps": 30,
+    "viewport": [
+      432,
+      960
+    ],
+    "screen": 0,
+    "duration_seconds": 9,
+    "power_signals": [
+      "mega_volcano"
+    ],
+    "immutable_core_rng_samples": 237
+  },
+  "captured_audio": {
+    "pcm_sha256": "ed2d0ff69dfd70969ed09d6d6be6ae49f0a82b5b532c9a07a570eca2adf1ded8",
+    "statistics": {
+      "sample_count": 864000,
+      "nonzero_samples": 427282,
+      "clipped_samples": 0,
+      "peak_integer": 7304,
+      "peak_normalized": 0.222900390625,
+      "rms_normalized": 0.022345413244986453,
+      "rms_dbfs": -33.01623218605341,
+      "mean_normalized": -2.5997373792860243e-05,
+      "per_channel": [
+        {
+          "sample_count": 432000,
+          "nonzero_samples": 213641,
+          "clipped_samples": 0,
+          "peak_integer": 7304,
+          "peak_normalized": 0.222900390625,
+          "rms_normalized": 0.022345413244986453,
+          "rms_dbfs": -33.01623218605341,
+          "mean_normalized": -2.5997373792860243e-05
+        },
+        {
+          "sample_count": 432000,
+          "nonzero_samples": 213641,
+          "clipped_samples": 0,
+          "peak_integer": 7304,
+          "peak_normalized": 0.222900390625,
+          "rms_normalized": 0.022345413244986453,
+          "rms_dbfs": -33.01623218605341,
+          "mean_normalized": -2.5997373792860243e-05
+        }
+      ]
+    },
+    "container_warnings": [
+      "Outer RIFF size ends 70 bytes before EOF inside a complete final idx1; index ignored, media boundaries validated"
+    ]
+  },
+  "static_review": "Independent asset/alpha/baseline review; top-edge plume finding fixed with bounded geometry and imported texture preload",
+  "visual_review": "Native eruption/impact stills inspected; human artistic acceptance pending",
+  "history": [
+    "First Python one-liner had shell quoting SyntaxError before creating files; replaced with a saved script.",
+    "First native capture warned direct Image.load_from_file would not export; final resource preload resolves it. Earlier log retained."
+  ],
+  "Android_human_performance_acceptance": "NOT_MEASURED",
+  "merge": false,
+  "new_sound_assets": []
+}

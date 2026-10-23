@@ -1,0 +1,40 @@
+GNOMIT — SOFT GNOME + GREETING K — 2026-10-22
+
+Изрично човешко задание: по-мек анимационен външен вид, поза и плавно движение.
+Същото гномче: червена шапка, бяла брада, teal палто, кафяви обувки и фенер.
+
+Отвори outputs/GNOME_SOFT_GREETING_K.gif за истинската Blender анимация.
+121 рендерирани кадъра, 432x560, native24fps, GIF5040ms, без звук.
+GIF използва обща палитра и 40/50ms закъснения за точността на този формат.
+Това е Eevee проба на отделна студийна сцена с мека светлина, не Godot запис.
+outputs/BEFORE_AFTER_SOFT.png сравнява J и K с еднакви студийна камера/светлина.
+outputs/MAP_SOFT_GREETING_K.png е истинският общ Cycles рендер на картата.
+
+native/GNOME_SOFT_GREETING_K.blend е цялото отделно копие на картата.
+native/GNOME_K_ANIMATION_STAGE.blend е малка самостоятелна проба на героя.
+Поздравът е frames1-121 при24fps; Play в Blender показва неговите ключове.
+POSE_001.png е статичната спокойна поза за reduced-motion вариант.
+
+Промени: закръглена мека шапка, по-фин шев, омекотени ревери/ръце/ръкави,
+guide-only по-светли материали, по-малък замах на рамото, фазово закъснение
+в лакът/китка/глава/фенер, леко дишане/мигане и връщане към същата начална поза.
+Старите actions и материали са запазени като неизменени данни в пълната сцена.
+Root/стъпалата са проверени неподвижни във всички121кадъра.
+Карта, трева, светлини и камера са запазени. Няма Godot интеграция/Android тест.
+Метриките на рамото не доказват човешка оценка за плавност; изборът предстои.
+
+Използван е Blender5.2.2LTS, factory-startup, disable-autoexec, Python.
+Сглобката няма FFMPEG output enum. Затова кадрите са PNG, а GIF е с наличния Pillow.
+Не е инсталиран нов софтуер. Логът от неподдържания video output е запазен.
+
+INPUT_J.blend и121сурови PNG кадъра остават локално и не се дублират в този ZIP.
+Кадрите се възпроизвеждат от tools/render_soft_preview.py и tools/encode_preview.py.
+INPUT_J е GNOME_CARTOON_J.blend от Git commit:
+7f0903f36285e897cee19320904ffc2bd2587b70
+discussions/codex/task-001/PROJECT_HUB/builds/gnome-cartoon-look-2026-10-22/
+SHA256:676ce882fd4917aed92f90fc7deb3b9986a1013ed22e12756dcd5c20062b3bef
+За повторно изграждане го постави като native/INPUT_J.blend в нова изходна папка.
+Стъпки: build_soft_greeting.py → render_soft_preview.py → render_before.py
+→ encode_preview.py → verify_stage.py. Python tools са запазени с пакета.
+
+ZIP CRC and each manifest entry: PASS. Remote readback follows publication.

@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "current_project": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\BlackHoleOneHit_2026-10-20",
+  "main_scene": "main.tscn",
+  "sample_version": "v005",
+  "normal_campaign": true,
+  "save_profile": "GnomiT-CampaignTutorial-Volcano-2026-10-20",
+  "schema_change": false
+}

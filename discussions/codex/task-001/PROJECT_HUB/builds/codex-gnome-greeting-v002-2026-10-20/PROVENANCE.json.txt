@@ -1,0 +1,87 @@
+{
+  "type": "ACTUAL_CODEX_PROVENANCE",
+  "date": "2026-10-20 Europe/Sofia",
+  "authoring": "Codex assistant-generated Python/GDScript and procedural geometry, derivative of preserved native V3 source",
+  "exact_model_effort": "NOT_MEASURED",
+  "input": {
+    "source_game_commit": "f9864651015b5b57f94c439d311f03408fab4446",
+    "source_game_sha256": "3853c032565c3d4d2c087dd6f50eb76ab8c12e4f2b95b01904042f9e7e260e28",
+    "files": [
+      {
+        "path": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\StorybookMine_V3_2026-10-20\\source\\storybook_mine.blend",
+        "bytes": 2657237,
+        "sha256": "08b46a08f1a0052971e0e7fe19a5df93bba95ab8d4f01bbd2896314339ccd4f4",
+        "copied_to": "source/predecessor_world.blend"
+      },
+      {
+        "path": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\StorybookMine_V3_2026-10-20\\source\\guide_asset.py",
+        "bytes": 13115,
+        "sha256": "7f691d06f69399e8508ac0dadce91243ef7b58a459e1b3b6af46ec9cc89dc407",
+        "copied_to": "source/guide_v4.py"
+      },
+      {
+        "path": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\StorybookMine_V3_2026-10-20\\source\\scene_api.py",
+        "bytes": 8691,
+        "sha256": "e84bbb623575532af2b3249ec40fccbf9117337e50077a697388de561d1ae824",
+        "copied_to": "source/scene_api.py"
+      },
+      {
+        "path": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\CampaignTutorial_Volcano_2026-10-20\\assets\\native_mine\\storybook_mine.glb",
+        "bytes": 13651192,
+        "sha256": "19ec82b314f75e43580408e1f42bbb2ea617f3ad41bd9767b3a97ed0893cf0d3",
+        "copied_to": "assets/native_mine/storybook_mine_before.glb"
+      },
+      {
+        "path": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\CampaignTutorial_Volcano_2026-10-20\\scripts\\native_mine\\native_mine_base.gd",
+        "bytes": 24459,
+        "sha256": "1239baf6fc79b33811c263d4481ee6df0ee6bcc121335837ae57ad96105dd4f8",
+        "copied_to": "native_world_base.gd"
+      },
+      {
+        "path": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\CampaignTutorial_Volcano_2026-10-20\\assets\\native_mine\\branding\\gnomit_element_wordmark_v1.png",
+        "bytes": 1485630,
+        "sha256": "90a07215598d9d3cb95741dc417e96d14aec5e03fea1b0875c40b7f52dabe262",
+        "copied_to": "assets/native_mine/branding/gnomit_element_wordmark_v1.png"
+      }
+    ]
+  },
+  "tools": {
+    "Blender": "5.2.2 LTS",
+    "Godot": "4.7.2 stable Forward+",
+    "FFmpeg": "existing v7.1",
+    "Pillow": "comparison layout only"
+  },
+  "editable_source": [
+    "source/gnome_greeting_candidate.blend",
+    "source/predecessor_world.blend",
+    "source/guide_v4.py",
+    "source/scene_api.py",
+    "source/build_candidate.py"
+  ],
+  "new_external_models_or_generated_bitmap": false,
+  "audio": "No audio created/modified; native clip is silent",
+  "inherited_wordmark": "Unchanged generated bitmap; original provenance in verification/INHERITED_*; not native 3D lettering",
+  "licence_status": "Inherited evidence only; no new rights-clearance audit or exclusive ownership guarantee. Prior original gaps remain UNKNOWN.",
+  "rebuild": [
+    "Existing Blender --background --python source/build_candidate.py; reads included predecessor_world.blend and modules; writes own candidate/export.",
+    "Godot --headless --editor --path PROJECT --import --quit. Retain source/.gdignore and both GLB .import files with animation/fps=24.",
+    "Godot --path PROJECT --script res://verification/check_and_capture.gd --resolution 432x960.",
+    "Godot --path PROJECT --script res://tools/capture_movie.gd --resolution 432x960 --fixed-fps 30 --write-movie NEW.avi; FFmpeg -an -c:v libx264 -crf 19 -pix_fmt yuv420p -movflags +faststart NEW.mp4."
+  ],
+  "current_receipts": [
+    "verification/BLENDER_BUILD.json",
+    "verification/RUNTIME_CAPTURE.json",
+    "verification/runtime_inspection.log",
+    "verification/MOVIE_CAPTURE.json",
+    "verification/VIDEO_DECODE.json",
+    "verification/ORIGINALS_UNCHANGED.json"
+  ],
+  "failure_history": "Initial inherited method-signature parse and source .blend scan failed; bool override and source/.gdignore fixed. Default30fps import lost short blink minima; explicit24fps import fixed. runtime_final.log and RUNTIME_FAILED_BLINK_IMPORT30.json are historical for superseded e95454 asset. Current final asset: 6598473c272d8773b654effb1807f4cc170f346db5ad5bc73a601885e553aaf0",
+  "scope": "Local Codex sample, not GPT task003 identity. Full scene/camera fixed; detail is isolated inspection with same floor/lighting for before/after. Own Git report attachments only.",
+  "acceptance": {
+    "human_art": "PENDING",
+    "android": "NOT_MEASURED",
+    "mobile_performance": "NOT_MEASURED",
+    "campaign_integration": false
+  }
+}

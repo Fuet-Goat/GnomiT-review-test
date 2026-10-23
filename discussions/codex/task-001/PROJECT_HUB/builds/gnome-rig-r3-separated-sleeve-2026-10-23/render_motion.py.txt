@@ -1,0 +1,38 @@
+"""Matched before/after native greeting; source before frames verified then reused."""
+from pathlib import Path
+import hashlib,json,shutil
+import bpy
+from mathutils import Vector
+ROOT=Path(__file__).resolve().parents[1]
+OLD=ROOT.parent/'Gnome_Rig_R2_Sleeve_2026-10-23'
+def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
+receipt=json.loads((ROOT/'documentation/SEPARATION_RECEIPT.json').read_text())
+native=Path(receipt['native']);assert sha(native)==receipt['native_sha256']
+baseline=json.loads((OLD/'documentation/RENDER_R1.json').read_text())
+assert baseline['source_sha256']==receipt['source_sha256']
+for frame in range(1,145):
+    for prefix,newprefix in (('R1_','BEFORE_'),('CLOSE_R1_','CLOSE_BEFORE_')):
+        name=prefix+'%04d.png'%frame;source=OLD/'frames'/name;target=ROOT/'frames'/(newprefix+'%04d.png'%frame)
+        assert sha(source)==baseline['frame_sha256'][name] and not target.exists();shutil.copyfile(source,target)
+bpy.ops.wm.open_mainfile(filepath=str(native));scene=bpy.context.scene;cam=scene.camera
+scene.render.resolution_percentage=100;scene.render.image_settings.file_format='PNG';scene.render.fps=24
+scene.frame_start=1;scene.frame_end=144;scene.render.resolution_x=480;scene.render.resolution_y=672
+scene.render.filepath=str(ROOT/'frames/AFTER_');assert 'FINISHED' in bpy.ops.render.render(animation=True)
+target=Vector((-.29,-.08,.79));cam.location=target+Vector((0,-5,.34))
+cam.rotation_euler=(target-cam.location).to_track_quat('-Z','Y').to_euler();cam.data.ortho_scale=.69
+scene.render.resolution_x=scene.render.resolution_y=480
+scene.render.filepath=str(ROOT/'frames/CLOSE_AFTER_');assert 'FINISHED' in bpy.ops.render.render(animation=True)
+for label,offset in (('SIDE',(-5,0,.6)),('REAR',(-3,4,.6))):
+    cam.location=target+Vector(offset);cam.rotation_euler=(target-cam.location).to_track_quat('-Z','Y').to_euler();cam.data.ortho_scale=.83
+    scene.render.resolution_x=scene.render.resolution_y=600
+    for frame in (1,73):
+        scene.frame_set(frame);scene.render.filepath=str(ROOT/'outputs'/('R3_A_%s_%03d.png'%(label,frame)))
+        bpy.ops.render.render(write_still=True)
+assert sha(native)==receipt['native_sha256']
+frames=sorted((ROOT/'frames').glob('*.png'));assert len(frames)==576
+(ROOT/'documentation/ANIMATION_RENDER.json').write_bytes((json.dumps({'native_sha256':sha(native),'native_unchanged':True,
+    'fps':24,'duration_seconds':6,'preview_frames':[1,144],'checked_loop_end':145,
+    'baseline':'Byte-identical native R1 full/close-up frames; original frame SHA verified',
+    'full_resolution':[480,672],'close_resolution':[480,480],
+    'frame_sha256':{p.name:sha(p) for p in frames}},indent=2)+'\n').encode())
+print('R3_NATIVE_COMPARISON_RENDER_COMPLETE',flush=True)

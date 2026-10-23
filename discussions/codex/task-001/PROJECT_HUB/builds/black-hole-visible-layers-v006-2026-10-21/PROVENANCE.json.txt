@@ -1,0 +1,33 @@
+{
+  "contribution": "Persistent visible soil layer counts, anchored to tiles; presentation-only",
+  "base": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\BlackHoleOneHit_2026-10-20",
+  "base_identity": "source/BASE_INPUTS.json",
+  "editable_source": [
+    "scripts/lab/material_power_board.gd",
+    "black_hole_one_hit.gd"
+  ],
+  "tools": {
+    "engine": "Godot 4.7.2 stable",
+    "implementation": "Codex authored GDScript",
+    "packaging": "Python standard library"
+  },
+  "new_art_audio": false,
+  "core_unchanged": true,
+  "save_unchanged": true,
+  "snapshot_rule": "Read displayed terrain; switch to frozen black-hole floor_after only at effect impact, never solved future Core.",
+  "media": "Inherited assets unchanged; existing provenance and licences still apply. This document does not establish exclusive ownership.",
+  "checks": {
+    "Core": 135,
+    "Campaign": 23,
+    "Native": 10,
+    "native_viewport": [
+      432,
+      960
+    ],
+    "reduced_motion": true
+  },
+  "human_acceptance": "PENDING",
+  "android_performance": "NOT_MEASURED",
+  "screen": "Godot reports one screen, fallback index 0 used",
+  "user_recording": "Selected extracted frames inspected locally; not redistributed because desktop/browser surroundings are visible."
+}

@@ -1,0 +1,53 @@
+GNOMIT — V4 MOUNTAIN VOLCANO AUDIO PREVIEW /19 OCTOBER2026
+
+INPUT AND SCOPE
+The human preferred volcano_eruption_v4_3s.wav and asked whether it could be
+recreated if audio software was a problem. Its exact existing WAV is usable.
+No Grok generator was executed, no audio was regenerated, and no software was
+downloaded or installed. Reproduction can be tested separately from the code;
+the author's old byte-identical rebuild claim was not independently rerun here.
+Grok documentation was independently fetched and hashed from commit
+92b61cb5cabc14c87b588ec25b243405c93bed78. WAV297644bytes,PCM16mono48k,3.10s,
+SHA256 e14235fd8ae7af0f3ec0565053fa1c21885e7fd4f057a7f2a91c43dcb25ada4d.
+
+LOCAL IMPLEMENTATION
+Fresh isolated PC copy VolcanoV4_2026-10-19, own user:// profile,screen0/432x960.
+Only the large Mountain eruption uses the new V4 bank. Ordinary Volcano retains
+its previous clip and timing; this preview does not silently retime it.
+The small additive manager loads the real WAV with AudioStreamWAV and retains
+the existing parent flight/impact/reduced/cancel machinery. One body, original
+pitch1.0. Start at normalized0.07:0.168s plus V4's0.600s bass onset equals the
+unchanged mountain blast at0.768s. Rendered frame granularity is explicit.
+The normal finish leaves the3.10s tail playing; Skip/Reset/exit stop it.
+The three ordinary-roll target budget, Core, rewards/materials, matching, board
+visuals, terrain, saves and single stone cue behavior are unchanged.
+Old sound assets remain in the copy; this is not a complete rights replacement.
+
+FRESH VERIFICATION
+Clean RED reproduced five expected V4 integration failures. GREEN11checks.
+Four existing targeted suites: mountain33,single-stone12,old-clip36,material
+Core89. Total181checks PASS; not a claim that every historical suite was run.
+Native actual Godot mouse input/render/audio:9s,270frames/30fps,432x960,screen0,
+one real swap and one Mega event. Native body starts at0.083333328;
+calculated bass hit0.800000s, difference0.032000s from the visible blast.
+All237 immutable resolved-state samples passed. The recording has one shared
+body and the existing target flights/impacts; screenshots were inspected.
+Actual9s PCM extracted byte-for-byte from the AVI: no clipped samples.
+Container note: the existing extractor reported the known70-byte outer RIFF
+size discrepancy inside a complete final index; media boundaries passed.
+The first RED test cleanup leaked temporary audio resources; cleanup waits were
+fixed before the retained clean RED and GREEN. The initial log remains history.
+This is scripted runtime evidence, not human listening/Android/performance
+acceptance. All428 durable predecessor files rehashed unchanged.
+
+DOCUMENTATION AND RIGHTS
+Grok's original three text files are preserved in docs/audio/volcano_v4.
+TERMS_SOURCE_REVIEW records official provider URLs and bounded findings.
+Credits: Volcano sound synthesis code: Created with Grok.
+No blanket commercial/copyright clearance of GnomiT is claimed.
+
+GIT
+Only Codex's own REPORTS_ONLY text report, literal patch, terms and evidence
+summary are published. Native WAV/game/movie are in the local verified ZIP.
+No main/grant/other-bot edits, merge, or private-project integration.
+Recommended Codex setting: GPT-6.1 Sol / High (recommendation, not model telemetry).

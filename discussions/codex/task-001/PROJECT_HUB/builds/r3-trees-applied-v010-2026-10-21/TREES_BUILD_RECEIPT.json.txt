@@ -1,0 +1,401 @@
+{
+  "status": "NATIVE_SAVED_AND_GLB_EXPORTED",
+  "input_sha256": "eda6edf13d496d2bf86018339db6778ccb632bd4ee307b25d683424bf07897f4",
+  "seed": 261022,
+  "crowns": [
+    {
+      "name": "East_Crown_Sculpt",
+      "vertices": 45506,
+      "cluster_centres": 420,
+      "max_relief_m": 0.04192417813868911,
+      "old_local_bounds": [
+        [
+          -1.2778804302215576,
+          -1.0627765655517578,
+          1.4590814113616943
+        ],
+        [
+          1.2981566190719604,
+          0.9104823470115662,
+          3.379124879837036
+        ]
+      ],
+      "new_local_bounds": [
+        [
+          -1.2778804302215576,
+          -1.0627765655517578,
+          1.4590814113616943
+        ],
+        [
+          1.2981566190719604,
+          0.9104823470115662,
+          3.379124879837036
+        ]
+      ]
+    },
+    {
+      "name": "Northwest_Crown_Sculpt",
+      "vertices": 45506,
+      "cluster_centres": 420,
+      "max_relief_m": 0.04185783673736046,
+      "old_local_bounds": [
+        [
+          -1.2761077880859375,
+          -1.0626697540283203,
+          1.459428071975708
+        ],
+        [
+          1.2999975681304932,
+          0.9103824496269226,
+          3.3791379928588867
+        ]
+      ],
+      "new_local_bounds": [
+        [
+          -1.2761077880859375,
+          -1.0626697540283203,
+          1.459428071975708
+        ],
+        [
+          1.2999975681304932,
+          0.9103824496269226,
+          3.3791379928588867
+        ]
+      ]
+    },
+    {
+      "name": "Southeast_Crown_Sculpt",
+      "vertices": 45506,
+      "cluster_centres": 420,
+      "max_relief_m": 0.041466374056072765,
+      "old_local_bounds": [
+        [
+          -1.276275396347046,
+          -1.0626617670059204,
+          1.459394931793213
+        ],
+        [
+          1.2998217344284058,
+          0.9103876948356628,
+          3.379136085510254
+        ]
+      ],
+      "new_local_bounds": [
+        [
+          -1.276275396347046,
+          -1.0626617670059204,
+          1.459394931793213
+        ],
+        [
+          1.2998217344284058,
+          0.9103876948356628,
+          3.379136085510254
+        ]
+      ]
+    },
+    {
+      "name": "Southwest_Crown_Sculpt",
+      "vertices": 45506,
+      "cluster_centres": 420,
+      "max_relief_m": 0.04179533086070246,
+      "old_local_bounds": [
+        [
+          -1.2717032432556152,
+          -1.0623557567596436,
+          1.4602677822113037
+        ],
+        [
+          1.3044543266296387,
+          0.9105870127677917,
+          3.379207134246826
+        ]
+      ],
+      "new_local_bounds": [
+        [
+          -1.2717032432556152,
+          -1.0623557567596436,
+          1.4602677822113037
+        ],
+        [
+          1.3044543266296387,
+          0.9105870127677917,
+          3.379207134246826
+        ]
+      ]
+    },
+    {
+      "name": "West_Crown_Sculpt",
+      "vertices": 45506,
+      "cluster_centres": 420,
+      "max_relief_m": 0.041836467458299345,
+      "old_local_bounds": [
+        [
+          -1.275328278541565,
+          -1.062687873840332,
+          1.4595811367034912
+        ],
+        [
+          1.3008098602294922,
+          0.9103707671165466,
+          3.3791463375091553
+        ]
+      ],
+      "new_local_bounds": [
+        [
+          -1.275328278541565,
+          -1.062687873840332,
+          1.4595811367034912
+        ],
+        [
+          1.3008098602294922,
+          0.9103707671165466,
+          3.3791463375091553
+        ]
+      ]
+    }
+  ],
+  "wood_meshes": [
+    {
+      "name": "East_Branch_0",
+      "vertices": 912
+    },
+    {
+      "name": "East_Branch_1",
+      "vertices": 912
+    },
+    {
+      "name": "East_Branch_2",
+      "vertices": 912
+    },
+    {
+      "name": "East_Root_0",
+      "vertices": 912
+    },
+    {
+      "name": "East_Root_1",
+      "vertices": 912
+    },
+    {
+      "name": "East_Root_2",
+      "vertices": 912
+    },
+    {
+      "name": "East_Root_3",
+      "vertices": 912
+    },
+    {
+      "name": "East_Root_4",
+      "vertices": 912
+    },
+    {
+      "name": "East_Sculpted_Trunk",
+      "vertices": 1776
+    },
+    {
+      "name": "Northwest_Branch_0",
+      "vertices": 912
+    },
+    {
+      "name": "Northwest_Branch_1",
+      "vertices": 912
+    },
+    {
+      "name": "Northwest_Branch_2",
+      "vertices": 912
+    },
+    {
+      "name": "Northwest_Root_0",
+      "vertices": 912
+    },
+    {
+      "name": "Northwest_Root_1",
+      "vertices": 912
+    },
+    {
+      "name": "Northwest_Root_2",
+      "vertices": 912
+    },
+    {
+      "name": "Northwest_Root_3",
+      "vertices": 912
+    },
+    {
+      "name": "Northwest_Root_4",
+      "vertices": 912
+    },
+    {
+      "name": "Northwest_Sculpted_Trunk",
+      "vertices": 1776
+    },
+    {
+      "name": "Southeast_Branch_0",
+      "vertices": 912
+    },
+    {
+      "name": "Southeast_Branch_1",
+      "vertices": 912
+    },
+    {
+      "name": "Southeast_Branch_2",
+      "vertices": 912
+    },
+    {
+      "name": "Southeast_Root_0",
+      "vertices": 912
+    },
+    {
+      "name": "Southeast_Root_1",
+      "vertices": 912
+    },
+    {
+      "name": "Southeast_Root_2",
+      "vertices": 912
+    },
+    {
+      "name": "Southeast_Root_3",
+      "vertices": 912
+    },
+    {
+      "name": "Southeast_Root_4",
+      "vertices": 912
+    },
+    {
+      "name": "Southeast_Sculpted_Trunk",
+      "vertices": 1776
+    },
+    {
+      "name": "Southwest_Branch_0",
+      "vertices": 912
+    },
+    {
+      "name": "Southwest_Branch_1",
+      "vertices": 912
+    },
+    {
+      "name": "Southwest_Branch_2",
+      "vertices": 912
+    },
+    {
+      "name": "Southwest_Root_0",
+      "vertices": 912
+    },
+    {
+      "name": "Southwest_Root_1",
+      "vertices": 912
+    },
+    {
+      "name": "Southwest_Root_2",
+      "vertices": 912
+    },
+    {
+      "name": "Southwest_Root_3",
+      "vertices": 912
+    },
+    {
+      "name": "Southwest_Root_4",
+      "vertices": 912
+    },
+    {
+      "name": "Southwest_Sculpted_Trunk",
+      "vertices": 1776
+    },
+    {
+      "name": "West_Branch_0",
+      "vertices": 912
+    },
+    {
+      "name": "West_Branch_1",
+      "vertices": 912
+    },
+    {
+      "name": "West_Branch_2",
+      "vertices": 912
+    },
+    {
+      "name": "West_Root_0",
+      "vertices": 912
+    },
+    {
+      "name": "West_Root_1",
+      "vertices": 912
+    },
+    {
+      "name": "West_Root_2",
+      "vertices": 912
+    },
+    {
+      "name": "West_Root_3",
+      "vertices": 912
+    },
+    {
+      "name": "West_Root_4",
+      "vertices": 912
+    },
+    {
+      "name": "West_Sculpted_Trunk",
+      "vertices": 1776
+    }
+  ],
+  "existing_daisy_attachments": [
+    {
+      "name": "East_Canopy_Daisy_Anchor_0",
+      "local_delta_m": 0.008484724680079499
+    },
+    {
+      "name": "East_Canopy_Daisy_Anchor_1",
+      "local_delta_m": 0.004360628753499964
+    },
+    {
+      "name": "Northwest_Canopy_Daisy_Anchor_0",
+      "local_delta_m": 0.0006833649622591411
+    },
+    {
+      "name": "Northwest_Canopy_Daisy_Anchor_1",
+      "local_delta_m": 0.014828020357435334
+    },
+    {
+      "name": "Southeast_Canopy_Daisy_Anchor_0",
+      "local_delta_m": 0.012132378533138479
+    },
+    {
+      "name": "Southeast_Canopy_Daisy_Anchor_1",
+      "local_delta_m": 0.00471178848766039
+    },
+    {
+      "name": "Southwest_Canopy_Daisy_Anchor_0",
+      "local_delta_m": 0.02178922153405801
+    },
+    {
+      "name": "Southwest_Canopy_Daisy_Anchor_1",
+      "local_delta_m": 0.017389289640052687
+    },
+    {
+      "name": "West_Canopy_Daisy_Anchor_0",
+      "local_delta_m": 0.014763069644448477
+    },
+    {
+      "name": "West_Canopy_Daisy_Anchor_1",
+      "local_delta_m": 0.001331049503226421
+    }
+  ],
+  "protected_non_tree_records": 504,
+  "protected_tree_group_transforms": 5,
+  "old_materials_unchanged": true,
+  "grass_geometry_vertex_colours_uv_materials_unchanged": true,
+  "scene_settings_unchanged": true,
+  "native_blend_sha256": "7051d5c969b1b78c92edf4f112d77d9f02c304b0fc488c64f0f9b90c8c286b31",
+  "glb": {
+    "bytes": 33844808,
+    "sha256": "5f1098d97ff6ad0064a1ff0dca9917f5c73b68598b502af934b430e2e83c2c99",
+    "node_count": 568,
+    "crown_colour0_and_matte": true,
+    "ground_uv1_preserved": true
+  },
+  "human_visual_acceptance": "PENDING",
+  "fresh_native_reopen": "PASS",
+  "native_render": {
+    "samples": 128,
+    "bytes": 744129,
+    "sha256": "467750a3ee6c151c21cb52615f66836143cff1e207c1f438cb511f624d0b9548"
+  }
+}

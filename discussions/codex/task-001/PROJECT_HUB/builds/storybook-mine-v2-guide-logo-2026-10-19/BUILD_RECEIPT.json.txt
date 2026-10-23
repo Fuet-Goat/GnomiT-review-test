@@ -1,0 +1,93 @@
+{
+  "objects": 1205,
+  "mesh_objects": 993,
+  "materials": 97,
+  "images": [
+    "Authored_Oak_Colour",
+    "Authored_Oak_Endgrain",
+    "Authored_Oak_Normal",
+    "Authored_Oak_Shadow"
+  ],
+  "mine": {
+    "asset": "rounded storybook mine",
+    "components": 131,
+    "arch_blocks": 9,
+    "tunnel_depth": 1.92,
+    "reused_cylinder_meshes": 5,
+    "animation": "real point-light energy, frames 1..145, 144-frame six-second loop at 24fps",
+    "energy_watts_at_unit_scale": [
+      22.9,
+      25.5
+    ],
+    "emission_strength_max": 3.2,
+    "entrance_facing": "-Y"
+  },
+  "boardwalk": {
+    "board_count": 32,
+    "plank_top_shape": "identical four-corner rectangle",
+    "top_vertices_per_plank": 4,
+    "triangle_top_faces_in_source": 0,
+    "board_width_m": 1.68,
+    "board_depth_m": 0.19542723441276932,
+    "board_thickness_m": 0.085,
+    "center_spacing_m": 0.20142723441276933,
+    "max_adjacent_tangent_change_degrees": 3.166026470192841,
+    "underdeck_top_below_planks_m": 0.02,
+    "start": [
+      0.550000011920929,
+      1.5299999713897705,
+      0.31927159428596497
+    ],
+    "end": [
+      -0.23999999463558197,
+      -4.71999979019165,
+      0.3537534177303314
+    ],
+    "level1_fraction": 0.64,
+    "no_tapered_or_triangular_planks": true,
+    "note": "Curved lower support fills bend seams; walking boards are regular rectangles. Native render acceptance still required."
+  },
+  "guide": {
+    "height": 1.22,
+    "wave_hand": "right",
+    "lantern_hand": "left",
+    "foot_pivot_local": [
+      0,
+      0,
+      0
+    ],
+    "object_count": 73,
+    "animation_frames": [
+      1,
+      145
+    ],
+    "fps": 24
+  },
+  "level_anchors": {
+    "level1": [
+      0.3581211566925049,
+      -2.4700000286102295,
+      0.29364827275276184
+    ],
+    "mine_entry_level2": [
+      0.5976377725601196,
+      1.3737499713897705,
+      0.3266809582710266
+    ]
+  },
+  "camera": {
+    "position": [
+      1.2999999523162842,
+      -11.5,
+      13.399999618530273
+    ],
+    "ortho_scale": 14.5
+  },
+  "reference": "Visual style reference only; no raster is used as rendered geometry.",
+  "source": "Native Python-authored geometry and deterministic oak textures; artistic acceptance pending.",
+  "not_implemented": [
+    "campaign match3 launch from markers",
+    "save progression",
+    "Android acceptance"
+  ]
+}

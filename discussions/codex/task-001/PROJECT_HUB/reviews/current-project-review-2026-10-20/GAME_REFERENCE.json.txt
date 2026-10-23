@@ -1,0 +1,8 @@
+{
+  "commit": "f9864651015b5b57f94c439d311f03408fab4446",
+  "package_path": "discussions/codex/task-001/PROJECT_HUB/builds/native-mine-campaign-tutorial-2026-10-20/NATIVE_PROJECT_PACKAGE.base64.txt",
+  "bytes": 59743347,
+  "sha256": "3853c032565c3d4d2c087dd6f50eb76ab8c12e4f2b95b01904042f9e7e260e28",
+  "verified_entries": 438,
+  "contents": "Runnable current v001, assets/audio, editable native Blender source and original provenance"
+}

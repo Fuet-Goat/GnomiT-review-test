@@ -1,0 +1,46 @@
+{
+  "status": "PASS",
+  "closed_continuous_forms": [
+    {
+      "name": "Guide_tailored coat continuous shell",
+      "base_vertices": 576,
+      "signed_local_volume": 0.029842528997202748,
+      "boundary_edges": 0,
+      "connected_components": 1
+    },
+    {
+      "name": "Guide_integrated sculpted face",
+      "base_vertices": 704,
+      "signed_local_volume": 0.018091568185854372,
+      "boundary_edges": 0,
+      "connected_components": 1
+    },
+    {
+      "name": "Guide_continuous jaw wrapping beard",
+      "base_vertices": 576,
+      "signed_local_volume": 0.015268567433132381,
+      "boundary_edges": 0,
+      "connected_components": 1
+    }
+  ],
+  "guide_evaluated_triangles": 102732,
+  "guide_evaluated_meshes": 65,
+  "guide_rest_bounds_root_local": {
+    "minimum": [
+      -0.41687071323394775,
+      -0.22004017233848572,
+      0.001999996602535248
+    ],
+    "maximum": [
+      0.3675000071525574,
+      0.1724344938993454,
+      1.1748589277267456
+    ],
+    "dimensions": [
+      0.7843707203865051,
+      0.3924746662378311,
+      1.1728589311242104
+    ]
+  },
+  "measurement": "Blender source, after modifiers at frame1; not a mobile performance result"
+}

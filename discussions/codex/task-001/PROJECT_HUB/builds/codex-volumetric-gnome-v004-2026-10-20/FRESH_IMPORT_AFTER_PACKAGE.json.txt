@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "source_commit": "f0f66c8f2472f3e1b9a80aba74764580ecd75434",
+  "zip_sha256": "4ffb280f898ebd50ffe7beae408db2ec5c4a115d757f6bb962efe81c88b5a1b5",
+  "method": "Fresh Git download and verified extraction; native Godot editor import then headless main-scene startup",
+  "runtime_profile": "GnomiT-Codex-GnomeVolume-2026-10-20",
+  "human_acceptance": "PENDING",
+  "android_performance": "NOT_MEASURED"
+}

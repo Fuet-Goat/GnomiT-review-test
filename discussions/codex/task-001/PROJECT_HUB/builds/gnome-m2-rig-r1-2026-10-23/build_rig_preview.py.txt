@@ -1,0 +1,59 @@
+"""Build a separate native greeting prototype; never modify static M2."""
+from pathlib import Path
+import sys,json
+import bpy
+ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT/'source'))
+from evidence import sha,fingerprint,material_record,render
+from rig_greeting import build_rig_and_action
+from validate_rig import validate_motion,_evaluated_geometry,_max_vertex_delta
+
+SOURCE=ROOT/'native/GNOME_M2_FINISH.blend'
+EXPECTED='ceab58183d8abee88e56731795ab13751661966ef9ef85c05de015d494d0fb2e'
+NATIVE=ROOT/'native/GNOME_RIG_R1_GREETING.blend'
+
+def protected_check(before):
+    for name,record in before.items():
+        obj=bpy.data.objects[name];actual=fingerprint(obj)
+        if obj.type=='MESH' and obj.name in bpy.data.collections['R2_NEW_GNOME'].objects:
+            assert obj.modifiers[-1].type=='ARMATURE'
+            actual['modifiers']=actual['modifiers'][:-1]
+        for modifier in actual['modifiers']:modifier.pop('is_active',None)
+        assert actual==record,'Protected object changed: '+name+' '+str({k:(record[k],actual[k]) for k in record if record[k]!=actual[k]})
+
+def main():
+    assert bpy.app.background and sha(SOURCE)==EXPECTED and not NATIVE.exists()
+    bpy.ops.wm.open_mainfile(filepath=str(SOURCE));scene=bpy.context.scene
+    asset=bpy.data.collections['R2_NEW_GNOME'];root=bpy.data.objects['R2_GnomeRoot']
+    protected={o.name:fingerprint(o) for o in bpy.data.objects};materials=material_record()
+    for record in protected.values():
+        for modifier in record['modifiers']:modifier.pop('is_active',None)
+    graph=bpy.context.evaluated_depsgraph_get()
+    rest={o.name:_evaluated_geometry(o,graph)['vertices'] for o in asset.objects if o.type=='MESH'}
+    result=build_rig_and_action(asset,root);rig=result['rig'];metadata=result['metadata']
+    protected_check(protected);assert material_record()==materials
+    graph=bpy.context.evaluated_depsgraph_get()
+    rest_deltas={n:_max_vertex_delta(v,_evaluated_geometry(bpy.data.objects[n],graph)['vertices']) for n,v in rest.items()}
+    assert max(rest_deltas.values())<1e-5,rest_deltas
+    print('RIG_BUILT_REST_PRESERVED',flush=True)
+    motion=validate_motion(scene,asset,rig)
+    protected_check(protected);assert material_record()==materials
+    text=bpy.data.texts.new('START_HERE_RIG_R1')
+    text.write('Isolated native prototype. Accepted R4 form and M2 materials preserved. Play RigR1_SoftGreeting_6s_24fps: frames 1..145 at24fps; frame1 and145 are equal endpoints six seconds apart. Preview encodes frames1..144. Ten bones, soft coat weights, rigid head/props, planted feet. Reduced motion: frame1. No blink, retopology, production rig or Godot integration claimed. Human animation acceptance pending. Static M2 remains a separate unchanged file.\n')
+    bpy.context.preferences.filepaths.save_version=0
+    scene.frame_set(1)
+    assert 'FINISHED' in bpy.ops.wm.save_as_mainfile(filepath=str(NATIVE),check_existing=False)
+    for frame in (1,49,73,109,145):
+        scene.frame_set(frame);render('RIG_R1_POSE_%03d.png'%frame)
+    bpy.ops.wm.open_mainfile(filepath=str(NATIVE))
+    protected_check(protected);assert material_record()==materials and sha(SOURCE)==EXPECTED
+    assert len(bpy.data.actions)==1 and len(bpy.data.armatures)==1
+    receipt={'status':'NATIVE_SAVED_REOPENED_KEYPOSES_RENDERED','source':str(SOURCE),'source_sha256':EXPECTED,
+             'native':str(NATIVE),'native_sha256':sha(NATIVE),'static_m2_unchanged':True,
+             'accepted_underlying_meshes_transforms_parents_studio_materials':'EXACT_MATCH',
+             'rest_frame_1_evaluated_max_vertex_deltas':rest_deltas,'rig':metadata,'motion_checks':motion,
+             'human_animation_acceptance':'PENDING','game_integration':False,'android_performance':'NOT_MEASURED'}
+    (ROOT/'documentation/RIG_R1_RECEIPT.json').write_bytes((json.dumps(receipt,indent=2)+'\n').encode())
+    print('RIG_R1_COMPLETE '+json.dumps({'native_sha256':receipt['native_sha256'],'warnings':motion['warnings']}),flush=True)
+
+if __name__=='__main__':main()

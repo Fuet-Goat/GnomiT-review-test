@@ -1,0 +1,9 @@
+{
+  "number": 8,
+  "version": "v008",
+  "date": "2026-10-21",
+  "label": "Volcano A-B Tutorial Sample",
+  "project": "C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\Volcano_AB_2026-10-21",
+  "main_scene": "volcano_ab.tscn",
+  "shortcut": "v008 - 2026-10-21 - Volcano A-B Tutorial Sample.lnk"
+}

@@ -1,0 +1,170 @@
+{
+  "schema": 1,
+  "client_date": "2026-10-19",
+  "status": "LISTENING_PREVIEW_NOT_INTEGRATED",
+  "method": "3 original procedural MOVE candidates; optional supplied Grok MATCH stays separately labelled",
+  "numpy_version": "2.3.5",
+  "source_code_identity": {
+    "bytes": 8052,
+    "sha256": "51e6852498f29b24f3a07f8392085e68c8d08ca7e4dfeb6897a7c4044fe0b820"
+  },
+  "game_modified": false,
+  "audacity_processing": "NOT_USED; standard WAV listening files",
+  "human_acceptance": "PENDING",
+  "files": {
+    "01_move_crystal_preview_v1.wav": {
+      "bytes": 25004,
+      "sha256": "9d62ff8c3307de586e80a2121e8b08439abad2c9560b9f00df55f4537f18b192",
+      "format": "PCM16 mono 48000Hz",
+      "seconds": 0.26,
+      "peak_dbfs": -8.880196155636607,
+      "rms_dbfs": -23.130992895770184,
+      "contact_0_200ms_rms_dbfs": -22.000260514646172,
+      "first_last_sample": [
+        0,
+        0
+      ],
+      "dc_mean": -8.296966552734374e-06,
+      "clipped_samples": 0,
+      "last_10ms_rms_dbfs": -300.0,
+      "strongest_20ms_window_seconds": 0.02,
+      "role": "MOVE",
+      "family": "crystal",
+      "author": "Codex original procedural synthesis",
+      "seed": 2026101911,
+      "external_audio_inputs": [],
+      "human_listening": "PENDING"
+    },
+    "02_move_ore_preview_v1.wav": {
+      "bytes": 25004,
+      "sha256": "101f61e0ade5693476d9c197e6f21e421bfe8c49e16d90cbd738e5312fa61462",
+      "format": "PCM16 mono 48000Hz",
+      "seconds": 0.26,
+      "peak_dbfs": -8.000117030469568,
+      "rms_dbfs": -23.53369145542567,
+      "contact_0_200ms_rms_dbfs": -22.40111627877699,
+      "first_last_sample": [
+        0,
+        0
+      ],
+      "dc_mean": 4.611626649514223e-05,
+      "clipped_samples": 0,
+      "last_10ms_rms_dbfs": -300.0,
+      "strongest_20ms_window_seconds": 0.02,
+      "role": "MOVE",
+      "family": "ore",
+      "author": "Codex original procedural synthesis",
+      "seed": 2026101912,
+      "external_audio_inputs": [],
+      "human_listening": "PENDING"
+    },
+    "03_move_smooth_preview_v1.wav": {
+      "bytes": 25004,
+      "sha256": "da58f4a3b740f8a4f6effa6d8197a6ecc80be951890a8114bda382e42488b9ae",
+      "format": "PCM16 mono 48000Hz",
+      "seconds": 0.26,
+      "peak_dbfs": -8.000117030469568,
+      "rms_dbfs": -24.876421114080717,
+      "contact_0_200ms_rms_dbfs": -23.753448796641624,
+      "first_last_sample": [
+        0,
+        0
+      ],
+      "dc_mean": 2.242601834810697e-05,
+      "clipped_samples": 0,
+      "last_10ms_rms_dbfs": -300.0,
+      "strongest_20ms_window_seconds": 0.04,
+      "role": "MOVE",
+      "family": "smooth",
+      "author": "Codex original procedural synthesis",
+      "seed": 2026101913,
+      "external_audio_inputs": [],
+      "human_listening": "PENDING"
+    },
+    "04_match_grok_v1_reference.wav": {
+      "bytes": 153644,
+      "sha256": "37143853739ff7891a7990095624c4d701472daa4a9ca58f2466281dc9de9d1e",
+      "format": "PCM16 mono 48000Hz",
+      "seconds": 1.6,
+      "peak_dbfs": -1.5002633770788845,
+      "rms_dbfs": -24.70671682722859,
+      "contact_0_200ms_rms_dbfs": -17.002623700541168,
+      "first_last_sample": [
+        0,
+        0
+      ],
+      "dc_mean": 3.307660420735677e-06,
+      "clipped_samples": 0,
+      "last_10ms_rms_dbfs": -300.0,
+      "strongest_20ms_window_seconds": 0.02,
+      "role": "MATCH_REFERENCE",
+      "author": "Supplied Grok V1 candidate, exact bytes unchanged",
+      "source_archive": "C:\\Users\\fruch\\Downloads\\GNOMIT_GROK_AUDIO_TRIAL_V1.zip",
+      "source_archive_identity": {
+        "bytes": 599558,
+        "sha256": "9267e4a5fb7daf299feb56b0f9c79394ec42e5371117b0413232f1bf05674fba"
+      },
+      "source_member": "AUDIO/02_break_grok_v1.wav",
+      "newly_generated_by_codex": false,
+      "provenance_note": "Generator was previously inspected as procedural; original formal terms remain documented UNKNOWN",
+      "human_listening": "Candidate user found interesting; no final in-game acceptance"
+    },
+    "05_play_material_comparison_v1.wav": {
+      "bytes": 711404,
+      "sha256": "f1f1a25e724696ff1dafbc40edc5380145a56b253282ad316df16f9e244c5728",
+      "format": "PCM16 mono 48000Hz",
+      "seconds": 7.41,
+      "peak_dbfs": -1.5002633770788845,
+      "rms_dbfs": -27.928677186638517,
+      "contact_0_200ms_rms_dbfs": -300.0,
+      "first_last_sample": [
+        0,
+        0
+      ],
+      "dc_mean": 4.941946313663265e-06,
+      "clipped_samples": 0,
+      "last_10ms_rms_dbfs": -300.0,
+      "strongest_20ms_window_seconds": 5.32,
+      "role": "OFFLINE_LISTENING_STRIP",
+      "timeline": [
+        {
+          "file": "01_move_crystal_preview_v1.wav",
+          "repeat": 1,
+          "starts_seconds": 0.3
+        },
+        {
+          "file": "01_move_crystal_preview_v1.wav",
+          "repeat": 2,
+          "starts_seconds": 0.91
+        },
+        {
+          "file": "02_move_ore_preview_v1.wav",
+          "repeat": 1,
+          "starts_seconds": 1.97
+        },
+        {
+          "file": "02_move_ore_preview_v1.wav",
+          "repeat": 2,
+          "starts_seconds": 2.58
+        },
+        {
+          "file": "03_move_smooth_preview_v1.wav",
+          "repeat": 1,
+          "starts_seconds": 3.64
+        },
+        {
+          "file": "03_move_smooth_preview_v1.wav",
+          "repeat": 2,
+          "starts_seconds": 4.25
+        },
+        {
+          "file": "04_match_grok_v1_reference.wav",
+          "repeat": 1,
+          "starts_seconds": 5.31
+        }
+      ],
+      "godot_runtime_capture": false,
+      "normalization": "Unmodified cue PCM and exact silence concatenation; no strip renormalization"
+    }
+  }
+}

@@ -1,0 +1,43 @@
+OFFICIAL SOURCES — checked during initial audit, client date 2026-10-19
+Summaries only. No source is a license for an unrelated third-party recording.
+
+Blender License
+https://www.blender.org/about/license/
+Direct page and manual fetch errored; official indexed license/manual text reviewed:
+https://docs.blender.org/manual/en/4.5/getting_started/about/license.html
+GPL applies to Blender itself; artwork created with it does not inherit GPL merely
+because of the tool. Third-party inputs and add-ons need separate review.
+
+Audacity FAQ: About Audacity
+https://manual.audacityteam.org/man/faq_about_audacity.html
+Audacity is free for personal/commercial/educational use. Tool availability does
+not clear a downloaded sample. Redistributing the application is a separate issue.
+
+Godot: Complying with licenses
+https://docs.godotengine.org/en/stable/about/complying_with_licenses.html
+Godot MIT and bundled third-party notices need appropriate inclusion when
+redistributing the engine; game assets/source keep their separate licenses.
+
+SIL Open Font License FAQ
+https://openfontlicense.org/ofl-faq/
+OFL fonts can be bundled in games, including commercial games, with their notice
+and license obligations; the game need not be open-sourced because of the font.
+Actual local font metadata and local OFL text are in evidence/.
+
+Epic Games Fan Content Policy
+https://legal.epicgames.com/epicgames/fan-art-policy
+This policy is centered on noncommercial fan content, with limited exceptions.
+It is not a general grant for Epic game recordings in a commercial third-party
+game. Application to the supplied MP3 is conditional: exact authorship/content
+was not independently established by its filename.
+
+OpenAI Europe Terms of Use
+https://openai.com/policies/eu-terms-of-use/
+Reviewed in this audit for generated-media provenance: allocation of output
+between user and OpenAI does not clear third-party references; the user remains
+responsible for input rights. No assertion of exclusivity or copyright validity
+for every AI image is made here. Historical provider terms at generation time
+and each reference input remain evidence to retain.
+
+All descriptions are operational audit guidance for the reviewed materials,
+not a certificate that a particular final game package is legally cleared.

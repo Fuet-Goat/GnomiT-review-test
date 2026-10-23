@@ -1,0 +1,148 @@
+{
+  "source": "C:\\Users\\fruch\\Downloads\\01_move_grok_v4_rocks_soft_end.wav",
+  "bytes": 55722,
+  "sha256": "e3df6920ba1be6082fbfd88366b08a50706983a1da62fde1eac87c2c78d042ad",
+  "format": {
+    "channels": 1,
+    "sample_width_bytes": 2,
+    "rate": 48000,
+    "frames": 27839
+  },
+  "seconds": 0.5799791666666667,
+  "peak_dbfs": -6.000477743319013,
+  "whole_file_rms_dbfs": -20.322863362990176,
+  "clipped_samples": 0,
+  "dc_mean": 4.616168737539962e-06,
+  "first_last_pcm": [
+    -147,
+    0
+  ],
+  "last_30ms_rms_dbfs": -300.0,
+  "last_above_minus60db_seconds": 0.5299791666666667,
+  "strongest_20ms_rms_window": {
+    "start_seconds": 0.34,
+    "rms_dbfs": -10.985666527409483
+  },
+  "envelope_20ms": [
+    {
+      "start_seconds": 0.0,
+      "rms_dbfs": -36.31245522340754
+    },
+    {
+      "start_seconds": 0.02,
+      "rms_dbfs": -38.912917579085274
+    },
+    {
+      "start_seconds": 0.04,
+      "rms_dbfs": -25.55635736053044
+    },
+    {
+      "start_seconds": 0.06,
+      "rms_dbfs": -24.82127008522264
+    },
+    {
+      "start_seconds": 0.08,
+      "rms_dbfs": -14.891186562398442
+    },
+    {
+      "start_seconds": 0.1,
+      "rms_dbfs": -17.280211186113682
+    },
+    {
+      "start_seconds": 0.12,
+      "rms_dbfs": -25.600046139136275
+    },
+    {
+      "start_seconds": 0.14,
+      "rms_dbfs": -23.45967362480063
+    },
+    {
+      "start_seconds": 0.16,
+      "rms_dbfs": -24.810189670232855
+    },
+    {
+      "start_seconds": 0.18,
+      "rms_dbfs": -24.285351174942242
+    },
+    {
+      "start_seconds": 0.2,
+      "rms_dbfs": -25.729916410977232
+    },
+    {
+      "start_seconds": 0.22,
+      "rms_dbfs": -27.83376163025569
+    },
+    {
+      "start_seconds": 0.24,
+      "rms_dbfs": -25.66785852132327
+    },
+    {
+      "start_seconds": 0.26,
+      "rms_dbfs": -38.557329521619415
+    },
+    {
+      "start_seconds": 0.28,
+      "rms_dbfs": -32.65631021563375
+    },
+    {
+      "start_seconds": 0.3,
+      "rms_dbfs": -35.422766184327116
+    },
+    {
+      "start_seconds": 0.32,
+      "rms_dbfs": -15.780821494513823
+    },
+    {
+      "start_seconds": 0.34,
+      "rms_dbfs": -10.985666527409483
+    },
+    {
+      "start_seconds": 0.36,
+      "rms_dbfs": -13.94574603864297
+    },
+    {
+      "start_seconds": 0.38,
+      "rms_dbfs": -16.827795641487985
+    },
+    {
+      "start_seconds": 0.4,
+      "rms_dbfs": -19.534158216869443
+    },
+    {
+      "start_seconds": 0.42,
+      "rms_dbfs": -22.505775892441598
+    },
+    {
+      "start_seconds": 0.44,
+      "rms_dbfs": -25.578294325385226
+    },
+    {
+      "start_seconds": 0.46,
+      "rms_dbfs": -28.526516888335607
+    },
+    {
+      "start_seconds": 0.48,
+      "rms_dbfs": -31.357596523639984
+    },
+    {
+      "start_seconds": 0.5,
+      "rms_dbfs": -34.07538170825517
+    },
+    {
+      "start_seconds": 0.52,
+      "rms_dbfs": -39.20607369360097
+    },
+    {
+      "start_seconds": 0.54,
+      "rms_dbfs": -300.0
+    },
+    {
+      "start_seconds": 0.56,
+      "rms_dbfs": -300.0
+    }
+  ],
+  "review_method": "Signal analysis only; no auditory/human listening evaluation",
+  "provenance": "Standalone WAV: author/tool/source recipe not independently established",
+  "game_modified": false,
+  "audio_modified": false
+}

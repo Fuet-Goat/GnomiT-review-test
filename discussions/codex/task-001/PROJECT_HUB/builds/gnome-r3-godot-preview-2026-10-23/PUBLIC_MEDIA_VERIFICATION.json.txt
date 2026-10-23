@@ -1,0 +1,35 @@
+{
+  "source_commit": "ae847cb151d64149d4931e981c0f4aed5e7ca5f7",
+  "existing_assets_unchanged": true,
+  "existing_asset_count": 25,
+  "media": [
+    {
+      "name": "GNOMIT_R3_GODOT_GREETING.gif",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/gnome-r3-visual-review-2026-10-22/GNOMIT_R3_GODOT_GREETING.gif",
+      "bytes": 4985574,
+      "sha256": "9661191a98a6dcdade2420afb9227591c3b04f5b8b9800e197e54d6ce8e3258c",
+      "anonymous_readback_byte_identical": true
+    },
+    {
+      "name": "GNOMIT_R3_BLENDER_GODOT_KEYPOSES.png",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/gnome-r3-visual-review-2026-10-22/GNOMIT_R3_BLENDER_GODOT_KEYPOSES.png",
+      "bytes": 431405,
+      "sha256": "e4ab5201519c197325416012471ffb958e610e73c50b05a8224e20c05ce10ffe",
+      "anonymous_readback_byte_identical": true
+    },
+    {
+      "name": "GNOMIT_R3_GODOT_SLEEVE_KEYPOSES.png",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/gnome-r3-visual-review-2026-10-22/GNOMIT_R3_GODOT_SLEEVE_KEYPOSES.png",
+      "bytes": 165013,
+      "sha256": "b8354c4c8f8d966025c09e08e2317ecd84e759898f8a750a42fc722af80e99e6",
+      "anonymous_readback_byte_identical": true
+    },
+    {
+      "name": "GNOMIT_R3_GODOT_PREVIEW_2026-10-23.zip",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/gnome-r3-visual-review-2026-10-22/GNOMIT_R3_GODOT_PREVIEW_2026-10-23.zip",
+      "bytes": 31409095,
+      "sha256": "7019c749dbb9cbf6b8b940a2c9f857c82252c57a116e31242b387c803320f5fc",
+      "anonymous_readback_byte_identical": true
+    }
+  ]
+}

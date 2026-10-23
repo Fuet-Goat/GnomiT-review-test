@@ -1,0 +1,319 @@
+{
+  "files": [
+    {
+      "path": "COMPARISON/R1_NORMALS_FIXED_432x960.png",
+      "bytes": 581587,
+      "sha256": "672a796fc03fc9d03e8188c5dfc975e9458189ca461d6a71ee4e056dba711ee7"
+    },
+    {
+      "path": "COMPARISON/R1_VS_R2.png",
+      "bytes": 843467,
+      "sha256": "b500fab8a2787231a10949e7a021d9deb975fcc0a263afb6cb5a074fe3baa469"
+    },
+    {
+      "path": "COMPARISON/R2_CAMERA_CONTROL.png",
+      "bytes": 759977,
+      "sha256": "d7efcc9bdd433309b1756185374a49540b0f162f6db8e66bf14d06bef4f573c7"
+    },
+    {
+      "path": "FINAL_RESPONSE.txt",
+      "bytes": 904,
+      "sha256": "84ffb5aac26f1f7386f17ad489d38f2997f9c56bdaabfe72b80e894a09caf52d"
+    },
+    {
+      "path": "GPT_R2_SOURCE_PROPOSAL/BASE_RECONSTRUCTION.json.txt",
+      "bytes": 1344,
+      "sha256": "c43c74f6e52c8ce63f5ad72f75a5f54471086f7bf77f1bc988b21afacbe440cb"
+    },
+    {
+      "path": "GPT_R2_SOURCE_PROPOSAL/CHANGELOG.txt",
+      "bytes": 2493,
+      "sha256": "0f73a170e2a7da767c712df48db25f5972ef54bcf194b1c29290f0093520ab39"
+    },
+    {
+      "path": "GPT_R2_SOURCE_PROPOSAL/DELIVERY_MANIFEST.json.txt",
+      "bytes": 3495,
+      "sha256": "281b9899fbd191ef82660058c5ebf1fdc1e95a17ded57d1d7c949fd97199632d"
+    },
+    {
+      "path": "GPT_R2_SOURCE_PROPOSAL/PROVENANCE.json.txt",
+      "bytes": 2671,
+      "sha256": "0cc4f448aa5b97f71cf408bfff8c2bb402c264975229b59a525d6992e723ace1"
+    },
+    {
+      "path": "GPT_R2_SOURCE_PROPOSAL/README_BG.txt",
+      "bytes": 2435,
+      "sha256": "84ce749aaf6372485a842988e7be8d318d185aef673a839f9e45301a117deb86"
+    },
+    {
+      "path": "GPT_R2_SOURCE_PROPOSAL/REMOTE_READBACK.json.txt",
+      "bytes": 3845,
+      "sha256": "9b89ca630c6efeefedc1ba0525e7105462a7055847b37dc14d3d2879bed78c9e"
+    },
+    {
+      "path": "GPT_R2_SOURCE_PROPOSAL/REPORT.txt",
+      "bytes": 7118,
+      "sha256": "0e04dc4e7fadedf26ed035dfb492547dccff8cd67e87ecd93ae979630a2f6215"
+    },
+    {
+      "path": "GPT_R2_SOURCE_PROPOSAL/REVIEW_PLAN.txt",
+      "bytes": 1566,
+      "sha256": "1f491b41280774f45f6fa532affeeda8097f97c7ad352a327511d7a138980241"
+    },
+    {
+      "path": "GPT_R2_SOURCE_PROPOSAL/SOURCE/boardwalk.py.txt",
+      "bytes": 9961,
+      "sha256": "f143de084142f171d029de07fdf72c60872bb2a0063946a419a57b6a0ec30333"
+    },
+    {
+      "path": "GPT_R2_SOURCE_PROPOSAL/SOURCE/build_scene.py.txt",
+      "bytes": 11173,
+      "sha256": "d424110a5f54dcce012592da3f09009711bfb3289328d6e8bfd11c5b078594ce"
+    },
+    {
+      "path": "GPT_R2_SOURCE_PROPOSAL/SOURCE/environment.py.txt",
+      "bytes": 11640,
+      "sha256": "ab959e1b6043348b97029cc9d2dd1ddf59cd31961dc5a89de4ca64e6aa1a6941"
+    },
+    {
+      "path": "GPT_R2_SOURCE_PROPOSAL/SOURCE/geometry.py.txt",
+      "bytes": 7449,
+      "sha256": "5b4ed5846a26fc46062d8b1c158130625b4eb5d5a2ae8691e9c6f61e9837b130"
+    },
+    {
+      "path": "GPT_R2_SOURCE_PROPOSAL/SOURCE/materials.py.txt",
+      "bytes": 3846,
+      "sha256": "5d56f408bc7ff7522fb54d96ee76bdc57be3a00fdeab37ad35b0e3d944ca8c66"
+    },
+    {
+      "path": "GPT_R2_SOURCE_PROPOSAL/SOURCE/mine.py.txt",
+      "bytes": 6943,
+      "sha256": "13e26f83ad5a9b30b9c2c2cb99b33609e2ee1824618eee0700115a520e78a170"
+    },
+    {
+      "path": "GPT_R2_SOURCE_PROPOSAL/SOURCE/presentation.py.txt",
+      "bytes": 9552,
+      "sha256": "9efaa599772f8485f222dcb93bd089fce111ceeef51f083eb2a6836c8f39eab7"
+    },
+    {
+      "path": "GPT_R2_SOURCE_PROPOSAL/SOURCE/scene_settings.json.txt",
+      "bytes": 4596,
+      "sha256": "9b009f8113a63045e815686027801bb79c798cdc4f0d68d763719831ead32efc"
+    },
+    {
+      "path": "GPT_R2_SOURCE_PROPOSAL/STATIC_REVIEW.json.txt",
+      "bytes": 3611,
+      "sha256": "695fdb76f2ce1537bde60baeef933b19ca59d4e8075e892f902cd32d01d28b98"
+    },
+    {
+      "path": "MEASUREMENTS.json",
+      "bytes": 2590,
+      "sha256": "5df8babd54449a746dbd79fca9e15f40baf913d431b823c78ad11cc5998246e7"
+    },
+    {
+      "path": "PROVENANCE.json",
+      "bytes": 1184,
+      "sha256": "91ef42c25165aec1fc25c63fd2d699ee185082d579c40ec7a6811ccfa413e11f"
+    },
+    {
+      "path": "R2_EXACT_NATIVE/BUILD_RECEIPT.json",
+      "bytes": 4227,
+      "sha256": "777dd352c01b09c0a692ac0c158f732149155a33ccb38cdbbbe19fcc6ab34ac2"
+    },
+    {
+      "path": "R2_EXACT_NATIVE/EXPORT/gnomit_airy_island_v001.glb",
+      "bytes": 7773548,
+      "sha256": "04dac414cf57baa36dde56286482748abf6987a14127b2b6ded6d519291a5657"
+    },
+    {
+      "path": "R2_EXACT_NATIVE/gnomit_airy_island_v001.blend",
+      "bytes": 1619481,
+      "sha256": "22c059ba6fb0b083357b497b20a7e3b03c257aa679ab4e273b37d36dd993be2e"
+    },
+    {
+      "path": "R2_EXACT_NATIVE/OUTPUT_MANIFEST.json",
+      "bytes": 3150,
+      "sha256": "41263b4a173ba0f7f3bb43a4a35da9d6ed533a6099ffd434a77353999b0091de"
+    },
+    {
+      "path": "R2_EXACT_NATIVE/PROVENANCE.json",
+      "bytes": 2116,
+      "sha256": "344864c16ba6b0057921d9c3f7514fcb6e55fdca0d12d14185824fe52fdf94c3"
+    },
+    {
+      "path": "R2_EXACT_NATIVE/README_BG.txt",
+      "bytes": 364,
+      "sha256": "850f51c0d66ab4e50e9df53c498b3d518423d4b5e645f15265142afbf56be25e"
+    },
+    {
+      "path": "R2_EXACT_NATIVE/RENDERS/01_BEAUTY_432x960.png",
+      "bytes": 579421,
+      "sha256": "ff20dc191a3d2ee453b93c5eaef221fc6b7b3e4c67080bdc2748f779b40833db"
+    },
+    {
+      "path": "R2_EXACT_NATIVE/SCENE_METADATA.json",
+      "bytes": 21185,
+      "sha256": "f7fce3b546e986bfa9f0de9d02e3a80e23abe2254ccc0853a241ea09d5a18826"
+    },
+    {
+      "path": "R2_EXACT_NATIVE/SETTINGS_USED.json",
+      "bytes": 4868,
+      "sha256": "8273f07e1602898d485342381b1a15ee27df538dfd48e141d7e6830c2cefbdd8"
+    },
+    {
+      "path": "R2_EXACT_NATIVE/SOURCE/boardwalk.py",
+      "bytes": 9961,
+      "sha256": "f143de084142f171d029de07fdf72c60872bb2a0063946a419a57b6a0ec30333"
+    },
+    {
+      "path": "R2_EXACT_NATIVE/SOURCE/build_scene.py",
+      "bytes": 11173,
+      "sha256": "d424110a5f54dcce012592da3f09009711bfb3289328d6e8bfd11c5b078594ce"
+    },
+    {
+      "path": "R2_EXACT_NATIVE/SOURCE/environment.py",
+      "bytes": 11640,
+      "sha256": "ab959e1b6043348b97029cc9d2dd1ddf59cd31961dc5a89de4ca64e6aa1a6941"
+    },
+    {
+      "path": "R2_EXACT_NATIVE/SOURCE/geometry.py",
+      "bytes": 7449,
+      "sha256": "5b4ed5846a26fc46062d8b1c158130625b4eb5d5a2ae8691e9c6f61e9837b130"
+    },
+    {
+      "path": "R2_EXACT_NATIVE/SOURCE/materials.py",
+      "bytes": 3846,
+      "sha256": "5d56f408bc7ff7522fb54d96ee76bdc57be3a00fdeab37ad35b0e3d944ca8c66"
+    },
+    {
+      "path": "R2_EXACT_NATIVE/SOURCE/mine.py",
+      "bytes": 6943,
+      "sha256": "13e26f83ad5a9b30b9c2c2cb99b33609e2ee1824618eee0700115a520e78a170"
+    },
+    {
+      "path": "R2_EXACT_NATIVE/SOURCE/presentation.py",
+      "bytes": 9552,
+      "sha256": "9efaa599772f8485f222dcb93bd089fce111ceeef51f083eb2a6836c8f39eab7"
+    },
+    {
+      "path": "R2_EXACT_NATIVE/SOURCE/scene_settings.json",
+      "bytes": 4596,
+      "sha256": "9b009f8113a63045e815686027801bb79c798cdc4f0d68d763719831ead32efc"
+    },
+    {
+      "path": "R2_EXACT_NATIVE/TEXTURES/Airy_bark.png",
+      "bytes": 31454,
+      "sha256": "0ddc0721d1a37afe5c7b542acd1ae2c153413c0a9644453263dbc74aca53f209"
+    },
+    {
+      "path": "R2_EXACT_NATIVE/TEXTURES/Airy_endgrain.png",
+      "bytes": 57184,
+      "sha256": "e048f16dfcf0b8df0ebbc306bb1a000d5811794fd347be522018907320d1e39f"
+    },
+    {
+      "path": "R2_EXACT_NATIVE/TEXTURES/Airy_wood.png",
+      "bytes": 38683,
+      "sha256": "fc439d6471305ec93fa09fc80008a6bf73c38af0930957b6c63525bb550964c2"
+    },
+    {
+      "path": "R2_EXACT_NATIVE/TEXTURES/Airy_wood_dark.png",
+      "bytes": 28659,
+      "sha256": "bf7b308ef09ac9aba7e8f82bc938255f2f0890136db69adf8a98237ca8052fb6"
+    },
+    {
+      "path": "R2_EXACT_NATIVE/TEXTURES/Airy_wood_light.png",
+      "bytes": 42274,
+      "sha256": "5bad7a0aa083af863eba53c596a1bed3f714ce543186c88b4232bfdcd018f4bd"
+    },
+    {
+      "path": "README.txt",
+      "bytes": 1650,
+      "sha256": "a4c4b4e972a03be4c51bb090f84a65a2f087646e42bc108d6cb42df71d345d4e"
+    },
+    {
+      "path": "REFERENCE/PRIMARY_TARGET_COMPARISON.png",
+      "bytes": 2634535,
+      "sha256": "a7d9b4f82fe73a2e5ab641261b9cbc14765e6360c9c108ab7ee9a51b0bc84add"
+    },
+    {
+      "path": "REPORT.txt",
+      "bytes": 5518,
+      "sha256": "0df3e553a1b7ae5d620853e3f1d585f5116b72fec8eaba76709742fb351de536"
+    },
+    {
+      "path": "REVIEW/DELEGATED_REVIEW.txt",
+      "bytes": 635,
+      "sha256": "ce489a55a3112c87695454970f2092d8411434b18a879c117d492015807038f9"
+    },
+    {
+      "path": "REVIEW/EXACT_R2_BUILD.log",
+      "bytes": 61104,
+      "sha256": "6b20c535896f0138b759c8d94dbf2f797ff0df76170faef1f60d082fa889e91a"
+    },
+    {
+      "path": "REVIEW/NATIVE_VERIFICATION.log",
+      "bytes": 860,
+      "sha256": "93a36cf47043f044742f6cc9fd3a4d2e5c4d214d4375d74fbaf7dc26ae9061f9"
+    },
+    {
+      "path": "REVIEW/NATIVE_VERIFICATION_V2.log",
+      "bytes": 39662,
+      "sha256": "8cb35b8a469ecbf695f7a6bfe30e476f2e62d550a80a37c77a1070950f3a8475"
+    },
+    {
+      "path": "REVIEW/PROGRESS.txt",
+      "bytes": 1073,
+      "sha256": "05470058471c9f12af27f3f55ef1d310a8abe75fea01e21aa6d48a107fe1b9ca"
+    },
+    {
+      "path": "REVIEW/R1_VS_R2_DISPLAY.png",
+      "bytes": 843467,
+      "sha256": "b500fab8a2787231a10949e7a021d9deb975fcc0a263afb6cb5a074fe3baa469"
+    },
+    {
+      "path": "REVIEW/SOURCE_RECEIPT.json",
+      "bytes": 2477,
+      "sha256": "780a0ff5a936030d05a675a523566faa573ef225fc82521134d52f32c76db00c"
+    },
+    {
+      "path": "REVIEW/TOOLS/materialize_gpt_island_r2.py",
+      "bytes": 3111,
+      "sha256": "60af8f3f8f2b4b8fc9666ce0a77eb7e9fa4082bbbe0925dbe4f826a9dc213806"
+    },
+    {
+      "path": "REVIEW/TOOLS/package_gpt_island_r2.py",
+      "bytes": 16937,
+      "sha256": "0323eef279e0993e37f84954d3a4cb211072523751c76360353b29d1451c3ee4"
+    },
+    {
+      "path": "REVIEW/TOOLS/verify_gpt_island_r2.py",
+      "bytes": 8192,
+      "sha256": "6fd77111cd1c1da48ddf7281889516473e997044a0e05d4760b3557226620e64"
+    },
+    {
+      "path": "REVIEW/VERIFY_ATTEMPT1.py",
+      "bytes": 8055,
+      "sha256": "99b93cb025539a31b6ffbb8a222428f6d922eb7f923c3c9654b77657fe0a36de"
+    },
+    {
+      "path": "VERIFICATION/IMAGE_DECODE.json",
+      "bytes": 351,
+      "sha256": "809d97312ed5aaf2dfe1396c34dc02fdc44faed3891b2280532d3134525aaf83"
+    },
+    {
+      "path": "VERIFICATION/NATIVE_VERIFICATION.json",
+      "bytes": 9461,
+      "sha256": "4aa9d31859c203f17369e65b01acd3d6daa05bb63e5c63f36914fe8336a213de"
+    },
+    {
+      "path": "VERIFICATION/R2_CONTROL_53deg_432x960.png",
+      "bytes": 578509,
+      "sha256": "e2c08e67801eb4811f31a646c9cda0a61520cdffd2b65b830035f48fe510e369"
+    },
+    {
+      "path": "VERIFICATION/R2_REOPEN_43deg_432x960.png",
+      "bytes": 579180,
+      "sha256": "b389bb15b06cfa71bb1915a01269641da5110ae11e008eeae910b28221f7c682"
+    }
+  ]
+}

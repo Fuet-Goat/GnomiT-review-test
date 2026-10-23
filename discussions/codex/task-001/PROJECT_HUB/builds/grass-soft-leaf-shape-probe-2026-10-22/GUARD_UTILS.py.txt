@@ -1,0 +1,133 @@
+"""Two isolated native grass-material trials on the selected home-start scene.
+
+Only Island_Grass_Cap material slot0 changes. No geometry/scatter/scene relight.
+"""
+from pathlib import Path
+import hashlib,json,struct,sys
+import bpy
+
+ROOT=Path(__file__).resolve().parents[1]
+BASE=ROOT/'INPUTS/HOME_START_SELECTED.blend'
+EXPECTED='5dd1234c888e8498ecfd1c58726c74a137dd26defd30fc9b690d985839544d3c'
+OUT=ROOT/'RESULT'
+
+def sha(data):return hashlib.sha256(data).hexdigest()
+def fingerprint(data):return sha(json.dumps(data,sort_keys=True,separators=(',',':')).encode())
+def write(path,data):
+ path.parent.mkdir(parents=True,exist_ok=True)
+ path.write_bytes((json.dumps(data,ensure_ascii=False,indent=2)+'\n').encode())
+def vec(value):
+ if value is None or isinstance(value,(bool,int,float,str)):return value
+ if hasattr(value,'to_list'):return value.to_list()
+ try:return [vec(v) for v in value]
+ except TypeError:return str(value)
+def object_record(obj):
+ data={'type':obj.type,'matrix_world':[list(row) for row in obj.matrix_world],
+       'hide_render':obj.hide_render,'materials':[s.material.name if s.material else None for s in obj.material_slots]}
+ if obj.type=='MESH':data['mesh']=fingerprint({'verts':[list(v.co) for v in obj.data.vertices],'faces':[list(p.vertices) for p in obj.data.polygons]})
+ if obj.type=='CURVE':data['curve']=fingerprint([{'type':s.type,'points':[list(p.co) for p in s.points],'bezier':[(list(p.co),list(p.handle_left),list(p.handle_right)) for p in s.bezier_points]} for s in obj.data.splines])
+ if obj.type=='CAMERA':data['camera']={'type':obj.data.type,'scale':obj.data.ortho_scale,'sensor_fit':obj.data.sensor_fit,'lens':obj.data.lens}
+ if obj.type=='LIGHT':data['light']={'type':obj.data.type,'energy':obj.data.energy,'color':list(obj.data.color),'size':getattr(obj.data,'size',None)}
+ return data
+def nodes_record(tree):
+ if tree is None:return None
+ return {'nodes':[{'name':n.name,'type':n.bl_idname,'inputs':[(s.name,vec(s.default_value)) for s in n.inputs if hasattr(s,'default_value')]} for n in tree.nodes],
+         'links':[(l.from_node.name,l.from_socket.name,l.to_node.name,l.to_socket.name) for l in tree.links]}
+def settings_record(scene):
+ return {'camera':object_record(scene.camera),'view':{'transform':scene.view_settings.view_transform,'look':scene.view_settings.look,'exposure':scene.view_settings.exposure,'gamma':scene.view_settings.gamma},
+         'world':nodes_record(scene.world.node_tree),'frame':scene.frame_current,
+         'render':{'engine':scene.render.engine,'device':scene.cycles.device,'samples':scene.cycles.samples,'seed':scene.cycles.seed,'width':scene.render.resolution_x,'height':scene.render.resolution_y,'percentage':scene.render.resolution_percentage,'threads':scene.render.threads,'denoise':scene.cycles.use_denoising}}
+def original_materials():return {m.name:fingerprint({'color':list(m.diffuse_color),'nodes':nodes_record(m.node_tree)}) for m in bpy.data.materials}
+def linear(c):return c/12.92 if c<=0.04045 else ((c+0.055)/1.055)**2.4
+def color(hex_value):return tuple(linear(int(hex_value[i:i+2],16)/255) for i in (0,2,4))+(1.0,)
+
+CONFIG={
+ 'A':{'label':'Soft storybook turf','roughness':0.86,'macro_scale':0.55,'macro_detail':2.0,'macro_colors':['6BBC39','73C73B','83CF45'],
+      'fine_scale':13.0,'fine_vector_scale':[1.0,1.0,1.0],'fine_detail':2.0,'bump_strength':0.18,'bump_distance_metres':0.008,'fine_color_mix':0.04},
+ 'B':{'label':'Fine short-grass surface','roughness':0.86,'macro_scale':0.55,'macro_detail':2.0,'macro_colors':['6BBC39','73C73B','83CF45'],
+      'fine_scale':13.0,'fine_vector_scale':[1.0,3.0,1.0],'fine_detail':2.0,'bump_strength':0.40,'bump_distance_metres':0.012,'fine_color_mix':0.16},
+}
+
+def grass_material(base,key,cfg):
+ m=base.copy();m.name='GnomiT_Grass_Trial_'+key
+ tree=m.node_tree;nodes=tree.nodes;links=tree.links
+ p=nodes.get('Principled BSDF');assert p is not None
+ for n in list(nodes):
+  if n!=p and n.bl_idname!='ShaderNodeOutputMaterial':nodes.remove(n)
+ p.inputs['Roughness'].default_value=cfg['roughness']
+ p.inputs['Metallic'].default_value=0.0
+ coord=nodes.new('ShaderNodeTexCoord');coord.name='Grass_Local_Metre_Coordinates';coord.location=(-900,0)
+ macro=nodes.new('ShaderNodeTexNoise');macro.name='Grass_Broad_Green_Variation';macro.location=(-680,140)
+ macro.inputs['Scale'].default_value=cfg['macro_scale'];macro.inputs['Detail'].default_value=cfg['macro_detail'];macro.inputs['Roughness'].default_value=0.5
+ links.new(coord.outputs['Object'],macro.inputs['Vector'])
+ ramp=nodes.new('ShaderNodeValToRGB');ramp.name='Grass_Low_Contrast_Colours';ramp.location=(-440,180)
+ ramp.color_ramp.interpolation='EASE'
+ ramp.color_ramp.elements[0].position=0.18;ramp.color_ramp.elements[0].color=color(cfg['macro_colors'][0])
+ ramp.color_ramp.elements[1].position=0.82;ramp.color_ramp.elements[1].color=color(cfg['macro_colors'][2])
+ ramp.color_ramp.elements.new(0.5).color=color(cfg['macro_colors'][1])
+ links.new(macro.outputs['Fac'],ramp.inputs['Fac'])
+ scale=nodes.new('ShaderNodeVectorMath');scale.operation='MULTIPLY';scale.name='Grass_Fine_Anisotropy';scale.location=(-680,-190)
+ scale.inputs[1].default_value=cfg['fine_vector_scale'];links.new(coord.outputs['Object'],scale.inputs[0])
+ fine=nodes.new('ShaderNodeTexNoise');fine.name='Grass_Fine_Surface';fine.location=(-440,-150)
+ fine.inputs['Scale'].default_value=cfg['fine_scale'];fine.inputs['Detail'].default_value=cfg['fine_detail'];fine.inputs['Roughness'].default_value=0.6
+ links.new(scale.outputs['Vector'],fine.inputs['Vector'])
+ grain=nodes.new('ShaderNodeValToRGB');grain.name='Grass_Restrained_Fine_Contrast';grain.location=(-210,20)
+ grain.color_ramp.elements[0].color=(0.82,0.82,0.82,1);grain.color_ramp.elements[1].color=(1.08,1.08,1.08,1)
+ links.new(fine.outputs['Fac'],grain.inputs['Fac'])
+ mix=nodes.new('ShaderNodeMixRGB');mix.blend_type='MULTIPLY';mix.name='Grass_Colour_Grain';mix.location=(25,150)
+ mix.inputs[0].default_value=cfg['fine_color_mix'];links.new(ramp.outputs['Color'],mix.inputs[1]);links.new(grain.outputs['Color'],mix.inputs[2]);links.new(mix.outputs['Color'],p.inputs['Base Color'])
+ bump=nodes.new('ShaderNodeBump');bump.name='Grass_Soft_Surface_Normal';bump.location=(20,-120)
+ bump.inputs['Strength'].default_value=cfg['bump_strength'];bump.inputs['Distance'].default_value=cfg['bump_distance_metres'];links.new(fine.outputs['Fac'],bump.inputs['Height']);links.new(bump.outputs['Normal'],p.inputs['Normal'])
+ p.location=(270,120)
+ m['trial_parameters_json']=json.dumps(cfg,sort_keys=True)
+ m['portability']='Native procedural preview. Bake/recreate shader before runtime GLB integration; not yet performed.'
+ return m
+
+def render(scene,path):
+ scene.render.filepath=str(path)
+ assert 'FINISHED' in bpy.ops.render.render(write_still=True)
+ data=path.read_bytes();assert data[:8]==b'\x89PNG\r\n\x1a\n' and struct.unpack('>II',data[16:24])==(432,960)
+ return {'path':path.name,'bytes':len(data),'sha256':sha(data),'width':432,'height':960,'samples':scene.cycles.samples}
+
+def main():
+ assert bpy.app.background and '--factory-startup' in sys.argv
+ assert sha(BASE.read_bytes())==EXPECTED and not OUT.exists()
+ OUT.mkdir();(OUT/'RENDERS').mkdir();(OUT/'VERIFICATION').mkdir()
+ bpy.context.preferences.filepaths.save_version=0
+ bpy.ops.wm.open_mainfile(filepath=str(BASE));scene=bpy.context.scene;scene.frame_set(1);bpy.context.view_layer.update()
+ guard={o.name:object_record(o) for o in scene.objects};settings=settings_record(scene);materials=original_materials()
+ cap=bpy.data.objects['Island_Grass_Cap'];assert [s.material.name for s in cap.material_slots]==['Airy_grass','Airy_grass_shadow']
+ baseline=render(scene,OUT/'RENDERS/00_BASELINE_432x960.png')
+ records=[]
+ for key,cfg in CONFIG.items():
+  bpy.ops.wm.open_mainfile(filepath=str(BASE));scene=bpy.context.scene;scene.frame_set(1);bpy.context.view_layer.update()
+  assert settings_record(scene)==settings
+  cap=bpy.data.objects['Island_Grass_Cap'];cap.material_slots[0].material=grass_material(cap.material_slots[0].material,key,cfg)
+  after={o.name:object_record(o) for o in scene.objects}
+  changed=[name for name in guard if guard[name]!=after[name]]
+  assert set(guard)==set(after) and changed==['Island_Grass_Cap'],changed
+  before_cap=guard['Island_Grass_Cap'].copy();after_cap=after['Island_Grass_Cap'].copy()
+  before_cap.pop('materials');after_cap.pop('materials');assert before_cap==after_cap
+  assert all(original_materials()[name]==value for name,value in materials.items())
+  assert settings_record(scene)==settings
+  scene.render.filepath='//RENDERS/0'+('1' if key=='A' else '2')+'_GRASS_'+key+'_432x960.png'
+  blend=OUT/('0'+('1' if key=='A' else '2')+'_GRASS_'+key+'.blend');assert not blend.exists()
+  note=bpy.data.texts.new('START_HERE_GRASS_TRIAL')
+  note.write('Grass material trial '+key+' only. Exact home-start scene, unchanged camera/light/geometry/guide/flowers. Only Island_Grass_Cap slot0 is copied/reassigned. Procedural grass is NOT runtime-ready or baked.\n')
+  assert 'FINISHED' in bpy.ops.wm.save_as_mainfile(filepath=str(blend),check_existing=False)
+  image=render(scene,OUT/'RENDERS'/('0'+('1' if key=='A' else '2')+'_GRASS_'+key+'_432x960.png'))
+  records.append({'variant':key,'parameters':cfg,'blend':blend.name,'blend_sha256':sha(blend.read_bytes()),'render':image,'only_changed_object_record':changed,'protected_object_records_unchanged':len(guard)-1,'original_material_node_inputs_links_unchanged':True,'slot1_lip_and_shared_tuft_material_unchanged':True,'camera_light_world_render_settings_unchanged':True})
+ # Freshly reopen each saved native file and inspect the material nodes/parameters.
+ for row in records:
+  bpy.ops.wm.open_mainfile(filepath=str(OUT/row['blend']));scene=bpy.context.scene;scene.frame_set(1);bpy.context.view_layer.update()
+  assert settings_record(scene)==settings
+  mat=bpy.data.objects['Island_Grass_Cap'].material_slots[0].material
+  assert json.loads(mat['trial_parameters_json'])==row['parameters']
+  assert mat.node_tree.nodes.get('Grass_Soft_Surface_Normal') is not None
+  assert bpy.data.objects['Island_Grass_Cap'].material_slots[1].material.name=='Airy_grass_shadow'
+  row['fresh_native_reopen']='PASS'
+ write(OUT/'VERIFICATION/GRASS_TRIALS_RECEIPT.json',{'status':'TWO_NATIVE_MATERIAL_TRIALS_RENDERED_AND_REOPENED','source_blend_sha256':EXPECTED,'baseline_render':baseline,'variants':records,'baseline_settings':settings,'geometry_or_object_layout_changes':False,'new_textures_downloaded':False,'new_geometry_or_flowers':False,'runtime_glb_export_or_bake':'NOT_PERFORMED','android':'NOT_MEASURED','human_choice':'PENDING'})
+ assert sha(BASE.read_bytes())==EXPECTED
+ print('GRASS_TRIALS '+json.dumps({'status':'TWO_NATIVE_MATERIAL_TRIALS_RENDERED_AND_REOPENED','output':str(OUT),'variant_count':len(records)}))
+
+if __name__=='__main__':main()

@@ -1,0 +1,20 @@
+{
+  "format": "Blender native with Geometry Nodes instances",
+  "candidate": "native/WHOLE_MAP_LOW_GRASS_H2.blend",
+  "static_preview": true,
+  "render_px": [
+    432,
+    960
+  ],
+  "detail_px": [
+    512,
+    512
+  ],
+  "body_instances": 178938,
+  "edge_instances": 1068,
+  "blade_copies": 450016,
+  "prototype_variants": 17,
+  "runtime_ready": false,
+  "game_integration": "NOT_PERFORMED",
+  "candidate_sha256": "6f08ae54a5fe21a2db5eca22bcc14928bbaa24a04f79b0e5d8ad3312ee681677"
+}

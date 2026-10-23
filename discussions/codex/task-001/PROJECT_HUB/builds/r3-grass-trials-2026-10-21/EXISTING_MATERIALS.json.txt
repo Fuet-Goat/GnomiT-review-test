@@ -1,0 +1,4 @@
+{
+  "packages": [],
+  "note": "Full native input .blend and source are inside this archive. Parent publication pins are in provenance."
+}

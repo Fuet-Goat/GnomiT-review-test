@@ -1,0 +1,9 @@
+GnomiT — общ разговор GPT–Grok–Codex за пълни магически анимации.
+Прочети и изпълни общия brief от Git:
+https://github.com/Fuet-Goat/GnomiT-review-test/blob/codex/codex/task-001/discussions/codex/task-001/PROJECT_HUB/designs/MAGIC_ANIMATION_TEAM_BRIEF_BG.txt
+
+Промптът е еднакъв за GPT и Grok; определи BOT от действителната си самоличност. Запиши input commit-а на brief-а. Прочети Codex предложението, точната референция на харесаните иконки и AGENTS/собствения task-001 grant от main.
+Добави собствен MAGIC_ANIMATION_R1_2026-10-17 — INDEPENDENT_PROPOSAL в discussions/<BOT>/task-001/REPORT.txt на codex/<BOT>/task-001: конкретни storyboard-и за Volcano, Tornado H/V и Black Hole; реално налични инструменти; формати, Git предаване и Godot интеграция; кой от тримата да води и кой да допълва. Иконките се пазят, механиките не се обсъждат отначало.
+Ако вече има твой R1 по този topic, не го повтаряй. Първо публикувай R1 без да чакаш другия. След действителните отговори — най-много един peer response. Всичко съществено остава в Git; в чата върни статус, commit, REPORT линк и предложен lead. Не обявявай най-добър аниматор без сравними работещи проби.
+Сега REPORTS_ONLY: текстов разговор, без генерации, код, тестове, game execution, grant промени или merge. Не чакай нов art grant за този разговор. Не твърди, че си видял или направил новата анимация без реален материал.
+Препоръка за Codex: GPT-6.1 Sol / High. Grok: Build с реален Git достъп. Промптът не превключва режима.

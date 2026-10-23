@@ -1,0 +1,27 @@
+{
+  "decode": "PASS",
+  "dimensions": [
+    432,
+    960
+  ],
+  "reopen_pixels_identical": false,
+  "max_channel_difference_8bit": [
+    [
+      0,
+      1
+    ],
+    [
+      0,
+      1
+    ],
+    [
+      0,
+      1
+    ]
+  ],
+  "mean_absolute_difference_8bit": [
+    4.099151234567901e-05,
+    3.8580246913580246e-05,
+    2.652391975308642e-05
+  ]
+}

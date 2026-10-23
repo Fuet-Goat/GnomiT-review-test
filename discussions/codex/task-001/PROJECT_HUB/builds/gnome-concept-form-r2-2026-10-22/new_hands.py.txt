@@ -1,0 +1,110 @@
+"""R2 hands authored as fused coarse forms, not R1's palm-plus-thumb balls.
+
+Front is -Y.  Anatomical right (-X) offers an open upward palm; the left
+hand (+X) curls around a real lantern handle.  This is static clay only.
+No Blender file is loaded, no rig is created, and no animation is authored.
+"""
+
+from mathutils import Vector
+
+
+def build_hands(api, cuffs):
+    """Return two new fused hands and canonical lantern attachment metadata.
+
+    Required API: ellipsoid(name, center, scale, material=...),
+    tube(name, points, radii, depth=.7, material=...), and
+    union(name, parts, voxel=.006).  The supplied default clay is reused.
+    ``cuffs`` is the ``build_body(api)['cuffs']`` dictionary.
+    """
+    ellipsoid, tube, union = api['ellipsoid'], api['tube'], api['union']
+    clay = api.get('clay')
+    prefix = api.get('prefix', 'R2')
+
+    def ball(name, center, scale):
+        if clay is None:
+            return ellipsoid(name, tuple(center), scale)
+        return ellipsoid(name, tuple(center), scale, material=clay)
+
+    def sweep(name, points, radii, depth=.82):
+        kwargs = {'depth': depth}
+        if clay is not None:
+            kwargs['material'] = clay
+        return tube(name, [tuple(p) for p in points], radii, **kwargs)
+
+    # The palm spans X/-Y and faces +Z.  A tapered wrist overlaps the cuff
+    # and the palm, so the gesture grows out of the sleeve without a gap.
+    right = cuffs['right']
+    rc, rp = Vector(right['center']), Vector(right['hand_center'])
+    right_parts = [
+        sweep(prefix + '_right_wrist',
+              [rc - Vector(right['direction']) * .022,
+               rc + (rp - rc) * .48, rp], [.052, .047, .042], .72),
+        ball(prefix + '_right_palm', rp, (.059, .060, .030)),
+        ball(prefix + '_right_thenar', rp + Vector((-.032, .003, .013)),
+             (.032, .035, .028)),
+    ]
+    # Four coarse fingers fan slightly in plan and curl upward at their ends.
+    # Their roots overlap the palm; narrow distal gaps preserve a hand-shaped
+    # outline at map scale without detailed nails or knuckle ornament.
+    x_offsets = [-.039, -.014, .012, .036]
+    lengths = [.065, .079, .074, .058]
+    for i, (dx, length) in enumerate(zip(x_offsets, lengths)):
+        spread = (i - 1.5) * .005
+        points = [rp + Vector((dx, -.030, -.001)),
+                  rp + Vector((dx + spread * .4, -.063, -.002)),
+                  rp + Vector((dx + spread, -.037 - length, .013)),
+                  rp + Vector((dx + spread, -.032 - length, .025))]
+        right_parts.append(sweep(prefix + '_right_finger_' + str(i + 1),
+                                  points, [.018, .017, .0145, .0055], .91))
+    right_parts.append(sweep(prefix + '_right_thumb',
+        [rp + Vector((-.038, .023, .006)),
+         rp + Vector((-.072, .006, .031)),
+         rp + Vector((-.086, -.017, .048)),
+         rp + Vector((-.078, -.038, .049))],
+        [.024, .023, .019, .006], .92))
+    right_hand = union(prefix + '_OpenInvitationHand', right_parts, voxel=.003)
+
+    # The lantern hand is a loose hook grip.  The palm sits behind the top
+    # bar; four fingers descend in front, then curl under and back toward it.
+    left = cuffs['left']
+    lc, lp = Vector(left['center']), Vector(left['hand_center'])
+    top = Vector(left.get('lantern_handle_top', tuple(lp + Vector((.005, -.012, 0)))))
+    left_parts = [
+        sweep(prefix + '_left_wrist',
+              [lc - Vector(left['direction']) * .022,
+               lc + (lp - lc) * .50, lp], [.051, .046, .041], .80),
+        ball(prefix + '_left_palm', lp + Vector((0, .010, .015)),
+             (.058, .036, .050)),
+    ]
+    for i, dx in enumerate([-.038, -.013, .013, .038]):
+        short = .006 if i in (0, 3) else 0
+        points = [top + Vector((dx, .012, .024)),
+                  top + Vector((dx, -.030, .006)),
+                  top + Vector((dx, -.034, -.034 + short)),
+                  top + Vector((dx, -.010, -.050 + short)),
+                  top + Vector((dx, .010, -.034 + short))]
+        left_parts.append(sweep(prefix + '_left_grip_finger_' + str(i + 1),
+                                 points, [.0185, .018, .016, .014, .0055], .91))
+    # Thumb crosses the index side in front of the bar, closing the gesture.
+    left_parts.append(sweep(prefix + '_left_grip_thumb',
+        [lp + Vector((-.047, .009, .026)),
+         top + Vector((-.058, -.016, .006)),
+         top + Vector((-.044, -.041, -.015)),
+         top + Vector((-.026, -.037, -.024))],
+        [.024, .022, .018, .006], .90))
+    left_hand = union(prefix + '_LanternGripHand', left_parts, voxel=.003)
+
+    return {
+        'objects': [right_hand, left_hand],
+        'right': right_hand,
+        'left': left_hand,
+        'invitation_palm_center': tuple(rp),
+        'grip_center': tuple(top),
+        'lantern_handle_top': tuple(top),
+        'lantern_handle_plane_y': float(top.y),
+        'lantern_handle_half_width': .055,
+        'lantern_handle_bottom_z': float(top.z - .085),
+        'fingers_per_hand': 4,
+        'thumbs_per_hand': 1,
+        'construction': 'new fused coarse palm, four swept fingers and thumb; static clay',
+    }

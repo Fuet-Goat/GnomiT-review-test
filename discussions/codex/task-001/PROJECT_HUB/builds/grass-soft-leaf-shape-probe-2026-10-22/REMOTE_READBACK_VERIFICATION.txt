@@ -1,0 +1,23 @@
+ACTUAL REMOTE DELIVERY —2026-10-22
+Artifact commit:ae336f3b2f589910b7797f4f98b8f6c0ed9b1f68
+Branch:codex/codex/task-001. No merge/main/grant changes.
+
+Fetched PACKAGE_RECEIPT and all8real Base64 parts from the exact commit.
+Downloader checked part bytes/hashes,strict Base64,decoded-part hashes,
+ZIP bytes/hash,CRC,safe exact entry paths,all31file bytes/hashes before
+extraction and again after extraction into a new directory. Result:PASS.
+
+ZIP:GNOMIT_GRASS_SOFT_LEAF_SHAPE_PROBE_2026-10-22.zip
+Bytes:44391420
+SHA256:ff5ffb74d6685c7f014e2498877f0d9ad03b9510e2954e11d810ec55959d858e
+Entries:31
+
+The downloaded C was opened in a fresh Blender5.2.2 LTS process with
+--factory-startup --disable-autoexec. No downloaded script was executed.
+Checked124725vertices,78674faces,7590leaves,2559tufts,5packed images,
+no linked library. No native save;exit0. SHA before/after:
+afd0c35e0450bd46c26a8cd5c65762510ef409b738454c410b5ea614ab0daee5
+
+Binary delivery/native opening verified. Human art choice PENDING.
+No Godot/Android/performance/game acceptance is inferred.
+Current selector remains the existing v014;C is an isolated native probe.

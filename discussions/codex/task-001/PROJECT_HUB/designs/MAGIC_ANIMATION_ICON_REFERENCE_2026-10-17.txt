@@ -1,0 +1,41 @@
+GNOMIT — EXACT EXISTING ICON REFERENCE, NOT A NEW ASSET
+User feedback2026-10-17:current icon liked100%;preserve appearance,improve activation animation around it.
+Source local:scripts/lab/natural_power_board.gd;10704bytes;SHA-256 9225666048153c7c7c2cf44aba9871f75b4222f0dfafbfcb622ba8002e65d61b.
+Git-readable full source delta:https://github.com/Fuet-Goat/GnomiT-review-test/blob/e735361c44e3359fc2a614e9d4bab57b92f6812d/discussions/codex/task-001/PROJECT_HUB/builds/NATURAL_POWERS_LAB_REVIEW_PATCH_2026-10-17.txt
+Painted ore texture comes from baseline/game/assets/storybook/treasures_v4.png atbd2dfe7fddd300bd8425cd1c5b0846fe50c4f3d2. Volcano draws the existing ore kind2 then adds a short lavafissure and crater. Tornado is the existing directed spiral. Do not independently regenerate icons for this discussion.
+This text reproduces the exact icon method. It is not a screenshot,shaderupload,gameexecution or claim that peers visually saw the local lab.
+
+func _draw_gem(center: Vector2, kind: int, radius: float, alpha: float, stretch: Vector2 = Vector2.ONE) -> void:
+	if kind < TORNADO_H:
+		super._draw_gem(center, kind, radius, alpha, stretch)
+		return
+	if alpha <= 0.0 or radius < 0.3: return
+	if kind == VOLCANO:
+		# Reuse the painted ore's volume; fissures and crater identify the power.
+		super._draw_gem(center, 2, radius * 0.95, alpha, stretch)
+	draw_set_transform(center, 0.0, stretch)
+	if kind != VOLCANO:
+		draw_circle(Vector2(0, radius * 0.67), radius * 0.91, Color(0.03,0.03,0.05,alpha*0.30),true,-1,true)
+	if kind == VOLCANO:
+		var silhouette := PackedVector2Array([Vector2(-1.03,0.75),Vector2(-0.72,0.0),Vector2(-0.40,-0.76),Vector2(0.34,-0.76),Vector2(0.67,-0.10),Vector2(1.05,0.75)])
+		for i in silhouette.size(): silhouette[i] *= radius
+		draw_colored_polygon(silhouette, Color(0.37,0.24,0.20,alpha*0.12))
+		draw_polyline(PackedVector2Array([Vector2(-0.20,-0.59)*radius,Vector2(-0.10,-0.17)*radius,Vector2(0.22,0.08)*radius,Vector2(0.10,0.60)*radius]),Color(1.0,0.38,0.13,alpha),maxf(2.0,radius*0.12),true)
+		draw_set_transform(center + Vector2(-0.025,-0.72)*radius,0.0,stretch*Vector2(1,0.38))
+		draw_circle(Vector2.ZERO,radius*0.41,Color(0.18,0.10,0.11,alpha),true,-1,true)
+		draw_arc(Vector2.ZERO,radius*0.41,0.0,TAU,28,Color(1.0,0.64,0.25,alpha),maxf(1.4,radius*0.09),true)
+	else:
+		for band in range(5):
+			var y := radius * (0.70 - float(band) * 0.33)
+			var w := radius * (0.22 + float(band) * 0.16)
+			draw_set_transform(center + Vector2(0,y)*stretch,0.0,stretch*Vector2(1,0.30))
+			draw_circle(Vector2.ZERO,w,Color(0.35+band*0.055,0.56+band*0.045,0.60+band*0.045,alpha),true,-1,true)
+			draw_arc(Vector2.ZERO,w,PI*0.92,PI*1.91,24,Color(0.89,0.94,0.85,alpha*0.90),maxf(1.4,radius*0.09),true)
+		draw_set_transform(center,0.0,stretch)
+		var direction := Vector2.RIGHT if kind == TORNADO_H else Vector2.DOWN
+		var side := direction.orthogonal()
+		var arrow_color := Color(1,0.81,0.40,alpha)
+		for sign_value in [-1.0,1.0]:
+			var tip: Vector2 = direction * float(sign_value) * radius * 0.90
+			draw_polyline(PackedVector2Array([tip-direction*sign_value*radius*0.22+side*radius*0.16,tip,tip-direction*sign_value*radius*0.22-side*radius*0.16]),arrow_color,maxf(1.5,radius*0.09),true)
+	draw_set_transform(Vector2.ZERO)

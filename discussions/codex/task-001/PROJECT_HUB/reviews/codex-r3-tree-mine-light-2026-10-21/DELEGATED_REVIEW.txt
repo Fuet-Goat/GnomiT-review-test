@@ -1,0 +1,8 @@
+Read-only r3_art_direction viewed R2/target, audited root mine/material/config,
+and reviewed actual selected R3. No build blocker or visible road obstruction
+found; it noted a slightly glossier crown highlight as a human preference.
+r3_tree_sculpt implemented only tree() in the separate source derivative and
+checked translated-math topology. Root inspected the source, checked all non-tree
+functions, executed Blender and verified native topology/geometry preservation.
+These are internal contributions/reviews, not external GPT/Grok consensus or
+human visual acceptance. See actual receipts for completed native checks.

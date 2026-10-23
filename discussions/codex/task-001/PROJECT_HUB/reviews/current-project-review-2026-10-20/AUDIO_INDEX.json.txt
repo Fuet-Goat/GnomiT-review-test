@@ -1,0 +1,151 @@
+{
+  "files": [
+    {
+      "path": "audio/elements/earthquake_stones_v1.wav",
+      "bytes": 127934,
+      "sha256": "590a68abb33743b1ea6d5c86f85dd6cc331cbf915fb9f36e61580d1b8e099071"
+    },
+    {
+      "path": "audio/elements/elements_quiet_short_v1.wav",
+      "bytes": 15920,
+      "sha256": "af248c4586538890719119c5fea51e0ce9e246cf719011b1fd932b3eb31da786"
+    },
+    {
+      "path": "audio/elements/fusion_gravity_v1.wav",
+      "bytes": 163214,
+      "sha256": "7c643a4bef093f491d6cdc6d56d0c4be4f486d6dcdc07207d96142dd0ab1302d"
+    },
+    {
+      "path": "audio/elements/fusion_material_v2.wav",
+      "bytes": 247004,
+      "sha256": "42eca2b5f8769d5ff67db83f2f41d6ef41e91876c0a31ff2c3084551f368ad69"
+    },
+    {
+      "path": "audio/lightning/storm_cartoon_v1.wav",
+      "bytes": 282284,
+      "sha256": "6d231b86864c703e417282b9379698adc3577ef47eb1a4903f36577b9fd2a8c7"
+    },
+    {
+      "path": "audio/lightning/storm_cartoon_v2.wav",
+      "bytes": 282284,
+      "sha256": "bd3ecf606774106f0426800e475c33e97b2d15d6b16433bed306b5da23ee3ddc"
+    },
+    {
+      "path": "audio/lightning/storm_short_v1.wav",
+      "bytes": 15920,
+      "sha256": "4ef3ab02c180016bc205f659b4155c62c052a8e4df317f84c8a39e39689badd5"
+    },
+    {
+      "path": "audio/reward_rules/fusion_10_10_soft_v1.wav",
+      "bytes": 493964,
+      "sha256": "bbd8fc607a45292b43c5dafb4e949bb6f784a5dbd41016ff9b3e2637fb12ebed"
+    },
+    {
+      "path": "audio/reward_rules/fusion_6_10_soft_v1.wav",
+      "bytes": 493964,
+      "sha256": "d1c54a133812655412269831aad325fa8b16b21411e284579ed106afbc839076"
+    },
+    {
+      "path": "audio/reward_rules/fusion_6_6_soft_v1.wav",
+      "bytes": 493964,
+      "sha256": "4da029773bf66834ca4a5d93154d641d43c9c4ff96efe060e8beff3ed9a04782"
+    },
+    {
+      "path": "audio/reward_rules/fusion_6_9_soft_v1.wav",
+      "bytes": 493964,
+      "sha256": "5cd7b0e8a59190af0f5ef89c9a7e1703de4e70650f39b1e9a8bb24f9e98400b1"
+    },
+    {
+      "path": "audio/reward_rules/fusion_9_10_soft_v1.wav",
+      "bytes": 493964,
+      "sha256": "ca9ee0bda217b0cfc7b329853ba575035d7ae149e51489b61e7e411c6ad9218e"
+    },
+    {
+      "path": "audio/reward_rules/fusion_9_9_soft_v1.wav",
+      "bytes": 493964,
+      "sha256": "7893bd5c6d89fce8a41e018ceae4cda1c74c683bc42d846b0db1887c73fbfa0c"
+    },
+    {
+      "path": "audio/reward_rules/reward_birth_soft_v1.wav",
+      "bytes": 44144,
+      "sha256": "4b424d949d554ba572f63260d2ee3bb158d8a2d0fc50842be75ebd18426dffb9"
+    },
+    {
+      "path": "audio/stone_break_full_v1.wav",
+      "bytes": 185298,
+      "sha256": "9e573bc03b5f427614005774116ef3c84cfa5b9ba486440871331d0d54ac307f"
+    },
+    {
+      "path": "audio/stone_break_v1.wav",
+      "bytes": 60076,
+      "sha256": "b122dd28955f51fe4ea8d7db8cd9d53fd3a569de02ca8429b8a9eb2adb60f6e8"
+    },
+    {
+      "path": "audio/stone_break_v2.wav",
+      "bytes": 10662,
+      "sha256": "00bea1bced131b1565429109de2c75ca4bf6aa719e078bac1047898da57124f5"
+    },
+    {
+      "path": "audio/stone_move_cartoon_selected_v1.ogg",
+      "bytes": 7360,
+      "sha256": "45ac41d8bbf97f713ba5d979ffd497b63a79f530acf3d4c73eb591832880c8b9"
+    },
+    {
+      "path": "audio/stone_move_mid_soft_v1.wav",
+      "bytes": 44366,
+      "sha256": "d205cf45a27c556998c4d02c64b3870b41380ae76035f2bad0b167272139722b"
+    },
+    {
+      "path": "audio/stone_move_short_soft_v1.wav",
+      "bytes": 31054,
+      "sha256": "1744ac35f1200bd8219197f7a585fc478f3f326785589be2e406745c7a667bcc"
+    },
+    {
+      "path": "audio/stone_move_v1.wav",
+      "bytes": 42414,
+      "sha256": "db6039cb201e2cdc51c3e1fd4849d92492a5fef025731ef2a0260c1ce1fb74c8"
+    },
+    {
+      "path": "audio/stone_move_v2.wav",
+      "bytes": 14190,
+      "sha256": "1bda455077d0ff829ff0aeb2882f7faf31aa9b510fab96636034ae677f37d286"
+    },
+    {
+      "path": "audio/tornado/tornado_cartoon_magic_v1.wav",
+      "bytes": 250532,
+      "sha256": "c599537fb85b98f7bb11432eda5b4657915150b327f70b19dd2233fc9711fa53"
+    },
+    {
+      "path": "audio/tornado/tornado_soft_short_v1.wav",
+      "bytes": 19448,
+      "sha256": "55a20721ee57df1b8a39b93995281792c812bba5e1587b55272188f2b112e193"
+    },
+    {
+      "path": "audio/volcano/eruption_soft_v1.wav",
+      "bytes": 81188,
+      "sha256": "3ba1530e006b39b3e20af8683085cb2f1ffb7db4ad26051d6fa683434b38f9e4"
+    },
+    {
+      "path": "audio/volcano/gnomit_volcano_cartoon_eruption.mp3",
+      "bytes": 16724,
+      "sha256": "165bba4707d48883e96d1c7626400e36a454e206469d58b3b21ec9c536fda27c"
+    },
+    {
+      "path": "audio/volcano/lava_flight_soft_v1.wav",
+      "bytes": 26504,
+      "sha256": "9451170e02e409789852074b013989807bb55d55a6fb1a0e76064c2a8828f903"
+    },
+    {
+      "path": "audio/volcano/magma_impact_burn_v1.wav",
+      "bytes": 63548,
+      "sha256": "39c9ebfd6313cb00aa30f6d3b45d9096fc3c94b6c9a3cf49f904b8ed46b38364"
+    },
+    {
+      "path": "audio/volcano/volcano_eruption_v4_3s.wav",
+      "bytes": 297644,
+      "sha256": "e14235fd8ae7af0f3ec0565053fa1c21885e7fd4f057a7f2a91c43dcb25ada4d"
+    }
+  ],
+  "count": 29,
+  "status": "Original source cue bytes from current assets/sfx; not all legacy clips are wired. Inspect source_current/scripts/campaign/power_audio.gd and its banks for usage. No listening or rights-clearance claim."
+}

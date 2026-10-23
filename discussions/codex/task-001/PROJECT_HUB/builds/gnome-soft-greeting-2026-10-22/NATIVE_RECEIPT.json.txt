@@ -1,0 +1,19 @@
+{
+  "status": "NATIVE_SAVED_REOPENED_RENDERED",
+  "input_sha256": "676ce882fd4917aed92f90fc7deb3b9986a1013ed22e12756dcd5c20062b3bef",
+  "native_sha256": "c09994b1fe6820c537b56b5699ef8099aeded4645c9c667db338cbc731d8a220",
+  "protected_world_objects": 591,
+  "new_actions": 9,
+  "old_actions_retained_unchanged": true,
+  "old_materials_retained_unchanged": true,
+  "root_boots_fixed_all_121_frames": true,
+  "source_unchanged": true,
+  "animation_frames": [
+    1,
+    121
+  ],
+  "fps": 24,
+  "Godot_integration": "NOT_PERFORMED",
+  "Human_visual_acceptance": "PENDING",
+  "Android": "NOT_MEASURED"
+}

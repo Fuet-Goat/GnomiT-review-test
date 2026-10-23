@@ -1,0 +1,360 @@
+diff --git "a/C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\VolcanoV4_2026-10-19\\scripts\\first_crystals_view.gd" "b/C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\AliveExperience_2026-10-19\\scripts\\first_crystals_view.gd"
+index 89c127b..f9dc4f2 100644
+--- "a/C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\VolcanoV4_2026-10-19\\scripts\\first_crystals_view.gd"
++++ "b/C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\AliveExperience_2026-10-19\\scripts\\first_crystals_view.gd"
+@@ -7,6 +7,12 @@ const Trails=preload("res://scripts/goal_trails.gd")
+ const Art=preload("res://scripts/story_art.gd")
+ const BACKGROUND=preload("res://assets/first_crystals/cave_background_v1.png")
+ const ATLAS=Art.TREASURES
++const AliveHero=preload("res://scripts/alive/alive_hero.gd")
++const Ambient=preload("res://scripts/alive/ambient_light.gd")
++var alive_enabled:=true
++var alive_hero
++var alive_ambient
++var alive_shadow: TextureRect
+ var board
+ var moves_label: Label
+ var goal_label: Label
+@@ -64,6 +70,12 @@ func _ready() -> void:
+ 	guardian=texture(Art.material(3));guardian.hide()
+ 	helper=label("Light the way!",24)
+ 	trails=Trails.new();add_child(trails);trails.z_index=20;trails.arrived.connect(on_arrived)
++	if alive_enabled:
++		alive_ambient=Ambient.new();alive_ambient.mode="cave";alive_ambient.reduced_motion=reduced_motion
++		add_child(alive_ambient);move_child(alive_ambient,0)
++		alive_shadow=texture(preload("res://assets/shared_v2/contact_shadow.png"))
++		move_child(alive_shadow,gnome.get_index())
++		alive_hero=AliveHero.new();alive_hero.reduced_motion=reduced_motion;gnome.add_child(alive_hero)
+ 	layout()
+ func texture(image: Texture2D) -> TextureRect:
+ 	var t=TextureRect.new();t.texture=image;t.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;t.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED;t.mouse_filter=Control.MOUSE_FILTER_IGNORE;add_child(t);return t
+@@ -142,6 +154,8 @@ func layout() -> void:
+ 	hint_button.position=Vector2(w*0.5-156*unit,size.y-75*unit);hint_button.size=Vector2(312,62)*unit
+ 	move_caption.add_theme_font_size_override("font_size",int(20*unit));goal_caption.add_theme_font_size_override("font_size",int(20*unit));secondary_goal_label.add_theme_font_size_override("font_size",int(25*unit))
+ 	moves_label.add_theme_font_size_override("font_size",int(48*unit));goal_label.add_theme_font_size_override("font_size",int(42*unit));status_label.add_theme_font_size_override("font_size",int(23*unit));helper.add_theme_font_size_override("font_size",int(24*unit));hint_button.add_theme_font_size_override("font_size",int(26*unit))
++	if is_instance_valid(alive_ambient):alive_ambient.size=size
++	if is_instance_valid(alive_shadow):alive_shadow.position=gnome.position;alive_shadow.size=gnome.size
+ 	queue_redraw()
+ func update_stats(moves: int, collected: int, goal: int) -> void:
+ 	target=goal;shown_collected=mini(collected,goal);moves_label.text=str(moves);goal_label.text="%d / %d"%[shown_collected,target];lantern_bar.max_value=maxi(1,goal);lantern_bar.value=shown_collected
+@@ -166,6 +180,10 @@ func on_arrived(amount: int) -> void:
+ 	goal_icon.pivot_offset=goal_icon.size*0.5
+ 	_pulse=create_tween();_pulse.tween_property(goal_icon,"scale",Vector2.ONE*1.13,0.07);_pulse.tween_property(goal_icon,"scale",Vector2.ONE,0.12)
+ func celebrate() -> void:
++	if is_instance_valid(alive_hero):
++		alive_hero.reduced_motion=reduced_motion
++		alive_hero.celebrate();helper.text="Passage open!"
++		return
+ 	gnome.texture=Art.gnome(true)
+ 	helper.text="Passage open!"
+ 	if reduced_motion:return
+
+diff --git "a/C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\VolcanoV4_2026-10-19\\scripts\\main.gd" "b/C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\AliveExperience_2026-10-19\\scripts\\main.gd"
+index 3c59676..1b9311d 100644
+--- "a/C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\VolcanoV4_2026-10-19\\scripts\\main.gd"
++++ "b/C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\AliveExperience_2026-10-19\\scripts\\main.gd"
+@@ -4,6 +4,14 @@ const Progress = preload("res://scripts/progress.gd")
+ const Core = preload("res://scripts/match_core.gd")
+ const RockAudio=preload("res://scripts/rock_audio.gd")
+ var rock_audio
++const AliveHero=preload("res://scripts/alive/alive_hero.gd")
++const MineEntry=preload("res://scripts/alive/mine_entry.gd")
++var alive_enabled:=true
++# Explicit harness seam: normal interactive play keeps the existing time seed.
++var pilot_seed_override: int=-1
++var entry_transition: Control
++var _window_has_focus:=true
++var _alive_extra_actors: Array[WeakRef]=[]
+ const Board = preload("res://scripts/board_view.gd")
+ const World = preload("res://scripts/world_view.gd")
+ const Art=preload("res://scripts/story_art.gd")
+@@ -50,7 +58,7 @@ var _paused: bool = false
+ 
+ func _ready() -> void:
+ 	get_tree().auto_accept_quit = false
+-	DisplayServer.window_set_title("GnomiT — Frankenstein R1 · TEST PROGRESS")
++	DisplayServer.window_set_title("GnomiT — Alive Experience · TEST PROGRESS")
+ 	if DisplayServer.get_name()!="headless" and DisplayServer.get_screen_count()>1:
+ 		DisplayServer.window_set_current_screen(0)
+ 	ui_theme = _make_theme()
+@@ -77,6 +85,11 @@ func _ready() -> void:
+ 	show_map()
+ 
+ func _notification(what: int) -> void:
++	if what==NOTIFICATION_WM_WINDOW_FOCUS_OUT:
++		_window_has_focus=false
++		cancel_entry(false)
++	elif what==NOTIFICATION_WM_WINDOW_FOCUS_IN:
++		_window_has_focus=true
+ 	if what == NOTIFICATION_WM_CLOSE_REQUEST and progress != null:
+ 		progress.persist()
+ 		get_tree().quit()
+@@ -84,6 +97,10 @@ func _notification(what: int) -> void:
+ func _unhandled_key_input(event: InputEvent) -> void:
+ 	if event is InputEventKey and event.pressed and not event.echo:
+ 		if event.keycode == KEY_ESCAPE:
++			if entry_active():
++				cancel_entry(true)
++				get_viewport().set_input_as_handled()
++				return
+ 			if current_screen == "play" and core != null and (core.won or core.lost):
+ 				get_viewport().set_input_as_handled()
+ 				return
+@@ -160,6 +177,7 @@ func _button(text: String, action: Callable, kind: String = "wood") -> Button:
+ 	return b
+ 
+ func _new_screen(name: String) -> void:
++	cancel_entry(false)
+ 	if is_instance_valid(map_view):
+ 		_slice_session=map_view.get_session_state()
+ 		_saved_map_scroll=map_view.current_scroll();_saved_map_offset=map_view.current_offset()
+@@ -214,7 +232,7 @@ func _header(title: String, subtitle: String, back: bool = false) -> void:
+ func show_map() -> void:
+ 	_new_screen("map")
+ 	box.hide();world.hide()
+-	map_view=StoryMap.new()
++	map_view=StoryMap.new();map_view.alive_enabled=alive_enabled
+ 	map_view.session_state=_slice_session.duplicate(true)
+ 	map_view.configure(progress,Levels.ordinary(),_next_level(),progress.option("reduced_motion"),_return_from_id,_saved_map_scroll,_saved_map_offset)
+ 	_return_from_id=""
+@@ -236,6 +254,7 @@ func _gnome(extent: Vector2) -> TextureRect:
+ 	g.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+ 	g.size = extent
+ 	g.mouse_filter = Control.MOUSE_FILTER_IGNORE
++	if alive_enabled:_alive_attach(g)
+ 	return g
+ 
+ func _layout_nodes() -> void:
+@@ -289,6 +308,7 @@ func show_level_preview(id: String) -> void:
+ 	pre_level_view.configure(data,progress.best_stars(id),progress.is_unlocked(id),_unlock_reason(id),progress.option("reduced_motion"))
+ 	pre_level_view.reward_available=id not in progress.data.claimed
+ 	modal=pre_level_view;add_child(modal)
++	if alive_enabled:_alive_attach(pre_level_view.guide)
+ 	pre_level_view.closed.connect(_close_modal)
+ 	pre_level_view.play_requested.connect(func(chosen: String) -> void:
+ 		if not is_instance_valid(pre_level_view) or chosen!=pre_level_view.level_id or not progress.is_unlocked(chosen):return
+@@ -313,24 +333,29 @@ func _set_navigation_interaction(enabled: bool) -> void:
+ 		chamber_view.back.disabled=not enabled
+ 
+ func start_level(id: String) -> void:
+-	if not progress.is_unlocked(id): return
++	if entry_active() or not progress.is_unlocked(id): return
++	var entry_context: Dictionary=_capture_entry_context()
++
+ 	_map_focus_before_play=_next_level()
+ 	_new_screen("play")
+ 	current_level = Levels.get_level(id)
+ 	if current_level.is_empty(): show_map(); return
+ 	seed_counter += 1
+ 	core = Core.new()
+-	core.setup(current_level,int(Time.get_ticks_msec()) + seed_counter*7919)
++	core.setup(current_level,pilot_seed_override if pilot_seed_override>=0 else int(Time.get_ticks_msec()) + seed_counter*7919)
+ 	world.guardian_light = 0.0
+ 	if not current_level.is_empty():
+ 		box.hide();world.hide()
+-		first_scene=FirstCrystals.new();stage.add_child(first_scene)
+-		first_scene.reduced_motion=progress.option("reduced_motion")
++		first_scene=FirstCrystals.new();first_scene.alive_enabled=alive_enabled
++		first_scene.reduced_motion=progress.option("reduced_motion");stage.add_child(first_scene)
+ 		board=first_scene.board;moves_label=first_scene.moves_label;goal_label=first_scene.goal_label;status_label=first_scene.status_label;lantern_bar=first_scene.lantern_bar
+ 		board.setup(core,progress.option("reduced_motion"));first_scene.configure(current_level,core);board.swap_requested.connect(_on_swap);board.foley_requested.connect(_play_foley)
++		if alive_enabled:board.foley_requested.connect(_alive_on_foley)
+ 		first_scene.pause_requested.connect(show_pause);first_scene.hint_requested.connect(_hint);first_scene.exit_requested.connect(_exit_level)
+ 		action_buttons.assign([first_scene.pause_button,first_scene.hint_button,first_scene.exit_button])
+-		_resize_stage();first_scene.layout();_update_hud();return
++		_resize_stage();first_scene.layout();_update_hud()
++		if not entry_context.is_empty():_begin_entry(entry_context)
++		return
+ func _remaining(values: Array) -> int:
+ 	var remaining: int = 0
+ 	for value in values:
+@@ -353,7 +378,7 @@ func _update_hud() -> void:
+ 	world.guardian_light = clampf(float(core.collected)/maxf(1,float(core.collect_goal)),0.0,1.0)
+ 
+ func _on_swap(a: int, b: int) -> void:
+-	if current_screen != "play" or _paused or board == null or board.busy: return
++	if current_screen != "play" or _paused or entry_active() or board == null or board.busy: return
+ 	if core.won or core.lost:return
+ 	var generation: int = play_generation
+ 	var active_board = board
+@@ -423,9 +448,9 @@ func _close_modal() -> void:
+ 		if is_instance_valid(_modal_return_focus) and not _modal_return_focus.is_queued_for_deletion():_modal_return_focus.grab_focus()
+ 		elif is_instance_valid(map_view):map_view.continue_button.grab_focus()
+ 	_modal_return_focus=null
+-	_paused = false
++	_paused = entry_active()
+ 	if is_instance_valid(board):
+-		board.mouse_filter = Control.MOUSE_FILTER_STOP
++		board.mouse_filter = Control.MOUSE_FILTER_IGNORE if entry_active() else Control.MOUSE_FILTER_STOP
+ 
+ func _show_result(victory: bool, stars: int, receipt: Dictionary) -> void:
+ 	var column: VBoxContainer = _modal_box()
+@@ -435,6 +460,7 @@ func _show_result(victory: bool, stars: int, receipt: Dictionary) -> void:
+ 	if victory:
+ 		if is_instance_valid(first_scene):first_scene.celebrate()
+ 		var celebrating: TextureRect=_gnome(Vector2(135,175));celebrating.texture=Art.gnome(true);celebrating.custom_minimum_size=celebrating.size;column.add_child(celebrating)
++		if alive_enabled:celebrating.get_node("AliveHero").celebrate()
+ 		_sound("victory")
+ 		var star_row: HBoxContainer = HBoxContainer.new()
+ 		star_row.alignment = BoxContainer.ALIGNMENT_CENTER
+@@ -480,6 +506,7 @@ func _continue_after_win() -> void:
+ 		show_map()
+ 
+ func show_pause() -> void:
++	cancel_entry(false)
+ 	if is_instance_valid(board) and board.busy:return
+ 	var column: VBoxContainer = _modal_box()
+ 	_paused = true
+@@ -493,6 +520,7 @@ func show_pause() -> void:
+ 	column.add_child(_button("Back to Map",_exit_from_modal))
+ 
+ func show_options() -> void:
++	cancel_entry(false)
+ 	if is_instance_valid(board) and board.busy:return
+ 	var column: VBoxContainer = _modal_box()
+ 	_paused = current_screen == "play"
+@@ -515,6 +543,7 @@ func show_options() -> void:
+ 	reduced.custom_minimum_size.y = 52
+ 	reduced.toggled.connect(func(value: bool) -> void:
+ 		progress.set_option("reduced_motion",value)
++		if value:cancel_entry(false)
+ 		world.reduced_motion = value
+ 		if is_instance_valid(scene_world): scene_world.reduced_motion = value
+ 		if is_instance_valid(board): board.reduced_motion = value
+@@ -553,3 +582,80 @@ func _sound(name: String) -> void:
+ 	if stream != null:
+ 		audio.stream = stream
+ 		audio.play()
++
++
++func _alive_attach(sprite: TextureRect):
++	var actor=AliveHero.new();actor.name="AliveHero"
++	actor.reduced_motion=progress.option("reduced_motion")
++	sprite.add_child(actor)
++	_alive_extra_actors.append(weakref(actor))
++	return actor
++
++func _alive_on_foley(kind: String,_strength: float) -> void:
++	if kind=="break" and is_instance_valid(first_scene) and is_instance_valid(first_scene.alive_hero):
++		first_scene.alive_hero.react()
++
++func entry_active() -> bool:
++	return is_instance_valid(entry_transition) and entry_transition.active
++
++func _capture_entry_context() -> Dictionary:
++	if not alive_enabled or progress.option("reduced_motion") or current_screen!="map" or not is_instance_valid(map_view):return {}
++	var view=map_view
++	var origin: Vector2=view.canvas.get_global_transform()*Vector2.ZERO
++	var extent: Vector2=view.canvas.size*view.canvas.get_global_transform().get_scale()
++	var foot: Vector2=view.gnome.get_global_rect().position+view.gnome.size*Vector2(0.5,467.0/512.0)
++	return {"map_rect":Rect2(origin,extent),"hero_foot":foot,
++		"hero_extent":view.gnome.size,"door":origin+extent*Vector2(355.0/774.0,395.0/2032.0),"reference_size":size}
++
++func _begin_entry(context: Dictionary) -> void:
++	var generation: int=play_generation
++	var active_board=board
++	var overlay=MineEntry.new()
++	overlay.name="MineEntryTransition"
++	for key in context:overlay.set(key,context[key])
++	entry_transition=overlay
++	_paused=true
++	active_board.cancel_pointer();active_board.mouse_filter=Control.MOUSE_FILTER_IGNORE
++	for control in action_buttons:control.disabled=true
++	add_child(overlay)
++	overlay.finished.connect(func() -> void:
++		if generation!=play_generation or current_screen!="play" or board!=active_board:return
++		entry_transition=null
++		_paused=is_instance_valid(modal)
++		active_board.cancel_pointer()
++		active_board.mouse_filter=Control.MOUSE_FILTER_IGNORE if _paused else Control.MOUSE_FILTER_STOP
++		for control in action_buttons:control.disabled=_paused
++	)
++
++func cancel_entry(to_map: bool=false) -> void:
++	if is_instance_valid(entry_transition):
++		var old=entry_transition
++		entry_transition=null
++		old.cancel()
++		_paused=is_instance_valid(modal)
++		if is_instance_valid(board):
++			board.cancel_pointer()
++			board.mouse_filter=Control.MOUSE_FILTER_IGNORE if _paused else Control.MOUSE_FILTER_STOP
++		for control in action_buttons:
++			if is_instance_valid(control):control.disabled=_paused
++	if to_map and progress!=null:show_map()
++
++func _process(_delta: float) -> void:
++	if not alive_enabled:return
++	var blocked: bool=not _window_has_focus or is_instance_valid(modal) or _paused
++	if is_instance_valid(map_view):
++		if is_instance_valid(map_view.alive_hero):map_view.alive_hero.suspended=blocked
++		if is_instance_valid(map_view.alive_ambient):map_view.alive_ambient.suspended=blocked
++	if is_instance_valid(first_scene):
++		if is_instance_valid(first_scene.alive_hero):
++			first_scene.alive_hero.suspended=not _window_has_focus or (blocked and not (core!=null and core.won))
++			first_scene.alive_hero.reduced_motion=progress.option("reduced_motion")
++		if is_instance_valid(first_scene.alive_ambient):
++			first_scene.alive_ambient.suspended=blocked
++			first_scene.alive_ambient.reduced_motion=progress.option("reduced_motion")
++	for i in range(_alive_extra_actors.size()-1,-1,-1):
++		var actor=_alive_extra_actors[i].get_ref()
++		if not is_instance_valid(actor):_alive_extra_actors.remove_at(i)
++		else:
++			actor.suspended=not _window_has_focus
++			actor.reduced_motion=progress.option("reduced_motion")
+
+diff --git "a/C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\VolcanoV4_2026-10-19\\scripts\\slice_map_view.gd" "b/C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\AliveExperience_2026-10-19\\scripts\\slice_map_view.gd"
+index 73f3b13..a4730bb 100644
+--- "a/C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\VolcanoV4_2026-10-19\\scripts\\slice_map_view.gd"
++++ "b/C:\\Users\\fruch\\Documents\\Codex\\GnomiT_Playtests\\AliveExperience_2026-10-19\\scripts\\slice_map_view.gd"
+@@ -14,6 +14,11 @@ const WALK_REFERENCES=[
+  Vector2(209.39845801308064,207.13355134386785),
+  Vector2(208.79503433703115,207.11705806079814),
+  Vector2(208.88026060504444,207.15727322810127)]
++const AliveHero=preload("res://scripts/alive/alive_hero.gd")
++const Ambient=preload("res://scripts/alive/ambient_light.gd")
++var alive_enabled:=true
++var alive_hero
++var alive_ambient
+ var session_state: Dictionary={}
+ var route=Route.new()
+ var avatar_s:=0.0
+@@ -49,6 +54,9 @@ func _ready() -> void:
+   facing_left=bool(session_state.get("facing_left",false))
+   facing_back=bool(session_state.get("facing_back",false))
+  super._ready()
++ if alive_enabled:
++  alive_hero=AliveHero.new();alive_hero.reduced_motion=reduced_motion;gnome.add_child(alive_hero)
++  alive_ambient=Ambient.new();alive_ambient.mode="map";alive_ambient.reduced_motion=reduced_motion;canvas.add_child(alive_ambient)
+  if not slice_enabled:return
+  shadow=ContactShadow.new();canvas.add_child(shadow);canvas.move_child(shadow,gnome.get_index())
+  arrival_button=action("Play",_open_arrived_level)
+@@ -133,6 +141,7 @@ func _render_avatar() -> void:
+  gnome.position=avatar_foot()-gnome.size*anchor/512.0
+  shadow.size=gnome.size
+  shadow.position=avatar_foot()-shadow.size*IDLE_GROUND/512.0
++ _sync_alive_presentation()
+ 
+ func _sync_controls() -> void:
+  if not slice_ready:return
+@@ -242,7 +251,7 @@ func set_interaction_enabled(enabled: bool) -> void:
+  _sync_controls()
+ func _process(delta: float) -> void:
+  if not slice_enabled:
+-  super._process(delta);return
++  super._process(delta);_sync_alive_presentation();return
+  _walking=false
+  super._process(delta)
+  if journey_active and interaction_enabled and not _pointer_active:
+@@ -272,3 +281,11 @@ func _process(delta: float) -> void:
+ func _notification(what: int) -> void:
+  super._notification(what)
+  if slice_enabled and what==NOTIFICATION_WM_WINDOW_FOCUS_OUT:cancel_transition(false)
++
++func _sync_alive_presentation() -> void:
++ if is_instance_valid(alive_hero):
++  alive_hero.reduced_motion=reduced_motion
++  alive_hero.set_walking(journey_active if slice_enabled else _walking)
++ if is_instance_valid(alive_ambient):
++  alive_ambient.size=canvas.size
++  alive_ambient.reduced_motion=reduced_motion

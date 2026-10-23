@@ -1,0 +1,7 @@
+{
+  "source": "Godot MovieMaker actual8second scene; no gameplay automation or synthetic victory",
+  "tool": "Existing VLC H264 transcode",
+  "avi_bytes": 11000608,
+  "mp4_bytes": 1711529,
+  "sha256": "bae823fc752ef27a4dca0156f39305da1844d615941ebdddc54dc607225c9e69"
+}

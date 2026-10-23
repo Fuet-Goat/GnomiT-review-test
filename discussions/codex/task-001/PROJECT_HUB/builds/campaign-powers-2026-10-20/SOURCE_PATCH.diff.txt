@@ -1,0 +1,362 @@
+--- a/PLAY_ALIVE_EXPERIENCE.cmd
++++ b/PLAY_ALIVE_EXPERIENCE.cmd
+@@ -1,8 +1,2 @@
+ @echo off
+-"C:\Tools\Godot\4.7.2\engine\Godot_v4.7.2-stable_win64_console.exe" --headless --editor --import --path "%~dp0." --log-file "%~dp0IMPORT_ALIVE.log" >nul 2>&1
+-if errorlevel 1 (
+-  echo Godot import failed. See IMPORT_ALIVE.log in this folder.
+-  pause
+-  exit /b 1
+-)
+-"C:\Tools\Godot\4.7.2\engine\Godot_v4.7.2-stable_win64.exe" --path "%~dp0." --screen 0 --position 80,65 --resolution 432x960
++start "" "C:\Tools\Godot\4.7.2\engine\Godot_v4.7.2-stable_win64.exe" --path "%~dp0." --screen 1 --resolution 432x960
+--- a/PLAY_GNOMIT.cmd
++++ b/PLAY_GNOMIT.cmd
+@@ -1,2 +1,2 @@
+ @echo off
+-start "" "C:\Tools\Godot\4.7.2\engine\Godot_v4.7.2-stable_win64.exe" --path "%~dp0." --screen 0 --position 80,25 --resolution 432x960 -- --walk-preview
++start "" "C:\Tools\Godot\4.7.2\engine\Godot_v4.7.2-stable_win64.exe" --path "%~dp0." --screen 1 --resolution 432x960
+--- a/PLAY_MAGIC_ANIMATIONS.cmd
++++ b/PLAY_MAGIC_ANIMATIONS.cmd
+@@ -1,2 +1,2 @@
+ @echo off
+-"C:\Tools\Godot\4.7.2\engine\Godot_v4.7.2-stable_win64.exe" --path "%~dp0." --screen 0 --position 80,65 --resolution 432x960
++start "" "C:\Tools\Godot\4.7.2\engine\Godot_v4.7.2-stable_win64.exe" --path "%~dp0." --screen 1 --resolution 432x960 res://natural_powers.tscn
+--- a/PLAY_MATERIAL_REWARDS.cmd
++++ b/PLAY_MATERIAL_REWARDS.cmd
+@@ -1,2 +1,2 @@
+ @echo off
+-"C:\Tools\Godot\4.7.2\engine\Godot_v4.7.2-stable_win64.exe" --path "%~dp0." --screen 0 --position 80,65 --resolution 432x960
++start "" "C:\Tools\Godot\4.7.2\engine\Godot_v4.7.2-stable_win64.exe" --path "%~dp0." --screen 1 --resolution 432x960 res://material_rewards.tscn
+--- a/PLAY_MEGA_VOLCANO.cmd
++++ b/PLAY_MEGA_VOLCANO.cmd
+@@ -1,2 +1,2 @@
+ @echo off
+-"C:\Tools\Godot\4.7.2\engine\Godot_v4.7.2-stable_win64.exe" --path "%~dp0." --screen 0 --position 80,65 --resolution 432x960
++start "" "C:\Tools\Godot\4.7.2\engine\Godot_v4.7.2-stable_win64.exe" --path "%~dp0." --screen 1 --resolution 432x960 res://mega_volcano.tscn
+--- a/PLAY_MOUNTAIN_VOLCANO.cmd
++++ b/PLAY_MOUNTAIN_VOLCANO.cmd
+@@ -1,2 +1,2 @@
+ @echo off
+-"C:\Tools\Godot\4.7.2\engine\Godot_v4.7.2-stable_win64.exe" --path "%~dp0." --screen 0 --position 80,65 --resolution 432x960
++start "" "C:\Tools\Godot\4.7.2\engine\Godot_v4.7.2-stable_win64.exe" --path "%~dp0." --screen 1 --resolution 432x960 res://mountain_volcano.tscn
+--- a/PLAY_NATURAL_POWERS.cmd
++++ b/PLAY_NATURAL_POWERS.cmd
+@@ -1,2 +1,2 @@
+ @echo off
+-"C:\Tools\Godot\4.7.2\engine\Godot_v4.7.2-stable_win64.exe" --path "%~dp0." --screen 0 --position 80,65 --resolution 432x960 --script res://tools/play_natural_powers.gd
++start "" "C:\Tools\Godot\4.7.2\engine\Godot_v4.7.2-stable_win64.exe" --path "%~dp0." --screen 1 --resolution 432x960 res://natural_powers.tscn
+--- a/PLAY_REWARD_RULES.cmd
++++ b/PLAY_REWARD_RULES.cmd
+@@ -1,2 +1,2 @@
+ @echo off
+-"C:\Tools\Godot\4.7.2\engine\Godot_v4.7.2-stable_win64.exe" --path "%~dp0." --screen 0 --position 80,65 --resolution 432x960
++start "" "C:\Tools\Godot\4.7.2\engine\Godot_v4.7.2-stable_win64.exe" --path "%~dp0." --screen 1 --resolution 432x960 res://reward_rules.tscn
+--- a/PLAY_SINGLE_STONE_CUE.cmd
++++ b/PLAY_SINGLE_STONE_CUE.cmd
+@@ -1,2 +1,2 @@
+ @echo off
+-"C:\Tools\Godot\4.7.2\engine\Godot_v4.7.2-stable_win64.exe" --path "%~dp0." --screen 0 --position 80,65 --resolution 432x960
++start "" "C:\Tools\Godot\4.7.2\engine\Godot_v4.7.2-stable_win64.exe" --path "%~dp0." --screen 1 --resolution 432x960 res://mountain_volcano.tscn
+--- a/PLAY_STONES.cmd
++++ b/PLAY_STONES.cmd
+@@ -1,2 +1,2 @@
+ @echo off
+-start "" "C:\Tools\Godot\4.7.2\engine\Godot_v4.7.2-stable_win64.exe" --path "%~dp0." --screen 0 --position 80,65 --resolution 432x960 --script res://tools/play_stones.gd -- --walk-preview
++start "" "C:\Tools\Godot\4.7.2\engine\Godot_v4.7.2-stable_win64.exe" --path "%~dp0." --screen 1 --resolution 432x960
+--- a/PLAY_VOLCANO_V4.cmd
++++ b/PLAY_VOLCANO_V4.cmd
+@@ -1,2 +1,2 @@
+ @echo off
+-"C:\Tools\Godot\4.7.2\engine\Godot_v4.7.2-stable_win64.exe" --path "%~dp0." --screen 0 --position 80,65 --resolution 432x960
++start "" "C:\Tools\Godot\4.7.2\engine\Godot_v4.7.2-stable_win64.exe" --path "%~dp0." --screen 1 --resolution 432x960 res://mountain_volcano.tscn
+--- a/PLAY_WORLD_SCENE.cmd
++++ b/PLAY_WORLD_SCENE.cmd
+@@ -1,4 +1,2 @@
+ @echo off
+-"C:\Tools\Godot\4.7.2\engine\Godot_v4.7.2-stable_win64_console.exe" --headless --editor --import --path "%~dp0." >nul 2>&1
+-if errorlevel 1 exit /b 1
+-"C:\Tools\Godot\4.7.2\engine\Godot_v4.7.2-stable_win64.exe" --path "%~dp0." --screen 0 --position 80,65 --resolution 432x960
++start "" "C:\Tools\Godot\4.7.2\engine\Godot_v4.7.2-stable_win64.exe" --path "%~dp0." --screen 1 --resolution 432x960
+--- a/project.godot
++++ b/project.godot
+@@ -2,10 +2,10 @@
+ config_version=5
+ 
+ [application]
+-config/name="GnomiT World Scene"
++config/name="GnomiT Campaign Powers"
+ config/use_custom_user_dir=true
+-config/custom_user_dir_name="GnomiT-WorldScene-Lab-2026-10-19"
+-config/version="0.1.0-local-frankenstein-r1"
++config/custom_user_dir_name="GnomiT-CampaignPowers-2026-10-20"
++config/version="0.1.0-campaign-powers"
+ run/main_scene="res://main.tscn"
+ config/features=PackedStringArray("4.7", "GL Compatibility")
+ 
+@@ -15,7 +15,7 @@
+ window/size/window_width_override=432
+ window/size/window_height_override=960
+ window/size/resizable=true
+-window/size/initial_screen=0
++window/size/initial_screen=1
+ window/stretch/mode="canvas_items"
+ window/stretch/aspect="expand"
+ window/handheld/orientation=1
+--- a/scripts/first_crystals_view.gd
++++ b/scripts/first_crystals_view.gd
+@@ -2,7 +2,7 @@
+ signal pause_requested
+ signal hint_requested
+ signal exit_requested
+-const Board=preload("res://scripts/board_view.gd")
++const Board=preload("res://scripts/lab/mountain_volcano_board.gd")
+ const Trails=preload("res://scripts/goal_trails.gd")
+ const Art=preload("res://scripts/story_art.gd")
+ const BACKGROUND=preload("res://assets/first_crystals/cave_background_v1.png")
+--- a/scripts/main.gd
++++ b/scripts/main.gd
+@@ -1,9 +1,11 @@
+ extends Control
+ const Levels = preload("res://scripts/levels.gd")
+ const Progress = preload("res://scripts/progress.gd")
+-const Core = preload("res://scripts/match_core.gd")
++const Core = preload("res://scripts/lab/mega_volcano_core.gd")
+ const RockAudio=preload("res://scripts/rock_audio.gd")
+ var rock_audio
++const PowerAudio=preload("res://scripts/campaign/power_audio.gd")
++var power_audio
+ const AliveHero=preload("res://scripts/alive/alive_hero.gd")
+ const MineEntry=preload("res://scripts/alive/mine_entry.gd")
+ var alive_enabled:=true
+@@ -12,7 +14,7 @@
+ var entry_transition: Control
+ var _window_has_focus:=true
+ var _alive_extra_actors: Array[WeakRef]=[]
+-const Board = preload("res://scripts/board_view.gd")
++const Board = preload("res://scripts/lab/mountain_volcano_board.gd")
+ const World = preload("res://scripts/world_view.gd")
+ const Art=preload("res://scripts/story_art.gd")
+ const StoryChamber=preload("res://scripts/story_chamber_view.gd")
+@@ -58,9 +60,9 @@
+ 
+ func _ready() -> void:
+ 	get_tree().auto_accept_quit = false
+-	DisplayServer.window_set_title("GnomiT — World Scene · TEST PROGRESS")
++	DisplayServer.window_set_title("GnomiT — Campaign Powers · PLAY")
+ 	if DisplayServer.get_name()!="headless" and DisplayServer.get_screen_count()>1:
+-		DisplayServer.window_set_current_screen(0)
++		DisplayServer.window_set_current_screen(1)
+ 	ui_theme = _make_theme()
+ 	theme = ui_theme
+ 	progress = Progress.new()
+@@ -78,7 +80,8 @@
+ 	audio = AudioStreamPlayer.new()
+ 	audio.volume_db = -12.0
+ 	add_child(audio)
+-	rock_audio=RockAudio.new();add_child(rock_audio);rock_audio.set_enabled(progress.option("sound"))
++	power_audio=PowerAudio.new();add_child(power_audio)
++	power_audio.set_enabled(progress.option("sound"));rock_audio=power_audio.stone_audio
+ 	resized.connect(_resize_stage)
+ 	if progress.option("fullscreen") and save_path_override.is_empty():
+ 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+@@ -91,6 +94,7 @@
+ 	elif what==NOTIFICATION_WM_WINDOW_FOCUS_IN:
+ 		_window_has_focus=true
+ 	if what == NOTIFICATION_WM_CLOSE_REQUEST and progress != null:
++		if is_instance_valid(power_audio):power_audio.stop_all()
+ 		progress.persist()
+ 		get_tree().quit()
+ 
+@@ -178,6 +182,7 @@
+ 
+ func _new_screen(name: String) -> void:
+ 	cancel_entry(false)
++	if is_instance_valid(power_audio):power_audio.attach_board(null)
+ 	if is_instance_valid(map_view):
+ 		_slice_session=map_view.get_session_state()
+ 		_saved_map_scroll=map_view.current_scroll();_saved_map_offset=map_view.current_offset()
+@@ -349,7 +354,9 @@
+ 		first_scene=FirstCrystals.new();first_scene.alive_enabled=alive_enabled
+ 		first_scene.reduced_motion=progress.option("reduced_motion");stage.add_child(first_scene)
+ 		board=first_scene.board;moves_label=first_scene.moves_label;goal_label=first_scene.goal_label;status_label=first_scene.status_label;lantern_bar=first_scene.lantern_bar
+-		board.setup(core,progress.option("reduced_motion"));first_scene.configure(current_level,core);board.swap_requested.connect(_on_swap);board.foley_requested.connect(_play_foley)
++		board.setup(core,progress.option("reduced_motion"));first_scene.configure(current_level,core)
++		power_audio.attach_board(board);power_audio.set_enabled(progress.option("sound"))
++		board.swap_requested.connect(_on_swap);board.foley_requested.connect(_play_foley)
+ 		if alive_enabled:board.foley_requested.connect(_alive_on_foley)
+ 		first_scene.pause_requested.connect(show_pause);first_scene.hint_requested.connect(_hint);first_scene.exit_requested.connect(_exit_level)
+ 		action_buttons.assign([first_scene.pause_button,first_scene.hint_button,first_scene.exit_button])
+@@ -508,6 +515,7 @@
+ func show_pause() -> void:
+ 	cancel_entry(false)
+ 	if is_instance_valid(board) and board.busy:return
++	if is_instance_valid(power_audio):power_audio.stop_all()
+ 	var column: VBoxContainer = _modal_box()
+ 	_paused = true
+ 	if is_instance_valid(board):
+@@ -533,7 +541,7 @@
+ 	sound.button_pressed = progress.option("sound")
+ 	sound.custom_minimum_size.y = 52
+ 	sound.toggled.connect(func(value: bool) -> void:
+-		progress.set_option("sound",value);rock_audio.set_enabled(value)
++		progress.set_option("sound",value);power_audio.set_enabled(value)
+ 		if not value:audio.stop()
+ 	)
+ 	column.add_child(sound)
+@@ -573,8 +581,8 @@
+ 	progress.set_option("fullscreen",enabled)
+ 
+ func _play_foley(kind: String, strength: float) -> void:
+-	rock_audio.set_enabled(progress.option("sound"))
+-	rock_audio.play_cue(kind,strength)
++	power_audio.set_enabled(progress.option("sound"))
++	power_audio.play_foley(kind,strength)
+ 
+ func _sound(name: String) -> void:
+ 	if not progress.option("sound"): return
+--- /dev/null
++++ b/scripts/campaign/power_audio.gd
+@@ -0,0 +1,137 @@
++extends Node
++## Campaign presentation adapter. The board owns targets and the event clock;
++## this node owns exactly one ordinary stone voice and the established power banks.
++const RockAudio = preload("res://scripts/rock_audio.gd")
++const MegaAudio = preload("res://scripts/lab/mega_volcano_v4_audio.gd")
++const VolcanoAudio = preload("res://scripts/lab/volcano_audio.gd")
++const TornadoAudio = preload("res://scripts/lab/tornado_audio.gd")
++const LightningAudio = preload("res://scripts/lab/lightning_audio.gd")
++const ElementAudio = preload("res://scripts/lab/reward_rules_audio.gd")
++
++var stone_audio
++var mega_audio
++var volcano_audio
++var tornado_audio
++var storm_audio
++var element_audio
++var enabled := true
++var _board: Node
++var _attachment_id := 0
++var _power_callback: Callable
++var _birth_callback: Callable
++var _exit_callback: Callable
++
++func _ready() -> void:
++	stone_audio = RockAudio.new()
++	mega_audio = MegaAudio.new()
++	volcano_audio = VolcanoAudio.new()
++	tornado_audio = TornadoAudio.new()
++	storm_audio = LightningAudio.new()
++	element_audio = ElementAudio.new()
++	for bank in _banks(): add_child(bank)
++	stone_audio.set_enabled(enabled)
++
++func attach_board(board: Node) -> void:
++	# Old signal senders and their sounds lose ownership before the new board
++	# is attached. In particular an old tree_exiting cannot stop a new eruption.
++	_disconnect_board()
++	stop_all()
++	_attachment_id += 1
++	_board = board
++	if not is_instance_valid(_board): return
++	_power_callback = _on_power_started.bind(_board, _attachment_id)
++	_birth_callback = _on_reward_born.bind(_board, _attachment_id)
++	_exit_callback = _on_board_exiting.bind(_board, _attachment_id)
++	_board.connect("power_started", _power_callback)
++	_board.connect("reward_born", _birth_callback)
++	_board.tree_exiting.connect(_exit_callback)
++
++func set_enabled(value: bool) -> void:
++	enabled = value
++	if is_instance_valid(stone_audio): stone_audio.set_enabled(value)
++	if not value: stop_all()
++
++func play_foley(kind: String, strength: float = 1.0) -> bool:
++	# Main delegates its existing board callback here; no second connection
++	# or RockAudio instance is made, including on ordinary cascade clears.
++	if kind not in ["move", "break"]: return false
++	if not enabled or not is_instance_valid(stone_audio): return true
++	if kind == "break":
++		var bank = _current_power_bank()
++		if is_instance_valid(bank) and bank.event_active: return true
++	stone_audio.play_cue(kind, strength)
++	return true
++
++func stop_all() -> void:
++	for bank in _banks():
++		if is_instance_valid(bank): bank.stop_all()
++
++func _banks() -> Array:
++	return [stone_audio, mega_audio, volcano_audio, tornado_audio, storm_audio, element_audio]
++
++func _owns(source: Node, attachment: int) -> bool:
++	return is_instance_valid(source) and source == _board and attachment == _attachment_id
++
++func _on_power_started(power: String, targets: Array, source: Node, attachment: int) -> void:
++	if not enabled or not _owns(source, attachment) or _active_power() != power: return
++	var reduced: bool = _board.reduced_motion
++	match power:
++		"mega_volcano": mega_audio.begin_mega(targets, reduced)
++		"volcano":
++			if _board.painted_volcano: volcano_audio.begin(targets, reduced)
++		"tornado_h", "tornado_v": tornado_audio.begin(reduced)
++		"lightning_storm": storm_audio.begin(reduced)
++		"black_hole":
++			var kinds: Array = []
++			for source_power in _board.fusion_sources(): kinds.append(int(source_power.kind))
++			element_audio.begin_fusion(kinds, reduced)
++		"earthquake": element_audio.begin(power, reduced)
++
++func _on_reward_born(awards: Array, source: Node, attachment: int) -> void:
++	if not enabled or not _owns(source, attachment) or awards.is_empty(): return
++	# The board emits one birth event for the entire award group.
++	element_audio.begin_birth(int(awards[0].get("birth_tier", 5)), _board.reduced_motion)
++
++func _active_power() -> String:
++	if not is_instance_valid(_board) or not _board.is_inside_tree(): return ""
++	if _board._power_event.is_empty() or _board._power_epoch != _board._epoch: return ""
++	return String(_board._power_event.get("power", ""))
++
++func _current_power_bank():
++	match _active_power():
++		"mega_volcano": return mega_audio
++		"volcano": return volcano_audio if _board.painted_volcano else null
++		"tornado_h", "tornado_v": return tornado_audio
++		"lightning_storm": return storm_audio
++		"black_hole", "earthquake": return element_audio
++	return null
++
++func _process(_delta: float) -> void:
++	if not enabled: return
++	var active := _active_power()
++	if is_instance_valid(mega_audio) and mega_audio.event_active:
++		if active == "mega_volcano": mega_audio.sync_progress(_board._power_t)
++		else: mega_audio.finish_event()
++	if is_instance_valid(volcano_audio) and volcano_audio.event_active:
++		if active == "volcano" and _board.painted_volcano: volcano_audio.sync_progress(_board._power_t)
++		else: volcano_audio.finish_event()
++	if is_instance_valid(tornado_audio) and tornado_audio.event_active and active not in ["tornado_h", "tornado_v"]:
++		tornado_audio.finish_event()
++	if is_instance_valid(storm_audio) and storm_audio.event_active and active != "lightning_storm":
++		storm_audio.finish_event()
++	if is_instance_valid(element_audio) and element_audio.event_active and active not in ["black_hole", "earthquake"]:
++		element_audio.finish_event()
++
++func _on_board_exiting(source: Node, attachment: int) -> void:
++	if not _owns(source, attachment): return
++	attach_board(null)
++
++func _disconnect_board() -> void:
++	if not is_instance_valid(_board): return
++	for binding in [["power_started", _power_callback], ["reward_born", _birth_callback], ["tree_exiting", _exit_callback]]:
++		if _board.is_connected(binding[0], binding[1]): _board.disconnect(binding[0], binding[1])
++
++func _exit_tree() -> void:
++	_disconnect_board()
++	_board = null
++	stop_all()
+--- /dev/null
++++ b/PLAY_CAMPAIGN.cmd
+@@ -0,0 +1,2 @@
++@echo off
++start "" "C:\Tools\Godot\4.7.2\engine\Godot_v4.7.2-stable_win64.exe" --path "%~dp0." --screen 1 --resolution 432x960

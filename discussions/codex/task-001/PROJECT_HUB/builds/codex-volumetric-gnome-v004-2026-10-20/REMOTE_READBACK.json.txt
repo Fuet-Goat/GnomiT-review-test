@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "source_commit": "f0f66c8f2472f3e1b9a80aba74764580ecd75434",
+  "zip_sha256": "4ffb280f898ebd50ffe7beae408db2ec5c4a115d757f6bb962efe81c88b5a1b5",
+  "entries": 95,
+  "no_engine_or_project_code_executed": true,
+  "downloader_sha256": "b6c620f1410357227db94224a0cd5b5a24e2ca28100fe7df7d49b7a0b4e29cf2",
+  "native_blend_sha256": "77beabbb144932b1e54a957e95f7aa932a6cf3e4627c47b2c733199d666551b7",
+  "native_glb_sha256": "0ad5ea6aa849a371c627d23c13212559e3d4dc50fcd25015c69c34bceda992c9",
+  "decoded_mp4_sha256": "ba1925987d75fc094cac96ad49f2740682852c61ddff4328f53ab4e801bbc467",
+  "human_art_acceptance": "PENDING"
+}

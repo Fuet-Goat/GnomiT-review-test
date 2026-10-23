@@ -1,0 +1,42 @@
+{
+  "source_commit": "cace8b51c9ed7aacdb5d271f57f06bc89928da7f",
+  "existing_assets_unchanged": true,
+  "existing_asset_count": 15,
+  "media": [
+    {
+      "name": "GNOMIT_RIG_R1_R2_GREETING.gif",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/gnome-r3-visual-review-2026-10-22/GNOMIT_RIG_R1_R2_GREETING.gif",
+      "bytes": 13829741,
+      "sha256": "1a66b3083900ff42a345d2a6f823096ca3696c5114fc9e859993a76382913b20",
+      "anonymous_readback_byte_identical": true
+    },
+    {
+      "name": "GNOMIT_RIG_R1_R2_SLEEVE_CLOSEUP.gif",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/gnome-r3-visual-review-2026-10-22/GNOMIT_RIG_R1_R2_SLEEVE_CLOSEUP.gif",
+      "bytes": 11970859,
+      "sha256": "8347579140f7d9c5dbeaee6e426d165a15d0de3c9238a5f413ad90259fb8a275",
+      "anonymous_readback_byte_identical": true
+    },
+    {
+      "name": "GNOMIT_RIG_R1_R2_GREETING_KEYPOSES.png",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/gnome-r3-visual-review-2026-10-22/GNOMIT_RIG_R1_R2_GREETING_KEYPOSES.png",
+      "bytes": 508795,
+      "sha256": "87d0a8b84b730fcd1230c233c03c4231c9223f2546095d66637882eb04f615cb",
+      "anonymous_readback_byte_identical": true
+    },
+    {
+      "name": "GNOMIT_RIG_R1_R2_SLEEVE_KEYPOSES.png",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/gnome-r3-visual-review-2026-10-22/GNOMIT_RIG_R1_R2_SLEEVE_KEYPOSES.png",
+      "bytes": 440816,
+      "sha256": "1dffd2565beebc41809a369467f3b25adf155228a7acf3bc1e1228b0a3603a9f",
+      "anonymous_readback_byte_identical": true
+    },
+    {
+      "name": "GNOMIT_RIG_R2_SLEEVE_2026-10-23.zip",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/gnome-r3-visual-review-2026-10-22/GNOMIT_RIG_R2_SLEEVE_2026-10-23.zip",
+      "bytes": 62680094,
+      "sha256": "cb02dfb7dd34a6bbf24688e5eac4641ec4faadc0f9b66e532cc7fe669d4d8ddd",
+      "anonymous_readback_byte_identical": true
+    }
+  ]
+}

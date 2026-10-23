@@ -1,0 +1,155 @@
+{
+  "schema_version": 1,
+  "files": [
+    {
+      "path": "ASSET_METADATA.json",
+      "bytes": 2631,
+      "sha256": "f390bc70c11d22f3b2b00c2f940989b2827641f99a9cadbcf199bb7a5650a8b2"
+    },
+    {
+      "path": "BUILD.log",
+      "bytes": 2035,
+      "sha256": "0a483260c52b3df7c8a3f75c2b3cd5abd3ef0913343ccdbd0f1692b4b7af547f"
+    },
+    {
+      "path": "FINAL/GNOMIT_REFERENCE_GRASS.blend",
+      "bytes": 8547698,
+      "sha256": "15cb15f8ec0e82449f85247d6b34d486ff9f7b8e0fc13e13e4dd1a42f104678d"
+    },
+    {
+      "path": "FINAL/RENDERS/00_DRAFT_REFERENCE_GRASS_432x960.png",
+      "bytes": 727990,
+      "sha256": "8d25ef5f1286f92255cf2213c549fc067ed9fc1bb2b06ece2915ce7cf9f5beee"
+    },
+    {
+      "path": "FINAL/RENDERS/01_REFERENCE_GRASS_432x960.png",
+      "bytes": 728721,
+      "sha256": "bbc0def2f3c56b65524f5a7b94b7d1fd707c7decaf5b9f98d8a617e0b9b5c62b"
+    },
+    {
+      "path": "FINAL/RENDERS/02_BEFORE_TRIAL_REFERENCE.png",
+      "bytes": 1647955,
+      "sha256": "3d7247b0043e7f8389cfc28d3cc03ada53f15a40da6ede8128e070d7dbe29807"
+    },
+    {
+      "path": "FINAL/VERIFICATION/BUILD_RECEIPT.json",
+      "bytes": 1449,
+      "sha256": "fa318f5a8b4b9b9ea1f86924d72fe3fcc5457149561df5780d5e14c6a5405168"
+    },
+    {
+      "path": "FINAL/VERIFICATION/FINAL_RECEIPT.json",
+      "bytes": 2631,
+      "sha256": "f390bc70c11d22f3b2b00c2f940989b2827641f99a9cadbcf199bb7a5650a8b2"
+    },
+    {
+      "path": "FINAL_RESPONSE.txt",
+      "bytes": 291,
+      "sha256": "f5d35a0b2abeea2742bfb4a437bd9ba20a2915d2a83cc15a1893e8509cf309f6"
+    },
+    {
+      "path": "INPUTS/HOME_START_SELECTED.blend",
+      "bytes": 2182208,
+      "sha256": "5dd1234c888e8498ecfd1c58726c74a137dd26defd30fc9b690d985839544d3c"
+    },
+    {
+      "path": "INPUTS/NATIVE_BEFORE_432x960.png",
+      "bytes": 586983,
+      "sha256": "2044adcbc0a030f79d2f67297401ca2960a000badb0c211931e1f720bb7a2bad"
+    },
+    {
+      "path": "INPUTS/PARENT_INPUT_RECEIPT.json",
+      "bytes": 1106,
+      "sha256": "7d7b2ba22844cdff532920f676aa57b65dfdbbba55d4ec8d24ad1b7b92896b66"
+    },
+    {
+      "path": "INPUTS/PARENT_PROVENANCE.json.txt",
+      "bytes": 1100,
+      "sha256": "b7c08c967cd719c104febaab8f4769c438ded2b4c06e1d38a2d44ccbd0485d8e"
+    },
+    {
+      "path": "INPUTS/TARGET_HOME_START.png",
+      "bytes": 2256314,
+      "sha256": "a8ba8f00cba8f715e4633941f65b7f79da7caa174520a2a6e2072c60538e73c9"
+    },
+    {
+      "path": "INTERNAL_REVIEW.txt",
+      "bytes": 538,
+      "sha256": "38f7a7cf0495ece85eaa86ef1c617cf9587e0b2fab972086be891a9e898b4836"
+    },
+    {
+      "path": "package_handoff.py",
+      "bytes": 15659,
+      "sha256": "04c17411106484837c11198b6c5489368e2e61ad744e7a2d4e2e1077b8713dc3"
+    },
+    {
+      "path": "PROMPT_FOR_GPT_BG.txt",
+      "bytes": 3747,
+      "sha256": "0930bd961ff3b8f8ed3afde518119fb461485e43aa88c01a48f31afeded48198"
+    },
+    {
+      "path": "PROVENANCE.json.txt",
+      "bytes": 1368,
+      "sha256": "4a8c5356e33bce12d5cf3bbf638cc87fad00afac463bffcb5e110b280a8cf636"
+    },
+    {
+      "path": "README_BG.txt",
+      "bytes": 2244,
+      "sha256": "48f7d29ccf156c2572854ce256ec702fdb689ac99b7895d3314e4df8871c1ecd"
+    },
+    {
+      "path": "REFINE.log",
+      "bytes": 4493,
+      "sha256": "746d3ff9ff6f3f16e52b705a969fe03b259d09c5de85afa6fd4be8926eacbd8f"
+    },
+    {
+      "path": "REPORT.txt",
+      "bytes": 2145,
+      "sha256": "b92ac9cd029cfa873730b538b0b2914067bc0cf97650fd220f89bd6828ef5548"
+    },
+    {
+      "path": "RESULT/GNOMIT_REFERENCE_GRASS.blend",
+      "bytes": 8625307,
+      "sha256": "13706682a4ce3661070036a834a046d018e03f83b87a239a7af1da6c2c1fbb62"
+    },
+    {
+      "path": "RESULT/RENDERS/00_DRAFT_REFERENCE_GRASS_432x960.png",
+      "bytes": 748066,
+      "sha256": "6b4786cd8fdd82d180ff0624a3efb0af82323e7f6bc97365486788adb38eb1c1"
+    },
+    {
+      "path": "RESULT/VERIFICATION/BUILD_RECEIPT.json",
+      "bytes": 1451,
+      "sha256": "1b1cba361c44db509063934df44240cbf6afef8561819b3c3eaa798e10cbde4a"
+    },
+    {
+      "path": "SOURCE/build_reference_grass.py",
+      "bytes": 11541,
+      "sha256": "97519737e6891b98b2550ffc5cd58db13967953f99bd990a3bffc2f6da0053fe"
+    },
+    {
+      "path": "SOURCE/guard_utils.py",
+      "bytes": 10802,
+      "sha256": "1ec5055c90347cbc688013c97d02723bd5d7bb3e7541b0b958f9b84b3e6e6fa9"
+    },
+    {
+      "path": "SOURCE/inspect_source.py",
+      "bytes": 1211,
+      "sha256": "f3c0fc58e925748bda5073cc2b996e0e5be45031cb21d558419b2de8c064fc8c"
+    },
+    {
+      "path": "SOURCE/refine_reference_grass.py",
+      "bytes": 4479,
+      "sha256": "c4fb3db2619f8a5e059a7da5a6143a565fd6a1e1d3fae2c5b8eeaad5ca4502b6"
+    },
+    {
+      "path": "SOURCE_INSPECTION.json",
+      "bytes": 284580,
+      "sha256": "5101e65de8de724283212b5888a52a3c23a784d2b682315943ac951147465e63"
+    },
+    {
+      "path": "START_HERE_BG.txt",
+      "bytes": 917,
+      "sha256": "028f807bc0f73e1752769a1313a4422beb2cf139f4e822f5b41244142ac123c9"
+    }
+  ]
+}

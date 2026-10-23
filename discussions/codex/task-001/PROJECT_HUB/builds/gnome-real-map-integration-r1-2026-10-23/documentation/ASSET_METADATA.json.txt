@@ -1,0 +1,12 @@
+{
+  "master_triangles": 874805,
+  "master_vertices": 445842,
+  "embedded_images": 24,
+  "master_scale": 0.61279296875,
+  "placement": "Same actual route s0.4, position(-1.201419,.850196,8.372768) as original guide",
+  "camera": "Exact inherited current map orthographic camera; 432x960 viewport",
+  "motion": "Original finite6second clip,24fps144frame capture; no walk authored",
+  "native_pivots_and_dimensions": "Unchanged in byte-identical accepted GLB/native source",
+  "delivery_format": "Editable accepted native blend plus exact accepted GLB and minimal runnable context project",
+  "runtime_readiness": "Visual master only; no Android optimisation or performance claim"
+}

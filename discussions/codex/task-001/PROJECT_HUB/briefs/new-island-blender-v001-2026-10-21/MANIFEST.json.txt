@@ -1,0 +1,39 @@
+{
+  "files": [
+    {
+      "path": "ASSET_METADATA.json",
+      "bytes": 1021,
+      "sha256": "27a62aefc5716de0ce65984221d47ca953f79ee680ddc6e6e4fd767f30ad6174"
+    },
+    {
+      "path": "FINAL_RESPONSE.txt",
+      "bytes": 519,
+      "sha256": "5aedaa42abe13c5f63ab51df31718faeffcd504f2fe15ec4f8c67eb24d57894c"
+    },
+    {
+      "path": "PROMPT_FOR_ART_BOT_BG.txt",
+      "bytes": 10693,
+      "sha256": "54440f805e8cd867a1d2e6e2068ac4e2dcddfd0f1e98a2733337322b3020ee93"
+    },
+    {
+      "path": "PROVENANCE.json",
+      "bytes": 1843,
+      "sha256": "b42ae1ee65293c3dd21753cc2b81b7b76372e76ead0038f00ebc19de06562d19"
+    },
+    {
+      "path": "README_BG.txt",
+      "bytes": 1541,
+      "sha256": "aef0386dd1396b2d7c5f58cda5e3a8a8ffa7e10c0d9b31a9f36ae50c49f3697d"
+    },
+    {
+      "path": "REFERENCE_COMPOSITION.png",
+      "bytes": 2054056,
+      "sha256": "0431ca1845913d568430590fba9af71df4274fb0ff2a434130b66256885192b6"
+    },
+    {
+      "path": "REFERENCE_STYLE_COMPARISON.png",
+      "bytes": 2634535,
+      "sha256": "a7d9b4f82fe73a2e5ab641261b9cbc14765e6360c9c108ab7ee9a51b0bc84add"
+    }
+  ]
+}

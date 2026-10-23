@@ -1,0 +1,38 @@
+{
+  "kind": "TASK_BRIEF_NOT_CREATED_3D_SCENE",
+  "authoring": "Codex prepared the written task; no model/render/image generated in this task",
+  "date": "2026-10-21 Europe/Sofia",
+  "references": [
+    {
+      "path": "REFERENCE_COMPOSITION.png",
+      "original_filename": "GnomiT Island_ Cozy Mine Adventure.png",
+      "role": "Composition: island, winding wooden road, mine, rounded trees; ignore text and buttons",
+      "bytes": 2054056,
+      "sha256": "0431ca1845913d568430590fba9af71df4274fb0ff2a434130b66256885192b6",
+      "dimensions": [
+        941,
+        1672
+      ],
+      "modified": false
+    },
+    {
+      "path": "REFERENCE_STYLE_COMPARISON.png",
+      "original_filename": "codex-clipboard-e0e55003-c09d-4e59-b911-6f4ea615dc93.png",
+      "role": "Style: middle panel only; ignore labels/crown/frame",
+      "bytes": 2634535,
+      "sha256": "a7d9b4f82fe73a2e5ab641261b9cbc14765e6360c9c108ab7ee9a51b0bc84add",
+      "dimensions": [
+        1448,
+        1086
+      ],
+      "modified": false
+    }
+  ],
+  "reference_origin": "User supplied attachments; original generation tool/model/prompt and rights status not established by this brief",
+  "reference_handling": "Original bytes copied unchanged; no crop/edit/reconstruction of PNGs",
+  "tools": "Python standard library for copying, PNG metadata and ZIP validation; Blender --version only",
+  "verified_local_blender": "Blender5.2.2 LTS, build d13f752e3b9c, Windows",
+  "previous_world": "Only read during the earlier interrupted investigation; no previous .blend edits, rebuilds or new renders",
+  "intended_result": "New native .blend, GLB export, real renders, source/provenance/metadata/manifest from the receiving bot",
+  "scope": "No game, save, gameplay or grant change. The brief is not a legal rights determination."
+}

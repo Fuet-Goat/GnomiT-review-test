@@ -1,0 +1,6 @@
+{
+  "status": "PASS",
+  "source_inputs": 6,
+  "campaign_bound_resources": 190,
+  "current_pointer_still_v001": true
+}

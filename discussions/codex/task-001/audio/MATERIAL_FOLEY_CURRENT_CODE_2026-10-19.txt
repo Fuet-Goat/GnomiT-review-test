@@ -1,0 +1,129 @@
+scripts/rock_audio.gd | SHA256 24fac13dc7093ac423121b6862b123ba32359c0b10d439d0e3f286c45093112d
+Source: isolated Mountain lab. Static read; not a runtime test.
+1: extends Node
+2: ## Small independent voice pool: presentation pitch never touches the match RNG.
+3: const MOVE=preload("res://assets/sfx/stone_move_cartoon_selected_v1.ogg")
+4: const BREAK=preload("res://assets/sfx/stone_break_full_v1.wav")
+5: const VOICES:=8
+6: const BUS_NAME: String="GnomiT Stone Foley"
+7: var players: Array[AudioStreamPlayer]=[]
+8: var enabled:=true
+9: var _next:=0
+10: var _variation:=RandomNumberGenerator.new()
+11: func _ready() -> void:
+12: 	_variation.randomize()
+13: 	if AudioServer.get_bus_index(BUS_NAME)<0:
+14: 		AudioServer.add_bus();var index: int=AudioServer.bus_count-1
+15: 		AudioServer.set_bus_name(index,BUS_NAME)
+16: 		var limiter=AudioEffectHardLimiter.new();limiter.ceiling_db=-3.0
+17: 		AudioServer.add_bus_effect(index,limiter)
+18: 	for i in VOICES:
+19: 		var player=AudioStreamPlayer.new();player.bus=BUS_NAME;add_child(player);players.append(player)
+20: func set_enabled(value: bool) -> void:
+21: 	enabled=value
+22: 	if not enabled:stop_all()
+23: func stop_all() -> void:
+24: 	for player in players:player.stop()
+25: func play_cue(kind: String, strength: float=1.0) -> void:
+26: 	if not enabled or players.is_empty() or kind not in ["move","break"]:return
+27: 	var slot: int=_next
+28: 	# Reuse a finished effect before cutting an active scrape during rapid cascades.
+29: 	for offset in range(players.size()):
+30: 		var candidate: int=(_next+offset)%players.size()
+31: 		if not players[candidate].playing:
+32: 			slot=candidate;break
+33: 	var player: AudioStreamPlayer=players[slot]
+34: 	_next=(slot+1)%players.size()
+35: 	player.stop();player.stream=MOVE if kind=="move" else BREAK
+36: 	player.pitch_scale=_variation.randf_range(0.96,1.04)
+37: 	# Leave mix headroom for overlapping stone contacts and the separate victory chime.
+38: 	player.volume_db=(-10.0 if kind=="move" else -9.0)+linear_to_db(clampf(strength,0.7,1.15))
+39: 	player.play()
+
+scripts/board_view.gd | SHA256 c0f68b6a37805278db1684200e7d5c6bc3672bfdc04fb5d6b9b908d177a44781
+Source: isolated Mountain lab. Static read; not a runtime test.
+321: 	_invalid = false
+322: 	var events: Array = result.get("events", [])
+323: 	var move_cued:=false
+324: 	for event in events:
+325: 		if epoch != _epoch or not is_inside_tree():
+326: 			return
+327: 		if event.has("before"):
+328: 			_display_grid = _copy_array(event["before"])
+329: 		var event_type := String(event.get("type", ""))
+330: 		if event_type=="swap" and not move_cued and _is_gem(int(event.get("a",-1))) and _is_gem(int(event.get("b",-1))):
+331: 			foley_requested.emit("move",1.0);move_cued=true
+332: 		if reduced_motion:
+333: 			if event_type == "clear":
+334: 				_prepare_clear(event)
+335: 				_effect_t = 0.7
+336: 				queue_redraw()
+337: 				await _wait(0.055)
+338: 			elif event_type in ["swap", "swap_back", "revert", "fall", "shuffle"]:
+339: 				queue_redraw()
+340: 				await _wait(0.035)
+341: 			else:
+342: 				await _animate_custom_event(event, epoch)
+343: 		else:
+344: 			match event_type:
+345: 				"swap", "swap_back", "revert":
+346: 					await _animate_swap(event, epoch)
+347: 				"clear":
+348: 					await _animate_clear(event, epoch)
+349: 				"fall":
+350: 					await _animate_fall(event, epoch)
+351: 				"shuffle":
+352: 					await _animate_shuffle(epoch)
+353: 				_:
+354: 					await _animate_custom_event(event, epoch)
+355: 		if epoch != _epoch:
+356: 			return
+357: 		_apply_after(event)
+358: 		_clearing.clear()
+359: 		_releases.clear()
+360: 		queue_redraw()
+361: 	if not bool(result.get("valid", false)):
+362: 		_invalid = true
+363: 		if events.is_empty() and _last_swap.size()==2 and _is_gem(int(_last_swap[0])) and _is_gem(int(_last_swap[1])):
+364: 			foley_requested.emit("move",0.85)
+365: 		if events.is_empty() and _last_swap.size() == 2 and not reduced_motion:
+366: 			var before := _display_grid.duplicate()
+367: 			await _animate_swap({"a": _last_swap[0], "b": _last_swap[1], "before": before}, epoch)
+368: 			if epoch != _epoch:
+369: 				return
+370: 			var middle := before.duplicate()
+371: 			middle[int(_last_swap[0])] = before[int(_last_swap[1])]
+372: 			middle[int(_last_swap[1])] = before[int(_last_swap[0])]
+373: 			_display_grid = middle
+374: 			await _animate_swap({"a": _last_swap[0], "b": _last_swap[1], "before": middle}, epoch)
+410: func _animate_swap(event: Dictionary, epoch: int) -> void:
+411: 	var a := int(event.get("a", -1))
+412: 	var b := int(event.get("b", -1))
+413: 	if not _is_gem(a) or not _is_gem(b):
+414: 		await _wait(0.05)
+415: 		return
+416: 	_moving = [{"from": a, "to": b, "kind": int(_display_grid[a])}, {"from": b, "to": a, "kind": int(_display_grid[b])}]
+417: 	if not _drop_preview.is_empty() and int(_drop_preview.from) == a and int(_drop_preview.to) == b:
+418: 		_moving[0]["start_position"] = Vector2(_drop_preview.position)
+419: 		_moving[0]["start_scale"] = 1.08
+420: 		var partner: Dictionary = _drop_preview.get("partner", {})
+421: 		if not partner.is_empty() and int(partner.index) == b:
+422: 			_moving[1]["start_position"] = Vector2(partner.position)
+423: 		_drop_preview.clear()
+424: 	_hidden = {a: true, b: true}
+425: 	_motion_t = 0.0
+426: 	_falling = false
+427: 	_tween = create_tween()
+428: 	_tween.tween_property(self, "_motion_t", 1.0, 0.17).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT if _moving[0].has("start_position") else Tween.EASE_IN_OUT)
+429: 	queue_redraw()
+430: 	await _wait(0.18)
+431: 	if epoch == _epoch:
+432: 		_motion_t = 1.0
+433: 		_moving.clear()
+434: 		_hidden.clear()
+435: 
+436: func _prepare_clear(event: Dictionary) -> void:
+437: 	var cleared: Array=event.get("indices",event.get("matched",[]))
+438: 	if not cleared.is_empty():foley_requested.emit("break",clampf(0.7+cleared.size()*0.035,0.8,1.15))
+439: 	_clearing.clear()
+

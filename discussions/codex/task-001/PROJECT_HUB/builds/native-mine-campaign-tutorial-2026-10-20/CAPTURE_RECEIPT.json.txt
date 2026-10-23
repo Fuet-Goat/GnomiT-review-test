@@ -1,0 +1,101 @@
+{
+	"failures": [],
+	"human_acceptance": "PENDING",
+	"method": "Scripted actual main.tscn level entry and modal navigation; untouched generated board, no simulated win",
+	"screen_count": 1,
+	"screen_index": 0,
+	"shots": [
+		{
+			"file": "res://verification/native_mine_tutorial_final/00_BLENDER_START_WORLD.png",
+			"sha256": "4f1010d2af306293f7b208c7957b84167de7dea973631982346d122397058458",
+			"tutorial": {}
+		},
+		{
+			"file": "res://verification/native_mine_tutorial_final/01_MAKE_VOLCANO.png",
+			"sha256": "38dfac8cd059115f7b361791818ee5b9a8caecfa8022d6dfe57d3af7a075b41b",
+			"tutorial": {
+				"action": "Next",
+				"action_rect": "[P: (82.0, 1299.0), S: (556.0, 92.0)]",
+				"back_enabled": false,
+				"back_rect": "[P: (82.0, 1191.0), S: (88.0, 88.0)]",
+				"can_finish": false,
+				"card_rect": "[P: (30.0, 165.0), S: (660.0, 1270.0)]",
+				"finished": false,
+				"mini_animation": {
+					"actual_target_range": [
+						3,
+						5
+					],
+					"cycle_seconds": 5.8,
+					"elapsed": 1.73333333333334,
+					"example_hit_count": 3,
+					"game_state_writes": false,
+					"page_index": 0,
+					"phase_text": "Swap two neighbouring minerals",
+					"reduced_motion": false,
+					"sound_players": 0
+				},
+				"mutates_board": false,
+				"mutates_save": false,
+				"next_enabled": true,
+				"next_rect": "[P: (550.0, 1191.0), S: (88.0, 88.0)]",
+				"page_count": 2,
+				"page_index": 0,
+				"pauses_tree": false,
+				"power_id": "volcano",
+				"reduced_motion": false,
+				"title": "Create a Volcano",
+				"visible": true
+			}
+		},
+		{
+			"file": "res://verification/native_mine_tutorial_final/02_USE_VOLCANO.png",
+			"sha256": "4c3598878a2531337ec7fa5bd36d48b4d68234cb8b38cd494600ab2b05b40e67",
+			"tutorial": {
+				"action": "Play Level 1",
+				"action_rect": "[P: (82.0, 1299.0), S: (556.0, 92.0)]",
+				"back_enabled": true,
+				"back_rect": "[P: (82.0, 1191.0), S: (88.0, 88.0)]",
+				"can_finish": true,
+				"card_rect": "[P: (30.0, 165.0), S: (660.0, 1270.0)]",
+				"finished": false,
+				"mini_animation": {
+					"actual_target_range": [
+						3,
+						5
+					],
+					"cycle_seconds": 5.8,
+					"elapsed": 1.86666666666667,
+					"example_hit_count": 3,
+					"game_state_writes": false,
+					"page_index": 1,
+					"phase_text": "Burning rocks fly to scattered minerals",
+					"reduced_motion": false,
+					"sound_players": 0
+				},
+				"mutates_board": false,
+				"mutates_save": false,
+				"next_enabled": false,
+				"next_rect": "[P: (550.0, 1191.0), S: (88.0, 88.0)]",
+				"page_count": 2,
+				"page_index": 1,
+				"pauses_tree": false,
+				"power_id": "volcano",
+				"reduced_motion": false,
+				"title": "Let it erupt!",
+				"visible": true
+			}
+		},
+		{
+			"file": "res://verification/native_mine_tutorial_final/03_READY_TO_PLAY.png",
+			"sha256": "4714d210d7e82836e46034a4a343fb5592877cad2bb5b0384afe8633cf08f7d2",
+			"tutorial": {}
+		}
+	],
+	"state_preserved": true,
+	"status": "PASS",
+	"viewport": [
+		432,
+		960
+	]
+}

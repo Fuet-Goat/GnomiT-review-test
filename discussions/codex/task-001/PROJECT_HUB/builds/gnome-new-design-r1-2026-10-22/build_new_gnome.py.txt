@@ -1,0 +1,181 @@
+"""Fresh R1 unrigged clay blockout. No predecessor scene/mesh is loaded."""
+from pathlib import Path
+import sys,math,json,hashlib
+import bpy
+from mathutils import Vector
+ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'source'))
+from new_body import build_body,_closed_rings,_catmull
+
+def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
+
+def main():
+    assert bpy.app.background
+    assert not (ROOT/'native/GNOME_R1_NEW_BLOCKOUT_02.blend').exists(), 'Use a fresh output folder; preserve the predecessor.'
+    bpy.ops.wm.read_factory_settings(use_empty=True)
+    scene=bpy.context.scene
+    asset=bpy.data.collections.new('R1_NEW_GNOME');scene.collection.children.link(asset)
+    clay=bpy.data.materials.new('R1 Clay — form review only');clay.use_nodes=True
+    clay.node_tree.nodes['Principled BSDF'].inputs['Base Color'].default_value=(.46,.45,.41,1)
+    clay.node_tree.nodes['Principled BSDF'].inputs['Roughness'].default_value=.78
+    eye=bpy.data.materials.new('R1 Eye direction — blockout marker');eye.use_nodes=True
+    eye.node_tree.nodes['Principled BSDF'].inputs['Base Color'].default_value=(.045,.036,.025,1)
+    eye.node_tree.nodes['Principled BSDF'].inputs['Roughness'].default_value=.45
+    def move(obj):
+        for c in list(obj.users_collection):c.objects.unlink(obj)
+        asset.objects.link(obj);return obj
+    def ellipsoid(name,center,scale,material=clay):
+        bpy.ops.mesh.primitive_uv_sphere_add(segments=32,ring_count=20,radius=1,location=center)
+        obj=move(bpy.context.object);obj.name=name;obj.scale=scale
+        bpy.ops.object.transform_apply(location=False,rotation=False,scale=True)
+        for f in obj.data.polygons:f.use_smooth=True
+        if material:obj.data.materials.append(material)
+        return obj
+    def union(name,parts,voxel=.006):
+        bpy.ops.object.select_all(action='DESELECT')
+        for obj in parts:obj.select_set(True)
+        bpy.context.view_layer.objects.active=parts[0];bpy.ops.object.join();obj=parts[0];obj.name=name
+        remesh=obj.modifiers.new('Fresh sculpt volume union','REMESH');remesh.mode='VOXEL';remesh.voxel_size=voxel;remesh.use_smooth_shade=True
+        bpy.ops.object.modifier_apply(modifier=remesh.name)
+        smooth=obj.modifiers.new('Broad organic transition','SMOOTH');smooth.factor=.46;smooth.iterations=5
+        bpy.ops.object.modifier_apply(modifier=smooth.name)
+        for f in obj.data.polygons:f.use_smooth=True
+        return obj
+    def tube(name,points,radii,depth=.7,material=clay):
+        samples=_catmull(points,radii,8);rings=[]
+        for k,(center,radius) in enumerate(samples):
+            tangent=(samples[min(k+1,len(samples)-1)][0]-samples[max(0,k-1)][0]).normalized()
+            across=tangent.cross(Vector((0,-1,0)))
+            if across.length<.01:across=tangent.cross(Vector((1,0,0)))
+            across.normalize();normal=tangent.cross(across).normalized();ring=[]
+            for i in range(32):
+                a=math.tau*i/32;ring.append(center+radius*(math.cos(a)*across+depth*math.sin(a)*normal))
+            rings.append(ring)
+        obj=_closed_rings(name,rings,asset)
+        if material:obj.data.materials.append(material)
+        sub=obj.modifiers.new('Broad curved silhouette','SUBSURF');sub.levels=1;sub.render_levels=1
+        bpy.context.view_layer.objects.active=obj;obj.select_set(True)
+        bpy.ops.object.modifier_apply(modifier=sub.name)
+        for f in obj.data.polygons:f.use_smooth=True
+        return obj
+    body_info=build_body({'cloth':clay,'collection':asset,'prefix':'R1'})
+    body=body_info['body']
+    # Fresh head is a fused sculpt: cheeks, brow, bridge and nose form one skin.
+    skin_parts=[ellipsoid('R1 skull',(0,.012,1.070),(.224,.168,.218)),
+                ellipsoid('R1 neck',(0,.018,.846),(.105,.10,.126)),
+                ellipsoid('R1 cheek L',(-.115,-.105,1.075),(.105,.082,.093)),
+                ellipsoid('R1 cheek R',(.111,-.105,1.083),(.104,.083,.091)),
+                ellipsoid('R1 nose bridge',(0,-.144,1.130),(.040,.047,.064)),
+                ellipsoid('R1 nose',(0,-.189,1.100),(.064,.070,.047)),
+                ellipsoid('R1 brow skin L',(-.085,-.134,1.183),(.067,.047,.031)),
+                ellipsoid('R1 brow skin R',(.084,-.134,1.178),(.064,.046,.029)),
+                ellipsoid('R1 ear L',(-.222,.003,1.093),(.062,.039,.085)),
+                ellipsoid('R1 ear R',(.222,.003,1.098),(.062,.039,.083))]
+    head=union('R1_ContinuousHead',skin_parts,.0035)
+    for side in (-1,1):
+        # Real recessed sockets; white markers remain small and hooded.
+        cutter=ellipsoid('R1 eye socket tool',(side*.085,-.165,1.149),(.042,.038,.027),None)
+        bpy.context.view_layer.objects.active=head
+        boolean=head.modifiers.new('Recessed orbital opening','BOOLEAN');boolean.operation='DIFFERENCE';boolean.solver='EXACT';boolean.object=cutter
+        bpy.ops.object.modifier_apply(modifier=boolean.name);bpy.data.objects.remove(cutter,do_unlink=True)
+        ellipsoid('R1 eye white '+str(side),(side*.085,-.165,1.149),(.031,.018,.016))
+        ellipsoid('R1 pupil '+str(side),(side*.085-.002,-.184,1.149),(.012,.004,.013),eye)
+        points=[(side*.085-.041,-.156,1.148),(side*.085-.025,-.182,1.166),
+                (side*.085,-.188,1.169),(side*.085+.027,-.181,1.162),(side*.085+.041,-.154,1.148)]
+        tube('R1 hooded upper lid '+str(side),points,[.005,.010,.012,.009,.004],.5)
+        tube('R1 expressive brow '+str(side),[(side*.035,-.152,1.203),(side*.074,-.161,1.222+(side<0)*.006),
+             (side*.123,-.145,1.214)], [.010,.018,.004],.6)
+    # Three broad asymmetrical flowing hair masses; all are newly authored.
+    beard_parts=[ellipsoid('R1 jaw beard base',(0,-.072,.981),(.205,.119,.128)),
+        tube('R1 left beard flow',[(-.163,-.064,1.086),(-.205,-.157,.990),(-.171,-.190,.883),(-.071,-.169,.801)],[.050,.084,.080,.008]),
+        tube('R1 central swept beard',[(.009,-.120,1.040),(.083,-.189,.937),(.108,-.213,.805),(.017,-.163,.676)],[.079,.112,.097,.006]),
+        tube('R1 right beard flow',[(.145,-.067,1.092),(.203,-.144,1.020),(.197,-.187,.924),(.111,-.187,.829)],[.050,.082,.080,.006])]
+    beard=union('R1_FlowingBeard',beard_parts,.0048)
+    for side in (-1,1):
+        tube('R1 moustache '+str(side),[(side*.008,-.211,1.062),(side*.055,-.217,1.047),
+            (side*.110,-.192,1.048),(side*.149,-.159,1.072)],[.017,.027,.023,.003],.62)
+    tube('R1 smile', [(-.057,-.183,1.031),(-.004,-.198,1.021),(.057,-.182,1.039)],[.004,.006,.003],.8,eye)
+    # A new drooping cap silhouette, not inherited from the old cone.
+    cap_centers=[((0,.008,1.245),.246,.183),((-.006,.012,1.330),.244,.184),
+        ((-.034,.022,1.433),.213,.162),((-.092,.029,1.517),.165,.132),
+        ((-.175,.035,1.541),.119,.102),((-.256,.032,1.492),.084,.079),
+        ((-.303,.022,1.399),.055,.057),((-.319,.007,1.300),.025,.034),((-.307,-.002,1.259),.005,.009)]
+    rings=[]
+    sweep_x=_catmull([p[0] for p in cap_centers],[p[1] for p in cap_centers],6)
+    sweep_y=_catmull([p[0] for p in cap_centers],[p[2] for p in cap_centers],6)
+    for k,((center,rx),(_,ry)) in enumerate(zip(sweep_x,sweep_y)):
+        tangent=(sweep_x[min(k+1,len(sweep_x)-1)][0]-sweep_x[max(0,k-1)][0]).normalized()
+        depth=Vector((0,1,0));across=depth.cross(tangent).normalized()
+        rings.append([center+across*(rx*math.cos(math.tau*i/48))+depth*(ry*math.sin(math.tau*i/48)) for i in range(48)])
+    cap=_closed_rings('R1_FloppyCap',rings,asset);cap.data.materials.append(clay)
+    sub=cap.modifiers.new('Soft folded cap','SUBSURF');sub.levels=2;sub.render_levels=2
+    for f in cap.data.polygons:f.use_smooth=True
+    band=[]
+    for z,rx,ry in [(1.225,.239,.176),(1.235,.262,.199),(1.292,.264,.198),(1.308,.243,.178)]:
+        band.append([(rx*math.cos(math.tau*i/48),.008+ry*math.sin(math.tau*i/48),z+.012*math.sin(math.tau*i/48+.25)) for i in range(48)])
+    brim=_closed_rings('R1_FoldedCapBand',band,asset);brim.data.materials.append(clay)
+    sub=brim.modifiers.new('Broad fabric band','SUBSURF');sub.levels=2;sub.render_levels=2
+    for f in brim.data.polygons:f.use_smooth=True
+    # Shaped ankles/toes, with continuous boot uppers and simple flat soles.
+    for side in (-1,1):
+        x=side*.139
+        ellipsoid('R1 trouser '+str(side),(x,.018,.269),(.091,.089,.112))
+        boot=union('R1_Boot_'+str(side),[
+            ellipsoid('R1 ankle',(x,.020,.172),(.086,.090,.115)),
+            ellipsoid('R1 instep',(x,-.041,.107),(.098,.122,.077)),
+            ellipsoid('R1 rounded toe',(x,-.118,.078),(.109,.104,.061))],.005)
+        bpy.ops.mesh.primitive_cube_add(size=1,location=(x,-.061,.025));sole=move(bpy.context.object);sole.name='R1 sole '+str(side)
+        sole.scale=(.225,.333,.047);bpy.ops.object.transform_apply(location=False,rotation=False,scale=True)
+        bevel=sole.modifiers.new('Sole contour','BEVEL');bevel.width=.022;bevel.segments=4;sole.data.materials.append(clay)
+    # Hands are gesture masses, not finished finger anatomy.
+    for label,data in body_info['cuffs'].items():
+        center=Vector(data['hand_center']);direction=Vector(data['direction'])
+        ellipsoid('R1 hand '+label,center+direction*.017,(.060,.047,.040))
+        thumb=center+Vector((.035 if label=='right' else -.035,-.019,.034))
+        ellipsoid('R1 thumb '+label,thumb,(.024,.028,.036))
+    # Blockout lantern has a cage volume and a handle, without ornament.
+    lantern_center=Vector((.370,-.105,.266))
+    bpy.ops.mesh.primitive_cube_add(size=1,location=lantern_center);lantern=move(bpy.context.object);lantern.name='R1_LanternBlockout'
+    lantern.scale=(.134,.122,.170);bpy.ops.object.transform_apply(location=False,rotation=False,scale=True)
+    bevel=lantern.modifiers.new('Simple lantern corners','BEVEL');bevel.width=.012;bevel.segments=3;lantern.data.materials.append(clay)
+    tube('R1 lantern handle',[(.326,-.105,.352),(.326,-.105,.413),(.370,-.105,.436),(.414,-.105,.413),(.414,-.105,.352)], [.009]*5,.8)
+    root=bpy.data.objects.new('R1_GnomeRoot',None);asset.objects.link(root)
+    for obj in list(asset.objects):
+        if obj!=root:obj.parent=root
+    root['identity']='new concept: red cap, ivory beard, teal coat, brown boots, lantern left; native is clay form only'
+    root['construction']='new authored geometry; no old mesh, parenting or actions reused'
+    root['status']='UNRIGGED STATIC BLOCKOUT; not the generated concept render'
+    # Preview scene is separate from the asset collection.
+    scene.render.engine='BLENDER_EEVEE';scene.render.resolution_x=600;scene.render.resolution_y=840;scene.render.resolution_percentage=100
+    scene.view_settings.view_transform='AgX';scene.world=bpy.data.worlds.new('R1 preview world');scene.world.use_nodes=True
+    scene.world.node_tree.nodes['Background'].inputs['Color'].default_value=(.66,.69,.65,1)
+    scene.world.node_tree.nodes['Background'].inputs['Strength'].default_value=.30
+    bpy.ops.mesh.primitive_plane_add(size=200);floor=bpy.context.object;floor.name='R1 stage floor'
+    floor_mat=bpy.data.materials.new('R1 ivory stage');floor_mat.use_nodes=True
+    floor_mat.node_tree.nodes['Principled BSDF'].inputs['Base Color'].default_value=(.72,.71,.65,1);floor.data.materials.append(floor_mat)
+    for name,position,energy,size in [('R1 key',(-3,-4,5),650,5),('R1 fill',(3,-2,3),270,4),('R1 rim',(1,3,4),400,4)]:
+        data=bpy.data.lights.new(name,'AREA');data.energy=energy;data.shape='DISK';data.size=size
+        obj=bpy.data.objects.new(name,data);scene.collection.objects.link(obj);obj.location=position
+        obj.rotation_euler=(Vector((0,0,.80))-obj.location).to_track_quat('-Z','Y').to_euler()
+    data=bpy.data.cameras.new('R1 camera');camera=bpy.data.objects.new('R1 camera',data);scene.collection.objects.link(camera)
+    data.type='ORTHO';data.ortho_scale=1.92;scene.camera=camera;target=Vector((0,0,.80))
+    for view,offset in [('FRONT',(0,-5,.34)),('THREE_QUARTER',(3,-4,.65))]:
+        camera.location=target+Vector(offset);camera.rotation_euler=(target-camera.location).to_track_quat('-Z','Y').to_euler()
+        scene.render.filepath=str(ROOT/'outputs'/f'R1_CLAY_{view}.png')
+        if view=='FRONT':
+            bpy.context.preferences.filepaths.save_version=0
+            text=bpy.data.texts.new('START_HERE_NEW_R1');text.write('Fresh unrigged clay blockout. New source only. Generated concept is separate PNG, not this native mesh. No inherited geometry/rig/actions. No animation/material polish or game integration.\n')
+            assert 'FINISHED' in bpy.ops.wm.save_as_mainfile(filepath=str(ROOT/'native/GNOME_R1_NEW_BLOCKOUT_02.blend'),check_existing=False)
+        assert 'FINISHED' in bpy.ops.render.render(write_still=True)
+    native=ROOT/'native/GNOME_R1_NEW_BLOCKOUT_02.blend'
+    bpy.ops.wm.open_mainfile(filepath=str(native));assert bpy.data.collections.get('R1_NEW_GNOME')
+    assert len(bpy.data.actions)==0
+    receipt={'status':'FRESH_NATIVE_SAVED_REOPENED_RENDERED','native_sha256':sha(native),
+        'predecessor_mesh_imports':0,'predecessor_scene_reads':0,'actions':0,'rig':'NOT_CREATED',
+        'asset_collection':'R1_NEW_GNOME','asset_objects':len(bpy.data.collections['R1_NEW_GNOME'].objects),
+        'stage_images':['R1_CLAY_FRONT.png','R1_CLAY_THREE_QUARTER.png'],'stage_dimensions':[600,840],
+        'finish':'coarse clay proportions/gesture study, not a finished match to the concept PNG',
+        'material_detail_or_animation':'NOT_PERFORMED','human_design_approval':'PENDING'}
+    (ROOT/'documentation/NATIVE_R1_RECEIPT.json').write_bytes((json.dumps(receipt,indent=2)+'\n').encode())
+    print('FRESH_R1_BLOCKOUT_COMPLETE '+json.dumps(receipt),flush=True)
+
+if __name__=='__main__':main()

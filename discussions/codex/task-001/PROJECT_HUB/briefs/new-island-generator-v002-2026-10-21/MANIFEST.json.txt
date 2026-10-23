@@ -1,0 +1,94 @@
+{
+  "files": [
+    {
+      "path": "CODEX_REVIEW_AND_RENDER_BG.txt",
+      "bytes": 3113,
+      "sha256": "254d72b9c96dec7a822b4b734149ee0e9d2e4804497b5b6384af528b418f9ed4"
+    },
+    {
+      "path": "CURRENT_STATE_BG.txt",
+      "bytes": 3433,
+      "sha256": "059d4f2fe91cd8f5e09685b24f69a9838156c1ddaeae618f5d255118b5e71b7a"
+    },
+    {
+      "path": "EXAMPLES_ONLY/boardwalk_asset.py.txt",
+      "bytes": 6659,
+      "sha256": "e5a1a03d21e9a605fb4d313d6702c665187c9f797bfd730e86bb1fc99f486048"
+    },
+    {
+      "path": "EXAMPLES_ONLY/README.txt",
+      "bytes": 860,
+      "sha256": "fb7aa78dffda827b89f03bb8786ae48e5037b8d827a7bd9b2ad003f2b7aa7d45"
+    },
+    {
+      "path": "EXAMPLES_ONLY/reexport_scene.py.txt",
+      "bytes": 506,
+      "sha256": "6e2567a3d3a546addf7382370545350dc312a904738f8a7b4a89579b77113a18"
+    },
+    {
+      "path": "EXAMPLES_ONLY/scene_api.py.txt",
+      "bytes": 8691,
+      "sha256": "e84bbb623575532af2b3249ec40fccbf9117337e50077a697388de561d1ae824"
+    },
+    {
+      "path": "EXAMPLES_ONLY/V3_PROVENANCE.txt",
+      "bytes": 3639,
+      "sha256": "d5e852be0206eb017e339a03a155ff7137fe07b1cb007ddab75aa737cda38c62"
+    },
+    {
+      "path": "FINAL_RESPONSE.txt",
+      "bytes": 593,
+      "sha256": "77e73789dd96f4e3b22333509312e699bdb184f521e9f385fa092d83b1228fbd"
+    },
+    {
+      "path": "GENERATOR_CONTRACT_BG.txt",
+      "bytes": 4454,
+      "sha256": "3f2b287bc9efb8a2ad5bb41c50ab9a17ee5d6529b289aa0acc3cabea0dc649db"
+    },
+    {
+      "path": "INPUT_MANIFEST.json",
+      "bytes": 2375,
+      "sha256": "8a4bfa21527ad29a92484fc4ef9c2c226681f06a146f15989cd263b9ab387a94"
+    },
+    {
+      "path": "PRIMARY_TARGET_COMPARISON.png",
+      "bytes": 2634535,
+      "sha256": "a7d9b4f82fe73a2e5ab641261b9cbc14765e6360c9c108ab7ee9a51b0bc84add"
+    },
+    {
+      "path": "PROMPT_FOR_GPT_BG.txt",
+      "bytes": 6015,
+      "sha256": "105e8fb70fa1c425782ea925867350f865998aa55a1a9437bbb67e4e2024d1fa"
+    },
+    {
+      "path": "PROVENANCE.json",
+      "bytes": 3315,
+      "sha256": "1d34df71f236f64f5b58c61dd004a17569661fb783d5c0e539c0f618d38ff556"
+    },
+    {
+      "path": "README_BG.txt",
+      "bytes": 1595,
+      "sha256": "c319b50feeef284d5a05d9b7245fa5568c526082f2b11bfdaeabb27cdafe77c1"
+    },
+    {
+      "path": "SCENE_TARGETS.json",
+      "bytes": 1420,
+      "sha256": "c75c77a4d13cf204ee0335fb0d5735bfc9d9e7862cb9cc81cdacf84f937d07a5"
+    },
+    {
+      "path": "SECONDARY_ISLAND_REFERENCE.png",
+      "bytes": 2054056,
+      "sha256": "0431ca1845913d568430590fba9af71df4274fb0ff2a434130b66256885192b6"
+    },
+    {
+      "path": "START_HERE_BG.txt",
+      "bytes": 2157,
+      "sha256": "f2a704110d88de12ea99eda9c18ef1bb64b697ff0108f823ab161e9c0bc4ce51"
+    },
+    {
+      "path": "WHAT_TO_CHANGE_BG.txt",
+      "bytes": 4389,
+      "sha256": "1789bbeaf17b3307fbb797c241cef4ec0f368d1dc15d1ae79299f0de2f6feba3"
+    }
+  ]
+}

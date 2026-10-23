@@ -1,0 +1,40 @@
+{
+  "format": "Blender native,Geometry Nodes grass inherited",
+  "candidate": "native/MAP_PALETTE_I2.blend",
+  "scope": "Albedo palette only",
+  "static_preview": true,
+  "render_px": [
+    432,
+    960
+  ],
+  "changed_materials": [
+    "Airy_Endgrain",
+    "Airy_grass_light",
+    "Airy_grass_shadow",
+    "Airy_leaf",
+    "Airy_leaf.001",
+    "Airy_leaf_light",
+    "Airy_leaf_shadow",
+    "Airy_moss",
+    "Airy_pink",
+    "Airy_red",
+    "Airy_soil",
+    "Airy_soil_dark",
+    "Airy_soil_light",
+    "Airy_stone",
+    "Airy_stone_light",
+    "Airy_stone_shadow",
+    "Airy_wood",
+    "Airy_wood_dark",
+    "Airy_wood_light",
+    "Airy_yellow",
+    "GnomiT_Carved_Tree_Bark",
+    "GnomiT_Organic_Crown_Matte",
+    "Low fine blade colours",
+    "Soft continuous green turf"
+  ],
+  "unchanged_scene_objects": 666,
+  "candidate_sha256": "002b552562faea2dad32ce7fef929df9f3fe31c8ae7418ed62e0d115cef4da07",
+  "runtime_export": "NOT_PERFORMED",
+  "human_choice": "PENDING"
+}

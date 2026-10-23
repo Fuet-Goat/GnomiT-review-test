@@ -1,0 +1,153 @@
+"""Geometry-only beard study for the existing guide, authored in head space.
+
+Called by the candidate builder; this module does not load/save/render a scene.
+The caller supplies the integrated face's original matrix_world as the common
+authored coordinate frame (Z up, front toward -Y). Existing beard materials,
+object transforms, parents, modifiers and actions are retained.
+"""
+import math
+
+import bpy
+from mathutils import Vector
+
+
+def _append_lock(vertices, faces, start, middle, end, width, depth):
+    """Closed curved, flattened oval lobe; broad at midlength, round at ends."""
+    start, middle, end = map(Vector, (start, middle, end))
+    ring_count = 24
+    samples = (0.04, 0.10, 0.19, 0.31, 0.44, 0.57, 0.70, 0.81, 0.90, 0.96)
+    first = len(vertices)
+    vertices.append(tuple(start))
+    for t in samples:
+        center = (1-t)**2 * start + 2*(1-t)*t * middle + t*t*end
+        tangent = (2*(1-t)*(middle-start) + 2*t*(end-middle)).normalized()
+        across = Vector((1, 0, 0))
+        across = (across-tangent*across.dot(tangent)).normalized()
+        normal = tangent.cross(across).normalized()
+        # A half-ellipse profile gives an oval/lock rather than a straight cone.
+        # The lower half narrows gently, while both ends close inside the base.
+        profile = math.sin(math.pi*t)**0.52
+        taper = 1.0 - 0.23*t
+        for j in range(ring_count):
+            angle = math.tau*j/ring_count
+            p = center + across*(math.cos(angle)*width*profile*taper)
+            p += normal*(math.sin(angle)*depth*profile)
+            vertices.append(tuple(p))
+    end_index = len(vertices)
+    vertices.append(tuple(end))
+    for j in range(ring_count):
+        nj = (j+1) % ring_count
+        faces.append((first, first+1+nj, first+1+j))
+    for k in range(len(samples)-1):
+        a = first+1+k*ring_count
+        b = a+ring_count
+        for j in range(ring_count):
+            nj = (j+1) % ring_count
+            faces.append((a+j, a+nj, b+nj, b+j))
+    last = first+1+(len(samples)-1)*ring_count
+    for j in range(ring_count):
+        faces.append((last+j, last+(j+1) % ring_count, end_index))
+
+
+def build_beard_form(beard_obj, canonical_face_matrix):
+    """Replace only beard mesh geometry with a continuous three-lobe beard.
+
+    A recessed copy of the inherited watertight jaw base supplies the attachment
+    and back. Three shallow overlapping lobes are voxel-unioned with it. Temporary
+    objects are removed before returning, including on failure. No original
+    material is edited and no armature/action/object matrix is changed.
+    """
+    if beard_obj.type != 'MESH':
+        raise TypeError('The inherited beard must be a mesh object')
+    original = beard_obj.data
+    original_materials = list(original.materials)
+    if not original_materials:
+        raise ValueError('Beard material slots must already exist')
+    to_head = canonical_face_matrix.inverted() @ beard_obj.matrix_world
+    back = beard_obj.matrix_world.inverted() @ canonical_face_matrix
+    # Preserve the predecessor's evaluated smooth jaw, not its coarse cage.
+    # Voxelizing the raw nine-ring cage would bake horizontal terraces in.
+    bpy.context.view_layer.update()
+    inherited_depsgraph = bpy.context.evaluated_depsgraph_get()
+    inherited_base = bpy.data.meshes.new_from_object(beard_obj.evaluated_get(inherited_depsgraph), depsgraph=inherited_depsgraph)
+    vertices, faces = [], [tuple(p.vertices) for p in inherited_base.polygons]
+    for vertex in inherited_base.vertices:
+        p = to_head @ vertex.co
+        # Keep the complete upper jaw/sideburn join. Lower frontal material
+        # retreats behind the large locks instead of becoming a second shell.
+        front = max(0.0, min(1.0, (-p.y-.025)/.10))
+        lower = max(0.0, min(1.0, (.735-p.z)/.095))
+        p.y += .008*front*lower
+        # Round and slightly lift the inherited single pointed chin; the broad
+        # central lock provides the new lower silhouette.
+        if p.z < .575:
+            p.z = .575+(p.z-.575)*.90
+        vertices.append(tuple(p))
+
+    # Three SHALLOW overlapping surface masses. The inherited sideburn/jaw
+    # contour supplies the silhouette, so no tall cheek plumes are added.
+    # Wide lobes overlap each other and the unreduced base: the result should
+    # read as one beard with two shallow channels, not hanging teardrops.
+    # Units are canonical metres. The centre settles gently below the sides.
+    locks = (
+        ((-.075,-.140,.716),(-.087,-.184,.650),(-.074,-.120,.587),.078,.022),
+        ((-.002,-.148,.705),( .004,-.190,.637),( .010,-.103,.560),.082,.024),
+        (( .074,-.138,.720),( .089,-.180,.659),( .082,-.117,.596),.077,.021),
+    )
+    for start, middle, end, width, depth in locks:
+        _append_lock(vertices, faces, start, middle, end, width, depth)
+
+    temporary_mesh = bpy.data.meshes.new('M_Beard_Union_Input_TEMP')
+    temporary_obj = None
+    result = None
+    assigned = False
+    try:
+        temporary_mesh.from_pydata(vertices, [], faces)
+        temporary_mesh.update()
+        temporary_obj = bpy.data.objects.new('M_Beard_Union_TEMP', temporary_mesh)
+        bpy.context.scene.collection.objects.link(temporary_obj)
+        remesh = temporary_obj.modifiers.new('Coherent broad beard masses', 'REMESH')
+        remesh.mode = 'VOXEL'
+        remesh.voxel_size = .0045
+        remesh.use_smooth_shade = True
+        remesh.use_remove_disconnected = False
+        smooth = temporary_obj.modifiers.new('Gentle sculpted transitions', 'SMOOTH')
+        smooth.factor = .32
+        smooth.iterations = 8
+        bpy.context.view_layer.update()
+        depsgraph = bpy.context.evaluated_depsgraph_get()
+        evaluated = temporary_obj.evaluated_get(depsgraph)
+        result = bpy.data.meshes.new_from_object(evaluated, depsgraph=depsgraph)
+        result.name = 'Guide_M2_Coherent_Three_Shallow_Beard_Lobes'
+        if len(result.vertices) < 100:
+            raise RuntimeError('Unexpectedly empty beard union')
+        for vertex in result.vertices:
+            vertex.co = back @ vertex.co
+        for material in original_materials:
+            result.materials.append(material)
+        for polygon in result.polygons:
+            polygon.use_smooth = True
+            polygon.material_index = 0
+        result.update()
+        beard_obj.data = result
+        assigned = True
+        return {
+            'object': beard_obj.name,
+            'operation': 'retained jaw silhouette plus three broad shallow overlapping lobes; voxel union',
+            'lock_count': len(locks),
+            'inherited_base_evaluated_before_voxel_union': True,
+            'voxel_size_canonical_m': .0045,
+            'vertices': len(result.vertices),
+            'polygons': len(result.polygons),
+            'material_slots': [m.name if m else None for m in original_materials],
+            'transforms_parents_actions_material_definitions': 'unchanged',
+        }
+    finally:
+        if inherited_base.users == 0:
+            bpy.data.meshes.remove(inherited_base)
+        if temporary_obj is not None:
+            bpy.data.objects.remove(temporary_obj, do_unlink=True)
+        if temporary_mesh.users == 0:
+            bpy.data.meshes.remove(temporary_mesh)
+        if result is not None and not assigned and result.users == 0:
+            bpy.data.meshes.remove(result)

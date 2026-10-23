@@ -1,0 +1,1 @@
+Готова е отделната Codex проба v002 на гнома. Desktop/GnomiT Samples/v002 - Gnome Greeting - Codex Art Preview. Greet again: поздрав; Before/After: сравнение; Face detail: отблизо; Motion: статична поза. Основната v001 е запазена. Source/export/preview/документация са включени. Визуалното приемане остава твое.

@@ -1,0 +1,36 @@
+{
+  "status": "ACTUAL_NATIVE_BORDER_RENDERS",
+  "original_frame": [
+    432,
+    960
+  ],
+  "source_crop_xyxy": [
+    61,
+    428,
+    125,
+    492
+  ],
+  "pixel_density_multiplier": 8,
+  "interpolation": "NONE",
+  "camera_lighting_geometry_changes": false,
+  "native_files_saved": false,
+  "renders": [
+    {
+      "variant": "A",
+      "native_sha256": "d763d19318e47bf4801f4e3bc8cfedef9b99791b092ac88cf30bd508f92137b4",
+      "path": "outputs/04_A_NATIVE_DETAIL_8X.png",
+      "bytes": 414525,
+      "sha256": "89a40c9dbd517c3db7fae14fb60e15bbfac492e0ec9c67a2275e1e90da659a96",
+      "samples": 128
+    },
+    {
+      "variant": "B",
+      "native_sha256": "565ef994f53900d63995c8618c5099bb7d90788ece3415d675d4d3ed5e373869",
+      "path": "outputs/05_B_NATIVE_DETAIL_8X.png",
+      "bytes": 417493,
+      "sha256": "a49728a6998de83945d9d2352606e064169f39f1a8962767b52531301caf68f2",
+      "samples": 128
+    }
+  ],
+  "script_sha256": "b33f2f5a880517a6dacbfacc3cd80acb5cec79a3e2342a733f99cf20c549dcf3"
+}
