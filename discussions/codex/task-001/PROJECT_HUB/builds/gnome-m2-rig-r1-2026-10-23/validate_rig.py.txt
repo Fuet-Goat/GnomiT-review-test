@@ -1,0 +1,419 @@
+"""Numerical checks for the R4/M1 character's six-second M2 greeting.
+
+Run inside Blender after building the rig.  The returned dictionary contains
+JSON-compatible measurements, never a claim of visual or game acceptance.
+Source mesh preservation, palette preservation, and studio preservation are
+separate build-level checks; this module examines evaluated animation geometry.
+"""
+
+import math
+
+
+SAMPLE_FRAMES = (1, 19, 37, 55, 73, 91, 109, 127, 145)
+POSITION_TOLERANCE = 1.0e-5
+WEIGHT_TOLERANCE = 1.0e-4
+BOOT_NAMES = ("R1_Boot_-1", "R1_Boot_1",
+              "R2 curved sole -1", "R2 curved sole 1")
+RIGHT_HAND_NAME = "R2_OpenInvitationHand"
+HEAD_NAME = "R4_ContinuousFacialPlanes"
+
+
+def _require(condition, message):
+    if not condition:
+        raise ValueError("M2 rig validation: " + message)
+
+
+def _distance(a, b):
+    return math.sqrt(sum((a[i] - b[i]) ** 2 for i in range(3)))
+
+
+def _centroid(vertices, indices=None):
+    points = vertices if indices is None else [vertices[i] for i in indices]
+    _require(bool(points), "Cannot measure an empty evaluated vertex set")
+    n = len(points)
+    return tuple(sum(p[i] for p in points) / n for i in range(3))
+
+
+def _max_vertex_delta(before, after):
+    _require(len(before) == len(after), "Evaluated vertex count changed")
+    return max((_distance(a, b) for a, b in zip(before, after)), default=0.0)
+
+
+def _matrix_values(matrix):
+    values = tuple(float(value) for row in matrix for value in row)
+    _require(all(math.isfinite(value) for value in values),
+             "A world/pose matrix contains a non-finite value")
+    return values
+
+
+def _matrix_delta(before, after):
+    return max(abs(a - b) for a, b in zip(before, after))
+
+
+def _bounds(vertices):
+    return {"min": [min(v[i] for v in vertices) for i in range(3)],
+            "max": [max(v[i] for v in vertices) for i in range(3)]}
+
+
+def _evaluated_geometry(obj, depsgraph, topology=False):
+    """Read actual evaluated vertices and immediately release the temp mesh."""
+    evaluated = obj.evaluated_get(depsgraph)
+    mesh = evaluated.to_mesh(preserve_all_data_layers=False, depsgraph=depsgraph)
+    _require(mesh is not None, "No evaluated mesh for " + obj.name)
+    try:
+        matrix = evaluated.matrix_world
+        vertices = [tuple(float(c) for c in (matrix @ v.co))
+                    for v in mesh.vertices]
+        _require(bool(vertices), "Empty evaluated mesh: " + obj.name)
+        _require(all(math.isfinite(c) for vertex in vertices for c in vertex),
+                 "Non-finite evaluated vertex in " + obj.name)
+        result = {"vertices": vertices,
+                  "counts": (len(mesh.vertices), len(mesh.edges),
+                             len(mesh.polygons))}
+        if topology:
+            result["edges"] = [tuple(edge.vertices) for edge in mesh.edges]
+            result["polygons"] = [tuple(poly.vertices) for poly in mesh.polygons]
+        return result
+    finally:
+        evaluated.to_mesh_clear()
+
+
+def _rig_object(rig):
+    # The builder returns {'rig': Object, 'metadata': plain_dict}; accepting the
+    # Object itself also makes this validator usable after a native reopen.
+    if isinstance(rig, dict):
+        rig = rig.get("rig", rig.get("armature"))
+    _require(rig is not None and getattr(rig, "type", None) == "ARMATURE",
+             "Expected an actual Blender Armature object")
+    return rig
+
+
+def _check_weights(mesh_objects, rig):
+    bone_names = {bone.name for bone in rig.data.bones}
+    records = {}
+    for obj in mesh_objects:
+        modifiers = [modifier for modifier in obj.modifiers
+                     if modifier.type == "ARMATURE"]
+        if not modifiers:
+            continue
+        _require(len(modifiers) == 1,
+                 obj.name + " has more than one Armature modifier")
+        modifier = modifiers[0]
+        _require(modifier.object == rig,
+                 obj.name + " targets an unexpected Armature")
+        _require(modifier.show_viewport and modifier.show_render,
+                 obj.name + " has a disabled Armature modifier")
+        _require(modifier.use_vertex_groups,
+                 obj.name + " does not use explicit deformation weights")
+        group_names = {group.index: group.name for group in obj.vertex_groups}
+        minimum_sum, maximum_sum, maximum_error = math.inf, -math.inf, 0.0
+        for vertex in obj.data.vertices:
+            total = 0.0
+            for membership in vertex.groups:
+                weight = float(membership.weight)
+                _require(math.isfinite(weight) and 0.0 <= weight <= 1.0,
+                         obj.name + " has a non-finite, negative, or >1 weight")
+                name = group_names.get(membership.group)
+                _require(name in bone_names or weight == 0.0,
+                         obj.name + " has an unknown weighted bone group: "
+                         + str(name))
+                if name in bone_names:
+                    total += weight
+            error = abs(total - 1.0)
+            _require(error <= WEIGHT_TOLERANCE,
+                     "%s vertex %s weight sum is %.9g" %
+                     (obj.name, vertex.index, total))
+            minimum_sum = min(minimum_sum, total)
+            maximum_sum = max(maximum_sum, total)
+            maximum_error = max(maximum_error, error)
+        records[obj.name] = {
+            "vertex_count": len(obj.data.vertices),
+            "minimum_sum": minimum_sum,
+            "maximum_sum": maximum_sum,
+            "maximum_sum_error": maximum_error,
+            "armature_modifier": modifier.name,
+            "preserve_volume": bool(modifier.use_deform_preserve_volume),
+        }
+    _require(bool(records), "No explicitly weighted character meshes found")
+    return records
+
+
+def _coat_edge_measurements(baseline, current):
+    _require(current["edges"] == baseline["edges"]
+             and current["polygons"] == baseline["polygons"],
+             "Evaluated coat connectivity changed during the greeting")
+    minimum_ratio, maximum_ratio, tiny_baseline_edges = math.inf, 0.0, 0
+    for start, end in baseline["edges"]:
+        old_length = _distance(baseline["vertices"][start],
+                               baseline["vertices"][end])
+        if old_length <= 1.0e-9:
+            tiny_baseline_edges += 1
+            continue
+        new_length = _distance(current["vertices"][start],
+                               current["vertices"][end])
+        ratio = new_length / old_length
+        minimum_ratio = min(minimum_ratio, ratio)
+        maximum_ratio = max(maximum_ratio, ratio)
+    _require(minimum_ratio != math.inf, "Coat contains no measurable edges")
+    # Broad thresholds detect gross skin collapse/stretch without pretending
+    # that a plausible edge ratio establishes attractive or intersection-free
+    # cloth.  Smaller defects still require the rendered review.
+    _require(minimum_ratio > 0.005,
+             "Coat has an evaluated edge compressed below 0.5% of rest")
+    _require(maximum_ratio < 8.0,
+             "Coat has an evaluated edge stretched beyond 8x rest")
+    return {"minimum_edge_length_ratio_to_frame_1": minimum_ratio,
+            "maximum_edge_length_ratio_to_frame_1": maximum_ratio,
+            "baseline_edges_too_short_for_ratio": tiny_baseline_edges}
+
+
+def _coat_intersection_candidates(geometry):
+    """Diagnostic BVH overlaps; these are candidates, not geometric verdicts."""
+    from mathutils import Vector
+    from mathutils.bvhtree import BVHTree
+
+    polygons = geometry["polygons"]
+    # The authored coat is well under this limit.  Bound diagnostics so an
+    # accidentally enabled extreme subdivision cannot exhaust memory here.
+    if len(polygons) > 100000:
+        return {"status": "NOT_MEASURED_POLYGON_BUDGET", "candidate_pairs": None}
+    tree = BVHTree.FromPolygons([Vector(v) for v in geometry["vertices"]],
+                               polygons, all_triangles=False, epsilon=0.0)
+    adjacent = [set(poly) for poly in polygons]
+    count = 0
+    for first, second in tree.overlap(tree):
+        if first < second and not adjacent[first].intersection(adjacent[second]):
+            count += 1
+    return {"status": "MEASURED_CANDIDATES_ONLY", "candidate_pairs": count}
+
+
+def validate_motion(scene, asset, rig):
+    """Raise on numerical failures; return plain, explicit evidence metadata.
+
+    All evaluated coordinates are world coordinates.  Boots and soles are
+    compared vertex-for-vertex at the nine stated frames; hand motion and
+    frame-to-frame continuity are measured at every integer frame.  This
+    routine always leaves the scene on frame 1, including when a check fails.
+    """
+    import bpy
+    from mathutils import Vector
+
+    try:
+        rig = _rig_object(rig)
+        _require(asset is not None and asset.name == "R2_NEW_GNOME",
+                 "Expected character collection R2_NEW_GNOME")
+        objects = list(asset.all_objects)
+        by_name = {obj.name: obj for obj in objects}
+        root = by_name.get("R2_GnomeRoot")
+        _require(root is not None, "Character root R2_GnomeRoot is absent")
+        _require(rig in objects, "Armature is outside the character collection")
+        _require(scene.frame_start == 1 and scene.frame_end == 145,
+                 "Expected inclusive frame range 1..145")
+        fps = float(scene.render.fps) / float(scene.render.fps_base)
+        _require(abs(fps - 24.0) <= 1.0e-9, "Expected actual playback rate 24 fps")
+        _require(abs((scene.frame_end - scene.frame_start) / fps - 6.0) <= 1.0e-9,
+                 "Loop endpoints must be exactly six seconds apart")
+        for name in BOOT_NAMES + (RIGHT_HAND_NAME, HEAD_NAME):
+            _require(name in by_name and by_name[name].type == "MESH",
+                     "Required character mesh absent: " + name)
+        required_bones = ("Chest", "Head", "upperarm.R", "forearm.R", "hand.R")
+        for name in required_bones:
+            _require(name in rig.pose.bones, "Required pose bone absent: " + name)
+        mesh_objects = [obj for obj in objects if obj.type == "MESH"]
+        coats = [obj for obj in mesh_objects if obj.name.endswith("_ContinuousCoat")]
+        _require(len(coats) == 1, "Expected one continuous authored coat mesh")
+        coat_name = coats[0].name
+        weights = _check_weights(mesh_objects, rig)
+
+        scene.frame_set(1)
+        bpy.context.view_layer.update()
+        depsgraph = bpy.context.evaluated_depsgraph_get()
+        baseline = {obj.name: _evaluated_geometry(obj, depsgraph,
+                                                 topology=obj.name == coat_name)
+                    for obj in mesh_objects}
+        scene_matrices = {obj.name: _matrix_values(obj.evaluated_get(depsgraph).matrix_world)
+                          for obj in scene.objects}
+        pose_matrices = {bone.name: _matrix_values(bone.matrix)
+                         for bone in rig.pose.bones}
+        hand_vertices = baseline[RIGHT_HAND_NAME]["vertices"]
+        # The accepted R2 hand's authored palm centre in character coordinates.
+        palm_reference = tuple(root.matrix_world @ Vector((-.390, -.160, .720)))
+        root_scale = max(float(v) for v in root.matrix_world.to_scale())
+        palm_radius = .055 * root_scale
+        palm_indices = [index for index, vertex in enumerate(hand_vertices)
+                        if _distance(vertex, palm_reference) <= palm_radius]
+        _require(len(palm_indices) >= 10,
+                 "Insufficient evaluated vertices in the canonical palm region")
+        palm_start = _centroid(hand_vertices, palm_indices)
+        hand_start = _centroid(hand_vertices)
+        head_start = _centroid(baseline[HEAD_NAME]["vertices"])
+        start_bounds = {name: _bounds(data["vertices"])
+                        for name, data in baseline.items()}
+        start_joints = {
+            "elbow.R": tuple(rig.matrix_world @ rig.pose.bones["forearm.R"].head),
+            "wrist.R": tuple(rig.matrix_world @ rig.pose.bones["hand.R"].head),
+        }
+        boot_maximum = {name: 0.0 for name in BOOT_NAMES}
+        joint_maximum = {name: 0.0 for name in start_joints}
+        maximum_head_centroid_delta = 0.0
+        maximum_head_vertex_delta = 0.0
+        palm_maximum, hand_maximum = 0.0, 0.0
+        maximum_palm_step, maximum_hand_vertex_step = 0.0, 0.0
+        previous_palm, previous_hand = None, None
+        samples, coat_checks = [], []
+        endpoint_mesh_delta = {}
+        endpoint_matrix_delta = {}
+        endpoint_pose_delta = {}
+
+        for frame in range(1, 146):
+            scene.frame_set(frame)
+            bpy.context.view_layer.update()
+            depsgraph = bpy.context.evaluated_depsgraph_get()
+            hand = _evaluated_geometry(by_name[RIGHT_HAND_NAME], depsgraph)
+            _require(hand["counts"] == baseline[RIGHT_HAND_NAME]["counts"],
+                     "Evaluated right-hand topology counts changed")
+            palm = _centroid(hand["vertices"], palm_indices)
+            hand_centroid = _centroid(hand["vertices"])
+            palm_delta = _distance(palm_start, palm)
+            palm_maximum = max(palm_maximum, palm_delta)
+            hand_maximum = max(hand_maximum, _distance(hand_start, hand_centroid))
+            if previous_palm is not None:
+                maximum_palm_step = max(maximum_palm_step,
+                                        _distance(previous_palm, palm))
+                maximum_hand_vertex_step = max(maximum_hand_vertex_step,
+                    _max_vertex_delta(previous_hand, hand["vertices"]))
+            previous_palm, previous_hand = palm, hand["vertices"]
+            if frame not in SAMPLE_FRAMES:
+                continue
+
+            current = {RIGHT_HAND_NAME: hand}
+            for obj in mesh_objects:
+                if obj.name != RIGHT_HAND_NAME:
+                    current[obj.name] = _evaluated_geometry(
+                        obj, depsgraph, topology=obj.name == coat_name)
+                _require(current[obj.name]["counts"] == baseline[obj.name]["counts"],
+                         "Evaluated topology counts changed for " + obj.name)
+            boot_deltas = {}
+            for name in BOOT_NAMES:
+                delta = _max_vertex_delta(baseline[name]["vertices"],
+                                          current[name]["vertices"])
+                boot_deltas[name] = delta
+                boot_maximum[name] = max(boot_maximum[name], delta)
+                _require(delta <= POSITION_TOLERANCE,
+                         "%s moves at frame %s (%.9g world units)" % (name, frame, delta))
+            head = current[HEAD_NAME]["vertices"]
+            head_centroid_delta = _distance(head_start, _centroid(head))
+            head_vertex_delta = _max_vertex_delta(baseline[HEAD_NAME]["vertices"], head)
+            maximum_head_centroid_delta = max(maximum_head_centroid_delta,
+                                               head_centroid_delta)
+            maximum_head_vertex_delta = max(maximum_head_vertex_delta, head_vertex_delta)
+            joints = {
+                "elbow.R": tuple(rig.matrix_world @ rig.pose.bones["forearm.R"].head),
+                "wrist.R": tuple(rig.matrix_world @ rig.pose.bones["hand.R"].head),
+            }
+            for name, position in joints.items():
+                _require(all(math.isfinite(v) for v in position),
+                         "Non-finite joint position for " + name)
+                joint_maximum[name] = max(joint_maximum[name],
+                                          _distance(start_joints[name], position))
+            cloth = _coat_edge_measurements(baseline[coat_name], current[coat_name])
+            cloth.update({"frame": frame,
+                          "bvh_self_overlap": _coat_intersection_candidates(current[coat_name])})
+            coat_checks.append(cloth)
+            samples.append({
+                "frame": frame,
+                "boot_maximum_vertex_delta_from_frame_1": boot_deltas,
+                "right_palm_centroid": list(palm),
+                "right_palm_centroid_delta_from_frame_1": palm_delta,
+                "head_centroid_delta_from_frame_1": head_centroid_delta,
+                "head_maximum_vertex_delta_from_frame_1": head_vertex_delta,
+                "joint_world_positions": {k: list(v) for k, v in joints.items()},
+                "evaluated_world_vertex_bounds": {
+                    name: _bounds(data["vertices"]) for name, data in current.items()},
+            })
+            if frame == 145:
+                for obj in mesh_objects:
+                    delta = _max_vertex_delta(baseline[obj.name]["vertices"],
+                                              current[obj.name]["vertices"])
+                    endpoint_mesh_delta[obj.name] = delta
+                    _require(delta <= POSITION_TOLERANCE,
+                             obj.name + " evaluated mesh does not close at frame 145")
+                _require({obj.name for obj in scene.objects} == set(scene_matrices),
+                         "Scene object inventory changed during validation")
+                for obj in scene.objects:
+                    delta = _matrix_delta(scene_matrices[obj.name],
+                        _matrix_values(obj.evaluated_get(depsgraph).matrix_world))
+                    endpoint_matrix_delta[obj.name] = delta
+                    _require(delta <= POSITION_TOLERANCE,
+                             obj.name + " world matrix does not close at frame 145")
+                for bone in rig.pose.bones:
+                    delta = _matrix_delta(pose_matrices[bone.name],
+                                          _matrix_values(bone.matrix))
+                    endpoint_pose_delta[bone.name] = delta
+                    _require(delta <= POSITION_TOLERANCE,
+                             bone.name + " pose matrix does not close at frame 145")
+
+        _require(palm_maximum > .060 * root_scale,
+                 "Right palm centroid travel is not significant (>0.060 canonical units)")
+        _require(maximum_palm_step < .060 * root_scale,
+                 "Right palm has an extreme consecutive-frame centroid jump")
+        _require(maximum_hand_vertex_step < .080 * root_scale,
+                 "Right hand has an extreme consecutive-frame evaluated vertex jump")
+        _require(maximum_head_vertex_delta > .001 * root_scale,
+                 "Head evaluated surface has no measurable greeting motion")
+        for name, delta in joint_maximum.items():
+            _require(delta > .0001 * root_scale,
+                     name + " has no measurable motion")
+
+        overlap_counts = [entry["bvh_self_overlap"]["candidate_pairs"]
+                          for entry in coat_checks]
+        warnings = []
+        if any(value is not None and value > 0 for value in overlap_counts):
+            warnings.append("Coat has non-adjacent BVH overlap candidates; inspect rendered motion. "
+                            "Candidates can include pre-existing or bounding-volume contacts.")
+        if max(entry["maximum_edge_length_ratio_to_frame_1"] for entry in coat_checks) > 3.0:
+            warnings.append("Coat edge stretch exceeds 3x rest at a sampled frame; visual review required.")
+        return {
+            "status": "NUMERICAL_CHECKS_PASS_VISUAL_ACCEPTANCE_PENDING",
+            "asset_collection": asset.name,
+            "asset_root": root.name,
+            "armature": rig.name,
+            "frame_start": 1, "frame_end": 145,
+            "fps": fps, "endpoint_duration_seconds": 6.0,
+            "sample_frames": list(SAMPLE_FRAMES),
+            "hand_continuity_frames": [1, 145],
+            "hand_continuity_frame_count": 145,
+            "coordinate_measurement": "actual dependency-graph evaluated mesh vertices in world coordinates",
+            "position_tolerance_world_units": POSITION_TOLERANCE,
+            "weight_sum_tolerance": WEIGHT_TOLERANCE,
+            "weights": weights,
+            "evaluated_mesh_counts_frame_1": {name: list(data["counts"])
+                                               for name, data in baseline.items()},
+            "evaluated_world_vertex_bounds_frame_1": start_bounds,
+            "fixed_boots_and_soles_maximum_vertex_delta": boot_maximum,
+            "right_palm_region": {"canonical_center": [-.390, -.160, .720],
+                                  "canonical_radius": .055,
+                                  "evaluated_vertex_count": len(palm_indices)},
+            "right_palm_maximum_centroid_displacement_world_units": palm_maximum,
+            "right_hand_maximum_surface_centroid_displacement_world_units": hand_maximum,
+            "right_palm_maximum_consecutive_frame_centroid_step_world_units": maximum_palm_step,
+            "right_hand_maximum_consecutive_frame_vertex_step_world_units": maximum_hand_vertex_step,
+            "head_maximum_centroid_displacement_world_units": maximum_head_centroid_delta,
+            "head_maximum_vertex_displacement_world_units": maximum_head_vertex_delta,
+            "joint_maximum_displacement_world_units": joint_maximum,
+            "endpoint_mesh_maximum_vertex_deltas": endpoint_mesh_delta,
+            "endpoint_scene_world_matrix_maximum_element_deltas": endpoint_matrix_delta,
+            "endpoint_pose_matrix_maximum_element_deltas": endpoint_pose_delta,
+            "coat_numerical_checks": coat_checks,
+            "coat_intersection_verdict": "NOT_PROVEN; BVH overlap candidates are diagnostic only",
+            "samples": samples,
+            "warnings": warnings,
+            "pending": ["Rendered visual review of coat folds, tears, intersections, wrist/elbow deformation and loop seam",
+                        "Human animation and form acceptance", "Android/device acceptance",
+                        "Game/runtime integration acceptance"],
+            "source_geometry_preservation": "Checked separately by the build; this validator does not modify source meshes",
+            "material_and_studio_preservation": "Checked separately by the build",
+        }
+    finally:
+        scene.frame_set(1)
+        bpy.context.view_layer.update()

@@ -1,0 +1,310 @@
+"""Rig R1: a reversible armature/action on the accepted R4 form and M2 look.
+
+Runs inside Blender only.  No vertices, faces, object transforms, parents,
+material definitions, material slots, or existing modifiers are edited.
+Canonical front is -Y.  Anatomical right, the waving arm, is viewer-left.
+"""
+
+import math
+
+import bpy
+from mathutils import Matrix, Quaternion, Vector
+
+
+FPS = 24
+FIRST = 1
+LAST = 145
+RIG_NAME = "RigR1_GnomeArmature"
+ACTION_NAME = "RigR1_SoftGreeting_6s_24fps"
+
+# Head/tail coordinates are expressed in the unchanged character root space.
+# Each sleeve joint follows its already accepted shape, rather than imposing
+# a new T-pose.  The independent lantern pivot sits at the accepted grip.
+BONES = (
+    ("Root", (0, 0.018, 0.12), (0, 0.018, 0.44), None),
+    ("Chest", (0, 0.018, 0.56), (0, 0.018, 0.98), "Root"),
+    ("Head", (0, 0.018, 0.985), (0, 0.018, 1.29), "Chest"),
+    ("upperarm.R", (-0.20, 0.018, 0.86), (-0.29, -0.015, 0.75), "Chest"),
+    ("forearm.R", (-0.29, -0.015, 0.75), (-0.350, -0.100, 0.680), "upperarm.R"),
+    ("hand.R", (-0.350, -0.100, 0.680), (-0.390, -0.160, 0.720), "forearm.R"),
+    ("upperarm.L", (0.20, 0.018, 0.855), (0.29, 0.006, 0.745), "Chest"),
+    ("forearm.L", (0.29, 0.006, 0.745), (0.330, -0.080, 0.620), "upperarm.L"),
+    ("hand.L", (0.330, -0.080, 0.620), (0.365, -0.132, 0.590), "forearm.L"),
+    ("lantern", (0.365, -0.132, 0.590), (0.365, -0.132, 0.419), "hand.L"),
+)
+
+HEAD_MESHES = {
+    "R1_FoldedCapBand", "R3_OneFoldStorybookCap",
+    "R4_ContinuousFacialPlanes", "R2_OneSweptBeard",
+    "R2 moustache -1", "R2 moustache 1", "R2 smile",
+    "R4 inset eye -1", "R4 inset eye 1", "R4 pupil -1", "R4 pupil 1",
+    "R4 soft brow -1", "R4 soft brow 1",
+}
+CHEST_MESHES = {"R2 broad folded collar -1", "R2 broad folded collar 1"}
+PLANTED_MESHES = {
+    "R1_Boot_-1", "R1_Boot_1", "R2 curved sole -1", "R2 curved sole 1",
+    "R2 trouser -1", "R2 trouser 1",
+}
+LANTERN_MESHES = {"R1_LanternBlockout", "R2 lantern handle"}
+HANDS = {"R2_OpenInvitationHand": "hand.R", "R2_LanternGripHand": "hand.L"}
+EXPECTED_MESHES = (HEAD_MESHES | CHEST_MESHES | PLANTED_MESHES |
+                   LANTERN_MESHES | set(HANDS) | {"R2_ContinuousCoat"})
+
+
+def _smooth(a, b, value):
+    t = max(0.0, min(1.0, (value - a) / (b - a)))
+    return t * t * (3.0 - 2.0 * t)
+
+
+def _segment_distance(point, start, end):
+    delta = end - start
+    t = max(0.0, min(1.0, (point - start).dot(delta) / delta.length_squared))
+    return (point - start - delta * t).length_squared, t
+
+
+def _coat_weights(point):
+    """Normalised chest/root skin with softly attached canonical sleeves.
+
+    At the elbow, weights blend over 67% of one segment length; at the arm
+    root, a continuous oblique field blends over 160 mm.  This follows the
+    descending/forward sleeve rather than including the low torso side in
+    forearm deformation.  Cuffs approach forearm-rigid weighting.
+    """
+    x, y, z = point
+    side = "R" if x < 0 else "L"
+    joints = {
+        "R": (Vector((-.20, .018, .86)), Vector((-.29, -.015, .75)),
+              Vector((-.350, -.100, .680))),
+        "L": (Vector((.20, .018, .855)), Vector((.29, .006, .745)),
+              Vector((.330, -.080, .620))),
+    }
+    shoulder, elbow, wrist = joints[side]
+    du, tu = _segment_distance(point, shoulder, elbow)
+    df, tf = _segment_distance(point, elbow, wrist)
+    # Blend both projections continuously. A hard nearest-segment selection
+    # can jump on the elbow's medial bisector, despite smooth later masks.
+    epsilon = .0001
+    weight_u, weight_f = (df + epsilon) ** 2, (du + epsilon) ** 2
+    along = (tu * weight_u + (1.0 + tf) * weight_f) / (weight_u + weight_f)
+    # Root-space sleeve field: +X magnitude, descending Z and forward -Y.
+    # An x-only mask misidentified low coat-side vertices as distal sleeve
+    # and stretched their 7mm edges by 8.92x at the raised pose. This broad
+    # oblique field gives that torso region almost no arm influence while
+    # retaining the true forward cuff. It changes groups only, no geometry.
+    arm_field = abs(x) + .60 * (z - .86) - .40 * (y - .018)
+    arm = _smooth(.14, .30, arm_field)
+    forearm = _smooth(.68, 1.35, along)
+    chest = _smooth(.46, .83, z)
+    raw = {
+        "Root": (1.0 - arm) * (1.0 - chest),
+        "Chest": (1.0 - arm) * chest,
+        "upperarm." + side: arm * (1.0 - forearm),
+        "forearm." + side: arm * forearm,
+    }
+    weights = {name: weight for name, weight in raw.items() if weight > 1e-8}
+    total = sum(weights.values())
+    assert total > 0.999999, "Invalid coat weight total"
+    return {name: weight / total for name, weight in weights.items()}
+
+
+def _bind_mesh(obj, rig, root):
+    assert not obj.vertex_groups, "Pre-existing groups require an explicit migration: " + obj.name
+    assert not any(m.type == "ARMATURE" for m in obj.modifiers), obj.name
+    if obj.name == "R2_ContinuousCoat":
+        names = ("Root", "Chest", "upperarm.R", "forearm.R", "upperarm.L", "forearm.L")
+        groups = {name: obj.vertex_groups.new(name=name) for name in names}
+        to_root = root.matrix_world.inverted() @ obj.matrix_world
+        counts = {name: 0 for name in names}
+        for vertex in obj.data.vertices:
+            weights = _coat_weights(to_root @ vertex.co)
+            for name, weight in weights.items():
+                groups[name].add([vertex.index], weight, "REPLACE")
+                counts[name] += 1
+        method = "normalised analytic continuous-coat sleeve-chain/root/chest soft weights"
+    else:
+        if obj.name in HEAD_MESHES:
+            bone = "Head"
+        elif obj.name in CHEST_MESHES:
+            bone = "Chest"
+        elif obj.name in PLANTED_MESHES:
+            bone = "Root"
+        elif obj.name in LANTERN_MESHES:
+            bone = "lantern"
+        else:
+            bone = HANDS[obj.name]
+        group = obj.vertex_groups.new(name=bone)
+        group.add(list(range(len(obj.data.vertices))), 1.0, "REPLACE")
+        counts = {bone: len(obj.data.vertices)}
+        method = "rigid single bone, weight 1.0"
+    modifier = obj.modifiers.new("RigR1_Skin", "ARMATURE")
+    modifier.object = rig
+    modifier.use_vertex_groups = True
+    modifier.use_bone_envelopes = False
+    modifier.use_deform_preserve_volume = True
+    maximum_error = 0.0
+    for vertex in obj.data.vertices:
+        total = sum(entry.weight for entry in vertex.groups)
+        maximum_error = max(maximum_error, abs(total - 1.0))
+        assert abs(total - 1.0) < 2e-6, (obj.name, vertex.index, total)
+    return {"method": method, "vertices": len(obj.data.vertices),
+            "group_vertex_counts": counts, "maximum_weight_sum_error": maximum_error,
+            "modifier": modifier.name}
+
+
+def _canonical_rotation(pose_bone, rotations):
+    # Convert an explicitly authored root-space axis into the bone's own
+    # rest basis.  This avoids relying on Blender's automatically chosen roll.
+    rest = pose_bone.bone.matrix_local.to_quaternion()
+    canonical = Quaternion()
+    for axis, degrees in rotations:
+        canonical = canonical @ Quaternion(Vector(axis), math.radians(degrees))
+    return rest.inverted() @ canonical @ rest
+
+
+def _set_key(rig, bone, frame, rotations=(), location=(0.0, 0.0, 0.0)):
+    pose = rig.pose.bones[bone]
+    pose.rotation_mode = "QUATERNION"
+    pose.rotation_quaternion = _canonical_rotation(pose, rotations)
+    pose.location = pose.bone.matrix_local.to_quaternion().inverted() @ Vector(location)
+    pose.scale = (1.0, 1.0, 1.0)
+    pose.keyframe_insert("rotation_quaternion", frame=frame, group=bone)
+    pose.keyframe_insert("location", frame=frame, group=bone)
+
+
+def _action_curves(action):
+    if hasattr(action, "fcurves"):
+        return list(action.fcurves)
+    # Blender 4.4+/5.x layered Action API.
+    curves = []
+    for layer in action.layers:
+        for strip in layer.strips:
+            if hasattr(strip, "channelbags"):
+                for bag in strip.channelbags:
+                    curves.extend(bag.fcurves)
+    return curves
+
+
+def _animate(rig, scene):
+    rig.animation_data_create()
+    action = bpy.data.actions.new(ACTION_NAME)
+    rig.animation_data.action = action
+    # Calm first .75 s, anticipation to 1 s, invitation rises to 2 s, two
+    # restrained wrist waves during 2-4 s, settle to 5.5 s, calm through 6 s.
+    # Key spacing/amplitude varies deliberately; there is no cyclic modifier.
+    phases = (
+        # frame, shoulder Y, elbow Y, wrist X, wrist Z, wrist Y
+        (1, 0, 0, 0, 0, 0), (19, 0, 0, 0, 0, 0),
+        (25, -2, 3, 3, -1, 0), (37, 19, 17, 30, -2, 0),
+        (49, 42, 25, 63, 0, 0),
+        (55, 43, 26, 64, -8, -3), (63, 42, 25, 63, 9, 3),
+        (71, 41, 26, 62, -7, -2), (80, 42, 25, 63, 7, 2),
+        (89, 41, 24, 62, -4, -1), (97, 40, 23, 60, 0, 0),
+        (109, 29, 19, 42, 1, 0), (121, 11, 9, 16, 0, 0),
+        (133, 0, 0, 0, 0, 0), (145, 0, 0, 0, 0, 0),
+    )
+    for frame, shoulder, elbow, wrist_x, wrist_z, wrist_y in phases:
+        _set_key(rig, "upperarm.R", frame, (((0, 1, 0), shoulder),))
+        _set_key(rig, "forearm.R", frame, (((0, 1, 0), elbow),))
+        _set_key(rig, "hand.R", frame, (((1, 0, 0), wrist_x),
+                                     ((0, 0, 1), wrist_z), ((0, 1, 0), wrist_y)))
+    for frame, nod, turn in ((1, 0, 0), (19, 0, 0), (31, 1.0, -1.0),
+                             (49, 1.7, -2.2), (65, -1.1, -2.5),
+                             (82, .9, -1.8), (97, .5, -1.4),
+                             (121, -.4, -.5), (133, 0, 0), (145, 0, 0)):
+        _set_key(rig, "Head", frame, (((1, 0, 0), nod), ((0, 0, 1), turn)))
+    for frame, roll, lift in ((1, 0, 0), (19, 0, 0), (37, .22, .0008),
+                              (55, .45, .0015), (79, .10, .0005),
+                              (103, .35, .0012), (121, .1, .0004),
+                              (133, 0, 0), (145, 0, 0)):
+        _set_key(rig, "Chest", frame, (((0, 1, 0), roll),), (0, 0, lift))
+    # Counterposed at the wrist: a small late pendulum at the grip, independent
+    # of the fixed left arm.  Both lantern cage and handle share this pivot.
+    for frame, swing_x, swing_y in ((1, 0, 0), (19, 0, 0), (43, 0, 0),
+                                    (57, .7, 1.8), (73, -.45, -1.4),
+                                    (91, .25, 1.0), (108, -.18, -.65),
+                                    (124, .1, .25), (133, 0, 0), (145, 0, 0)):
+        _set_key(rig, "lantern", frame, (((1, 0, 0), swing_x), ((0, 1, 0), swing_y)))
+    for bone in ("Root", "upperarm.L", "forearm.L", "hand.L"):
+        _set_key(rig, bone, FIRST)
+        _set_key(rig, bone, LAST)
+    curves = _action_curves(action)
+    for curve in curves:
+        for key in curve.keyframe_points:
+            key.interpolation = "BEZIER"
+            key.handle_left_type = "AUTO_CLAMPED"
+            key.handle_right_type = "AUTO_CLAMPED"
+    scene.render.fps = FPS
+    scene.render.fps_base = 1.0
+    scene.frame_start = FIRST
+    scene.frame_end = LAST
+    scene.frame_set(FIRST)
+    bpy.context.view_layer.update()
+    return action, len(curves)
+
+
+def build_rig_and_action(asset, root=None):
+    """Return ``{'rig': ArmatureObject, 'metadata': plain_json_dictionary}``.
+
+    ``asset`` is the existing R2_NEW_GNOME collection, and ``root`` is the
+    existing R2_GnomeRoot empty.  The original mesh parents remain untouched.
+    This authors a native prototype; runtime/engine/human acceptance requires
+    separate checks and is not claimed here.
+    """
+    root = root or bpy.data.objects["R2_GnomeRoot"]
+    assert root.name == "R2_GnomeRoot" and root.type == "EMPTY"
+    assert asset.name == "R2_NEW_GNOME"
+    assert bpy.data.objects.get(RIG_NAME) is None, "Do not replace a predecessor rig"
+    assert bpy.data.actions.get(ACTION_NAME) is None, "Do not replace a predecessor action"
+    meshes = [obj for obj in asset.objects if obj.type == "MESH"]
+    assert {obj.name for obj in meshes} == EXPECTED_MESHES, (
+        "Unexpected accepted-form mesh set", sorted({obj.name for obj in meshes} ^ EXPECTED_MESHES))
+    assert all(obj.parent == root for obj in meshes), "Original asset parent mismatch"
+    armature = bpy.data.armatures.new("RigR1_GnomeSkeleton")
+    rig = bpy.data.objects.new(RIG_NAME, armature)
+    asset.objects.link(rig)
+    rig.parent = root
+    rig.matrix_parent_inverse = Matrix.Identity(4)
+    rig.matrix_basis = Matrix.Identity(4)
+    rig.show_in_front = True
+    armature.display_type = "OCTAHEDRAL"
+    bpy.ops.object.select_all(action="DESELECT")
+    rig.select_set(True)
+    bpy.context.view_layer.objects.active = rig
+    bpy.ops.object.mode_set(mode="EDIT")
+    for name, head, tail, parent in BONES:
+        bone = armature.edit_bones.new(name)
+        bone.head, bone.tail = head, tail
+        if parent:
+            bone.parent = armature.edit_bones[parent]
+        bone.use_connect = False
+    bpy.ops.object.mode_set(mode="OBJECT")
+    bpy.context.view_layer.update()
+    bindings = {obj.name: _bind_mesh(obj, rig, root) for obj in meshes}
+    action, curve_count = _animate(rig, bpy.context.scene)
+    rig["scope"] = "Rig R1 prototype on accepted R4 meshes and frozen M2 materials"
+    rig["front"] = "-Y; anatomical right is viewer-left"
+    rig["neutral_frames"] = "1,133,145"
+    rig["no_retopology"] = True
+    rig["blink"] = "NOT_IMPLEMENTED: no approved eyelid shape deformation"
+    metadata = {
+        "rig_object": rig.name, "armature_data": armature.name,
+        "action": action.name, "action_fcurves": curve_count,
+        "frame_range": [FIRST, LAST], "fps": FPS, "duration_seconds": 6.0,
+        "canonical_front": "-Y", "greeting_hand": "anatomical right / viewer-left",
+        "bones": [{"name": n, "head": list(h), "tail": list(t), "parent": p}
+                  for n, h, t, p in BONES],
+        "bindings": bindings,
+        "weight_method": "Analytic normalised soft coat weights; other meshes rigid groups",
+        "interpolation": "Quaternion channels, BEZIER AUTO_CLAMPED; no cycles",
+        "amplitude_constraint": "Restrained shoulder 42-43 degrees, elbow 25-26 degrees; accepted unified-coat topology is preserved",
+        "phase_frames": {"calm_start": [1, 19], "anticipation": [19, 25],
+                         "raise": [25, 49], "two_wrist_waves": [49, 97],
+                         "settle": [97, 133], "calm_end": [133, 145]},
+        "mesh_coordinates_topology_object_transforms_materials": "UNCHANGED_BY_THIS_MODULE",
+        "mesh_parenting": "UNCHANGED; armature parent is existing R2_GnomeRoot",
+        "blink": "NOT_IMPLEMENTED; preserving accepted facial geometry",
+        "rest_pose_edit": False, "retopology": False,
+        "runtime_verification": "NOT_CLAIMED_BY_AUTHORING_MODULE",
+        "human_animation_acceptance": "PENDING",
+    }
+    return {"rig": rig, "metadata": metadata}

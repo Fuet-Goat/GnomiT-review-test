@@ -1,0 +1,1732 @@
+{
+  "status": "ENCODED_FROM_NATIVE_BLENDER_PNGS_DECODE_VERIFIED",
+  "animation": {
+    "file": "outputs\\RIG_R1_GREETING.gif",
+    "bytes": 7324597,
+    "sha256": "9e47dfad8e6c3d23035faab3fedcaf0b173cdd650b37ac248d5c797b097c18eb",
+    "dimensions": [
+      480,
+      672
+    ]
+  },
+  "input_frame_count": 144,
+  "source_fps": 24,
+  "source_frame_range": [
+    1,
+    144
+  ],
+  "duration_ms": 6000,
+  "requested_gif_frame_durations_ms": [
+    40,
+    40,
+    40,
+    50,
+    40,
+    40,
+    40,
+    40,
+    50,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    50,
+    40,
+    40,
+    40,
+    40,
+    50,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    50,
+    40,
+    40,
+    40,
+    40,
+    50,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    50,
+    40,
+    40,
+    40,
+    40,
+    50,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    50,
+    40,
+    40,
+    40,
+    40,
+    50,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    50,
+    40,
+    40,
+    40,
+    40,
+    50,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    50,
+    40,
+    40,
+    40,
+    40,
+    50,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    50,
+    40,
+    40,
+    40,
+    40,
+    50,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    50,
+    40,
+    40,
+    40,
+    40,
+    50,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    50,
+    40,
+    40,
+    40,
+    40,
+    50,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    50,
+    40,
+    40,
+    40,
+    40,
+    50,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    50,
+    40,
+    40,
+    40,
+    40,
+    50,
+    40,
+    40,
+    40
+  ],
+  "decoded_gif_frame_count": 115,
+  "decoded_gif_frame_durations_ms": [
+    790,
+    40,
+    50,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    50,
+    40,
+    40,
+    40,
+    40,
+    50,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    50,
+    40,
+    40,
+    40,
+    40,
+    50,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    50,
+    40,
+    40,
+    40,
+    40,
+    50,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    50,
+    40,
+    40,
+    40,
+    40,
+    50,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    50,
+    40,
+    40,
+    40,
+    40,
+    50,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    50,
+    40,
+    40,
+    40,
+    40,
+    50,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    50,
+    40,
+    40,
+    40,
+    40,
+    50,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    50,
+    40,
+    40,
+    40,
+    40,
+    50,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    50,
+    40,
+    40,
+    40,
+    40,
+    50,
+    40,
+    40,
+    40,
+    500
+  ],
+  "decoded_duration_ms": 6000,
+  "identical_frames_may_be_coalesced_by_encoder": true,
+  "loop": "infinite",
+  "palette": {
+    "colours": 256,
+    "shared": true,
+    "sample_frames": [
+      1,
+      19,
+      37,
+      55,
+      73,
+      90,
+      108,
+      126,
+      144
+    ],
+    "method": "MEDIANCUT",
+    "dither": "NONE",
+    "lossy_gif_colour_quantisation": true,
+    "palette_sha256": "8fa1da2fbff792bcdc37b1a61aac78dbf3f0281bc3981a75e50114eb125927f0"
+  },
+  "no_synthetic_motion_or_image_generation": true,
+  "source_pngs_unmodified": true,
+  "original_png_frames": [
+    {
+      "file": "frames\\greeting_0001.png",
+      "bytes": 385256,
+      "sha256": "afce21571ded6a4bb03ab23ac182bb4bd20898084a692f2727e5503bd035a076",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0002.png",
+      "bytes": 385256,
+      "sha256": "b9105ecd6d8d4e3cd8fb733966e8339978d52ce83eb17e4af8eacc4ab62acd26",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0003.png",
+      "bytes": 385256,
+      "sha256": "da2b33200ed5f182713749c281be27d5c0597a64aad38afa4762425d8630370e",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0004.png",
+      "bytes": 385256,
+      "sha256": "c0d4a686841742f168945216ac5ed5596d123b0ce7b4cf42acc379c913677980",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0005.png",
+      "bytes": 385256,
+      "sha256": "443c99e57f1ecff382103e5b36d84d1626c1f904db65b110f1805f1538483678",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0006.png",
+      "bytes": 385256,
+      "sha256": "e2f47389570bfe36f21b4a7cc15c9e1f97d765099773910510e8dc111e46c8bb",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0007.png",
+      "bytes": 385256,
+      "sha256": "b6d768a71d228be80b4316f42baee5f483d0be5c4c1fe653ecce69f4562ee983",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0008.png",
+      "bytes": 385256,
+      "sha256": "9779c239cf099aeb5842968b420ed8b4f890024e2a50aca2cc91b05337abbc2c",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0009.png",
+      "bytes": 385256,
+      "sha256": "621665a15a59020a21e90193865c314835c78aa9d13710041ec42dcb24d93821",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0010.png",
+      "bytes": 385256,
+      "sha256": "a2e05c0abc12bca89d169448e6e6b94c572453f37a12b5169e79f0782dddd175",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0011.png",
+      "bytes": 385256,
+      "sha256": "b69a73c6d663d7d7f421f40456fac5b0772c8fe3fc27d1d8fb19e33506fa8281",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0012.png",
+      "bytes": 385256,
+      "sha256": "88b2752613863af6122d911bbe372b9cf22717f3129bfbfadb141239586f46ce",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0013.png",
+      "bytes": 385256,
+      "sha256": "3c15c71f8fed854776d087f2f03b421cdc081517028d994f847194003e8d47ba",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0014.png",
+      "bytes": 385256,
+      "sha256": "52c95dd9f54a592b50f131919c79dfaf34c7faaf583acb94c2fdbcd7aa57fbaf",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0015.png",
+      "bytes": 385256,
+      "sha256": "b77d13cd856b15068a9f4911184195e6d101390560afa203ebdeff2f90c56f24",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0016.png",
+      "bytes": 385256,
+      "sha256": "01569ad5df54f47ec8b6ec134328eb274cc7ce374f52906ca31eacace19c1a63",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0017.png",
+      "bytes": 385256,
+      "sha256": "39492b0b57da12dddd529fc4e8c75ef13bb7a62e928162ceaea76e4cbfc30b98",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0018.png",
+      "bytes": 385256,
+      "sha256": "b527d2bece2480b7948a238908b804a50a68deff063593f405f23de67b30bf15",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0019.png",
+      "bytes": 385256,
+      "sha256": "b0d5830af046edc171f28d10c51aebbbccf9fc2350d92c2b9a4147e7f1374b46",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0020.png",
+      "bytes": 385477,
+      "sha256": "3e01dca478ceb2c17582b9344073bd652a4ca0dde3b977c867eeae4c768e5baa",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0021.png",
+      "bytes": 385150,
+      "sha256": "b87203bab4ea8c93043299df762130f98cc69102e5fcddc7b36cd6842bf2dad3",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0022.png",
+      "bytes": 385093,
+      "sha256": "de7bb07cb025e0e3f11d5f085eb21b473aad66bf9b2f162263fa2ecf139d06a7",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0023.png",
+      "bytes": 385272,
+      "sha256": "e75d4d081cf7cf33f7c42bf915156a0c824d0804446ef3fcf82a3178b81fff0a",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0024.png",
+      "bytes": 385749,
+      "sha256": "773e21f8d5ccfafa7bb2a0ae6382404cf6641bb8a494be52808bde120a7b2879",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0025.png",
+      "bytes": 385519,
+      "sha256": "062ec30be37ca658ae0710717775947595a2c8cb944bec55f198447cba76bc13",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0026.png",
+      "bytes": 385810,
+      "sha256": "ae909a920cfd611b1621bcc68ddd2788cc5d4794c2f233c8cbc31493b782f707",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0027.png",
+      "bytes": 385414,
+      "sha256": "aba7d0989544b2368fbd843f1f60ba8b437b807c47d5359c0b80668a3a433256",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0028.png",
+      "bytes": 385542,
+      "sha256": "801093e83c01d5c8ab68936599414c753cf3daee2b714211716bb72eaff3e935",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0029.png",
+      "bytes": 385611,
+      "sha256": "cb224df54c81f8a7f30003ab72f255e154282c761467c0dfd9269477914438fa",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0030.png",
+      "bytes": 385744,
+      "sha256": "55c81a3f74e544edbf3a5536309ac4b3133a471e3c60e9b6479f1325ffc6ee28",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0031.png",
+      "bytes": 385938,
+      "sha256": "050f352ddcaf159ca32ce6584026d92f9bc1409808f77f533135a8ae2840e7ce",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0032.png",
+      "bytes": 385899,
+      "sha256": "28f51c2302d3cacfd1cb510792ce30525d307f81e2b1251b4e2e712af765b031",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0033.png",
+      "bytes": 385298,
+      "sha256": "1925a38e5b75cc1fe87beae9c78b895199ccac1975c1504d4b05a5b61c8f451f",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0034.png",
+      "bytes": 385009,
+      "sha256": "65278356dea373f70558c525e1adeb17a00666ed19731e21967dc355728634ca",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0035.png",
+      "bytes": 385727,
+      "sha256": "9d660e3a90142b41374ae74403d9e5b29b19dffbcc48fe4fbc8f8ba246beecca",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0036.png",
+      "bytes": 385912,
+      "sha256": "de5948324c749f8ac88bed6fcc352b2b2f21494b5e99209ee13981985315083c",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0037.png",
+      "bytes": 386059,
+      "sha256": "8fee4af23ae94396b36d08d7d0d26c8ea7d36d3570fae2366e8f69202ceba6d3",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0038.png",
+      "bytes": 386474,
+      "sha256": "bf143e941efb50396a57a1b48973ff3fddd47e78307df888546f55b50ff3e024",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0039.png",
+      "bytes": 386726,
+      "sha256": "7f0b9d8f716fd16c988a4f48293506477165d23b6571f3a3557195619c62c0b5",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0040.png",
+      "bytes": 386761,
+      "sha256": "eeaa7717fd6804586d91fb7b9c2125bc2d85f27760f2de2fb7dde39627565981",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0041.png",
+      "bytes": 387001,
+      "sha256": "b8760d5d8c81d01e7834c3a2c8c8f1572621eb440a965d2c2211d622af829f21",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0042.png",
+      "bytes": 386795,
+      "sha256": "837f021c319d15fa0dac35654dab51cec42d58f14124f2e9bc67fe28219c5f16",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0043.png",
+      "bytes": 387845,
+      "sha256": "bdf3fccd676b19bcdc3cda09acc1e6ed95508fba5af02b5ed9f7f9498e711e58",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0044.png",
+      "bytes": 387602,
+      "sha256": "5b0918c1bc1003a75cb3db08a1d9cd97fddbf626afe4bcf000f673c7c0239f70",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0045.png",
+      "bytes": 388262,
+      "sha256": "62c43a99f49e1b4ceb587f091c87e26d387aa6bc230b4eca319100e0295b33cf",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0046.png",
+      "bytes": 388724,
+      "sha256": "89e92bc011d72ae32ba0cfba40870fa50a5d58efefbd7eac40271c5f01950243",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0047.png",
+      "bytes": 388460,
+      "sha256": "8c802319bcb3485cc58d4d85a1c654d01928ff9713bdfd70d4b5d34ba23b12dc",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0048.png",
+      "bytes": 389199,
+      "sha256": "ea1f391cde32ec50ae7c4cd09960e65280581f9f43050ab7e35bb1bacdbe34a9",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0049.png",
+      "bytes": 389399,
+      "sha256": "60d72ca973665178b2345f50890e4dc6523ba50c395c0a643eabe3ec7c0f0d88",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0050.png",
+      "bytes": 389401,
+      "sha256": "2708c3531f55e57764bdbe1dcb23c05ee796a2bbbcbc040293c058e7e69c9af1",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0051.png",
+      "bytes": 389694,
+      "sha256": "49182c74db15995ff4ff8e324b702994c946cf80904a388bedbc547595c33c98",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0052.png",
+      "bytes": 389659,
+      "sha256": "872a7a445b7b751a7af82e3e12ce982c5013a95849b6ccf0682f2c5ee10078da",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0053.png",
+      "bytes": 389553,
+      "sha256": "72645edbaefdc675b0e65f0e3c6b691b423e2e6e473abb1b9a4c2112090c29a2",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0054.png",
+      "bytes": 389618,
+      "sha256": "f9578697d3f884536872e10527121d35e4bb25ceb0aff87b273773d7168b861a",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0055.png",
+      "bytes": 388754,
+      "sha256": "0cefdf24faf7db4cce2008f93b0a41f6c36740d36e35abe343b4493b74de80e5",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0056.png",
+      "bytes": 388771,
+      "sha256": "ed264f7c94ec56ed2ca6ba240e18874a52ec19709c445e86aee0afe9645308e7",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0057.png",
+      "bytes": 389235,
+      "sha256": "a7d11160b11f69e91e8a81595ce4ade36050c1015da63c3ce253592439d2c1b3",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0058.png",
+      "bytes": 389253,
+      "sha256": "cce3bddbb097673568bebf7b61d055b3c4b916ed9bafface1dc844732ed992ca",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0059.png",
+      "bytes": 388904,
+      "sha256": "e6dd1ae89a43cf7df374b6d611b669702f4fd645237d5d87075df8cf430df803",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0060.png",
+      "bytes": 388904,
+      "sha256": "0400578ef03bcddb66f24926232f85ac5255ca445a02e0e8ac2108efef35ecfa",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0061.png",
+      "bytes": 388195,
+      "sha256": "f7d96583048d8dcda74af56bc1fb151c396096e88f43bb474e4611da29a3b7ef",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0062.png",
+      "bytes": 388330,
+      "sha256": "f69b662d9a04e27c62fad294d656d8b74f970c76f4435312ebb5272a72915a38",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0063.png",
+      "bytes": 388349,
+      "sha256": "ed3edecb68b2aa190abdfbcedec78f2b567f85ff8d014d37f3f86811e58d4e9c",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0064.png",
+      "bytes": 387946,
+      "sha256": "0a4302504bc9d0a399478e60d3bce0a7cdf15e4beeaf8d4e3389d7c933d0929d",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0065.png",
+      "bytes": 388049,
+      "sha256": "783500f9db7a25522aeeef7e402450e3038afa40b6d3e619a21c46fec41fc070",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0066.png",
+      "bytes": 387827,
+      "sha256": "ddf1e3426a66de4083285ceac1a78f233059cce190cc2a55303a031c78b0d6ed",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0067.png",
+      "bytes": 388168,
+      "sha256": "7711bdf0add16cb4d67c17f89aa428a9801a0c12d787035d7a6684d2dd4c93f8",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0068.png",
+      "bytes": 388380,
+      "sha256": "9dcd02100c1f5e7e6cd42ab93b7b5ef1e29c468ae88e46920215141bf82fc7a3",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0069.png",
+      "bytes": 388297,
+      "sha256": "74cdfaf75341db0b26bb58688735f769606e7185fc0a23c1cbe9934a4ec8dd53",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0070.png",
+      "bytes": 388500,
+      "sha256": "b339247e1c2ab468590731e0421fca96bd030f8d7a5f14694dc450b88c664c6d",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0071.png",
+      "bytes": 388841,
+      "sha256": "e5978927ea074aefcd8a8e1adc1a6570f2c0cb64ed6a1da40888b9551ae6ec3c",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0072.png",
+      "bytes": 388479,
+      "sha256": "64611b53087726b55638711667fb7a16b2f6ea34cce9d39ff8ad3b907fa30a6c",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0073.png",
+      "bytes": 388999,
+      "sha256": "4d92dc41f492f7560d112623a0d7248d6b43c19d0ea697f2fe0f78d214692620",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0074.png",
+      "bytes": 388577,
+      "sha256": "a4b28fce5040436dc6b878ef500cfe069e287ee92a501f0d5c3bdc3e9ecaf013",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0075.png",
+      "bytes": 388880,
+      "sha256": "d5f8219b661c59de6cb6df8154c52d665bd54609cd2e351786030ad95b1697e4",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0076.png",
+      "bytes": 388911,
+      "sha256": "225a637fae8c0fa4e833d2c48e54da2119b7478ec0c384e6dfec4598dead3b45",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0077.png",
+      "bytes": 388540,
+      "sha256": "dbf79693e2a7265534d07134d99a88fd65c6294bb7ec9811e4415ceeedfff53d",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0078.png",
+      "bytes": 388626,
+      "sha256": "299d8d52677d112b87b34dc8c3157a501953534eb4af3f1c82320d8754e01648",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0079.png",
+      "bytes": 388620,
+      "sha256": "11ad1e958267d704181ed8e045122d64aa206901216e48147a94fbe737e969d1",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0080.png",
+      "bytes": 388555,
+      "sha256": "8f3bcf0c1575cb8192872db51ab891ea8e2678748a2c8b5c2f7408b8dc9dfc94",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0081.png",
+      "bytes": 388641,
+      "sha256": "4f98c7fe69bd10f4ffbc97295430f24cf7e37745fe288f6d2765937454db64ac",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0082.png",
+      "bytes": 387997,
+      "sha256": "ce69946b02d1f57f760199ef079ec2acb23e72467d45b18eeeb977ef6a43a923",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0083.png",
+      "bytes": 388488,
+      "sha256": "918c3eecc95235855834f8e9b6ec829bc671be20daaf6d1f332dd9ce51052e74",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0084.png",
+      "bytes": 388610,
+      "sha256": "89c5e76ffabb610a7337a2cf29d4e95126563a4f4c4715e5095f9c5e8d0599d6",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0085.png",
+      "bytes": 388714,
+      "sha256": "bce049b06c9c8d195478cf8eaef9fc703d7e45b7f03677c74ae4cc2204516e5b",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0086.png",
+      "bytes": 388477,
+      "sha256": "1cd87a1349f23af36f6d3154c8ae6b07d439ed199f92c3710c78d8ab45ca6c45",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0087.png",
+      "bytes": 388981,
+      "sha256": "50c60882c5a15ebb227a8669bc640969595dc58ed5b4fad4b2b352ac2f73eb60",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0088.png",
+      "bytes": 389169,
+      "sha256": "8a39ead19212f131b47b7881597f265a58ac5e70cd1f922c8efc78f46e30d802",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0089.png",
+      "bytes": 388981,
+      "sha256": "96b0bfe0d6c45c951671bbd08cdeeae3ce9486a0dec1e4d65d6f7877e3dd6564",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0090.png",
+      "bytes": 388894,
+      "sha256": "35a538cf3a034330d6d5937b25176354ef97d947153a084bd02d417dc839e888",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0091.png",
+      "bytes": 388906,
+      "sha256": "31e3c28378bec21159dc1ad14be33b53950757af54d4768e7520aba8657b885b",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0092.png",
+      "bytes": 388642,
+      "sha256": "8c73c3981660980a88afcb3f9b48ba075bf8420aab1d9a23adaa7fbe1ebc36ff",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0093.png",
+      "bytes": 388678,
+      "sha256": "10ed336c45d4884cdbff835fee128dd903e128db5c628c176c5191e540be9a94",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0094.png",
+      "bytes": 388433,
+      "sha256": "61fd4b0e955f8499eb8e8172173c724c5c6b3c3dd9edea074a3f7fd9659cdf55",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0095.png",
+      "bytes": 388481,
+      "sha256": "29453f219d571f36b4e726bb3fb705da4987dd9f4563a21a8aeeae04b0d6cfad",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0096.png",
+      "bytes": 387997,
+      "sha256": "cc5791501031f86dece4b76cb0c71f4e4d0bce43910f4437151221c3a48ae458",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0097.png",
+      "bytes": 388363,
+      "sha256": "f679306fd9088208702d94e5dcfd9d28e81021bcc83d2f0f6a12390bb8a3f05f",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0098.png",
+      "bytes": 387725,
+      "sha256": "48c8498f41633fec70ad14f2859908c3b4255de0c4885c455301c60dd6f4f8a4",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0099.png",
+      "bytes": 388027,
+      "sha256": "04a8a6caf1ca98801df22e94335a4b608533e55af78163275899ff032523aaaf",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0100.png",
+      "bytes": 388168,
+      "sha256": "8ae3f11acca66ed88a5a1fc4d734126217b2b91152017aded3fbc62964089f94",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0101.png",
+      "bytes": 387474,
+      "sha256": "21438f80af49db7c85639fef739c3714147fa0d00db4a1c30bacc133a94133fc",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0102.png",
+      "bytes": 388022,
+      "sha256": "5854033ed90380adcd3e21589f8c61543f0fa3dc82e156722d51e7238a319764",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0103.png",
+      "bytes": 387626,
+      "sha256": "b4d9bcb238dd8fdcc79d9e7fdec4bdbf0c2c5511b91fb11c0b44592914a11a85",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0104.png",
+      "bytes": 387163,
+      "sha256": "1c379aedd77476979280dc33c36fc7f7a7344d229743105d5f252692542840aa",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0105.png",
+      "bytes": 387059,
+      "sha256": "1d39cc0bf6d233969f6c2bdec86cccb0492a638e16d74447f0068c8d62265efc",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0106.png",
+      "bytes": 387094,
+      "sha256": "8fb8a6cedf017d410880085464dd6461d343421194300258b818cea3bdf548d5",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0107.png",
+      "bytes": 386879,
+      "sha256": "1f6f185d9e8723566d7c4c116eb17f123236e2e32144d6fbdbf3728364f907a0",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0108.png",
+      "bytes": 386547,
+      "sha256": "c31fc148327f75883c0f05ad0daada97a416201634a52118bdb1974d543da950",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0109.png",
+      "bytes": 386681,
+      "sha256": "8dd573cf1325e291ee890d83eaafe0714aeecdcc70e17a56119cf70f2ab3d6d9",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0110.png",
+      "bytes": 386598,
+      "sha256": "8c82616b31f955eb00bacd9d782cdd61e53cede4d0131ab7c0068bb030ee6ce2",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0111.png",
+      "bytes": 386192,
+      "sha256": "a2bab5ee68aef44931836941f1410f3eca68c49c4c2c9e17a465514bd68d3a82",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0112.png",
+      "bytes": 386037,
+      "sha256": "4e626017ca4e185fde0b74510393687f2be326670dc99a6c23c239b2cbbfcf14",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0113.png",
+      "bytes": 385931,
+      "sha256": "855cb9fc7b27d0078046328ab5164622586be0b4db4a0701d9ea2df9ff4169e0",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0114.png",
+      "bytes": 386015,
+      "sha256": "45a26d63f8356db5df609bfa269ec956eeec4764f49001428bb05a32a995872b",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0115.png",
+      "bytes": 386208,
+      "sha256": "562e2cdc0a8d8a4f683c49b42711a6a3280a707457c9d8d0364896778b69516b",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0116.png",
+      "bytes": 385649,
+      "sha256": "b1d76324fbb984a3115565c48b2d8e2b3b898221bb830879fa6cf578425b0a18",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0117.png",
+      "bytes": 385911,
+      "sha256": "e63edc7990b754dc8284462eac68056f0cbfb6783da1d412f18cb74602f4d0d8",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0118.png",
+      "bytes": 385346,
+      "sha256": "3ffa5e8f05755d6a09c9a7c638d4db98973e5a149d0effff47af50eb76893b62",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0119.png",
+      "bytes": 385140,
+      "sha256": "5cf261841d65bc2b331780a31a992d3e9eb0d5068d0a0f964345c482258e5a67",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0120.png",
+      "bytes": 385238,
+      "sha256": "94c9dc2abbabad53ba8f837679f40b54f55666856c335ba6c8d80f507e4d0844",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0121.png",
+      "bytes": 384895,
+      "sha256": "bd5a81f27f632169c4c74195203537894bc5a40ab47af87d8935ab89c1e6a89f",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0122.png",
+      "bytes": 385242,
+      "sha256": "4da7090b49d448c57064e0de31c055f635f5b775fbacce84e75f57625e30c87e",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0123.png",
+      "bytes": 385561,
+      "sha256": "7ddd310d895126c34113f9e0a0f70a53bcfebf890aeabd30b314f9433582ea1a",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0124.png",
+      "bytes": 385219,
+      "sha256": "0fc9a06da1adfa9c3a4db64b09995547a8504ded6697a8fe5eebabce97edd760",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0125.png",
+      "bytes": 385478,
+      "sha256": "75aa9156442d28cd62d9291625b1586cf5d301d04bd072548e553be07f70acbc",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0126.png",
+      "bytes": 385697,
+      "sha256": "0c70b26162ca7bda227bf4d3fd427951b271cd1bb299bc4e5b1290930526ce6f",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0127.png",
+      "bytes": 385431,
+      "sha256": "c8c5bc4c4145f00eb730d6812774af98dd615c0154e10c07655d0d23cdc01311",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0128.png",
+      "bytes": 385223,
+      "sha256": "3e86f6f01f175aea5ec0380dc8f4b3964ee62dd923b94643a35541cf51eef5fd",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0129.png",
+      "bytes": 385166,
+      "sha256": "1c57e9deafdf50edaf96f014b47b12994a8ba7d48f9ebe58642550754308fa31",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0130.png",
+      "bytes": 385035,
+      "sha256": "d62108c69a0eedf88d23161fa68cf931ee7ae3c08e73ece8623a294b073c9b14",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0131.png",
+      "bytes": 385187,
+      "sha256": "a9163e6f47d5f4a1ac8644f9807203bcc1ba592f859ab66577b71bc2276e7173",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0132.png",
+      "bytes": 385452,
+      "sha256": "89629fc25de0a57c9735f6d5abd65ce614b9cbba52d70c34932b6fd75a7858cc",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0133.png",
+      "bytes": 385256,
+      "sha256": "119d42dad69c4ddf141ad4df13ffc5be5cddfb239a1788d8c5c400a84322a3c5",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0134.png",
+      "bytes": 385256,
+      "sha256": "fa4d3d7898c1fc2a099eef4857f3d6edada1d9715c735069df5227ddc3dc1d21",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0135.png",
+      "bytes": 385256,
+      "sha256": "01bde33408a62bbe64b0a0c4d64bbe16fb9e4192b77bf8218c6b86ca3eb86696",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0136.png",
+      "bytes": 385256,
+      "sha256": "529d6fbb399d53d81086fa2c111eab1ffb98a1151e7d7c8f66bcc10e38478f15",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0137.png",
+      "bytes": 385256,
+      "sha256": "ef602046abc3ad0e3bb3a23e171c7a830c66260cca8d31c55fcbb2928b162a6e",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0138.png",
+      "bytes": 385256,
+      "sha256": "cb9528a7dabece8d3bcb8be2324743e04e853e608ff200620d9ba4ad00c45298",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0139.png",
+      "bytes": 385256,
+      "sha256": "1ec2b540e64abe9a9d993bded7323b28397da4b534903a320c19b006f3b8cc26",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0140.png",
+      "bytes": 385256,
+      "sha256": "04d2c9e239d1d7bf391eba8dcaa69212118e78d7d1dab7bdd30dc37d6b6517de",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0141.png",
+      "bytes": 385256,
+      "sha256": "025a289dc773b7658b2c0e26dcc506658dc1a7884d6595ae4b59be1f9b5848e9",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0142.png",
+      "bytes": 385256,
+      "sha256": "0347616c51dfbde010f5ffe751de290aa2f0028194a249207d8bf007191e55f4",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0143.png",
+      "bytes": 385256,
+      "sha256": "e04018a6c0fd76b002029e01425613f1c5e3cd26156bd697814eb8f70cc1ef66",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    {
+      "file": "frames\\greeting_0144.png",
+      "bytes": 385256,
+      "sha256": "3731257fe0aaeadd7c589b52a18325f098212e49913c96e1a964f3094d96ab9e",
+      "dimensions": [
+        480,
+        672
+      ]
+    }
+  ],
+  "material_comparison": {
+    "output": {
+      "file": "outputs\\M1_M2_FINISH_COMPARISON.png",
+      "bytes": 579603,
+      "sha256": "dad0e936ae7cb766c52049407272c065ee51ca3746f3cf99381c2d7c812157f4",
+      "dimensions": [
+        1200,
+        886
+      ]
+    },
+    "source_images": [
+      {
+        "file": "outputs\\M1_BASELINE_FRONT.png",
+        "bytes": 583165,
+        "sha256": "91c278b99a8239b8c1278d95db562e77ea43178732a85c9589672128433c44ad",
+        "dimensions": [
+          600,
+          840
+        ]
+      },
+      {
+        "file": "outputs\\M2_FRONT.png",
+        "bytes": 583825,
+        "sha256": "cabd1b95062247b55c1a86df417656117f0e1351cded7dd29dc2d3682f367d25",
+        "dimensions": [
+          600,
+          840
+        ]
+      }
+    ],
+    "panel_dimensions": [
+      600,
+      840
+    ],
+    "crop": "NONE: whole original frames",
+    "resize": "NONE",
+    "labels_outside_original_image": true
+  },
+  "keypose_sheet": {
+    "output": {
+      "file": "outputs\\RIG_R1_KEYPOSES.png",
+      "bytes": 319955,
+      "sha256": "ed25389f8f58e4fe48cdd1909e5224f58cce4b073b5a8a844a73accf18d80e64",
+      "dimensions": [
+        1500,
+        458
+      ]
+    },
+    "source_images": [
+      {
+        "file": "outputs\\RIG_R1_POSE_001.png",
+        "bytes": 583400,
+        "sha256": "3f05d45537dbfbd228c671395d016d13510aa2bcb4128eafd5f1c51d958e24af",
+        "dimensions": [
+          600,
+          840
+        ]
+      },
+      {
+        "file": "outputs\\RIG_R1_POSE_049.png",
+        "bytes": 589636,
+        "sha256": "232cd27fed8fc5b0c6335cd3c7f262f1b5a18ae51641faf6a1eadf56784f9f5b",
+        "dimensions": [
+          600,
+          840
+        ]
+      },
+      {
+        "file": "outputs\\RIG_R1_POSE_073.png",
+        "bytes": 588942,
+        "sha256": "fdab8d4350f9dee68dd3548d2d5fb972b807d3ab6dfb564b538ce80e1c926810",
+        "dimensions": [
+          600,
+          840
+        ]
+      },
+      {
+        "file": "outputs\\RIG_R1_POSE_109.png",
+        "bytes": 585588,
+        "sha256": "3498ba11c75fc0a8f0e0bc72ad181f83545356b9c41627111dfc4c59fb684907",
+        "dimensions": [
+          600,
+          840
+        ]
+      },
+      {
+        "file": "outputs\\RIG_R1_POSE_145.png",
+        "bytes": 583400,
+        "sha256": "64e81840e91a05582977e8c95d79064b8e8cfcb04ba2f22b735a02d9e8d84ac9",
+        "dimensions": [
+          600,
+          840
+        ]
+      }
+    ],
+    "panel_dimensions": [
+      300,
+      420
+    ],
+    "crop": "NONE: whole original frames",
+    "resize": "identical LANCZOS for all panels",
+    "labels_outside_original_image": true
+  },
+  "reduced_motion": {
+    "output": {
+      "file": "outputs\\RIG_R1_REDUCED_MOTION.png",
+      "bytes": 385256,
+      "sha256": "afce21571ded6a4bb03ab23ac182bb4bd20898084a692f2727e5503bd035a076",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    "source": {
+      "file": "frames\\greeting_0001.png",
+      "bytes": 385256,
+      "sha256": "afce21571ded6a4bb03ab23ac182bb4bd20898084a692f2727e5503bd035a076",
+      "dimensions": [
+        480,
+        672
+      ]
+    },
+    "byte_identical": true
+  },
+  "human_animation_acceptance": "PENDING",
+  "game_integration": false,
+  "android_performance": "NOT_MEASURED"
+}
