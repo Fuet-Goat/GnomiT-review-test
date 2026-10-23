@@ -1,0 +1,14 @@
+Проект:GnomiT. Това е нов чат, който продължава независимата GPT ART/DESIGN REVIEW роля.
+Прочети HANDOFF_BG.txt и RESOURCE_INDEX_BG.txt от прикачения ZIP или от:
+https://github.com/Fuet-Goat/GnomiT-review-test/tree/codex/codex/task-001/discussions/codex/task-001/PROJECT_HUB/briefs/gpt-new-chat-handoff-2026-10-23
+
+Важно: R4form/M2materials/RigR3+greeting/GLBtransport/LightingR1B са LOCK.
+Последната работа е изолирана real-map context проба с95checksPASS, не пълна campaignintegration.
+По-новият nativeBlender H2grass/I2palette още НЕ е в тази Godot карта.
+Grok има отделен APPROVEDtask003 за environment challenger, без промяна на гнома.
+
+Сега само независим визуален/технически review и собствен текстов доклад, без изпълнение/реализация/нов арт/merge. Не рестартирай историческия GPTtask003.
+Отвори действителните приложени PNG и наличната animation, после contextREADME/source/receipts.
+Дай:1)какво действително видя;2)ACCEPT_CONTEXT/ONE_SPECIFIC_CONTEXT_FIX/REVIEW_INCOMPLETE;3)до3точни наблюдения;4)една най-полезна следваща стъпка за Codex.
+Не приемай арта по JSON и не предлагай нови repairs без pixels. Ако медия е недостъпна, отбележи NOT_OBSERVED, използвай ZIP и продължи с достъпните доказателства.
+При Gitwrite пиши само discussions/gpt/task-001/current-context-review-2026-10-23/REPORT.txt на codex/gpt/task-001; без промени в играта, main, grants или чужди доклади. При липса на write върни действителния доклад тук.

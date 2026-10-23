@@ -1,0 +1,1 @@
+Готов е пълен handoff за нов GPT чат: роля/обхват, история, LOCK решения, разлика nativeH2/I2 vs Godotv014, активен Grokchallenger, точни ресурси, оригинални медии и първа конкретна review задача. Качи ZIP в новия чат и използвай PROMPT_FOR_GPT_BG.txt.

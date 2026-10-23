@@ -1,0 +1,147 @@
+{
+  "files": [
+    {
+      "path": "evidence/CONTEXT_PROVENANCE.json",
+      "bytes": 1615,
+      "sha256": "19bc79b6acf36db0f172c206fe06f75fe8fd7f3b53d6323a25d0f427419c42fe"
+    },
+    {
+      "path": "evidence/CONTEXT_PUBLIC_MEDIA_VERIFIED.json",
+      "bytes": 1647,
+      "sha256": "f3f282a6789066743c5d6e425b0b1d477390a0506936909aae057e0c75beaab3"
+    },
+    {
+      "path": "evidence/CONTEXT_README_BG.txt",
+      "bytes": 4293,
+      "sha256": "348c53dec1e7393b9908ba6078e617f568687aa4f25a16d3d6acf673aedf6911"
+    },
+    {
+      "path": "evidence/CONTEXT_VALIDATION.json",
+      "bytes": 23130,
+      "sha256": "fcb88974750b2bb862f0583b217bc100b1365b6f7096fbe08cebc6963afa689b"
+    },
+    {
+      "path": "evidence/gpt_task-001_MAIN.json",
+      "bytes": 1072,
+      "sha256": "d710559ca7f301f6f831ca95ac31000d001fcd2fbea50be0e63043cd5cd365ae"
+    },
+    {
+      "path": "evidence/gpt_task-003_MAIN.json",
+      "bytes": 6699,
+      "sha256": "c31be56a1a17706ade953eead7b4df7b30b843086f156f4719db2094aa008153"
+    },
+    {
+      "path": "evidence/grok_task-003_MAIN.json",
+      "bytes": 5835,
+      "sha256": "3bbc5293ec55c5f6904443f58e60193310812c4a95229c99a435a0daeefb4d07"
+    },
+    {
+      "path": "evidence/INPUT_SNAPSHOT.json",
+      "bytes": 7859,
+      "sha256": "d25cc6fc624a5a0171c5e9bc3bd72bbd860a8cd5438833945dd0d25b769682ba"
+    },
+    {
+      "path": "evidence/map-palette-only-2026-10-22_REPORT.txt",
+      "bytes": 1761,
+      "sha256": "00c417c2e1962790daa5a51653830e479f33154fe2ab437a61bfff3b9cf84f39"
+    },
+    {
+      "path": "evidence/whole-map-low-grass-2026-10-22_REPORT.txt",
+      "bytes": 2405,
+      "sha256": "b32f4a25876f266f2b1898d4fe9eccab5a10ab06ad0ec5703a28c5bd008784ea"
+    },
+    {
+      "path": "FINAL_RESPONSE.txt",
+      "bytes": 381,
+      "sha256": "45e5a88d6bb77a541086a1f24427d7e2f40299285936cd95edd540ddfa36f5e3"
+    },
+    {
+      "path": "HANDOFF_BG.txt",
+      "bytes": 18690,
+      "sha256": "2284501b24e335771e1bcafa2f4834ea5e65fcfe5bcb6fc24b7638fd578dca9c"
+    },
+    {
+      "path": "media/01_STYLE_TARGET_MIDDLE_PANEL.png",
+      "bytes": 2634535,
+      "sha256": "a7d9b4f82fe73a2e5ab641261b9cbc14765e6360c9c108ab7ee9a51b0bc84add"
+    },
+    {
+      "path": "media/02_HOME_START_CONCEPT_6_MARKERS.png",
+      "bytes": 2256314,
+      "sha256": "a8ba8f00cba8f715e4633941f65b7f79da7caa174520a2a6e2072c60538e73c9"
+    },
+    {
+      "path": "media/03_NATIVE_H_VS_I2_PALETTE.png",
+      "bytes": 979114,
+      "sha256": "9e46b36068f1f6ead61fdf0f01654910b8d28eb12c6bb28606c89d87999ca681"
+    },
+    {
+      "path": "media/04_NATIVE_H2_LOW_GRASS_DETAIL.png",
+      "bytes": 527036,
+      "sha256": "91b8c13b76e265a2f34482f64f7d6a8370c970e3a0bfcc8900981255ef819724"
+    },
+    {
+      "path": "media/05_ACCEPTED_R4_FORM.png",
+      "bytes": 579215,
+      "sha256": "d004899caf11643e0fcc09ce14b724ffde41e235e41e4e04f03a1cf16dec6f53"
+    },
+    {
+      "path": "media/06_ACCEPTED_LIGHTING_R1_A_B.png",
+      "bytes": 230551,
+      "sha256": "c162299acc7329d6f51314dcd6d5f9ab9dbfe5d342e0cb149466850ae2bc3c15"
+    },
+    {
+      "path": "media/07_ACCEPTED_STUDIO_GREETING.gif",
+      "bytes": 5199211,
+      "sha256": "b209961d0f75b6e5403a41b0793c9406fde7648126a91121b48f0bcb3693c575"
+    },
+    {
+      "path": "media/08_REAL_MAP_OLD_MASTER.png",
+      "bytes": 853597,
+      "sha256": "79181d3e90f965b2dd6e6c03586918ae61f1b84c2fbce37f4ba01c7300f28f1c"
+    },
+    {
+      "path": "media/09_REAL_MAP_CROPS_4X.png",
+      "bytes": 57989,
+      "sha256": "8b2ca81d45238876ac7504b231db76353e489bcb0f612dcedbaf9f253f22910c"
+    },
+    {
+      "path": "media/10_REAL_MAP_GREETING.gif",
+      "bytes": 24935950,
+      "sha256": "8363264e9a7e3f35fa993fbc643b2874293f18ae58ace6fe4100c321f78ea113"
+    },
+    {
+      "path": "MEDIA_INDEX.json",
+      "bytes": 4458,
+      "sha256": "f766a3170e4cb86cb0964bf5e82924723c756a3b95c90d7bc55fdf20e2d395d6"
+    },
+    {
+      "path": "MEDIA_INDEX_BG.txt",
+      "bytes": 879,
+      "sha256": "968d3378417a58b1370bd962d532f8f098fd032ae181747fd1dab7b16d6f58a7"
+    },
+    {
+      "path": "PROMPT_FOR_GPT_BG.txt",
+      "bytes": 2018,
+      "sha256": "53074d6658c89d850f44e8b6dbcd10a4293362bb794a1c72e2abcd49b29c66ea"
+    },
+    {
+      "path": "README_BG.txt",
+      "bytes": 587,
+      "sha256": "86e003a60b445af30d7fa9b41d499c4befde7f8988b20316f248831ed3f7c518"
+    },
+    {
+      "path": "RESOURCE_INDEX.json",
+      "bytes": 15404,
+      "sha256": "17a520e156244380f8de43dca6dbec8080a2cacd5634e887924481a91707d403"
+    },
+    {
+      "path": "RESOURCE_INDEX_BG.txt",
+      "bytes": 8726,
+      "sha256": "21137a0dc9b51eca5a35184bd42a398fa44c57f16f2f18feb0ccb26c5a2a93a4"
+    }
+  ],
+  "source_snapshot": "74d7959ca4adb796549e4b4e02bb30c250018a07",
+  "main": "dabe1793398d9ceb6afcb0b459ba91e8687c6ac6",
+  "new_images_generated": false
+}

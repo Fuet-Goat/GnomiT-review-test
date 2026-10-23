@@ -1,3 +1,12 @@
+АКТУАЛЕН ВХОД ЗА НОВ GPT ЧАТ —23.10.2026
+briefs/gpt-new-chat-handoff-2026-10-23/HANDOFF_BG.txt
+и RESOURCE_INDEX_BG.txt. GPT сега е independent review only. R4/M2/RigR3/GLB/LightingR1B LOCK.
+Real-map context95checksPASS е изолирана проба,без walk/campaignintegration.
+NativeH2grass/I2palette още не са в runtimev014. Groktask003 е отделен approvedenvironmentchallenger.
+Старите TASK_QUEUE/PROJECT_MAP/ONE_PROMPT и указанията по-долу са исторически;
+не рестартират приетия гном или приключили probes. Новият handoff задава текущото review.
+Предишният START_HERE е запазен байт по байт след този header.
+
 GPT WIDTH_SCALE REVIEW —22.10.2026
 briefs/grass-width-scale-r1-2026-10-22/PROMPT_FOR_GPT_BG.txt.
 Актуалната база е E. Текстово предложение за реален напречен размах,хипотеза .70.

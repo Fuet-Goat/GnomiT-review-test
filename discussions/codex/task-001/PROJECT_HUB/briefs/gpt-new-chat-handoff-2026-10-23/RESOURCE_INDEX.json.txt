@@ -1,0 +1,278 @@
+{
+  "snapshot_commit": "74d7959ca4adb796549e4b4e02bb30c250018a07",
+  "main_grants_commit": "dabe1793398d9ceb6afcb0b459ba91e8687c6ac6",
+  "resources": [
+    {
+      "id": "current_context",
+      "description": "Самостоятелната текуща Godot map-context проба, източници и ограничения",
+      "commit": "74d7959ca4adb796549e4b4e02bb30c250018a07",
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/gnome-real-map-integration-r1-2026-10-23/README_BG.txt.txt",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/blob/74d7959ca4adb796549e4b4e02bb30c250018a07/discussions/codex/task-001/PROJECT_HUB/builds/gnome-real-map-integration-r1-2026-10-23/README_BG.txt.txt",
+      "kind": "document",
+      "sha256": null
+    },
+    {
+      "id": "context_report",
+      "description": "95 checks; isolated context only",
+      "commit": "74d7959ca4adb796549e4b4e02bb30c250018a07",
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/gnome-real-map-integration-r1-2026-10-23/REPORT.txt",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/blob/74d7959ca4adb796549e4b4e02bb30c250018a07/discussions/codex/task-001/PROJECT_HUB/builds/gnome-real-map-integration-r1-2026-10-23/REPORT.txt",
+      "kind": "document",
+      "sha256": null
+    },
+    {
+      "id": "context_media",
+      "description": "Публични оригинални сравнения и motion",
+      "commit": "74d7959ca4adb796549e4b4e02bb30c250018a07",
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/gnome-real-map-integration-r1-2026-10-23/PUBLIC_MEDIA_LINKS.md",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/blob/74d7959ca4adb796549e4b4e02bb30c250018a07/discussions/codex/task-001/PROJECT_HUB/builds/gnome-real-map-integration-r1-2026-10-23/PUBLIC_MEDIA_LINKS.md",
+      "kind": "document",
+      "sha256": null
+    },
+    {
+      "id": "lighting_source",
+      "description": "Приетото Godot LightingR1B, отделен studio setup",
+      "commit": "74d7959ca4adb796549e4b4e02bb30c250018a07",
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/gnome-godot-lighting-r1-2026-10-23/REPORT.txt",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/blob/74d7959ca4adb796549e4b4e02bb30c250018a07/discussions/codex/task-001/PROJECT_HUB/builds/gnome-godot-lighting-r1-2026-10-23/REPORT.txt",
+      "kind": "document",
+      "sha256": null
+    },
+    {
+      "id": "transport_source",
+      "description": "Приетият GLB/Godot transport; export/import proof",
+      "commit": "74d7959ca4adb796549e4b4e02bb30c250018a07",
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/gnome-r3-godot-preview-2026-10-23/REPORT.txt",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/blob/74d7959ca4adb796549e4b4e02bb30c250018a07/discussions/codex/task-001/PROJECT_HUB/builds/gnome-r3-godot-preview-2026-10-23/REPORT.txt",
+      "kind": "document",
+      "sha256": null
+    },
+    {
+      "id": "sleeve_source",
+      "description": "Приетото RigR3 решение с отделен затворен ръкав",
+      "commit": "74d7959ca4adb796549e4b4e02bb30c250018a07",
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/gnome-rig-r3-separated-sleeve-2026-10-23/REPORT.txt",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/blob/74d7959ca4adb796549e4b4e02bb30c250018a07/discussions/codex/task-001/PROJECT_HUB/builds/gnome-rig-r3-separated-sleeve-2026-10-23/REPORT.txt",
+      "kind": "document",
+      "sha256": null
+    },
+    {
+      "id": "latest_native_palette",
+      "description": "Последният nativeBlender I2 цветови кандидат; НЕ е в Godot",
+      "commit": "c67b0c409854b4b96ae4e098cb3d4e929948b115",
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/map-palette-only-2026-10-22/README.txt",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/blob/c67b0c409854b4b96ae4e098cb3d4e929948b115/discussions/codex/task-001/PROJECT_HUB/builds/map-palette-only-2026-10-22/README.txt",
+      "kind": "document",
+      "sha256": null
+    },
+    {
+      "id": "latest_native_palette_transfer",
+      "description": "NativeI2 source ZIP reconstruction manifest",
+      "commit": "c67b0c409854b4b96ae4e098cb3d4e929948b115",
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/map-palette-only-2026-10-22/TRANSFER_MANIFEST.json.txt",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/blob/c67b0c409854b4b96ae4e098cb3d4e929948b115/discussions/codex/task-001/PROJECT_HUB/builds/map-palette-only-2026-10-22/TRANSFER_MANIFEST.json.txt",
+      "kind": "transfer_manifest",
+      "sha256": "cd798d76a6de516f11d2456dce00a425cf5f1056b2b85e2a24083104bf7aedda"
+    },
+    {
+      "id": "native_grass_carpet",
+      "description": "H2 whole-map grass carpet, Blender only, instanced prototypes",
+      "commit": "f19ae4527041999b46cb968aaa81c85d5d87b0dc",
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/whole-map-low-grass-2026-10-22/REPORT.txt",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/blob/f19ae4527041999b46cb968aaa81c85d5d87b0dc/discussions/codex/task-001/PROJECT_HUB/builds/whole-map-low-grass-2026-10-22/REPORT.txt",
+      "kind": "document",
+      "sha256": null
+    },
+    {
+      "id": "native_grass_transfer",
+      "description": "H2 native source archive manifest",
+      "commit": "f19ae4527041999b46cb968aaa81c85d5d87b0dc",
+      "path": "discussions/codex/task-001/PROJECT_HUB/builds/whole-map-low-grass-2026-10-22/TRANSFER_MANIFEST.json.txt",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/blob/f19ae4527041999b46cb968aaa81c85d5d87b0dc/discussions/codex/task-001/PROJECT_HUB/builds/whole-map-low-grass-2026-10-22/TRANSFER_MANIFEST.json.txt",
+      "kind": "transfer_manifest",
+      "sha256": "636e6fa48f7184b445407aa03f54f0e0c82d18d42141d830bd937f07ad5d1927"
+    },
+    {
+      "id": "style_target",
+      "description": "Middle-panel hybrid2.5D reference and original generator contract; historical workflow",
+      "commit": "3928d49c29698672cd87585531479dfd113f80a2",
+      "path": "discussions/codex/task-001/PROJECT_HUB/briefs/new-island-generator-v002-2026-10-21/START_HERE_BG.txt",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/blob/3928d49c29698672cd87585531479dfd113f80a2/discussions/codex/task-001/PROJECT_HUB/briefs/new-island-generator-v002-2026-10-21/START_HERE_BG.txt",
+      "kind": "document",
+      "sha256": null
+    },
+    {
+      "id": "home_start",
+      "description": "Къщичка при началния гном; шестте позиции са visual concept",
+      "commit": "74d7959ca4adb796549e4b4e02bb30c250018a07",
+      "path": "discussions/codex/task-001/PROJECT_HUB/briefs/warm-map-home-start-addendum-2026-10-21/START_HERE_BG.txt",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/blob/74d7959ca4adb796549e4b4e02bb30c250018a07/discussions/codex/task-001/PROJECT_HUB/briefs/warm-map-home-start-addendum-2026-10-21/START_HERE_BG.txt",
+      "kind": "document",
+      "sha256": null
+    },
+    {
+      "id": "game_rules",
+      "description": "Исторически research facts: запази power rules; version/status paragraphs outdated",
+      "commit": "74d7959ca4adb796549e4b4e02bb30c250018a07",
+      "path": "discussions/codex/task-001/PROJECT_HUB/briefs/deep-research-queue-2026-10-21/PROJECT_FACTS_BG.txt",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/blob/74d7959ca4adb796549e4b4e02bb30c250018a07/discussions/codex/task-001/PROJECT_HUB/briefs/deep-research-queue-2026-10-21/PROJECT_FACTS_BG.txt",
+      "kind": "document",
+      "sha256": null
+    },
+    {
+      "id": "navigation",
+      "description": "Синтез на независимите camera/navigation мнения; discussion, not final user approval",
+      "commit": "74d7959ca4adb796549e4b4e02bb30c250018a07",
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/map-navigation-synthesis-2026-10-21/SYNTHESIS_BG.txt",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/blob/74d7959ca4adb796549e4b4e02bb30c250018a07/discussions/codex/task-001/PROJECT_HUB/reviews/map-navigation-synthesis-2026-10-21/SYNTHESIS_BG.txt",
+      "kind": "document",
+      "sha256": null
+    },
+    {
+      "id": "tutorial_research",
+      "description": "Volcano DeepResearch review; proposed test, not measured learner results",
+      "commit": "74d7959ca4adb796549e4b4e02bb30c250018a07",
+      "path": "discussions/codex/task-001/PROJECT_HUB/reviews/volcano-deep-research-review-2026-10-21/REPORT.txt",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/blob/74d7959ca4adb796549e4b4e02bb30c250018a07/discussions/codex/task-001/PROJECT_HUB/reviews/volcano-deep-research-review-2026-10-21/REPORT.txt",
+      "kind": "document",
+      "sha256": null
+    },
+    {
+      "id": "gpt_task-001_grant",
+      "description": "Grant from main; read assignment limits in handoff",
+      "commit": "dabe1793398d9ceb6afcb0b459ba91e8687c6ac6",
+      "path": "tasks/gpt/task-001.json",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/blob/dabe1793398d9ceb6afcb0b459ba91e8687c6ac6/tasks/gpt/task-001.json",
+      "kind": "document",
+      "sha256": null
+    },
+    {
+      "id": "gpt_task-003_grant",
+      "description": "Grant from main; read assignment limits in handoff",
+      "commit": "dabe1793398d9ceb6afcb0b459ba91e8687c6ac6",
+      "path": "tasks/gpt/task-003.json",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/blob/dabe1793398d9ceb6afcb0b459ba91e8687c6ac6/tasks/gpt/task-003.json",
+      "kind": "document",
+      "sha256": null
+    },
+    {
+      "id": "grok_task-003_grant",
+      "description": "Grant from main; read assignment limits in handoff",
+      "commit": "dabe1793398d9ceb6afcb0b459ba91e8687c6ac6",
+      "path": "tasks/grok/task-003.json",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/blob/dabe1793398d9ceb6afcb0b459ba91e8687c6ac6/tasks/grok/task-003.json",
+      "kind": "document",
+      "sha256": null
+    },
+    {
+      "id": "gpt_history",
+      "description": "Собствените предходни независими GPT доклади",
+      "commit": "f18d86eba1953c1c16af407dd8a6af9af38796c5",
+      "path": "discussions/gpt/task-001",
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/tree/f18d86eba1953c1c16af407dd8a6af9af38796c5/discussions/gpt/task-001",
+      "kind": "folder",
+      "sha256": null
+    },
+    {
+      "id": "GNOMIT_REAL_MAP_INTEGRATION_R1_2026-10-23.zip",
+      "description": "Original public release asset; immutable bytes verified in prior delivery",
+      "commit": null,
+      "path": null,
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/gnome-r3-visual-review-2026-10-22/GNOMIT_REAL_MAP_INTEGRATION_R1_2026-10-23.zip",
+      "kind": "zip",
+      "sha256": "9ec51b98900ba292b33a937b905ea70a273c7e75d9a1b80fd4aa0cf183d03e54",
+      "bytes": 76144710
+    },
+    {
+      "id": "GNOMIT_GODOT_LIGHTING_R1_2026-10-23.zip",
+      "description": "Original public release asset; immutable bytes verified in prior delivery",
+      "commit": null,
+      "path": null,
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/gnome-r3-visual-review-2026-10-22/GNOMIT_GODOT_LIGHTING_R1_2026-10-23.zip",
+      "kind": "zip",
+      "sha256": "fb62fdf4c24c1af1805ae89cf59984df4f456fd14518a0d800bf30ef0649b029",
+      "bytes": 33713355
+    },
+    {
+      "id": "GNOMIT_R3_GODOT_PREVIEW_2026-10-23.zip",
+      "description": "Original public release asset; immutable bytes verified in prior delivery",
+      "commit": null,
+      "path": null,
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/gnome-r3-visual-review-2026-10-22/GNOMIT_R3_GODOT_PREVIEW_2026-10-23.zip",
+      "kind": "zip",
+      "sha256": "7019c749dbb9cbf6b8b940a2c9f857c82252c57a116e31242b387c803320f5fc",
+      "bytes": 31409095
+    },
+    {
+      "id": "GNOMIT_REAL_MAP_OLD_MASTER.png",
+      "description": "Original public release asset; immutable bytes verified in prior delivery",
+      "commit": null,
+      "path": null,
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/gnome-r3-visual-review-2026-10-22/GNOMIT_REAL_MAP_OLD_MASTER.png",
+      "kind": "media",
+      "sha256": "79181d3e90f965b2dd6e6c03586918ae61f1b84c2fbce37f4ba01c7300f28f1c",
+      "bytes": 853597
+    },
+    {
+      "id": "GNOMIT_REAL_MAP_R3_GREETING.gif",
+      "description": "Original public release asset; immutable bytes verified in prior delivery",
+      "commit": null,
+      "path": null,
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/gnome-r3-visual-review-2026-10-22/GNOMIT_REAL_MAP_R3_GREETING.gif",
+      "kind": "media",
+      "sha256": "8363264e9a7e3f35fa993fbc643b2874293f18ae58ace6fe4100c321f78ea113",
+      "bytes": 24935950
+    },
+    {
+      "id": "GNOMIT_REAL_MAP_CHARACTER_CROPS.png",
+      "description": "Original public release asset; immutable bytes verified in prior delivery",
+      "commit": null,
+      "path": null,
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/gnome-r3-visual-review-2026-10-22/GNOMIT_REAL_MAP_CHARACTER_CROPS.png",
+      "kind": "media",
+      "sha256": "8b2ca81d45238876ac7504b231db76353e489bcb0f612dcedbaf9f253f22910c",
+      "bytes": 57989
+    },
+    {
+      "id": "GNOMIT_GODOT_LIGHTING_R1_A_B.png",
+      "description": "Original public release asset; immutable bytes verified in prior delivery",
+      "commit": null,
+      "path": null,
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/gnome-r3-visual-review-2026-10-22/GNOMIT_GODOT_LIGHTING_R1_A_B.png",
+      "kind": "media",
+      "sha256": "c162299acc7329d6f51314dcd6d5f9ab9dbfe5d342e0cb149466850ae2bc3c15",
+      "bytes": 230551
+    },
+    {
+      "id": "GNOMIT_GODOT_LIGHTING_R1_GREETING.gif",
+      "description": "Original public release asset; immutable bytes verified in prior delivery",
+      "commit": null,
+      "path": null,
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/gnome-r3-visual-review-2026-10-22/GNOMIT_GODOT_LIGHTING_R1_GREETING.gif",
+      "kind": "media",
+      "sha256": "b209961d0f75b6e5403a41b0793c9406fde7648126a91121b48f0bcb3693c575",
+      "bytes": 5199211
+    },
+    {
+      "id": "R4_FORM_COMPARISON.png",
+      "description": "Original public release asset; immutable bytes verified in prior delivery",
+      "commit": null,
+      "path": null,
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/gnome-r3-visual-review-2026-10-22/R4_FORM_COMPARISON.png",
+      "kind": "media",
+      "sha256": "d004899caf11643e0fcc09ce14b724ffde41e235e41e4e04f03a1cf16dec6f53",
+      "bytes": 579215
+    },
+    {
+      "id": "R4_FACE_COMPARISON.png",
+      "description": "Original public release asset; immutable bytes verified in prior delivery",
+      "commit": null,
+      "path": null,
+      "url": "https://github.com/Fuet-Goat/GnomiT-review-test/releases/download/gnome-r3-visual-review-2026-10-22/R4_FACE_COMPARISON.png",
+      "kind": "media",
+      "sha256": "744e9ce64f18ff0def58bd59c547b01fcde1ed4311c7f9fe370783e1f1b609a5",
+      "bytes": 382023
+    }
+  ],
+  "fresh_release_metadata_checked": true
+}
