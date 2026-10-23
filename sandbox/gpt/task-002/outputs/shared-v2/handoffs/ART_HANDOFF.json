@@ -1,0 +1,147 @@
+{
+  "schema_version": 1,
+  "project": "GnomiT",
+  "stage": "A_ART_MASTER",
+  "status": "READY_FOR_ANIMATION",
+  "art_direction_owner": "GPT",
+  "executor": "Codex local environment",
+  "source_commit": "7ecf55cca4627d85e62256cf4d6e75d8cb627e83",
+  "artifacts_commit": "0f9ffeafbe82fc8732be9c5c196d9ceb0e08aba8",
+  "source_files": [
+    {
+      "path": "sandbox/gpt/task-002/art/hero_idle.png",
+      "bytes": 195442,
+      "sha256": "f0e905a0605ad5d34c5cb5e761a76650aabe2f88998c59c94785042cbfffdde6",
+      "commit": "7ecf55cca4627d85e62256cf4d6e75d8cb627e83"
+    },
+    {
+      "path": "sandbox/gpt/task-002/art/contact_shadow.png",
+      "bytes": 7824,
+      "sha256": "d87d66aab4d1183c48c54b023f90e7ff2b07eb1d8e0ee125f5c5b15b43082057",
+      "commit": "7ecf55cca4627d85e62256cf4d6e75d8cb627e83"
+    },
+    {
+      "path": "sandbox/gpt/task-002/outputs/shared-v2/references/00_SHARED_TARGET_CONCEPT.png",
+      "bytes": 2264565,
+      "sha256": "4c46fd0a20f13d5bfa23d8ce20ebaf12f1abe96b32e5c2808512513f4868e09f",
+      "commit": "7ecf55cca4627d85e62256cf4d6e75d8cb627e83"
+    },
+    {
+      "path": "media/current/01_START.png",
+      "bytes": 809829,
+      "sha256": "01cad9faf87201bcae3a460cbe12678e6901cf51292c2e237508d5f08386a459",
+      "commit": "7ecf55cca4627d85e62256cf4d6e75d8cb627e83"
+    },
+    {
+      "path": "baseline/game/assets/storybook/descending_world_v2.png",
+      "bytes": 2743119,
+      "sha256": "6d1db0d6a8f810568ffc4713a42dbf1b3551a171e0fa54c05d0c61c464be2049",
+      "commit": "7ecf55cca4627d85e62256cf4d6e75d8cb627e83"
+    }
+  ],
+  "output_files": [
+    {
+      "path": "sandbox/gpt/task-002/art/shared-v2/characters/hero/hero_master.png",
+      "bytes": 238352,
+      "sha256": "895a1ccf8c17e756e3bc05810cceaf48ec1732d7e90e0428f1c0523e6157004d"
+    },
+    {
+      "path": "sandbox/gpt/task-002/art/shared-v2/characters/hero/contact_shadow.png",
+      "bytes": 7824,
+      "sha256": "d87d66aab4d1183c48c54b023f90e7ff2b07eb1d8e0ee125f5c5b15b43082057"
+    },
+    {
+      "path": "sandbox/gpt/task-002/art/shared-v2/characters/hero/asset_metadata.json",
+      "bytes": 7390,
+      "sha256": "ab7331b66fcc0dd05c645282b7d04a5262443fd572ccb0e38be96f9f0c8596ce"
+    },
+    {
+      "path": "sandbox/gpt/task-002/outputs/shared-v2/previews/01_SCENE_CONCEPT.png",
+      "bytes": 728611,
+      "sha256": "d896c9a93e04398fbf43fa07aa8fc625e6e8090465ee9f0d43cf0ab8da75f9ce"
+    },
+    {
+      "path": "sandbox/gpt/task-002/outputs/shared-v2/previews/02_HERO_DETAIL.png",
+      "bytes": 396766,
+      "sha256": "32a1b28d59d91fdc607fc3464f5b2c4686a32eef8093da5d24e3f44c0d37e6d9"
+    },
+    {
+      "path": "sandbox/gpt/task-002/outputs/shared-v2/tests/alpha_light_dark.png",
+      "bytes": 248093,
+      "sha256": "2bd5a5bfe78751f603bc5c0ae4a919f33e68f0bb8ffec27da24a67d84bca8c7c"
+    },
+    {
+      "path": "sandbox/gpt/task-002/outputs/shared-v2/tests/local_asset_checks.json",
+      "bytes": 1282,
+      "sha256": "16b337783c05ec82d0083a3c73124cd9b8ae0dc58d2b79e9a68edd5e9d565f72"
+    },
+    {
+      "path": "sandbox/gpt/task-002/outputs/shared-v2/references/local-executor/hero_native_generated.png",
+      "bytes": 1214822,
+      "sha256": "2f87c97d3f3f13033f5be64aeac097d549fa3fc822eacae8c09e7c8c0d606a0e"
+    },
+    {
+      "path": "sandbox/gpt/task-002/outputs/shared-v2/logs/LOCAL_IMAGEGEN_PROMPT.txt",
+      "bytes": 1652,
+      "sha256": "c290e661f2485d9b83f8fab47befcb2906428d50f7ad2682ac480cfe8f328b56"
+    },
+    {
+      "path": "sandbox/gpt/task-002/outputs/shared-v2/logs/LOCAL_EXECUTOR_REPORT.txt",
+      "bytes": 1556,
+      "sha256": "65ff704cd052d955736ecfb0e53ceb55509f327b119276bd0aef104fb8505bc4"
+    },
+    {
+      "path": "sandbox/gpt/task-002/outputs/shared-v2/logs/20261016_EXTERNAL_GPT_BLOCKER.json",
+      "bytes": 3775,
+      "sha256": "accbb744320b7ec3e874ce99bc5db36cb391635980818683d1e74a29067a668c"
+    }
+  ],
+  "master_path": "sandbox/gpt/task-002/art/shared-v2/characters/hero/hero_master.png",
+  "master_sha256": "895a1ccf8c17e756e3bc05810cceaf48ec1732d7e90e0428f1c0523e6157004d",
+  "metadata_path": "sandbox/gpt/task-002/art/shared-v2/characters/hero/asset_metadata.json",
+  "canvas": [
+    512,
+    512
+  ],
+  "visible_height": 440,
+  "foot_anchor": [
+    256,
+    467
+  ],
+  "checks_performed": [
+    {
+      "check": "Image decode, RGBA dimensions and alpha extent",
+      "result": "PASS_LOCAL"
+    },
+    {
+      "check": "Fixed-scene outside-ROI pixel equality",
+      "result": "PASS_LOCAL_ZERO_CHANGED"
+    },
+    {
+      "check": "Visual inspection: full scene and light/dark alpha grounds",
+      "result": "INSPECTED_STATIC_ART_ONLY"
+    },
+    {
+      "check": "GitHub exact-commit byte readback",
+      "result": "PASS_11_EXACT_SHA256_AND_PNG_DECODE"
+    }
+  ],
+  "limitations": [
+    "Idle master only; no animation or rear pose supplied in Stage A.",
+    "Source identity retained by reference-guided generation, not pixel-identical to V1.",
+    "Visual inspection does not prove gameplay, foot planting in motion, phone controls or final human acceptance.",
+    "Static source-world registration is subpixel; replacement limited to the declared hero ROI.",
+    "Lantern anatomical rig side remains to be documented by animation owner."
+  ],
+  "next_stage": "Grok Stage B consumes only a READY handoff and exact commit; 3 front/three-quarter + 3 rear/three-quarter 512x512 cells, same 440px scale, per-frame support and pivot metadata.",
+  "runtime_tested": false,
+  "human_visual_acceptance": false,
+  "remote_readback": {
+    "result": "PASS",
+    "artifacts_commit": "0f9ffeafbe82fc8732be9c5c196d9ceb0e08aba8",
+    "verified_files": 11,
+    "method": "Independent HTTP GET raw.githubusercontent.com pinned to full commit; actual bytes SHA256 and PNG decode",
+    "receipt_path": "sandbox/gpt/task-002/outputs/shared-v2/tests/remote_readback.json"
+  },
+  "readiness_scope": "Delivery and static-art contract ready for Stage B; no final human visual approval and no runtime verification."
+}

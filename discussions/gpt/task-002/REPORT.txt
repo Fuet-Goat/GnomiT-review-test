@@ -1,0 +1,89 @@
+GNOMIT — GPT — TASK-002 — ONE OWN GNOME ART VARIANT
+BOT=gpt
+VERDICT=ONE_ART_CONCEPT_CREATED__BINARY_GITHUB_UPLOAD_PENDING
+VARIANT=The Lantern Guardian (Пазителят на фенера)
+INPUT_MAIN=5add419dfc7fd73bd6d9ee837b2ba620ee5e8b81
+APPROVED_GRANT=tasks/gpt/task-002.json, main, status APPROVED, blob 5b78b5ed38b2844bff0a3e4c921575e6abbb3223
+BRANCH=codex/gpt/task-002
+SCOPE=sandbox/gpt/task-002/art/; sandbox/gpt/task-002/outputs/; discussions/gpt/task-002/
+NO_GAME_OR_GODOT_EXECUTION=TRUE
+
+1. IDEA AND ART DIRECTION
+One small storybook traveler integrated into the ORIGINAL First Bend world: soft rounded painterly shapes, floppy warm red hat, white beard, matte blue/teal travel coat, worn brown leather boots, rolled bag and a restrained warm brass lantern. Keep the source world background, route, composition, HUD and neighboring NPC unchanged. Ground contact uses its OWN shadow asset; no baked shadow on idle sprite and no neon outline.
+
+2. FILES REALLY CREATED LOCALLY (ART CONCEPT, NOT GAME RUNTIME)
+- sandbox/gpt/task-002/outputs/01_SCENE_CONCEPT.png — 432x960 actual source screenshot composited with new character, 797924 bytes, SHA256 a6e622f7c14e5cb4782dddbc0588d2c037a78d6f3263e18e7fa324cdc26442be
+- sandbox/gpt/task-002/outputs/02_GNOME_DETAIL.png — 768x768 material closeup, 540569 bytes, SHA256 0873241094f0f867a0fd3a0f77544afc356305d599946a7063d171695252cda3
+- sandbox/gpt/task-002/art/hero_idle.png — 512x512 true-alpha RGBA full-body idle with no baked shadow, 195442 bytes, SHA256 f0e905a0605ad5d34c5cb5e761a76650aabe2f88998c59c94785042cbfffdde6
+- sandbox/gpt/task-002/art/contact_shadow.png — 512x512 independent soft contact shadow, 7824 bytes, SHA256 d87d66aab4d1183c48c54b023f90e7ff2b07eb1d8e0ee125f5c5b15b43082057
+- sandbox/gpt/task-002/art/walk_sheet.png — 1536x1024, 3x2 x 512x512 six generated right-facing phases, 925869 bytes, SHA256 70713dbf68c63d69f276a8f6753e67d33a6386945dbab5cebae67638978ff638
+- sandbox/gpt/task-002/outputs/walk_preview.gif — ~4s ART PREVIEW only, 493920 bytes, SHA256 d0245985788bfb7a1ec43c9912a33d289af125334320ba6926e4a23ced8cb9c2
+- sandbox/gpt/task-002/outputs/03_BEFORE_AFTER.png — comparison with source frame, 755936 bytes, SHA256 02dacb7cc9c0 (short checksum; full checksum is in the ZIP manifest).
+- sandbox/gpt/task-002/art/asset_metadata.json — original detailed frame and pivot data, approx. 5.5KB.
+
+IMPORTANT PUBLICATION STATUS: The actual files above EXIST in the produced downloadable conversation ZIP. They are NOT yet GitHub blobs on this branch. The connected GitHub text-write APIs cannot directly transfer the created local PNG/GIF bytes without transporting full base64 through this environment. Do not treat a text report or metadata as image-upload evidence. The owner can upload the ZIP contents to the listed paths later. No surrogate images or fake binary references were committed.
+
+3. HOW CREATED
+- ImageGen: a single selected original illustration variant; two exploratory presentation generations, only the second used for separate assets. No copied Candy Crush art.
+- Pillow + OpenCV for character matting, RGBA export, 6-frame study, GIF, unchanged-background compositing and shadow.
+- Original fixed background and 01_START from the user-provided First Bend ZIP; feature registration of the fixed image onto runtime screenshot using SIFT/RANSAC. No Godot program or game imports executed.
+- Source reference: media/current/01_START.png and baseline/game/assets/storybook/descending_world_v2.png.
+- Dedicated downloadable user-preferred style reference PNG could not be read from the release in this isolated runtime; the shared common art brief and original scene were used. Do not claim exact reference comparison.
+
+4. FOOT / SCALE / LIGHT
+- Idle 512x512; foot pivot [256,467]. At 432x960 put foot near [225,517] with uniform scale 0.256 (~113px visible height).
+- Shadow center near [225,517] on original road, separate soft dark-amber ellipse.
+- Walk sheet 3 columns x 2 rows, six 512x512 right/three-quarter poses, 0-5 row-major. Approximate support pivot [256,456] in each cell.
+- Soft daylight plus local lantern amber. No illuminated outline around full body.
+
+5. APPROVED ART INSPECTIONS ACTUALLY DONE
+- 01_SCENE_CONCEPT exactly 432x960. Compared to original runtime screenshot: zero changed pixels outside x=145..310,y=370..550 hero vicinity.
+- RGBA corners alpha=0; hero idle has 173581 fully transparent pixels, no background rectangle. Separate transparent shadow.
+- Confirmed all six frame cells, full-body idle dimensions, alpha/nonzero values, metadata, and non-Godot GIF.
+- Package manifest includes SHA256 for each asset.
+- No new Godot, PC game runtime, Android, gameplay, audio, level, save, config or automated gameplay tests were executed (they are not authorized).
+
+6. LIMITATIONS / PROPOSED NEXT STEP
+This is a visual CONCEPT, not proof of running Godot movement. The cutout needs possible manual matte cleaning around beard/lantern; walk sheet was derived from small generated pose strips and lacks separate rear view and perfected grounded-foot animation. In a single later owner-approved art correction, fix the silhouette matte and consistent planted-foot pivots if chosen. Human chooses between GPT and Grok; no extra rounds, integration, merges or code changes authorized.
+
+7. GIT EVIDENCE
+Own report and small metadata can be committed under approved paths. Draft PR only, no merge. Binary assets remain available to the owner in GNOMIT_GPT_TASK002_LANTERN_GUARDIAN.zip supplied with the assistant reply. Private GnomiT, baseline, other bots and grants untouched.
+
+
+8. PROJECT_HUB SHARED-V2 — GIT-ONLY HANDOFF STATUS (2026-10-16)
+
+BOT=gpt | ROLE=ART_OWNER | STAGE=A | STATUS=BLOCKED_BINARY_GIT_DELIVERY
+Repository: Fuet-Goat/GnomiT-review-test
+Own branch: codex/gpt/task-002
+Source game commit: 5add419dfc7fd73bd6d9ee837b2ba620ee5e8b81
+Existing GPT V1 art publication: e30bdf7f4542760b151074f599d8e275273b11c7
+Shared target reference: c8cd4ddd1c1abb2fc8309d66e99ddc982766ab45
+Current Draft PR: #5, no merge
+WORK_STATUS update: 2f2cad3bcb1f9f7329c51e394c73bfafd2c8201b
+
+READ AND UNDERSTOOD:
+The current PROJECT_HUB/ONE_PROMPT_FOR_GPT_AND_GROK_BG.txt, START_HERE.txt, PROJECT_MAP.txt, TEAM_RULES_BG.txt, FOLDER_MAP.txt, TASK_QUEUE.txt, ASSET_CATALOG.txt and SHARED_ART_ANIMATION_BRIEF_V2_BG.txt, plus our own outputs/shared-v2/START_HERE.txt and tasks/gpt/task-002.json from main (APPROVED). The up-to-date canonical output paths are under art/shared-v2/characters/hero/, outputs/shared-v2/previews/ and outputs/shared-v2/handoffs/, not historic root-level paths.
+
+ONE ART OWNER / ANIMATION OWNER BOUNDARY:
+GPT owns the 512x512 cleaned canonical traveler hero_master, separate contact_shadow, metadata, original CURRENT_START-based 432x960 composited scene, detail preview and ART_HANDOFF. Keep the same V1 traveler's face/hat/beard/coat/hand/lantern, not another character. Grok must NOT start new animation without exact source commit and verified master SHA256. No animation was started in this task. No Godot, gameplay, sound, save, baseline, grant, other bot folder, or private GnomiT changes.
+
+ACTUAL REMOTE FINDINGS:
+- Previous V1 PNG/GIF files have been published in Git at e30bdf7f4542760b151074f599d8e275273b11c7. Earlier report paragraph saying all PNG/GIF are still missing was historical and is superseded by this finding. V1 is reference, NOT the new V2 canonical master.
+- New art/shared-v2/characters/hero/hero_master.png: NOT_FOUND (404) on own branch.
+- New outputs/shared-v2/handoffs/ART_HANDOFF.json: NOT_FOUND (404) on own branch.
+- outputs/shared-v2/WORK_STATUS.json previously held ART_HANDOFF_NOT_PUBLISHED, and had only layout setup evidence. It has now been replaced with a specific blocked status, preserving file/role history in Git.
+- No new shared-v2 master, shadow, composite, detail, metadata or handoff binary has been committed, no remote SHA-256 readback has been performed, and READY_FOR_ANIMATION is NOT justified.
+
+EXACT BLOCKER:
+The container has actual prior local PNG/ZIP art files, but ordinary Git HTTPS cannot connect: git ls-remote https://github.com/Fuet-Goat/GnomiT-review-test.git HEAD => 'Could not resolve host: github.com'. The available connected GitHub write operations accept JSON text/base64 STRING arguments; this environment has no verified bridge for reading arbitrary newly edited container PNG bytes into those write calls. A GitHub text REPORT write is possible and is NOT a substitute for a binary art commit. No fake blobs, placeholder PNG, false hash, manual human relay or claim of completion.
+
+WHAT ACTUALLY CHANGED THIS SESSION:
+- Read project hub/brief, current grant, PR/diff, existing report and working status.
+- Tested ordinary Git connectivity (failed due DNS); tested canonical GitHub file presence (both missing).
+- Updated only own sandbox/gpt/task-002/outputs/shared-v2/WORK_STATUS.json and appended this historical REPORT section via connected GitHub text write. No branch merge.
+
+NEXT RESUMPTION CONDITION:
+Run the existing master cleanup on a working environment that can send the real binary bytes to Git, publish the six exact V2 canonical paths, fetch from ONE exact remote commit and compare SHA-256/bytes/alpha and 432x960 composition. Only then set WORK_STATUS READY_FOR_ANIMATION with a valid ART_HANDOFF.json containing the verified remote hashes. Grok consumes that fixed Git commit, not a chat ZIP.
+
+TESTS / LIMITATIONS:
+No permitted Godot execution or new game test; no proof of final cleaned matte, foot anchor, scene fidelity, remote art upload, or Grok animation. Current blocker is tool/environmental, not artistic acceptance. Handoff remains WAITING.

@@ -1,0 +1,81 @@
+{
+  "canvas": [
+    512,
+    512
+  ],
+  "visible_alpha_bbox": [
+    110,
+    27,
+    429,
+    467
+  ],
+  "visible_height": 440,
+  "foot_anchor": [
+    256,
+    467
+  ],
+  "alpha_zero_pixels": 173536,
+  "alpha_partial_pixels": 16354,
+  "opaque_pixels": 72254,
+  "outside_hero_roi_changed_pixels": 0,
+  "changed_pixels_inside_roi": 22858,
+  "scene_canvas": [
+    432,
+    960
+  ],
+  "scene_hero_roi": [
+    145,
+    370,
+    310,
+    550
+  ],
+  "screen_foot_anchor": [
+    225,
+    517
+  ],
+  "screen_tile_origin": [
+    159,
+    397
+  ],
+  "screen_tile_size": [
+    131,
+    131
+  ],
+  "screen_scale_requested": 0.256,
+  "native_size": [
+    1254,
+    1254
+  ],
+  "native_crop": [
+    273,
+    71,
+    1058,
+    1154
+  ],
+  "native_foot_midpoint_x": 633.0,
+  "normalized_crop_size": [
+    319,
+    440
+  ],
+  "normalized_paste": [
+    110,
+    27
+  ],
+  "registration": {
+    "matrix": [
+      [
+        0.9209168843018598,
+        -2.333521308412864e-05,
+        -186.00368850976736
+      ],
+      [
+        2.333521308412864e-05,
+        0.9209168843018598,
+        -0.02335988184027031
+      ]
+    ],
+    "matches": 1099,
+    "inliers": 1078,
+    "median_inlier_residual": 0.10626339167356491
+  }
+}
